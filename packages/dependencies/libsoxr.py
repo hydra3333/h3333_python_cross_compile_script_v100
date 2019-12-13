@@ -12,6 +12,9 @@
 		('libsoxr/0001-libsoxr-fix-pc-file-installation.patch','-Np1'), # 2019.12.13
 		('libsoxr/0002-libsoxr-fix-documentation-installation.patch','-Np1'), # 2019.12.13
 	],
-	'update_check' : { 'url' : 'https://sourceforge.net/projects/soxr/files/', 'type' : 'sourceforge', 'regex' : r'soxr-(?P<version_num>[\d.]+)-Source\.tar\.xz' },
+	'depends_on': [ # 2019.12.13
+		'libvorbis','gettext', 'libopus', 'libflac', # 2019.12.13
+	], # 2019.12.13
+    'update_check' : { 'url' : 'https://sourceforge.net/projects/soxr/files/', 'type' : 'sourceforge', 'regex' : r'soxr-(?P<version_num>[\d.]+)-Source\.tar\.xz' },
 	'_info' : { 'version' : '0.1.3', 'fancy_name' : 'soxr' },
 }
