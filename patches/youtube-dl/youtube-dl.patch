@@ -1,0 +1,51 @@
+From 4a386648cf85511d9eb283ba488858b6a5dc2444 Mon Sep 17 00:00:00 2001
+From: DeadSix27 <DeadSix27@users.noreply.github.com>
+Date: Thu, 30 Nov 2017 01:43:52 +0100
+Subject: [PATCH] Sleep on already downloaded video as well
+
+---
+ youtube_dl/downloader/common.py | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/youtube_dl/downloader/common.py b/youtube_dl/downloader/common.py
+index 75b8166c514..593cb840acb 100644
+--- a/youtube_dl/downloader/common.py
++++ b/youtube_dl/downloader/common.py
+@@ -325,6 +325,17 @@ def download(self, filename, info_dict):
+         """Download to a filename using the info from info_dict
+         Return True on success and False otherwise
+         """
++        
++        def _sleep():
++            min_sleep_interval = self.params.get('sleep_interval')
++            if min_sleep_interval:
++                max_sleep_interval = self.params.get('max_sleep_interval', min_sleep_interval)
++                sleep_interval = random.uniform(min_sleep_interval, max_sleep_interval)
++                self.to_screen(
++                    '[download] Sleeping %s seconds...' % (
++                        int(sleep_interval) if sleep_interval.is_integer()
++                        else '%.2f' % sleep_interval))
++                time.sleep(sleep_interval)
+ 
+         nooverwrites_and_exists = (
+             self.params.get('nooverwrites', False) and
+@@ -346,17 +357,10 @@ def download(self, filename, info_dict):
+                     'status': 'finished',
+                     'total_bytes': os.path.getsize(encodeFilename(filename)),
+                 })
++                _sleep()
+                 return True
+ 
+-        min_sleep_interval = self.params.get('sleep_interval')
+-        if min_sleep_interval:
+-            max_sleep_interval = self.params.get('max_sleep_interval', min_sleep_interval)
+-            sleep_interval = random.uniform(min_sleep_interval, max_sleep_interval)
+-            self.to_screen(
+-                '[download] Sleeping %s seconds...' % (
+-                    int(sleep_interval) if sleep_interval.is_integer()
+-                    else '%.2f' % sleep_interval))
+-            time.sleep(sleep_interval)
++        _sleep()
+ 
+         return self.real_download(filename, info_dict)
+ 
