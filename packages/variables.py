@@ -2,11 +2,11 @@
 	'ffmpeg_min_config' : # the base for all ffmpeg configurations.
 		'--arch={bit_name2} '
 		#'--target-os=mingw32 '
-        '--target-os={target_OS} ' # to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
+        '--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
 		'--cross-prefix={cross_prefix_bare} '
 		'--pkg-config=pkg-config '
 		'--pkg-config-flags=--static '
-        '--disable-shared --enable-static ' # 2019.10.31 - NOTHING BUT STATIC, disable shared !
+        '--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
 		'--disable-w32threads '
         '--enable-pthreads ' # 2019.12.13
 		'--enable-cross-compile '
@@ -77,6 +77,7 @@
 		'--enable-dxva2 '
 		'--enable-libmfx '
 		'--enable-amf '
+        '--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_icd
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
