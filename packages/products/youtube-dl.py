@@ -10,7 +10,7 @@
 	],
 	'build_options' : 'youtube-dl',
 	'patches' : [
-		( 'https://github.com/DeadSix27/youtube-dl/commit/4a386648cf85511d9eb283ba488858b6a5dc2444.patch', '-p1' ),
+		( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches/youtube-dl/youtube-dl.patch', '-p1' ),
 	],
 	'needs_configure' : False,
 	'_info' : { 'version' : None, 'fancy_name' : 'youtube-dl' },
