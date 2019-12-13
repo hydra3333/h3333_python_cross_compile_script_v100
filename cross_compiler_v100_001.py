@@ -257,6 +257,8 @@ class CrossCompileScript:
   				'output_path': '_output',
 				'work_dir': 'workdir',
 				'original_cflags': '-O3',
+                'original_stack_protector' : '-fstack-protector-all',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
+				'original_fortify_source'  : '-D_FORTIFY_SOURCE=2',    # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
 			}
 		}
 
@@ -682,6 +684,7 @@ class CrossCompileScript:
 		self.bitnessPath = self.fullWorkDir.joinpath("x86_64" if bitness == 64 else "i686")  # e.g x86_64
 		self.bitnessStr2 = "x86_64" if bitness == 64 else "x86"  # just for vpx...
 		self.bitnessStr3 = "mingw64" if bitness == 64 else "mingw"  # just for openssl...
+        self.targetOSStr = "mingw64" if bitness is 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
 		self.bitnessStrWin = "win64" if bitness == 64 else "win32"  # e.g win64
 		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  # e.g x86_64-w64-mingw32
 
@@ -719,6 +722,8 @@ class CrossCompileScript:
 		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
 		self.cpuCount = self.config["toolchain"]["cpu_count"]
 		self.originalCflags = self.config["toolchain"]["original_cflags"]
+		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
+		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
@@ -755,7 +760,12 @@ class CrossCompileScript:
 				'current_path': os.getcwd(),
 				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
 				'meson_env_file': self.mesonEnvFile
-			}
+             # 2019.12.13 --- add own variables
+             ,'targetOS': self.targetOSStr,
+			 ,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+			 ,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+			 ,'original_stack_protector' : self.original_stack_protector # 2019.11.15
+			 ,'original_fortify_source' : self.original_fortify_source # 2019.11.15			}
 		)
 
 		self.config = self.formatConfig(self.config)
@@ -808,10 +818,10 @@ class CrossCompileScript:
 			gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
 			workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
 			if len(workingGcc) > 0:
-				self.logger.info("MinGW-w64 install is working!")
+				self.logger.info("MinGW-w64 install is working! (target {0})".format(self.targetOS))
 				return
 			else:
-				raise Exception("GCC is not working properly, target is not mingw32.")
+				raise Exception("GCC is not working properly, target is not mingw32 (target {0}).".format(self.targetOS)) # 2019.12.13 added self.targetOS 
 				exit(1)
 
 		elif not os.path.isdir(self.mingwDir):
@@ -1816,7 +1826,8 @@ class CrossCompileScript:
 			if 'run_pre_patch' in packageData:
 				if packageData['run_pre_patch'] is not None:
 					for cmd in packageData['run_pre_patch']:
-						cmd = self.replaceVariables(cmd)
+					    self.logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
+                        cmd = self.replaceVariables(cmd)
 						self.logger.debug("Running pre-patch-command: '{0}'".format(cmd))
 						self.runProcess(cmd)
 
@@ -1846,14 +1857,21 @@ class CrossCompileScript:
 
 		if 'cflag_addition' in packageData:
 			if packageData['cflag_addition'] is not None:
+                self.logger.debug("Adding '{0}' to CFLAGS".format( data['cflag_addition'] ))
 				os.environ["CFLAGS"] = os.environ["CFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
+				os.environ["CPPFLAGS"] = os.environ["CPPFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
+				os.environ["LDFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
 				self.logger.info(F'Added to C(XX)FLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}", "{os.environ["CFLAGS"]}"')
 
 		if 'custom_cflag' in packageData:
 			if packageData['custom_cflag'] is not None:
-				os.environ["CFLAGS"] = packageData['custom_cflag']
-				os.environ["CXXFLAGS"] = packageData['custom_cflag']
+				val = self.replaceVariables(packageData['custom_cflag'])    # 2019.12.13
+				self.logger.debug("Setting CFLAGS to '{0}'".format( val ))  # 2019.12.13
+				os.environ["CFLAGS"] = val   # 2019.12.13
+				os.environ["CXXFLAGS"] = val # 2019.12.13
+				os.environ["CPPFLAGS"] = val # 2019.12.13
+				os.environ["LDFLAGS"] = val  # 2019.12.13
 				self.logger.info(F'Set custom C(XX)FLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}", "{os.environ["CFLAGS"]}"')
 
 		if 'strip_cflags' in packageData:
@@ -1861,7 +1879,9 @@ class CrossCompileScript:
 				for _pattern in packageData["strip_cflags"]:
 					os.environ["CFLAGS"] = self.reStrip(_pattern, os.environ["CFLAGS"])
 					os.environ["CXXFLAGS"] = self.reStrip(_pattern, os.environ["CXXFLAGS"])
-					self.logger.info(F'Stripped C(XX)FLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}", "{os.environ["CFLAGS"]}"')
+					os.environ["CPPFLAGS"] = self.reStrip(_pattern, os.environ["CPPFLAGS"]) # 2019.12.13
+					os.environ["LDFLAGS"] = self.reStrip(_pattern, os.environ["LDFLAGS"])   # 2019.12.13
+					self.logger.info(F'Stripped C(XX)FLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}", "{os.environ["CFLAGS"]}", "{os.environ["CPPFLAGS"]}", "{os.environ["LDFLAGS"]}"') # 2019.12.13
 
 		if 'custom_path' in packageData:
 			if packageData['custom_path'] is not None:
@@ -1922,7 +1942,8 @@ class CrossCompileScript:
 							_dir = self.replaceVariables("|".join(cmd.split("|")[1:]))
 							self.cchdir(_dir)
 						else:
-							cmd = self.replaceVariables(cmd)
+							self.logger.debug("Running post-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.12.13
+                            cmd = self.replaceVariables(cmd)
 							self.logger.info("Running post-patch-command: '{0}'".format(cmd))
 							# self.run_process(cmd)
 							self.runProcess(cmd, ignoreFail)
@@ -2155,7 +2176,8 @@ class CrossCompileScript:
 			if 'run_post_configure' in packageData:
 				if packageData['run_post_configure'] is not None:
 					for cmd in packageData['run_post_configure']:
-						cmd = self.replaceVariables(cmd)
+						self.logger.debug("Running post-configure-command pre replaceVariables (raw): '{0}'".format( cmd ))
+                        cmd = self.replaceVariables(cmd)
 						self.logger.info("Running post-configure-command: '{0}'".format(cmd))
 						self.runProcess(cmd)
 
@@ -2400,6 +2422,7 @@ class CrossCompileScript:
 							_dir = self.replaceVariables("|".join(cmd.split("|")[1:]))
 							self.cchdir(_dir)
 						else:
+							self.logger.info("Running post-install-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
 							cmd = self.replaceVariables(cmd)
 							self.logger.info("Running post-install-command: '{0}'".format(cmd))
 							self.runProcess(cmd)
