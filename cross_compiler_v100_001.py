@@ -721,9 +721,9 @@ class CrossCompileScript:
 		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
 		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
 		self.cpuCount = self.config["toolchain"]["cpu_count"]
-		self.originalCflags = self.config["toolchain"]["original_cflags"]
 		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
 		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
+		self.originalCflags = self.config["toolchain"]["original_cflags"] + self.config["toolchain"]["original_stack_protector"] + self.config["toolchain"]["original_fortify_source"] # 2019.12.13 added stack protector and fortify source
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
