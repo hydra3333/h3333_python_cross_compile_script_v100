@@ -10,6 +10,14 @@
 		#('https://github.com/hydra3333/opus/commit/505d0cf2dc259b94c7d3b52b2df676cb02d38923.patch', '-p1', '..'),
         ('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches/opus/fix_OPUS_LIBRARY_VERSION-from-deadsix27.patch', '-p1', '..'),
 	],
+	'custom_cflag' : '{original_cflags}', # 2019.12.13
+	'env_exports' : { # 2019.12.13
+		'PKGCONFIG' : 'pkg-config', # 2019.12.13
+		'CFLAGS'   : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2 # 2019.12.13
+		'CXXFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2 # 2019.12.13
+		'CPPFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2 # 2019.12.13
+		'LDFLAGS'  : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2 # 2019.12.13
+	},
 	'regex_replace': {
 		'post_install': [
 			{
