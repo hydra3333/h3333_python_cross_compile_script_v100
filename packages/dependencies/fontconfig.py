@@ -25,14 +25,14 @@
 			},
 			{
 				0: r'Libs: -L\${{libdir}} -lfontconfig',
-				1: r'Libs: -L${{libdir}} -lfontconfig -liconv -lintl ',
+				1: r'Libs: -L${{libdir}} -lfontconfig -lfreetype -lharfbuzz -lxml2 -liconv -lintl -liconv ', # 2019.12.13 added a few
 				'in_file': '{pkg_config_path}/fontconfig.pc'
 			}
 		]
 	},
 
 	'depends_on' : [
-		'expat', 'iconv', 'libxml2', 'freetype', 'json-c',
+		'expat', 'iconv', 'libxml2', 'freetype', 'bzip2', 'json-c', # 2019.12.13 added 'bzip2', 'expat' ... did add 'gettext'
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : None, 'fancy_name' : 'fontconfig' },

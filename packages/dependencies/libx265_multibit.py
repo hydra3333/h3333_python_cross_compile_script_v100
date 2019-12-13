@@ -13,7 +13,9 @@
 		'-DEXTRA_LINK_FLAGS="-L{offtree_prefix}/libx265_10bit/lib;-L{offtree_prefix}/libx265_12bit/lib" '
 		'-DLINKED_10BIT=ON '
 		'-DLINKED_12BIT=ON '
-		'-DCMAKE_INSTALL_PREFIX={target_prefix}'
+		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
+        '-DLIBXML_STATIC=ON ' # 2019.12.13
+        '-DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
 	,
 	'conf_system' : 'cmake',
 	'run_post_build' : [
@@ -28,3 +30,4 @@
 	'depends_on' : [ 'libxml2', 'libx265_multibit_10', 'libx265_multibit_12' ],
 	'_info' : { 'version' : None, 'fancy_name' : 'x265 (multibit library 12/10/8)' },
 }
+

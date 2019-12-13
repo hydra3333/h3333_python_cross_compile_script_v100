@@ -5,14 +5,15 @@
 		'zlib',
 		'lzma',
 		'fontconfig',
-		'freetype',
+		'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype'
 		'libbluray',
 		'libcdio',
+        'python3_libs', # 2019.12.13
 		'vapoursynth_libs',
 		'rtmpdump',
 		'libcaca',
 		'iconv',
-		'libzimg', # 2019.12.13 - ??????? query is this multibit ???
+		'libzimg', 
 		'libx264', # 2019.12.13 - ??????? query is this multibit ???
 		'libx265_multibit',
 		#'openh264', # 2019.12.13 comment out

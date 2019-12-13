@@ -11,7 +11,9 @@
 		'-DEXPORT_C_API=OFF '
 		'-DENABLE_SHARED=OFF '
 		'-DENABLE_CLI=OFF '
-		'-DCMAKE_INSTALL_PREFIX={offtree_prefix}/libx265_10bit'
+		'-DCMAKE_INSTALL_PREFIX={offtree_prefix}/libx265_10bit '
+        '-DLIBXML_STATIC=ON ' # 2019.12.13
+        '-DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
 	,
 	'run_post_install' : [
 		'mv -fv "{offtree_prefix}/libx265_10bit/lib/libx265.a" "{offtree_prefix}/libx265_10bit/lib/libx265_main10.a"'
