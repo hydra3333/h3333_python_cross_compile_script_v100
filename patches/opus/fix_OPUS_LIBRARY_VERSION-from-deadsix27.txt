@@ -1,0 +1,25 @@
+From 505d0cf2dc259b94c7d3b52b2df676cb02d38923 Mon Sep 17 00:00:00 2001
+From: DeadSix27 <DeadSix27@users.noreply.github.com>
+Date: Wed, 4 Dec 2019 15:45:27 +0100
+Subject: [PATCH] cmake: Use PROJECT_VERSION for versioning opus
+
+The old variable `OPUS_LIBRARY_VERSION`, does not line up with what other software expects/checks for when searching for Opus on the system, for example "opusfile" checks for a project version instead.
+While at it, also remove the accidental double up in code.
+---
+ CMakeLists.txt | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c01ec57c..c34ef261 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -316,8 +316,7 @@ if(OPUS_INSTALL_PKG_CONFIG_MODULE)
+   set(exec_prefix ${CMAKE_INSTALL_PREFIX})
+   set(libdir ${CMAKE_INSTALL_FULL_LIBDIR})
+   set(includedir ${CMAKE_INSTALL_FULL_INCLUDEDIR})
+-  set(VERSION ${OPUS_LIBRARY_VERSION})
+-  set(VERSION ${OPUS_LIBRARY_VERSION})
++  set(VERSION ${PROJECT_VERSION})
+   if(HAVE_LIBM)
+     set(LIBM "-lm")
+   endif()
