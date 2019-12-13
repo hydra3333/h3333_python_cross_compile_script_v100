@@ -11,7 +11,7 @@
 		'--enable-runtime-cpudetect '
 		'--enable-gpl '
 		'--enable-version3 '
-		'--extra-version=DeadSix27/python_cross_compile_script '
+		'--extra-version=Hydra3333/python_cross_compile_script_v100 '
 
 		# Misc.
 		'--enable-pic '
