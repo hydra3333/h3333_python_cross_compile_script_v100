@@ -1,0 +1,91 @@
+hydra3333@gmail.com
+0g0
+
+# a list of some git commands I need to use
+
+#mkdir -v -m a=rwx mydir
+#rmdir -v --ignore-fail-on-non-empty 
+# rm -f -R -v folder
+#cp -f -v from to
+#rm -f -v file
+#
+
+echo ensure we are in folder git first !!
+read -p "ensure we are in folder git first !!  press enter to continue"
+
+# to ensure a fresh copy
+rm -f -R -v h3333_python_cross_compile_script
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script.git
+cd h3333_python_cross_compile_script
+git config --global user.name "hydra3333"
+git config --global user.email "hydra3333@gmail.com"
+git config --global credential.helper store
+#git config --global credential.helper 'store [options]'
+#git config --global credential.helper 'cache --timeout 3600000'
+
+# to make some changes
+cd python_cross_compile_script
+# make changes ...
+
+git status # to see what's traceked and what's changed etc
+git mv fromfilename tofilename
+git rm filename
+git add * # get git to recognised new and deleted files and changes
+git commit # to commit the changes on the local disk
+git status # to see what's traceked and what's changed etc
+git branch
+git branch -a
+git push # upload the changes
+###git pull-request
+
+# SDL2 patch superseded per https://hg.libsdl.org/SDL/rev/117d4ce1390e
+
+
+to make a local branch and then a pull request -
+
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script.git
+cd h3333_python_cross_compile_script
+git pull origin master
+git git checkout -b SDL2_update # create a branch 
+git branch
+... do modifications etc
+git commit --all -m "made some change to SDL2"
+git tag archive/SDL2_update SDL2_update
+git branch
+git branch -a
+git push origin SDL2_update
+git request-pull [-p] <start> <url>
+
+
+
+To remove all history :-
+
+https://gist.github.com/heiswayi/350e2afda8cece810c0f6116dadbe651
+https://gist.github.com/stephenhardy/5470814
+
+note: 
+Deleting the .git folder may cause problems in your git repository. 
+If you want to delete all your commit history but keep the code in its current state, it is very safe to do it as in the following:
+
+# download a backup zip first !!!!
+# ensure a totally fresh copy
+rm -f -R -v h3333_python_cross_compile_script
+git clone hhttps://github.com/hydra3333/h3333_python_cross_compile_script.git
+cd h3333_python_cross_compile_script
+git config --global user.name "hydra3333"
+git config --global user.email "hydra3333@gmail.com"
+git config --global credential.helper store
+# Checkout to a branch named latest_branch which has no history
+git checkout --orphan latest_branch
+# Add all the files
+git add -A
+# Commit the changes
+git commit -am "committing an orphan branch"
+# Delete the master branch
+git branch -D master
+# Rename the branch latest_branch to master
+git branch -m master
+# Finally, force update your repository
+git push -f origin master  # Force push master branch to github
+# remove the old files (loose objects)
+git gc --aggressive --prune=all
