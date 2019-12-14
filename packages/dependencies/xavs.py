@@ -3,7 +3,7 @@
 	'repo_type' : 'svn',
 	'url' : 'svn://svn.code.sf.net/p/xavs/code/trunk',
 	'folder_name' : 'xavs_svn',
-	'configure_options' : '{autoconf_prefix_options} --cross-prefix={cross_prefix_bare}',
+	'configure_options' : '{autoconf_prefix_options} --cross-prefix={cross_prefix_bare} --disable-shared --enable-static ', # 2019.12.13
 	'run_post_install' : [
 		'rm -f NUL', # uh???
 	],
