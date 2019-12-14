@@ -25,5 +25,4 @@
 		'{cross_prefix_bare}strip -v {output_prefix}/mkvtoolnix_git.installed/bin/mkvinfo.exe',
 	),
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'mkvtoolnix' },
-
 }
