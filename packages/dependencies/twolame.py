@@ -7,7 +7,10 @@
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static',
 	'depends_on' : ['libsndfile', ],
 	'patches': [
-		('twolame/0001-twolame-mingw-workaround.patch', '-p1'), # to avoid setting -DLIBTWOLAME_STATIC
+		('twolame/0001-mingw32-does-not-need-handholding.all.patch', '-p1'), # 2019.12.13
+		#('twolame/0002-Add-missing-TL_API.patch', '-p1'), # 2019.12.13 combine these 2
+		#('twolame/0001-twolame-mingw-workaround.patch', '-p1'), # to avoid setting -DLIBTWOLAME_STATIC # 2019.12.13 combine these 2
+		('twolame/0001-twolame-mingw-workaround.patch_and_add-missing-TL_API', '-p1'), # 2019.12.13 combined those 2 patches
 	],
 	'update_check' : { 'url' : 'https://github.com/njh/twolame/releases/', 'type' : 'githubreleases', 'name_or_tag' : 'tag_name' },
 	'_info' : { 'version' : '0.4.0', 'fancy_name' : 'twolame' },
