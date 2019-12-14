@@ -58,7 +58,7 @@
 		'-DLIBXML_STATIC=1 '
         '-DGLIB_STATIC_COMPILATION=1 '
 	,
-    'depends_on' : [ 'glib2', 'libxml2' ],
+    'depends_on' : [ 'glib2', 'libxml2' ], # 2019.12.13
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : None, 'fancy_name' : 'aom-av1' },
 }
