@@ -7,7 +7,7 @@
 	'env_exports' : {
 		'LIBS' : '-lpng',
 	},
-	'configure_options' : '{autoconf_prefix_options} --disable-dvb --disable-bktr --disable-nls --disable-proxy --without-doxygen',
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-dvb --disable-bktr --enable-nls --disable-proxy --without-doxygen', # 2019.12.13
 	'make_subdir' : 'src',
 	'patches' : [
 		('zvbi/0001-zvbi-0.2.35_win32.patch', '-p1'),
