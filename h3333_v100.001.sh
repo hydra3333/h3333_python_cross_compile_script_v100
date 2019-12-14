@@ -184,8 +184,8 @@ rm -fv ./debug.log
 #echo 'find . -iname "*.exe" -print -delete '>>./debug.log
 #find . -iname "*.exe" -print -delete 2>&1 | tee -a ./debug.log
 
-cd ~/Desktop
-sudo chmod 777 -R *
+#cd ~/Desktop
+#sudo chmod 777 -R *
 #./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265_multibit
 #./cross_compiler_v100_001.py --force --debug -p x265_multibit
 # only use --force if ity's already been fully built, 
@@ -464,7 +464,7 @@ echo "# `date` #################################################################
 #echo "# `date` ###################################################################################" >>./debug.log
 #echo "# `date` ###################################################################################" >>./debug.log
 
-cd ~/Desktop
+#cd ~/Desktop
 sudo chmod 777 -R *
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./debug.log
 mkdir -pv exe_x64_py 2>&1 | tee -a ./debug.log

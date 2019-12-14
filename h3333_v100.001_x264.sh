@@ -188,8 +188,8 @@ rm -fv ./debug-x264.log
 #echo 'find . -iname "*.exe" -print -delete '>>./debug-x264.log
 #find . -iname "*.exe" -print -delete 2>&1 | tee -a ./debug-x264.log
 
-cd ~/Desktop
-sudo chmod 777 -R *
+#cd ~/Desktop
+#sudo chmod 777 -R *
 #./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x264_multibit
 #./cross_compiler_v100_001.py --force --debug -p x264_multibit
 # only use --force if ity's already been fully built, 
@@ -213,7 +213,7 @@ if [ $exit_status -ne 0 ]; then
 fi
 read -p "After build x264, press Enter to continue"
 
-cd ~/Desktop
+#cd ~/Desktop
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./debug-x264.log
 mkdir -pv exe_x64_py 2>&1 | tee -a ./debug-x264.log
 mkdir -pv exe_x64_py/noOpenCL 2>&1 | tee -a ./debug-x264.log
