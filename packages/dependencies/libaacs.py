@@ -12,4 +12,4 @@
 		'libgcrypt', 
 	),
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libbaacs for libbluray' },
-},
+}
