@@ -25,4 +25,4 @@
 		,
 		'depends_on' : ['libffmpeg', 'libl-smash'],
 		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'liblsw' },
-	},
+}
