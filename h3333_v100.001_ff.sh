@@ -180,9 +180,11 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRAR
 #------------------------------------------------------------------------------------------------
 
 cd ~/Desktop
-rm -fvR ./h3333_python_cross_compile_script_v100
+#rm -fvR ./h3333_python_cross_compile_script_v100
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
 cd h3333_python_cross_compile_script_v100
+git checkout --force
+sudo chmod 777 -R *
 
 #cd ~/Desktop
 sudo chmod 777 -R *
