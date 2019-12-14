@@ -12,6 +12,7 @@
 		'-DEXTRA_LINK_FLAGS="-L{offtree_prefix}/libx265_10bit/lib;-L{offtree_prefix}/libx265_12bit/lib" '
 		'-DLINKED_10BIT=ON '
 		'-DLINKED_12BIT=ON '
+        '-DLIBXML_STATIC=ON -DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
 		'-DCMAKE_INSTALL_PREFIX={output_prefix}/x265_hg.installed'
 	,
 	'conf_system' : 'cmake',
