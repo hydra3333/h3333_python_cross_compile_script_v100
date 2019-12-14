@@ -17,7 +17,7 @@
 		]
 	},
 	'depends_on' : [
-		'zlib', 'libjpeg-turbo', 'libwebp'
+		'zlib', 'libjpeg-turbo', 'libwebp',
 	],
 	'update_check' : { 'url' : 'https://download.osgeo.org/libtiff/?C=M;O=D', 'type' : 'httpindex', 'regex' : r'tiff-(?P<version_num>[\d.]+)\.tar\.gz' },
 	'_info' : { 'version' : '4.1.0', 'fancy_name' : 'libtiff' },
