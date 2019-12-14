@@ -18,6 +18,5 @@
 	'run_post_configure' : [
 		'sed -i.bak \'s/ -DSIZE_T_IS_LONG//g\' Makefile',
 	],
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'MediaInfo' },
-	#'_disabled' : True, # 2019.12.13 ?????
+	'_info' : { 'version' : 'git master', 'fancy_name' : 'MediaInfo' },
 }
