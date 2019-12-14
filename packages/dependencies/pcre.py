@@ -8,4 +8,4 @@
 		'bzip2', 'zlib',
 	],
 	'_info' : { 'version' : '8.43', 'fancy_name' : 'pcre' },
-},
+}
