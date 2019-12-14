@@ -3,12 +3,15 @@
 	'url' : 'https://chromium.googlesource.com/webm/libwebp',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
+    'run_post_patch': [ # 2019.12.13
+		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" configure.ac', # fix building with libpng # 2019.12.13
+		'autoreconf -fiv', # 2019.12.13
+	], # 2019.12.13
 	'configure_options' : '.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release'
 		'-DWEBP_ENABLE_SIMD=ON '
 		'-DWEBP_NEAR_LOSSLESS=ON '
 		'-DWEBP_UNICODE=ON '
-
 		'-DWEBP_BUILD_GIF2WEBP=OFF '
 		'-DWEBP_BUILD_IMG2WEBP=OFF '
 		'-DWEBP_BUILD_WEBPMUX=OFF '
