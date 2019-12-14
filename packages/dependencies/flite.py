@@ -7,12 +7,12 @@
 	'patches' : [
 		('flite/flite_64.diff', '-p0'),
 	],
-	'configure_options' : '{autoconf_prefix_options}',
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static', # 2019.12.13
 	'cpu_count' : '1',
 	'needs_make_install' : False,
 	'run_post_patch' : [
-		'sed -i.bak "s|i386-mingw32-|{cross_prefix_bare}|" configure',
-		'sed -i "s|-DWIN32 -shared|-DWIN64 -static|" configure',
+		'sed -i.bak1 "s|i386-mingw32-|{cross_prefix_bare}|" configure', # 2019.12.13
+		'sed -i.bak2 "s|-DWIN32 -shared|-DWIN64 -static|" configure', # 2019.12.13
 	],
 	'run_post_build' : [
 		'mkdir -pv "{target_prefix}/include/flite"',
