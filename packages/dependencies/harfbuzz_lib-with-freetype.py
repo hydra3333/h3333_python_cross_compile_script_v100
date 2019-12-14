@@ -6,7 +6,7 @@
 	],
 	'folder_name' : 'harfbuzz-with-freetype',
 	'rename_folder' : 'harfbuzz-with-freetype',
-	#'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-shared=no --enable-static=yes --with-freetype --with-fontconfig=no --with-icu=no --with-glib=no --with-gobject=no --disable-gtk-doc-html',
+	#'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-shared=no --enable-static=yes --with-freetype --with-fontconfig=no --with-icu=no --with-glib=no --with-gobject=no --disable-gtk-doc-html', # 2019.12.13
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-shared=no --enable-static=yes --with-freetype --with-fontconfig=no --with-icu=no --with-glib=yes --with-gobject=no --disable-gtk-doc-html', # 2019.12.13
 	'run_post_install' : [ # 2019.12.13
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lharfbuzz.*/Libs: -L${{libdir}} -lharfbuzz -lfreetype/\' "{pkg_config_path}/harfbuzz.pc"',
