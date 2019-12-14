@@ -163,12 +163,12 @@ class CrossCompileScript:
 			for name in files:
 				p = Path(os.path.join(path, name))
 				if p.suffix == ".py":
-					self.logger.debug("Found Product '%s' ." % (p))
+					self.logger.info("h3333 Found Product '%s' ." % (p))
 					if not isPathDisabled(p):
 						tmpPkglist["prods"].append(p)
-						self.logger.debug("tmp Loaded Product '%s' ." % (p))
+						self.logger.info("h3333 tmp Loaded Product '%s' ." % (p))
 					else:
-						self.logger.debug("tmp DID NOT Load Product '%s' due to isPathDisabled." % (p))
+						self.logger.info("h3333 tmp DID NOT Load Product '%s' due to isPathDisabled." % (p))
 
 		if len(tmpPkglist["deps"]) < 1:  # TODO simplify code
 			self.errorExit("There's no packages in the folder '%s'." % (depsFolder))
@@ -221,7 +221,7 @@ class CrossCompileScript:
 						self.logger.debug("Package '%s.py' has option '_disabled' set, not loading." % (packageName))
 					else:
 						packages["prods"][packageName] = o
-						self.logger.debug("Loaded Product '%s' ." % (p))
+						self.logger.info("h3333 Loaded Product '%s' ." % (p))
 
 				except SyntaxError:
 					self.errorExit("Loading '%s.py' failed:\n\n%s" % (packageName, traceback.format_exc()))
