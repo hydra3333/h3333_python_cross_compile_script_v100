@@ -175,8 +175,8 @@ sudo chmod 777 -R *
 set +x
 
 cd ~/Desktop
-rm -fv ./h3333_cross_compiler_v100.001.py
-wget --content-disposition "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_cross_compiler_v100.001.py"
+rm -fv ./cross_compiler_v100_001.py
+wget --content-disposition "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/cross_compiler_v100_001.py"
 
 cd ~/Desktop
 sudo chmod 777 -R *
@@ -188,19 +188,19 @@ rm -fv ./0.debug.log
 
 cd ~/Desktop
 sudo chmod 777 -R *
-#./h3333_cross_compiler_v100.001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265_multibit
-#./h3333_cross_compiler_v100.001.py --force --debug -p x265_multibit
+#./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265_multibit
+#./cross_compiler_v100_001.py --force --debug -p x265_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
-./h3333_cross_compiler_v100.001.py list -p 2>&1 | tee -a ./0.debug.log
-./h3333_cross_compiler_v100.001.py list -d 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./0.debug.log
 
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p ffmpeg_static_non_free 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg_static_non_free 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -219,7 +219,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p ffmpeg_static_non_free_opencl 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg_static_non_free_opencl 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -238,7 +238,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p x264 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -257,7 +257,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p x265_multibit 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p x265_multibit 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -276,7 +276,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p mp4box 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p mp4box 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -295,7 +295,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p lame 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p lame 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -314,7 +314,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p aom 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p aom 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -333,7 +333,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p sox 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p sox 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -352,7 +352,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p vpx 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p vpx 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -371,7 +371,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p mediainfo 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p mediainfo 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -390,7 +390,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p dav1d 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p dav1d 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -409,7 +409,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
 echo "# `date` ###################################################################################" >>./0.debug.log
-./h3333_cross_compiler_v100.001.py --force --debug -p fftw3_dll 2>&1 | tee -a ./0.debug.log
+./cross_compiler_v100_001.py --force --debug -p fftw3_dll 2>&1 | tee -a ./0.debug.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -428,7 +428,7 @@ echo "# `date` #################################################################
 #echo "# `date` ###################################################################################" >>./0.debug.log
 #echo "# `date` ###################################################################################" >>./0.debug.log
 #echo "# `date` ###################################################################################" >>./0.debug.log
-#./h3333_cross_compiler_v100.001.py --force --debug -p lameENC_DLL 2>&1 | tee -a ./0.debug.log
+#./cross_compiler_v100_001.py --force --debug -p lameENC_DLL 2>&1 | tee -a ./0.debug.log
 #exit_status=$?
 #echo "exit_status='$exit_status'"
 #if [ $exit_status -ne 0 ]; then
@@ -443,7 +443,7 @@ echo "# `date` #################################################################
 #read -p "done lameENC_DLL press any key to continue"
 
 # mkvtoolnix doesn't build ??? depends on QT5 which doesn't build
-#./h3333_cross_compiler_v100.001.py -p mkvtoolnix
+#./cross_compiler_v100_001.py -p mkvtoolnix
 #exit_status=$?
 #echo "exit_status='$exit_status'"
 #if [ $exit_status -ne 0 ]; then

@@ -175,8 +175,8 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\
 #------------------------------------------------------------------------------------------------
 
 cd ~/Desktop
-rm -fv ./h3333_cross_compiler_v100.001.py
-wget --content-disposition "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_cross_compiler_v100.001.py"
+rm -fv ./cross_compiler_v100_001.py
+wget --content-disposition "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/cross_compiler_v100_001.py"
 
 cd ~/Desktop
 sudo chmod 777 -R *
@@ -189,21 +189,21 @@ rm -fv ./0.debug-x264.029.log
 
 cd ~/Desktop
 sudo chmod 777 -R *
-#./h3333_cross_compiler_v100.001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x264_multibit
-#./h3333_cross_compiler_v100.001.py --force --debug -p x264_multibit
+#./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x264_multibit
+#./cross_compiler_v100_001.py --force --debug -p x264_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
-./h3333_cross_compiler_v100.001.py list -p 2>&1 | tee -a ./0.debug-x264.029.log
-./h3333_cross_compiler_v100.001.py list -d 2>&1 | tee -a ./0.debug-x264.029.log
+./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./0.debug-x264.029.log
+./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./0.debug-x264.029.log
 
 echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
 echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
 echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
 echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
 echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
-./h3333_cross_compiler_v100.001.py --force --debug -d libx264 2>&1 | tee -a ./0.debug-x264.029.log
+./cross_compiler_v100_001.py --force --debug -d libx264 2>&1 | tee -a ./0.debug-x264.029.log
 read -p "After build libx264, press Enter to continue"
-./h3333_cross_compiler_v100.001.py --force --debug -p x264 2>&1 | tee -a ./0.debug-x264.029.log
+./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./0.debug-x264.029.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then

@@ -258,7 +258,7 @@ class CrossCompileScript:
   				'output_path': '_output',
 				'work_dir': 'workdir',
 				'original_cflags': '-O3',
-                'original_stack_protector' : '-fstack-protector-all',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
+				'original_stack_protector' : '-fstack-protector-all',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
 				'original_fortify_source'  : '-D_FORTIFY_SOURCE=2',    # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
 			}
 		}
@@ -685,7 +685,7 @@ class CrossCompileScript:
 		self.bitnessPath = self.fullWorkDir.joinpath("x86_64" if bitness == 64 else "i686")  # e.g x86_64
 		self.bitnessStr2 = "x86_64" if bitness == 64 else "x86"  # just for vpx...
 		self.bitnessStr3 = "mingw64" if bitness == 64 else "mingw"  # just for openssl...
-        self.targetOSStr = "mingw64" if bitness is 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
+		self.targetOSStr = "mingw64" if bitness is 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
 		self.bitnessStrWin = "win64" if bitness == 64 else "win32"  # e.g win64
 		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  # e.g x86_64-w64-mingw32
 
@@ -761,12 +761,12 @@ class CrossCompileScript:
 				'current_path': os.getcwd(),
 				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
 				'meson_env_file': self.mesonEnvFile
-             # 2019.12.13 --- add own variables
-             ,'targetOS': self.targetOSStr,
-			 ,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
-			 ,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
-			 ,'original_stack_protector' : self.original_stack_protector # 2019.11.15
-			 ,'original_fortify_source' : self.original_fortify_source # 2019.11.15			}
+				# 2019.12.13 --- add own variables
+				,'targetOS': self.targetOSStr,
+				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
+				,'original_fortify_source' : self.original_fortify_source # 2019.11.15			}
 		)
 
 		self.config = self.formatConfig(self.config)
@@ -1828,9 +1828,9 @@ class CrossCompileScript:
 				if packageData['run_pre_patch'] is not None:
 					for cmd in packageData['run_pre_patch']:
 					    self.logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
-                        cmd = self.replaceVariables(cmd)
-						self.logger.debug("Running pre-patch-command: '{0}'".format(cmd))
-						self.runProcess(cmd)
+					    cmd = self.replaceVariables(cmd)
+					    self.logger.debug("Running pre-patch-command: '{0}'".format(cmd))
+					    self.runProcess(cmd)
 
 		if forceRebuild:
 			if os.path.isdir(".git"):
@@ -1858,7 +1858,7 @@ class CrossCompileScript:
 
 		if 'cflag_addition' in packageData:
 			if packageData['cflag_addition'] is not None:
-                self.logger.debug("Adding '{0}' to CFLAGS".format( data['cflag_addition'] ))
+				self.logger.debug("Adding '{0}' to CFLAGS".format( data['cflag_addition'] ))
 				os.environ["CFLAGS"] = os.environ["CFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CPPFLAGS"] = os.environ["CPPFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
@@ -1944,7 +1944,7 @@ class CrossCompileScript:
 							self.cchdir(_dir)
 						else:
 							self.logger.debug("Running post-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.12.13
-                            cmd = self.replaceVariables(cmd)
+							cmd = self.replaceVariables(cmd)
 							self.logger.info("Running post-patch-command: '{0}'".format(cmd))
 							# self.run_process(cmd)
 							self.runProcess(cmd, ignoreFail)
@@ -2178,7 +2178,7 @@ class CrossCompileScript:
 				if packageData['run_post_configure'] is not None:
 					for cmd in packageData['run_post_configure']:
 						self.logger.debug("Running post-configure-command pre replaceVariables (raw): '{0}'".format( cmd ))
-                        cmd = self.replaceVariables(cmd)
+						cmd = self.replaceVariables(cmd)
 						self.logger.info("Running post-configure-command: '{0}'".format(cmd))
 						self.runProcess(cmd)
 
@@ -2240,7 +2240,7 @@ class CrossCompileScript:
 			else:
 				fileName = os.path.basename(urlparse(url).path)
 				#url = "https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches" + url
-                url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url
+				url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url
 				self.downloadFile(url, fileName)
 
 		self.logger.info("Patching source using: '{0}'".format(fileName))
