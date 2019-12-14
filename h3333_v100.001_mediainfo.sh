@@ -183,7 +183,8 @@ cd ~/Desktop
 #rm -fvR ./h3333_python_cross_compile_script_v100
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
 cd h3333_python_cross_compile_script_v100
-git checkout --force
+git fetch origin
+git reset --hard origin/master
 sudo chmod 777 -R *
 
 #cd ~/Desktop
