@@ -86,7 +86,7 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
 	'version': '2.33.1',
 	# 'patches' : [
-  		# ( 'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
+  		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
 	'url': 'https://ftp.gnu.org/gnu/binutils/binutils-{version}.tar.bz2',
 	'softlink_to_package': [
@@ -102,8 +102,8 @@ SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu
 	#'version': '9-20191130',
 	#'url': 'https://gcc.gnu.org/pub/gcc/snapshots/{version}/gcc-{version}.tar.xz',
 	'patches': [
-		#( 'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
-		# ( 'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/mingw_toolchain_script/patches/0140-gcc-7-Enable-std-experimental-filesystem.patch', 'p1' ), #Unable to get this to work.
+		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
+		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0140-gcc-7-Enable-std-experimental-filesystem.patch', 'p1' ), #Unable to get this to work.
 	],
 	'softlink_to_package': [
 		('gmp', 'gmp'),
