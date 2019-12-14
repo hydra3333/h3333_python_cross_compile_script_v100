@@ -15,4 +15,4 @@
 			'iconv', 
 		),
 		'_info' : { 'version' : 'git master', 'fancy_name' : 'libgpg-error for libaacs' },
-	},
+}
