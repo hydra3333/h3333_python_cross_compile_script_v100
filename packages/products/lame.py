@@ -8,8 +8,11 @@
 	'patches' : [
 		('lame/0007-revert-posix-code.patch','-p1'), # borrowing their file since lame will fix this shortly anyway, its already fixed on svn
 	],
+    'run_post_patch' : ( # 2019.12.13
+		'autoreconf -fiv',
+	),
 	'depends_on' : ['iconv'],
-	'configure_options' : '--host={target_host} --without-libiconv-prefix --prefix={output_prefix}/lame-3.100.installed --disable-shared --enable-static --enable-nasm',
+	'configure_options' : '--build=x86_64-linux-gnu --host={target_host} --target={target_host} --without-libiconv-prefix --prefix={output_prefix}/lame-3.100.installed --disable-shared --enable-static --enable-nasm', # 2019.12.13
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/lame/files/lame/', 'type' : 'sourceforge', },
-	'_info' : { 'version' : '3.100', 'fancy_name' : 'LAME3' },
+	'_info' : { 'version' : '3.100', 'fancy_name' : 'LAME3.100' }, # 2019.12.13
 }
