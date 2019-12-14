@@ -180,17 +180,18 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRAR
 #------------------------------------------------------------------------------------------------
 
 cd ~/Desktop
-rm -fv ./cross_compiler_v100_001.py
-wget --content-disposition "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/cross_compiler_v100_001.py"
+rm -fvR ./h3333_python_cross_compile_script_v100
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
+cd h3333_python_cross_compile_script_v100
 
-cd ~/Desktop
+#cd ~/Desktop
 sudo chmod 777 -R *
 #find . -iname "*.exe" -print -delete 
 
-rm -fv ./0.debug-x264.029.log
-#echo "# `date`" >>./0.debug-x264.029.log
-#echo 'find . -iname "*.exe" -print -delete '>>./0.debug-x264.029.log
-#find . -iname "*.exe" -print -delete 2>&1 | tee -a ./0.debug-x264.029.log
+rm -fv ./debug-mediainfo.log
+#echo "# `date`" >>./debug-mediainfo.log
+#echo 'find . -iname "*.exe" -print -delete '>>./debug-mediainfo.log
+#find . -iname "*.exe" -print -delete 2>&1 | tee -a ./debug-mediainfo.log
 
 cd ~/Desktop
 sudo chmod 777 -R *
@@ -198,17 +199,17 @@ sudo chmod 777 -R *
 #./cross_compiler_v100_001.py --force --debug -p x264_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
-./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./0.debug-x264.029.log
-./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./0.debug-x264.029.log
+./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug-mediainfo.log
+./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./debug-mediainfo.log
 
-echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
-echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
-echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
-echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
-echo "# `date` ###################################################################################" >>./0.debug-x264.029.log
-./cross_compiler_v100_001.py --force --debug -d libmediainfo 2>&1 | tee -a ./0.debug-x264.029.log
+echo "# `date` ###################################################################################" >>./debug-mediainfo.log
+echo "# `date` ###################################################################################" >>./debug-mediainfo.log
+echo "# `date` ###################################################################################" >>./debug-mediainfo.log
+echo "# `date` ###################################################################################" >>./debug-mediainfo.log
+echo "# `date` ###################################################################################" >>./debug-mediainfo.log
+./cross_compiler_v100_001.py --force --debug -d libmediainfo 2>&1 | tee -a ./debug-mediainfo.log
 read -p "After build libmediainfo, press Enter to continue"
-./cross_compiler_v100_001.py --force --debug -p mediainfo 2>&1 | tee -a ./0.debug-x264.029.log
+./cross_compiler_v100_001.py --force --debug -p mediainfo 2>&1 | tee -a ./debug-mediainfo.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -218,51 +219,51 @@ fi
 read -p "After build mediainfo, press Enter to continue"
 
 cd ~/Desktop
-rm -frv ./exe_x64_py/* 2>&1 | tee -a ./0.debug-x264.029.log
-mkdir -pv exe_x64_py 2>&1 | tee -a ./0.debug-x264.029.log
-mkdir -pv exe_x64_py/noOpenCL 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffprobe.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffplay.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffmpeg.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
+rm -frv ./exe_x64_py/* 2>&1 | tee -a ./debug-mediainfo.log
+mkdir -pv exe_x64_py 2>&1 | tee -a ./debug-mediainfo.log
+mkdir -pv exe_x64_py/noOpenCL 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffprobe.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffplay.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffmpeg.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffprobe.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffplay.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffmpeg.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
+cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffprobe.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffplay.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffmpeg.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-cp -fv ./workdir/x86_64_products/x264_multibit_hg.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/x264-mp4.exe 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxenc.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxdec.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/webpmux.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/webpinfo.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/mp4box_git.installed/bin/MP4Box.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/lame-3.100.installed/bin/lame.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/rtmpdump.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/sbin/rtmpsuck.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/mediainfo_git.installed/bin/mediainfo.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/aom_git.installed/bin/aomdec.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/aom_git.installed/bin/aomenc.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/sox_git.installed/bin/sox.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/sox_git.installed/bin/soxi.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/dav1d.installed/bin/dav1d.exe ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
+cp -fv ./workdir/x86_64_products/x264_multibit_hg.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/x264-mp4.exe 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxenc.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxdec.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/webpmux.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/webpinfo.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/mp4box_git.installed/bin/MP4Box.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/lame-3.100.installed/bin/lame.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/rtmpdump.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/sbin/rtmpsuck.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/mediainfo_git.installed/bin/mediainfo.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/aom_git.installed/bin/aomdec.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/aom_git.installed/bin/aomenc.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/sox_git.installed/bin/sox.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/sox_git.installed/bin/soxi.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/dav1d.installed/bin/dav1d.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/presets ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/doc ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
+cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/presets ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/doc ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/presets ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/doc ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
+cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/presets ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/doc ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-cp -fv ./workdir/x86_64_products/fftw3_dll_single/bin/libfftw3f-3.dll ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_double/bin/libfftw3-3.dll ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_ldouble/bin/libfftw3l-3.dll ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
-#cp -fv ./workdir/x86_64_products/fftw3_dll_quad/bin/libfftw3q.dll ./exe_x64_py/ 2>&1 | tee -a ./0.debug-x264.029.log
+cp -fv ./workdir/x86_64_products/fftw3_dll_single/bin/libfftw3f-3.dll ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/fftw3_dll_double/bin/libfftw3-3.dll ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/fftw3_dll_ldouble/bin/libfftw3l-3.dll ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
+#cp -fv ./workdir/x86_64_products/fftw3_dll_quad/bin/libfftw3q.dll ./exe_x64_py/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-cp -fv ./workdir/x86_64_products/fftw3_dll_single/bin/libfftw3f-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_double/bin/libfftw3-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_ldouble/bin/libfftw3l-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
-#cp -fv ./workdir/x86_64_products/fftw3_dll_quad/bin/libfftw3q.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./0.debug-x264.029.log
+cp -fv ./workdir/x86_64_products/fftw3_dll_single/bin/libfftw3f-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/fftw3_dll_double/bin/libfftw3-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
+cp -fv ./workdir/x86_64_products/fftw3_dll_ldouble/bin/libfftw3l-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
+#cp -fv ./workdir/x86_64_products/fftw3_dll_quad/bin/libfftw3q.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-mediainfo.log
 #
-#cp -fv ./workdir/x86_64_products/lameENC_DLL-3.100.installed/bin/libmp3lame-0.dll ./exe_x64_py/lame_enc.dll 2>&1 | tee -a ./0.debug-x264.029.log
+#cp -fv ./workdir/x86_64_products/lameENC_DLL-3.100.installed/bin/libmp3lame-0.dll ./exe_x64_py/lame_enc.dll 2>&1 | tee -a ./debug-mediainfo.log
 
 exit 1

@@ -762,11 +762,12 @@ class CrossCompileScript:
 				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
 				'meson_env_file': self.mesonEnvFile
 				# 2019.12.13 --- add own variables
-				,'targetOS': self.targetOSStr,
+				,'targetOS': self.targetOSStr
 				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
 				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
 				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
-				,'original_fortify_source' : self.original_fortify_source # 2019.11.15			}
+				,'original_fortify_source' : self.original_fortify_source # 2019.11.15
+			}
 		)
 
 		self.config = self.formatConfig(self.config)
