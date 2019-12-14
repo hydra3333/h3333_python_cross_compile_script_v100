@@ -1,0 +1,45 @@
+--- a/libtwolame/twolame.h	2019-10-11 09:26:26.000000000 -0700
++++ b/libtwolame/twolame.h	2019-12-13 21:38:06.939504116 -0800
+@@ -41,32 +41,7 @@
+ # undef TL_API
+ #endif
+ 
+-#ifdef _WIN32
+-# ifdef LIBTWOLAME_BUILD
+-#  ifdef DLL_EXPORT
+-#   define TL_API __declspec(dllexport)
+-#  else
+-#   define TL_API
+-#  endif
+-# else
+-#  ifdef LIBTWOLAME_STATIC
+-#   define TL_API
+-#  else
+-#   define TL_API __declspec(dllimport)
+-#  endif
+-# endif
+-#else
+-# ifdef GNUC
+-#  if GNUC >= 4
+-#   define TL_API attribute ((visibility("default")))
+-#  else
+-#   define TL_API
+-#  endif
+-# else
+-#  define TL_API
+-# endif
+-#endif
+-
++#define TL_API
+ 
+ #ifndef TRUE
+ #define TRUE    (1)
+@@ -263,7 +238,7 @@
+  *  \return                The number of bytes put in output buffer
+  *                         or a negative value on error
+  */
+-int twolame_encode_buffer_float32_interleaved(twolame_options * glopts,
++TL_API int twolame_encode_buffer_float32_interleaved(twolame_options * glopts,
+         const float pcm[],
+         int num_samples,
+         unsigned char *mp2buffer, int mp2buffer_size);
