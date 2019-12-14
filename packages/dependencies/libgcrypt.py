@@ -14,4 +14,4 @@
 		'libgpg_error', 
 	),
 	'_info' : { 'version' : 'git master', 'fancy_name' : 'libgcrypt for libaacs' },
-},
+}
