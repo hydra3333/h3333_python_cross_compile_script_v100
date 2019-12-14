@@ -3,6 +3,7 @@
 
 # ####################################################
 # Copyright (C) 2018-2019 Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
+# with addition by Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
