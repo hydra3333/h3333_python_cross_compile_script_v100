@@ -1,4 +1,4 @@
-{
+{ # 2019.12.13 I could not get mkvtoolnix to build in the old scheme, let's see how deadsix27 goes now
 	'repo_type' : 'git',
 	'recursive_git' : True,
 	'build_system' : 'rake',
