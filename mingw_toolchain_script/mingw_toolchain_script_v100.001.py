@@ -35,7 +35,7 @@ import requests  # Please run: pip3 install requests
 _WORKDIR = "toolchain"
 _CPU_COUNT = cpu_count()
 _NO_CONFIG_GUESS = True  # Instead of downloading config.guess we use gcc -dumpmachine, this obviously only works when gcc is installed, but we need it to be installed anyway.
-_DEBUG = False
+_DEBUG = True
 _VERSION = "4.4"
 
 SOURCES = OrderedDict()  # Order matters.
