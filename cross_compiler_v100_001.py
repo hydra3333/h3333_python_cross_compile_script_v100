@@ -825,10 +825,10 @@ class CrossCompileScript:
 			gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
 			workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
 			if len(workingGcc) > 0:
-				self.logger.info("MinGW-w64 install is working! (target {0})".format(self.targetOS))
+				self.logger.info("MinGW-w64 install is working! (target {0})".format(self.targetOSStr))
 				return
 			else:
-				raise Exception("GCC is not working properly, target is not mingw32 (target {0}).".format(self.targetOS)) # 2019.12.13 added self.targetOS 
+				raise Exception("GCC is not working properly, target is not mingw32 (target {0}).".format(self.targetOSStr)) # 2019.12.13 added self.targetOSStr 
 				exit(1)
 
 		elif not os.path.isdir(self.mingwDir):
