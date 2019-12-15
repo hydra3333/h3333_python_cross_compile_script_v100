@@ -42,7 +42,7 @@ SOURCES = OrderedDict()  # Order matters.
 
 SOURCES['mingw-w64'] = {
 	'type': 'git',
-	'git_shallow': False, # 019.12.13 was True
+	#'git_shallow': False, # 019.12.13 was True
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
  	'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None,
 	'run_after_patches': [
