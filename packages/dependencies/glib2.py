@@ -6,7 +6,7 @@
 	],
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-pcre=external --with-threads=posix --disable-fam --enable-gc-friendly --disable-man --disable-gtk-doc --with-libiconv --disable-libmount --disable-selinux', # 2019.12.13
 	#'depends_on' : [ 'libffi','gettext', 'libelf' ],  # 2019.12.13
-    'depends_on' : [ 'iconv', 'gettext', 'pcre', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13
+    'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13 removed 'pcre'
 	'run_post_patch' : [
 		'if [ ! -f "INSTALL" ] ; then touch INSTALL ; fi',
 		'echo \'<<EOF\nEXTRA_DIST =\nCLEANFILES =\nEOF\' > gtk-doc.make',
