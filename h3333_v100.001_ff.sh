@@ -198,7 +198,7 @@ rm -fv ./debug-ff.log
 
 #cd ~/Desktop
 #sudo chmod 777 -R *
-#./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265_multibit
+#./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_min
 #./cross_compiler_v100_001.py --force --debug -p x265_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
@@ -210,7 +210,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
-./cross_compiler_v100_001.py --force --debug -p ffmpeg_static_non_free_opencl 2>&1 | tee -a ./debug-ff.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg_min 2>&1 | tee -a ./debug-ff.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -222,14 +222,14 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
-read -p "done ffmpeg_static_non_free_opencl press any key to continue"
+read -p "done ffmpeg_min press any key to continue"
 
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
-./cross_compiler_v100_001.py --force --debug -p ffmpeg_static_non_free 2>&1 | tee -a ./debug-ff.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg 2>&1 | tee -a ./debug-ff.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -241,7 +241,7 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
-read -p "done ffmpeg_static_non_free press any key to continue"
+read -p "done ffmpeg press any key to continue"
 
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
@@ -250,8 +250,8 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./debug-ff.log
 
 sudo chmod 777 -R *
-#echo 'find . -iname "*.exe" '>>./debug-ff.log
-#find . -iname "*.exe" 2>&1 | tee -a ./debug-ff.log
+echo 'find . -iname "*.exe" '>>./debug-ff.log
+find . -iname "*.exe" 2>&1 | tee -a ./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log

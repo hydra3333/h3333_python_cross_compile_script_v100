@@ -193,8 +193,8 @@ rm -fv ./debug-x265.log
 
 #cd ~/Desktop
 #sudo chmod 777 -R *
-#./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265_multibit
-#./cross_compiler_v100_001.py --force --debug -p x265_multibit
+#./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265
+#./cross_compiler_v100_001.py --force --debug -p x265
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
 ./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug-x265.log
@@ -207,14 +207,15 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./debug-x265.log
 ./cross_compiler_v100_001.py --force --debug -d libx265_multibit_10 2>&1 | tee -a ./debug-x265.log
 ./cross_compiler_v100_001.py --force --debug -d libx265_multibit_12 2>&1 | tee -a ./debug-x265.log
-./cross_compiler_v100_001.py --force --debug -p x265_multibit 2>&1 | tee -a ./debug-x265.log
+./cross_compiler_v100_001.py --force --debug -d libx265_multibit 2>&1 | tee -a ./debug-x265.log
+./cross_compiler_v100_001.py --force --debug -p x265 2>&1 | tee -a ./debug-x265.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
-read -p "After build x265_multibit, press Enter to continue"
+read -p "After build x265, press Enter to continue"
 
 #cd ~/Desktop
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./debug-x265.log
@@ -228,7 +229,7 @@ cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffprobe.ex
 cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffplay.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-x265.log
 cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffmpeg.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./debug-x265.log
 #
-cp -fv ./workdir/x86_64_products/x265_multibit_hg.installed/bin/x265.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-x265.log
+cp -fv ./workdir/x86_64_products/x265_hg.installed/bin/x265.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-x265.log
 cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-x265.log
 cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/x264-mp4.exe 2>&1 | tee -a ./debug-x265.log
 cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxenc.exe ./exe_x64_py/ 2>&1 | tee -a ./debug-x265.log
