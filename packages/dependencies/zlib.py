@@ -3,6 +3,7 @@
 	'url' : 'https://github.com/madler/zlib.git',
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
+	'custom_cflag' : '{original_cflags}',
 	'env_exports' : { # 2019.12.13
 		'AR' : '{cross_prefix_bare}ar',
 		'CC' : '{cross_prefix_bare}gcc',

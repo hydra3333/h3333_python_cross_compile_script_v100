@@ -6,8 +6,12 @@
 	],
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-    'env_exports' : { # 2019.12.13
-		'CPPFLAGS' : '-DXML_LARGE_SIZE', # 2019.12.13
+	'custom_cflag' : '{original_cflags} -DXML_LARGE_SIZE',
+	'env_exports' : {
+		'CFLAGS'   : '{original_cflags} -DXML_LARGE_SIZE', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+		'CXXFLAGS' : '{original_cflags} -DXML_LARGE_SIZE', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+		'CPPFLAGS' : '{original_cflags} -DXML_LARGE_SIZE', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+		'LDFLAGS'  : '{original_cflags} -DXML_LARGE_SIZE', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
 	},
 	'run_post_patch': ( # 2019.12.13
 		'sed -i.bak "s/SUBDIRS += xmlwf doc/SUBDIRS += xmlwf/" ."./Makefile.am"',
