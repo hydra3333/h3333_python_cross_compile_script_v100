@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/xz-mirror/xz.git',
 	#'url' : 'http://git.tukaani.org/xz.git',
-	#'custom_cflag' : '{original_cflags}',
+	'custom_cflag' : '', # 2019.12.13 it fails to build with anythinf other than '', eg it crashes with '{original_cflags}'
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc', # 2019.12.13 --disable-shared --enable-static
 	'_info' : { 'version' : None, 'fancy_name' : 'xz' },
 }
