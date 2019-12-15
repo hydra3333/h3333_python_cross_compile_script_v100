@@ -605,10 +605,10 @@ class MinGW64ToolChainBuilder:
 			self.cchdir("..")
 		else:
 			self.log(F"{'C' if not shallow else 'Shallow-c'}loning Git repository '{packageName}' from '{url}'")
-			self.log('git clone{0}{1} --progress "{2}" "{3}"'.format(" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp"))
+			self.log('git clone{0}{1} --progress "{2}" "{3}"'.format(
 				" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp")
 			)
-			self.run_process('git clone{0}{1} --progress "{2}" "{3}"'.format(" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp"))
+			self.run_process('git clone{0}{1} --progress "{2}" "{3}"'.format(
 				" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp")
 			)
 			if desiredBranch != None:
