@@ -556,11 +556,15 @@ class MinGW64ToolChainBuilder:
 		properBranchString = "master"
 		if desiredBranch != None:
 			properBranchString = desiredBranch
+		self.log('branchString={0}'.format(branchString))
+		self.log('properBranchString={0}'.format(properBranchString))
+		
 
 		if os.path.isdir(realFolderName):
 			self.log("Git repo '%s' already cloned, updating.." % (packageName, url))
+			self.log('cd {0}'.format(realFolderName))
 			self.cchdir(realFolderName)
-
+			self.log('git remote update')
 			self.run_process('git remote update')
 
 			UPSTREAM = '@{u}'  # or branchName i guess
@@ -572,7 +576,9 @@ class MinGW64ToolChainBuilder:
 			REMOTE = subprocess.check_output('git rev-parse "{0}"'.format(UPSTREAM), shell=True).decode("utf-8")
 			BASE = subprocess.check_output('git merge-base @ "{0}"'.format(UPSTREAM), shell=True).decode("utf-8")
 
+			self.log('git checkout -f')
 			self.run_process('git checkout -f')
+			self.log('git checkout {0}'.format(properBranchString))
 			self.run_process('git checkout {0}'.format(properBranchString))
 
 			if LOCAL == BASE:
@@ -581,24 +587,34 @@ class MinGW64ToolChainBuilder:
 					# if len(bsSplit) == 2:
 					#	self.run_process('git pull origin {1}'.format(bsSplit[0],bsSplit[1]))
 					# else:
+					self.log('git pull origin {0}'.format(properBranchString))
 					self.run_process('git pull origin {0}'.format(properBranchString))
 				else:
+					self.log('git pull'.format(properBranchString))
 					self.run_process('git pull'.format(properBranchString))
+				self.log('git clean -xfdf')
 				self.run_process('git clean -xfdf')  # https://gist.github.com/nicktoumpelis/11214362
+				self.log('git submodule foreach --recursive git clean -xfdf')
 				self.run_process('git submodule foreach --recursive git clean -xfdf')
+				self.log('git reset --hard')
 				self.run_process('git reset --hard')
+				self.log('git submodule foreach --recursive git reset --hard')
 				self.run_process('git submodule foreach --recursive git reset --hard')
+				self.log('git submodule update --init --recursive')
 				self.run_process('git submodule update --init --recursive')
 			self.cchdir("..")
 		else:
 			self.log(F"{'C' if not shallow else 'Shallow-c'}loning Git repository '{packageName}' from '{url}'")
-			self.run_process('git clone{0}{1} --progress "{2}" "{3}"'.format(
+			self.log('git clone{0}{1} --progress "{2}" "{3}"'.format(
+			self.run_process('git clone{0}{1} --progress "{2}" "{3}"'.format(" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp"))
 				" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp")
 			)
 			if desiredBranch != None:
 				self.cchdir(realFolderName + ".tmp")
+				self.log('git checkout{0}'.format(" master" if desiredBranch == None else branchString))
 				self.run_process('git checkout{0}'.format(" master" if desiredBranch == None else branchString))
 				self.cchdir("..")
+			self.log('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 			self.run_process('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 
 		return realFolderName
@@ -918,9 +934,9 @@ class MinGW64ToolChainBuilder:
 		self.downloadSources()
 		self.buildSources()
 
-		self.log("Deleting {}/{}".format(os.getcwd(), self.sourceDir))
+		self.log("Deleting {0}/{1}".format(os.getcwd(), self.sourceDir))
 		shutil.rmtree(self.sourceDir)
-		self.log("Deleting {}/{}".format(os.getcwd(), self.buildDir))
+		self.log("Deleting {0}/{1}".format(os.getcwd(), self.buildDir))
 		shutil.rmtree(self.buildDir)
 
 		self.logFile.close()
