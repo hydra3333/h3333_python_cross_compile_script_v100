@@ -4,7 +4,6 @@
 		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8' }, ], },
 	],
-	#'depth' : 9999, #2019.12.13 otherwise it does a "shallow" clone
     'env_exports' : {
 		'CFLAGS'   : ' -D_POSIX_C_SOURCE {original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
 		'CXXFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
@@ -30,7 +29,7 @@
 		'--with-default-trust-store-file '
 		'--with-default-blacklist-file '
 		'--without-tpm '
-		'--without-p11-kit'
+		'--without-p11-kit '
         '--with-libiconv-prefix={target_prefix} ' # 2019.12.13 added this
 	,
 	'regex_replace': {
