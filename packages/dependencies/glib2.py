@@ -18,11 +18,11 @@
 		#'autoreconf -fiv', # 2019.12.13
 	],
 	'patches' : [
-		( 'glib2/0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch', '-p1' ),
-		( 'glib2/0001-win32-Make-the-static-build-work-with-MinGW-when-pos.patch', '-p1' ),
-        ( 'glib2/disable_libmount-make-UTF-yes.patch', '-p1' ),  # 2019.12.13
-		( 'glib2/0001-disable-some-tests-when-static.patch', '-p1' ),
-		( 'glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-p1' ),
+		('glib2/0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch', '-Np1'), 
+		('glib2/0001-win32-Make-the-static-build-work-with-MinGW-when-pos.patch', '-Np1'), 
+		('glib2/disable_libmount-make-UTF-yes.patch', '-Np0' ), # 2019.12.13 also note Np0
+		('glib2/0001-disable-some-tests-when-static.patch', '-Np1' ),              # 2019.12.13
+		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
 	],
     'run_post_install' : [ # 2019.12.13 addded all of run_post_install
 		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "glib-2.0.pc"', # 2019.12.13
