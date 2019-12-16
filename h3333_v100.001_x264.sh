@@ -5,8 +5,8 @@
 set -x
 sudo apt-get remove -y python python-pip cython
 sudo apt autoremove -y
-sudo apt-get install -y python3 python3-pip python3-distutils python3-dev python3-numpy
-sudo apt-get install -y cython3
+sudo apt install -y python3 python3-pip python3-distutils python3-dev python3-numpy
+sudo apt install -y cython3
 
 sudo pip  install progressbar2
 sudo pip3 install progressbar2
@@ -16,7 +16,8 @@ pip  install progressbar2
 pip3 install progressbar2
 pip3 install py2exe
 
-sudo apt-get install -y git git-email
+sudo apt install -y hashalot
+sudo apt install -y git git-email
 git config --global user.name "hydra3333"
 git config --global user.email "hydra3333@gmail.com"
 git config --global sendemail.smtpencryption tls
@@ -41,27 +42,27 @@ git config --global credential.helper store
 #git commit --message="Slightly update nvenc error messages and warnings"
 #git send-email -1 --cover-letter --annotate --smtp-debug=1 --to=ffmpeg-devel@ffmpeg.org --subject="Slightly update nvenc error messages and warnings"
 
-sudo apt-get install -y texinfo yasm make automake gcc gcc-c++ pax cvs svn flex bison patch libtoolize hg cmake gettext-autopoint
-sudo apt-get install -y libxslt rake
-sudo apt-get install -y gperf gyp p7zip docbook-to-man docbook2x pando p7zip
+sudo apt install -y texinfo yasm make automake gcc gcc-c++ pax cvs svn flex bison patch libtoolize hg cmake gettext-autopoint
+sudo apt install -y libxslt rake
+sudo apt install -y gperf gyp p7zip docbook-to-man docbook2x pando p7zip
 
-sudo apt-get install -y build-essential autoconf libtool-bin libtool gettext autopoint gyp gperf autogen bzip2 pandoc 
-sudo apt-get install -y subversion curl texinfo g++ bison flex cvs yasm automake ed gcc cmake git make pkg-config mercurial unzip pax wget ant
-sudo apt-get install -y git-remote-hg libxslt1.1 libxml2 rake docbook-utils docbook-style-xsl docbook-xsl docbook-to-man docbook2x p7zip p7zip-full
-sudo apt-get install -y xsltproc itstool autoconf-archive
+sudo apt install -y build-essential autoconf libtool-bin libtool gettext autopoint gyp gperf autogen bzip2 pandoc 
+sudo apt install -y subversion curl texinfo g++ bison flex cvs yasm automake ed gcc cmake git make pkg-config mercurial unzip pax wget ant
+sudo apt install -y git-remote-hg libxslt1.1 libxml2 rake docbook-utils docbook-style-xsl docbook-xsl docbook-to-man docbook2x p7zip p7zip-full
+sudo apt install -y xsltproc itstool autoconf-archive
 #sudo apt-get remove -y nasm
 sudo apt-get remove -y doxygen
 # gendef is installed with mingw
-sudo apt-get install -y libmozjs-dev libxmu-dev libgconf2-dev libdbus-1-dev network-manager-dev xserver-xorg-dev # for libproxy
-sudo apt-get install -y zlib1g-dev #warning: you may need to install zlib development headers first if you want to build mp4-box on ubuntu
-sudo apt-get install -y p7zip-full
-sudo apt-get install -y autoconf-archive
-sudo apt-get install -y docbook2x docbook-xsl
-sudo apt-get install -y dbtoepub docbook-xsl-doc-html docbook-xsl-doc-pdf docbook-xsl-doc-text docbook-xsl-saxon fop libsaxon-java libxalan2-java libxslthl-java xalan
+sudo apt install -y libmozjs-dev libxmu-dev libgconf2-dev libdbus-1-dev network-manager-dev xserver-xorg-dev # for libproxy
+sudo apt install -y zlib1g-dev #warning: you may need to install zlib development headers first if you want to build mp4-box on ubuntu
+sudo apt install -y p7zip-full
+sudo apt install -y autoconf-archive
+sudo apt install -y docbook2x docbook-xsl
+sudo apt install -y dbtoepub docbook-xsl-doc-html docbook-xsl-doc-pdf docbook-xsl-doc-text docbook-xsl-saxon fop libsaxon-java libxalan2-java libxslthl-java xalan
 
-sudo apt-get install -y python3 python3-pip
-sudo apt-get install -y ninja-build
-#sudo apt-get install -y meson
+sudo apt install -y python3 python3-pip
+sudo apt install -y ninja-build
+#sudo apt install -y meson
 #pip3 install -y --user meson
 
 cd ~/Desktop
