@@ -3,7 +3,7 @@
 	#'url' : 'https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.8.3.tar.bz2',
 	'repo_type' : 'git',
 	'recursive_git' : True,
-	'depth' : 9999, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
+	'depth_git' : 9999, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
 	'branch' : '7c2943309d14407b51c8166c4dcecb56a3628567', # 2019.08.21 see if 900647d96cb7806cd9b2de343e4a4bd66c073fba reverts a build error
 	'configure_options': '--host={target_host} --prefix={target_prefix} --with-gpg-error-prefix={target_prefix} --disable-shared --enable-static --disable-doc ',
