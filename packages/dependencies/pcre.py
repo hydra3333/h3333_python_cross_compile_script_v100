@@ -1,4 +1,4 @@
-{ # pcre added 2019.12.13  ... superseded by pcre2 ?
+{ # pcre added 2019.12.13  ... superseded by pcre2 ? Nope, not for glib2
 	'repo_type' : 'archive',
 	'download_locations' : [
 		#{ "url" : "https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "91e762520003013834ac1adb4a938d53b22a216341c061b0cf05603b290faf6b" }, ], },
@@ -8,7 +8,7 @@
 	'depends_on' : [
 		'bzip2', 'zlib',
 	],
-	'_info' : { 'version' : '8.43', 'fancy_name' : 'pcre' },
+	'_info' : { 'version' : '8.42', 'fancy_name' : 'pcre' },
 }
 # 2019.12.13 old:
 #	'pcre' : { # Alexpux

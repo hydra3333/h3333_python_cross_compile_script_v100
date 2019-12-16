@@ -6,7 +6,8 @@
 	],
 	# 2019.12.13 changed to use my configure which worked.
 	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --disable-fam --enable-gc-friendly --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux', # 2019.12.13
-	 'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=system   --with-libiconv --disable-libmount --disable-selinux ', # ??? --with-pcre=internal # 2019.04.13 --disable-libelf 
+	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=system   --with-libiconv --disable-libmount --disable-selinux ', # ??? --with-pcre=internal # 2019.04.13 --disable-libelf 
+	 'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux ', # ??? --with-pcre=internal # 2019.04.13 --disable-libelf 
 
 	'run_post_patch' : [
 		'if [ ! -f "INSTALL" ] ; then touch INSTALL ; fi',
@@ -36,7 +37,7 @@
 		'sed -s -i.bak4 \'s/ -lcharset//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	],
 	#'depends_on' : [ 'libffi','gettext', 'libelf' ],  # 2019.12.13
-    'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
+    'depends_on' : [ 'iconv', 'gettext', 'pcre', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
 	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
 	'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 lib' },
 }
