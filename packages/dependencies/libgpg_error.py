@@ -13,6 +13,7 @@
 			'iconv', 
 		),
 		'_info' : { 'version' : 'git master', 'fancy_name' : 'libgpg-error for libaacs' },
+}
 # 2019.12.13 old:
 #	'libgpg_error' : { # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=summary
 #		'repo_type' : 'git',
