@@ -1864,7 +1864,7 @@ class CrossCompileScript:
 
 		if 'cflag_addition' in packageData:
 			if packageData['cflag_addition'] is not None:
-				self.logger.debug("Adding '{0}' to CFLAGS".format( data['cflag_addition'] ))
+				self.logger.debug("Adding '{0}' to CFLAGS".format( packageData['cflag_addition'] )) # 2019.12.13
 				os.environ["CFLAGS"] = os.environ["CFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CPPFLAGS"] = os.environ["CPPFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
