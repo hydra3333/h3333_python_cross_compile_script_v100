@@ -1833,10 +1833,10 @@ class CrossCompileScript:
 			if 'run_pre_patch' in packageData:
 				if packageData['run_pre_patch'] is not None:
 					for cmd in packageData['run_pre_patch']:
-					    self.logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
-					    cmd = self.replaceVariables(cmd)
-					    self.logger.debug("Running pre-patch-command: '{0}'".format(cmd))
-					    self.runProcess(cmd)
+						self.logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
+						cmd = self.replaceVariables(cmd)
+						self.logger.debug("Running pre-patch-command: '{0}'".format(cmd))
+						self.runProcess(cmd)
 
 		if forceRebuild:
 			if os.path.isdir(".git"):
