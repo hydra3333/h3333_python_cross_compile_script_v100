@@ -17,7 +17,7 @@
 		'CROSS' : '{cross_prefix_bare}',
 	},
     'custom_cflag' : '{original_cflags}', # 2019.12.13
-	'cflag_addition' : '-fno-asynchronous-unwind-tables',
+	#'cflag_addition' : '-fno-asynchronous-unwind-tables', # 2019.12.13 cflag_addition seems broken anyway, python trace when used
 	'patches' : [
 		( 'vpx/vpx_160_semaphore.patch', '-p1' ),
 	],
