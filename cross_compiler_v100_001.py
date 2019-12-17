@@ -1864,28 +1864,20 @@ class CrossCompileScript:
 
 		if 'cflag_addition' in packageData:
 			if packageData['cflag_addition'] is not None:
+				#---
 				self.logger.debug("### Environment variables:  ###")
 				for val in os.environ:
 					self.logger.debug("\t" + val + " : " + os.environ[val])
 				self.logger.debug("###############################")
 				self.logger.debug("Adding '{0}' to CFLAGS".format( packageData['cflag_addition'] )) # 2019.12.13
-				self.logger.debug('os.environ CFLAGS before cflag_addition = "{0}'.format(os.environ["CFLAGS"])) # 2019.12.13
-				self.logger.debug('os.environ CXXFLAGS before cflag_addition = "{os.environ["CXXFLAGS"]}') # 2019.12.13
-				val = ''
-				if "CPPFLAGS" not in os.environ:
-					val = os.environ["CPPFLAGS"]
-				else:
-					val = ''
-				self.logger.debug('os.environ CPPFLAGS before cflag_addition = "{0}'.format(val)) # 2019.12.13
-				if "LDFLAGS" not in os.environ:
-					val = os.environ["LDFLAGS"]
-				else:
-					val = ''
-				self.logger.debug('os.environ LDFLAGS before cflag_addition = "{0}'.format(val)) # 2019.12.13
+				self.logger.debug(F'os.environ CFLAGS   before cflag_addition = "{os.environ["CXXFLAGS"]}') # 2019.12.13
+				self.logger.debug(F'os.environ CXXFLAGS before cflag_addition = "{os.environ["CXXFLAGS"]}') # 2019.12.13
+				self.logger.debug(F'os.environ CPPFLAGS before cflag_addition = "{os.environ["CPPFLAGS"]}') # 2019.12.13
+				self.logger.debug(F'os.environ LDFLAGS  before cflag_addition = "{os.environ["LDFLAGS"]}') # 2019.12.13
 				os.environ["CFLAGS"] = os.environ["CFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
-				os.environ["CPPFLAGS"] = val + " " + packageData['cflag_addition'] # 2019.12.13 # os.environ["CPPFLAGS"] + " " + packageData['cflag_addition']
-				os.environ["LDFLAGS"] = val + " " + packageData['cflag_addition'] # 2019.12.13 os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] 
+				os.environ["CPPFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
+				os.environ["LDFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
 				self.logger.info(F'Added to CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 				self.logger.info(F'Added to CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 				self.logger.info(F'Added to CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
@@ -2464,9 +2456,11 @@ class CrossCompileScript:
 	#:
 
 	def defaultCFLAGS(self):
-		self.logger.debug("Reset CFLAGS/CXXFLAGS to: {0}".format(self.originalCflags))
+		self.logger.debug("Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS to: {0}".format(self.originalCflags))
 		os.environ["CFLAGS"] = self.originalCflags
 		os.environ["CXXFLAGS"] = self.originalCflags
+		os.environ["CPPFLAGS"] = self.originalCflags
+		os.environ["LDFLAGS"] = self.originalCflags
 		os.environ["PKG_CONFIG_LIBDIR"] = ""
 	#:
 
