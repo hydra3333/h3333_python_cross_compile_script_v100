@@ -6,10 +6,6 @@
    	'custom_cflag' : '{original_cflags}', # 2019.12.13
 	'env_exports' : {# 2019.12.13
 		'PKGCONFIG' : 'pkg-config',# 2019.12.13
-		'CFLAGS'   : '{original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-		'CXXFLAGS' : '{original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-		'CPPFLAGS' : '{original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-		'LDFLAGS'  : '{original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
 	}, # 2019.12.13
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DENABLE_64_BIT_WORDS=ON -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.3 -DCMAKE_BUILD_TYPE=Release', # 2019.12.13 try to add -DENABLE_64_BIT_WORDS=ON (default was OFF)
 	'patches': [
@@ -28,3 +24,28 @@
 	],
 	'_info' : { 'version' : None, 'fancy_name' : 'flac (library)' },
 }
+# 2019.12.13 old:
+#	'libflac' : { # https://git.xiph.org/?p=flac.git;a%3Dsummary # https://bitbucket.org/mpyne/game-music-emu/issues/36/commit
+#		'repo_type' : 'git',
+#		#'url' : 'https://git.xiph.org/flac.git',
+#		'url' : 'https://github.com/xiph/flac',
+#		#'branch' : 'tags/1.3.3',
+#		#'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static',
+#		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-64-bit-words --disable-oggtest --disable-examples --disable-rpath --disable-xmms-plugin --with-pic ', # 2018.11.23 ensure 64bit
+#		'custom_cflag' : '{original_cflags}', #-DFLAC__USE_VISIBILITY_ATTR=OFF ', # 2019.10.19 D_FORTIFY_SOURCE=0' # 2019.11.02 added -DFLAC__USE_VISIBILITY_ATTR=FFF and yet to try ON as well # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+#		'env_exports' : {
+#			'PKGCONFIG' : 'pkg-config',
+#			'CFLAGS'   : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+#			'CXXFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+#			'CPPFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+#			'LDFLAGS'  : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+#		},
+#		'patches': [
+#			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/flac/0001-mingw-fix.patch', '-p1'), # , '..'),
+#			#('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/flac/0002-cmakelists-libs.patch', '-p1'), # , '..'),
+#		],
+#		'depends_on': [
+#			'libogg',
+#		],
+#		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'flac (library)' },
+#	},
