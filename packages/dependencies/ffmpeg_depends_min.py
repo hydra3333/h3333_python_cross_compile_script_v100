@@ -38,5 +38,6 @@
 		'intel_quicksync_mfx',
 		'amf_headers',
         'opencl_icd',  # 2019.12.13 added this to the minimum configuration, I depend on openCL
+		'vulkan_loader',
 	],
 }
