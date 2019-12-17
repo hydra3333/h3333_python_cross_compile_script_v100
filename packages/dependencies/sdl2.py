@@ -24,7 +24,7 @@
 		'sed -i.bak "s/  -lmingw32 -lSDL2main -lSDL2 /  -lmingw32 -lSDL2main -lSDL2  -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid/" "{pkg_config_path}/sdl2.pc"', # allow ffmpeg to output anything to console :|
 		'cp -fv "{target_prefix}/bin/sdl2-config" "{cross_prefix_full}sdl2-config"', # this is the only mingw dir in the PATH so use it for now [though FFmpeg doesn't use it?]
 	),
-	'_info' : { 'version' : 'hg (master)', 'fancy_name' : 'SDL2' },
+	'_info' : { 'version' : 'mercurial (default)', 'fancy_name' : 'SDL2' },
 }
 # 2019.12.13 old:
 #	'sdl2' : {
