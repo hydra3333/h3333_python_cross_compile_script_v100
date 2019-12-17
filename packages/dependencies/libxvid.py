@@ -5,7 +5,7 @@
 		#{ 'url' : 'https://fossies.org/linux/misc/xvidcore-1.3.6.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '89315b536935b8fd66b702afe47361562a86ff49b77da51b0aff4c4642d4f8f3' }, ], },
 	],
 	'folder_name' : 'xvidcore',
-	'rename_folder' : 'xvidcore-1.3.5',
+	'rename_folder' : 'xvidcore',
 	'source_subfolder' : 'build/generic',
 	'configure_options' : '{autoconf_prefix_options}',
 	# 'cpu_count' : '1',
