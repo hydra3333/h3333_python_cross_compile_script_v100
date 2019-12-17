@@ -7,7 +7,7 @@
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
 	'branch' : '7c2943309d14407b51c8166c4dcecb56a3628567', # 2019.08.21 see if 900647d96cb7806cd9b2de343e4a4bd66c073fba reverts a build error
 	'configure_options': '--host={target_host} --prefix={target_prefix} --with-gpg-error-prefix={target_prefix} --disable-shared --enable-static --disable-doc ',
-	'custom_cflag' : '', # 2019.12.13 -windres does not like -O3 -fstack-protector-all -D_FORTIFY_SOURCE=2 
+	'custom_cflag' : ' -D_FORTIFY_SOURCE=2 ', # 2019.12.13 this does not like -O3 -fstack-protector-all
 	'run_post_patch' : (
 		#'./autogen.sh --find-version',
 		'autoreconf -fiv',
