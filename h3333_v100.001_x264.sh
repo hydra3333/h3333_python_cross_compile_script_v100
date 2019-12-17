@@ -11,10 +11,12 @@ sudo apt install -y cython3
 sudo pip  install progressbar2
 sudo pip3 install progressbar2
 sudo pip3 install py2exe
+sudo pip3 install certifi # install latest certificatess for python requests.get
 
 pip  install progressbar2
 pip3 install progressbar2
 pip3 install py2exe
+pip3 install certifi # install latest certificatess for python requests.get
 
 sudo apt install -y hashalot
 sudo apt install -y git git-email
