@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
+	'depth' : 9999,
 	'branch' : 'tags/v1.1.127',
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
