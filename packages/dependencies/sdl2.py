@@ -49,4 +49,3 @@
 #		'configure_options': '--prefix={target_prefix} --host={target_host} --disable-shared --enable-static',
 #		'_info' : { 'version' : 'mercurial (default)', 'fancy_name' : 'SDL2' },
 #	},
-	
