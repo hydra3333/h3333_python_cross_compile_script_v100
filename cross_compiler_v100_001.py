@@ -1864,7 +1864,6 @@ class CrossCompileScript:
 
 		if 'cflag_addition' in packageData:
 			if packageData['cflag_addition'] is not None:
-				if self.debugMode:
 				self.logger.debug("### Environment variables:  ###")
 				for val in os.environ:
 					self.logger.debug("\t" + val + " : " + os.environ[val])
