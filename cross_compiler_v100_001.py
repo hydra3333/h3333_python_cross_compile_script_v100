@@ -1896,6 +1896,14 @@ class CrossCompileScript:
 				self.logger.info(F'Set CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 
+		# 2019.12.13 ADDED THIS CODE for custom_ldflag (and hope it ALWAYS gets executed AFTER custom_cflag etc
+		if 'custom_ldflag' in packageData:
+			if packageData['custom_ldflag'] is not None:
+				val = self.replaceVariables(packageData['custom_ldflag'])    # 2019.12.13
+				self.logger.debug("Setting LDFLAGS to '{0}'".format( val ))  # 2019.12.13
+				os.environ["LDFLAGS"] = val  # 2019.12.13
+				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+
 		if 'strip_cflags' in packageData:
 			if isinstance(packageData["strip_cflags"], (list, tuple)) and len(packageData["strip_cflags"]):
 				for _pattern in packageData["strip_cflags"]:
