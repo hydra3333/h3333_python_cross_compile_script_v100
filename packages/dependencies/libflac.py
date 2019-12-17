@@ -48,7 +48,7 @@
 		'post_patch': [
 			{
 				0: r'add_subdirectory\("microbench"\)',
-				'in_file': '../CMakeLists.txt'
+				'in_file': './CMakeLists.txt' # 2019.13.13 not cmalke, so is in current folder not '../CMakeLists.txt'
 			},
 		],
 	},
