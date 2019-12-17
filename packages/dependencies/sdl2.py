@@ -1,10 +1,10 @@
-{
+{ # cmake doesn;t work, throws an issue with custom_cflags
 	'repo_type' : 'mercurial',
 	'url' : 'https://hg.libsdl.org/SDL',
 	'folder_name' : 'sdl2_hg',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
-	'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
+	'custom_cflag' : '{original_cflags} ', # -DDECLSPEC=', # 2019.12.13
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DSDL_SHARED=OFF',
 	'regex_replace': {
 		'post_patch': [
