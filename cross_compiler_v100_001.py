@@ -262,9 +262,9 @@ class CrossCompileScript:
 				'mingw_custom_cflags': None,
   				'output_path': '_output',
 				'work_dir': 'workdir',
-				'original_cflags': ' -O3 ',
-				'original_stack_protector' : ' -fstack-protector-all ',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
-				'original_fortify_source'  : ' -D_FORTIFY_SOURCE=2 ',    # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
+				'original_cflags': '-O3',
+				'original_stack_protector' : '-fstack-protector-all',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
+				'original_fortify_source'  : '-D_FORTIFY_SOURCE=2',    # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
 			}
 		}
 
@@ -924,7 +924,7 @@ class CrossCompileScript:
 				exit(1)
 			return fullOutputPath
 
-		req = requests.get(url, stream=True, headers={"User-Agent": userAgent})
+		req = requests.get(url, stream=True, headers={"User-Agent": userAgent}) # , verify=False to turn off certificate validation
 
 		if req.status_code != 200:
 			req.raise_for_status()
