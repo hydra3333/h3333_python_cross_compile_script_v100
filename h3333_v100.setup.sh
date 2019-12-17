@@ -152,25 +152,25 @@ set -x
 #
 #sudo /usr/local/cuda-10.2/bin/cuda-uninstaller
 #
-#set -x
-#cd ~/Desktop
+set -x
+cd ~/Desktop
 # https://developer.nvidia.com/cuda-downloads
 # 64bit ubuntu local runfile
 ##cuda_install_file=cuda_10.1.105_418.39_linux.run
 ##cuda_install_file=cuda_10.1.168_418.67_linux.run
 ##cuda_install_file=cuda_10.1.243_418.87.00_linux.run
-#cuda_install_file=cuda_10.2.89_440.33.01_linux.run
-#if [[ ! -f "$cuda_install_file" ]]; then
-#   echo "Downloading $cuda_install_file"
-#   url="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/$cuda_install_file"
-#   rm -f "$cuda_install_file"
-#   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "$cuda_install_file" --fail # -L means "allow redirection" or some odd :|
-#      echo "Installing $cuda_install_file"
-#      sudo sh ./$cuda_install_file --silent --toolkit --samples
-#   cd ..
-#   echo "Done Building and Installing $cuda_install_file"
-#fi
-#set +x
+cuda_install_file=cuda_10.2.89_440.33.01_linux.run
+if [[ ! -f "$cuda_install_file" ]]; then
+   echo "Downloading $cuda_install_file"
+   url="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/$cuda_install_file"
+   rm -f "$cuda_install_file"
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "$cuda_install_file" --fail # -L means "allow redirection" or some odd :|
+      echo "Installing $cuda_install_file"
+      sudo sh ./$cuda_install_file --silent --toolkit --samples
+   cd ..
+   echo "Done Building and Installing $cuda_install_file"
+fi
+set +x
 #read -p "After installing $cuda_install_file, press Enter to continue"
 #------------------------------------------------------------------------------------------------
 set -x
