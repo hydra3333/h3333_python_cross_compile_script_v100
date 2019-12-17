@@ -68,7 +68,7 @@ echo "# `date`" >>./debug.log
 #./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug.log
 #./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./debug.log
 
-./cross_compiler_v100_001.py --force --debug -p ffmpeg_min 2>&1 | tee -a ./debug.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg 2>&1 | tee -a ./debug.log
 
 
 
