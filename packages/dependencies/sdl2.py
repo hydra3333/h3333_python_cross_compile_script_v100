@@ -4,7 +4,7 @@
 	'folder_name' : 'sdl2_hg',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
-    'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
+	#'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DSDL_SHARED=OFF',
 	'regex_replace': {
 		'post_patch': [
@@ -23,8 +23,8 @@
     'run_post_install': ( # 2019.12.13 added these 2 sed lines
 		'sed -i.bak "s/  -lmingw32 -lSDL2main -lSDL2 /  -lmingw32 -lSDL2main -lSDL2  -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid/" "{pkg_config_path}/sdl2.pc"', # allow ffmpeg to output anything to console :|
 		'cp -fv "{target_prefix}/bin/sdl2-config" "{cross_prefix_full}sdl2-config"', # this is the only mingw dir in the PATH so use it for now [though FFmpeg doesn't use it?]
-		),
-	'_info' : { 'version' : None, 'fancy_name' : 'SDL2' },
+	),
+	'_info' : { 'version' : 'hg (master)', 'fancy_name' : 'SDL2' },
 }
 # 2019.12.13 old:
 #	'sdl2' : {
