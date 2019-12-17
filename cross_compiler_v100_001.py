@@ -1865,18 +1865,26 @@ class CrossCompileScript:
 		if 'cflag_addition' in packageData:
 			if packageData['cflag_addition'] is not None:
 				self.logger.debug("Adding '{0}' to CFLAGS".format( packageData['cflag_addition'] )) # 2019.12.13
-				self.logger.debug('os.environ CFLAGS before cflag_addition = "{os.environ["CFLAGS"]}') # 2019.12.13
+				self.logger.debug('os.environ CFLAGS before cflag_addition = "{0}'.format(os.environ["CFLAGS"])) # 2019.12.13
 				self.logger.debug('os.environ CXXFLAGS before cflag_addition = "{os.environ["CXXFLAGS"]}') # 2019.12.13
-				self.logger.debug('os.environ CPPFLAGS before cflag_addition = "{os.environ["CPPFLAGS"]}') # 2019.12.13
-				self.logger.debug('os.environ LDFLAGS before cflag_addition = "{os.environ["LDFLAGS"]}') # 2019.12.13
+				if "CPPFLAGS" in os.environ:
+					val = os.environ["CPPFLAGS"]
+				else:
+					val = ''
+				self.logger.debug('os.environ CPPFLAGS before cflag_addition = "{0}'.format(val) # 2019.12.13
+				if "CPPFLAGS" in os.environ:
+					val = os.environ["LDFLAGS"]
+				else:
+					val = ''
+				self.logger.debug('os.environ LDFLAGS before cflag_addition = "{0}'.format(val) # 2019.12.13
 				os.environ["CFLAGS"] = os.environ["CFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
-				os.environ["CPPFLAGS"] = os.environ["CPPFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
-				os.environ["LDFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
-				self.logger.info(F'Added to CFLAGS, they\'re are now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Added to CXXFLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Added to CPPFLAGS, they\'re are now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Added to LDFLAGS, they\'re are now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				os.environ["CPPFLAGS"] = val + " " + packageData['cflag_addition'] # 2019.12.13 # os.environ["CPPFLAGS"] + " " + packageData['cflag_addition']
+				os.environ["LDFLAGS"] = val + " " + packageData['cflag_addition'] # 2019.12.13 os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] 
+				self.logger.info(F'Added to CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Added to CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Added to CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Added to LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 
 		if 'custom_cflag' in packageData:
 			if packageData['custom_cflag'] is not None:
@@ -1886,7 +1894,10 @@ class CrossCompileScript:
 				os.environ["CXXFLAGS"] = val # 2019.12.13
 				os.environ["CPPFLAGS"] = val # 2019.12.13
 				os.environ["LDFLAGS"] = val  # 2019.12.13
-				self.logger.info(F'Set custom C(XX)FLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}", "{os.environ["CFLAGS"]}"')
+				self.logger.info(F'Set CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Set CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Set CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 
 		if 'strip_cflags' in packageData:
 			if isinstance(packageData["strip_cflags"], (list, tuple)) and len(packageData["strip_cflags"]):
@@ -1895,7 +1906,10 @@ class CrossCompileScript:
 					os.environ["CXXFLAGS"] = self.reStrip(_pattern, os.environ["CXXFLAGS"])
 					os.environ["CPPFLAGS"] = self.reStrip(_pattern, os.environ["CPPFLAGS"]) # 2019.12.13
 					os.environ["LDFLAGS"] = self.reStrip(_pattern, os.environ["LDFLAGS"])   # 2019.12.13
-					self.logger.info(F'Stripped C(XX)FLAGS, they\'re are now: "{os.environ["CXXFLAGS"]}", "{os.environ["CFLAGS"]}", "{os.environ["CPPFLAGS"]}", "{os.environ["LDFLAGS"]}"') # 2019.12.13
+					self.logger.info(F'Stripped CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+					self.logger.info(F'Stripped CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+					self.logger.info(F'Stripped CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+					self.logger.info(F'Stripped LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 
 		if 'custom_path' in packageData:
 			if packageData['custom_path'] is not None:
