@@ -10,11 +10,11 @@
 		'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',
 	],
 	'patches' : [
-		('opencl/0001-OpenCL-git-prefix.patch', '-p1'), #, '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
-		('opencl/0002-OpenCL-git-header.patch', '-p1'), #, '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
+		('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
+		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 	],
 	'run_post_patch' : [ # 2019.12.13
-		'sed -i.bak \'s/Windows.h/windows.h/\' ../loader/windows/icd_windows_envvars.c', # 2019.12.13 attempt to look one folder level up if working in a _build subfolder !!!
+		'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 	],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL-ICD-Loader' }, # 2019.12.13 clarity with the fancy name
 }
