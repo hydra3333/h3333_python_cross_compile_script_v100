@@ -3,6 +3,9 @@
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 
 set -x
+sudo apt update -y
+sudo apt upgrade -y
+
 sudo apt-get remove -y python python-pip cython
 sudo apt autoremove -y
 sudo apt install -y python3 python3-pip python3-distutils python3-dev python3-numpy
