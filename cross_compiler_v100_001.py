@@ -729,7 +729,7 @@ class CrossCompileScript:
 		self.cpuCount = self.config["toolchain"]["cpu_count"]
 		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
 		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
-		self.originalCflags = " " + self.config["toolchain"]["original_cflags"] + " " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
+		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + " " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
