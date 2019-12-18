@@ -12,7 +12,6 @@
 #	'libsrt' : { # 2019.05.10
 #		'repo_type' : 'git',
 #		'url' : 'https://github.com/Haivision/srt.git',
-#		#'branch' : 'cdeb47133e400ee89552ab3cf766d79deb392408', # undo # 2019.07.31 freeze srt since next commit breaks with fatal error: openssl/bio.h: No such file or directory | #include <openssl/bio.h>
 #		'source_subfolder' : '_build',
 #		'conf_system' : 'cmake',
 #		'patches' : (
