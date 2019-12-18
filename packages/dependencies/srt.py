@@ -17,7 +17,7 @@
 							'-DENABLE_CXX_DEPS=on '
 							'-DUSE_STATIC_LIBSTDCXX=on '
 							'-DENABLE_INET_PTON=off '
-							'-DUSE_GNUSTL=on '
+							#'-DUSE_GNUSTL=on '
 							'-DUSE_GNUTLS=on '
 							'-DUSE_ENCLIB=gnutls '
 							'-DHAICRYPT_USE_OPENSSL_EVP=off '
