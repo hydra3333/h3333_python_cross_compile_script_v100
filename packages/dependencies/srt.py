@@ -16,7 +16,7 @@
 							'-DENABLE_CXX11=on '
 							'-DENABLE_CXX_DEPS=on '
 							'-DUSE_STATIC_LIBSTDCXX=on '
-							'-ENABLE_INET_PTON=off '
+							'-DENABLE_INET_PTON=off '
 							'-DUSE_GNUSTL=on '
 							'-DUSE_GNUTLS=on '
 							'-DUSE_ENCLIB=gnutls '
