@@ -5,6 +5,7 @@
 		{ 'url' : 'https://sourceforge.net/projects/twolame/files/twolame/0.4.0/twolame-0.4.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'cc35424f6019a88c6f52570b63e1baf50f62963a3eac52a03a800bb070d7c87d' }, ], },
 	],
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static CPPFLAGS=-DLIBTWOLAME_STATIC',
+	'custom_cflag' : '',
 	'depends_on' : ['libsndfile', ],
 	'patches': [
 		('twolame/0001-mingw32-does-not-need-handholding.all.patch', '-p1'), # 2019.12.13
