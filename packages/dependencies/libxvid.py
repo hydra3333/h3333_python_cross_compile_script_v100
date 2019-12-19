@@ -1,4 +1,4 @@
-{
+{ # 1.3.receives  has invalid https site certificate error on download - hijacked ?
 	'repo_type' : 'archive',
 	'download_locations' : [
 		{ 'url' : 'https://fossies.org/linux/misc/xvidcore-1.3.5.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '165ba6a2a447a8375f7b06db5a3c91810181f2898166e7c8137401d7fc894cf0' }, ], },
