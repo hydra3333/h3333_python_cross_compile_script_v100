@@ -22,7 +22,7 @@
 	,
     'run_post_patch': [ # 2019.12.13
 		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" ../configure.ac', # fix building with libpng # 2019.12.13
-		'autoreconf -fiv', # 2019.12.13
+		#'autoreconf -fiv', # 2019.12.13
 	], # 2019.12.13
 	'regex_replace': {
 		'post_patch': [
