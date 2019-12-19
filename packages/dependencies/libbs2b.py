@@ -30,7 +30,7 @@
 		],
 	},
 
-	'depends_on' : ['libflac', 'libsndfile',], # 2019.12.13
+	'depends_on' : ['libflac', 'libsndfile', 'libspeex', ], # 2019.12.13
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static',
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/bs2b/files/libbs2b/', 'type' : 'sourceforge', },
 	'_info' : { 'version' : '3.1.0', 'fancy_name' : 'libbs2b' },
