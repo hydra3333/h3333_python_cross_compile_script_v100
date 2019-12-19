@@ -7,7 +7,7 @@
 	#	{ "url" : "https://sourceforge.net/projects/modplug-xmms/files/libmodplug/0.8.9.0/libmodplug-0.8.9.0.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "457ca5a6c179656d66c01505c0d95fafaead4329b9dbaa0f997d00a3508ad9de" }, ], },
 	#],
 	'conf_system' : 'cmake',
-	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DMODPLUG_STATIC=1 -DBUILD_SHARED_LIBS=0',  # 2019.12.13
+	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix}  -DMODPLUG_STATIC=1 -DBUILD_SHARED_LIBS=0',  # 2019.12.13
 	'source_subfolder': '_build',
 	'patches': [
 		('modplug/0001-modplug-mingw-workaround.patch', '-p1', '..'), # to avoid setting -DLIBMODPLUG_STATIC
