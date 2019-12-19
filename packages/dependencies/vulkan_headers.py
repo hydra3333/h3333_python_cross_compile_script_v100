@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Headers.git',
-	'depth_git' : 9999,
+	'depth_git' : 0,
 	'branch' : 'tags/v1.1.127',
 	'recursive_git' : True,
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix}',

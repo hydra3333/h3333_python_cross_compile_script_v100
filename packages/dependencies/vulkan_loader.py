@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
-	'depth_git' : 9999,
+	'depth_git' : 0,
 	'branch' : 'tags/v1.1.127',
 	'recursive_git' : True, 
 	'conf_system' : 'cmake',

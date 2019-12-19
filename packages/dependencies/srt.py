@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/Haivision/srt.git',
-	'depth_git' : 9999,
+	'depth_git' : 0,
 	'branch' : 'tags/v1.4.1',
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
