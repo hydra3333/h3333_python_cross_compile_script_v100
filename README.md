@@ -2,7 +2,7 @@
 # instead, use deadsix27's at 
 # https://github.com/DeadSix27/python_cross_compile_script
 
-# A v100 fork of DeadSix27's work to build 64-bit STATIC ffmpeg.exe with lots of ffmpeg dependencies and have the ffmpeg.exe run in a Windows 10 64-bit o/s
+A v100 fork of DeadSix27's work to build 64-bit STATIC ffmpeg.exe with lots of ffmpeg dependencies and have the ffmpeg.exe run in a Windows 10 64-bit o/s
 
 based on deadsix27 fine work at https://github.com/DeadSix27/python_cross_compile_script
 
