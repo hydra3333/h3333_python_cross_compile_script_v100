@@ -35,7 +35,7 @@
 		'-DLIBXML2_LIBRARIES="-lxml2 -lz -llzma -liconv -lws2_32"'
 	,
 	'depends_on' : [
-		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libcrypt',
+		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
 	],
 	'patches': [
 		('libarchive/0001-libarchive-mingw-workaround.patch', '-p1', '..')
