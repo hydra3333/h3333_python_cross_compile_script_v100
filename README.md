@@ -7,7 +7,9 @@ A v100 fork of DeadSix27's work to build 64-bit STATIC ffmpeg.exe with lots of f
 based on deadsix27 fine work at https://github.com/DeadSix27/python_cross_compile_script
 
 NOTE: attempt to build everything wherever possible with safety settings
+```
           -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2
+```
 
 Some day this script will build 
 ```
