@@ -78,7 +78,7 @@
 		'--enable-libmfx '
 		'--enable-amf '
         '--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_icd
-		'--enable-vulkan ' 
+		#'--enable-vulkan ' 
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
