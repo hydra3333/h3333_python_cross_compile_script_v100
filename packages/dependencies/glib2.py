@@ -5,8 +5,6 @@
 		{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
 	],
 	# 2019.12.13 changed to use my configure which worked.
-	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --disable-fam --enable-gc-friendly --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux', # 2019.12.13
-	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=system   --with-libiconv --disable-libmount --disable-selinux ', # ??? --with-pcre=internal # 2019.04.13 --disable-libelf 
 	 'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux ', # ??? --with-pcre=internal # 2019.04.13 --disable-libelf 
 
 	'run_post_patch' : [
@@ -43,11 +41,6 @@
 }
 # 2019.12.13 old:
 #	'libglib2' : { # UN-uperseded 2019.05.12 # superseded 2019.05.12
-#		#'repo_type' : 'git',
-#		#'url' : 'https://gitlab.gnome.org/GNOME/glib.git',
-#		#'branch' : 'tags/2.58.3',
-#		####'branch' : 'tags/2.60.1', # 2019.05.05
-#		'repo_type' : 'archive',
 #		'download_locations' : [
 #			{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
 #			{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },

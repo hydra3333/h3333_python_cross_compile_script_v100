@@ -12,10 +12,6 @@
 	'run_post_patch' : [
 		'autoreconf -fiv',
 	],
-	# 'run_post_install' : [
-	# 	'sed -i.bak \'s/-L${{libdir}} -lfontconfig[^l]*$/-L${{libdir}} -lfontconfig -lfreetype -lharfbuzz -lxml2 -liconv -lintl/\' "{pkg_config_path}/fontconfig.pc"',
-	# ],
-
 	'regex_replace': {
 		'post_install': [
 			{
