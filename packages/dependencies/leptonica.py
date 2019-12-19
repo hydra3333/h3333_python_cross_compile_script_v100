@@ -15,3 +15,5 @@
 	'depends_on' : [ 'zlib', 'libopenjpeg', 'libpng', 'libwebp', 'dlfcn-win32', 'libjpeg-turbo', 'giflib', 'libtiff', ],
 	'_info' : { 'version' : None, 'fancy_name' : 'tesseract' },
 }
+# 2019.12.13 old:
+# none

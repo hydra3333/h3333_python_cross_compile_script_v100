@@ -32,5 +32,7 @@
 		]
 	},
 	'depends_on' : [ 'leptonica', 'libxml2', 'zlib', 'libarchive', 'libtiff'],
-	'_info' : { 'version' : None, 'fancy_name' : 'tesseract' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'tesseract' },
 }
+# 2019.12.13 old:
+# none
