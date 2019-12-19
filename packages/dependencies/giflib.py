@@ -1,7 +1,7 @@
 {
 
 	# I am totally uninterested in supporting Windows, so that's not persuasive. 
-	#    - Eric S. Raymond (Programmer working on GIFLIB) - 2019-03-18 (https://sourceforge.net/p/giflib/feature-requests/6/#64a5)
+	#    - Eric S. Raymond (Programmer working on GIFLIB) - 2019-03-18 ( https://sourceforge.net/p/giflib/feature-requests/6/#64a5 )
 	'repo_type' : 'archive',
 	'conf_system' : 'cmake',
 	'download_locations' : [
@@ -21,3 +21,5 @@
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/giflib/files/', 'type' : 'sourceforge', 'regex' : r'giflib-(?P<version_num>[\d.]+)\.tar\.bz2' },
 	'_info' : { 'version' : '5.1.9', 'fancy_name' : 'giflib' },
 }
+# 2019.12.13 old:
+# none
