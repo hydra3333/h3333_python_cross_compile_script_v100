@@ -8,12 +8,12 @@
 		'-DWEBP_ENABLE_SIMD=ON '
 		'-DWEBP_NEAR_LOSSLESS=ON '
 		'-DWEBP_UNICODE=ON '
-		'-DWEBP_BUILD_CWEBP=ON '
-		'-DWEBP_BUILD_DWEBP=ON '
-		'-DWEBP_BUILD_VWEBP=ON '
-		'-DWEBP_BUILD_WEBPINFO=ON '
-		'-DWEBP_BUILD_WEBPMUX=ON '
-		'-DWEBP_BUILD_EXTRAS=ON '
+		'-DWEBP_BUILD_CWEBP=OFF ' # on
+		'-DWEBP_BUILD_DWEBP=OFF ' # on
+		'-DWEBP_BUILD_VWEBP=OFF ' # on
+		'-DWEBP_BUILD_WEBPINFO=OFF ' # on
+		'-DWEBP_BUILD_WEBPMUX=OFF ' # on
+		'-DWEBP_BUILD_EXTRAS=OFF ' # off
 		'-DWEBP_BUILD_ANIM_UTILS=OFF '
 		'-DWEBP_BUILD_GIF2WEBP=OFF '
 		'-DWEBP_BUILD_IMG2WEBP=OFF '
@@ -22,7 +22,7 @@
 	,
     'run_post_patch': [ # 2019.12.13
 		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" ../configure.ac', # fix building with libpng # 2019.12.13
-		'#autoreconf -fiv', # 2019.12.13
+		'autoreconf -fiv', # 2019.12.13
 	], # 2019.12.13
 	'regex_replace': {
 		'post_patch': [
@@ -39,7 +39,7 @@
 			},
 		],
 	},
-	'depends_on' : [ 'libpng', 'libjpeg-turbo' ],
+	'depends_on' : [ 'xz', 'libpng', 'libjpeg-turbo' ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libwebp' },
 }
 # 2019.12.13 old:
