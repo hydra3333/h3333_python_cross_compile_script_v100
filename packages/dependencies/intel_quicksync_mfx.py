@@ -9,7 +9,7 @@
 	],
 	'url' : 'https://github.com/lu-zero/mfx_dispatch.git',
 	'configure_options' : '{autoconf_prefix_options}  --disable-shared --enable-static --without-libva_drm --without-libva_x11',
-	'_info' : { 'version' : None, 'fancy_name' : 'intel_quicksync_mfx' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'intel_quicksync_mfx' },
 }
 # 2019.12.13 old:
 #	'intel_quicksync_mfx' : {

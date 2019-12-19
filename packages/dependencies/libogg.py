@@ -4,7 +4,7 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release',
-	'_info' : { 'version' : None, 'fancy_name' : 'ogg' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ogg' },
 }
 # 2019.12.13 old:
 #	'libogg' : {

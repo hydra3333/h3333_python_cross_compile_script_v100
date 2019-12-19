@@ -12,7 +12,7 @@
 		'if [ ! -f "already_done" ] ; then cp -av "amf/public/include/." "{target_prefix}/include/AMF" ; fi',
 		'if [ ! -f "already_done" ] ; then touch  "already_done" ; fi',
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'AMF (headers)' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'AMF (headers)' },
 }
 # 2019.12.13 old:
 #	'amf_headers' : {

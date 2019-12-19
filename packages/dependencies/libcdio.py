@@ -8,7 +8,7 @@
 		#'if [ ! -f "configure" ] ; then ./autogen.sh ; fi',
 		#'make -C doc stamp-vti', # idk why it needs this... odd thing: https://lists.gnu.org/archive/html/libcdio-devel/2016-03/msg00007.html
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'libcdio' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libcdio' },
 }
 # 2019.12.13 old:
 #	'libcdio' : {

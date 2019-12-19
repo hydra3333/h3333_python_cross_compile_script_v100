@@ -15,7 +15,7 @@
 	'depends_on' : (
 		'libgpg_error', 
 	),
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libgcrypt for libaacs' },
+	'_info' : { 'version' : 'git (7c2943309d14407b51c8166c4dcecb56a3628567)', 'fancy_name' : 'libgcrypt for libaacs' },
 }
 # 2019.12.13 old:
 #	'libgcrypt' : { # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=summary # This DAMN thing fails to build with "versioninfo.rc.in:21: syntax error" if not built directly from a GIT clone

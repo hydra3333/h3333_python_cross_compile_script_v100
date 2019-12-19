@@ -14,6 +14,6 @@
 	'run_post_install' : [
 		"echo 'prefix={target_prefix}\nexec_prefix=${{prefix}}\nlibdir=${{exec_prefix}}/lib\nincludedir=${{prefix}}/include/spirv_cross\nName: spirv-cross-c-shared\nDescription: C API for SPIRV-Cross\nVersion:\nLibs: -L${{libdir}} -lspirv-cross-c -lspirv-cross-cpp -lspirv-cross-reflect -lspirv-cross-glsl -lspirv-cross-hlsl -lspirv-cross-msl -lspirv-cross-core -lstdc++\nCflags: -I${{includedir}}' > {target_prefix}/lib/pkgconfig/spirv-cross.pc",
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'SPIRV Cross' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SPIRV Cross' },
 
 }

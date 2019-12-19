@@ -8,5 +8,5 @@
 	'depends_on' : [
 		'zlib', 'libressl', # 2019.12.13
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'libssh2' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libssh2' },
 }

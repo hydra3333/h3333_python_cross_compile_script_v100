@@ -17,7 +17,7 @@
 			},
 		],
 	},
-	'_info' : { 'version' : None, 'fancy_name' : 'libsndfile' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libsndfile' },
 }
 # 2019.12.13 old:
 #	'libsndfile' : { 

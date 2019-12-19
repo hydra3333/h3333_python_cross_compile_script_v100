@@ -12,7 +12,7 @@
 	'depends_on' : (
 		'libgcrypt', 
 	),
-	'_info' : { 'version' : 'git', 'fancy_name' : 'libbaacs for libbluray' },
+	'_info' : { 'version' : 'git (f263376b1e6570556031f420b9df08373e346d76)', 'fancy_name' : 'libbaacs for libbluray' },
 }
 # 2019.12.13 old:
 #	'libaacs' : { # http://code.videolan.org/?p=libaacs.git # https://vlc-bluray.whoknowsmy.name/

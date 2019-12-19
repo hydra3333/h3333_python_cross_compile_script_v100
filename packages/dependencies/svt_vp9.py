@@ -7,5 +7,5 @@
 	'run_post_patch' : [
 		'sed -i.bak \'s/#include <Windows.h>/#include <windows.h>/\' ../Source/Lib/Codec/EbThreads.h',
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'SVT-VP9' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SVT-VP9' },
 }

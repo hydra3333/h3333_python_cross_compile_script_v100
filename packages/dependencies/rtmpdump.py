@@ -12,7 +12,7 @@
 		#'gnutls', 'zlib', # 2019.12.13
         'iconv', 'gnutls', 'zlib', 'gettext', 'libgcrypt', # 2019.12.13
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'rtmpdump' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'rtmpdump' },
 }
 # 2019.12.13 old:
 #	'rtmpdump' : {

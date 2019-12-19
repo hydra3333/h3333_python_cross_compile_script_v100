@@ -14,7 +14,7 @@
 		"sed -i.bak 's/-lcaca *$/-lcaca -lz/' \"{pkg_config_path}/caca.pc\"",
 	],
 	'configure_options' : '{autoconf_prefix_options} --libdir={target_prefix}/lib --disable-shared --enable-static --disable-cxx --disable-csharp --disable-java --disable-python --disable-ruby --disable-imlib2 --disable-doc --disable-examples', # 2019.12.13
-	'_info' : { 'version' : None, 'fancy_name' : 'libcaca' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libcaca' },
 }
 # 2019.12.13 old:
 #	'libcaca' : {

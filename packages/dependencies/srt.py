@@ -27,7 +27,7 @@
 							'-DENABLE_UNITTESTS=off ' # 2019.12.13 # 
 							,
 	'depends_on' : [ 'gettext', 'gnutls' ],
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'srt' }, # it is actually srt 
+	'_info' : { 'version' : 'git (tags/v1.4.1)', 'fancy_name' : 'srt' }, # it is actually srt 
 }
 # 2019.12.13 old:
 #	'libsrt' : { # 2019.05.10

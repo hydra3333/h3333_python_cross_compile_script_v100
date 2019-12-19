@@ -5,7 +5,7 @@
 		('theora/theora_remove_rint_1.2.0alpha1.patch', '-p1'),
 	],
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-doc --disable-spec --disable-oggtest --disable-vorbistest --disable-examples',
-	'_info' : { 'version' : None, 'fancy_name' : 'theora' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'theora' },
 }
 # 2019.13.12 old:
 #	'libtheora' : {

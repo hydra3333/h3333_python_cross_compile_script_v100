@@ -1,7 +1,6 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/file/file.git',
-	# 'branch' : '24c9c086cd7c55b7b0a003a145b32466468e2608',
 	'rename_folder' : 'libfile.git',
 	'patches' : [
 		( 'libfile/file-win32.patch', '-p1' ),
@@ -16,5 +15,5 @@
 	'depends_on' : [ 'mingw-libgnurx', 'libfile_local' ], # 2019.12.13
 	'flipped_path' : True,
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : None, 'fancy_name' : 'file' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'file' },
 }

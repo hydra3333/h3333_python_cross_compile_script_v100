@@ -1,10 +1,9 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/kcat/openal-soft.git',
-	# 'branch' : '0f24139b57460c71d66b9a090217d34706d64dde', # stick to last working commit
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-	'custom_cflag' : '-O3', # native tools have to use the same march as end product else it fails*
+	#'custom_cflag' : '-O3', # native tools have to use the same march as end product else it fails*
 	'configure_options' :
 		'.. {cmake_prefix_options} -DCMAKE_TOOLCHAIN_FILE=XCompile.txt -DHOST={target_host}'
 		' -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_FIND_ROOT_PATH='
@@ -23,5 +22,5 @@
 		"sed -i.bak 's/^Libs: -L\${{libdir}} -lopenal $/Libs: -L\${{libdir}} -lopenal -lwinmm -latomic -lm -lole32 -lstdc++/' '{pkg_config_path}/openal.pc'", #issue with it not using pkg-config option "--static" or so idk?
 	],
 	'install_options' : 'DESTDIR={target_prefix}',
-	'_info' : { 'version' : None, 'fancy_name' : 'openal-soft' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'openal-soft' },
 }

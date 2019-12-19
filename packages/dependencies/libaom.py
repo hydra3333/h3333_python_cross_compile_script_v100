@@ -27,7 +27,7 @@
 	,
 	'depends_on' : [ 'libxml2' ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : None, 'fancy_name' : 'libaom' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libaom' },
 }
 # 2019.12.13 old:
 #	'libaom' : {

@@ -6,5 +6,5 @@
 	'depends_on' : [
 		'libopus',
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'libopusenc' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libopusenc' },
 }

@@ -6,7 +6,7 @@
 	'recursive_git' : True,
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix}',
 	'conf_system' : 'cmake',
-	'_info' : { 'version' : None, 'fancy_name' : 'Vulkan headers' },
+	'_info' : { 'version' : 'git (tags/v1.1.127)', 'fancy_name' : 'Vulkan headers' },
 }
 # 2019.12.13 old:
 #	'vulkan_headers' : {

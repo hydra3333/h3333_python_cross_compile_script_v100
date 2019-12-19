@@ -11,7 +11,7 @@
 	'needs_make' : False,
 	'needs_make_install' : False,
 	'needs_configure' : False,
-	'_info' : { 'version' : None, 'fancy_name' : 'OpenCL Headers for OpenCL ICD Loader' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL Headers for OpenCL ICD Loader' },
 }
 # 2019.12.13 old:
 #	'opencl_headers' : {

@@ -28,7 +28,7 @@
 		'sed -i.bak \'s|-lmingwex||g\' "{pkg_config_path}/x265.pc"',
 	],
 	'depends_on' : [ 'libxml2', 'libx265_multibit_10', 'libx265_multibit_12' ],
-	'_info' : { 'version' : None, 'fancy_name' : 'x265 (multibit library 12/10/8)' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x265 (multibit library 12/10/8)' },
 }
 # 2019.12.13 old:
 #	'libx265_multibit' : {

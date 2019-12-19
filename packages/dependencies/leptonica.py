@@ -13,7 +13,7 @@
 		'sed -i \'s/Libs: -L${{libdir}} -lleptonica-\(.*\)$/Libs: -L${{libdir}} -lleptonica-\\1 -lgif/\' "{pkg_config_path}/lept.pc"',
 	],
 	'depends_on' : [ 'zlib', 'libopenjpeg', 'libpng', 'libwebp', 'dlfcn-win32', 'libjpeg-turbo', 'giflib', 'libtiff', ],
-	'_info' : { 'version' : None, 'fancy_name' : 'tesseract' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'tesseract' },
 }
 # 2019.12.13 old:
 # none

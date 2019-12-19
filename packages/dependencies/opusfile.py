@@ -6,5 +6,5 @@
 	'depends_on' : [
 		'libressl', 'libopus', 'libogg'
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'opusfile' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'opusfile' },
 }

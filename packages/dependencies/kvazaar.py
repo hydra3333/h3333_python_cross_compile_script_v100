@@ -5,5 +5,5 @@
 	'patches' : [
 		( 'kvazaar/0001-mingw-workaround.patch', '-p1' ),
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'kvazaar' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'kvazaar' },
 }

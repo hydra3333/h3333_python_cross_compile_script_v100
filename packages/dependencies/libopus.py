@@ -23,7 +23,7 @@
 		],
 	},
 	'depends_on' : [ 'libglib2' ],
-	'_info' : { 'version' : None, 'fancy_name' : 'opus' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'opus' },
 }
 # 2019.12.13 old:
 #	'libopus' : {

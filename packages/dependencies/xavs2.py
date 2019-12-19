@@ -4,5 +4,5 @@
 	'source_subfolder' : 'build/linux',
 	'configure_options' : '{autoconf_prefix_options} --cross-prefix={cross_prefix_bare} --disable-cli',
 	'install_target' : 'install-lib-static',
-	'_info' : { 'version' : None, 'fancy_name' : 'xavs2' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'xavs2' },
 }

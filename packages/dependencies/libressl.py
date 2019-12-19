@@ -16,5 +16,5 @@
 		'cp -fv apps/openssl/openssl.c apps/openssl/libressl.c', 
 		'autoreconf -fiv',
 		),
-	'_info' : { 'version' : None, 'fancy_name' : 'libressl' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libressl' },
 }

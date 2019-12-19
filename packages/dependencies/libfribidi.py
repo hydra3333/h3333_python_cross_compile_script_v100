@@ -14,5 +14,5 @@
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,
-	'_info' : { 'version' : None, 'fancy_name' : 'libfribidi' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libfribidi' },
 }

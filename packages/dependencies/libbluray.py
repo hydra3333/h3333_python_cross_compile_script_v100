@@ -13,7 +13,7 @@
 	'depends_on' : [
 		'freetype', 'libaacs', 'libcdio-paranoia'  # 2019.12.13 added libaacs
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'libbluray' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libbluray' },
 }
 # 2019.12.13 old:
 #	'libbluray' : {

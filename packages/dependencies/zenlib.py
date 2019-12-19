@@ -1,6 +1,5 @@
 {
 	'repo_type' : 'git',
-	# 'branch' : 'v0.4.35',
 	'source_subfolder' : 'Project/GNU/Library',
 	'url' : 'https://github.com/MediaArea/ZenLib.git',
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --enable-static --disable-shared --enable-shared=no',

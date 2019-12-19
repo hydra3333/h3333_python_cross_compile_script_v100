@@ -31,7 +31,7 @@
 		'expat', 'iconv', 'libxml2', 'freetype', 'bzip2', # 2019.12.13 removed 'json-c', # 2019.12.13 added 'bzip2', 'expat' ... did add 'gettext'
 	],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : None, 'fancy_name' : 'fontconfig' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'fontconfig' },
 }
 # 2019.12.13 old:
 #	'fontconfig' : { # 2018.11.23 combination of deadsix27 and alexpux patching

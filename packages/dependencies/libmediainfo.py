@@ -1,7 +1,5 @@
 {
 	'repo_type' : 'git',
-	#'branch' : 'v0.7.94',
-    #'branch' : 'tags/v18.12', # 2019.12.13
 	'source_subfolder' : 'Project/GNU/Library',
 	'url' : 'https://github.com/MediaArea/MediaInfoLib.git',
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --enable-shared --enable-static --with-libcurl --with-libmms --with-libmediainfo-name=MediaInfo.dll', # --enable-static --disable-shared --enable-shared=no

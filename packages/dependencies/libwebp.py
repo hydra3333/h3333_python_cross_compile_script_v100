@@ -40,7 +40,7 @@
 		],
 	},
 	'depends_on' : [ 'libpng', 'libjpeg-turbo' ],
-	'_info' : { 'version' : None, 'fancy_name' : 'libwebp' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libwebp' },
 }
 # 2019.12.13 old:
 #	'libwebp' : {

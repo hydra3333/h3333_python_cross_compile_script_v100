@@ -10,7 +10,7 @@
 	'patches' : [
 		( 'openjpeg2/use-PkgConfig-for-third-party-libraries.patch', '-p1', '..' ),
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'openjpeg' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'openjpeg' },
 }
 # 2019.12.13 old:
 #	'libopenjpeg' : {

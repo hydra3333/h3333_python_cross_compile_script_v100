@@ -11,5 +11,5 @@
 		'sed -i.bak \'s/-D_FORTIFY_SOURCE=2/-D_FORTIFY_SOURCE=0/\' ../CMakeLists.txt',
 		'sed -i.bak \'s/-D_FORTIFY_SOURCE=2/-D_FORTIFY_SOURCE=0/\' ../gstreamer-plugin/CMakeLists.txt',
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'SVT-AV1' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SVT-AV1' },
 }

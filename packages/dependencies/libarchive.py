@@ -54,7 +54,7 @@
 			}
 		]
 	},
-	'_info' : { 'version' : None, 'fancy_name' : 'libarchive' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libarchive' },
 }
 # 2019.12.13 old:
 #	'libarchive': {

@@ -7,5 +7,5 @@
 	'needs_configure' : False,
 	'recursive_git' : True,
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : None, 'fancy_name' : 'SPIRV Tools' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SPIRV Tools' },
 }

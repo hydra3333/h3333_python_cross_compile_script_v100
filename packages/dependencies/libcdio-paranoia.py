@@ -5,7 +5,7 @@
 	'depends_on' : [
 		'libcdio',
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'libcdio-paranoia' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libcdio-paranoia' },
 }
 # 2019.12.13 old:
 #	'libcdio-paranoia' : {
