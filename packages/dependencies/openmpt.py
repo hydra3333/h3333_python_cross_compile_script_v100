@@ -12,8 +12,7 @@
 		# '!SWITCHDIR|../../_build',
 	# ],
 	# 'configure_options' : '--prefix={target_prefix} --host={target_host}',
-	'_info' : { 'version' : None, 'fancy_name' : 'openmpt' },
-'git (master)'
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'openmpt' },
 # 2019.12.13 old:
 #	'openmpt' : {
 #		'repo_type' : 'git',
