@@ -4,11 +4,11 @@
 		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8' }, ], },
 	],
-    'env_exports' : {
-		'CFLAGS'   : ' -D_POSIX_C_SOURCE {original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-		'CXXFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-		'CPPFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-		'LDFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}', # 2019.12.13 add -fstack-protector-all -D_FORTIFY_SOURCE=2
+    'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
+		'CFLAGS'   : ' -D_POSIX_C_SOURCE {original_cflags}',
+		'CXXFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}',
+		'CPPFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}',
+		'LDFLAGS' : ' -D_POSIX_C_SOURCE {original_cflags}',
 	},
 	'configure_options' :
 		'--host={target_host} --prefix={target_prefix} --disable-shared --enable-static '
