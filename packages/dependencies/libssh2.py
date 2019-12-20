@@ -1,6 +1,9 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/libssh2/libssh2.git',
+	# OK !!! The latest git objected to --with-sysroot="{target_sub_prefix}" ... doesn't handle it correctly,
+	#        which is contained in {autoconf_prefix_options} 
+	# 	     so remove that and do the configure the hard way
 	#'configure_options' : '{autoconf_prefix_options} --disable-examples-build --disable-shared --enable-static --disable-examples-build --with-crypto=openssl ', # 2019.12.13
 	'configure_options' : ' --host="{target_host}" --prefix="{target_prefix}" --disable-examples-build --disable-shared --enable-static --disable-examples-build --with-crypto=openssl ', # 2019.12.13
 	'env_exports' : {
