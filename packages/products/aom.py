@@ -24,7 +24,7 @@
 	#	'-DCONFIG_SHARED=0'
 	#,
 	'configure_options': '.. {cmake_prefix_options} ' 
-		'-DCMAKE_INSTALL_PREFIX={product_prefix}/aom_git.installed '
+		'-DCMAKE_INSTALL_PREFIX={output_prefix}/aom_git.installed '
         '-DAOM_TARGET_CPU=x86_64 ' 
 		'-DBUILD_SHARED_LIBS=0 '
 		'-DCONFIG_STATIC=1 '
