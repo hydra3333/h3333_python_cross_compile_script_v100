@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/libressl-portable/portable.git',
 	'folder_name' : 'libressl_git',
 	#--------------------
-	'run_post_patch' : ( './autogen.sh ', ) # per instructions from the git website above
+	'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static ', # 2019.12.13 remove --disable-hardening fear too much, lets see what happens
 	#--------------------
 	#'conf_system' : 'cmake',
