@@ -16,6 +16,7 @@
 		'-DLIBRESSL_TESTS=OFF '
 		'-DENABLE_NC=ON '
 		'-D_POSIX_THREAD_SAFE_FUNCTIONS=ON '
+	,
 	#--------------------
 	'depends_on' : [ ], # 2019.12.13
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libressl' },
