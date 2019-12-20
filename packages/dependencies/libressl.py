@@ -6,7 +6,7 @@
 	#'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
 	#'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static ', # 2019.12.13 remove --disable-hardening fear too much, lets see what happens
 	#--------------------
-	'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
+	#'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
 	'conf_system' : 'cmake',
 	'source_subfolder' : 'build',
 	'configure_options': '.. {cmake_prefix_options} ' 
