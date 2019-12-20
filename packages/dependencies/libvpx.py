@@ -1,10 +1,11 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libvpx',
+	#
 	'configure_options' :
 		'--target={bit_name2}-{bit_name_win}-gcc '
-		'--prefix={target_prefix} --disable-shared '
-		'--enable-static --enable-webm-io --enable-libyuv --enable-vp9 '
+		'--prefix={target_prefix} '
+		'--disable-shared --enable-static --enable-webm-io --enable-libyuv --enable-vp9 '
 		'--enable-vp8 --enable-runtime-cpu-detect --enable-postproc '
 		'--enable-vp9-highbitdepth --enable-vp9-postproc --enable-coefficient-range-checking --enable-postproc-visualizer '
 		'--enable-error-concealment --enable-better-hw-compatibility '
@@ -16,7 +17,7 @@
 	'env_exports' : {
 		'CROSS' : '{cross_prefix_bare}',
 	},
-	#'cflag_addition' : ' -fno-asynchronous-unwind-tables ', # 2019.12.13
+	#'custom_cflag' : ' -fno-asynchronous-unwind-tables {original_cflags} ', # 2019.12.13
 	'patches' : [
 		( 'vpx/vpx_160_semaphore.patch', '-p1' ),
 	],
