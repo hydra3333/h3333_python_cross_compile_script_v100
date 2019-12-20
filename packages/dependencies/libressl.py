@@ -1,23 +1,22 @@
-{ # 2019.12.13
+{ # 2019.12.13 can't get the cmake to work, stick with the old configure
 	'repo_type' : 'git',
 	'url' : 'https://github.com/libressl-portable/portable.git',
 	'folder_name' : 'libressl_git',
 	#--------------------
-	#'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
-	#'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static ', # 2019.12.13 remove --disable-hardening fear too much, lets see what happens
+	'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static ', # 2019.12.13 remove --disable-hardening fear too much, lets see what happens
 	#--------------------
-	#'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
-	'conf_system' : 'cmake',
-	'source_subfolder' : 'build',
-	'configure_options': '.. {cmake_prefix_options} ' 
-		'-DLIBRESSL_SKIP_INSTALL=OFF '
-		'-DENABLE_LIBRESSL_INSTALL=ON '
-		'-DENABLE_ASM=ON '
-		'-DLIBRESSL_APPS=OFF '
-		'-DLIBRESSL_TESTS=OFF '
-	#	'-DENABLE_NC=ON '
-	#	'-D_POSIX_THREAD_SAFE_FUNCTIONS=ON '
-	,
+	#'conf_system' : 'cmake',
+	#'source_subfolder' : 'build',
+	#'configure_options': '.. {cmake_prefix_options} ' 
+	#	'-DLIBRESSL_SKIP_INSTALL=OFF '
+	#	'-DENABLE_LIBRESSL_INSTALL=ON '
+	#	'-DENABLE_ASM=ON '
+	#	'-DLIBRESSL_APPS=OFF '
+	#	'-DLIBRESSL_TESTS=OFF '
+	##	'-DENABLE_NC=ON '
+	##	'-D_POSIX_THREAD_SAFE_FUNCTIONS=ON '
+	#,
 	#--------------------
 	'depends_on' : [ ], # 2019.12.13
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libressl' },
