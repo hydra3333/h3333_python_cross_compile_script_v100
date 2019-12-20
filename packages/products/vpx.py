@@ -21,7 +21,7 @@
 	'patches' : [
 		( 'vpx/vpx_160_semaphore.patch', '-p1' ),
 	],
-	'_info' : { 'version' : None, 'fancy_name' : 'vpx' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'vpx' },
 }
 # 2019.12.13 old:
 #	'vpx' : {
