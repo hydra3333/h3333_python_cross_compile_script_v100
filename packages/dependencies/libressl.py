@@ -9,11 +9,11 @@
 	'folder_name' : 'libressl_git',
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static ', # 2019.12.13 remove --disable-hardening fear too much, lets see what happens
 	'run_post_patch' : ( # 2019.12.13
-		'cp -fv libtls.pc.in liblibretls.pc.in', 
-		'cp -fv libcrypto.pc.in liblibrecrypto.pc.in', 
-		'cp -fv libssl.pc.in liblibressl.pc.in', 
+		'cp -fv libtls.pc.in libretls.pc.in', 
+		'cp -fv libcrypto.pc.in librecrypto.pc.in', 
+		'cp -fv libssl.pc.in libressl.pc.in', 
 		'cp -fv openssl.pc.in libressl.pc.in', 
-		'cp -fv apps/openssl/openssl.c apps/openssl/libressl.c', 
+		#'cp -fv apps/openssl/openssl.c apps/openssl/libressl.c', # no longer exists 2019.12.13
 		'autoreconf -fiv',
 		),
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libressl' },
@@ -31,9 +31,9 @@
 #		],
 #		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static ', # remove --disable-hardening 2019.10.19 i fear too much, lets see what happens
 #		'run_post_patch' : (
-#			'cp -fv libtls.pc.in liblibretls.pc.in', 
-#			'cp -fv libcrypto.pc.in liblibrecrypto.pc.in', 
-#			'cp -fv libssl.pc.in liblibressl.pc.in', 
+#			'cp -fv libtls.pc.in libretls.pc.in', 
+#			'cp -fv libcrypto.pc.in librecrypto.pc.in', 
+#			'cp -fv libssl.pc.in libressl.pc.in', 
 #			'cp -fv openssl.pc.in libressl.pc.in', 
 #			'cp -fv apps/openssl/openssl.c apps/openssl/libressl.c', 
 #			'autoreconf -fiv',
