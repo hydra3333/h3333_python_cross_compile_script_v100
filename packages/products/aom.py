@@ -65,7 +65,7 @@
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'aom-av1' },
 }
 # 2019.12.13 old:
-	'aom' : {
+#	'aom' : {
 #		'repo_type' : 'git',
 #		'url' : 'https://aomedia.googlesource.com/aom', # https://aomedia-review.googlesource.com/q/status:merged
 #		#'branch' : 'd759facf0fd6af16d9d4a137076782d522242c1e', # 2019.08.15 this following commit  a7091f15ee7df7f7b38d54d2baf89ccbe5d3427f  broke building :(
