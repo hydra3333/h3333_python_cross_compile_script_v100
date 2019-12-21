@@ -11,7 +11,7 @@
 	,
 	'build_options': '-v',
 	'depends_on' : [
-		'cmark', 'libfile', 'libflac', 'libvorbis', 'boost', 'gettext'
+		'cmark', 'libfile', 'libflac', 'libvorbis', 'boost', 'gettext', 'zlib',
 	],
 	'packages': {
 		'ubuntu' : [ 'xsltproc', 'docbook-utils', 'rake', 'docbook-xsl' ],
