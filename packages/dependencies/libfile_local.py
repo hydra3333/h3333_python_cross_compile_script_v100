@@ -1,22 +1,41 @@
-{ # the local variant is for bootstrapping, please make sure to always keep both at the same commit, otherwise it could fail.
+{
 	'repo_type' : 'git',
 	'depth_git' : 0,
-	#'branch' : '24c9c086cd7c55b7b0a003a145b32466468e2608',
+	'branch' : '24c9c086cd7c55b7b0a003a145b32466468e2608',
 	'url' : 'https://github.com/file/file.git',
 	'rename_folder' : 'libfile_local.git',
-	#'patches' : [
-		# none, since this is a NON-CROSS-COMPILE unlike standard "file" cross-compile
-	#],
-	'configure_options' : '--prefix={target_prefix} --enable-fsect-man5 --disable-silent-rules',
-	'needs_make' : False,  # ... I Guess this works ?
+	'configure_options' : '--prefix={target_prefix} --disable-shared --enable-static --enable-fsect-man5 --disable-silent-rules',
+	'needs_make' : False,
 	'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
 	'run_post_patch' : [
+		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c',
+		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c',
 		'autoreconf -fiv' 
 	],
-	'flipped_path' : True, # force NON-CROSS-COMPILE building
+	'depends_on' : [ 'mingw-libgnurx', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git', 'fancy_name' : 'libfile (bootstrap)' },
 }
+#
+#{ # the local variant is for bootstrapping, please make sure to always keep both at the same commit, otherwise it could fail.
+#	'repo_type' : 'git',
+#	'depth_git' : 0,
+#	#'branch' : '24c9c086cd7c55b7b0a003a145b32466468e2608',
+#	'url' : 'https://github.com/file/file.git',
+#	'rename_folder' : 'libfile_local.git',
+#	#'patches' : [
+#		# none, since this is a NON-CROSS-COMPILE unlike standard "file" cross-compile
+#	#],
+#	'configure_options' : '--prefix={target_prefix} --enable-fsect-man5 --disable-silent-rules',
+#	'needs_make' : False,  # ... I Guess this works ?
+#	'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
+#	'run_post_patch' : [
+#		'autoreconf -fiv' 
+#	],
+#	'flipped_path' : True, # force NON-CROSS-COMPILE building
+#	'update_check' : { 'type' : 'git', },
+#	'_info' : { 'version' : 'git', 'fancy_name' : 'libfile (bootstrap)' },
+#}
 # 2019.12.13 old:
 #	'libfile_local' : { # the local variant is for bootstrapping, please make sure to always keep both at the same commit, otherwise it could fail.
 #		'repo_type' : 'git',
