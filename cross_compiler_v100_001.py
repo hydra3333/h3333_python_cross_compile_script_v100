@@ -918,6 +918,7 @@ class CrossCompileScript:
 				fileName = outputFileName
 			fullOutputPath = os.path.join(outputPath, fileName)
 			try:
+				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(url, fullOutputPath))
 				shutil.copyfile(url, fullOutputPath)
 			except Exception as e:
 				print(e)
@@ -1742,6 +1743,7 @@ class CrossCompileScript:
 		if 'rename_folder' in packageData:  # this should be moved inside the download functions, TODO.. but lazy
 			if packageData['rename_folder'] is not None:
 				if not os.path.isdir(packageData['rename_folder']):
+					self.logger.debug("mv -f '{0}' '{1}' # rename (move) folder".format(workDir, packageData['rename_folder']))
 					shutil.move(workDir, packageData['rename_folder'])
 				workDir = packageData['rename_folder']
 		self.cchdir("..")
@@ -1824,6 +1826,7 @@ class CrossCompileScript:
 		elif packageData["repo_type"] == "none":
 			if "folder_name" in packageData:
 				workDir = packageData["folder_name"]
+				self.logger.debug("mkdir -p '{0}'".format(workDir))
 				os.makedirs(workDir, exist_ok=True)
 			else:
 				print("Error: When using repo_type 'none' you have to set folder_name as well.")
@@ -1836,6 +1839,7 @@ class CrossCompileScript:
 		if 'rename_folder' in packageData:  # this should be moved inside the download functions, TODO.. but lazy
 			if packageData['rename_folder'] is not None:
 				if not os.path.isdir(packageData['rename_folder']):
+					self.logger.debug("mv -f '{0}' '{1}' # rename folder".format(workDir), packageData['rename_folder'])
 					shutil.move(workDir, packageData['rename_folder'])
 				workDir = packageData['rename_folder']
 
@@ -1975,6 +1979,7 @@ class CrossCompileScript:
 					self.errorExit("Copy-over file '%s' (Unformatted: '%s') does not exist." % (f_formatted, f))
 				dst = os.path.join(currentFullDir, f_formatted.name)
 				self.logger.info("Copying file over from '%s' to '%s'" % (f_formatted, dst))
+				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(f_formatted, dst))
 				shutil.copyfile(f_formatted, dst)
 
 		if 'patches' in packageData:
@@ -2309,6 +2314,7 @@ class CrossCompileScript:
 			if os.path.isfile(local_patch_path):
 				copyPath = os.path.join(os.getcwd(), fileName)
 				self.logger.info("Copying patch from '{0}' to '{1}'".format(local_patch_path, copyPath))
+				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(local_patch_path, copyPath))
 				shutil.copyfile(local_patch_path, copyPath)
 			else:
 				fileName = os.path.basename(urlparse(url).path)
