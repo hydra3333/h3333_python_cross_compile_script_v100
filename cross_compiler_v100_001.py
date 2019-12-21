@@ -1406,7 +1406,9 @@ class CrossCompileScript:
 		if os.path.isdir(realFolderName):
 			self.cchdir(realFolderName)
 			hgVersion = subprocess.check_output('hg --debug id -i', shell=True)
+			self.logger.debug('hg pull -u')
 			self.runProcess('hg pull -u')
+			self.logger.debug('hg update -C{0}'.format(" default" if desiredBranch is None else branchString))
 			self.runProcess('hg update -C{0}'.format(" default" if desiredBranch is None else branchString))
 			hgVersionNew = subprocess.check_output('hg --debug id -i', shell=True)
 			if hgVersion != hgVersionNew:
@@ -1417,12 +1419,15 @@ class CrossCompileScript:
 			self.cchdir("..")
 		else:
 			self.logger.info("HG cloning '%s' to '%s'" % (url, realFolderName))
+			self.logger.debug('hg clone {0} {1}'.format(url, realFolderName + ".tmp"))
 			self.runProcess('hg clone {0} {1}'.format(url, realFolderName + ".tmp"))
 			if desiredBranch is not None:
 				self.cchdir(realFolderName + ".tmp")
 				self.logger.debug("HG updating to:{0}".format(" master" if desiredBranch is None else branchString))
+				self.logger.debug('hg up{0} -v'.format("" if desiredBranch is None else branchString))
 				self.runProcess('hg up{0} -v'.format("" if desiredBranch is None else branchString))
 				self.cchdir("..")
+			self.logger.debug('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 			self.runProcess('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 			self.logger.info("Finished HG cloning '%s' to '%s'" % (url, realFolderName))
 
@@ -1462,6 +1467,7 @@ class CrossCompileScript:
 			else:
 				self.cchdir(realFolderName)
 
+				self.logger.debug('git remote update')
 				self.runProcess('git remote update')
 
 				UPSTREAM = '@{u}'  # or branchName i guess
@@ -1471,7 +1477,9 @@ class CrossCompileScript:
 				REMOTE = subprocess.check_output('git rev-parse "{0}"'.format(UPSTREAM), shell=True).decode("utf-8")
 				BASE = subprocess.check_output('git merge-base @ "{0}"'.format(UPSTREAM), shell=True).decode("utf-8")
 
+				self.logger.debug('git checkout -f')
 				self.runProcess('git checkout -f')
+				self.logger.debug('git checkout {0}'.format(properBranchString))
 				self.runProcess('git checkout {0}'.format(properBranchString))
 
 				if LOCAL == REMOTE:
@@ -1493,13 +1501,20 @@ class CrossCompileScript:
 						# if len(bsSplit) == 2:
 						# 	self.run_process('git pull origin {1}'.format(bsSplit[0],bsSplit[1]))
 						# else:
+						self.logger.debug('git pull origin {0}'.format(properBranchString))
 						self.runProcess('git pull origin {0}'.format(properBranchString))
 					else:
+						self.logger.debug('git pull'.format(properBranchString))
 						self.runProcess('git pull'.format(properBranchString))
+					self.logger.debug('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
 					self.runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+					self.logger.debug('git submodule foreach --recursive git clean -ffdx')
 					self.runProcess('git submodule foreach --recursive git clean -ffdx')
+					self.logger.debug('git reset --hard')
 					self.runProcess('git reset --hard')
+					self.logger.debug('git submodule foreach --recursive git reset --hard')
 					self.runProcess('git submodule foreach --recursive git reset --hard')
+					self.logger.debug('git submodule update --init --recursive')
 					self.runProcess('git submodule update --init --recursive')
 				elif REMOTE == BASE:
 					self.logger.debug("####################")
@@ -1528,17 +1543,21 @@ class CrossCompileScript:
 				addArgs.append(F"--depth 1")
 
 			self.logger.info(F"Git {'Shallow C' if depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
+			self.logger.debug('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
 			self.runProcess('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
 			if desiredBranch is not None:
 				self.cchdir(realFolderName + ".tmp")
 				self.logger.debug("GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString))
+				self.logger.debug('git checkout{0}'.format(" master" if desiredBranch is None else branchString))
 				self.runProcess('git checkout{0}'.format(" master" if desiredBranch is None else branchString))
 				self.cchdir("..")
 			if desiredPR is not None:
 				self.cchdir(realFolderName + ".tmp")
 				self.logger.info("GIT Fetching PR: {0}".format(desiredPR))
+				self.logger.debug('git fetch origin refs/pull/{0}/head'.format(desiredPR))
 				self.runProcess('git fetch origin refs/pull/{0}/head'.format(desiredPR))
 				self.cchdir("..")
+			self.logger.debug('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 			self.runProcess('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 			self.logger.info("Finished GIT cloning '%s' to '%s'" % (url, realFolderName))
 
@@ -1552,8 +1571,10 @@ class CrossCompileScript:
 		if not os.path.isdir(dir):
 			self.logger.info("SVN checking out to %s" % (dir))
 			if desiredBranch is None:
+				self.logger.debug('svn co "%s" "%s.tmp" --non-interactive --trust-server-cert' % (url, dir))
 				self.runProcess('svn co "%s" "%s.tmp" --non-interactive --trust-server-cert' % (url, dir))
 			else:
+				self.logger.debug('svn co -r "%s" "%s" "%s.tmp" --non-interactive --trust-server-cert' % (desiredBranch, url, dir))
 				self.runProcess('svn co -r "%s" "%s" "%s.tmp" --non-interactive --trust-server-cert' % (desiredBranch, url, dir))
 			shutil.move('%s.tmp' % dir, dir)
 		else:
@@ -1615,8 +1636,10 @@ class CrossCompileScript:
 				os.makedirs(folderName)
 
 			if fileName.endswith(tars):
+				self.logger.debug('tar -xf "{0}"{1}'.format(fileName, customFolderTarArg))
 				self.runProcess('tar -xf "{0}"{1}'.format(fileName, customFolderTarArg))
 			else:
+				self.logger.debug('unzip "{0}"'.format(fileName))
 				self.runProcess('unzip "{0}"'.format(fileName))
 
 			self.touch(os.path.join(folderName, "unpacked.successfully"))
@@ -1836,14 +1859,20 @@ class CrossCompileScript:
 						self.logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
 						cmd = self.replaceVariables(cmd)
 						self.logger.debug("Running pre-patch-command: '{0}'".format(cmd))
+						self.logger.debug(cmd)
 						self.runProcess(cmd)
 
 		if forceRebuild:
 			if os.path.isdir(".git"):
+				self.logger.debug('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
 				self.runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+				self.logger.debug('git submodule foreach --recursive git clean -ffdx')
 				self.runProcess('git submodule foreach --recursive git clean -ffdx')
+				self.logger.debug('git reset --hard')
 				self.runProcess('git reset --hard')
+				self.logger.debug('git submodule foreach --recursive git reset --hard')
 				self.runProcess('git submodule foreach --recursive git reset --hard')
+				self.logger.debug('git submodule update --init --recursive')
 				self.runProcess('git submodule update --init --recursive')
 
 		if 'source_subfolder' in packageData:
@@ -1859,6 +1888,7 @@ class CrossCompileScript:
 		if 'debug_confighelp_and_exit' in packageData:
 			if packageData['debug_confighelp_and_exit'] is True:
 				self.bootstrapConfigure()
+				self.logger.debug("./configure --help")
 				self.runProcess("./configure --help")
 				exit()
 
@@ -1979,6 +2009,7 @@ class CrossCompileScript:
 							cmd = self.replaceVariables(cmd)
 							self.logger.info("Running post-patch-command: '{0}'".format(cmd))
 							# self.run_process(cmd)
+							self.logger.debug(cmd)
 							self.runProcess(cmd, ignoreFail)
 
 		conf_system = None
@@ -2142,16 +2173,22 @@ class CrossCompileScript:
 	def bootstrapConfigure(self):
 		if not os.path.isfile("configure"):
 			if os.path.isfile("bootstrap.sh"):
+				self.logger.debug('./bootstrap.sh')
 				self.runProcess('./bootstrap.sh')
 			elif os.path.isfile("autogen.sh"):
+				self.logger.debug('./autogen.sh')
 				self.runProcess('./autogen.sh')
 			elif os.path.isfile("buildconf"):
+				self.logger.debug('./buildconf')
 				self.runProcess('./buildconf')
 			elif os.path.isfile("bootstrap"):
+				self.logger.debug('./bootstrap')
 				self.runProcess('./bootstrap')
 			elif os.path.isfile("bootstrap"):
+				self.logger.debug('./bootstrap')
 				self.runProcess('./bootstrap')
 			elif os.path.isfile("configure.ac"):
+				self.logger.debug('autoreconf -fiv')
 				self.runProcess('autoreconf -fiv')
 
 	def configureSource(self, packageName, packageData, conf_system):
@@ -2179,6 +2216,7 @@ class CrossCompileScript:
 				if conf_system == "waf":
 					if not os.path.isfile("waf"):
 						if os.path.isfile("bootstrap.py"):
+							self.logger.debug('./bootstrap.py')
 							self.runProcess('./bootstrap.py')
 				else:
 					self.bootstrapConfigure()
@@ -2198,6 +2236,7 @@ class CrossCompileScript:
 				if packageData['configure_path'] is not None:
 					confCmd = packageData['configure_path']
 
+			self.logger.debug(F'{confCmd} {configOpts}')
 			self.runProcess(F'{confCmd} {configOpts}')
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
@@ -2212,6 +2251,7 @@ class CrossCompileScript:
 						self.logger.debug("Running post-configure-command pre replaceVariables (raw): '{0}'".format( cmd ))
 						cmd = self.replaceVariables(cmd)
 						self.logger.info("Running post-configure-command: '{0}'".format(cmd))
+						self.logger.debug(cmd)
 						self.runProcess(cmd)
 
 			doClean = True
@@ -2223,6 +2263,7 @@ class CrossCompileScript:
 				mCleanCmd = 'make clean'
 				if conf_system == "waf":
 					mCleanCmd = './waf --color=yes clean'
+				self.logger.debug('{0} {1}'.format(mCleanCmd, cpuCountStr))
 				self.runProcess('{0} {1}'.format(mCleanCmd, cpuCountStr), True)
 
 			if 'patches_post_configure' in packageData:
@@ -2276,6 +2317,7 @@ class CrossCompileScript:
 				self.downloadFile(url, fileName)
 
 		self.logger.info("Patching source using: '{0}'".format(fileName))
+		self.logger.debug('patch {2}{0} < "{1}"'.format(type, fileName, ignore))
 		self.runProcess('patch {2}{0} < "{1}"'.format(type, fileName, ignore), ignoreErr, exitOn)
 
 		if not postConf:
@@ -2298,6 +2340,7 @@ class CrossCompileScript:
 				makeOpts = self.replaceVariables(packageData["configure_options"])
 			self.logger.info("Meson'ing '{0}' with: {1}".format(packageName, makeOpts))
 
+			self.logger.debug('meson {0}'.format(makeOpts))
 			self.runProcess('meson {0}'.format(makeOpts))
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
@@ -2319,8 +2362,10 @@ class CrossCompileScript:
 				makeOpts = self.replaceVariables(packageData["configure_options"])
 			self.logger.info("C-Making '{0}' with: {1}".format(packageName, makeOpts))
 
+			self.logger.debug('cmake {0}'.format(makeOpts))
 			self.runProcess('cmake {0}'.format(makeOpts))
 
+			self.logger.debug("make clean")
 			self.runProcess("make clean", True)
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
@@ -2355,6 +2400,7 @@ class CrossCompileScript:
 
 			if buildSystem == "make":
 				if os.path.isfile("configure"):
+					self.logger.debug(F'{mkCmd} clean {cpuCountStr}')
 					self.runProcess(F'{mkCmd} clean {cpuCountStr}', True)
 
 			makeOpts = ''
@@ -2367,13 +2413,14 @@ class CrossCompileScript:
 					print("\t" + tk + " : " + os.environ[tk])
 				print("##############################")
 
-			self.logger.info(F"Building '{packageName}' with: {makeOpts} in {os.getcwd()}", extra={'type': buildSystem})
+			self.logger.info(F"Building '{packageName}' with 'build_options': {makeOpts} in {os.getcwd()}", extra={'type': buildSystem})
 
 			if 'ignore_build_fail_and_run' in packageData:
 				if len(packageData['ignore_build_fail_and_run']) > 0:  # todo check if its a list too
 					try:
 						if buildSystem == "waf":
 							mkCmd = './waf --color=yes build'
+						self.logger.debug(F'{mkCmd} {cpuCountStr} {makeOpts}')
 						self.runProcess(F'{mkCmd} {cpuCountStr} {makeOpts}')
 					except Exception:  # todo, except specific exception
 						self.logger.info("Ignoring failed make process...")
@@ -2384,6 +2431,7 @@ class CrossCompileScript:
 			else:
 				if buildSystem == "waf":
 					mkCmd = './waf --color=yes build'
+				self.logger.debug(F'{mkCmd} {cpuCountStr} {makeOpts}')
 				self.runProcess(F'{mkCmd} {cpuCountStr} {makeOpts}')
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
@@ -2403,6 +2451,7 @@ class CrossCompileScript:
 						else:
 							cmd = self.replaceVariables(cmd)
 							self.logger.info("Running post-build-command: '{0}'".format(cmd))
+							self.logger.debug(cmd)
 							self.runProcess(cmd)
 
 			self.touch(touchName)
@@ -2428,7 +2477,7 @@ class CrossCompileScript:
 				if packageData['install_target'] is not None:
 					installTarget = packageData['install_target']
 
-			self.logger.info("Installing '{0}' with: {1}".format(packageName, makeInstallOpts), extra={'type': buildSystem})
+			self.logger.info("Installing '{0}' with 'install_options': {1}".format(packageName, makeInstallOpts), extra={'type': buildSystem})
 
 			mkCmd = "make"
 			if buildSystem == "waf":
@@ -2438,6 +2487,7 @@ class CrossCompileScript:
 			if buildSystem == "ninja":
 				mkCmd = "ninja"
 
+			self.logger.debug(F'{mkCmd} {installTarget} {makeInstallOpts} {cpuCountStr}')
 			self.runProcess(F'{mkCmd} {installTarget} {makeInstallOpts} {cpuCountStr}')
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
@@ -2458,6 +2508,7 @@ class CrossCompileScript:
 							self.logger.info("Running post-install-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
 							cmd = self.replaceVariables(cmd)
 							self.logger.info("Running post-install-command: '{0}'".format(cmd))
+							self.logger.debug(cmd)
 							self.runProcess(cmd)
 
 			self.touch(touchName)
