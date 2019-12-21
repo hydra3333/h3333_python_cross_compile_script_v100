@@ -2614,6 +2614,7 @@ class CrossCompileScript:
 	def cchdir(self, dir):
 		if self.debugMode:
 			print(F"Changing dir from {os.getcwd()} to {dir}")
+		self.logger.debug(F"cd {dir}")
 		os.chdir(dir)
 
 
