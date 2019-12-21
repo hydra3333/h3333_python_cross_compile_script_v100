@@ -1401,8 +1401,8 @@ class CrossCompileScript:
 		# we have to do it the hard way because "hg purge" is an extension that is not on by default
 		# and making users enable stuff like that is too much
 		if os.path.isdir(realFolderName) and forceRebuild:
-			self.logger.info("Deleting old HG clone")
-			shutil.rmtree(realFolderName)
+			self.logger.info('Deleting old HG clone in folder"{0}"'.format(realFolderName))
+			shutil.rmtree(realFolderName,ignore_errors=False)
 
 		if os.path.isdir(realFolderName):
 			self.cchdir(realFolderName)
@@ -1577,6 +1577,7 @@ class CrossCompileScript:
 			else:
 				self.logger.debug('svn co -r "%s" "%s" "%s.tmp" --non-interactive --trust-server-cert' % (desiredBranch, url, dir))
 				self.runProcess('svn co -r "%s" "%s" "%s.tmp" --non-interactive --trust-server-cert' % (desiredBranch, url, dir))
+			self.logger.debug('mv -f "{0}.tmp" "{1}"'.format(dir,dir))
 			shutil.move('%s.tmp' % dir, dir)
 		else:
 			pass
@@ -1612,6 +1613,7 @@ class CrossCompileScript:
 			fileName = os.path.basename(urlparse(url).path)
 			self.logger.info("Downloading {0} ({1})".format(fileName, url))
 
+			self.logger.debug("Downloading {0} to ({1})".format(url, fileName))
 			self.downloadFile(url, fileName)
 
 			if "hashes" in dlLocation:
@@ -1633,8 +1635,16 @@ class CrossCompileScript:
 			customFolderTarArg = ""
 
 			if customFolder:
+				self.logger.debug('In downloadUnpackFile making folder "{0} ...'.format(folderName))
 				customFolderTarArg = ' -C "' + folderName + '" --strip-components 1'
-				os.makedirs(folderName)
+				# IF FOLDER EXISTS, DELETE IT BEFORE CREATING IT
+				#    rmdir(path) Remove (delete) the directory path. Only works when the directory is empty, otherwise, OSError is raised. 
+				#    In order to remove whole directory trees, shutil.rmtree() can be used.
+				if os.path.isdir(folderName):
+					self.logger.debug('In customFolder, deleting old existing folder "{0}"'.format(folderName))
+					self.logger.debug('rm -f "{0}"'.format(folderName))
+					shutil.rmtree(folderName,ignore_errors=False)
+				os.makedirs(folderName) # os.makedirs creates intermediate parent paths like "mkdir -p"
 
 			if fileName.endswith(tars):
 				self.logger.debug('tar -xf "{0}"{1}'.format(fileName, customFolderTarArg))
@@ -1764,7 +1774,7 @@ class CrossCompileScript:
 					if libraryName not in self.packages["deps"]:
 						raise MissingDependency("The dependency '{0}' of '{1}' does not exist in dependency config.".format(libraryName, packageName))  # sys.exc_info()[0]
 					else:
-						self.buildThing(libraryName, self.packages["deps"][libraryName], "DEPENDENCY")
+						self.buildThing(libraryName, self.packages["deps"][libraryName], "DEPENDENCY") # ??????????????????????????????????????????????
 
 		if 'is_dep_inheriter' in packageData:
 			if packageData['is_dep_inheriter'] is True:
@@ -1820,7 +1830,7 @@ class CrossCompileScript:
 			workDir = self.mercurialClone(self.getPrimaryPackageUrl(packageData, packageName), self.getValueOrNone(packageData, 'folder_name'), renameFolder, branch, forceRebuild)
 		elif packageData["repo_type"] == "archive":
 			if "folder_name" in packageData:
-				workDir = self.downloadUnpackFile(packageData, packageName, packageData["folder_name"], workDir)
+				workDir = self.downloadUnpackFile(packageData, packageName, packageData["folder_name"], workDir) # ??????????????????????????????????????
 			else:
 				workDir = self.downloadUnpackFile(packageData, packageName, None, workDir)
 		elif packageData["repo_type"] == "none":
@@ -2140,6 +2150,7 @@ class CrossCompileScript:
 		for _current_infile in in_files:
 			if "out_file" not in rp:
 				out_files = (_current_infile, )
+				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(_current_infile, _current_infile.parent.joinpath(_current_infile.name + ".backup")))
 				shutil.copy(_current_infile, _current_infile.parent.joinpath(_current_infile.name + ".backup"))
 			else:
 				if isinstance(rp["out_file"], (list, tuple)):
@@ -2156,8 +2167,10 @@ class CrossCompileScript:
 					_backup = _current_infile.parent.joinpath(_current_infile.name + ".backup")
 					if not _backup.parent.exists():
 						self.logger.warning(F"[Regex-Command] Out-File parent '{_backup.parent}' does not exist.")
+					self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(_current_infile, _backup))
 					shutil.copy(_current_infile, _backup)
 					_tmp_file = _current_infile.parent.joinpath(_current_infile.name + ".tmp")
+					self.logger.debug('mv -f "{0}" "{1}" # move file '.format(_current_infile, _tmp_file))
 					shutil.move(_current_infile, _tmp_file)
 					_current_infile = _tmp_file
 				self.logger.info(F"[{packageName}] Running regex command on '{_current_outfile}'")
