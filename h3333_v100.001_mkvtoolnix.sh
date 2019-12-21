@@ -115,8 +115,29 @@ fi
 set +x
 #read -p "After nasm build, press Enter to continue"
 #------------------------------------------------------------------------------------------------
+# According to https://github.com/file/file/blob/master/magic/Makefile.am
+#	# FIXME: Build file natively as well so that it can be used to compile
+# 	#        the target's magic file; for now we bail if the local version does not match
+# Which I guess means we build and install it natively here prior to trying to cross-compile.
+# 
+#if [[ ! -d "file_git" ]]; then
+#  echo "Cloning 'file' (git)"
+#   git clone --progress --recurse-submodules https://github.com/file/file.git "file_git"
+#   echo "Configuring 'file' (git)"
+#   cd file_git
+#      sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c
+#	  sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c
+#	  ./configure --enable-fsect-man5 --disable-silent-rules
+#      autoreconf -fiv
+#      echo "Make 'file' "
+#      make  || exit 1
+#      echo "Installing 'file' (git)"
+#      sudo make install  || exit 1 # sudo so it copies into /usr folder tree
+#   cd ..
+#   echo "Done Building and Installing'file' (git)"
+#fi
+#------------------------------------------------------------------------------------------------
 set -x
-
 #------------------------------------------------------------------------------------------------
 #CUDA SDK Toolkit 10.2 Install Commentary https://github.com/DeadSix27/python_cross_compile_script/issues/83#issuecomment-468670437
 #CUDA SDK Toolkit 10.2 Download and Install Guideline https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
