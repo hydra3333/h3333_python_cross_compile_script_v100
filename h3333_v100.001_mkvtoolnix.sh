@@ -258,6 +258,13 @@ if [ $exit_status -ne 0 ]; then
 fi
 read -p "After build mkvtoolnix, press Enter to continue"
 
+
+rm -fv ./exe.log
+sudo chmod 777 -R *
+echo 'find . -iname "*.exe" '>>./exe.log
+find . -iname "*.exe" 2>&1 | tee -a ./exe.log
+
+
 exit
 
 
