@@ -14,8 +14,9 @@
 		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c',
 		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c',
 		'autoreconf -fiv' ],
+	'depends_on' : [ 'mingw-libgnurx', ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libfile (bootstrap)' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libfile_local (bootstrap)' },
 }
 # 2019.12.13 old:
 #	'libfile_local' : { # the local variant is for bootstrapping, please make sure to always keep both at the same commit, otherwise it could fail.
