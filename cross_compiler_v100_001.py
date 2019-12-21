@@ -1839,7 +1839,7 @@ class CrossCompileScript:
 		if 'rename_folder' in packageData:  # this should be moved inside the download functions, TODO.. but lazy
 			if packageData['rename_folder'] is not None:
 				if not os.path.isdir(packageData['rename_folder']):
-					self.logger.debug("mv -f '{0}' '{1}' # rename folder".format(workDir, packageData['rename_folder'])
+					self.logger.debug("mv -f '{0}' '{1}' # rename folder".format(workDir, packageData['rename_folder']))
 					shutil.move(workDir, packageData['rename_folder'])
 				workDir = packageData['rename_folder']
 
