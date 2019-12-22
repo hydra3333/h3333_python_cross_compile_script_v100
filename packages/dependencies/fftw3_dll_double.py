@@ -6,7 +6,7 @@
 		{ "url" : "https://fossies.org/linux/misc/fftw-3.3.8.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303" }, ], },
 	],
 	'rename_folder' : 'fftw3_dll_double',
-	'configure_options': '--host={target_host} --prefix={product_prefix}/fftw3_dll_double --exec-prefix={product_prefix}/fftw3_dll_double '
+	'configure_options': '--host={target_host} --prefix={output_prefix}/fftw3_dll --exec-prefix={output_prefix}/fftw3_dll '
                          '--disable-shared --enable-static '
                          '--disable-silent-rules --disable-doc '
                          '--disable-alloca --with-our-malloc --with-windows-f77-mangling '
@@ -24,7 +24,7 @@
 		],
 	},
     'run_post_install' : (
-		'ls -alR {product_prefix}/fftw3_dll_double/bin',
+		'ls -alR {output_prefix}/fftw3_dll/bin',
 	),
 	'update_check' : { 'url' : 'ftp://ftp.fftw.org/pub/fftw/', 'type' : 'ftpindex', 'regex' : r'fftw-(?P<version_num>[\d.]+)\.tar\.gz' },
 	'_info' : { 'version' : '3.3.8', 'fancy_name' : 'fftw3_dll_double' },
