@@ -1,4 +1,10 @@
 {
+# 'fftw3_dll_quad' missing library ... it reports this:
+# *** Warning: This system cannot link to static lib archive
+# (snip)/libquadmath.la.
+# *** I have the capability to make that library automatically link in when
+# *** you link to this library.  But I can only do this if you have a
+# *** shared version of the library, which you do not appear to have.
 	'repo_type' : 'archive',
 	'download_locations' : [
 		#UPDATECHECKS: http://fftw.org/download.html
