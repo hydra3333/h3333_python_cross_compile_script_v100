@@ -234,10 +234,13 @@ fi
 #read -p "After build x264, press Enter to continue"
 
 
-#rm -fv ./exe.log
-#sudo chmod 777 -R *
-#echo 'find . -iname "*.exe" '>>./exe.log
-#find . -iname "*.exe" 2>&1 | tee -a ./exe.log
+rm -fv ./exe.log
+sudo chmod 777 -R *
+echo find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 >>./exe.log
+find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1  >>./exe.log
+echo find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1  >>./exe.log
+find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1  >>./exe.log
+
 
 
 exit
