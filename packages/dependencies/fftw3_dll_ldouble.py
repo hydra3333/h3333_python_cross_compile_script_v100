@@ -7,7 +7,7 @@
 	],
 	'rename_folder' : 'fftw3_dll_ldouble',
 	'configure_options': '--host={target_host} --prefix={output_prefix}/fftw3_dll --exec-prefix={output_prefix}/fftw3_dll '
-                         '--disable-shared --enable-static '
+                         '--enable-shared --disable-static '
                          '--disable-silent-rules --disable-doc '
                          '--disable-alloca --with-our-malloc --with-windows-f77-mangling '
                          '--enable-threads --with-combined-threads '
