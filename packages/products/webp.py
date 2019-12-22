@@ -13,7 +13,7 @@
 		'-DWEBP_BUILD_DWEBP=OFF '
 		'-DWEBP_BUILD_VWEBP=OFF '
 		'-DWEBP_BUILD_WEBPINFO=OFF ' #
-		'-DWEBP_BUILD_WEBPMUX=ON ' #
+		'-DWEBP_BUILD_WEBPMUX=OFF ' #
 		'-DWEBP_BUILD_EXTRAS=OFF '
 		'-DWEBP_BUILD_ANIM_UTILS=OFF '
 		'-DWEBP_BUILD_GIF2WEBP=OFF '
@@ -40,7 +40,7 @@
 			},
 		],
 	},
-	'depends_on' : [ 'xz', 'libpng', 'libjpeg-turbo' ],
+	'depends_on' : [ 'xz', 'libpng', 'libjpeg-turbo', 'libwebp', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libwebp' },
 }
 # 2019.12.13 old:
