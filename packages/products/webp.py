@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libwebp',
+	'rename_folder' : 'webp_muxer_git',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options' : '.. {cmake_prefix_options} '
@@ -11,7 +12,7 @@
 		'-DWEBP_BUILD_CWEBP=OFF '
 		'-DWEBP_BUILD_DWEBP=OFF '
 		'-DWEBP_BUILD_VWEBP=OFF '
-		'-DWEBP_BUILD_WEBPINFO=ON ' #
+		'-DWEBP_BUILD_WEBPINFO=OFF ' #
 		'-DWEBP_BUILD_WEBPMUX=ON ' #
 		'-DWEBP_BUILD_EXTRAS=OFF '
 		'-DWEBP_BUILD_ANIM_UTILS=OFF '
