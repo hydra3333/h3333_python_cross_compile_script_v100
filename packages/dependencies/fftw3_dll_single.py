@@ -11,7 +11,7 @@
                          '--disable-silent-rules --disable-doc '
                          '--disable-alloca --with-our-malloc --with-windows-f77-mangling '
                          '--enable-threads --with-combined-threads '
-                         '--enaable-float --disable-long-double -disable-quad-precision ' # 2019.12.13 (the default is "DOUBLE") "float" is single
+                         '--enable-float --disable-long-double -disable-quad-precision ' # 2019.12.13 (the default is "DOUBLE") "float" is single
                          '--enable-sse --enable-sse2 --enable-avx --enable-avx2 --disable-altivec --disable-vsx --disable-neon ' # 2019.12.13 did not removed --enable-sse as SSE only builds with "FLOAT/SINGLE"
     ,
 	'regex_replace': {
