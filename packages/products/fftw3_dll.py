@@ -5,7 +5,7 @@
 	'needs_make' : False,
 	'needs_make_install' : False,
 	'recursive_git' : False,
-	#'is_dep_inheriter' : True, # try without, for it to be a product and the script runs
+	'is_dep_inheriter' : True, # try without, for it to be a product and the script runs
 	'depends_on' : [
 		'fftw3_dll_single', 'fftw3_dll_double', 'fftw3_dll_ldouble', 'fftw3_dll_quad', 
 	],
