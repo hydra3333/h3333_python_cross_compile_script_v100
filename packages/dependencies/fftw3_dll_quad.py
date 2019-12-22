@@ -13,7 +13,8 @@
                          '--enable-threads --with-combined-threads '
                          '--disable-float --disable-long-double -enable-quad-precision ' # 2019.12.13 (the default is "DOUBLE") we ask quad
                          #'--enable-sse2 ' # SSE2 requires single or double precision
-						 '--enable-avx --enable-avx2 --disable-altivec --disable-vsx --disable-neon ' # 2019.12.13 removed --enable-sse as SSE only builds with "FLOAT/SINGLE"
+						 #'--enable-avx '  #AVX requires single or double precision
+						 '--enable-avx2 --disable-altivec --disable-vsx --disable-neon ' # 2019.12.13 removed --enable-sse as SSE only builds with "FLOAT/SINGLE"
     ,
 	'regex_replace': {
 		'post_patch': [
