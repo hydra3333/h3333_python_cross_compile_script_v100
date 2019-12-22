@@ -18,7 +18,7 @@
 		'-DWEBP_BUILD_GIF2WEBP=OFF '
 		'-DWEBP_BUILD_IMG2WEBP=OFF '
 		'-DWEBP_BUILD_WEBP_JS=OFF '
-		'-DWEBP_ENABLE_SWAP_16BIT_CSP=OFF '
+		'-DWEBP_ENABLE_SWAP_16BIT_CSP=ON ' # 2019.112.13 was off
 	,
     'run_post_patch': [ # 2019.12.13
 		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" ../configure.ac', # fix building with libpng # 2019.12.13
