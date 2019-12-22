@@ -304,7 +304,7 @@ fi
 
 
 rm -fv ./webp.log
-./cross_compiler_v100_001.py --force --debug -d libwebp 2>&1 | tee -a ./webp.log
+#./cross_compiler_v100_001.py --force --debug -d libwebp 2>&1 | tee -a ./webp.log
 ./cross_compiler_v100_001.py --force --debug -p webp 2>&1 | tee -a ./webp.log
 exit_status=$?
 echo "exit_status='$exit_status'"
