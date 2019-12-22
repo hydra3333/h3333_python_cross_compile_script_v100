@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libwebp',
 	'rename_folder' : 'webp_git',
-	'configure_options': '--host={target_host} --prefix=--prefix={output_prefix}/webp.installed --disable-shared --enable-static --enable-swap-16bit-csp --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder --enable-libwebpextras',
+	'configure_options': '--host={target_host} --prefix={output_prefix}/webp.installed --disable-shared --enable-static --enable-swap-16bit-csp --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder --enable-libwebpextras',
     'run_post_patch': [ # 2019.12.13
 		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" ./configure.ac', # fix building with libpng # 2019.12.13
 		'autoreconf -fiv', # 2019.12.13
