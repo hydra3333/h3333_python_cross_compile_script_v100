@@ -1289,7 +1289,7 @@ class CrossCompileScript:
 	# 				return fullOutputPath
 	# #:
 
-	def runProcess(self, command, ignoreErrors=False, exitOnError=True):
+	def runProcess(self, command, ignoreErrors=False, exitOnError=True, silent=False):
 		isSvn = False
 		if not isinstance(command, str):
 			command = " ".join(command)  # could fail I guess
@@ -1297,32 +1297,34 @@ class CrossCompileScript:
 			isSvn = True
 		self.logger.debug("Running '{0}' in '{1}'".format(command, os.getcwd()))
 		process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		buffer = ""
 		while True:
 			nextline = process.stdout.readline()
 			if nextline == b'' and process.poll() is not None:
 				break
+			buffer += nextline.decode("utf-8", "ignore")
 			if isSvn:
 				if not nextline.decode('utf-8').startswith('A    '):
 					if self.quietMode is True:
 						self.buildLogFile.write(nextline.decode('utf-8', 'replace'))
-					else:
+					elif not silent:
 						sys.stdout.write(nextline.decode('utf-8', 'replace'))
 						sys.stdout.flush()
 			else:
-				if self.quietMode is True:
+				if self.quietMode:
 					self.buildLogFile.write(nextline.decode('utf-8', 'replace'))
 				else:
 					sys.stdout.write(nextline.decode('utf-8', 'replace'))
 					sys.stdout.flush()
 
 		return_code = process.returncode
-		output = process.communicate()[0]
+		process.communicate()[0]
 		process.wait()
 		if (return_code == 0):
-			return output
+			return buffer
 		else:
 			if ignoreErrors:
-				return output
+				return buffer
 			self.logger.error("Error [{0}] running process: '{1}' in '{2}'".format(return_code, command, os.getcwd()))
 			self.logger.error("You can try deleting the product/dependency folder: '{0}' and re-run the script".format(os.getcwd()))
 			if self.quietMode:
@@ -1503,7 +1505,8 @@ class CrossCompileScript:
 						# 	self.run_process('git pull origin {1}'.format(bsSplit[0],bsSplit[1]))
 						# else:
 						self.logger.debug('git pull origin {0}'.format(properBranchString))
-						self.runProcess('git pull origin {0}'.format(properBranchString))
+						if 'Already up to date' in self.runProcess('git pull origin {0}'.format(properBranchString), silent=True):
+							return os.getcwd()
 					else:
 						self.logger.debug('git pull'.format(properBranchString))
 						self.runProcess('git pull'.format(properBranchString))
