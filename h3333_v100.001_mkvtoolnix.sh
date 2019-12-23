@@ -259,63 +259,46 @@ fi
 #read -p "After build mkvtoolnix, press Enter to continue"
 
 
+
+set -x
 sudo chmod 777 -R *
 rm -fv ./exe.log
 echo find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
+find /home/u/Desktop/_working/_output -iname "*.exe"
 echo find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1 | tee -a ./exe.log
+find /home/u/Desktop/_working/_output -iname "*.dll"
 
+cd ~/Desktop
+sudo chmod 777 -R *
+rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
+mkdir -pv exe_x64_py 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffmpeg.exe            ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffprobe.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffplay.exe            ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvextract.exe    ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvinfo.exe       ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvmerge.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/_output/x265_hg.installed/bin/x265.exe                ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/x264_git.installed/bin/x264.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mp4box_git.installed/bin/MP4Box.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/_output/dav1d.installed/bin/dav1d.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/aom_git.installed/bin/aomdec.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/aom_git.installed/bin/aomenc.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/sox_git.installed/bin/sox.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/vpx_git.installed/bin/vpxdec.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/vpx_git.installed/bin/vpxenc.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/lame-3.100.installed/bin/lame.exe             ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mediainfo_git.installed/bin/mediainfo.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3-3.dll                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 exit
-
-
-#cd ~/Desktop
-rm -frv ./exe_x64_py/* 2>&1 | tee -a ./mkvtoolnix.log
-mkdir -pv exe_x64_py 2>&1 | tee -a ./mkvtoolnix.log
-mkdir -pv exe_x64_py/noOpenCL 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffprobe.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffplay.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free_opencl.installed/bin/ffmpeg.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffprobe.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffplay.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/ffmpeg_static_non_free.installed/bin/ffmpeg.exe ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-cp -fv ./workdir/x86_64_products/x264_multibit_hg.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/x264_git.installed/bin/x264.exe ./exe_x64_py/x264-mp4.exe 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxenc.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/vpx_git.installed/bin/vpxdec.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/webpmux.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/webpinfo.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/mp4box_git.installed/bin/MP4Box.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/lame-3.100.installed/bin/lame.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/rtmpdump.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/sbin/rtmpsuck.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/mkvtoolnix_git.installed/bin/mkvtoolnix.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/aom_git.installed/bin/aomdec.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/aom_git.installed/bin/aomenc.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/sox_git.installed/bin/sox.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/sox_git.installed/bin/soxi.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/dav1d.installed/bin/dav1d.exe ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/presets ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/doc ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/presets ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fR ./workdir/x86_64_products/ffmpeg_static_non_free_opencl/doc ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-cp -fv ./workdir/x86_64_products/fftw3_dll_single/bin/libfftw3f-3.dll ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_double/bin/libfftw3-3.dll ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_ldouble/bin/libfftw3l-3.dll ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-#cp -fv ./workdir/x86_64_products/fftw3_dll_quad/bin/libfftw3q.dll ./exe_x64_py/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-cp -fv ./workdir/x86_64_products/fftw3_dll_single/bin/libfftw3f-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_double/bin/libfftw3-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-cp -fv ./workdir/x86_64_products/fftw3_dll_ldouble/bin/libfftw3l-3.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-#cp -fv ./workdir/x86_64_products/fftw3_dll_quad/bin/libfftw3q.dll ./exe_x64_py/noOpenCL/ 2>&1 | tee -a ./mkvtoolnix.log
-#
-#cp -fv ./workdir/x86_64_products/lameENC_DLL-3.100.installed/bin/libmp3lame-0.dll ./exe_x64_py/lame_enc.dll 2>&1 | tee -a ./mkvtoolnix.log
-
-exit 1
