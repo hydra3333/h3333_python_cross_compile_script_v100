@@ -21,7 +21,7 @@
 		'libvpx',
 		'libdav1d',
 		'libaom',
-		'libxvid',
+		'xvidcore', # was 'libxvid',
 		'libopus',
 		'liblame',
 		'libogg',
