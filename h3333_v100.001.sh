@@ -384,14 +384,14 @@ sudo chmod 777 -R *
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv exe_x64_py 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffmpeg.exe            ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffprobe.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffplay.exe            ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvextract.exe    ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvinfo.exe       ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvmerge.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/_output/x265_hg.installed/bin/x265.exe                ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/_output/x264_git.installed/bin/x264.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
@@ -409,5 +409,10 @@ cp -fv /home/u/Desktop/_working/_output/mediainfo_git.installed/bin/mediainfo.ex
 cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3-3.dll                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+ls -al ./exe_x64_py/  2>&1 | tee -a ./exe.log
+
+ls -al ./exe_x64_py/
+
 
 exit
