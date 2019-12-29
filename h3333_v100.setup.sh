@@ -88,7 +88,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\
                          ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 cd ~/Desktop
-sudo chmod 777 -R *
+sudo chmod a=rwx -R *
 set +x
 
 #------------------------------------------------------------------------------------------------

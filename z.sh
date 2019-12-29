@@ -5,7 +5,7 @@
 set -x
 
 cd ~/Desktop
-sudo chmod 777 -R *
+sudo chmod a=rwx -R *
 
 #------------------------------------------------------------------------------------------------
 # 2020.05.26 x264 has a new dependency on nasm 2.14 or greater ... 
@@ -40,13 +40,13 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\
                          ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 cd ~/Desktop
-sudo chmod 777 -R *
+sudo chmod a=rwx -R *
 rm -fR "./_ref"
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git "./_ref"
-sudo chmod 777 -R *
+sudo chmod a=rwx -R *
 mkdir -pv "./_working"
 rsync -rvtI "./_ref/" "./_working"
-sudo chmod 777 -R *
+sudo chmod a=rwx -R *
 cd "./_working"
 #git fetch origin
 #git reset --hard origin/master
