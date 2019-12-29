@@ -260,7 +260,7 @@ class CrossCompileScript:
 				'mingw_debug_build': False,
 				'mingw_dir': 'toolchain',
 				'mingw_custom_cflags': None,
-  				'output_path': '_output',
+  				#'output_path': '_output', # 2019.12.29 per deadsix27
 				'work_dir': 'workdir',
 				'original_cflags': '-O3',
 				'original_stack_protector' : '-fstack-protector-all',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
