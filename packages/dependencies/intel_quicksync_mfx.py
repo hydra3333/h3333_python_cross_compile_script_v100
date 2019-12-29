@@ -4,9 +4,9 @@
 	'run_post_patch' : [
 		'autoreconf -fiv',
 	],
-	'patches' :	[
-		( 'https://github.com/lu-zero/mfx_dispatch/pull/70.patch', '-p1' ),
-	],
+	#'patches' :	[ # removed per deadsix27, patch was merged upstream
+	#	( 'https://github.com/lu-zero/mfx_dispatch/pull/70.patch', '-p1' ),
+	#],
 	'url' : 'https://github.com/lu-zero/mfx_dispatch.git',
 	'url' : 'https://github.com/lu-zero/mfx_dispatch.git',
 	'configure_options' : '{autoconf_prefix_options}  --disable-shared --enable-static --without-libva_drm --without-libva_x11',
