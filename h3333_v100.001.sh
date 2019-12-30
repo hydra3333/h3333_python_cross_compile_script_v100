@@ -338,6 +338,10 @@ fi
 
 
 rm -fv ./fftw3_dll.log
+./cross_compiler_v100_001.py --force --debug -d fftw3_dll_single 2>&1 | tee -a ./fftw3_dll.log
+./cross_compiler_v100_001.py --force --debug -d fftw3_dll_double 2>&1 | tee -a ./fftw3_dll.log
+./cross_compiler_v100_001.py --force --debug -d fftw3_dll_ldouble 2>&1 | tee -a ./fftw3_dll.log
+#./cross_compiler_v100_001.py --force --debug -p fftw3_dll_quad 2>&1 | tee -a ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -p fftw3_dll 2>&1 | tee -a ./fftw3_dll.log
 exit_status=$?
 echo "exit_status='$exit_status'"
