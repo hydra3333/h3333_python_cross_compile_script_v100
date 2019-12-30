@@ -228,6 +228,10 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./fftw3_dll.log
 echo "# `date` ###################################################################################" >>./fftw3_dll.log
 echo "# `date` ###################################################################################" >>./fftw3_dll.log
+./cross_compiler_v100_001.py --force --debug -d fftw3_dll_single 2>&1 | tee -a ./fftw3_dll.log
+./cross_compiler_v100_001.py --force --debug -d fftw3_dll_double 2>&1 | tee -a ./fftw3_dll.log
+./cross_compiler_v100_001.py --force --debug -d fftw3_dll_ldouble 2>&1 | tee -a ./fftw3_dll.log
+#./cross_compiler_v100_001.py --force --debug -p fftw3_dll_quad 2>&1 | tee -a ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -p fftw3_dll 2>&1 | tee -a ./fftw3_dll.log
 #read -p "After build fftw3_dll, press Enter to continue"
 exit_status=$?
