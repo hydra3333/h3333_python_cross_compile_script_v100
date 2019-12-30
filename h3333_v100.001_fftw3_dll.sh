@@ -250,9 +250,9 @@ rm -fv ./exe.log
 echo find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.exe"
-echo find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1 | tee -a ./exe.log
-find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1 | tee -a ./exe.log
-find /home/u/Desktop/_working/_output -iname "*.dll"
+echo find /home/u/Desktop/_working -iname "*.dll" 2>&1 | tee -a ./exe.log
+find /home/u/Desktop/_working -iname "*.dll" 2>&1 | tee -a ./exe.log
+find /home/u/Desktop/_working -iname "*.dll"
 
 cd ~/Desktop
 sudo chmod a=rwx -R *
