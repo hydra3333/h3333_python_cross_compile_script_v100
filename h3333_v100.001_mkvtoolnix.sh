@@ -72,14 +72,17 @@ sudo apt install -y ninja-build
 #pip3 install -y --user meson
 
 cd ~/Desktop
-#git clone https://github.com/mesonbuild/meson.git
-git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
-cd meson_git
-sudo python3 setup.py clean 
-sudo python3 setup.py build
-sudo python3 setup.py install 
-sudo python3 setup.py check
-#sudo python3 setup.py test
+set -x
+if [[ ! -d "meson_git" ]]; then
+   #git clone https://github.com/mesonbuild/meson.git
+   git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
+   cd meson_git
+   sudo python3 setup.py clean 
+   sudo python3 setup.py build
+   sudo python3 setup.py install 
+   sudo python3 setup.py check
+   #sudo python3 setup.py test
+fi
 cd ~/Desktop
 
 # 2019.11.20 change these 3 lines per documentation https://docs.nvidia.com/cuda/cuda-quick-start-guide/index.html#ubuntu-x86_64-deb		 
