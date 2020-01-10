@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # ####################################################
-# Copyright (C) 2018-2019 Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
+# Copyright (C) 2018-2020 Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
 # with addition by Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
