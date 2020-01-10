@@ -1046,8 +1046,9 @@ class CrossCompileScript:
 			meFile = (
 				"[binaries]\n",
 				F"c = '{self.shortCrossPrefixStr}gcc'",
-				F"cpp = '{self.shortCrossPrefixStr}g++'",
-				F"ld = '{self.shortCrossPrefixStr}ld'",
+				F"cpp = '{self.shortCrossPrefixStr}g++'", 
+				#F"ld = 'bfd'", # 2020.01.10 See: https://github.com/mesonbuild/meson/issues/6431#issuecomment-572544268, no clue either why we can't just define full "ld" path, but whatever.
+				F"ld = '{self.shortCrossPrefixStr}ld'", # 2020.01.10 leave as-is at 0.51.2 (?0.52.1?)
 				F"ar = '{self.shortCrossPrefixStr}ar'",
 				F"strip = '{self.shortCrossPrefixStr}strip'",
 				F"windres = '{self.shortCrossPrefixStr}windres'",

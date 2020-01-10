@@ -74,7 +74,9 @@ cd ~/Desktop
 set -x
 if [[ ! -d "meson_git" ]]; then
    #git clone https://github.com/mesonbuild/meson.git
-   git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
+   #git clone --depth 1 https://github.com/mesonbuild/meson.git "meson_git"
+   #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
+   git clone --depth 1 --branch "0.52.1" https://github.com/mesonbuild/meson.git "meson_git"
    cd meson_git
    sudo python3 setup.py clean 
    sudo python3 setup.py build
