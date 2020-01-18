@@ -5,10 +5,6 @@
 		'source_subfolder' : 'VapourSynth',
 		'env_exports' : {
 			'PKGCONFIG' : 'pkg-config',
-			'CFLAGS'   : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-			'CXXFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-			'CPPFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-			'LDFLAGS'  : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
 		},
 		'conf_system' : 'meson',
 		'build_system' : 'ninja',
