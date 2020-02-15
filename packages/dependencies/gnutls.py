@@ -1,8 +1,8 @@
 { # 2019.12.13 version 3.6.11.1 is later than mine
 	'repo_type' : 'archive',
 	'download_locations' : [ # 3.6.11.1 is newer than my 3.6.10
-		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8' }, ], },
+		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.12.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'bfacf16e342949ffd977a9232556092c47164bd26e166736cf3459a870506c4b' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.12.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'bfacf16e342949ffd977a9232556092c47164bd26e166736cf3459a870506c4b' }, ], },
 	],
     'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
 		'CFLAGS'   : ' -D_POSIX_C_SOURCE {original_cflags}',
@@ -56,7 +56,7 @@
         'gmp', # 2019.12.13
 	],
 	'update_check' : { 'url' : 'ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6', 'type' : 'ftpindex', 'regex' : r'gnutls-(?P<version_num>[\d.]+)\.tar\.xz' },
-	'_info' : { 'version' : '3.6.11.1', 'fancy_name' : 'gnutls' },
+	'_info' : { 'version' : '3.6.12', 'fancy_name' : 'gnutls' },
 }
 # 2019.12.13 old:
 #	'gnutls' : {
