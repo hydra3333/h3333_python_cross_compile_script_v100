@@ -74,6 +74,7 @@ sudo apt install -y ninja-build
 cd ~/Desktop
 set -x
 if [[ ! -d "meson_git" ]]; then
+   echo "building meson ..."
    #git clone https://github.com/mesonbuild/meson.git
    #git clone --depth 1 https://github.com/mesonbuild/meson.git "meson_git"
    #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
@@ -309,16 +310,16 @@ fi
 #read -p "done vpx press any key to continue"
 
 
-#rm -fv ./webp.log
-##./cross_compiler_v100_001.py --force --debug -d libwebp 2>&1 | tee -a ./webp.log
-#./cross_compiler_v100_001.py --force --debug -p webp 2>&1 | tee -a ./webp.log
-#exit_status=$?
-#echo "exit_status='$exit_status'"
-#if [ $exit_status -ne 0 ]; then
-#    echo "Error $exit_status detected"
-#	exit $exit_status
-#fi
-##read -p "done webp press any key to continue"
+rm -fv ./webp.log
+./cross_compiler_v100_001.py --force --debug -d libwebp 2>&1 | tee -a ./webp.log
+./cross_compiler_v100_001.py --force --debug -p webp 2>&1 | tee -a ./webp.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+#read -p "done webp press any key to continue"
 
 
 rm -fv ./mediainfo.log
@@ -394,31 +395,34 @@ sudo chmod a=rwx -R *
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv exe_x64_py 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/x265_hg.installed/bin/x265.exe                ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/x264_git.installed/bin/x264.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mp4box_git.installed/bin/MP4Box.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/x265_hg.installed/bin/x265.exe                ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/x264_git.installed/bin/x264.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mp4box_git.installed/bin/MP4Box.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/dav1d.installed/bin/dav1d.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/aom_git.installed/bin/aomdec.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/aom_git.installed/bin/aomenc.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/sox_git.installed/bin/sox.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/vpx_git.installed/bin/vpxdec.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/vpx_git.installed/bin/vpxenc.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/lame-3.100.installed/bin/lame.exe             ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/mediainfo_git.installed/bin/mediainfo.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/dav1d.installed/bin/dav1d.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/aom_git.installed/bin/aomdec.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/aom_git.installed/bin/aomenc.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/sox_git.installed/bin/sox.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/vpx_git.installed/bin/vpxdec.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/vpx_git.installed/bin/vpxenc.exe              ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/lame-3.100.installed/bin/lame.exe             ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mediainfo_git.installed/bin/mediainfo.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/webpinfo.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/cwebp.exe                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/dwebp.exe                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/_output/fftw3_dll/bin/libfftw3-3.dll                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3-3.dll                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 ls -al ./exe_x64_py/  2>&1 | tee -a ./exe.log
 
