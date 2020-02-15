@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/fribidi/fribidi.git',
+	'branch': 'f503e576c8345dd32d7438569346d6ca9aa50044', # 2020.02.15
+	'depth_git': 2, # 2020.02.15
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
