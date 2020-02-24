@@ -11,7 +11,7 @@ to the host machine.
 
 1. Create a new docker container based on ubuntu in the public repository
 ```
-docker containers -a
+docker container -a
 docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu
 ```
 
@@ -27,7 +27,7 @@ exit
 
 3. Save the container to a new image called ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
 ```
-docker containers ps -a
+docker container ps -a
 docker image ls -a
 docker commit <the_container_id> ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
 ```
