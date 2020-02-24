@@ -1,52 +1,68 @@
-UNDER CONSTRUCTION !!!
+# UNDER CONSTRUCTION !!!
 
-# Prepare a Docker image, for use in building ffmpeg in a NEW disposable/re-usable docker container
-#
-# This is important:  "-v D:/VM:/VM"  in the docker commansdline
-# since it permits copying of a newly built ffmpeg executables to the host machine.
-# 
+# Prepare a Docker image  
+# for use in building ffmpeg  
+# in a NEW disposable/re-usable docker container  
 
-# 1. Create a new docker container based on ubuntu
+This is important:  "-v D:/VM:/VM"  in the docker commandline
+since it permits copying of a newly built ffmpeg executables
+to the host machine.
+ 
+
+1. Create a new docker container based on ubuntu in the public repository
+```
 docker containers -a
 docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu
+```
 
-# 2. Update the container by installing dependencies (excluding MingW etc)
+2. Update the container by installing dependencies (excluding MingW etc)
+```
 cd /
 cp -fv /VM/docker/app/* ./
 chmod +777 ./*.sh
 ./run_prep.sh
 # answer any prompted questions
 exit
+```
 
-# 3. Save the container to a new image called ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
+3. Save the container to a new image called ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
+```
 docker containers ps -a
 docker image ls -a
 docker commit <the_container_id> ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
+```
 
-# 4. Create a new docker container based on ubuntu_build_ffmpeg_base
+4. Create a new docker container based on ubuntu_build_ffmpeg_base
+```
 docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
+```
 
-# 5. Update the container with MingW and GCC etc by running ffmpeg build once
+5. Update the container with MingW and GCC etc by running ffmpeg build once
+```
 cd /
 chmod +777 ./*.sh
 ./h3333_v100.001.sh
 exit
+```
 
-# 6. Save the container to a new image called ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
+6. Save the container to a new image called ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
+```
 docker containers ps -a
 docker image ls -a
 docker commit <the_container_id> ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_has_MingW
+```
 
-# 7. Later, to re-build ffmpeg, 
+7. Later, to re-build ffmpeg, 
+```
 docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
 cd /
 chmod +777 ./*.sh
 ./h3333_v100.001.sh
 exit
-# and the resulting new executable files should exist in folder D:\VM\exe_x64_py\
+```
+and the resulting new executable files should exist in folder D:\VM\exe_x64_py\  
 
-# 8. If one needs to re-build am image with a new version of MingW/GCC etc,
-#    simply 
-#    8.1 ensure all containers are stopped
-#    8.2 docker image rm ubuntu_build_ffmpeg_with_MingW (or possibly use it's <container_id>)
-#    8.3 repeat steps 4. through 6. inclusive
+8. If one needs to re-build a replacement image with a new version of MingW/GCC etc, simply   
+8.1 ensure all docker containers are stopped  
+8.2 docker image rm ubuntu_build_ffmpeg_with_MingW (or possibly use it's <container_id>)  
+8.3 repeat steps 4. through 6. inclusive  
