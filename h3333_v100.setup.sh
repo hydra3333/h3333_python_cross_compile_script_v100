@@ -3,12 +3,19 @@
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 
 set -x
-sudo apt update -y
-sudo apt upgrade -y
+
+sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
+sudo apt -y update
 
 sudo apt install -y apt-utils
+sudo apt install -y debconf debconf-utils
+
+sudo apt upgrade -y
+
 sudo apt install -y curl
 sudo apt install -y wget
+
+apt-get install -y ubuntu-restricted-extras
 
 sudo apt install -y build-essential
 sudo apt install -y gcc
@@ -28,7 +35,8 @@ sudo apt install -y ninja-build
 
 sudo apt install -y git 
 sudo apt install -y cvs 
-sudo apt install -y subversion svn 
+#sudo apt install -y svn
+sudo apt install -y subversion 
 sudo apt install -y mercurial 
 sudo apt install -y hg 
 sudo apt install -y git-remote-hg 
@@ -121,7 +129,6 @@ sudo apt install -y ant
 sudo apt install -y libxml2 
 sudo apt install -y xsltproc 
 sudo apt install -y itstool
-
 
 # gendef is installed with mingw
 sudo apt install -y libmozjs-dev 
@@ -259,6 +266,5 @@ set -x
 export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/nsight-compute-2019.5.0${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 #------------------------------------------------------------------------------------------------
-
 
 cd ~/Desktop
