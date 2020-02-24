@@ -7,7 +7,13 @@
 This is important:  "-v D:/VM:/VM"  in the docker commandline
 since it permits copying of a newly built ffmpeg executables
 to the host machine.
- 
+
+0. Setup - outside Docker, first ensure that the files in the git 
+subfolder /docker/app/ are copied to a place where the docker 
+scripts can  copy them from.  Example of this not shown.  
+In the instructions below we had copied then to ```D:\VM\docker\app```
+... and notice that inside the docker container ```/VM``` is 
+mapped to ```D:/VM``` via the docker ```RUN``` commandline.  
 
 1. Create a new docker container based on ubuntu in the public repository
 ```
@@ -15,7 +21,7 @@ docker container -a
 docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu
 ```
 
-2. Update the container by installing dependencies (excluding MingW etc)
+2. Update the container by installing dependencies (excluding MingW etc).  
 ```
 cd /
 cp -fv /VM/docker/app/* ./
