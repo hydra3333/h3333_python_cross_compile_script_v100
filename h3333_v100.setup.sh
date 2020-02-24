@@ -6,24 +6,54 @@ set -x
 sudo apt update -y
 sudo apt upgrade -y
 
+sudo apt install -y apt-utils
+sudo apt install -y curl
+sudo apt install -y wget
+
+sudo apt install -y build-essential
+sudo apt install -y gcc
+sudo apt install -y gcc-c++ 
+sudo apt install -y g++ 
+sudo apt install -y make 
+sudo apt install -y automake 
+sudo apt install -y cmake 
+sudo apt install -y yasm 
+sudo apt install -y pkg-config 
+sudo apt install -y autogen 
+sudo apt install -y autoconf 
+sudo apt install -y autoconf-archive
+sudo apt install -y libtool-bin 
+sudo apt install -y libtool 
+sudo apt install -y ninja-build
+
+sudo apt install -y git 
+sudo apt install -y cvs 
+sudo apt install -y subversion svn 
+sudo apt install -y mercurial 
+sudo apt install -y hg 
+sudo apt install -y git-remote-hg 
+
+#sudo apt-get remove -y nasm
 sudo apt-get remove -y python-pip cython # python 
 sudo apt autoremove -y
-sudo apt install -y python3 python3-pip python3-distutils python3-dev python3-numpy
+sudo apt install -y python3 
+sudo apt install -y python3-pip 
+sudo apt install -y python3-distutils 
+sudo apt install -y python3-dev 
+sudo apt install -y python3-numpy
 sudo apt install -y cython3
 
-sudo pip  install progressbar2
+#sudo pip  install progressbar2
 sudo pip3 install progressbar2
 sudo pip3 install py2exe
 sudo pip3 install certifi # install latest certificatess for python requests.get
-
-pip  install progressbar2
+#pip  install progressbar2
 pip3 install progressbar2
 pip3 install py2exe
 pip3 install certifi # install latest certificatess for python requests.get
 
-
 sudo apt install -y hashalot
-sudo apt install -y git git-email
+sudo apt install -y git-email
 git config --global user.name "hydra3333"
 git config --global user.email "hydra3333@gmail.com"
 git config --global sendemail.smtpencryption tls
@@ -48,61 +78,96 @@ git config --global credential.helper store
 #git commit --message="Slightly update nvenc error messages and warnings"
 #git send-email -1 --cover-letter --annotate --smtp-debug=1 --to=ffmpeg-devel@ffmpeg.org --subject="Slightly update nvenc error messages and warnings"
 
-sudo apt install -y texinfo yasm make automake gcc gcc-c++ pax cvs svn flex bison patch libtoolize hg cmake gettext-autopoint
-sudo apt install -y libxslt rake
-sudo apt install -y gperf gyp p7zip docbook-to-man docbook2x pando p7zip
+sudo apt install -y texinfo 
+sudo apt install -y pax 
 
-sudo apt install -y build-essential autoconf libtool-bin libtool gettext autopoint gyp gperf autogen bzip2 pandoc 
-sudo apt install -y subversion curl texinfo g++ bison flex cvs yasm automake ed gcc cmake git make pkg-config mercurial unzip pax wget ant
-sudo apt install -y git-remote-hg libxslt1.1 libxml2 rake docbook-utils docbook-style-xsl docbook-xsl docbook-to-man docbook2x p7zip p7zip-full
-sudo apt install -y xsltproc itstool autoconf-archive
-#sudo apt-get remove -y nasm
-sudo apt-get remove -y doxygen
-# gendef is installed with mingw
-sudo apt install -y libmozjs-dev libxmu-dev libgconf2-dev libdbus-1-dev network-manager-dev xserver-xorg-dev # for libproxy
-sudo apt install -y zlib1g-dev #warning: you may need to install zlib development headers first if you want to build mp4-box on ubuntu
+sudo apt install -y flex 
+sudo apt install -y bison 
+sudo apt install -y patch 
+sudo apt install -y libtoolize 
+
+sudo apt install -y autopoint 
+sudo apt install -y gettext 
+sudo apt install -y gettext-autopoint
+
+sudo apt install -y libxslt 
+sudo apt install -y libxslt1.1 
+sudo apt install -y rake
+sudo apt install -y gyp 
+sudo apt install -y gperf 
+
+sudo apt install -y tar
+sudo apt install -y bzip2 
+sudo apt install -y p7zip 
 sudo apt install -y p7zip-full
-sudo apt install -y autoconf-archive
-sudo apt install -y docbook2x docbook-xsl
-sudo apt install -y dbtoepub docbook-xsl-doc-html docbook-xsl-doc-pdf docbook-xsl-doc-text docbook-xsl-saxon fop libsaxon-java libxalan2-java libxslthl-java xalan
+sudo apt install -y unzip
 
-sudo apt install -y python3 python3-pip
-sudo apt install -y ninja-build
+sudo apt install -y docbook-to-man 
+sudo apt install -y docbook2x 
+sudo apt install -y docbook-utils 
+sudo apt install -y docbook-style-xsl 
+sudo apt install -y docbook-xsl 
+sudo apt install -y docbook-to-man 
+sudo apt install -y docbook-xsl-doc-html 
+sudo apt install -y docbook-xsl-doc-pdf 
+sudo apt install -y docbook-xsl-doc-text 
+sudo apt install -y docbook-xsl-saxon 
+
+sudo apt install -y pando 
+sudo apt install -y pandoc 
+
+sudo apt install -y ed
+sudo apt install -y ant
+sudo apt install -y libxml2 
+sudo apt install -y xsltproc 
+sudo apt install -y itstool
+
+
+# gendef is installed with mingw
+sudo apt install -y libmozjs-dev 
+sudo apt install -y libxmu-dev 
+sudo apt install -y libgconf2-dev 
+sudo apt install -y libdbus-1-dev 
+sudo apt install -y network-manager-dev 
+sudo apt install -y xserver-xorg-dev # for libproxy
+sudo apt install -y zlib1g-dev #warning: you may need to install zlib development headers first if you want to build mp4-box on ubuntu
+sudo apt install -y dbtoepub 
+sudo apt install -y fop 
+sudo apt install -y libsaxon-java 
+sudo apt install -y libxalan2-java 
+sudo apt install -y libxslthl-java 
+sudo apt install -y xalan
+
+sudo apt-get remove -y nasm
+sudo apt-get remove -y doxygen
+
+# Build and install meson
 #sudo apt install -y meson
 #pip3 install -y --user meson
-
-cd ~/Desktop
 set -x
+cd ~/Desktop
 if [[ ! -d "meson_git" ]]; then
-   #git clone https://github.com/mesonbuild/meson.git
-   #git clone --depth 1 https://github.com/mesonbuild/meson.git "meson_git"
-   #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
-   git clone --depth 1 --branch "0.52.1" https://github.com/mesonbuild/meson.git "meson_git"
+   #git clone https://github.com/mesonsudo apt /meson.git
+   #git clone --depth 1 https://github.com/mesonsudo apt /meson.git "meson_git"
+   #git clone --depth 1 --branch "0.51.2" https://github.com/mesonsudo apt /meson.git "meson_git"
+   git clone --depth 1 --branch "0.52.1" https://github.com/mesonsudo apt /meson.git "meson_git"
    cd meson_git
    sudo python3 setup.py clean 
-   sudo python3 setup.py build
+   sudo python3 setup.py sudo apt 
    sudo python3 setup.py install 
    sudo python3 setup.py check
    #sudo python3 setup.py test
 fi
 cd ~/Desktop
-
-# 2019.11.20 change these 3 lines per documentation https://docs.nvidia.com/cuda/cuda-quick-start-guide/index.html#ubuntu-x86_64-deb		 
-export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\
-                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-
-cd ~/Desktop
 sudo chmod a=rwx -R *
 set +x
 
-#------------------------------------------------------------------------------------------------
-# 2017.05.26 x264 has a new dependency on nasm 2.14 or greater ... 
-# before we do anything, build NASM if need be
+# Build and install nasm
 set -x
+cd ~/Desktop
 if [[ ! -d "nasm-2.14.02" ]]; then
    echo "Downloading nasm 2.14.02"
-   url="https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.xz"
+   url="https://www.nasm.us/pub/nasm/releasesudo apt s/2.14.02/nasm-2.14.02.tar.xz"
    rm -f "nasm-2.14.02.tar.xz"
    curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.14.02.tar.xz" --fail # -L means "allow redirection" or some odd :|
    tar -xf "nasm-2.14.02.tar.xz" || unzip "nasm-2.14.02.tar.xz"
@@ -115,12 +180,12 @@ if [[ ! -d "nasm-2.14.02" ]]; then
       echo "Installing nasm 2.14"
       sudo make install  || exit 1 # sudo so it copies into /usr folder tree
    cd ..
-   echo "Done Building and Installing nasm 2.14.02"
+   echo "Done sudo apt ing and Installing nasm 2.14.02"
 fi
 set +x
-#read -p "After nasm build, press Enter to continue"
-#------------------------------------------------------------------------------------------------
-set -x
+cd ~/Desktop
+sudo chmod a=rwx -R *
+set +x
 
 #------------------------------------------------------------------------------------------------
 #CUDA SDK Toolkit 10.2 Install Commentary https://github.com/DeadSix27/python_cross_compile_script/issues/83#issuecomment-468670437
@@ -176,7 +241,7 @@ if [[ ! -f "$cuda_install_file" ]]; then
       echo "Installing $cuda_install_file"
       sudo sh ./$cuda_install_file --silent --toolkit --samples
    cd ..
-   echo "Done Building and Installing $cuda_install_file"
+   echo "Done sudo apt ing and Installing $cuda_install_file"
 fi
 set +x
 #read -p "After installing $cuda_install_file, press Enter to continue"
@@ -187,6 +252,10 @@ set -x
 #            https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#environment-setup
 #            but not https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#cross-installation
 #                    since there is no target win64 operating system available
+#export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}
+#export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\
+#                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
 export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/nsight-compute-2019.5.0${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 #------------------------------------------------------------------------------------------------
