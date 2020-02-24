@@ -1,4 +1,5 @@
-# UNDER CONSTRUCTION !!!
+# UNDER CONSTRUCTION !!!  
+# (but it seems to work)
 
 # Prepare a Docker image  
 # for use in building ffmpeg  
