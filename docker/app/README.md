@@ -54,16 +54,16 @@ chmod +777 ./*.sh
 exit
 ```
 
-6. Save the container to a new image called ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
+6. Save the container to a new image
 ```
 docker containers ps -a
 docker image ls -a
-docker commit <the_container_id> ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_has_MingW
+docker commit <the_container_id> ubuntu_build_ffmpeg_with_mingw:ubuntu_build_ffmpeg_with_mingw
 ```
 
 7. Later, to re-build ffmpeg, 
 ```
-docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
+docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg_with_mingw:ubuntu_build_ffmpeg_with_mingw
 cd /
 chmod +777 ./*.sh
 ./h3333_v100.001.sh
@@ -73,7 +73,7 @@ exit
 
 8. If one needs to re-build a replacement image with a new version of MingW/GCC etc, simply   
 8.1 ensure all docker containers are stopped  
-8.2 docker image rm ubuntu_build_ffmpeg_with_MingW (or possibly use it's <container_id>)  
+8.2 docker image rm ubuntu_build_ffmpeg_with_mingw (or possibly use it's <container_id>)  
 8.3 repeat steps 4. through 6. inclusive  
 
 9. Now that we have a reliable docker container, we can (re)build ffmpeg any time
