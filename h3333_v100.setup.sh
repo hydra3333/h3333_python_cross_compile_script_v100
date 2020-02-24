@@ -174,7 +174,7 @@ set -x
 cd ~/Desktop
 if [[ ! -d "nasm-2.14.02" ]]; then
    echo "Downloading nasm 2.14.02"
-   url="https://www.nasm.us/pub/nasm/releasesudo apt s/2.14.02/nasm-2.14.02.tar.xz"
+   url="https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.xz"
    rm -f "nasm-2.14.02.tar.xz"
    curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.14.02.tar.xz" --fail # -L means "allow redirection" or some odd :|
    tar -xf "nasm-2.14.02.tar.xz" || unzip "nasm-2.14.02.tar.xz"
