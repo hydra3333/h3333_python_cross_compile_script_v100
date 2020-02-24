@@ -8,7 +8,7 @@
 
 
 0. Setup  
-0.1 Install docker from ```https://docs.docker.com/docker-for-windows/install/``` and configure it.
+0.1 Install docker from ```https://docs.docker.com/docker-for-windows/install/``` and configure it.  
 0.2 This is important:  notice "-v D:/VM:/VM"  in the docker commandline,
 as it permits copying of newly built ffmpeg executables back to the host machine.  
 Outside of Docker, first ensure that the files in our git 
