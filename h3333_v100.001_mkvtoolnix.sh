@@ -12,7 +12,7 @@ if [[ ! -d "meson_git" ]]; then
 	exit
 fi
 cd ~/Desktop
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 set +x
 #------------------------------------------------------------------------------------------------
 set -x
@@ -26,13 +26,13 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRAR
 #------------------------------------------------------------------------------------------------
 
 cd ~/Desktop
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 rm -fR "./_ref"
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git "./_ref"
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 mkdir -pv "./_working"
 rsync -rvtI "./_ref/" "./_working"
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 cd "./_working"
 #git fetch origin
 #git reset --hard origin/master
@@ -45,7 +45,7 @@ cd "./_working"
 #ls -al
 
 #cd ~/Desktop
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 #find . -iname "*.exe" -print -delete 
 
 rm -fv ./mkvtoolnix.log
@@ -54,7 +54,7 @@ rm -fv ./mkvtoolnix.log
 #find . -iname "*.exe" -print -delete 2>&1 | tee -a ./mkvtoolnix.log
 
 #cd ~/Desktop
-#sudo chmod a=rwx -R *
+#sudo chmod a=rwx -R *.sh
 #./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x264_multibit
 #./cross_compiler_v100_001.py --force --debug -p x264_multibit
 # only use --force if ity's already been fully built, 
@@ -79,7 +79,7 @@ fi
 
 
 set -x
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 rm -fv ./exe.log
 echo find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
@@ -89,7 +89,7 @@ find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.dll"
 
 cd ~/Desktop
-sudo chmod a=rwx -R *
+sudo chmod a=rwx -R *.sh
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv exe_x64_py 2>&1 | tee -a ./exe.log
 
