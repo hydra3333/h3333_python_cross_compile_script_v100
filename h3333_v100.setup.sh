@@ -154,7 +154,8 @@ sudo apt-get remove -y doxygen
 #pip3 install -y --user meson
 set -x
 cd ~/Desktop
-if [[ ! -d "meson_git" ]]; then
+rm -vfR meson_git
+#if [[ ! -d "meson_git" ]]; then
    #git clone https://github.com/mesonbuild/meson.git
    #git clone --depth 1 https://github.com/mesonbuild/meson.git "meson_git"
    #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
@@ -165,15 +166,16 @@ if [[ ! -d "meson_git" ]]; then
    sudo python3 setup.py install 
    sudo python3 setup.py check
    #sudo python3 setup.py test
-fi
+#fi
 cd ~/Desktop
-sudo chmod a=rwx -R *
+sudo chmod a=rwx *.sh
 set +x
 
 # Build and install nasm
 set -x
 cd ~/Desktop
-if [[ ! -d "nasm-2.14.02" ]]; then
+rm -vfR nasm-2.14.02
+#if [[ ! -d "nasm-2.14.02" ]]; then
    echo "Downloading nasm 2.14.02"
    url="https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.xz"
    rm -f "nasm-2.14.02.tar.xz"
@@ -189,10 +191,10 @@ if [[ ! -d "nasm-2.14.02" ]]; then
       sudo make install  || exit 1 # sudo so it copies into /usr folder tree
    cd ..
    echo "Done sudo apt ing and Installing nasm 2.14.02"
-fi
+#fi
 set +x
 cd ~/Desktop
-sudo chmod a=rwx -R *
+sudo chmod a=rwx *.sh
 set +x
 
 #------------------------------------------------------------------------------------------------
