@@ -4,15 +4,16 @@
 # for use in building ffmpeg  
 # in a NEW disposable/re-usable docker container  
 
-This is important:  "-v D:/VM:/VM"  in the docker commandline
-since it permits copying of a newly built ffmpeg executables
-to the host machine.
 
-0. Setup - outside Docker, first ensure that the files in the git 
-subfolder /docker/app/ are copied to a place where the docker 
-scripts can  copy them from.  Example of this not shown.  
-In the instructions below we had copied then to ```D:\VM\docker\app```
-... and notice that inside the docker container ```/VM``` is 
+
+0. Setup - This is important:  "-v D:/VM:/VM"  in the docker commandline
+since it permits copying of a newly built ffmpeg executables
+to the host machine.  
+Outside Docker, first ensure that the files in our git 
+subfolder ```/docker/app/``` are copied to a place where the docker 
+scripts can  copy them from. An example of this not shown.  
+In the instructions below, we had already copied the files to ```D:\VM\docker\app```
+... notice that inside the docker container ```/VM``` will thus be 
 mapped to ```D:/VM``` via the docker ```RUN``` commandline.  
 
 1. Create a new docker container based on ubuntu in the public repository
