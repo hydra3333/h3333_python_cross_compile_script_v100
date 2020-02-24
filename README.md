@@ -1,80 +1,27 @@
-# UNDER CONSTRUCTION !!!  
-# (but it seems to work)
+# DO NOT USE THIS PROJECT - IT USUALLY DOES NOT WORK
+# Instead, use deadsix27's at 
+https://github.com/DeadSix27/python_cross_compile_script
 
-# Prepare a Docker image  
-# for use in building ffmpeg  
-# in a NEW disposable/re-usable docker container  
+A v100 fork of DeadSix27's work to build 64-bit STATIC ffmpeg.exe with lots of ffmpeg dependencies and have the ffmpeg.exe run in a Windows 10 64-bit o/s
 
+based on deadsix27 fine work at https://github.com/DeadSix27/python_cross_compile_script
 
-
-0. Setup  
-0.1 Install docker from ```https://docs.docker.com/docker-for-windows/install/``` and configure it.
-0.2 This is important:  notice "-v D:/VM:/VM"  in the docker commandline,
-as it permits copying of newly built ffmpeg executables back to the host machine.  
-Outside of Docker, first ensure that the files in our git 
-subfolder ```/docker/app/``` are copied to a place where the docker 
-scripts can copy them from. An example of this not shown.  
-In the instructions below, we had already copied the files to ```D:\VM\docker\app```
-... notice that inside the docker container ```/VM``` will thus be 
-mapped to ```D:/VM``` via the docker ```RUN``` commandline.  
-
-1. Create a new docker container based on ubuntu in the public repository
+NOTE: attempt to build everything wherever possible with safety settings
 ```
-docker container -a
-docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu
+          -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2
 ```
 
-2. Update the container by installing dependencies (excluding MingW etc).  
+Some day this script will build 
 ```
-cd /
-cp -fv /VM/docker/app/* ./
-chmod +777 ./*.sh
-./run_prep.sh
-# answer any prompted questions
-exit
-```
-
-3. Save the container to a new image called ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
-```
-docker container ps -a
-docker image ls -a
-docker commit <the_container_id> ubuntu_build_ffmpeg_base:ubuntu_build_ffmpeg_base
+ffmpeg.exe (64-bit, static) with OpenCL (eg to use with nvidia) and multibit h264/h265
+ffprobe.exe (64-bit, static)
+mediainfo.exe
+x264.exe (multibit) with extra input/outout media container types eg mpg
+x265.exe (multibit)
+mp4box.exe
+vpx encoder/decoder
+aom-av1 encoder/decoder
+dav1d av1 video decoder
+sox audio processor
 ```
 
-4. Create a new docker container based on ubuntu_build_ffmpeg_base
-```
-docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg_base:ubuntu_build_ffmpeg_base
-```
-
-5. Update the container with MingW and GCC etc by running ffmpeg build once
-```
-cd /
-chmod +777 ./*.sh
-./h3333_v100.001.sh
-exit
-```
-
-6. Save the container to a new image called ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
-```
-docker containers ps -a
-docker image ls -a
-docker commit <the_container_id> ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_has_MingW
-```
-
-7. Later, to re-build ffmpeg, 
-```
-docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg_with_MingW:ubuntu_build_ffmpeg_with_MingW
-cd /
-chmod +777 ./*.sh
-./h3333_v100.001.sh
-exit
-```
-**and the resulting new executable files should exist in folder ```D:\VM\exe_x64_py\```**  
-
-8. If one needs to re-build a replacement image with a new version of MingW/GCC etc, simply   
-8.1 ensure all docker containers are stopped  
-8.2 docker image rm ubuntu_build_ffmpeg_with_MingW (or possibly use it's <container_id>)  
-8.3 repeat steps 4. through 6. inclusive  
-
-9. Now that we have a reliable docker container, we can (re)build ffmpeg any time
-by doing steps 4 and 5.
