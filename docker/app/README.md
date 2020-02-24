@@ -67,7 +67,7 @@ chmod +777 ./*.sh
 ./h3333_v100.001.sh
 exit
 ```
-and the resulting new executable files should exist in folder D:\VM\exe_x64_py\  
+**and the resulting new executable files should exist in folder ```D:\VM\exe_x64_py\```**  
 
 8. If one needs to re-build a replacement image with a new version of MingW/GCC etc, simply   
 8.1 ensure all docker containers are stopped  
