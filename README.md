@@ -11,6 +11,14 @@ NOTE: attempt to build everything wherever possible with safety settings
           -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2
 ```
 
+** Now with ```docker```.**  
+In the folder ```/docker/app``` are instructions for attempting to build and use a docker image,
+so that ffmpeg can be repeatably built easily in a disposable/re-usable docker container.  
+It's a tad convoluted, mainly because the standard ```docker build``` command 
+using a ```Dockerfile``` doesn't accept tty input which some of the dependency 
+installs depend on, thus we use another way (```commit```) to build basic docker images.   
+
+
 Some day this script will build 
 ```
 ffmpeg.exe (64-bit, static) with OpenCL (eg to use with nvidia) and multibit h264/h265
