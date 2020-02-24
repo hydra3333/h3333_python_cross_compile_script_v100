@@ -6,12 +6,13 @@
 
 
 
-0. Setup - This is important:  "-v D:/VM:/VM"  in the docker commandline
-since it permits copying of a newly built ffmpeg executables
-to the host machine.  
-Outside Docker, first ensure that the files in our git 
+0. Setup  
+0.1 Install docker from ```https://docs.docker.com/docker-for-windows/install/``` and configure it.
+0.2 This is important:  notice "-v D:/VM:/VM"  in the docker commandline,
+as it permits copying of newly built ffmpeg executables back to the host machine.  
+Outside of Docker, first ensure that the files in our git 
 subfolder ```/docker/app/``` are copied to a place where the docker 
-scripts can  copy them from. An example of this not shown.  
+scripts can copy them from. An example of this not shown.  
 In the instructions below, we had already copied the files to ```D:\VM\docker\app```
 ... notice that inside the docker container ```/VM``` will thus be 
 mapped to ```D:/VM``` via the docker ```RUN``` commandline.  
@@ -73,3 +74,6 @@ exit
 8.1 ensure all docker containers are stopped  
 8.2 docker image rm ubuntu_build_ffmpeg_with_MingW (or possibly use it's <container_id>)  
 8.3 repeat steps 4. through 6. inclusive  
+
+9. Now that we have a reliable docker container, we can (re)build ffmpeg any time
+by doing steps 4 and 5.
