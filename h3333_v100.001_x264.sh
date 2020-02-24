@@ -12,7 +12,8 @@ if [[ ! -d "meson_git" ]]; then
 	exit
 fi
 cd ~/Desktop
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx *.sh
+sudo chmod -R a=rwx *.py
 set +x
 #------------------------------------------------------------------------------------------------
 set -x
@@ -26,13 +27,16 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRAR
 #------------------------------------------------------------------------------------------------
 
 cd ~/Desktop
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx *.sh
+sudo chmod -R a=rwx *.py
 rm -fR "./_ref"
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git "./_ref"
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx *.sh
+sudo chmod -R a=rwx *.py
 mkdir -pv "./_working"
 rsync -rvtI "./_ref/" "./_working"
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx _ref/*.sh
+sudo chmod -R a=rwx _working/*.py
 cd "./_working"
 #git fetch origin
 #git reset --hard origin/master
@@ -45,7 +49,8 @@ cd "./_working"
 #ls -al
 
 #cd ~/Desktop
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx *.sh
+sudo chmod -R a=rwx *.py
 #find . -iname "*.exe" -print -delete 
 
 rm -fv ./debug-x264.log
