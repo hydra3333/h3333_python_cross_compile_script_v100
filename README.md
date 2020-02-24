@@ -11,7 +11,7 @@ NOTE: attempt to build everything wherever possible with safety settings
           -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2
 ```
 
-** Now with ```docker```.**  
+**Now with ```docker```.**  
 In the folder ```/docker/app``` are instructions for attempting to build and use a docker image,
 so that ffmpeg can be repeatably built easily in a disposable/re-usable docker container.  
 It's a tad convoluted, mainly because the standard ```docker build``` command 
