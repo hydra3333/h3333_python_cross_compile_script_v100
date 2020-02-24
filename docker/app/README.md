@@ -29,12 +29,12 @@ exit
 ```
 docker container ps -a
 docker image ls -a
-docker commit <the_container_id> ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
+docker commit <the_container_id> ubuntu_build_ffmpeg_base:ubuntu_build_ffmpeg_base
 ```
 
 4. Create a new docker container based on ubuntu_build_ffmpeg_base
 ```
-docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg:ubuntu_build_ffmpeg_base
+docker run -i -t --attach STDIN --attach STDOUT --attach STDERR -v D:/VM:/VM ubuntu_build_ffmpeg_base:ubuntu_build_ffmpeg_base
 ```
 
 5. Update the container with MingW and GCC etc by running ffmpeg build once
