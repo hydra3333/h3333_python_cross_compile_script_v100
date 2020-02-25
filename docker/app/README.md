@@ -56,7 +56,7 @@ exit
 
 6. Save the container to a new image
 ```
-docker containers ps -a
+docker container ps -a
 docker image ls -a
 docker commit <the_container_id> ubuntu_build_ffmpeg_with_mingw:ubuntu_build_ffmpeg_with_mingw
 ```
