@@ -16,7 +16,10 @@ curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compi
 sed -ibak 's;sudo ;;g' ./h3333_v100.001.sh
 sed -ibak 's;~/Desktop;/;g' ./h3333_v100.001.sh
 sed -ibak 's;/home/u/Desktop;/;g' ./h3333_v100.001.sh
+sed -ibak 's;./exe_x64_py;/VM;g' ./h3333_v100.001.sh
+#
 sed -ibak 's;sudo ;;g' ./h3333_v100.001_ff.sh
 sed -ibak 's;~/Desktop;/;g' ./h3333_v100.001_ff.sh
 sed -ibak 's;/home/u/Desktop;/;g' ./h3333_v100.001_ff.sh
+sed -ibak 's;./exe_x64_py;/VM;g' ./h3333_v100.001_ff.sh
 chmod +777 ./*.sh
