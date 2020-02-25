@@ -239,7 +239,7 @@ find /home/u/Desktop/_working -iname "*.dll"
 cd ~/Desktop
 sudo chmod a=rwx -R *.sh
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
-mkdir -pv exe_x64_py 2>&1 | tee -a ./exe.log
+mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log

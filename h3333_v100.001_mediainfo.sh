@@ -101,7 +101,7 @@ cd ~/Desktop
 sudo chmod -R a=rwx *.sh
 sudo chmod -R a=rwx *.py
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
-mkdir -pv exe_x64_py 2>&1 | tee -a ./exe.log
+mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe            ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
