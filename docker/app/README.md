@@ -77,4 +77,4 @@ exit
 8.3 repeat steps 4. through 6. inclusive  
 
 9. Now that we have a reliable docker container, we can (re)build ffmpeg any time
-by doing steps 4 and 5.
+by doing step 7.
