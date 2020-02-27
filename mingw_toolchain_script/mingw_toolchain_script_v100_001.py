@@ -99,8 +99,8 @@ SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu
 	'type': 'archive',
 	#'version'   : '9.2.0', # stable versions
 	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	#'version': '9-20200208', # pre-release versions, this works.
-	'version': '9-20200222', # pre-release versions # 2020.02.27
+	'version': '9-20200208', # pre-release versions, this works.
+	#'version': '9-20200222', # pre-release versions # 2020.02.27
 	'url': 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # pre-release versions
 	'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
