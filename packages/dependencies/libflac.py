@@ -40,11 +40,8 @@
 	'env_exports' : {
 		'PKGCONFIG' : 'pkg-config',
 	},
-	#'patches': [
-	#	('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/flac/0001-mingw-fix.patch', '-p1'), # , '..'),
-	#],
 	'patches': [
-		('flac/0001-mingw-fix.patch', '-p1', '..'),
+		('flac/0001-mingw-fix_h3333.patch', '-p1', '..'),
 	],
 	'regex_replace': {
 		'post_patch': [
