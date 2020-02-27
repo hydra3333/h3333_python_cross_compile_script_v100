@@ -41,7 +41,7 @@
 		'PKGCONFIG' : 'pkg-config',
 	},
 	'patches': [
-		('flac/0001-mingw-fix_h3333.patch', '-p1', '..'),
+		('flac/0001-mingw-fix.patch', '-p1'), #, '..'),
 	],
 	'regex_replace': {
 		'post_patch': [
