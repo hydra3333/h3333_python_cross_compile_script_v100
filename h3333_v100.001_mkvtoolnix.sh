@@ -29,15 +29,19 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRAR
 cd ~/Desktop
 sudo chmod -R a=rwx *.sh
 sudo chmod -R a=rwx *.py
-rm -fR "./_ref"
-git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git "./_ref"
+rm -fR ./_ref
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git ./_ref
+sudo chmod a=rwx ./_ref
 sudo chmod -R a=rwx *.sh
 sudo chmod -R a=rwx *.py
-mkdir -pv "./_working"
-rsync -rvtI "./_ref/" "./_working"
-sudo chmod -R a=rwx _ref/*.sh
-sudo chmod -R a=rwx _working/*.py
-cd "./_working"
+sudo chmod -R a=rwx ./_ref
+mkdir -pv ./_working
+sudo chmod a=rwx ./_working
+rsync -rvtI ./_ref/ ./_working
+sudo chmod -R a=rwx ./_working/*.sh
+sudo chmod -R a=rwx ./_working/*.py
+sudo chmod -R a=rwx ./_working
+cd ./_working
 #git fetch origin
 #git reset --hard origin/master
 #ls -al
