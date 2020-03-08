@@ -1,7 +1,4 @@
 {
-	#'repo_type' : 'mercurial',
-	#'url' : 'https://bitbucket.org/multicoreware/x265',
-	#'rename_folder' : 'libx265_hg_multibit',
 	'repo_type' : 'git',
 	'url' : 'https://bitbucket.org/multicoreware/x265_git',
 	'folder_name': 'x265_multilib_git',
