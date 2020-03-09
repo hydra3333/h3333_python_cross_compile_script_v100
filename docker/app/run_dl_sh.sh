@@ -40,19 +40,4 @@ sed -ibak 's;~/Desktop;/;g' ./h3333_v100.setup.sh
 sed -ibak 's;/home/u/Desktop;/;g' ./h3333_v100.setup.sh
 sed -ibak 's;./exe_x64_py;/VM/exe_x64_py;g' ./h3333_v100.setup.sh
 
-sed -ibak 's;sudo ;;g' ./run_prep.sh
-sed -ibak 's;~/Desktop;/;g' ./run_prep.sh
-sed -ibak 's;/home/u/Desktop;/;g' ./run_prep.sh
-sed -ibak 's;./exe_x64_py;/VM/exe_x64_py;g' ./run_prep.sh
-
-sed -ibak 's;sudo ;;g' ./run_dl_sh.sh
-sed -ibak 's;~/Desktop;/;g' ./run_dl_sh.sh
-sed -ibak 's;/home/u/Desktop;/;g' ./run_dl_sh.sh
-sed -ibak 's;./exe_x64_py;/VM/exe_x64_py;g' ./run_dl_sh.sh
-
-sed -ibak 's;sudo ;;g' ./README.md
-sed -ibak 's;~/Desktop;/;g' ./README.md
-sed -ibak 's;/home/u/Desktop;/;g' ./README.md
-sed -ibak 's;./exe_x64_py;/VM/exe_x64_py;g' ./README.md
-
 chmod +777 ./*.sh
