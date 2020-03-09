@@ -16,7 +16,7 @@ sudo apt install -y curl
 sudo apt install -y wget
 sudo apt install -y nano
 
-apt-get install -y ubuntu-restricted-extras
+#sudo apt install -y ubuntu-restricted-extras
 
 sudo apt install -y build-essential
 sudo apt install -y gcc
@@ -163,7 +163,9 @@ rm -vfR meson_git
    #git clone https://github.com/mesonbuild/meson.git
    #git clone --depth 1 https://github.com/mesonbuild/meson.git "meson_git"
    #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
-   git clone --depth 1 --branch "0.52.1" https://github.com/mesonbuild/meson.git "meson_git"
+
+   #git clone --depth 1 --branch "0.52.1" https://github.com/mesonbuild/meson.git "meson_git"
+   git clone --depth 1 --branch "0.53.2" https://github.com/mesonbuild/meson.git "meson_git"
    cd meson_git
    sudo python3 setup.py clean 
    sudo python3 setup.py build
