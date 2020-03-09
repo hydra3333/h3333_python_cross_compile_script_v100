@@ -57,39 +57,40 @@ sudo chmod -R a=rwx *.sh
 sudo chmod -R a=rwx *.py
 #find . -iname "*.exe" -print -delete 
 
-rm -fv ./rtmpdump.log
-#echo "# `date`" >>./rtmpdump.log
-#echo 'find . -iname "*.exe" -print -delete '>>./rtmpdump.log
-#find . -iname "*.exe" -print -delete 2>&1 | tee -a ./rtmpdump.log
+rm -fv ./mpv.log
+#echo "# `date`" >>./mpv.log
+#echo 'find . -iname "*.exe" -print -delete '>>./mpv.log
+#find . -iname "*.exe" -print -delete 2>&1 | tee -a ./mpv.log
 
 #cd ~/Desktop
-#sudo chmod a=rwx -R *.sh
+#sudo chmod -R a=rwx *.sh
+#sudo chmod -R a=rwx *.py
 #./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x264_multibit
 #./cross_compiler_v100_001.py --force --debug -p x264_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
-./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./rtmpdump.log
-./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./rtmpdump.log
+./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./mpv.log
+./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./mpv.log
 
-echo "# `date` ###################################################################################" >>./rtmpdump.log
-echo "# `date` ###################################################################################" >>./rtmpdump.log
-echo "# `date` ###################################################################################" >>./rtmpdump.log
-echo "# `date` ###################################################################################" >>./rtmpdump.log
-echo "# `date` ###################################################################################" >>./rtmpdump.log
-./cross_compiler_v100_001.py --force --debug -d rtmpdump 2>&1 | tee -a ./rtmpdump.log
-#read -p "After build rtmpdump, press Enter to continue"
+echo "# `date` ###################################################################################" >>./mpv.log
+echo "# `date` ###################################################################################" >>./mpv.log
+echo "# `date` ###################################################################################" >>./mpv.log
+echo "# `date` ###################################################################################" >>./mpv.log
+echo "# `date` ###################################################################################" >>./mpv.log
+./cross_compiler_v100_001.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
-#read -p "After build rtmpdump, press Enter to continue"
+#read -p "After build mpv, press Enter to continue"
 
 
 
 set -x
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx *.sh
+sudo chmod -R a=rwx *.py
 rm -fv ./exe.log
 echo find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.exe" 2>&1 | tee -a ./exe.log
@@ -99,7 +100,8 @@ find /home/u/Desktop/_working/_output -iname "*.dll" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working/_output -iname "*.dll"
 
 cd ~/Desktop
-sudo chmod a=rwx -R *.sh
+sudo chmod -R a=rwx *.sh
+sudo chmod -R a=rwx *.py
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
