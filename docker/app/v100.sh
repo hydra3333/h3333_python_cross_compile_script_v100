@@ -5,19 +5,20 @@
 set -x
 
 cd ~/Desktop
-
+sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install -y curl wget
+sudo apt install -y apt-utils debconf debconf-utils
+sudo apt install -y curl wget nano rsync curl wget nano
 
-rm -f "h3333_v100.setup.sh"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.setup.sh" --retry 50 -L --output "h3333_v100.setup.sh" --fail
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/run_dl_sh.sh -O
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/v100.sh -O
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/run_prep.sh -O
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/README.md -O
 
-rm -f "h3333_v100.001.sh"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.001.sh" --retry 50 -L --output "h3333_v100.001.sh" --fail
-
-rm -f "h3333_v100.001_ff.sh"
-curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.001_ff.sh" --retry 50 -L --output "h3333_v100.001_ff.sh" --fail
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.setup.sh -O
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.001.sh -O
+curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.001_ff.sh -O
 
 sudo chmod +777 -R *
 
