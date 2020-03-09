@@ -194,6 +194,17 @@ fi
 #read -p "done dav1d press any key to continue"
 
 
+rm -fv ./mpv.log
+./cross_compiler_v100_001.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+#read -p "done mpv press any key to continue"
+
+
 rm -fv ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -d fftw3_dll_single 2>&1 | tee -a ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -d fftw3_dll_double 2>&1 | tee -a ./fftw3_dll.log
@@ -269,6 +280,8 @@ cp -fv /home/u/Desktop/_working/workdir/win64_output/mediainfo_git.installed/bin
 cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/webpinfo.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/cwebp.exe                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/dwebp.exe                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/workdir/win64_output/mpv.installed/bin/mpv.exe                     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
