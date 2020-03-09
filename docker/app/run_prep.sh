@@ -5,11 +5,11 @@
 # docker run -i -t -v D:/VM:/VM ubuntu_build_ffmpeg
 #
 set -x
-sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
-sudo apt update -y
-sudo apt upgrade -y
-sudo apt install -y apt-utils debconf debconf-utils
-sudo apt install -y curl wget nano rsync curl wget nano
+sed -i 's/# deb/deb/g' /etc/apt/sources.list
+apt update -y
+apt upgrade -y
+apt install -y apt-utils debconf debconf-utils
+apt install -y curl wget nano rsync curl wget nano
 
 cd /
 
