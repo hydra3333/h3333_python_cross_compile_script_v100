@@ -5,9 +5,9 @@
 # docker run -i -t -v D:/VM:/VM ubuntu_build_ffmpeg
 #
 set -x
-sudo apt install -y locales
-sudo locale-gen en_AU.UTF-8
-sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+apt install -y locales
+locale-gen en_AU.UTF-8
+update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 sed -i 's/# deb/deb/g' /etc/apt/sources.list
 apt update -y
