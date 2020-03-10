@@ -38,6 +38,7 @@ sudo apt install -y autoconf-archive
 sudo apt install -y libtool-bin 
 sudo apt install -y libtool 
 sudo apt install -y ninja-build
+sudo apt install -y clang
 
 sudo apt install -y git 
 sudo apt install -y cvs 
