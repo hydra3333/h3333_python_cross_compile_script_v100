@@ -3,6 +3,12 @@
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 
 set -x
+
+sudo apt install -y locales
+sudo locale-gen en_AU.UTF-8
+sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+
 cd ~/Desktop
 if [[ ! -d "meson_git" ]]; then
 	echo "Nothing doing. Run sudo ./h3333_v100_setup.sh first !!!"

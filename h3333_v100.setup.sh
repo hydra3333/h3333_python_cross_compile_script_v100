@@ -10,6 +10,11 @@ sudo apt -y update
 sudo apt install -y apt-utils
 sudo apt install -y debconf debconf-utils
 
+sudo apt install -y locales
+sudo locale-gen en_AU.UTF-8
+sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+
 sudo apt upgrade -y
 
 sudo apt install -y curl
