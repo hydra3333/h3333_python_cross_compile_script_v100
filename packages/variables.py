@@ -69,8 +69,8 @@
 		# HW Decoders
 		'--enable-ffnvcodec '
 		'--enable-cuvid '
-        '--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
-		#'--enable-cuda-llvm ' #
+        #'--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
+		'--enable-cuda-llvm ' # test 2020.03.10
 		'--enable-opengl '
 		'--enable-d3d11va '
 		'--enable-nvenc '
