@@ -283,4 +283,9 @@ set -x
 #export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 #------------------------------------------------------------------------------------------------
 
+
+# fix any missing dependencies https://www.maketecheasier.com/fix-broken-packages-ubuntu/
+sudo apt update --fix-missing
+sudo apt install -f
+
 cd ~/Desktop
