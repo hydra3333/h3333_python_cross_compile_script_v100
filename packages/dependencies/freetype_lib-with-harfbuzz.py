@@ -10,9 +10,9 @@
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-D BUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release '
 		'-DFT_WITH_HARFBUZZ=ON '
-		'-FT_WITH_ZLIB=ON '
-		'-FT_WITH_BZIP2=ON '
-		'-FT_WITH_PNG=ON '
+		'-DFT_WITH_ZLIB=ON '
+		'-DFT_WITH_BZIP2=ON '
+		'-DFT_WITH_PNG=ON '
 	,
 	'patches' : [
 		('freetype2/freetype_cmake.patch', '-p1', '..')
