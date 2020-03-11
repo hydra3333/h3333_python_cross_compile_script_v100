@@ -8,13 +8,29 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DCMAKE_BUILD_TYPE=Release '
-		'-DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_ASM_COMPILER={mingw_binpath}/{cross_prefix_bare}as '
+		#'-DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_ASM_COMPILER={mingw_binpath}/{cross_prefix_bare}as '
+		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DBUILD_TESTS=OFF ' # 2019.11.27 removed -DENABLE_STATIC_LOADER=ON ' per deadsix27
 	,
 	'source_subfolder' : '_build',
 	'patches' : [
 		('vulkan/0001-fix-cross-compiling-old.patch','-p1','..'),
 	],
+	'regex_replace': {
+		'post_install': [
+			{
+				0: r'(?:[^\r\n]+)?libdir=(?:[^\r\n]+)?',
+				'in_file': '{pkg_config_path}/vulkan.pc',
+				'out_file': '{pkg_config_path}/vulkan.pc'
+			},
+			{
+				0: r'exec_prefix=([^\r\n]+)',
+				1: r'prefix={{target_prefix}}\nexec_prefix=\1\nlibdir=${{exec_prefix}}/lib\n',
+				'in_file': '{pkg_config_path}/vulkan.pc',
+				'out_file': '{pkg_config_path}/vulkan.pc'
+			},
+		]
+	},
 	'run_post_install' : [
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 		'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',

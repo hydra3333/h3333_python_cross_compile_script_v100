@@ -18,6 +18,7 @@
 		'pwd',
 		'cp -rv "../zvbi-0.2.pc" "{target_prefix}/lib/pkgconfig/zvbi-0.2.pc"',
 	],
+	'depends_on' : ['pkg-config', ],
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/zapping/files/zvbi/', 'type' : 'sourceforge', },
 	'_info' : { 'version' : '0.2.35', 'fancy_name' : 'zvbi' },
 }

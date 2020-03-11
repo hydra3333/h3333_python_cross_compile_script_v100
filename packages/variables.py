@@ -1,5 +1,5 @@
 {
-	'ffmpeg_min_config' : # the base for all ffmpeg configurations.
+	'ffmpeg_config' : # the base for all ffmpeg configurations.
 		'--arch={bit_name2} '
 		#'--target-os=mingw32 '
         '--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 

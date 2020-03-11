@@ -722,6 +722,8 @@ class CrossCompileScript:
 
 		self.pkgConfigPath = "{0}/lib/pkgconfig".format(self.targetPrefix)  # e.g workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32/lib/pkgconfig
 
+		self.localPkgConfigPath = self.aquireLocalPkgConfigPath()
+
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")
 		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
@@ -742,6 +744,8 @@ class CrossCompileScript:
 				'make_prefix_options': self.makePrefixOptions,
 				'autoconf_prefix_options': self.autoConfPrefixOptions,
 				'pkg_config_path': self.pkgConfigPath,
+				'local_pkg_config_path': self.localPkgConfigPath,
+				'local_path': self.originalPATH,
 				'mingw_binpath': self.mingwBinpath,
 				'mingw_binpath2': self.mingwBinpath2,
 				'cross_prefix_bare': self.shortCrossPrefixStr,
@@ -817,6 +821,23 @@ class CrossCompileScript:
 	def reStrip(self, pat, txt):
 		x = re.sub(pat, '', txt)
 		return re.sub(r'[ ]+', ' ', x).strip()
+
+	def aquireLocalPkgConfigPath(self):
+		possiblePathsStr = subprocess.check_output('pkg-config --variable pc_path pkg-config', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
+
+		if possiblePathsStr == "":
+			raise Exception("Unable to determine local pkg-config path(s), pkg-config output is empty")
+
+		possiblePaths = [Path(x.strip()) for x in possiblePathsStr.split(":")]
+
+		for p in possiblePaths:
+			if not p.exists():
+				possiblePaths.remove(p)
+
+		if not len(possiblePaths):
+			raise Exception(F"Unable to determine local pkg-config path(s), pkg-config output is: {possiblePathsStr}")
+
+		return ":".join(str(x) for x in possiblePaths)
 
 	def buildMingw(self, bitness):
 		gcc_bin = os.path.join(self.mingwBinpath, self.bitnessStr + "-w64-mingw32-gcc")
@@ -1027,6 +1048,7 @@ class CrossCompileScript:
 				F'set(CMAKE_C_COMPILER {self.shortCrossPrefixStr}gcc)',
 				F'set(CMAKE_CXX_COMPILER {self.shortCrossPrefixStr}g++)',
 				F'set(CMAKE_RC_COMPILER {self.shortCrossPrefixStr}windres)',
+				F'set(CMAKE_ASM_COMPILER {self.mingwBinpath}/{self.shortCrossPrefixStr}as)',
 				F'set(CMAKE_FIND_ROOT_PATH {self.targetPrefix})',
 				F'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)',
 				F'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)',
@@ -1795,7 +1817,8 @@ class CrossCompileScript:
 			print("##############################")
 
 		self.logger.info("Building {0} '{1}'".format(type.lower(), packageName))
-		self.defaultCFLAGS()
+		#self.defaultCFLAGS()
+		self.resetDefaultEnvVars()
 
 		if 'warnings' in packageData:
 			if len(packageData['warnings']) > 0:
@@ -2128,7 +2151,8 @@ class CrossCompileScript:
 				self.logger.debug("Re-setting PATH to '{0}'".format(oldPath))
 				os.environ["PATH"] = oldPath
 
-		self.defaultCFLAGS()
+		#self.defaultCFLAGS()
+		self.resetDefaultEnvVars()
 		self.cchdir("..")  # asecond into workdir
 	#:
 
@@ -2188,7 +2212,7 @@ class CrossCompileScript:
 							self.logger.debug(F"\n{line}")
 							nf.write(line)
 						elif re.search(repls[0], line):
-							self.logger.info(F"RegEx removing line\n{line}:")
+							self.logger.debug(F"RegEx removing line\n{line}:")
 						else:
 							nf.write(line)
 
@@ -2537,13 +2561,16 @@ class CrossCompileScript:
 			self.touch(touchName)
 	#:
 
-	def defaultCFLAGS(self):
+	#def defaultCFLAGS(self):
+	def resetDefaultEnvVars(self):
 		self.logger.debug("Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS to: '{0}'".format(self.originalCflags))
 		os.environ["CFLAGS"] = self.originalCflags
 		os.environ["CXXFLAGS"] = self.originalCflags
 		os.environ["CPPFLAGS"] = self.originalCflags
 		os.environ["LDFLAGS"] = self.originalCflags
 		os.environ["PKG_CONFIG_LIBDIR"] = ""
+		os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
+		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
 	#:
 
 	def anyFileStartsWith(self, wild):

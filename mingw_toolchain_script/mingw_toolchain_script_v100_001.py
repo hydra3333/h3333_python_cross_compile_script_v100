@@ -43,7 +43,7 @@ SOURCES = OrderedDict()  # Order matters.
 
 SOURCES['mingw-w64'] = {
 	'type': 'git',
-	#'git_shallow': False, # 019.12.13 was True 
+	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
  	#'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None, # 2020.02.27 try without tag
 	'run_after_patches': [
@@ -99,8 +99,8 @@ SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu
 	'type': 'archive',
 	#'version'   : '9.2.0', # stable versions
 	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	'version': '9-20200208', # pre-release versions, this works.
-	#'version': '9-20200222', # pre-release versions # 2020.02.27
+	#'version': '9-20200208', # pre-release versions, this works.
+	'version': '9.3.0-RC-2020030', # pre-release versions, this works.
 	'url': 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # pre-release versions
 	'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
