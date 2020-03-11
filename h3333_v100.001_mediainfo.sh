@@ -28,8 +28,9 @@ set -x
 #            https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#environment-setup
 #            but not https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#cross-installation
 #                    since there is no target win64 operating system available
-export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/nsight-compute-2019.5.0${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+#
+#export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/nsight-compute-2019.5.0${PATH:+:${PATH}}
+#export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 #------------------------------------------------------------------------------------------------
 
 cd ~/Desktop
