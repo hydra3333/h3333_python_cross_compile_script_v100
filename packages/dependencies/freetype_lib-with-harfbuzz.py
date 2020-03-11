@@ -8,7 +8,7 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		#'-DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release '
+		#'-DBUILD_SHARED_LIBS=OFF '
 		'-DFT_WITH_HARFBUZZ=ON '
 		'-DFT_WITH_ZLIB=ON '
 		'-DFT_WITH_BZIP2=ON '
