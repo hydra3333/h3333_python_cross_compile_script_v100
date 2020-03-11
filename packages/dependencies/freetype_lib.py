@@ -6,7 +6,7 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release '
+		#'-DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release '
 		'-DFT_WITH_HARFBUZZ=OFF '
 		'-DFT_WITH_ZLIB=ON '
 		'-DFT_WITH_BZIP2=ON '
@@ -42,7 +42,7 @@
 #	],
 #	'configure_options' : '{autoconf_prefix_options} --build=x86_64-linux-gnu --disable-shared --enable-static --with-zlib={target_prefix} --with-zlib={target_prefix} --without-png --with-harfbuzz=no', # TODO get rid of hardcoded build variable ## 2019.12.15 ensured static # 2019.12.13
 #    'depends_on': [
-#		'zlib', # 2019.12.13
+#		'zlib', 'bzip2', 'libpng',
 #	],
 #	'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', },
 #	'_info' : { 'version' : '2.10.1', 'fancy_name' : 'freetype2 lib' },
