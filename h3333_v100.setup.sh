@@ -191,7 +191,7 @@ rm -vfR nasm-2.14.02
    echo "Downloading nasm 2.14.02"
    url="https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.xz"
    rm -f "nasm-2.14.02.tar.xz"
-   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.14.02.tar.xz" --fail # -L means "allow redirection" or some odd :|
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.14.02.tar.xz" # -L means "allow redirection" or some odd :|
    tar -xf "nasm-2.14.02.tar.xz" || unzip "nasm-2.14.02.tar.xz"
    echo "Configuring nasm 2.14.02"
    cd nasm-2.14.02
@@ -207,6 +207,29 @@ rm -vfR nasm-2.14.02
 set +x
 cd ~/Desktop
 sudo chmod a=rwx *.sh
+set +x
+
+# Build and install the latest supported cmake
+set -x
+cd ~/Desktop
+rm -vfR cmake-3.16.5
+#if [[ ! -d "cmake-3.16.5" ]]; then
+   mkdir cmake-3.16.5
+   cd cmake-3.16.5
+   echo "Downloading cmake-3.16.5"
+   sudo apt install -y libssl-dev 
+   sudo apt remove -y cmake
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5.tar.gz" -L -O
+   tar -xf cmake-3.16.5.tar.gz
+   sudo chmod +777 -R *
+   cd cmake-3.16.5 # unzipped subfolder
+      #./bootstrap --help
+      ./bootstrap && make && sudo make install
+   cd ..
+   echo "Done sudo apt ing and Installing cmake-3.16.5"
+#fi
+set +x
+cd ~/Desktop
 set +x
 
 #------------------------------------------------------------------------------------------------
@@ -260,7 +283,7 @@ cd ~/Desktop
 #   echo "Downloading $cuda_install_file"
 #   url="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/$cuda_install_file"
 #   rm -f "$cuda_install_file"
-#   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "$cuda_install_file" --fail # -L means "allow redirection" or some odd :|
+#   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "$cuda_install_file" # -L means "allow redirection" or some odd :|
 #      echo "Installing $cuda_install_file"
 #      sudo sh ./$cuda_install_file --silent --toolkit --samples
 #   cd ..
