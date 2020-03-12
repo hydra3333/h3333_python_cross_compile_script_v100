@@ -1,4 +1,26 @@
-{ # 2019.12.13 ---- using "cmake" results in stdlib.h: No such file or directory !!!!!!!!!!!!!!
+{ # in ubuntu 18.04.3 : CMake Error at src/CMakeLists.txt:1 (cmake_minimum_required):   CMake 3.11 or higher is required.  You are running version 3.10.2
+	'repo_type' : 'git', 
+	'url' : 'https://github.com/xiph/flac.git',
+	'conf_system' : 'cmake',
+	'source_subfolder' : '_build',
+	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.3 -DCMAKE_BUILD_TYPE=Release',
+	'patches': [
+		('flac/0001-mingw-fix.patch', '-p1', '..'),
+	],
+	'regex_replace': {
+		'post_patch': [
+			{
+				0: r'add_subdirectory\("microbench"\)',
+				'in_file': '../CMakeLists.txt'
+			},
+		],
+	},
+	'depends_on' : [
+		'libogg',
+	],
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'flac (library)' },
+}
+#{ # 2019.12.13 ---- using "cmake" results in stdlib.h: No such file or directory !!!!!!!!!!!!!!
 	#
 	# In file included from /home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/c++/9.2.0/ext/string_conversions.h:41,
     #             from /home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/c++/9.2.0/bits/basic_string.h:6493,
@@ -34,28 +56,28 @@
 	#
 	# 2019.12.13 REVERT TO NON cmake ---- using "cmake" results in stdlib.h: No such file or directory !!!!!!!!!!!!!!
 	#
-	'repo_type' : 'git',
-	'url' : 'https://github.com/xiph/flac', #'url' : 'https://git.xiph.org/flac.git',
-	'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-64-bit-words --disable-oggtest --disable-examples --disable-rpath --disable-xmms-plugin --with-pic ', # 2018.11.23 ensure 64bit
-	'env_exports' : {
-		'PKGCONFIG' : 'pkg-config',
-	},
-	'patches': [
-		('flac/0001-mingw-fix.patch', '-p1'), #, '..'),
-	],
-	'regex_replace': {
-		'post_patch': [
-			{
-				0: r'add_subdirectory\("microbench"\)',
-				'in_file': './CMakeLists.txt' # 2019.13.13 not cmalke, so is in current folder not '../CMakeLists.txt'
-			},
-		],
-	},
-	'depends_on': [
-		'libogg',
-	],
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'flac (library)' },
-}
+#	'repo_type' : 'git',
+#	'url' : 'https://github.com/xiph/flac', #'url' : 'https://git.xiph.org/flac.git',
+#	'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-64-bit-words --disable-oggtest --disable-examples --disable-rpath --disable-xmms-plugin --with-pic ', # 2018.11.23 ensure 64bit
+#	'env_exports' : {
+#		'PKGCONFIG' : 'pkg-config',
+#	},
+#	'patches': [
+#		('flac/0001-mingw-fix.patch', '-p1'), #, '..'),
+#	],
+#	'regex_replace': {
+#		'post_patch': [
+#			{
+#				0: r'add_subdirectory\("microbench"\)',
+#				'in_file': './CMakeLists.txt' # 2019.13.13 not cmake, so is in current folder not '../CMakeLists.txt'
+#			},
+#		],
+#	},
+#	'depends_on': [
+#		'libogg',
+#	],
+#	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'flac (library)' },
+#}
 #
 # 2019.12.13 old:
 #	'libflac' : { # https://git.xiph.org/?p=flac.git;a%3Dsummary # https://bitbucket.org/mpyne/game-music-emu/issues/36/commit
