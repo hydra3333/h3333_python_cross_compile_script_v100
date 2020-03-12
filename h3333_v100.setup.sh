@@ -224,7 +224,7 @@ rm -vfR cmake-3.16.5
    sudo chmod +777 -R *
    cd cmake-3.16.5 # unzipped subfolder
       #./bootstrap --help
-      ./bootstrap && make && sudo make install
+      ./bootstrap --prefix=/usr && make && sudo make install
    cd ..
    echo "Done sudo apt ing and Installing cmake-3.16.5"
 #fi
