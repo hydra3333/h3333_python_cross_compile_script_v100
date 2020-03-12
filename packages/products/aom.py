@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://aomedia.googlesource.com/aom',
+	'depth_git': 0,
+	'branch': '8bbdd4180863dbd9412ca770b90856488cef0acd',
 	'conf_system' : 'cmake',
 	'source_subfolder' : 'build',
     # 2019.12.13 note: we make this a 64 bit build only with -DAOM_TARGET_CPU=x86_64 ... some may not prefer this.
