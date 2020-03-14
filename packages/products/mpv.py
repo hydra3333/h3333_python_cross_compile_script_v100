@@ -3,12 +3,20 @@
 	'url' : 'https://github.com/mpv-player/mpv.git',
 	'build_system' : 'waf',
 	'conf_system' : 'waf',
+	#'env_exports' : {
+	#	'DEST_OS' : 'win32',
+	#	'TARGET'  : '{target_host}',
+	#	'PKG_CONFIG' : 'pkg-config',
+	#	'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # See near 'regex_replace'
+	#},
 	'env_exports' : {
-		'DEST_OS' : 'win32',
+		#'DEST_OS' : 'win32',
+		'DEST_OS' : '{bit_name_win}',
 		'TARGET'  : '{target_host}',
 		'PKG_CONFIG' : 'pkg-config',
-		'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # See near 'regex_replace'
 	},
+	'custom_cflag'  : ' -O3 ',
+	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ',
 	'configure_options' :
 		'--enable-libmpv-shared '
 		'--enable-static-build '
@@ -32,7 +40,8 @@
 		'--disable-manpage-build '
 		'--disable-pdf-build '
 		'TARGET={target_host} '
-		'DEST_OS=win32 '
+		#'DEST_OS=win32 '
+		'DEST_OS={bit_name_win} '
 	,
 	'depends_on' : [
 		'libffmpeg',
