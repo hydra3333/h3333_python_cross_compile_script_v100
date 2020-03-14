@@ -10,8 +10,8 @@
 	#	'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # See near 'regex_replace'
 	#},
 	'env_exports' : {
-		#'DEST_OS' : 'win32',
-		'DEST_OS' : '{bit_name_win}',
+		'DEST_OS' : 'win32',
+		#'DEST_OS' : '{bit_name_win}',
 		'TARGET'  : '{target_host}',
 		'PKG_CONFIG' : 'pkg-config',
 	},
@@ -40,8 +40,8 @@
 		'--disable-manpage-build '
 		'--disable-pdf-build '
 		'TARGET={target_host} '
-		#'DEST_OS=win32 '
-		'DEST_OS={bit_name_win} '
+		'DEST_OS=win32 '
+		#'DEST_OS={bit_name_win} '
 	,
 	'depends_on' : [
 		'libffmpeg',
