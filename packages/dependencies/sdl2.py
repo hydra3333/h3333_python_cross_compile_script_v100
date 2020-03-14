@@ -2,7 +2,7 @@
 	'repo_type' : 'mercurial',
 	'url' : 'https://hg.libsdl.org/SDL',
 	'depth_git' : 0,
-	'branch' : 'aa6c25160e67', # see if it fixes: error: 'SDL_Joystick' {aka 'struct _SDL_Joystick'} has no member named 'player_index'
+	#'branch' : 'aa6c25160e67', # see if it fixes: error: 'SDL_Joystick' {aka 'struct _SDL_Joystick'} has no member named 'player_index'
 	'folder_name' : 'sdl2_hg',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
