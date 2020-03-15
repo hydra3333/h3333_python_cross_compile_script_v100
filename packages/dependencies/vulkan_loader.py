@@ -1,20 +1,22 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
-	'depth_git' : 0,
-	'branch' : 'tags/v1.1.127',
+	#'depth_git' : 0,
+	#'branch' : 'tags/v1.1.127',
 	'recursive_git' : True, 
-	'conf_system' : 'cmake',
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DCMAKE_BUILD_TYPE=Release '
-		#'-DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_ASM_COMPILER={mingw_binpath}/{cross_prefix_bare}as '
+		'-DBUILD_TESTS=OFF '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DBUILD_TESTS=OFF ' # 2019.11.27 removed -DENABLE_STATIC_LOADER=ON ' per deadsix27
+		'-DBUILD_TESTS=OFF ' #-DENABLE_STATIC_LOADER=ON 
 	,
+	# 'cpu_count': 1,
+	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'patches' : [
-		('vulkan/0001-fix-cross-compiling-old.patch','-p1','..'),
+		# ('vulkan/0001-fix-cross-compiling.patch', '-p1', '..'),
+		('vulkan/0001-mingw-workarounds.patch','-p1','..'),
 	],
 	'regex_replace': {
 		'post_install': [
@@ -31,10 +33,10 @@
 			},
 		]
 	},
-	'run_post_install' : [
-		'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-	],
+	#'run_post_install' : [
+	#	'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+	#	'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+	#],
 	'depends_on' : [ 'vulkan_headers', ], # 'vulkan-d3dheaders' ],
 	'_info' : { 'version' : 'git (tags/v1.1.127)', 'fancy_name' : 'Vulkan Loader' },
 }
