@@ -35,7 +35,7 @@
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 		'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	],
-	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders' ],
+	'depends_on' : [ 'vulkan_headers', ] # 'vulkan-d3dheaders' ],
 	'_info' : { 'version' : 'git (tags/v1.1.127)', 'fancy_name' : 'Vulkan Loader' },
 }
 # 2019.12.13 old:
