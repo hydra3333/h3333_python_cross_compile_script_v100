@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	#'depth_git' : 0,
 	#'branch' : 'tags/v1.1.127',
-	'recursive_git' : True, 
+	#'recursive_git' : True, 
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DCMAKE_BUILD_TYPE=Release '
@@ -38,7 +38,7 @@
 	#	'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	#],
 	'depends_on' : [ 'vulkan_headers', ], # 'vulkan-d3dheaders' ],
-	'_info' : { 'version' : 'git (tags/v1.1.127)', 'fancy_name' : 'Vulkan Loader' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
 # 2019.12.13 old:
 #	'vulkan_loader' : { # 2019.11.27 use shared loading (like OpenCL) per deadsix27 https://github.com/DeadSix27/python_cross_compile_script/commit/107bcefc4f2c56abd22079ff5196090d49e49a12
