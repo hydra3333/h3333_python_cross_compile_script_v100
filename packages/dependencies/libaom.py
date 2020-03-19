@@ -8,7 +8,7 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DAOM_TARGET_CPU=x86_64 ' 
+		'-DAOM_TARGET_CPU={bit_name2}', # '-DAOM_TARGET_CPU=x86_64 ' 
 		'-DBUILD_SHARED_LIBS=0 '
 		'-DCONFIG_STATIC=1 '
 		'-DCONFIG_SHARED=0 '
@@ -43,9 +43,9 @@
 		'-DLIBXML_STATIC=1 '
 		'-DGLIB_STATIC_COMPILATION=1 '
 	,
-	'depends_on' : [  'glib2', 'libxml2' ],
+	'depends_on' : [ 'glib2', 'libxml2' ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libaom' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libaom-av1' },
 }
 # 2019.12.13 old:
 #	'libaom' : {
