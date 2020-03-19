@@ -9,7 +9,7 @@
 		'CPPFLAGS' : '{original_cflags} -D_FORTIFY_VA_ARG=0',
 		'LDFLAGS'  : '{original_cflags} -D_FORTIFY_VA_ARG=0',
 	},
-    'depends_on' : [ 'libogg', 'libspeexdsp', ],
+	'depends_on' : [ 'libogg', 'libspeexdsp', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'speex' },
 }
 # 2019.12.13 old:

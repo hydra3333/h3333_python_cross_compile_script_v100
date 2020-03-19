@@ -12,7 +12,7 @@
 	'patches': [
 		('modplug/0001-modplug-mingw-workaround.patch', '-p1', '..'), # to avoid setting -DLIBMODPLUG_STATIC
 	],
-    #'run_post_install': ( # 2019.12.13 pewrhaps not needed in latest git ?
+    #'run_post_install': ( # 2019.12.13 perhaps not needed in latest git ?
 	#	'sed -i.bak \'s/-lmodplug.*/-lmodplug -lstdc++/\' "{pkg_config_path}/libmodplug.pc"', # huh ?? c++?  # 2019.12.13
 	#),
 	'regex_replace': {

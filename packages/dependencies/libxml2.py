@@ -6,7 +6,7 @@
 	],
 	'folder_name' : 'libxml2-2.9.10',
 	'rename_folder' : 'libxml2-2.9.10-rc1',
-	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static  --without-python --enable-tests=no --enable-programs=no',
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --without-python --enable-tests=no --enable-programs=no',
 	'run_post_patch' : [
 		'autoreconf -fiv',
 	],

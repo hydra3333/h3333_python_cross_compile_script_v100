@@ -9,7 +9,8 @@
 		'-DCMAKE_BUILD_TYPE=Release '
 		'-DBUILD_TESTS=OFF '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DBUILD_TESTS=OFF ' #-DENABLE_STATIC_LOADER=ON 
+		'-DBUILD_TESTS=OFF ' 
+		'-DENABLE_STATIC_LOADER=ON ' # 2020.03.19 un-comment
 	,
 	# 'cpu_count': 1,
 	'conf_system' : 'cmake',
@@ -37,7 +38,7 @@
 	#	'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	#	'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	#],
-	'depends_on' : [ 'vulkan_headers', ], # 'vulkan-d3dheaders' ],
+	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
 # 2019.12.13 old:

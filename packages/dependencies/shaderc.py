@@ -1,8 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/google/shaderc.git',
-	'depth_git': False, # 2020.03.11 per deadsix27 stay on last working commit
-	'branch': 'f53792645f0696b8954cfdb3c213f96799dd89b2',
+	'depth_git': 0, # 2020.03.11 per deadsix27 stay on last working commit
+	# 'branch': 'f53792645f0696b8954cfdb3c213f96799dd89b2', # 2020.03.19 comment out
 	'configure_options' :
 		'cmake .. {cmake_prefix_options} '
 		'-DCMAKE_BUILD_TYPE=Release '

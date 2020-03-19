@@ -2,8 +2,7 @@
 	'repo_type' : 'mercurial',
 	'url' : 'https://hg.libsdl.org/SDL',
 	'depth_git' : 0,
-	#'branch' : 'aa6c25160e67', # 2020.03.14 this old commit works
-	'branch' : '355a4f94a782', # Release 2.0.12
+	#'branch' : '355a4f94a782', # Release 2.0.12 # 2020.03.19 comment out
 	'folder_name' : 'sdl2_hg',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',

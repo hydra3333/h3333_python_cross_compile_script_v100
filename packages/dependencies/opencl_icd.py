@@ -2,11 +2,11 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-ICD-Loader.git',
 	'needs_make_install' : False,
+	#'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options': '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF', # 2019.12.13
-	#'custom_cflag' : '',
 	'run_post_build' : [
-        'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.dll.a"', # 2019.12.13 always copy it
+		'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.dll.a"', # 2019.12.13 always copy it
 		'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',
 	],
 	'patches' : [

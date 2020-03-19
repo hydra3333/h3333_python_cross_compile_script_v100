@@ -10,4 +10,3 @@
 	'update_check' : { 'url' : 'https://pkg-config.freedesktop.org/releases/?C=M;O=D', 'type' : 'httpindex', 'regex' : r'pkg-config-(?P<version_num>[\d.]+)\.tar\.gz' },
 	'_info' : { 'version' : '0.29.2', 'fancy_name' : 'pkg-config' },
 }
-
