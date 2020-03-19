@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/fribidi/fribidi.git',
 	'depth_git': 0,
-	'branch': 'f9e8e71a6fbf4a4619481284c9f484d10e559995',
+	#'branch': 'f9e8e71a6fbf4a4619481284c9f484d10e559995', # 2020.03.19 try latest git # f9e8e71a6fbf4a4619481284c9f484d10e559995 works
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',

@@ -4,7 +4,7 @@
 	#'url' : 'https://git.videolan.org/git/libaacs.git',
 	'url' : 'https://code.videolan.org/videolan/libaacs.git',
 	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
-	'branch' : 'f263376b1e6570556031f420b9df08373e346d76', # works for combo libaacs/libgcrypt/libgpg_error
+	# 'branch' : 'f263376b1e6570556031f420b9df08373e346d76', # 2020.03.19 try latest GIT instead of this branch # f263376b1e6570556031f420b9df08373e346d76 works for combo libaacs/libgcrypt/libgpg_error
 	'configure_options': '--host={target_host} --prefix={target_prefix} --with-libgcrypt-prefix={target_prefix} --with-gpg-error-prefix={target_prefix} --disable-shared --enable-static',
 	'run_post_patch' : (
 		'autoreconf -fiv',

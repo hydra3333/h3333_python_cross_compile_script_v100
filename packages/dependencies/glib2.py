@@ -5,7 +5,7 @@
 		{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
 	],
 	# 2019.12.13 changed to use my configure which worked.
-	 'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux ', # ??? --with-pcre=internal # 2019.04.13 --disable-libelf 
+	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux ',
 
 	'run_post_patch' : [
 		'if [ ! -f "INSTALL" ] ; then touch INSTALL ; fi',

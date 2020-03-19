@@ -5,7 +5,7 @@
 	'recursive_git' : True,
 	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
-	'branch' : '7c2943309d14407b51c8166c4dcecb56a3628567', # 2019.08.21 see if 900647d96cb7806cd9b2de343e4a4bd66c073fba reverts a build error
+	#'branch' : '7c2943309d14407b51c8166c4dcecb56a3628567', # 2020.03.19 try git master # 7c2943309d14407b51c8166c4dcecb56a3628567 works with no errors
 	'configure_options': '--host={target_host} --prefix={target_prefix} --with-gpg-error-prefix={target_prefix} --disable-shared --enable-static --disable-doc ',
 	'custom_cflag' : ' -D_FORTIFY_SOURCE=2 ', # 2019.12.13 this does not like -O3 -fstack-protector-all
 	'run_post_patch' : (

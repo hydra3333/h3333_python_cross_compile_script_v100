@@ -1,6 +1,5 @@
 { # 2019.12.13 use holywu fork of L-SMASH-Works
 		'repo_type' : 'git',
-		#'url' : 'https://github.com/hydra3333/L-SMASH-Works', # 2018.11.27 updated vapoursynth.h # 'https://github.com/VFR-maniac/L-SMASH-Works.git',
 		'url' : 'https://github.com/HolyWu/L-SMASH-Works.git', # 2019.11.19 swap to HolyWu's fork as it seems mroe updated
 		'source_subfolder' : 'VapourSynth',
 		'env_exports' : {

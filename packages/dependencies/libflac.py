@@ -1,5 +1,5 @@
 { # in ubuntu 18.04.3 : CMake Error at src/CMakeLists.txt:1 (cmake_minimum_required):   CMake 3.11 or higher is required.  You are running version 3.10.2
-	'repo_type' : 'git', 
+	'repo_type' : 'git',
 	'url' : 'https://github.com/xiph/flac.git',
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',

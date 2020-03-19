@@ -15,7 +15,7 @@
 		'--disable-srp-authentication '
 		'--disable-non-suiteb-curves '
 		'--enable-cxx '
-		'--enable-nls '
+		#'--enable-nls ' # 2020.03.19 comment out
 		'--disable-rpath '
 		'--disable-gtk-doc '
 		'--disable-guile '

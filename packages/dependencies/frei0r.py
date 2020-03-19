@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'archive',
-	'download_locations' : [ # 2019.12.13 1.7.0 is newer than mine at 1.6.1
+	'download_locations' : [
 		{ 'url' : 'https://files.dyne.org/frei0r/frei0r-plugins-1.7.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1b1ff8f0f9bc23eed724e94e9a7c1d8f0244bfe33424bb4fe68e6460c088523a' }, ], },
 		{ 'url' : 'https://cdn.netbsd.org/pub/pkgsrc/distfiles/frei0r-plugins-1.7.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1b1ff8f0f9bc23eed724e94e9a7c1d8f0244bfe33424bb4fe68e6460c088523a' }, ], },
 	],

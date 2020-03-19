@@ -28,7 +28,7 @@
 	},
 
 	'depends_on' : [
-		'expat', 'iconv', 'libxml2', 'freetype', 'bzip2', # 2019.12.13 removed 'json-c', # 2019.12.13 added 'bzip2', 'expat' ... did add 'gettext'
+		'expat', 'iconv', 'libxml2', 'freetype', 'bzip2', 'json-c', # 2020.03.19 added back in 'json-c'
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'fontconfig' },
