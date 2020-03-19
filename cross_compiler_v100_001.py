@@ -1942,13 +1942,13 @@ class CrossCompileScript:
 					self.logger.debug("\t" + val + " : " + os.environ[val])
 				self.logger.debug("###############################")
 				self.logger.debug("Adding '{0}' to CFLAGS".format( packageData['cflag_addition'] )) # 2019.12.13
-				self.logger.debug(F'os.environ CFLAGS   before cflag_addition = "{os.environ["CXXFLAGS"]}') # 2019.12.13
+				self.logger.debug(F'os.environ CFLAGS   before cflag_addition = "{os.environ["CFLAGS"]}') # 2019.12.13
 				self.logger.debug(F'os.environ CXXFLAGS before cflag_addition = "{os.environ["CXXFLAGS"]}') # 2019.12.13
 				self.logger.debug(F'os.environ CPPFLAGS before cflag_addition = "{os.environ["CPPFLAGS"]}') # 2019.12.13
 				self.logger.debug(F'os.environ LDFLAGS  before cflag_addition = "{os.environ["LDFLAGS"]}') # 2019.12.13
 				os.environ["CFLAGS"] = os.environ["CFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
-				os.environ["CPPFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
+				os.environ["CPPFLAGS"] = os.environ["CPPFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
 				os.environ["LDFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
 				self.logger.info(F'Added to CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 				self.logger.info(F'Added to CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
