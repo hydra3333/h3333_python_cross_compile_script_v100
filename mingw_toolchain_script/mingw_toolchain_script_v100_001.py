@@ -45,8 +45,8 @@ SOURCES['mingw-w64'] = {
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
- 	#'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None, # 2020.02.27 try without tag
-	'checkout' : '629fd2b1abe6d6c12b08e477a7ce32c8fef8c667',
+ 	'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', 
+	#'checkout' : '629fd2b1abe6d6c12b08e477a7ce32c8fef8c667', still doesn't work
 	'run_after_patches': [
 		('autoreconf -fiv', ),
 		('mingw-w64-crt', 'autoreconf -fiv'),
