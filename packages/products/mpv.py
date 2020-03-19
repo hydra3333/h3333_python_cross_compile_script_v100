@@ -16,19 +16,28 @@
 		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
-	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ',
+	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -ld3d11 ', # 2020.03.19 added -ld3d11 per from libmpv.py
 	'configure_options' :
 		'--enable-libmpv-shared '
 		'--enable-static-build '
 		'--prefix={output_prefix}/mpv_git.installed '
-		# '--enable-sdl2 '
+		'--enable-sdl2 ' # 2020.03.19 added 
 		'--enable-rubberband '
 		'--enable-lcms2 '
 		# '--enable-openal '
+		'--enable-dvdread '
 		'--enable-dvdnav '
 		'--enable-libbluray '
-		'--enable-cdda '
 		#'--enable-egl-angle-lib ' # not maintained anymore apparently, crashes for me anyway.
+		'--disable-xv '
+		'--disable-alsa '
+		'--disable-pulse '
+		'--disable-jack '
+		'--disable-x11 '
+		'--disable-wayland '
+		'--disable-wayland-protocols '
+		'--disable-wayland-scanner '
+		'--enable-cdda '
 		'--enable-libass '
 		'--enable-lua '
 		'--enable-vapoursynth '
@@ -48,10 +57,11 @@
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
-		# 'sdl2',
+		'sdl2',
 		'luajit',
 		'rubberband',
 		'lcms2',
+		'libdvdread',
 		'libdvdnav',
 		'libbluray',
 		#'openal',
@@ -63,7 +73,7 @@
 		'mujs',
 		'shaderc',
 		'vulkan_loader',
-		'libplacebo'
+		'libplacebo',
 	],
 	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
 	'regex_replace': {
