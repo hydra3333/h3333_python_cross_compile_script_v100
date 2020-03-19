@@ -261,7 +261,6 @@ class CrossCompileScript:
 				'mingw_debug_build': False,
 				'mingw_dir': 'toolchain',
 				'mingw_custom_cflags': None,
-  				#'output_path': '_output', # 2019.12.29 per deadsix27
 				'work_dir': 'workdir',
 				'original_cflags': '-O3',
 				'original_stack_protector' : '-fstack-protector-all',  # 2019.12.13 # 2019.11.10 remember to add -fstack-protector-all -D_FORTIFY_SOURCE=2 using the replaceVariables thingy
@@ -1069,9 +1068,9 @@ class CrossCompileScript:
 			meFile = (
 				"[binaries]\n",
 				F"c = '{self.shortCrossPrefixStr}gcc'",
-				F"cpp = '{self.shortCrossPrefixStr}g++'", 
-				#F"ld = 'bfd'", # 2020.01.10 See: https://github.com/mesonbuild/meson/issues/6431#issuecomment-572544268, no clue either why we can't just define full "ld" path, but whatever.
-				F"ld = '{self.shortCrossPrefixStr}ld'", # 2020.01.10 leave as-is at 0.51.2 (?0.52.1?)
+				F"cpp = '{self.shortCrossPrefixStr}g++'",
+				F"ld = 'bfd'", # 2020.03.19 See: https://github.com/mesonbuild/meson/issues/6431#issuecomment-572544268, no clue either why we can't just define full "ld" path, but whatever.
+				#F"ld = '{self.shortCrossPrefixStr}ld'", # 2020.03.19 re-commented-out
 				F"ar = '{self.shortCrossPrefixStr}ar'",
 				F"strip = '{self.shortCrossPrefixStr}strip'",
 				F"windres = '{self.shortCrossPrefixStr}windres'",
@@ -1801,7 +1800,7 @@ class CrossCompileScript:
 					if libraryName not in self.packages["deps"]:
 						raise MissingDependency("The dependency '{0}' of '{1}' does not exist in dependency config.".format(libraryName, packageName))  # sys.exc_info()[0]
 					else:
-						self.buildThing(libraryName, self.packages["deps"][libraryName], "DEPENDENCY") # ??????????????????????????????????????????????
+						self.buildThing(libraryName, self.packages["deps"][libraryName], "DEPENDENCY")
 
 		if 'is_dep_inheriter' in packageData:
 			if packageData['is_dep_inheriter'] is True:
@@ -1820,7 +1819,6 @@ class CrossCompileScript:
 			print("##############################")
 
 		self.logger.info("Building {0} '{1}'".format(type.lower(), packageName))
-		#self.defaultCFLAGS()
 		self.resetDefaultEnvVars()
 
 		if 'warnings' in packageData:
@@ -1860,7 +1858,7 @@ class CrossCompileScript:
 			workDir = self.mercurialClone(self.getPrimaryPackageUrl(packageData, packageName), self.getValueOrNone(packageData, 'folder_name'), renameFolder, branch, forceRebuild)
 		elif packageData["repo_type"] == "archive":
 			if "folder_name" in packageData:
-				workDir = self.downloadUnpackFile(packageData, packageName, packageData["folder_name"], workDir) # ??????????????????????????????????????
+				workDir = self.downloadUnpackFile(packageData, packageName, packageData["folder_name"], workDir)
 			else:
 				workDir = self.downloadUnpackFile(packageData, packageName, None, workDir)
 		elif packageData["repo_type"] == "none":
@@ -1985,7 +1983,7 @@ class CrossCompileScript:
 					print("##############################")
 					print("##############################")
 
-		# 2019.12.13 ADDED THIS CODE for custom_ldflag (and hope it ALWAYS gets executed AFTER custom_cflag etc
+		# 2019.12.13 ADDED THIS CODE for custom_ldflag (and hope it ALWAYS gets executed AFTER custom_cflag etc)
 		if 'custom_ldflag' in packageData:
 			if packageData['custom_ldflag'] is not None:
 				val = self.replaceVariables(packageData['custom_ldflag'])    # 2019.12.13
@@ -2211,7 +2209,6 @@ class CrossCompileScript:
 				print("##############################")
 				print("##############################")
 
-		#self.defaultCFLAGS()
 		self.resetDefaultEnvVars()
 		self.cchdir("..")  # asecond into workdir
 	#:
@@ -2419,7 +2416,6 @@ class CrossCompileScript:
 				shutil.copyfile(local_patch_path, copyPath)
 			else:
 				fileName = os.path.basename(urlparse(url).path)
-				#url = "https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches" + url
 				url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url
 				self.downloadFile(url, fileName)
 
@@ -2623,7 +2619,6 @@ class CrossCompileScript:
 			self.touch(touchName)
 	#:
 
-	#def defaultCFLAGS(self):
 	def resetDefaultEnvVars(self):
 		self.logger.debug("Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS to: '{0}'".format(self.originalCflags))
 		os.environ["CFLAGS"] = self.originalCflags
