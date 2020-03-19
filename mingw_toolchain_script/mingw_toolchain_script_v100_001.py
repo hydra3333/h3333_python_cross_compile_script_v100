@@ -45,7 +45,8 @@ SOURCES['mingw-w64'] = {
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
- 	'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None, # 2020.02.27 try without tag
+ 	#'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None, # 2020.02.27 try without tag
+	'checkout' : '629fd2b1abe6d6c12b08e477a7ce32c8fef8c667',
 	'run_after_patches': [
 		('autoreconf -fiv', ),
 		('mingw-w64-crt', 'autoreconf -fiv'),
@@ -55,7 +56,7 @@ SOURCES['mingw-w64'] = {
 		'mingw-w64-headers',
 		'mingw-w64-gendef',
 		'mingw-w64-winpthreads',
-		# 'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
+		'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
 	]
 }
 SOURCES['gmp'] = {
@@ -97,11 +98,10 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/
 	'type': 'archive',
-	#'version'   : '9.2.0', # stable versions
-	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	#'version': '9-20200208', # pre-release versions, this works.
-	'version': '9.3.0-RC-20200305', # pre-release versions
-	'url': 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # pre-release versions
+	'version'   : '9.3.0', # stable versions
+	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
+	#'version': '9.3.0-RC-20200305', # pre-release versions
+	#'url': 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # pre-release versions
 	'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
 		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0140-gcc-7-Enable-std-experimental-filesystem.patch', 'p1' ), #Unable to get this to work.
@@ -180,7 +180,7 @@ BUILDS['gcc-1'] = {
       	# ' --enable-default-ssp'
 		# ' --enable-libssp'
 		# ' --enable-libstdcxx-filesystem-ts=yes'
-		' --enable-fully-dynamic-string'
+		#' --enable-fully-dynamic-string'
 		# ' --enable-libstdcxx-time=yes'
 		# ' --enable-cloog-backend=isl'
 	,
