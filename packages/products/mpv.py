@@ -10,10 +10,10 @@
 	#	'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # See near 'regex_replace'
 	#},
 	'env_exports' : {
-		'DEST_OS' : 'win32',
-		#'DEST_OS' : '{bit_name_win}',
+		'DEST_OS' : '{bit_name_win}', #'DEST_OS' : 'win32',
 		'TARGET'  : '{target_host}',
 		'PKG_CONFIG' : 'pkg-config',
+		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
 	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ',
@@ -40,8 +40,7 @@
 		'--disable-manpage-build '
 		'--disable-pdf-build '
 		'TARGET={target_host} '
-		'DEST_OS=win32 '
-		#'DEST_OS={bit_name_win} '
+		'DEST_OS={bit_name_win} ' # 'DEST_OS=win32 '
 	,
 	'depends_on' : [
 		'libffmpeg',

@@ -18,7 +18,7 @@
 	,
 	'conf_system' : 'cmake',
 	'depends_on' : [ 'libxml2', 'libx265_multibit_10', 'libx265_multibit_12' ],
-	'_info' : { 'version' : 'mercurial (default)', 'fancy_name' : 'x265 (multibit 12/10/8)' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x265 (multibit 12/10/8)' },
 }
 # 2019.12.13 old:
 #	'x265_multibit' : {

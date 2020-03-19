@@ -5,7 +5,7 @@
 	'configure_options' :
 		'--target={bit_name2}-{bit_name_win}-gcc '
 		'--prefix={output_prefix}/vpx_git.installed '
-		'--disable-shared --enable-static --enable-webm-io --enable-libyuv --enable-vp9 ' # --disable-webm-io
+		'--disable-shared --enable-static --enable-webm-io --enable-libyuv --enable-vp9 '
 		'--enable-vp8 --enable-runtime-cpu-detect --enable-postproc '
 		'--enable-vp9-highbitdepth --enable-vp9-postproc --enable-coefficient-range-checking --enable-postproc-visualizer '
 		'--enable-error-concealment --enable-better-hw-compatibility '
