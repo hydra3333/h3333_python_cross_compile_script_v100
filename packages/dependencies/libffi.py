@@ -11,7 +11,7 @@
 	'depends_on' : [ # 2019.12.13
 		'gettext', # 2019.12.13
 	], # 2019.12.13
-    '_info' : { 'version' : 'git (master), 'fancy_name' : 'libffi' },
+    '_info' : { 'version' : 'git (master)', 'fancy_name' : 'libffi' },
 }
 # 2019.12.13 old:
 #	'libffi' : {
