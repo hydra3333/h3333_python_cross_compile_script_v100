@@ -1950,10 +1950,10 @@ class CrossCompileScript:
 				os.environ["CXXFLAGS"] = os.environ["CXXFLAGS"] + " " + packageData['cflag_addition']
 				os.environ["CPPFLAGS"] = os.environ["CPPFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
 				os.environ["LDFLAGS"] = os.environ["LDFLAGS"] + " " + packageData['cflag_addition'] # 2019.12.13
-				self.logger.info(F'Added to CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Added to CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Added to CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Added to LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Added to CFLAGS, now: "{os.environ["CFLAGS"]}"')
+				self.logger.info(F'Added to CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"')
+				self.logger.info(F'Added to CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"')
+				self.logger.info(F'Added to LDFLAGS, now: "{os.environ["LDFLAGS"]}"')
 				if self.debugMode:
 					print("##############################")
 					print("### Environment variables:  ###")
@@ -1971,10 +1971,10 @@ class CrossCompileScript:
 				os.environ["CXXFLAGS"] = val # 2019.12.13
 				os.environ["CPPFLAGS"] = val # 2019.12.13
 				os.environ["LDFLAGS"] = val  # 2019.12.13
-				self.logger.info(F'Set CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Set CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Set CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+				self.logger.info(F'Set CFLAGS, now: "{os.environ["CFLAGS"]}"')
+				self.logger.info(F'Set CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"')
+				self.logger.info(F'Set CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"')
+				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"')
 				if self.debugMode:
 					print("##############################")
 					print("### Environment variables:  ###")
@@ -2005,10 +2005,10 @@ class CrossCompileScript:
 					os.environ["CXXFLAGS"] = self.reStrip(_pattern, os.environ["CXXFLAGS"])
 					os.environ["CPPFLAGS"] = self.reStrip(_pattern, os.environ["CPPFLAGS"]) # 2019.12.13
 					os.environ["LDFLAGS"] = self.reStrip(_pattern, os.environ["LDFLAGS"])   # 2019.12.13
-					self.logger.info(F'Stripped CFLAGS, now: "{os.environ["CFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-					self.logger.info(F'Stripped CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-					self.logger.info(F'Stripped CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
-					self.logger.info(F'Stripped LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
+					self.logger.info(F'Stripped CFLAGS, now: "{os.environ["CFLAGS"]}"')
+					self.logger.info(F'Stripped CXXFLAGS, now: "{os.environ["CXXFLAGS"]}"')
+					self.logger.info(F'Stripped CPPFLAGS, now: "{os.environ["CPPFLAGS"]}"')
+					self.logger.info(F'Stripped LDFLAGS, now: "{os.environ["LDFLAGS"]}"')
 				if self.debugMode:
 					print("##############################")
 					print("### Environment variables:  ###")
