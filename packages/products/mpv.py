@@ -3,6 +3,7 @@
 	'url' : 'https://github.com/mpv-player/mpv.git',
 	'build_system' : 'waf',
 	'conf_system' : 'waf',
+	'rename_folder' : 'mpv_git',
 	#'env_exports' : {
 	#	'DEST_OS' : 'win32',
 	#	'TARGET'  : '{target_host}',
@@ -18,14 +19,27 @@
 	'custom_cflag'  : ' -O3 ',
 	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -ld3d11 ', # 2020.03.19 added -ld3d11 per from libmpv.py
 	'configure_options' :
+		'--force '
 		'--enable-libmpv-shared '
 		'--enable-static-build '
+		'--disable-debug-build '
+		'--disable-html-build '
+		'--disable-android '
+		'--disable-egl-android '
+		'--disable-tvos '
+		'--disable-swift '
+		'--enable-iconv '
+		'--enable-zlib '
+		'--enable-zimg '
+		'--enable-libavdevice '
+		'--enable-cuda-hwaccel '
+		'--enable-cuda-interop '
 		'--prefix={output_prefix}/mpv_git.installed '
 		'--enable-sdl2 ' # 2020.03.19 added 
 		'--enable-rubberband '
 		'--enable-lcms2 '
 		# '--enable-openal '
-		'--enable-dvdread '
+		# '--enable-dvdread ' # commented out, no such option
 		'--enable-dvdnav '
 		'--enable-libbluray '
 		#'--enable-egl-angle-lib ' # not maintained anymore apparently, crashes for me anyway.
@@ -38,7 +52,7 @@
 		'--disable-wayland-protocols '
 		'--disable-wayland-scanner '
 		'--enable-cdda '
-		'--enable-libass '
+		#'--enable-libass ' # commented out, no such option
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
@@ -49,11 +63,13 @@
 		'--disable-manpage-build '
 		'--disable-pdf-build '
 		'TARGET={target_host} '
-		'DEST_OS={bit_name_win} ' # 'DEST_OS=win32 '
+		'DEST_OS={bit_name_win} ' # 2020.03.19 changed from 'DEST_OS=win32 '
 	,
 	'depends_on' : [
-		'libffmpeg',
+		'opencl_icd',
+		'vulkan_loader',
 		'zlib',
+		'libzimg',
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
@@ -72,8 +88,8 @@
 		'libarchive',
 		'mujs',
 		'shaderc',
-		'vulkan_loader',
 		'libplacebo',
+		'libffmpeg',
 	],
 	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
 	'regex_replace': {
@@ -107,5 +123,5 @@
 		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.exe',
 		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv-1.dll',
 	),
-	'_info' : { 'version' : None, 'fancy_name' : 'mpv' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'mpv' },
 }
