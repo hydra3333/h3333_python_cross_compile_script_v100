@@ -17,7 +17,7 @@
 		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
-	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -ld3d11 ', # 2020.03.19 added -ld3d11 per from libmpv.py
+	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv
 	'configure_options' :
 		'--force '
 		'--enable-libmpv-shared '
