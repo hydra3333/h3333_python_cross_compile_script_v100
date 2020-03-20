@@ -17,7 +17,7 @@
 		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
-	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
+	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lOpenCL.dll -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
 	'configure_options' :
 		'--force '
 		'--enable-libmpv-shared '
@@ -30,10 +30,10 @@
 		'--disable-swift '
 		'--enable-iconv '
 		'--enable-zlib '
-		#'--enable-zimg '
-		#'--enable-libavdevice '
-		#'--enable-cuda-hwaccel '
-		#'--enable-cuda-interop '
+		#'--enable-zimg ' # including -lzimg always throws an error
+		'--enable-libavdevice '
+		'--enable-cuda-hwaccel '
+		'--enable-cuda-interop '
 		'--prefix={output_prefix}/mpv_git.installed '
 		'--enable-sdl2 ' # 2020.03.19 added 
 		'--enable-rubberband '
@@ -56,7 +56,7 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		#'--enable-vulkan '
+		'--enable-vulkan '
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
