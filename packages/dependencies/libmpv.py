@@ -4,10 +4,12 @@
 	'build_system' : 'waf',
 	'conf_system' : 'waf',
 	'rename_folder' : 'libmpv_git',
+	'rename_folder' : 'mpv_git',
 	#'env_exports' : {
 	#	'DEST_OS' : 'win32',
 	#	'TARGET'  : '{target_host}',
-	#	'LDFLAGS' : '-ld3d11',
+	#	'PKG_CONFIG' : 'pkg-config',
+	#	'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # See near 'regex_replace'
 	#},
 	'env_exports' : {
 		'DEST_OS' : '{bit_name_win}', #'DEST_OS' : 'win32',
@@ -16,7 +18,7 @@
 		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
-	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -ld3d11 ', # 2020.03.19 added -ld3d11 per from libmpv.py
+	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
 	#'run_post_patch' : [ # 2020.03.19 not sure about this, it is not in mpv.py
 	#	'cp -nv "/usr/bin/pkg-config" "{cross_prefix_full}pkg-config"',
 	#	'sed -i.bak "s/encoder_encode/mpv_encoder_encode/" common/encode_lavc.h', # Dirty work-around for xavs2, no idea how else to fix this.
@@ -36,7 +38,7 @@
 		'--disable-swift '
 		'--enable-iconv '
 		'--enable-zlib '
-		'--enable-zimg '
+		#'--enable-zimg ' # including -lzimg always throws an error
 		'--enable-libavdevice '
 		'--enable-cuda-hwaccel '
 		'--enable-cuda-interop '
@@ -75,7 +77,7 @@
 		'opencl_icd',
 		'vulkan_loader',
 		'zlib',
-		'libzimg',
+		#'libzimg', # including -lzimg always throws an error
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
