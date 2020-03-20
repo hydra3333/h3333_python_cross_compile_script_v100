@@ -9,7 +9,7 @@
     # 2019.12.13 note: we make this a 64 bit build only with -DAOM_TARGET_CPU=x86_64 ... some may not prefer this.
 	'configure_options': '.. {cmake_prefix_options} ' 
 		'-DCMAKE_INSTALL_PREFIX={output_prefix}/aom_git.installed '
-        '-DAOM_TARGET_CPU={bit_name2}' # '-DAOM_TARGET_CPU=x86_64 ' 
+        '-DAOM_TARGET_CPU={bit_name2} ' # '-DAOM_TARGET_CPU=x86_64 ' 
 		'-DBUILD_SHARED_LIBS=0 '
 		'-DCONFIG_STATIC=1 '
 		'-DCONFIG_SHARED=0 '
