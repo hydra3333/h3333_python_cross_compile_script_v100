@@ -16,6 +16,9 @@
 	'run_post_patch' : [ # 2019.12.13
 		'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 	],
+	'run_post_build' : [
+		'cp -fv "{target_prefix}/lib/libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.a"',
+	],
 	'depends_on' : [ 'opencl_headers' ],	
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL-ICD-Loader' }, # 2019.12.13 clarity with the fancy name
 }
