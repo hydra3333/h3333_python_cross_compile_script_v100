@@ -31,9 +31,9 @@
 		'--enable-iconv '
 		'--enable-zlib '
 		#'--enable-zimg '
-		'--enable-libavdevice '
-		'--enable-cuda-hwaccel '
-		'--enable-cuda-interop '
+		#'--enable-libavdevice '
+		#'--enable-cuda-hwaccel '
+		#'--enable-cuda-interop '
 		'--prefix={output_prefix}/mpv_git.installed '
 		'--enable-sdl2 ' # 2020.03.19 added 
 		'--enable-rubberband '
@@ -66,8 +66,8 @@
 		'DEST_OS={bit_name_win} ' # 2020.03.19 changed from 'DEST_OS=win32 '
 	,
 	'depends_on' : [
-		#'opencl_icd',
-		#'vulkan_loader',
+		'opencl_icd',
+		'vulkan_loader',
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',
