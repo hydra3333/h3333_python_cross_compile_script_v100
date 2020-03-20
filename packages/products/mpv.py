@@ -30,7 +30,7 @@
 		'--disable-swift '
 		'--enable-iconv '
 		'--enable-zlib '
-		'--enable-zimg '
+		#'--enable-zimg '
 		'--enable-libavdevice '
 		'--enable-cuda-hwaccel '
 		'--enable-cuda-interop '
