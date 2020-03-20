@@ -56,7 +56,7 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		'--enable-vulkan '
+		#'--enable-vulkan '
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
@@ -66,8 +66,8 @@
 		'DEST_OS={bit_name_win} ' # 2020.03.19 changed from 'DEST_OS=win32 '
 	,
 	'depends_on' : [
-		'opencl_icd',
-		'vulkan_loader',
+		#'opencl_icd',
+		#'vulkan_loader',
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',
