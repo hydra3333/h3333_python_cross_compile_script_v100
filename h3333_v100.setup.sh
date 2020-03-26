@@ -106,6 +106,7 @@ sudo apt install -y patch
 sudo apt install -y libtoolize 
 
 sudo apt install -y autopoint 
+sudo apt install -y po4a 
 sudo apt install -y gettext 
 sudo apt install -y gettext-autopoint
 
