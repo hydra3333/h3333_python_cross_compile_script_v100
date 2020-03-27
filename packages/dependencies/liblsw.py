@@ -2,7 +2,7 @@
 		'repo_type' : 'git',
 		'url' : 'https://github.com/HolyWu/L-SMASH-Works.git', # 2019.11.19 swap to HolyWu's fork as it seems more updated
 		'depth_git' : 0,
-		'branch' : '86f757d4096de3abdd1970202dc33fbaa8c8b640',
+		#'branch' : '86f757d4096de3abdd1970202dc33fbaa8c8b640',
 		'source_subfolder' : 'VapourSynth',
 		'env_exports' : {
 			'PKGCONFIG' : 'pkg-config',
