@@ -7,6 +7,7 @@
 	'configure_options': '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF', # 2019.12.13
 	'run_post_build' : [
 		'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.dll.a"', # 2019.12.13 always copy it
+		'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.a"', # 2020.03.27 required for mpv to link
 		'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',
 	],
 	'patches' : [
@@ -15,9 +16,6 @@
 	],
 	'run_post_patch' : [ # 2019.12.13
 		'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
-	],
-	'run_post_build' : [
-		'cp -fv "{target_prefix}/lib/libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.a"',
 	],
 	'depends_on' : [ 'opencl_headers' ],	
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL-ICD-Loader' }, # 2019.12.13 clarity with the fancy name
