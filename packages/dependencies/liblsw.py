@@ -27,6 +27,6 @@
 			'--buildtype=release '
 			'--cross-file={meson_env_file} ./ ..'
 		,
-		'depends_on' : ['libffmpeg', 'libl-smash'],
+		'depends_on' : ['vapoursynth_libs', 'libffmpeg', 'libl-smash'],
 		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'liblsw' },
 }
