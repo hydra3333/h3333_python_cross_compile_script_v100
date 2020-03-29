@@ -5,6 +5,9 @@
 	'needs_make_install' : False,
 	'depends_on' : [ 'python3_libs' ],
 	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R48 PYTHON_VERSION=3.7.5', # 2019.12.13 added PYTHON_VERSION=3.7.5
+	'run_post_install' : (
+		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
+	),
 	'packages' : {
 		'arch' : [ '7za' ],
 	},
