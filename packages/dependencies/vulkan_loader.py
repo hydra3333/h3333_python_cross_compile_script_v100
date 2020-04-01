@@ -12,6 +12,12 @@
 		'-DBUILD_TESTS=OFF ' 
 		'-DENABLE_STATIC_LOADER=ON ' # 2020.03.19 un-comment
 	,
+	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
+		'CFLAGS'   : ' -O3',
+		'CXXFLAGS' : ' -O3',
+		'CPPFLAGS' : ' -O3',
+		'LDFLAGS'  : ' -O3',
+	},
 	# 'cpu_count': 1,
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
@@ -34,10 +40,14 @@
 			},
 		]
 	},
-	#'run_post_install' : [
+	'run_post_install' : [
 	#	'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	#	'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-	#],
+	#
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
+		'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+		'cat "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
