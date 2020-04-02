@@ -1,32 +1,10 @@
-{
-	'repo_type' : 'git',
-	'url' : 'https://github.com/DeadSix27/vapoursynth_mingw_libs.git',
-	'needs_configure' : False,
-	'needs_make_install' : False,
-	'depends_on' : [ 'python3_libs' ],
-	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R48 PYTHON_VERSION=3.7.5',
-	'run_post_build' : [
-		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
-	],
-	'run_post_install' : [
-		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
-	],
-	'packages' : {
-		'arch' : [ '7za' ],
-	},
-	'_info' : { 'version' : 'R48', 'fancy_name' : 'VapourSynth (library-only)' },
-}
-{
+#{
 #	'repo_type' : 'git',
 #	'url' : 'https://github.com/DeadSix27/vapoursynth_mingw_libs.git',
 #	'needs_configure' : False,
 #	'needs_make_install' : False,
 #	'depends_on' : [ 'python3_libs' ],
-#	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R49 PYTHON_VERSION=3.8.2',
-#	'run_post_patch' : [
-#		'sed -i.bak "s;R48;R49;g" "Makefile"',
-#		'sed -i.bak "s;R48;R49;g" "install_vapoursynth_libs.py"',
-#	],
+#	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R48 PYTHON_VERSION=3.7.5',
 #	'run_post_build' : [
 #		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
 #	],
@@ -36,8 +14,35 @@
 #	'packages' : {
 #		'arch' : [ '7za' ],
 #	},
-#	'_info' : { 'version' : 'R49', 'fancy_name' : 'VapourSynth (library-only)' },
+#	'_info' : { 'version' : 'R48', 'fancy_name' : 'VapourSynth (library-only)' },
 #}
+{
+	'repo_type' : 'git',
+	'url' : 'https://github.com/DeadSix27/vapoursynth_mingw_libs.git',
+	'needs_configure' : False,
+	'needs_make_install' : False,
+	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R49 PYTHON_VERSION=3.8.2',
+	'run_post_patch' : [
+		'sed -i.bak "s;R47;R49;g" "Makefile"',
+		'sed -i.bak "s;R48;R49;g" "Makefile"',
+		
+		'sed -i.bak "s;_DEBUG = False;_DEBUG = True;g" "install_vapoursynth_libs.py"',
+		'sed -i.bak "s; 3.7; 3.8.2;g" "install_vapoursynth_libs.py"',
+		'sed -i.bak "s;if float(ver_suff) \> 44;if float(ver_suff) > 48:\\n			pydName = "vapoursynth.cp38-win_amd64.pyd"\\n			VSS_PC = VSS_PC.replace(\"\%\%PY_VER_DOT\%\%\",\"3.8\").replace(\\%\%PY_VER\%\%\,\38\)\\n		elif float(ver_suff) \> 44;g" "install_vapoursynth_libs.py"',
+		'cat install_vapoursynth_libs.py',
+	],
+	'run_post_build' : [
+		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
+	],
+	'run_post_install' : [
+		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
+	],
+	'packages' : {
+		'arch' : [ '7za' ],
+	},
+	'depends_on' : [ 'python3_libs' ],
+	'_info' : { 'version' : 'R49', 'fancy_name' : 'VapourSynth (library-only)' },
+}
 #
 # MABS:
 #
