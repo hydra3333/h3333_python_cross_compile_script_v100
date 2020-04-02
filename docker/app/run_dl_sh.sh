@@ -22,7 +22,7 @@ ls -al /VM
 
 ls -al /VM/exe_x64_py
 
-curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/run_dl_sh.sh -O -L
+#curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/run_dl_sh.sh -O -L
 curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/run_prep.sh -O -L
 curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/docker/app/README.md -O -L
 curl --ipv4 https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/h3333_v100.setup.sh -O -L
