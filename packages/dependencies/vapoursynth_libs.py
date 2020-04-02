@@ -23,13 +23,18 @@
 	'needs_make_install' : False,
 	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R49 PYTHON_VERSION=3.8.2',
 	'run_post_patch' : [
+		'cp -fv Makefile Makefile.orig',
 		'sed -i.bak "s;R47;R49;g" "Makefile"',
 		'sed -i.bak "s;R48;R49;g" "Makefile"',
+		'#cat Makefile',
+		'diff -U 5 Makefile.orig Makefile && echo "NO difference" || echo "YES differences!"',
 		
+		'cp -fv install_vapoursynth_libs.py install_vapoursynth_libs.py.orig',
 		'sed -i.bak "s;_DEBUG = False;_DEBUG = True;g" "install_vapoursynth_libs.py"',
-		'sed -i.bak "s; 3.7; 3.8.2;g" "install_vapoursynth_libs.py"',
-		'sed -i.bak "s;if float(ver_suff) \> 44;if float(ver_suff) > 48:\\n			pydName = "vapoursynth.cp38-win_amd64.pyd"\\n			VSS_PC = VSS_PC.replace(\"\%\%PY_VER_DOT\%\%\",\"3.8\").replace(\\%\%PY_VER\%\%\,\38\)\\n		elif float(ver_suff) \> 44;g" "install_vapoursynth_libs.py"',
-		'cat install_vapoursynth_libs.py',
+		#'sed -i.bak "s; 3.7; 3.8.2;g" "install_vapoursynth_libs.py"',
+		'sed -i.bak "s;if float(ver_suff) > 44;if float(ver_suff) > 48: #for R49 use 3.8.2\\n			pydName = \\"vapoursynth.cp38-win_amd64.pyd\\"\\n			VSS_PC = VSS_PC.replace(\\"\%\%PY_VER_DOT\%\%\\",\\"3.8\\").replace(\\"\%\%PY_VER\%\%\\",\\"38\\")\\n		elif float(ver_suff) > 44;g" "install_vapoursynth_libs.py"',
+		'#cat install_vapoursynth_libs.py',
+		'diff -U 5 install_vapoursynth_libs.py.orig install_vapoursynth_libs.py && echo "NO difference" || echo "YES differences!"',
 	],
 	'run_post_build' : [
 		'cp -fv "{target_prefix}/include/vapoursynth/VapourSynth.h" "{target_prefix}/include/VapourSynth.h" ',
