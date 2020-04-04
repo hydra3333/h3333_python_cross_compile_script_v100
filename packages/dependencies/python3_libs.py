@@ -22,4 +22,5 @@
 		'diff -U 5 install_python_libs.py.orig install_python_libs.py && echo "NO difference" || echo "YES differences!"',
 	],
 	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.8.2',
+	'_info' : { 'version' : '3.8.2', 'fancy_name' : 'Python (library-only)' },
 }
