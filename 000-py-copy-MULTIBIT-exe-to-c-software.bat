@@ -26,6 +26,10 @@ xcopy ".\exe_x64_py\mp4box.exe" "C:\SOFTWARE\mp4box\" /Y /E /V /F /G /H /R /Z /C
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\mp4box\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
 REM ------------------------------------------------------------------------------------------
+xcopy ".\exe_x64_py\mkv*.exe" "C:\SOFTWARE\mkvtoolnix\ /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
+xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\mkvtoolnix\" /Y /E /V /F /G /H /R /Z /C
+REM ------------------------------------------------------------------------------------------
+REM ------------------------------------------------------------------------------------------
 xcopy ".\exe_x64_py\lame.exe" "C:\SOFTWARE\audacity\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 REM xcopy ".\exe_x64_py\lame_enc.dll" "C:\SOFTWARE\audacity\" /Y /E /V /F /G /H /R /Z /C 
 REM ------------------------------------------------------------------------------------------
