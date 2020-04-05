@@ -4,9 +4,9 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DENABLE_64_BIT_WORDS=ON -DBUILD_PROGRAMS=OFF -DINSTALL_MANPAGES=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.3 -DCMAKE_BUILD_TYPE=Release',
-	#'patches': [
-	#	('flac/0001-mingw-fix.patch', '-p1', '..'),
-	#],
+	'patches': [
+		('flac/0001-mingw-fix-2.patch', '-p1', '..'),
+	],
 	'run_post_patch' : [
 		'sed \'add_subdirectory("utils");#add_subdirectory("utils");g\' "../src/CMakeLists.txt"',
 	]
