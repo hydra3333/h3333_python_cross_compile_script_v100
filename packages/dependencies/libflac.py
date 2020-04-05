@@ -7,14 +7,23 @@
 	'patches': [
 		('flac/0001-mingw-fix-2.patch', '-p1', '..'),
 	],
-	'run_post_patch' : [
-		'sed -i.bak \'add_subdirectory("utils");#add_subdirectory("utils");g\' "../src/CMakeLists.txt"',
-	],
 	'regex_replace': {
 		'post_patch': [
 			{
 				0: r'add_subdirectory\("microbench"\)',
 				'in_file': '../CMakeLists.txt'
+			},
+			{
+				0: r'add_subdirectory\("utils"\)',
+				'in_file': '../src/CMakeLists.txt'
+			},
+			{
+				0: r'    add_subdirectory\("metaflac"\)',
+				'in_file': '../src/CMakeLists.txt'
+			},
+			{
+				0: r'    add_subdirectory\("flac"\)',
+				'in_file': '../src/CMakeLists.txt'
 			},
 		],
 	},
