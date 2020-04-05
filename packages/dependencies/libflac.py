@@ -9,7 +9,7 @@
 	],
 	'run_post_patch' : [
 		'sed \'add_subdirectory("utils");#add_subdirectory("utils");g\' "../src/CMakeLists.txt"',
-	]
+	],
 	'regex_replace': {
 		'post_patch': [
 			{
