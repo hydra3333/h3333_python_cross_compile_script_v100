@@ -31,7 +31,6 @@ sed -i.bak 's;~/Desktop;/;g' ./h3333_v100.setup.sh
 sed -i.bak 's;/home/u/Desktop;/;g' ./h3333_v100.setup.sh
 sed -i.bak 's;./exe_x64_py;/VM/exe_x64_py;g' ./h3333_v100.setup.sh
 
-
 sed -i.bak 's;sudo ;;g' ./h3333_v100.001.sh
 sed -i.bak 's;~/Desktop;/;g' ./h3333_v100.001.sh
 sed -i.bak 's;/home/u/Desktop;/;g' ./h3333_v100.001.sh
