@@ -8,7 +8,7 @@
 		('flac/0001-mingw-fix-2.patch', '-p1', '..'),
 	],
 	'run_post_patch' : [
-		'sed \'add_subdirectory("utils");#add_subdirectory("utils");g\' "../src/CMakeLists.txt"',
+		'sed -i.bak \'add_subdirectory("utils");#add_subdirectory("utils");g\' "../src/CMakeLists.txt"',
 	],
 	'regex_replace': {
 		'post_patch': [
