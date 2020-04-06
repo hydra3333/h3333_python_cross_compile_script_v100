@@ -1,8 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'git://git.ffmpeg.org/ffmpeg.git',
-	'depth_git': 0,
-	'branch' : '4d9b9c5e4637ac15205467f16fcac92a28e18f18',
+	#'depth_git': 0,
+	#'branch' : '4d9b9c5e4637ac15205467f16fcac92a28e18f18',
 	'rename_folder' : 'ffmpeg',
 	'configure_options' : '!VAR(ffmpeg_config)VAR! !VAR(ffmpeg_extra_config)VAR! !VAR(ffmpeg_nonfree)VAR! --prefix={output_prefix}/ffmpeg_git.installed --enable-sdl --disable-shared --enable-static',
 	'depends_on' : [ 'ffmpeg_depends', 'ffmpeg_depends_extra', 'ffmpeg_depends_nonfree', 'sdl2'],
