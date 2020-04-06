@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'url': 'git://git.savannah.gnu.org/freetype/freetype2.git',
+	'url': 'git://git.savannah.gnu.org/freetype/freetype2.git', # http://savannah.nongnu.org/projects/freetype
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : 
