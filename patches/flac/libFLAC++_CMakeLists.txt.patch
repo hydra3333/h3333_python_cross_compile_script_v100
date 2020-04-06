@@ -1,0 +1,10 @@
+diff --git a/src/libFLAC++/CMakeLists.txt b/src/libFLAC++/CMakeLists.txt
+--- CMakeLists.txt	2020-04-06 15:25:57.000000000 +0930
++++ CMakeLists.txt	2020-04-06 15:25:57.000000000 +0930
+@@ -47,5 +47,5 @@
+     set(includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
+     configure_file(flac++.pc.in flac++.pc @ONLY)
+     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/flac++.pc"
+-        DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig")
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+ endif()
