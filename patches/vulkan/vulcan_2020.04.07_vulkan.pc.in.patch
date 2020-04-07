@@ -1,0 +1,12 @@
+--- a/loader/vulkan.pc.in	2020-04-07 15:43:30.000000000 +0930
++++ b/loader/vulkan.pc.in	2020-04-07 15:43:52.000000000 +0930
+@@ -1,5 +1,7 @@
+-prefix=@CMAKE_INSTALL_PREFIX@
+-exec_prefix=@CMAKE_INSTALL_PREFIX@
++#prefix=@CMAKE_INSTALL_PREFIX@
++#exec_prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=${prefix}
++libdir=${exec_prefix}/lib
+ libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+ includedir=${prefix}/include
+ 

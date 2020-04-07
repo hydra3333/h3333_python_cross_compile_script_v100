@@ -1,0 +1,13 @@
+--- a/loader/loader.c	2020-04-07 15:43:30.000000000 +0930
++++ b/loader/loader.c	2020-04-07 15:43:52.000000000 +0930
+@@ -675,6 +675,10 @@
+ //
+ // *reg_data contains a string list of filenames as pointer.
+ // When done using the returned string list, the caller should free the pointer.
++#ifdef __MINGW32__
++#define CM_GETIDLIST_FILTER_PRESENT            (0x00000100)
++#define CM_GETIDLIST_FILTER_CLASS              (0x00000200)
++#endif
+ VkResult loaderGetDeviceRegistryFiles(const struct loader_instance *inst, char **reg_data, PDWORD reg_data_size,
+                                       LPCSTR value_name) {
+     static const wchar_t *softwareComponentGUID = L"{5c4c3332-344d-483c-8739-259e934c9cc8}";
