@@ -23,8 +23,7 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'patches' : [
-		# ('vulkan/0001-mingw-workarounds.patch','-p1','..'),
-		('vulkan/0001-mingw-workarounds-2020.04.07.patch','-p1','..'),
+		('vulkan/0001-mingw-workarounds-2020.04.08.patch','-p1','..'),
 	],
 	'regex_replace': {
 		'post_install': [
