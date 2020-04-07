@@ -10,8 +10,8 @@
 		('flac/libFLAC_CMakeLists.txt.patch', '-p1', '..'),
 		#('flac/libFLAC++_CMakeLists.txt.patch', '-p1', '..'),
 	],
-	'regex_replace': {
-		'post_patch': [
+	#'regex_replace': {
+	#	'post_patch': [
 			#{
 			#	0: r'add_subdirectory\("microbench"\)',
 			#	'in_file': '../CMakeLists.txt'
@@ -28,13 +28,13 @@
 			#	0: r'    add_subdirectory\("flac"\)',
 			#	'in_file': '../src/CMakeLists.txt'
 			#},
-		],
-	},
+	#	],
+	#},
 	'depends_on' : [
 		'libogg',
 	],
 	'packages' : {
 		'ubuntu' : [ 'docbook-to-man' ],
 	},
-	'_info' : { 'version' : 'git (master), 'fancy_name' : 'FLAC' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'FLAC' },
 }
