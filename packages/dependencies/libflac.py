@@ -8,7 +8,7 @@
 	'patches': [
 		('flac/0001-mingw-fix-2.patch', '-p1', '..'),
 		('flac/libFLAC_CMakeLists.txt.patch', '-p1', '..'),
-		('flac/libFLAC++_CMakeLists.txt.patch', '-p1', '..'),
+		#('flac/libFLAC++_CMakeLists.txt.patch', '-p1', '..'),
 	],
 	'regex_replace': {
 		'post_patch': [
