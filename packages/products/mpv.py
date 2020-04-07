@@ -95,7 +95,7 @@
 	'regex_replace': {
 		'post_patch': [
 			{
-				0: r'Libs: -L\${{libdir}} -lvulkan',
+				0: r'Libs: -L\${{libdir}} -lvulkan-1',
 				1: r'Libs: -L${{libdir}}',
 				'in_file': '{pkg_config_path}/vulkan.pc',
 				'out_file': '{pkg_config_path}/vulkan.pc'
@@ -109,7 +109,7 @@
 		'post_install': [
 			{
 				0: r'Libs: -L\${{libdir}}',
-				1: r'Libs: -L${{libdir}} -lvulkan',
+				1: r'Libs: -L${{libdir}} -lvulkan-1',
 				'in_file': '{pkg_config_path}/vulkan.pc',
 				'out_file': '{pkg_config_path}/vulkan.pc'
 			}
