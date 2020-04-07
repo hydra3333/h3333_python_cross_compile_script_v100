@@ -1,9 +1,9 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
-	#'depth_git' : 0,
-	#'branch' : 'tags/v1.1.127',
-	#'recursive_git' : True, 
+	'depth_git' : 0,
+	'branch' : 'tags/v1.2.135',
+	'recursive_git' : True, 
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DCMAKE_BUILD_TYPE=Release '
@@ -24,10 +24,7 @@
 	'source_subfolder' : '_build',
 	'patches' : [
 		# ('vulkan/0001-mingw-workarounds.patch','-p1','..'),
-		('vulkan/vulcan_2020.04.07_CMakeLists.txt.patch','-p1','..'),
-		('vulkan/vulcan_2020.04.07_loader.c.patch','-p1','..'),
-		('vulkan/vulcan_2020.04.07_loader.rc.patch','-p1','..'),
-		('vulkan/vulcan_2020.04.07_vulkan.pc.in.patch','-p1','..'),
+		('vulkan/0001-mingw-workarounds-2020.04.07.patch','-p1','..'),
 	],
 	'regex_replace': {
 		'post_install': [
@@ -44,16 +41,13 @@
 			},
 		]
 	},
-	'run_post_install' : [
-	#	'sed -i.bak \'s/Libs: -L${{libdir}} -lvulkan/Libs: -L${{libdir}} -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-	#	'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-	#
-		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
-		'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
-		'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
-	],
+	#'run_post_install' : [
+	#	##'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
+	#	'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
+	#	'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+	#	'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+	#	'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
+	#],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
