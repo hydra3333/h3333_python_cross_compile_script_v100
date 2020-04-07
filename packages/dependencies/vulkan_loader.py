@@ -51,7 +51,7 @@
 		'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
 		'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 		'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'diff -U 3 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+		'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
 	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
