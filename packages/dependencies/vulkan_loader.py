@@ -10,7 +10,7 @@
 		'-DBUILD_TESTS=OFF '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DBUILD_TESTS=OFF ' 
-		'-DENABLE_STATIC_LOADER=ON ' # 2020.03.19 un-comment
+		#'-DENABLE_STATIC_LOADER=ON ' # 2020.04.07 comment out since "Note that this will only work on MacOS and is not supported"
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
 		'CFLAGS'   : ' -O3',
