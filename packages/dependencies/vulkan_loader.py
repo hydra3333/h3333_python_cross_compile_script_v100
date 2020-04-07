@@ -48,8 +48,10 @@
 	#	'sed -i.bak \'s/Libs.private:  -lshlwapi/Libs.private: -lvulkan -lshlwapi -lcfgmgr32/\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	#
 		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
+		'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
 		'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'cat "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+		'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+		'diff -U 3 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
