@@ -7,7 +7,7 @@
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DENABLE_64_BIT_WORDS=ON -DBUILD_PROGRAMS=OFF -DINSTALL_PKGCONFIG_MODULES=ON -DINSTALL_MANPAGES=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.3 -DCMAKE_BUILD_TYPE=Release', # 2020.04.06 try to fix vamp error. this -> sndfile -> vamp
 	'patches': [
 		('flac/0001-mingw-fix-2.patch', '-p1', '..'),
-		('flac/libFLAC_CMakeLists.txt.patch', '-p1', '..'),
+		#('flac/libFLAC_CMakeLists.txt.patch', '-p1', '..'),
 		#('flac/libFLAC++_CMakeLists.txt.patch', '-p1', '..'),
 	],
 	'regex_replace': {
