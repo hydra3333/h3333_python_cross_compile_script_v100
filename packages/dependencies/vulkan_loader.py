@@ -14,10 +14,10 @@
 		'-DBUILD_STATIC_LOADER=OFF ' # 2020.04.07 comment out since "Note that this will only work on MacOS and is not supported"
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
-		'CFLAGS'   : ' -O3',
-		'CXXFLAGS' : ' -O3',
-		'CPPFLAGS' : ' -O3',
-		'LDFLAGS'  : ' -O3',
+		'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+		'CXXFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
 	},
 	# 'cpu_count': 1,
 	'conf_system' : 'cmake',
@@ -39,14 +39,20 @@
 				'in_file': '{pkg_config_path}/vulkan.pc',
 				'out_file': '{pkg_config_path}/vulkan.pc'
 			},
+			{
+				0: r'-lvulkan$',
+				1: r'-lvulkan-1',
+				'in_file': '{pkg_config_path}/vulkan.pc',
+				'out_file': '{pkg_config_path}/vulkan.pc'
+			},
 		]
 	},
 	'run_post_install' : [
 	#	##'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
-		'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
-		'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
+		#'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
+		#'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+		#'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
+		#'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
 		'cat "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
