@@ -4,6 +4,20 @@
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
+	'regex_replace': { #hacky but works, so who cares, for some reason libdav1d thinks we have POSIX_MEMALIGN.. maybe mingw or gcc bug, .. so we'll just force it to not define that we have it so it doesn't use it.
+		'post_patch': [
+			{
+				0: r'cdata.set\(\'HAVE_POSIX_MEMALIGN\', 1\)',
+				1: 'cdata.set(\'HAVE_ALIGNED_MALLOC\', 1)',
+				'in_file': '../meson.build'
+			},
+			{
+				0: r'cdata.set\(\'HAVE_ALIGNED_MALLOC\', 1\)',
+				1: 'cdata.set(\'HAVE_ALIGNED_MALLOC\', 1)',
+				'in_file': '../meson.build'
+			},
+		],
+	},
     'run_post_patch' : [
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build' # 2019.12.13 # 2020.03.19 commented out
 	],
