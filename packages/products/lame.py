@@ -13,7 +13,7 @@
 		('lame/0006-dont-use-outdated-symbol-list.patch','-p1'), # 
 		('lame/0008-skip-termcap.patch','-p1'), # 
 	],
-    'run_post_patch' : ( # 2019.12.13
+    'run_post_regexreplace' : ( # 2019.12.13
 		'autoreconf -fiv',
 	),
 	'depends_on' : ['iconv'],
@@ -39,7 +39,7 @@
 #			# tgetent() crashes under mingw64, not sure why
 #			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/lame-from-AlexPux/0008-skip-termcap.patch','-Np1'),
 #		),
-#		'run_post_patch' : (
+#		'run_post_regexreplace' : (
 #			'autoreconf -fiv',
 #		),
 #		'depends_on' : ['iconv'],

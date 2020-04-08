@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/rg3/youtube-dl.git',
 	'install_options' : 'youtube-dl PREFIX="{output_prefix}/youtube-dl_git.installed"',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak \'s/pandoc.*/touch youtube-dl.1/g\' Makefile', # "disables" doc, the pandoc requirement is so annoyingly big..
 	],
 	'run_post_install' : [
@@ -21,7 +21,7 @@
 #		'repo_type' : 'git',
 #		'url' : 'https://github.com/rg3/youtube-dl.git',
 #		'install_options' : 'youtube-dl PREFIX="{product_prefix}/youtube-dl_git.installed"',
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'sed -i.bak \'s/pandoc.*/touch youtube-dl.1/g\' Makefile', # "disables" doc, the pandoc requirement is so annoyingly big..
 #		],
 #		'run_post_install' : [

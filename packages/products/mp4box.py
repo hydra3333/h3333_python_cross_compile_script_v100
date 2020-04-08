@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/gpac/gpac.git',
 	'rename_folder' : 'mp4box_git',
 	'do_not_bootstrap' : True,
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak \'s/has_dvb4linux="yes"/has_dvb4linux="no"/g\' configure',
 		'sed -i.bak \'s/targetos=`uname -s`/targetos=MINGW64/g\' configure',
 		'sed -i.bak \'s/extralibs="-lm"/extralibs=""/g\' configure',
@@ -22,7 +22,7 @@
 #		'url' : 'https://github.com/gpac/gpac.git',
 #		'rename_folder' : 'mp4box_git',
 #		'do_not_bootstrap' : True,
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'sed -i.bak \'s/has_dvb4linux="yes"/has_dvb4linux="no"/g\' configure',
 #			'sed -i.bak \'s/targetos=`uname -s`/targetos=MINGW64/g\' configure',
 #			'sed -i.bak \'s/extralibs="-lm"/extralibs=""/g\' configure',

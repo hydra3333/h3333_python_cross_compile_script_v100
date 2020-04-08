@@ -6,7 +6,7 @@
 	'env_exports' : { # 2019.12.13
 		'LIBS'   : '-lFLAC -lFLAC++',
 	},
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 		'if [ -f "{target_prefix}/lib/libgsm.a" ] ; then mv {target_prefix}/lib/libgsm.a {target_prefix}/lib/libgsm.a.disabled ; fi',
 		'if [ -d "{target_prefix}/include/gsm" ] ; then mv {target_prefix}/include/gsm {target_prefix}/include/gsm.disabled ; fi',
@@ -29,7 +29,7 @@
 #		'env_exports' : {
 #			'LIBS'   : '-lFLAC -lFLAC++',
 #		},
-#		'run_post_patch' : (
+#		'run_post_regexreplace' : (
 #			'autoreconf -fiv',
 #			'if [ -f "{target_prefix}/lib/libgsm.a" ] ; then mv -fv {target_prefix}/lib/libgsm.a {target_prefix}/lib/libgsm.a.disabled ; fi',
 #			'if [ -d "{target_prefix}/include/gsm" ] ; then mv -fv {target_prefix}/include/gsm {target_prefix}/include/gsm.disabled ; fi',
