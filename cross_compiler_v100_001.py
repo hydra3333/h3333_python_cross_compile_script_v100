@@ -2078,15 +2078,15 @@ class CrossCompileScript:
 
 		if not self.anyFileStartsWith('already_ran_make'):
 
-			# 2020.04.08 comment-out per deadsix27 https://github.com/DeadSix27/python_cross_compile_script/commit/2e3be3b7642932a40a95614146de50080aaed79c
-			#if 'regex_replace' in packageData and packageData['regex_replace']:
-			#	_pos = 'post_patch'
-			#	if isinstance(packageData['regex_replace'], dict) and _pos in packageData['regex_replace']:
-			#		for r in packageData['regex_replace'][_pos]:
-			#			try:
-			#				self.handleRegexReplace(r, packageName)
-			#			except re.error as e:
-			#				self.errorExit(e)
+			# 2020.04.08 un-comment-out ex deadsix27 https://github.com/DeadSix27/python_cross_compile_script/commit/2e3be3b7642932a40a95614146de50080aaed79c
+			if 'regex_replace' in packageData and packageData['regex_replace']:
+				_pos = 'post_patch'
+				if isinstance(packageData['regex_replace'], dict) and _pos in packageData['regex_replace']:
+					for r in packageData['regex_replace'][_pos]:
+						try:
+							self.handleRegexReplace(r, packageName)
+						except re.error as e:
+							self.errorExit(e)
 
 			if 'run_post_patch' in packageData and packageData['run_post_patch']:
 					for cmd in packageData['run_post_patch']:
@@ -2107,9 +2107,9 @@ class CrossCompileScript:
 							self.logger.debug(cmd)
 							self.runProcess(cmd, ignoreFail)
 
-			# 2020.04.08 added (moved from just above?) here per deadsix27 https://github.com/DeadSix27/python_cross_compile_script/commit/2e3be3b7642932a40a95614146de50080aaed79c
+			# 2020.04.08 added here for shaderc per deadsix27 https://github.com/DeadSix27/python_cross_compile_script/commit/2e3be3b7642932a40a95614146de50080aaed79c
 			if 'regex_replace' in packageData and packageData['regex_replace']:
-				_pos = 'post_patch'
+				_pos = 'post_run_post_patch'
 				if isinstance(packageData['regex_replace'], dict) and _pos in packageData['regex_replace']:
 					for r in packageData['regex_replace'][_pos]:
 						try:
