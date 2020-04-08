@@ -24,6 +24,14 @@
 		'!SWITCHDIR|../_build',
 		"sed -i 's/add_subdirectory(examples)/#add_subdirectory(examples)/g' ../CMakeLists.txt",
 	],
+	'regex_replace': { # 2020.04.08 deadsix27 shaderc: use temporary hack https://github.com/DeadSix27/python_cross_compile_script/commit/2e3be3b7642932a40a95614146de50080aaed79c
+		'post_patch': [
+			{
+				0: r'#define snprintf sprintf_s',
+				'in_file': '../third_party/glslang/glslang/Include/Common.h'
+			},
+		],
+	},
 	'run_post_build' : [
 		'cp -rv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
 		'cp -rv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
