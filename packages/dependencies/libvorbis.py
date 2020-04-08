@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/xiph/vorbis.git',
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release',
+	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DINSTALL_CMAKE_PACKAGE_MODULE=ON ',
 	'regex_replace': {
 		'post_install': [
 			# {
