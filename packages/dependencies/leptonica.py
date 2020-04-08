@@ -5,7 +5,7 @@
 	'source_subfolder' : '_build',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DSW_BUILD=0 -DBUILD_PROG=0 -DBUILD_SHARED_LIBS=0 -DSTATIC=1 -DLIBRARY_TYPE=STATIC -DCMAKE_BUILD_TYPE=Release',
 	'cflag_addition': '-DOPJ_STATIC',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak \'s/Libs: -L${{libdir}} -l@leptonica_NAME@/Libs: -L${{libdir}} -l@leptonica_NAME@-@leptonica_VERSION@/\' ../lept.pc.cmake',
 	],
 	'run_post_install' : [

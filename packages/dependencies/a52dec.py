@@ -5,7 +5,7 @@
 		{ 'url' : 'https://gstreamer.freedesktop.org/src/mirror/a52dec-0.7.4.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'a21d724ab3b3933330194353687df82c475b5dfb997513eef4c25de6c865ec33' }, ], },
 	],
 	'configure_options' : '{autoconf_prefix_options} CFLAGS=-std=gnu89',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'rm configure',
 	],
 	'build_options' : 'bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=',

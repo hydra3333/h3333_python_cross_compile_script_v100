@@ -4,7 +4,7 @@
 		{ 'url' : 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/sources/vamp-plugin-sdk-2.9.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'b72a78ef8ff8a927dc2ed7e66ecf4c62d23268a5d74d02da25be2b8d00341099' }, ], }, # 2019.12.13
 		{ 'url' : 'https://code.soundsoftware.ac.uk/attachments/download/2588/vamp-plugin-sdk-2.9.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'b72a78ef8ff8a927dc2ed7e66ecf4c62d23268a5d74d02da25be2b8d00341099' }, ], },
 	],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'cp -fv build/Makefile.mingw64 Makefile',
 	],
 	'patches' : [
@@ -37,7 +37,7 @@
 #			{ "url" : "https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/sources/vamp-plugin-sdk-2.9.0.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "b72a78ef8ff8a927dc2ed7e66ecf4c62d23268a5d74d02da25be2b8d00341099" }, ], },
 #			{ "url" : "https://code.soundsoftware.ac.uk/attachments/download/2588/vamp-plugin-sdk-2.9.0.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "b72a78ef8ff8a927dc2ed7e66ecf4c62d23268a5d74d02da25be2b8d00341099" }, ], },
 #		],
-#		'run_post_patch': (
+#		'run_post_regexreplace': (
 #			'cp -fv build/Makefile.mingw64 Makefile',
 #		),
 #		'patches' : (

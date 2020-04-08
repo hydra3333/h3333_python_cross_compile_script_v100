@@ -7,7 +7,7 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'custom_cflag' : '{original_cflags} -DXML_LARGE_SIZE',
-	#'run_post_patch': ( # 2020.03.19 comment out
+	#'run_post_regexreplace': ( # 2020.03.19 comment out
 	#	'sed -i.bak "s/SUBDIRS += xmlwf doc/SUBDIRS += xmlwf/" "./Makefile.am"',
 	#), 
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release -DEXPAT_BUILD_EXAMPLES=OFF -DEXPAT_SHARED_LIBS=OFF -DEXPAT_BUILD_DOCS=OFF -DEXPAT_BUILD_TESTS=OFF -DEXPAT_BUILD_TOOLS=OFF -DEXPAT_LARGE_SIZE=ON',
@@ -25,7 +25,7 @@
 #		'env_exports' : {
 #			'CPPFLAGS' : '-DXML_LARGE_SIZE',
 #		},
-#		'run_post_patch': (
+#		'run_post_regexreplace': (
 #			'sed -i.bak "s/SUBDIRS += xmlwf doc/SUBDIRS += xmlwf/" Makefile.am',
 #			'aclocal',
 #			'automake',

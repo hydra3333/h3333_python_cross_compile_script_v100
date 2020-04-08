@@ -7,7 +7,7 @@
 	# 2019.12.13 changed to use my configure which worked.
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --with-threads=posix --enable-gc-friendly --disable-fam --disable-man --disable-gtk-doc --with-pcre=external --with-libiconv --disable-libmount --disable-selinux ',
 
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'if [ ! -f "INSTALL" ] ; then touch INSTALL ; fi',
 		'echo \'<<EOF\nEXTRA_DIST =\nCLEANFILES =\nEOF\' > gtk-doc.make',
 		'sed -i.bak "s/SUBDIRS = . m4macros glib gmodule gthread gobject gio po docs tests subprojects/SUBDIRS = . m4macros glib gmodule gthread gobject gio po subprojects/" Makefile.am', # remove docs and tests
@@ -54,7 +54,7 @@
 #			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/libglib2-from-Alexpux-2_58_0/0001-disable-some-tests-when-static.patch', '-p1' ),              # 2019.04.13
 #			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/libglib2-from-Alexpux-2_58_0/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-p1' ), # 2019.04.13
 #		],
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'rm -fv ./configure',
 #			'./autogen.sh NOCONFIGURE=1',
 #			'autoreconf -fiv',

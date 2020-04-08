@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/xiph/speexdsp.git',
-	'run_post_patch' : [ 'autoreconf -fiv', ],
+	'run_post_regexreplace' : [ 'autoreconf -fiv', ],
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static',
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'speexdsp' },
 }
@@ -9,7 +9,7 @@
 #	'libspeexdsp' : {
 #		'repo_type' : 'git',
 #		'url' : 'https://github.com/xiph/speexdsp.git',
-#		'run_post_patch' : [ 'autoreconf -fiv', ],
+#		'run_post_regexreplace' : [ 'autoreconf -fiv', ],
 #		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static',
 #		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'speexdsp' },
 #	},

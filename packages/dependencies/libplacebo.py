@@ -4,7 +4,7 @@
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'cp -nv "/usr/bin/pkg-config" "{cross_prefix_full}pkg-config"', # gotta fix this properly at some point.
 	],
 	'configure_options' :

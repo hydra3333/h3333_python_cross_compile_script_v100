@@ -11,7 +11,7 @@
 		('liblame/0007-revert-posix-code.patch','-Np1'), # 2019.12.13
 		('liblame/0008-skip-termcap.patch','-Np1'), # 2019.12.13
 	), # 2019.12.13
-	'run_post_patch' : ( # 2019.12.13
+	'run_post_regexreplace' : ( # 2019.12.13
 		'autoreconf -fiv', # 2019.12.13
 	), # 2019.12.13
     'configure_options': '{autoconf_prefix_options} --build=x86_64-linux-gnu --target={target_host} --disable-shared --enable-static --enable-nasm --disable-frontend', # 2019.12.13
@@ -35,7 +35,7 @@
 #			# tgetent() crashes under mingw64, not sure why
 #			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/lame-from-AlexPux/0008-skip-termcap.patch','-Np1'),
 #		),
-#		'run_post_patch' : (
+#		'run_post_regexreplace' : (
 #			'autoreconf -fiv',
 #		),																					   
 #		'configure_options': '--build=x86_64-linux-gnu --host={target_host} --target={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-nasm --disable-frontend', # 2018.11.23

@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'do_not_bootstrap' : True,
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
 	#'patches' :	[ # removed per deadsix27, patch was merged upstream
@@ -16,7 +16,7 @@
 #	'intel_quicksync_mfx' : {
 #		'repo_type' : 'git',
 #		'do_not_bootstrap' : True,
-#		'run_post_patch': [
+#		'run_post_regexreplace': [
 #			'autoreconf -fiv',
 #		],
 #		'patches' :	[

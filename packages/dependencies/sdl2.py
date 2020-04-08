@@ -36,7 +36,7 @@
 #		'source_subfolder' : '_build',
 #		'url' : 'https://hg.libsdl.org/SDL',
 #		'configure_path' : '../configure',
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'sed -i.bak "s/ -mwindows//" ../configure',
 #		],
 #		# SDL2 patch superseded per https://hg.libsdl.org/SDL/rev/117d4ce1390e

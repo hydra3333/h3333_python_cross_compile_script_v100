@@ -5,7 +5,7 @@
 	'depends_on' : [
 		'libdvdcss',
 	],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
 	'run_post_install' : [

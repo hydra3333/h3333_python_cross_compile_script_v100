@@ -10,7 +10,7 @@
 	'configure_options' : '{autoconf_prefix_options} -disable-shared --enable-static --enable-fsect-man5 --disable-silent-rules',
 	'depends_on' : [ 'mingw-libgnurx', 'libfile_local' ], # 2020.03.19 added 'libfile_local'
 	'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c',
 		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c',
 		'autoreconf -fiv' 
@@ -31,7 +31,7 @@
 #	],
 #	'configure_options' : '{autoconf_prefix_options} -disable-shared --enable-static --enable-fsect-man5 --disable-silent-rules',
 #	'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
-#	'run_post_patch' : [ # ??? does this go into libfile_local instead ????????????????????????????
+#	'run_post_regexreplace' : [ # ??? does this go into libfile_local instead ????????????????????????????
 #		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c',  # ??? does this go into libfile_local instead ????????????????????????????
 #		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c', # ??? does this go into libfile_local instead ????????????????????????????
 #		'autoreconf -fiv' 
@@ -53,7 +53,7 @@
 #		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-fsect-man5',
 #		'depends_on' : [ 'mingw-libgnurx', 'libfile_local' ], # 2019.10.04 
 #		'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
-#		'run_post_patch' : [ 
+#		'run_post_regexreplace' : [ 
 #			'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c', # 2019.10.04
 #			'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c', # 2019.10.04
 #			'autoreconf -fiv' 

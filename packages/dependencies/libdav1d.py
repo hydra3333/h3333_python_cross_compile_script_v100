@@ -29,7 +29,7 @@
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
     ,
-  	'run_post_patch' : [ # 2019.12.13
+  	'run_post_regexreplace' : [ # 2019.12.13
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build'   # 2020.03.19 commented out
 	],  # 2019.12.13
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'dav1d (library)' },
@@ -42,7 +42,7 @@
 #		'build_system' : 'ninja',
 #		'rename_folder' : 'libdav1d_git',
 #		'source_subfolder' : 'build',
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build'  # 2019.08.07 turn off building of tool dav1dplay.exe since it won't link. A Nod to JB MABS.
 #		],
 #		'configure_options':

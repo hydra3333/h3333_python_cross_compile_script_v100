@@ -7,7 +7,7 @@
 	'depends_on' : [ 'dlfcn-win32', ],
 	'conf_system' : 'cmake',
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DWITHOUT_OPENCV=YES',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 	# 	'sed -i.bak "s/find_package (Cairo)//g" CMakeLists.txt',
     #   'sed -i.bak "s/-arch i386//" CMakeLists.txt', # 2019.12.13 this sed not needed either
         'sed -i.bak "s/VERSION 1.6.1/VERSION 1.7.0/" CMakeLists.txt', # 2013.12.13 why didna they bump it ?
@@ -24,7 +24,7 @@
 #			{ "url" : "https://ftp.osuosl.org/pub/blfs/conglomeration/frei0r/frei0r-plugins-1.6.1.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "e0c24630961195d9bd65aa8d43732469e8248e8918faa942cfb881769d11515e" }, ], },
 #		],
 #		'conf_system' : 'cmake',
-#		'run_post_patch': ( # runs commands post the patch process
+#		'run_post_regexreplace': ( # runs commands post the patch process
 #			'sed -i.bak "s/find_package (Cairo)//g" CMakeLists.txt', #idk
 #			'sed -i.bak "s/-arch i386//" CMakeLists.txt',
 #		),

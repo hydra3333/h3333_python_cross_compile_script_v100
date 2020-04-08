@@ -6,7 +6,7 @@
 	'needs_configure' : False,
 	'build_options' : '{make_prefix_options} static',
 	'install_options' : '{make_prefix_options} prefix={target_prefix} install-static',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'git submodule update --remote --recursive',
 		'rm -vf {target_prefix}/lib/pkgconfig/crossc.pc',
 	],

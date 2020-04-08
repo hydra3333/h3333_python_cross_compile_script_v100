@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
 	'url' : 'https://github.com/mstorsjo/fdk-aac.git',
@@ -13,7 +13,7 @@
 # 2019.12.13 old:
 #	'fdk_aac' : {
 #		'repo_type' : 'git',
-#		'run_post_patch': [
+#		'run_post_regexreplace': [
 #			'autoreconf -fiv',
 #		],
 #		'url' : 'https://github.com/mstorsjo/fdk-aac.git',

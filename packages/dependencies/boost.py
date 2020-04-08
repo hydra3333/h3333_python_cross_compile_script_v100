@@ -7,7 +7,7 @@
 	'needs_make' :False,
 	'needs_make_install' :False,
 	'needs_configure' :False,
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'if [ ! -f "already_configured_0" ] ; then ./bootstrap.sh mingw --prefix={target_prefix} ; fi',
 		'if [ ! -f "already_configured_0" ] ; then sed -i.bak \'s/case \*       : option = -pthread ; libs = rt ;/case *      : option = -pthread ;/\' tools/build/src/tools/gcc.jam ; fi',
 		'if [ ! -f "already_configured_0" ] ; then touch already_configured_0 ; fi',
@@ -32,7 +32,7 @@
 #		'patches': [
 #			['https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/boost-from-Alexpux/msys2-mingw-folders-bootstrap.patch', '-p1'], # 2019.11.02 from Alexpux
 #		],
-#		'run_post_patch': (
+#		'run_post_regexreplace': (
 #			'if [ ! -f "already_configured_0" ] ; then ./bootstrap.sh mingw --prefix={target_prefix} ; fi',
 #			'if [ ! -f "already_configured_0" ] ; then sed -i.bak \'s/case \*       : option = -pthread ; libs = rt ;/case *      : option = -pthread ;/\' tools/build/src/tools/gcc.jam ; fi',
 #			'if [ ! -f "already_configured_0" ] ; then touch already_configured_0 ; fi',

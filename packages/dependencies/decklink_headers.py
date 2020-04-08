@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'none',
 	'folder_name' : 'decklink_headers',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/DeckLinkAPI.h ; fi', # 2019.12.13 copied from deadsix27
 		'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/DeckLinkAPI_i.c ; fi', # 2019.12.13 copied form deadsix27
 		'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/DeckLinkAPIVersion.h ; fi', # 2019.12.13 copied form deadsix27

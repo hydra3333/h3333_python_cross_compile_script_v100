@@ -20,7 +20,7 @@
 		'-DWEBP_BUILD_WEBP_JS=OFF '
 		'-DWEBP_ENABLE_SWAP_16BIT_CSP=ON ' # 2019.112.13 was off
 	,
-    'run_post_patch': [ # 2019.12.13
+    'run_post_regexreplace': [ # 2019.12.13
 		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" ../configure.ac', # fix building with libpng # 2019.12.13
 		#'autoreconf -fiv', # 2019.12.13
 	], # 2019.12.13
@@ -47,7 +47,7 @@
 #		'repo_type' : 'git',
 #		'url' : 'https://chromium.googlesource.com/webm/libwebp',
 #		#'branch' : '082757087332f55c7daa5a869a19f1598d0be401', #old: e4eb458741f61a95679a44995c212b5f412cf5a1
-#		'run_post_patch': [
+#		'run_post_regexreplace': [
 #			'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" configure.ac', # fix building with libpng
 #			'autoreconf -fiv',
 #		],

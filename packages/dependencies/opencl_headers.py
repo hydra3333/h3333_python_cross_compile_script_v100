@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-Headers.git',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		#'if [ ! -f "already_ran_make_install" ] ; then if [ ! -d "{target_prefix}/include/CL" ] ; then mkdir "{target_prefix}/include/CL" ; fi ; fi', # 2019.12.13 commented out
 		#'if [ ! -f "already_ran_make_install" ] ; then cp -rfv CL/*.h "{target_prefix}/include/CL/" ; fi', # 2019.12.13 always commented out
 		'if [ ! -d "{target_prefix}/include/CL" ] ; then mkdir -pv "{target_prefix}/include/CL" ; fi',   # 2019.12.13 always try to create the folder
@@ -17,7 +17,7 @@
 #	'opencl_headers' : {
 #		'repo_type' : 'git',
 #		'url' : 'https://github.com/KhronosGroup/OpenCL-Headers.git',
-#		'run_post_patch' : (
+#		'run_post_regexreplace' : (
 #			#'if [ ! -f "already_ran_make_install" ] ; then if [ ! -d "{target_prefix}/include/CL" ] ; then mkdir -pv "{target_prefix}/include/CL" ; fi ; fi',
 #			#'if [ ! -f "already_ran_make_install" ] ; then cp -rfv CL/*.h "{target_prefix}/include/CL/" ; fi',
 #			#'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',

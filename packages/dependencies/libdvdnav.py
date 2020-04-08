@@ -5,7 +5,7 @@
 	'depends_on' : [
 		'libdvdread',
 	],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libdvdnav' },

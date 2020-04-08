@@ -45,7 +45,7 @@
 		#('gnutls/rename-inet_pton_for_srt.diff', '-p1'), # 2019.12.13 hmm, i wonder why this patch was not applied ? Leave it out for now
         #('gnutls/0005-remove-coverage-rules.patch', '-p1'), # 2019.12.13 hmm, i wonder why this patch was not applied ? Leave it out for now
 	# ],
-		'run_post_patch': [ # 2019.12.13
+		'run_post_regexreplace': [ # 2019.12.13
 		'autoreconf -fiv -I M4', # 2019.12.13
 	], # 2019.12.13
 	'depends_on' : [
@@ -67,7 +67,7 @@
 #			{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.10.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'b1f3ca67673b05b746a961acf2243eaae0ffe658b6a6494265c648e7c7812293' }, ], }, # 2019.05.29
 #		],
 #		'folder_name' : 'gnutls-3.6.10',
-#		'run_post_patch': [   
+#		'run_post_regexreplace': [   
 #			'autoreconf -fiv -I M4', # 2019.05.29 try to get rid of error: 'automake-1.16' is missing on your system.
 #		],
 #		'configure_options':

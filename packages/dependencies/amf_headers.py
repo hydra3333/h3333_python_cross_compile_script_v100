@@ -6,7 +6,7 @@
 	'needs_configure' : False,
 	'needs_make' : False,
 	'needs_make_install' : False,
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'if [ ! -f "already_done" ] ; then if [ ! -d "{target_prefix}/include/AMF" ]; then mkdir -p "{target_prefix}/include/AMF" ; fi ; fi',
 		'if [ ! -f "already_done" ] ; then pwd ; fi',
 		'if [ ! -f "already_done" ] ; then cp -av "amf/public/include/." "{target_prefix}/include/AMF" ; fi',
@@ -22,7 +22,7 @@
 #		"needs_configure": False,
 #		"needs_make": False,
 #		"needs_make_install": False,
-#		'run_post_patch' : (
+#		'run_post_regexreplace' : (
 #			'if [ ! -f "already_done" ] ; then if [ ! -d "{target_prefix}/include/AMF" ]; then mkdir -p "{target_prefix}/include/AMF" ; fi ; fi',
 #			'if [ ! -f "already_done" ] ; then pwd ; fi',
 #			'if [ ! -f "already_done" ] ; then cp -frv "amf/public/include/." "{target_prefix}/include/AMF" ; fi',

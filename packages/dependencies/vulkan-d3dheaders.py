@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'none',
 	'folder_name' : 'vulkan_d3dheaders',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/d3dukmdt.h ; fi',
 		'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/d3dkmthk.h ; fi',
 		'if [ ! -f "already_done" ] ; then cp -fv "d3dkmthk.h" "{target_prefix}/include/d3dkmthk.h" ; fi',
@@ -17,7 +17,7 @@
 #	'vulkan-d3dheaders' : { # 2019.08
 #		'repo_type' : 'none',
 #		'folder_name' : 'vulkan_d3dheaders',
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/additional_headers/d3dukmdt.h ; fi',
 #			'if [ ! -f "already_done" ] ; then wget https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/additional_headers/d3dkmthk.h ; fi',
 #			'if [ ! -f "already_done" ] ; then cp -fv "d3dkmthk.h" "{target_prefix}/include/d3dkmthk.h" ; fi',

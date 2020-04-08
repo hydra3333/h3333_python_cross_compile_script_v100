@@ -6,7 +6,7 @@
 	'build_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1',
 	'install_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 PREFIX={target_prefix}',
 	# 'configure_path' : '../build/autotools/configure',
-	# 'run_post_patch' : [
+	# 'run_post_regexreplace' : [
 		# '!SWITCHDIR|../build/autotools',
 		# 'autoreconf -fiv',
 		# '!SWITCHDIR|../../_build',
@@ -23,7 +23,7 @@
 #		'build_options': 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1',
 #		'install_options': 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 PREFIX={target_prefix}',
 #		# 'configure_path' : '../build/autotools/configure',
-#		# 'run_post_patch' : [
+#		# 'run_post_regexreplace' : [
 #			# '!SWITCHDIR|../build/autotools',
 #			# 'autoreconf -fiv',
 #			# '!SWITCHDIR|../../_build',

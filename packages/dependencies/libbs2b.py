@@ -8,7 +8,7 @@
 	'env_exports' : {
 		'ac_cv_func_malloc_0_nonnull' : 'yes', # fixes undefined reference to `rpl_malloc'
 	},
-	'run_post_patch' : [
+	'run_post_regexreplace' : [ # 'run_post_patch' : [ # 2020.04.08
 		'autoreconf -fiv',
 	],
 	'regex_replace': {

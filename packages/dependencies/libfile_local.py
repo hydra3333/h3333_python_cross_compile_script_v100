@@ -7,7 +7,7 @@
 	'configure_options' : '--prefix={target_prefix} --disable-shared --enable-static --enable-fsect-man5 --disable-silent-rules',
 	'needs_make' : False,
 	'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/seccomp.c',
 		'sed -i.bak "s/#ifdef FIONREAD/#ifdef __linux__ /" src/compress.c',
 		'autoreconf -fiv' 
@@ -29,7 +29,7 @@
 #	'configure_options' : '--prefix={target_prefix} --enable-fsect-man5 --disable-silent-rules',
 #	'needs_make' : False,  # ... I Guess this works ?
 #	'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
-#	'run_post_patch' : [
+#	'run_post_regexreplace' : [
 #		'autoreconf -fiv' 
 #	],
 #	'flipped_path' : True, # force NON-CROSS-COMPILE building
@@ -45,7 +45,7 @@
 #		'configure_options' : '--prefix={target_prefix} --disable-shared --enable-static --enable-fsect-man5',
 #		'needs_make' : False,
 #		'env_exports' : { 'TARGET_CFLAGS' : '{original_cflags}' },
-#		'run_post_patch' : [ 'autoreconf -fiv' ],
+#		'run_post_regexreplace' : [ 'autoreconf -fiv' ],
 #		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libfile (bootstrap)' },
 #	},
 #

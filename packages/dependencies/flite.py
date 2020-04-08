@@ -10,7 +10,7 @@
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static', # 2019.12.13
 	'cpu_count' : '1',
 	'needs_make_install' : False,
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak1 "s|i386-mingw32-|{cross_prefix_bare}|" configure', # 2019.12.13
 		'sed -i.bak2 "s|-DWIN32 -shared|-DWIN64 -static|" configure', # 2019.12.13
 	],
@@ -35,7 +35,7 @@
 #		),
 #		'cpu_count' : '1',
 #		'needs_make_install' : False,
-#		'run_post_patch': (
+#		'run_post_regexreplace': (
 #			'sed -i.bak1 "s|i386-mingw32-|{cross_prefix_bare}|" configure', # 2018.11.23
 #			'sed -i.bak2 "s|-DWIN32 -shared|-DWIN64 -static|" configure', # 2018.11.23
 #			),

@@ -14,7 +14,7 @@
 		('openal/0003-openal-not-32.mingw.patch', '-p1','..'),
 		('openal/0004-disable-OSS-windows.patch', '-p1','..'),
 	],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		"sed -i.bak 's/CMAKE_INSTALL_PREFIX \"\${{CMAKE_FIND_ROOT_PATH}}\"/CMAKE_INSTALL_PREFIX ""/' ../XCompile.txt",
 		"sed -i.bak 's/FIND_PACKAGE(DSound)/OPTION(ALSOFT_BACKEND_DSOUND \"Enable DirectSound backend\" ON)\\nSET(HAVE_DSOUND 1)\\nSET(BACKENDS  \"${{BACKENDS}} DirectSound${{IS_LINKED}},\")\\nSET(ALC_OBJS  ${{ALC_OBJS}} Alc\/backends\/dsound.cpp Alc\/backends\/dsound.h)/g' ../CMakeLists.txt",
 	],

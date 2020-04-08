@@ -14,7 +14,7 @@
 		('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 	],
-	'run_post_patch' : [ # 2019.12.13
+	'run_post_regexreplace' : [ # 2019.12.13
 		'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 	],
 	'depends_on' : [ 'opencl_headers' ],	
@@ -31,7 +31,7 @@
 #		# -DBUILD_SHARED_LIBS=ON due to explanation here https://github.com/DeadSix27/python_cross_compile_script/commit/0218b4b80830563c7aab2b1e6d561d20977f5fd4#commitcomment-33472895
 #		# i.e. Shared means it will use the system provided opencl.dll, which is supplied by AMD or Intel for example. (the right way). Needed, to create the .dll.a file.
 #		'depends_on' : [ 'opencl_headers' ],
-#		#'run_post_patch' : [
+#		#'run_post_regexreplace' : [
 #		#	'sed -i.bak \'s/Devpkey.h/devpkey.h/\' icd_windows_hkr.c',
 #		#],
 #		'run_post_build' : [
@@ -43,7 +43,7 @@
 #			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/opencl/0001-OpenCL-git-prefix-2019.10.31.patch', '-p1'), #, '..'),
 #			('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/opencl/0002-OpenCL-git-header-2019.10.31.patch', '-p1'), #, '..'),
 #		],
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 #			#### 'sed -i.bak \'s/set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")/#set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")\\nset_target_properties (OpenCL PROPERTIES PREFIX "")/\' CMakeLists.txt', # 2019.10.11 ??????????
 #		],

@@ -13,7 +13,7 @@
 	'needs_configure' : False,
 	'needs_make_install' : False,
 	# python 3.8.2
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
 		#'sed -i.bak "s;;;g" "Makefile"',
 		#'diff -U 5 Makefile.orig Makefile && echo "NO difference" || echo "YES differences!"',

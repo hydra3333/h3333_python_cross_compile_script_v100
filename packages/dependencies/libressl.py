@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/libressl-portable/portable.git',
 	'folder_name' : 'libressl_git',
 	#--------------------
-	'run_post_patch' : ( './autogen.sh ', ), # per instructions from the git website above
+	'run_post_regexreplace' : ( './autogen.sh ', ), # per instructions from the git website above
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static ', # 2019.12.13 remove --disable-hardening fear too much, lets see what happens
 	#--------------------
 	#'conf_system' : 'cmake',
@@ -36,7 +36,7 @@
 #			#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/libressl-from-Alexpux/0001-libressl_relocation-msys.patch', '-Np1' ), # ??? do msys patches apply to minw64 ???
 #			#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/libressl-from-Alexpux/0002-libressl_relocation-tests.patch', '-Np1' ),
 #		],
-#		'run_post_patch' : (
+#		'run_post_regexreplace' : (
 #			'cp -fv libtls.pc.in liblibretls.pc.in', 
 #			'cp -fv libcrypto.pc.in liblibrecrypto.pc.in', 
 #			'cp -fv libssl.pc.in liblibressl.pc.in', 

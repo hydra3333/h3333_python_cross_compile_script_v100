@@ -7,7 +7,7 @@
 	'folder_name' : 'libxml2-2.9.10',
 	'rename_folder' : 'libxml2-2.9.10-rc1',
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --without-python --enable-tests=no --enable-programs=no',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
 	'run_post_install' : [
@@ -33,7 +33,7 @@
 #		# 'patches' : [ #todo remake this patch
 #			# ('https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/libxml2/0001-libxml2-2.9.4-add_prog_test_toggle.patch', '-p1'),
 #		# ],
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			'autoreconf -fiv',
 #		],
 #		'run_post_install' : (

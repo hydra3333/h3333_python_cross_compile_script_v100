@@ -10,7 +10,7 @@
 #	'libilbc' : {
 #		'repo_type' : 'git',
 #		'url' : 'https://github.com/dekkers/libilbc.git',
-#		'run_post_patch': [
+#		'run_post_regexreplace': [
 #			'autoreconf -fiv',
 #		],
 #		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static',

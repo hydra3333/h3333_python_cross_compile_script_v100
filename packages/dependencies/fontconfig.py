@@ -9,7 +9,7 @@
 		# ('fontconfig/fontconfig-git-utimes.patch', '-p1' ),
 		# ('fontconfig/fontconfig-0001-fix-missing-bracket.patch', '-p1' ),
 	],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
 	'regex_replace': {

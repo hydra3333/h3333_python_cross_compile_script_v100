@@ -9,7 +9,7 @@
 		'conf_system' : 'meson',
 		'build_system' : 'ninja',
 		'source_subfolder' : 'VapourSynth/build', # 'VapourSynth', # 'build',
-		'run_post_patch' : [
+		'run_post_regexreplace' : [
 			#'ls -al',
 			#'ls -al ..',
 			'sed -i.BAK \'s;<VapourSynth.h>;"VapourSynth.h";g\' "../lsmashsource.h"',

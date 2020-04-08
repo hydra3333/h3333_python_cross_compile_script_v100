@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url': 'https://github.com/libffi/libffi.git',
 	'rename_folder' : 'libffi_git', # 2019.12.13
-	'run_post_patch' : [ # 2019.12.13
+	'run_post_regexreplace' : [ # 2019.12.13
 		#'./autogen.sh', # 2019.12.13
 		'autoreconf -fiv', # 2019.12.13
 	], # 2019.12.13
@@ -18,7 +18,7 @@
 #		'repo_type' : 'git',
 #		'url' : 'https://github.com/libffi/libffi.git',
 #		'rename_folder' : 'libffi_git',
-#		'run_post_patch' : [
+#		'run_post_regexreplace' : [
 #			#'./autogen.sh',
 #			'autoreconf -fiv',
 #		],

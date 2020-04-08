@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/lensfun/lensfun',
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak \'s/GLIB2_INCLUDE_DIRS/GLIB2_STATIC_INCLUDE_DIRS/\' "../CMakeLists.txt"',
 		'sed -i.bak \'s/GLIB2_LIBRARIES/GLIB2_STATIC_LIBRARIES/\' "../CMakeLists.txt"',
 		'sed -i.bak \'s/Libs: -L${{libdir}} -llensfun.*/Libs: -L${{libdir}} -llensfun -lstdc++/\' "../libs/lensfun/lensfun.pc.cmake"',
