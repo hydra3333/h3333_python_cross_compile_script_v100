@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/xiph/vorbis.git',
 	'depth_git' : 0,
-	'branch' : '30c490373b740f357d219c9e9672698d739f11f3',
+	'branch' : '30c490373b740f357d219c9e9672698d739f11f3', # 2020.04.08 something broke after this commit :(
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF ',
