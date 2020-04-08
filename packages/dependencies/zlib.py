@@ -6,6 +6,9 @@
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DINSTALL_PKGCONFIG_DIR="{target_prefix}/lib/pkgconfig" '
 							'-DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release '
 							'-D_FILE_OFFSET_BITS=64 ', # 2019.12.13
+	'depends_on' : [
+		'pkg-config', 
+	],
 	'patches' : [
 		('zlib/0001-mingw-workarounds.patch', '-p1', '..'),
 	],
