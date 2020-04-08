@@ -14,7 +14,7 @@
 		'DEST_OS' : '{bit_name_win}', #'DEST_OS' : 'win32',
 		'TARGET'  : '{target_host}',
 		'PKG_CONFIG' : 'pkg-config',
-		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
+		'LDFLAGS' : '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
 	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
@@ -92,29 +92,29 @@
 		'libffmpeg',
 	],
 	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
-	'regex_replace': {
-		'post_patch': [
-			{
-				0: r'Libs: -L\${{libdir}} -lvulkan-1',
-				1: r'Libs: -L${{libdir}}',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			},
-			{
-				0: r' --dirty', # dirty.
-				1: r'',
-				'in_file': 'version.sh',
-			},
-		],
-		'post_install': [
-			{
-				0: r'Libs: -L\${{libdir}}',
-				1: r'Libs: -L${{libdir}} -lvulkan-1',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			}
-		]
-	},
+	#'regex_replace': {
+	#	'post_patch': [
+	#		{
+	#			0: r'Libs: -L\${{libdir}} -lvulkan-1',
+	#			1: r'Libs: -L${{libdir}}',
+	#			'in_file': '{pkg_config_path}/vulkan.pc',
+	#			'out_file': '{pkg_config_path}/vulkan.pc'
+	#		},
+	#		{
+	#			0: r' --dirty', # dirty.
+	#			1: r'',
+	#			'in_file': 'version.sh',
+	#		},
+	#	],
+	#	'post_install': [
+	#		{
+	#			0: r'Libs: -L\${{libdir}}',
+	#			1: r'Libs: -L${{libdir}} -lvulkan-1',
+	#			'in_file': '{pkg_config_path}/vulkan.pc',
+	#			'out_file': '{pkg_config_path}/vulkan.pc'
+	#		}
+	#	]
+	#},
 	'patches': [
 		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
 	],
