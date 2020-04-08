@@ -1,12 +1,15 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/xiph/vorbis.git',
-	'depth_git' : 0,
+	'#depth_git' : 0,
 	#'branch' : '30c490373b740f357d219c9e9672698d739f11f3', # 2020.04.08 something broke after this commit :(
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF ',
-	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DINSTALL_CMAKE_PACKAGE_MODULE=ON ',
+	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF ',
+	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DINSTALL_CMAKE_PACKAGE_MODULE=ON ',
+	'patches' : [ # 2020.04.08 TEMPORARY patch since they broke compatibility with commit https://github.com/xiph/vorbis/commit/ffcd784bca8b02606014f2bb43d43a6d5dcfc8ae#commitcomment-38360217
+		('https://github.com/xiph/vorbis/pull/62.patch', '-p1', '..'), # temporary; I submitted that patch, I assume it'll get merged soon.
+	],
 	'regex_replace': {
 		'post_install': [
 			# {
