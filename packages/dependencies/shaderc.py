@@ -15,7 +15,7 @@
 	'conf_system' : 'cmake',
 	'needs_make_install' : False,
 	'build_options' : '',
-	'run_post_patch' : [
+	'run_post_patch' : [ # 2020.04.08 eveything else uses run_post_regexreplace instead of run_post_patch, shaderc depends on run_post_patch
 		'!SWITCHDIR|../third_party',
 		'ln -snf {inTreePrefix}/glslang/ glslang',
 		'ln -snf {inTreePrefix}/spirv-headers/ spirv-headers',
