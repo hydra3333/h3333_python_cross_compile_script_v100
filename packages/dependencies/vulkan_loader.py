@@ -40,7 +40,7 @@
 			},
 			{
 				0: r'-lvulkan$',
-				1: r'-lvulkan-1',
+				1: r'-lvulkan-1.dll',
 				'in_file': '{pkg_config_path}/vulkan.pc',
 				'out_file': '{pkg_config_path}/vulkan.pc'
 			},
