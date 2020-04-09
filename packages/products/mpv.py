@@ -18,7 +18,7 @@
 	},
 	'custom_cflag'  : ' -O3 ',
 	#'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
-	'custom_ldflag' : ' -Wl,-Bdynamic -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
+	'custom_ldflag' : ' -Wl,-Bdynamic -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.04.09
 	'configure_options' :
 		'--force '
 		'--enable-libmpv-shared '
@@ -92,6 +92,7 @@
 		'libplacebo',
 		'libffmpeg',
 	],
+	# 2020.04.09 commented out
 	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
 	#'regex_replace': {
 	#	'post_patch': [
