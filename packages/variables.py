@@ -80,7 +80,7 @@
 		'--enable-amf '
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_icd
 		'--enable-opengl '
-		'--enable-vulkan ' # 2020.04.01 changed the vulkan dependency to fix "ERROR: vulkan >= 1.1.97 not found using pkg-config"
+		'--enable-vulkan --enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.04.09
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
