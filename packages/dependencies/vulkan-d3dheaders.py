@@ -11,7 +11,7 @@
 	'needs_make' : False,
 	'needs_make_install' : False,
 	'needs_configure' : False,
-	'_info' : { 'version' : '1.0', 'fancy_name' : 'Modified D3D headers from the Wine package to satisfy vulkan-icd compilation' },
+	'_info' : { 'version' : '1.0', 'fancy_name' : 'Modified D3D headers from the Wine package to satisfy vulkan-loader compilation' },
 }
 # 2019.12.13 old:
 #	'vulkan-d3dheaders' : { # 2019.08

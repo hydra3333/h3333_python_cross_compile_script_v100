@@ -18,7 +18,8 @@
 		#'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag'  : ' -O3 ',
-	'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
+	#'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
+	'custom_ldflag' : ' -Wl,-Bdynamic -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
 	#'run_post_regexreplace' : [ # 2020.03.19 not sure about this, it is not in mpv.py
 	#	'cp -nv "/usr/bin/pkg-config" "{cross_prefix_full}pkg-config"',
 	#	'sed -i.bak "s/encoder_encode/mpv_encoder_encode/" common/encode_lavc.h', # Dirty work-around for xavs2, no idea how else to fix this.
@@ -100,29 +101,31 @@
 		'libffmpeg',
 	],
 	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
-	'regex_replace': {
-		'post_patch': [
-			{
-				0: r'Libs: -L\${{libdir}} -lvulkan',
-				1: r'Libs: -L${{libdir}}',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			},
-			{
-				0: r' --dirty', # dirty.
-				1: r'',
-				'in_file': 'version.sh',
-			},
-		],
-		'post_install': [
-			{
-				0: r'Libs: -L\${{libdir}}',
-				1: r'Libs: -L${{libdir}} -lvulkan',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			}
-		]
-	},
+	# 2020.04.09 commented out
+	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
+	#'regex_replace': {
+	#	'post_patch': [
+	#		{
+	#			0: r'Libs: -L\${{libdir}} -lvulkan-1',
+	#			1: r'Libs: -L${{libdir}}',
+	#			'in_file': '{pkg_config_path}/vulkan.pc',
+	#			'out_file': '{pkg_config_path}/vulkan.pc'
+	#		},
+	#		{
+	#			0: r' --dirty', # dirty.
+	#			1: r'',
+	#			'in_file': 'version.sh',
+	#		},
+	#	],
+	#	'post_install': [
+	#		{
+	#			0: r'Libs: -L\${{libdir}}',
+	#			1: r'Libs: -L${{libdir}} -lvulkan-1',
+	#			'in_file': '{pkg_config_path}/vulkan.pc',
+	#			'out_file': '{pkg_config_path}/vulkan.pc'
+	#		}
+	#	]
+	#},
 	'patches': [
 		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
 	],
