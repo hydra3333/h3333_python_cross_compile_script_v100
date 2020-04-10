@@ -57,7 +57,7 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		'--enable-vulkan '
+		# '--enable-vulkan '
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
