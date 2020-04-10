@@ -5,7 +5,7 @@
 	#'branch' : '7a019a63ed9753772e758beec3cad7c0b74ee2aa', # 2020.04.10 to get ffmpeg to build
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.1.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.1.tar.xz/', 'hashes' : [ { 'type' : 'sha256', 'sum' : '16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f' }, ], },
 	],
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
