@@ -1794,6 +1794,28 @@ class CrossCompileScript:
 		if 'skip_deps' in packageData:
 			if packageData['skip_deps'] is True:
 				skipDepends = True
+		#-----
+		# 2020.04.10 add this in for building freetype cleanly (it crashed if re-run)
+		if 'run_pre_depends_on' in packageData and packageData['run_pre_depends_on']:
+				for cmd in packageData['run_pre_depends_on']:
+					ignoreFail = False
+					if isinstance(cmd, tuple):
+						cmd = cmd[0]
+						ignoreFail = cmd[1]
+					if cmd.startswith("!SWITCHDIRBACK"):
+						self.cchdir(currentFullDir)
+					elif cmd.startswith("!SWITCHDIR"):
+						_dir = self.replaceVariables("|".join(cmd.split("|")[1:]))
+						self.cchdir(_dir)
+					else:
+						self.logger.debug("Running run_pre_depends_on-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.12.13
+						cmd = self.replaceVariables(cmd)
+						self.logger.info("Running run_pre_depends_on-command: '{0}'".format(cmd))
+						# self.run_process(cmd)
+						self.logger.debug(cmd)
+						self.runProcess(cmd, ignoreFail)		
+		#-----
+		
 		if "depends_on" in packageData and skipDepends is False:  # dependception
 			if len(packageData["depends_on"]) > 0:
 				self.logger.info("Building dependencies of '%s'" % (packageName))
@@ -2130,7 +2152,7 @@ class CrossCompileScript:
 							self.cchdir(_dir)
 						else:
 							cmd = self.replaceVariables(cmd)
-							self.logger.info("Running post-patch-command: '{0}'".format(cmd))
+							self.logger.info("Runningrun_post_regexreplace-command: '{0}'".format(cmd))
 							# self.run_process(cmd)
 							self.runProcess(cmd, ignoreFail)
 		conf_system = None
