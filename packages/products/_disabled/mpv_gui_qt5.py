@@ -6,7 +6,7 @@
 		'CONFIG+=embed_translations lupdate="{target_sub_prefix}/bin/lupdate" lrelease="{target_sub_prefix}/bin/lrelease" PKG_CONFIG={cross_prefix_full}pkg-config INSTALL_ROOT={product_prefix}/mpv_gui_qt5_git.installed'
 		' LIBS+=-L{target_sub_prefix}/lib INCLUDEPATH+=-I{target_sub_prefix}/include'
 	,
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'cp -nv "/usr/bin/pkg-config" "{cross_prefix_full}pkg-config"'
 	],
 	'install_options' : 'INSTALL_ROOT={product_prefix}/mpv_gui_qt5_git.installed',

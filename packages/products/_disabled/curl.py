@@ -10,7 +10,7 @@
 	# 'patches' : [
 		# ['https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches/curl/0001-fix-build-with-libressl.patch', '-p1' ],
 	# ],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak \'s/SSL_LDFLAGS="-L$LIB_OPENSSL"/SSL_LDFLAGS=""/\' configure.ac',
 		'autoreconf -fiv',
 	],

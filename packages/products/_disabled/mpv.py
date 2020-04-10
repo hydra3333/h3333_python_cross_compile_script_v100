@@ -54,33 +54,33 @@
 		'libarchive',
 		'mujs',
 		'shaderc',
-		'vulkan_loader',
+		#'vulkan_loader',
 		'libplacebo'
 	],
 	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
-	'regex_replace': {
-		'post_patch': [
-			{
-				0: r'Libs: -L\${{libdir}} -lvulkan',
-				1: r'Libs: -L${{libdir}}',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			},
-			{
-				0: r' --dirty', # dirty.
-				1: r'',
-				'in_file': 'version.sh',
-			},
-		],
-		'post_install': [
-			{
-				0: r'Libs: -L\${{libdir}}',
-				1: r'Libs: -L${{libdir}} -lvulkan',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			}
-		]
-	},
+	#'regex_replace': {
+	#	'post_patch': [
+	#		{
+	#			0: r'Libs: -L\${{libdir}} -lvulkan',
+	#			1: r'Libs: -L${{libdir}}',
+	#			'in_file': '{pkg_config_path}/vulkan.pc',
+	#			'out_file': '{pkg_config_path}/vulkan.pc'
+	#		},
+	#		{
+	#			0: r' --dirty', # dirty.
+	#			1: r'',
+	#			'in_file': 'version.sh',
+	#		},
+	#	],
+	#	'post_install': [
+	#		{
+	#			0: r'Libs: -L\${{libdir}}',
+	#			1: r'Libs: -L${{libdir}} -lvulkan',
+	#			'in_file': '{pkg_config_path}/vulkan.pc',
+	#			'out_file': '{pkg_config_path}/vulkan.pc'
+	#		}
+	#	]
+	#},
 	'patches': [
 		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
 	],

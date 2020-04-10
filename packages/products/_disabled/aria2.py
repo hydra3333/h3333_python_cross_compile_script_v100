@@ -15,7 +15,7 @@
 	'patches' : [
 		( 'aria2/aria2_timegm_workaround.patch', '-p1' ),
 	],
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		('autoreconf -fiv', True),
 		'autoreconf -fiv',
 	],

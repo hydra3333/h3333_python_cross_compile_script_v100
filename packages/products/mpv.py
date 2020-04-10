@@ -68,7 +68,7 @@
 	,
 	'depends_on' : [
 		'opencl_icd',
-		'vulkan_loader',
+		#'vulkan_loader',
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',

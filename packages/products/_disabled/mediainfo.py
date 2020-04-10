@@ -5,7 +5,7 @@
 	'url' : 'https://github.com/MediaArea/MediaInfo.git',
 	'source_subfolder' : 'Project/GNU/CLI',
 	'rename_folder' : 'mediainfo_git', # 2019.12.13
-    'run_post_patch' : [ # 2019.12.13
+    'run_post_regexreplace' : [ # 2019.12.13
 		'rm -fv ./configure',
 		'./autogen.sh NOCONFIGURE=1',
 		'autoreconf -fiv',

@@ -6,7 +6,7 @@
 	'rename_folder' : 'mediainfo_dll',
 	'url' : 'https://github.com/MediaArea/MediaInfoLib.git',
 	'configure_options' : '--host={target_host} --target={bit_name2}-{bit_name_win}-gcc --prefix={product_prefix}/mediainfo_dll.installed --enable-static --disable-shared', # --enable-static --disable-shared --enable-shared=no
-	'run_post_patch' : [
+	'run_post_regexreplace' : [
 		'sed -i.bak \'s/Windows.h/windows.h/\' ../../../Source/MediaInfo/Reader/Reader_File.h',
 		'sed -i.bak \'s/Windows.h/windows.h/\' ../../../Source/MediaInfo/Reader/Reader_File.cpp',
 	],
