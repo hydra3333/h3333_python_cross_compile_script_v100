@@ -7,8 +7,8 @@
 		'rm -vf  {pkg_config_path}/harfbuzz.pc',
 		'rm -vf  {target_prefix}/lib/libharfbuzz.a',
 		'rm -vfR {target_prefix}/include/harfbuzz',
-		'rm -vfR ../freetype2_git',
-		'rm -vfR ../harfbuzz-with-freetype',
+		'rm -vfR ./x86_64/freetype2_git',
+		'rm -vfR ./x86_64/harfbuzz-with-freetype',
 	],
 	'depends_on' : [ 'zlib', 'bzip2', 'libpng', 'freetype_lib', 'harfbuzz_lib-with-freetype', ], # 'freetype_lib-with-harfbuzz' ],
 }
