@@ -16,6 +16,6 @@
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,
-	'depends_on' : [ 'lcms2', 'shaderc', 'vulkan_loader' ],
+	'depends_on' : [ 'lcms2', 'shaderc', ], # 2020.04.10 'vulkan_loader' 
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }
