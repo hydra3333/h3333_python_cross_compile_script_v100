@@ -1,7 +1,7 @@
 { # http://git.savannah.gnu.org/cgit/freetype/freetype2.git/
 	'repo_type' : 'git',
 	'url': 'git://git.savannah.gnu.org/freetype/freetype2.git', # http://savannah.nongnu.org/projects/freetype
-	'branch' : 'tags/VER-2-10-1', # 2020.04.10 	7a019a63ed9753772e758beec3cad7c0b74ee2aa  is more recent 
+	'branch' : '7a019a63ed9753772e758beec3cad7c0b74ee2aa', # 2020.04.10 to get ffmpeg to build
 	'folder_name' : 'freetype-with-harfbuzz',
 	'rename_folder' : 'freetype-with-harfbuzz',
 	'conf_system' : 'cmake',
