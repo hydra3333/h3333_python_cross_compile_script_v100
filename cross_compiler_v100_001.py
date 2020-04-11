@@ -1833,13 +1833,13 @@ class CrossCompileScript:
 					self.packages["deps"][packageName]["_already_built"] = True
 				return
 
-		if self.debugMode:
-			print("##############################")
-			print("### Environment variables:  ###")
-			for tk in os.environ:
-				print("\t" + tk + " : " + os.environ[tk])
-			print("##############################")
-			print("##############################")
+		#if self.debugMode:
+		#	print("##############################")
+		#	print("### Environment variables:  ###")
+		#	for tk in os.environ:
+		#		print("\t" + tk + " : " + os.environ[tk])
+		#	print("##############################")
+		#	print("##############################")
 
 		self.logger.info("Building {0} '{1}'".format(type.lower(), packageName))
 		self.resetDefaultEnvVars()
@@ -2560,13 +2560,13 @@ class CrossCompileScript:
 			if 'build_options' in packageData:
 				makeOpts = self.replaceVariables(packageData["build_options"])
 
-			if self.debugMode:
-				print("##############################")
-				print("### Environment variables:  ###")
-				for tk in os.environ:
-					print("\t" + tk + " : " + os.environ[tk])
-				print("##############################")
-				print("##############################")
+			#if self.debugMode:
+			#	print("##############################")
+			#	print("### Environment variables:  ###")
+			#	for tk in os.environ:
+			#		print("\t" + tk + " : " + os.environ[tk])
+			#	print("##############################")
+			#	print("##############################")
 
 			self.logger.info(F"Building '{packageName}' with 'build_options': {makeOpts} in {os.getcwd()}", extra={'type': buildSystem})
 
