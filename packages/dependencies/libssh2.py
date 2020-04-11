@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/libssh2/libssh2.git',
+	'depth_git' : 0,
+	#'branch' : '',
 	# OK !!! The latest git objected to --with-sysroot="{target_sub_prefix}" ... doesn't handle it correctly,
 	#        which is contained in {autoconf_prefix_options} 
 	# 	     so remove that and do the configure the hard way

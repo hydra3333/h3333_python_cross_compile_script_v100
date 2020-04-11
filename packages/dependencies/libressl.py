@@ -1,6 +1,8 @@
 { # 2019.12.13 can't get the cmake to work, stick with the old configure
 	'repo_type' : 'git',
 	'url' : 'https://github.com/libressl-portable/portable.git',
+	'depth_git' : 0,
+	#'branch' : '',
 	'folder_name' : 'libressl_git',
 	#--------------------
 	'run_post_regexreplace' : ( './autogen.sh ', ), # per instructions from the git website above
