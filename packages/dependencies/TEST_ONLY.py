@@ -20,6 +20,7 @@
 		'{cross_prefix_bare}gcc -c -o shared2.o shared2.c',
 		'{cross_prefix_bare}ar rcs libshared.a shared.o shared2.o',
 		'{cross_prefix_bare}gcc -Wall  -L. program.c -o program.exe -lshared',
+		'ls -al',
 	],
 	#'depends_on' : [ '', ],
 	'update_check' : { 'type' : 'git', },
