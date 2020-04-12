@@ -2152,7 +2152,7 @@ class CrossCompileScript:
 							self.cchdir(_dir)
 						else:
 							cmd = self.replaceVariables(cmd)
-							self.logger.info("Runningrun_post_regexreplace-command: '{0}'".format(cmd))
+							self.logger.info("Running run_post_regexreplace-command: '{0}'".format(cmd))
 							# self.run_process(cmd)
 							self.runProcess(cmd, ignoreFail)
 		conf_system = None
