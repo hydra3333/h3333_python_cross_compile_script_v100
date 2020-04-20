@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/Haivision/srt.git',
 	'depth_git' : 0,
-	'branch' : 'tags/v1.4.1',
+	#'branch' : 'tags/v1.4.1', # 2020.04.20 COMMENTED OUT 
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
 	'custom_cflag' : '',
