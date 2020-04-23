@@ -1,12 +1,10 @@
-# DO NOT USE THIS PROJECT - IT USUALLY DOES NOT WORK
-# Instead, use deadsix27's at 
-https://github.com/DeadSix27/python_cross_compile_script
+## DO NOT USE THIS PROJECT - IT USUALLY DOES NOT WORK  
+Instead, use deadsix27's at https://github.com/DeadSix27/python_cross_compile_script  
 
 ### Linux to Windows x64 cross-compile script to build ffmpeg and dependencies  
 
-A v100 fork of DeadSix27's work to build 64-bit STATIC ffmpeg.exe with lots of ffmpeg dependencies and have the ffmpeg.exe run in a Windows 10 64-bit o/s
-
-based on deadsix27 fine work at https://github.com/DeadSix27/python_cross_compile_script
+A v100 fork of DeadSix27's work to build 64-bit STATIC ffmpeg.exe with lots of ffmpeg dependencies and have the ffmpeg.exe run in a Windows 10 64-bit o/s  
+... based on deadsix27 fine work at https://github.com/DeadSix27/python_cross_compile_script  
 
 NOTE: attempt to build everything wherever possible with safety settings
 ```
