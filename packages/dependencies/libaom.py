@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://aomedia.googlesource.com/aom',
 	'depth_git': 0,
-	#'branch': 'acc2adf9195ff4c5d061132d860d2fe38b28aa55', # 2020.03.19 try git master # acc2adf9195ff4c5d061132d860d2fe38b28aa55 works
+	'branch': '3f4113d35c20c958b256427d41d3f839601d1f90', # 2020.03.19 try git master # acc2adf9195ff4c5d061132d860d2fe38b28aa55 works
 	'rename_folder' : 'libaom_git',
 	'conf_system' : 'cmake',
 	'source_subfolder' : 'build',
