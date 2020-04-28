@@ -41,12 +41,11 @@ _VERSION = "4.4"
 
 SOURCES = OrderedDict()  # Order matters.
 
-SOURCES['mingw-w64'] = {
+SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
- 	'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', 
-	#'checkout' : '629fd2b1abe6d6c12b08e477a7ce32c8fef8c667', still doesn't work
+ 	#'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', 
 	'run_after_patches': [
 		('autoreconf -fiv', ),
 		('mingw-w64-crt', 'autoreconf -fiv'),
