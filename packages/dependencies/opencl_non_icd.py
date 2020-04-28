@@ -7,8 +7,7 @@
 	#'run_pre_depends_on' : [
 	#],
 	'run_post_regexreplace' : [
-		'echo "#"',
-		'echo "#"',
+		'echo ""',
 		'ls -al',
 		'rm -fv "./OpenCL.dll ./libOpenCL.a ./OpenCL.def ./already_ran_make_install"',
 		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/OpenCL.dll?raw=true" --retry 50 -L --output "./OpenCL.dll"',
@@ -28,6 +27,7 @@
 		'ls -al',
 		'cp -fv "libOpenCL.a" "{target_prefix}/lib/libOpenCL.a"',     # 2020.04.28
 		'cp -fv "libOpenCL.a" "{target_prefix}/lib/libOpenCL.dll.a"', # 2020.04.28
+		'echo ""',
 		'touch already_ran_make_install',
 	],
 	'depends_on' : [ 'opencl_headers' ],	

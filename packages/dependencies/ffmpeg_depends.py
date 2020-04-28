@@ -37,7 +37,7 @@
 		'nv-codec-headers',
 		'intel_quicksync_mfx',
 		'amf_headers',
-        'opencl_icd',  # 2019.12.13 added this to the minimum configuration, I depend on openCL
+        'opencl_non_icd', # 2020.04.28 swap to non ICD LOADER # 2019.12.13 added this to the minimum configuration, I depend on openCL
 		#'vulkan_loader',
 		'avisynth_plus_headers',
 	],
