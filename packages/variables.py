@@ -78,7 +78,7 @@
 		'--enable-dxva2 '
 		'--enable-libmfx '
 		'--enable-amf '
-		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_icd
+		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
 		#'--enable-vulkan ' #' --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.04.09
 	,
