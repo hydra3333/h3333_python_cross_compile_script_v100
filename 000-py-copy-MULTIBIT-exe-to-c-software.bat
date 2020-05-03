@@ -34,6 +34,9 @@ xcopy ".\exe_x64_py\lame.exe" "C:\SOFTWARE\audacity\" /Y /E /V /F /G /H /R /Z /C
 REM xcopy ".\exe_x64_py\lame_enc.dll" "C:\SOFTWARE\audacity\" /Y /E /V /F /G /H /R /Z /C 
 REM ------------------------------------------------------------------------------------------
 REM ------------------------------------------------------------------------------------------
+xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\Vapoursynth-x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
+REM ------------------------------------------------------------------------------------------
+REM ------------------------------------------------------------------------------------------
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\Vapoursynth-x64\" /Y /E /V /F /G /H /R /Z /C
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\Vapoursynth-x64\vapoursynth64\plugins\dll-to-choose-from\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
