@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # ####################################################
-# Copyright (C) 2018-2020 Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
-# with addition by Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
+# Copyright (C) 2018-2019 DeadSix27 (https://github.com/DeadSix27/python_cross_compile_script)
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -41,11 +40,11 @@ _VERSION = "4.4"
 
 SOURCES = OrderedDict()  # Order matters.
 
-SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/
+SOURCES['mingw-w64'] = {
 	'type': 'git',
-	'git_shallow': False,
+	#'git_shallow': False, # 019.12.13 was True
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
- 	'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', 
+ 	'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None,
 	'run_after_patches': [
 		('autoreconf -fiv', ),
 		('mingw-w64-crt', 'autoreconf -fiv'),
@@ -55,12 +54,12 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 		'mingw-w64-headers',
 		'mingw-w64-gendef',
 		'mingw-w64-winpthreads',
-		'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
+		# 'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
 	]
 }
 SOURCES['gmp'] = {
 	'type': 'archive',
-	'version': '6.2.0',
+	'version': '6.1.2',
 	'url': 'https://ftp.gnu.org/gnu/gmp/gmp-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/gmp/', 'type': 'httpindex', 'regex': r'gmp-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
@@ -84,7 +83,7 @@ SOURCES['isl'] = {
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.34', # 2020.02.27 # '2.33.1',
+	'version': '2.33.1',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
@@ -95,17 +94,16 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	],
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/binutils/', 'type': 'httpindex', 'regex': r'binutils-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
-SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
+SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/
 	'type': 'archive',
-	#'version'   : '9.3.0', # stable versions
-	#'version'   : '10.1.0', # stable versions
-	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	'version'   : '10-20200426', #'10-20200419', # TEST version, why not :)
-	'url' : 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # TEST builds server
-	#'patches': [
+	'version'   : '9.2.0',
+	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz',
+	#'version': '9-20191130',
+	#'url': 'https://gcc.gnu.org/pub/gcc/snapshots/{version}/gcc-{version}.tar.xz',
+	'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
 		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0140-gcc-7-Enable-std-experimental-filesystem.patch', 'p1' ), #Unable to get this to work.
-	#],
+	],
 	'softlink_to_package': [
 		('gmp', 'gmp'),
 		('mpfr', 'mpfr'),
@@ -180,7 +178,7 @@ BUILDS['gcc-1'] = {
       	# ' --enable-default-ssp'
 		# ' --enable-libssp'
 		# ' --enable-libstdcxx-filesystem-ts=yes'
-		#' --enable-fully-dynamic-string'
+		' --enable-fully-dynamic-string'
 		# ' --enable-libstdcxx-time=yes'
 		# ' --enable-cloog-backend=isl'
 	,
@@ -608,9 +606,7 @@ class MinGW64ToolChainBuilder:
 		else:
 			self.log(F"{'C' if not shallow else 'Shallow-c'}loning Git repository '{packageName}' from '{url}'")
 			self.log('git clone{0}{1} --progress "{2}" "{3}"'.format(
-				" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp")
-			)
-			self.run_process('git clone{0}{1} --progress "{2}" "{3}"'.format(
+			self.run_process('git clone{0}{1} --progress "{2}" "{3}"'.format(" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp"))
 				" --recursive" if recursive == True else "", " --depth 1" if shallow == True else "", url, realFolderName + ".tmp")
 			)
 			if desiredBranch != None:
