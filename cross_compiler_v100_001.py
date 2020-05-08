@@ -257,6 +257,7 @@ class CrossCompileScript:
 				'bitness': [64, ],
 				'cpu_count': cpu_count(),
 				#'mingw_commit': None, # 2019.12.13 was None,
+				#'mingw_commit': 'eb46f443034dad175c1e61db9062ff4c15eac0b5',
 				'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None,
 				'mingw_debug_build': False,
 				'mingw_dir': 'toolchain',
