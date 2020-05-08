@@ -9,6 +9,7 @@ REM ----------------------------------------------------------------------------
 .\exe_x64_py\ffmpeg.exe -h full > ".\exe_x64_py\ffmpeg_fullhelp.txt" 2>&1
 REM ------------------------------------------------------------------------------------------
 REM
+xcopy ".\exe_x64_py\*.*" "C:\SOFTWARE\ffmpeg\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 xcopy ".\exe_x64_py\*.*" "C:\SOFTWARE\ffmpeg\0-homebuilt-x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 xcopy ".\exe_x64_py\*.*" "C:\SOFTWARE\ffmpeg\0-homebuilt-x64\built_for_generic_opencl\x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 REM ------------------------------------------------------------------------------------------
