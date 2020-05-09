@@ -37,7 +37,7 @@
 		'nv-codec-headers',
 		'intel_quicksync_mfx',
 		'amf_headers',
-        'opencl_icd.py', #'opencl_non_icd', # 2020.05.09 swap to back to ICD LOADER since they implemented the symbols-only flag
+        'opencl_icd', #'opencl_non_icd', # 2020.05.09 swap to back to ICD LOADER since they implemented the symbols-only flag
 		#'vulkan_loader',
 		'avisynth_plus_headers',
 	],
