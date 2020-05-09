@@ -18,7 +18,7 @@
         '-DCONFIG_HIGHBITDEPTH=1 '
         '-DHAVE_PTHREAD=1 '
         '-DENABLE_CCACHE=1 '
-        '-DCONFIG_LPF_MASK=1 '
+        #'-DCONFIG_LPF_MASK=1 ' # 2020.05.10 per https://bugs.chromium.org/p/aomedia/issues/detail?id=2684#c6
 		'-DCONFIG_MULTITHREAD=1 '
         '-DCONFIG_PIC=1 '
         '-DCONFIG_COEFFICIENT_RANGE_CHECKING=0 '
