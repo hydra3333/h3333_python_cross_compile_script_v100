@@ -9,7 +9,8 @@
 #}
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/DeadSix27/python_mingw_libs.git',
+	#'url' : 'https://github.com/DeadSix27/python_mingw_libs.git',
+	'url' : 'https://github.com/hydra3333/python_mingw_libs.git',
 	'needs_configure' : False,
 	'needs_make_install' : False,
 	# python 3.8.2
