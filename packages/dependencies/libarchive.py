@@ -32,7 +32,7 @@
 		'-DENABLE_TEST=OFF '
 		'-DENABLE_COVERAGE=OFF '
 		'-DENABLE_INSTALL=ON '
-		'-DLIBXML2_LIBRARIES="-lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32" ' # -lxml2 -lbcrypt -lz -llzma -liconv -lws2_32"'
+		'-DLIBXML2_LIBRARIES="nettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32" ' # start without "-l" # -lxml2 -lbcrypt -lz -llzma -liconv -lws2_32"'
 	,
 	'depends_on' : [
 		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
@@ -40,20 +40,23 @@
 	'patches': [
 		('libarchive/0001-libarchive-mingw-workaround.patch', '-p1', '..')
 	],
-	'regex_replace': {
-		'post_install': [
-			{
-				0: r'^Libs: -L\${{libdir}} -larchive([^\n]+)?',
-				1: r'Libs: -L${{libdir}} -larchive -lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32\1',
-				'in_file': '{pkg_config_path}/libarchive.pc'
-			},
-			{
-				0: r'Libs.private:  [^\n]+',
-				1: r'Libs.private: -lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32',
-				'in_file': '{pkg_config_path}/libarchive.pc'
-			}
-		]
-	},
+	#run_post_ make but before install
+	
+	# 2020.05.11 these REGEX's are bad, they chop stuff off then end of the line
+	#'regex_replace': {
+	#	'post_install': [
+	#		{
+	#			0: r'^Libs: -L\${{libdir}} -larchive([^\n]+)?',
+	#			1: r'Libs: -L${{libdir}} -larchive -lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32\1',
+	#			'in_file': '{pkg_config_path}/libarchive.pc'
+	#		},
+	#		{
+	#			0: r'Libs.private:  [^\n]+',
+	#			1: r'Libs.private: -lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32',
+	#			'in_file': '{pkg_config_path}/libarchive.pc'
+	#		}
+	#	]
+	#},
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libarchive' },
 }
 # 2019.12.13 old:
