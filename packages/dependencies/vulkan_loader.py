@@ -10,7 +10,7 @@
 		'-DBUILD_TESTS=OFF '
 		'-DUSE_CCACHE=OFF ' # 2020.05.11 per MABS 
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
-		'-DUNIX=OFF ' # 2020.05.11 per MABS 
+		#'-DUNIX=OFF ' # 2020.05.11 per MABS 
 		'-DENABLE_STATIC_LOADER=ON ' # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
