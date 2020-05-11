@@ -80,7 +80,7 @@
 		'--enable-amf '
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
-		'--enable-vulkan ' #' --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.04.09
+		#'--enable-vulkan ' #' --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.04.09
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
@@ -118,7 +118,7 @@
 		# '--extra-libs="-liconv" ' # -lschannel #-lsecurity -lz -lcrypt32 -lintl -liconv -lpng -loleaut32 -lstdc++ -lspeexdsp -lpsapi
 		# '--extra-cflags="-DLIBTWOLAME_STATIC" '
 		# '--extra-cflags="-DMODPLUG_STATIC" '
-        '--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all # 2020.05.11 for some reason libarchive.a not linking in, try add here
+        '--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
         '--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DMODPLUG_STATIC"  ' # 2019.12.13 addded back in
 		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
