@@ -1,4 +1,4 @@
-{ # 2020.05.11 let's see if the MABS methid/patch works
+{ # 2020.05.11 let's see if the MABS method/patch works
 	# see ffmpeg_depends, variables.py, liblacebo, libmpv, mpv
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
