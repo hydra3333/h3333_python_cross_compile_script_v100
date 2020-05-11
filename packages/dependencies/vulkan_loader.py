@@ -1,4 +1,5 @@
 { # 2020.05.11 let's see if the MABS methid/patch works
+	# see mpv libmpv libplacebo ffmpeg_depends
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	'recursive_git' : True, 
