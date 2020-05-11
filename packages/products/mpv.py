@@ -57,7 +57,7 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		# '--enable-vulkan '
+		'--enable-vulkan '
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
@@ -68,7 +68,8 @@
 	,
 	'depends_on' : [
 		'opencl_icd',
-		#'vulkan_loader',
+		'vulkan_loader',
+		'libarchive',
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',
@@ -86,7 +87,6 @@
 		'libcdio-paranoia',
 		'libjpeg-turbo',
 		'uchardet',
-		'libarchive',
 		'mujs',
 		'shaderc',
 		'libplacebo',
