@@ -14,7 +14,7 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'patches' : [
-		('vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.05.11.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
+		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.05.11.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
 	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.05.11 hmm, deadsiz27 had commented out 'vulkan-d3dheaders', but lets leave it in and see what happens
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader per MABS' },
