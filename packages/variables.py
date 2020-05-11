@@ -118,7 +118,7 @@
 		# '--extra-libs="-liconv" ' # -lschannel #-lsecurity -lz -lcrypt32 -lintl -liconv -lpng -loleaut32 -lstdc++ -lspeexdsp -lpsapi
 		# '--extra-cflags="-DLIBTWOLAME_STATIC" '
 		# '--extra-cflags="-DMODPLUG_STATIC" '
-        '--extra-libs="-larchive -lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all # 2020.05.11 for som reason libarchive.a not linking in, try add here
+        '--extra-libs="-larchive -lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all # 2020.05.11 for some reason libarchive.a not linking in, try add here
         '--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DMODPLUG_STATIC"  ' # 2019.12.13 addded back in
 		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
