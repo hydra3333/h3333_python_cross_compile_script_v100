@@ -18,8 +18,8 @@
 		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.05.11.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
 	],
 	'run_post_patch' : [ 
-		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ./loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
-		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi"/g\' ./loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
+		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
+		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.05.11 hmm, deadsiz27 had commented out 'vulkan-d3dheaders', but lets leave it in and see what happens
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader per MABS' },
