@@ -11,9 +11,9 @@
 		'libplacebo for some reason can\'t detect Vulkan via pkg-config with new meson versions...',
 		'one way to work around this (until I figure out why... or haasn does... if its even an issue on his side'
 		'is to just install an old version by running: \'pip install meson==0.49.0 \'',
-		'2020.05.11 h3333: well, I am not willing to live with an old meson version so try below without, or maybe also with custom_ldflag although likely that will not work.'
+		'2020.05.11 h3333: well, I do not want an older meson version so try below without, or maybe also with custom_ldflag although likely that will not work.'
 	],
-	'custom_ldflag' : ' {original_cflags} -lvulkan ', # 2020.05.11 try this in addition to -Dvulkan=enabled below 
+	#'custom_ldflag' : ' {original_cflags} -lvulkan ', # 2020.05.11 try this in addition to -Dvulkan=enabled below 
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
