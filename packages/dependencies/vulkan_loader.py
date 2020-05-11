@@ -5,21 +5,18 @@
 	#'branch' : 'tags/v1.2.135',
 	'recursive_git' : True, 
 	'configure_options' : 
-		'.. {cmake_prefix_options} -DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
-		'-DCMAKE_BUILD_TYPE=Release '
-		'-DBUILD_TESTS=OFF '
-		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
+		'.. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix} '
+		'-DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DBUILD_TESTS=OFF ' 
 		'-DENABLE_STATIC_LOADER=ON ' # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
-		'-DBUILD_STATIC_LOADER=OFF ' # 2020.04.07 comment out since "Note that this will only work on MacOS and is not supported"
+		#'-DBUILD_STATIC_LOADER=OFF ' # 2020.04.07 comment out since "Note that this will only work on MacOS and is not supported"
 	,
-	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
-		'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-		'CXXFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-	},
-	# 'cpu_count': 1,
+	#'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE # 2020.05.11 comment out per deadsix27
+	#	'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+	#	'CXXFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+	#	'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+	#	'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+	#},
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'patches' : [
@@ -54,6 +51,6 @@
 		#'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
 		#'cat "{target_prefix}/lib/pkgconfig/vulkan.pc"',
 	],
-	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
+	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.05.11 hmm, deadsiz27 had commented out 'vulkan-d3dheaders', but lets leave it in and see what happens
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
