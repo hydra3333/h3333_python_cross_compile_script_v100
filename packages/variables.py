@@ -101,7 +101,7 @@
 		'--enable-libilbc '
 		'--enable-libgme '
 		'--enable-libflite '
-		#'--enable-sdl '
+		'--enable-sdl ' # 2020.05.12 try reinstate sdl2
 		#'--enable-libdavs2 '
 		#'--enable-libxavs '
 		#'--enable-libxavs2 '
