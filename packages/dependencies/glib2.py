@@ -26,20 +26,19 @@
 		('glib2/0001-disable-some-tests-when-static.patch', '-Np1' ),              # 2019.12.13
 		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
 	],
-	#'custom_ldflag' : ' {original_cflags} -lintl -liconv ',
 	# 2020.05.12 comment out all of the run_post_install, to be more like deadsix27
-    #'run_post_install' : [ # 2019.12.13 addded all of run_post_install
-	#	'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "glib-2.0.pc"', # 2019.12.13
+	'custom_ldflag' : ' {original_cflags} -lintl -liconv ',
+    'run_post_install' : [ # 2019.12.13 addded all of run_post_install
+		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak2 \'s/ -lgiowin32//g\' "glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak3 \'s/ -llgnulib//g\' "glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak4 \'s/ -lcharset//g\' "glib-2.0.pc"', # 2019.12.13
 	#	#
-	#	'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
+		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak2 \'s/ -lgiowin32//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak3 \'s/ -llgnulib//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak4 \'s/ -lcharset//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
-	#],
-    #'depends_on' : [ 'iconv', 'gettext', 'pcre', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
+	],
     'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
 	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
 	'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 lib' },
