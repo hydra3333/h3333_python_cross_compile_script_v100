@@ -93,7 +93,9 @@ if [ $exit_status -ne 0 ]; then
 fi
 #read -p "After build mpv, press Enter to continue"
 
-
+# rebuild freetype after mpv (sdl2)
+./Remove_freetype_harfbuzz_related_files.sh 2>&1 | tee -a ./mpv.log
+./cross_compiler_v100_001.py --force --debug -d freetype 2>&1 | tee -a ./mpv.log
 
 set -x
 sudo chmod -R a=rwx *.sh
