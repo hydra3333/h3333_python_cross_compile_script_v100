@@ -26,7 +26,7 @@
 		('glib2/0001-disable-some-tests-when-static.patch', '-Np1' ),              # 2019.12.13
 		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
 	],
-	'custom_ldflag' : ' {original_cflags} -lintl -liconv '
+	#'custom_ldflag' : ' {original_cflags} -lintl -liconv ',
 	# 2020.05.12 comment out all of the run_post_install, to be more like deadsix27
     #'run_post_install' : [ # 2019.12.13 addded all of run_post_install
 	#	'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "glib-2.0.pc"', # 2019.12.13
