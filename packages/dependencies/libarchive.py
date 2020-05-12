@@ -32,7 +32,7 @@
 		'-DENABLE_TEST=OFF '
 		'-DENABLE_COVERAGE=OFF '
 		'-DENABLE_INSTALL=ON '
-		'-DLIBXML2_LIBRARIES="nettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32" ' # start without "-l" # -lxml2 -lbcrypt -lz -llzma -liconv -lws2_32"'
+		'-DLIBXML2_LIBRARIES="-lxml2 -lz -llzma -liconv -lws2_32" ' # 2020.05.12 from deadsix27
 	,
 	'depends_on' : [
 		#'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
@@ -41,9 +41,17 @@
 	'patches': [
 		('libarchive/0001-libarchive-mingw-workaround.patch', '-p1', '..')
 	],
-	#run_post_ make but before install
-	
-	# 2020.05.11 these REGEX's are bad, they chop stuff off then end of the line
+	'run_post_regexreplace' : [
+		'cp -fv "../build/pkgconfig/libarchive.pc.in" "../build/pkgconfig/libarchive.pc.in.orig"',
+		'sed -iBAK1 "s/-larchive/-larchive -lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32 /g" "../build/pkgconfig/libarchive.pc.in"',
+		'sed -iBAK2 "s/Libs.private:/Libs.private: -lnettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32 /g" "../build/pkgconfig/libarchive.pc.in"',
+		'diff -U 5 "../build/pkgconfig/libarchive.pc.in.orig" "../build/pkgconfig/libarchive.pc.in" && echo "NO difference" || echo "YES differences!"',
+	],
+	'run_post_install' : [
+		'cat "build/pkgconfig/libarchive.pc"',
+		'cat "{pkg_config_path}/libarchive.pc"',
+	],
+	# 2020.05.11 these REGEX's are bad, they chop stuff off from the end of the line
 	#'regex_replace': {
 	#	'post_install': [
 	#		{
@@ -58,6 +66,9 @@
 	#		}
 	#	]
 	#},
+	#'run_post_install' : [
+	#	'sed -i.bak "s;;;g" "{pkg_config_path}/libarchive.pc"',
+	#],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libarchive' },
 }
 # 2019.12.13 old:
