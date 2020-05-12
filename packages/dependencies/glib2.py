@@ -27,7 +27,7 @@
 		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
 	],
 	# 2020.05.12 comment out all of the run_post_install, to be more like deadsix27
-	'custom_ldflag' : ' {original_cflags} -lintl -liconv ',
+	'custom_ldflag' : ' {original_cflags} -lintl -liconv -lintl ',
 	'run_post_install' : [ # 2019.12.13 addded all of run_post_install
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"', # 2019.12.13
 		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "glib-2.0.pc"', # 2019.12.13
