@@ -30,14 +30,14 @@
 	'custom_ldflag' : ' {original_cflags} -lintl -liconv -lintl ',
 	'run_post_install' : [ # 2019.12.13 addded all of run_post_install
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"', # 2019.12.13
-		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "glib-2.0.pc"', # 2019.12.13
+		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv -lintl/\' "glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak2 \'s/ -lgiowin32//g\' "glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak3 \'s/ -llgnulib//g\' "glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak4 \'s/ -lcharset//g\' "glib-2.0.pc"', # 2019.12.13
 		'diff -U 5 "glib-2.0.pc.orig" "glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
 	#	#
 		'cp -fv "{pkg_config_path}/glib-2.0.pc" "{pkg_config_path}/glib-2.0.pc.orig"', # 2019.12.13
-		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv/\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
+		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv -lintl/\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak2 \'s/ -lgiowin32//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak3 \'s/ -llgnulib//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	#	#'sed -s -i.bak4 \'s/ -lcharset//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
