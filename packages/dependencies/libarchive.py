@@ -36,7 +36,7 @@
 	,
 	'depends_on' : [
 		#'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
-		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre2', 'libgcrypt', # 2020.05.12 'pcre',
+		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'libnettle', 'libxml2', 'pcre2', 'libgcrypt', # 2020.05.12 'pcre',
 	],
 	'patches': [
 		('libarchive/0001-libarchive-mingw-workaround.patch', '-p1', '..')
