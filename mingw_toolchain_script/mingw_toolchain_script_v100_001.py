@@ -149,7 +149,7 @@ BUILDS['mingw-w64-headers'] = {
 		' --enable-sdk=all'
 		' --enable-secure-api'
 		' --enable-idl'
-		' --with-default-win32-winnt=0x600'	,
+		' --with-default-win32-winnt=0x600 '
     ,
 	'softLinks': [
 		('{prefix}', './{target}', './mingw'),
