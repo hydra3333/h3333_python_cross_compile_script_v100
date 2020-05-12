@@ -1,4 +1,4 @@
-{ # 2019.12.13 glib3 failed to buid, fox it
+{ # 2019.12.13 glib3 failed to buid, fix it
 	'repo_type' : 'archive',
 	'download_locations' : [
 		{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },

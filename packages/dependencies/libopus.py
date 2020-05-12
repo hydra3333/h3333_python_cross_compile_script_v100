@@ -15,29 +15,6 @@
 			},
 		],
 	},
-	'depends_on' : [ 'glib2' ],
+	#'depends_on' : [ 'glib2' ], # 2020.05.12 removed 'glib2', 
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'opus' },
 }
-# 2019.12.13 old:
-#	'libopus' : {
-#		'repo_type' : 'git',
-#		'url' : 'https://github.com/xiph/opus.git',
-#		'patches': (
-#			("https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/opus/0001-cmakelists.patch", '-p1'),
-#			#("https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v02/master/patches/opus/opus_git_strip_declspec.patch", '-p1'),
-#		),
-#		'custom_cflag' : '{original_cflags}', # 2019.10.19 D_FORTIFY_SOURCE=0' # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-#		'run_post_install': [
-#			'sed -i.bak \'s/Libs: -L${{libdir}} -lopus.*/Libs: -L${{libdir}} -lopus -lssp/\' "{pkg_config_path}/opus.pc"', # ???, keep checking whether this is needed, apparently it is for now.
-#		],
-#		'env_exports' : {
-#			'PKGCONFIG' : 'pkg-config',
-#			'CFLAGS'   : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-#			'CXXFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-#			'CPPFLAGS' : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-#			'LDFLAGS'  : '{original_cflags}', # 2019.11.10 add -fstack-protector-all -D_FORTIFY_SOURCE=2
-#		},
-#		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --disable-silent-rules',
-#		'depends_on' : [ 'libglib2' ],
-#		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'opus' },
-#	},

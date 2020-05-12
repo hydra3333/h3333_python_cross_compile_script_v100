@@ -32,7 +32,7 @@
 		'rubberband',
 		'libass',
 		'tesseract',
-		'lensfun',
+		#'lensfun',  # 2020.05.12 comment out so we do not have to build glib2
 		'libwebp',
 		'nv-codec-headers',
 		'intel_quicksync_mfx',
