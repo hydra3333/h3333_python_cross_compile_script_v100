@@ -85,7 +85,7 @@ SOURCES['isl'] = {
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.34', # 2020.02.27 # '2.33.1',
+	'version': '2.34',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
@@ -181,7 +181,7 @@ BUILDS['gcc-1'] = {
       	# ' --enable-default-ssp'
 		# ' --enable-libssp'
 		# ' --enable-libstdcxx-filesystem-ts=yes'
-		#' --enable-fully-dynamic-string'
+		# ' --enable-fully-dynamic-string'
 		# ' --enable-libstdcxx-time=yes'
 		# ' --enable-cloog-backend=isl'
 	,
