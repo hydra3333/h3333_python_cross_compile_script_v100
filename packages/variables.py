@@ -61,7 +61,7 @@
 		# Subtitle/OCR Libs:
 		'--enable-libass '
 		'--enable-libtesseract '
-		'--enable-liblensfun '
+		#'--enable-liblensfun ' # 2020.05.12 comment out so we do not have to build glib2
 
 		# Image libs
 		'--enable-libwebp '
