@@ -35,7 +35,8 @@
 		'sed -s -i.bak4 \'s/ -lcharset//g\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
 	],
 	#'depends_on' : [ 'libffi','gettext', 'libelf' ],  # 2019.12.13
-    'depends_on' : [ 'iconv', 'gettext', 'pcre', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
+    #'depends_on' : [ 'iconv', 'gettext', 'pcre', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
+    'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
 	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
 	'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 lib' },
 }

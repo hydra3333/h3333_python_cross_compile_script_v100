@@ -17,7 +17,7 @@
 		'-DENABLE_BZip2=ON '
 		'-DENABLE_LIBXML2=ON '
 		'-DENABLE_EXPAT=ON '
-		'-DENABLE_PCREPOSIX=ON '
+		#'-DENABLE_PCREPOSIX=ON '
 		'-DENABLE_LibGCC=ON '
 		'-DENABLE_CNG=ON '
 		'-DENABLE_TAR=ON '
@@ -35,7 +35,8 @@
 		'-DLIBXML2_LIBRARIES="nettle -lxml2 -llzma -lbcrypt -lbz2 -lz -liconv -lcharset -llzo2 -lws2_32" ' # start without "-l" # -lxml2 -lbcrypt -lz -llzma -liconv -lws2_32"'
 	,
 	'depends_on' : [
-		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
+		#'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
+		'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre2', 'libgcrypt', # 2020.05.12 'pcre',
 	],
 	'patches': [
 		('libarchive/0001-libarchive-mingw-workaround.patch', '-p1', '..')

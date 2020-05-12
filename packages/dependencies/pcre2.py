@@ -17,7 +17,7 @@
 		'-DPCRE2_SUPPORT_UNICODE=ON -DPCRE2_SUPPORT_JIT=ON'
 	,
 	'depends_on' : [
-		'bzip2', 'zlib',  # 2019.12.13 removed 'pcre'
+		'bzip2', 'zlib',  # # 2020.05.12 'pcre', 2019.12.13 removed 'pcre'
 	],
 	'update_check' : { 'url' : 'ftp://ftp.pcre.org/pub/pcre/', 'type' : 'ftpindex', 'regex' : r'pcre2-(?P<version_num>[\d.]+)\.tar\.bz2' }, # ! TODO Fix version check
 	'_info' : { 'version' : '10.35', 'fancy_name' : 'pcre2' },
