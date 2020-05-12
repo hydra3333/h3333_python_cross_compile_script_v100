@@ -32,7 +32,7 @@
 		'-DENABLE_TEST=OFF '
 		'-DENABLE_COVERAGE=OFF '
 		'-DENABLE_INSTALL=ON '
-		'-DLIBXML2_LIBRARIES="-lxml2 -lz -llzma -liconv -lws2_32" ' # 2020.05.12 from deadsix27
+		'-DLIBXML2_LIBRARIES="xml2 -lz -llzma -liconv -lws2_32" ' # 2020.05.12 from deadsix27
 	,
 	'depends_on' : [
 		#'iconv', 'bzip2', 'expat', 'zlib', 'xz', 'lzo', 'bzip2', 'libnettle', 'libxml2', 'expat', 'pcre', 'pcre2', 'libgcrypt',
