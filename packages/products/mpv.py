@@ -37,7 +37,7 @@
 		'--enable-cuda-hwaccel '
 		'--enable-cuda-interop '
 		'--prefix={output_prefix}/mpv_git.installed '
-		'--enable-sdl2 ' # 2020.05.13 re-enable '--disable-sdl2 ' ## 2020.05.13 removed SDL2 '--enable-sdl2 ' 
+		#'--enable-sdl2 ' # 2020.05.13 re-enable '--disable-sdl2 ' ## 2020.05.13 removed SDL2 '--enable-sdl2 ' 
 		'--enable-rubberband '
 		'--enable-lcms2 '
 		# '--enable-openal '
@@ -75,7 +75,7 @@
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
-		'sdl2', # 2020.05.13 re-enable 
+		#'sdl2', # 2020.05.13 re-enable 
 		'luajit',
 		'rubberband',
 		'lcms2',
