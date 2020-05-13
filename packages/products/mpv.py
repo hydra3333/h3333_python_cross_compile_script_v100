@@ -19,7 +19,7 @@
 	#'custom_cflag'  : ' -O3 ',
 	'custom_cflag'  :' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} ', # 2020.05.13 
 	#'custom_ldflag' : ' -Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong -lz -ld3d11 -lintl -liconv ', # 2020.03.19 added -ld3d11 per from libmpv.py also added -lintl -liconv # including -lzimg always throws an error
-	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} -lz -ld3d11 -lintl -liconv ', # 2020.04.09
+	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -lz -ld3d11 -lintl -liconv ', # 2020.04.09
 	'configure_options' :
 		'--force '
 		'--enable-libmpv-shared '
