@@ -101,7 +101,7 @@
 		'--enable-libilbc '
 		'--enable-libgme '
 		'--enable-libflite '
-		'--enable-sdl2 ' # 2020.05.12 try reinstate sdl2 or use --disable-sdl2
+		'--disable-sdl2 ' # 2020.05.13 removed SDL2 '--enable-sdl2 '
 		#'--enable-libdavs2 '
 		#'--enable-libxavs '
 		#'--enable-libxavs2 '
