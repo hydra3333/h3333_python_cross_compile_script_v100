@@ -16,9 +16,9 @@
 		('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 	],
-	'run_post_regexreplace' : [ # 2019.12.13
-		'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
-	],
+	#'run_post_regexreplace' : [ # 2019.12.13
+	#	'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
+	#],
 	'depends_on' : [ 'opencl_headers' ],	
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL-ICD-Loader' }, # 2019.12.13 clarity with the fancy name
 }
