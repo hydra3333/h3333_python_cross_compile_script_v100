@@ -212,10 +212,6 @@ fi
 #	exit $exit_status
 #fi
 #read -p "done mpv press any key to continue"
-## rebuild freetype after mpv (sdl2)
-##./Remove_freetype_harfbuzz_related_files.sh 2>&1 | tee -a ./mpv.log
-##./cross_compiler_v100_001.py --force --debug -d freetype 2>&1 | tee -a ./mpv.log
-
 
 rm -fv ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -d fftw3_dll_single 2>&1 | tee -a ./fftw3_dll.log
