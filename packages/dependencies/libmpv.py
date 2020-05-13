@@ -44,7 +44,7 @@
 		'--enable-cuda-hwaccel '
 		'--enable-cuda-interop '
 		'--prefix={target_prefix} '
-		'--enable-sdl2 ' # 2020.03.19 added 
+		'--disable-sdl2 ' # 2020.05.13 disable SDL2 '--enable-sdl2 ' # 2020.03.19 added 
 		'--enable-rubberband '
 		'--enable-lcms2 '
 		# '--enable-openal '
@@ -82,7 +82,7 @@
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
-		'sdl2',
+		#'sdl2', # 2020.05.13 remove SDL2
 		'luajit',
 		'rubberband',
 		'lcms2',
