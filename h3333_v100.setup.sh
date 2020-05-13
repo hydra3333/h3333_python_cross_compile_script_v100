@@ -313,3 +313,5 @@ sudo apt update --fix-missing
 sudo apt install -f
 
 cd ~/Desktop
+rm -fv ~/Desktop/_working/*.yaml
+

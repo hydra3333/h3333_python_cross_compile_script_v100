@@ -49,6 +49,7 @@ sudo chmod -R a=rwx ./_working/*.sh
 sudo chmod -R a=rwx ./_working/*.py
 sudo chmod -R a=rwx ./_working
 cd ./_working
+rm -fv *.yaml
 #git fetch origin
 #git reset --hard origin/master
 #ls -al
