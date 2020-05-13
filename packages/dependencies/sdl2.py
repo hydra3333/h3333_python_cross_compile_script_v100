@@ -13,7 +13,8 @@
 	#'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
 	#'custom_ldflag' : '-DDECLSPEC=', # 2019.12.13
 	# Hmm, SDL2 is fussy about CFLAGS and leading/trailing whitespace
-	'custom_cflag' : '-O3 -fstack-protector-all -D_FORTIFY_SOURCE=2', # 2020.05.13  Target "SDL2-static" links to item " -O3 -fstack-protector-all -D_FORTIFY_SOURCE=2 " which has leading or trailing whitespace.  This is now an error according to policy CMP0004.
+	#'custom_cflag' : '-O3 -fstack-protector-all -D_FORTIFY_SOURCE=2', # 2020.05.13
+	'custom_cflag' : '{original_cflags_trim}', # 2020.05.13  Target "SDL2-static" links to item " -O3 -fstack-protector-all -D_FORTIFY_SOURCE=2 " which has leading or trailing whitespace.  This is now an error according to policy CMP0004.
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DSDL_SHARED=OFF',
 	'source_subfolder': '_build',
 	'regex_replace': {
