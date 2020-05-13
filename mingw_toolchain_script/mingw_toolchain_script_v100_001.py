@@ -56,7 +56,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 		'mingw-w64-headers',
 		'mingw-w64-gendef',
 		'mingw-w64-winpthreads',
-		#'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
+		'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
 	]
 }
 SOURCES['gmp'] = {
@@ -98,11 +98,10 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	#'version'   : '9.3.0', # stable versions
-	'version'   : '10.1.0', # stable versions
-	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	#'version'   : '10-20200426', #'10-20200419', # TEST version, why not :)
-	#'url' : 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # TEST builds server
+	#'version'   : '10.1.0', # stable versions
+	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
+	'version': '11-20200510', #'10-20200502',
+	'url' : 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # TEST builds server
 	#'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
 		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0140-gcc-7-Enable-std-experimental-filesystem.patch', 'p1' ), #Unable to get this to work.
@@ -238,17 +237,18 @@ BUILDS['mingw-w64-gendef'] = {
 		('{prefix}', 'cp -f "./bin/gendef" "./bin/{target}-gendef"'),
 	],
 }
-# BUILDS['mingw-w64-widl'] = { # See line 49
-# 	'lineConfig' :
-# 		'mingw-w64-tools/widl/configure'
-# 		' --with-widl-includedir="{prefix}/include"'
-# ' --build="{host}"'
-# 		' --prefix="{prefix}"'
-# 		' --target="{target}"'
-# 	,
-# 	'lineInstall' : 'install-strip',
-#   'lineInstallDebug' : 'install',
-# }
+# 2020.05.13 un-commented the build of widl
+BUILDS['mingw-w64-widl'] = { # See line 49
+ 	'lineConfig' :
+ 		'mingw-w64-tools/widl/configure'
+ 		' --with-widl-includedir="{prefix}/include"'
+ ' --build="{host}"'
+ 		' --prefix="{prefix}"'
+ 		' --target="{target}"'
+ 	,
+ 	'lineInstall' : 'install-strip',
+   'lineInstallDebug' : 'install',
+ }
 
 BUILDS['gmp'] = {
 	'dummy': True,
