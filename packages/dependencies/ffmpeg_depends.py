@@ -40,6 +40,6 @@
         'opencl_icd', #'opencl_non_icd', # 2020.05.09 swap to back to ICD LOADER since they implemented the symbols-only flag
 		#'vulkan_loader',
 		'avisynth_plus_headers',
-		#'sdl2', 2020.05.13 remove sdl2
+		'sdl2', # 2020.05.13 re-enabled sdl2 # 2020.05.13 remove sdl2
 	],
 }
