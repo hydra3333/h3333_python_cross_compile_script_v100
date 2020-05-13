@@ -101,7 +101,7 @@
 		'--enable-libilbc '
 		'--enable-libgme '
 		'--enable-libflite '
-		'--disable-sdl2 ' # 2020.05.13 removed SDL2 '--enable-sdl2 '
+		'--enable-sdl2 ' # 2020.05.13 renabled. Removed '--disable-sdl2 ' # 2020.05.13 removed SDL2 '--enable-sdl2 '
 		#'--enable-libdavs2 '
 		#'--enable-libxavs '
 		#'--enable-libxavs2 '
