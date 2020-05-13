@@ -4,8 +4,8 @@
 		'bzip2',
 		'zlib',
 		'lzma',
-		'fontconfig',
-		'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype'
+		'fontconfig', # fontconfig builds 'freetype'
+		#'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype' so it builds these in the right order
 		'libbluray',
 		'libcdio',
         'python3_libs', # 2019.12.13
