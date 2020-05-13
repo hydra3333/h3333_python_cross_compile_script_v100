@@ -1,4 +1,4 @@
-{ # cmake doesn;t work, throws an issue with custom_cflags
+{ # cmake doesn't work, throws an issue with custom_cflags
 	#'repo_type' : 'mercurial',
 	#'url' : 'https://hg.libsdl.org/SDL',
 	#'depth_git' : 0,
