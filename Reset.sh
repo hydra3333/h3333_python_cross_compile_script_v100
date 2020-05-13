@@ -69,5 +69,7 @@ sudo chmod a=rwx -R *.sh
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
+./Remove_freetype_harfbuzz_related_files.sh
+./Remove_vulkan_related_files.sh
 
 exit
