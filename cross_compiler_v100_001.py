@@ -729,10 +729,19 @@ class CrossCompileScript:
 		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
 		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
 		self.cpuCount = self.config["toolchain"]["cpu_count"]
+
 		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
+		self.original_stack_protector_trim = strip(self.config["toolchain"]["original_stack_protector"]) # 2020.05.13
+		
 		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
-		self.originalCflag = "  " + self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
+		self.original_fortify_source_trim  = strip(self.config["toolchain"]["original_fortify_source"]) # 2020.05.13
+		
+		self.originalCflag = self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
+		self.originalCflag_trim = strip(self.config["toolchain"]["original_cflags"]) # 2020.05.13 singular
+		
 		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
+		self.originalCflags_trim = strip(self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]) # 2020.05.13
+
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
@@ -775,13 +784,13 @@ class CrossCompileScript:
 				,'target_OS': self.targetOSStr
 				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
 				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
-				,'original_cflags_trim': strip(self.originalCflags) # 2020.05.13
+				,'original_cflags_trim': self.originalCflags_trim # 2020.05.13
 				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
-				,'original_stack_protector_trim' : strip(self.original_stack_protector) # 2020.05.13
+				,'original_stack_protector_trim' : self.original_stack_protector_trim # 2020.05.13
 				,'original_fortify_source' : self.original_fortify_source # 2019.11.15
-				,'original_fortify_source_trim' : strip(self.original_fortify_source) # 2020.05.13
+				,'original_fortify_source_trim' : self.original_fortify_source_trim # 2020.05.13
 				,'original_cflag': self.originalCflag # 2020.05.13
-				,'original_cflag_trim': strip(self.originalCflag) # 2020.05.13
+				,'original_cflag_trim': self.originalCflag_trim # 2020.05.13
 			}
 		)
 
