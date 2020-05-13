@@ -731,6 +731,7 @@ class CrossCompileScript:
 		self.cpuCount = self.config["toolchain"]["cpu_count"]
 		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
 		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
+		self.originalCflag = "  " + self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
 		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
@@ -774,8 +775,13 @@ class CrossCompileScript:
 				,'target_OS': self.targetOSStr
 				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
 				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'original_cflags_trim': strip(self.originalCflags) # 2020.05.13
 				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
+				,'original_stack_protector_trim' : strip(self.original_stack_protector) # 2020.05.13
 				,'original_fortify_source' : self.original_fortify_source # 2019.11.15
+				,'original_fortify_source_trim' : strip(self.original_fortify_source) # 2020.05.13
+				,'original_cflag': self.originalCflag # 2020.05.13
+				,'original_cflag_trim': strip(self.originalCflag) # 2020.05.13
 			}
 		)
 
