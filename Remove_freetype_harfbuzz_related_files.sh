@@ -18,6 +18,7 @@ cd ~/Desktop
 rm -fv  ~/Desktop/_working/*.yaml
 
 rm -vfR ~/Desktop/_working/workdir/x86_64/freetype2_git
+rm -vfR ~/Desktop/_working/workdir/x86_64/freetype-*
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libfreetype.a
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/freetype2.pc
 rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/freetype2
