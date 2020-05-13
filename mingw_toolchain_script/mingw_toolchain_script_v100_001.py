@@ -56,7 +56,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 		'mingw-w64-headers',
 		'mingw-w64-gendef',
 		'mingw-w64-winpthreads',
-		'mingw-w64-widl', # Still won't compile, 'mingw-w64-tools/widl/src/widl.c:172:28: error: array type has incomplete element type ‘struct option’'
+		#'mingw-w64-widl', # 2020.05.13 be the same as deadsix27
 	]
 }
 SOURCES['gmp'] = {
@@ -237,18 +237,18 @@ BUILDS['mingw-w64-gendef'] = {
 		('{prefix}', 'cp -f "./bin/gendef" "./bin/{target}-gendef"'),
 	],
 }
-# 2020.05.13 un-commented the build of widl
-BUILDS['mingw-w64-widl'] = { # See line 49
- 	'lineConfig' :
- 		'mingw-w64-tools/widl/configure'
- 		' --with-widl-includedir="{prefix}/include"'
- ' --build="{host}"'
- 		' --prefix="{prefix}"'
- 		' --target="{target}"'
- 	,
- 	'lineInstall' : 'install-strip',
-   'lineInstallDebug' : 'install',
- }
+# 2020.05.13 comment out the build of widl
+#BUILDS['mingw-w64-widl'] = { # See line 49
+# 	'lineConfig' :
+# 		'mingw-w64-tools/widl/configure'
+# 		' --with-widl-includedir="{prefix}/include"'
+#		 ' --build="{host}"'
+# 		' --prefix="{prefix}"'
+# 		' --target="{target}"'
+# 	,
+# 	'lineInstall' : 'install-strip',
+#   'lineInstallDebug' : 'install',
+# }
 
 BUILDS['gmp'] = {
 	'dummy': True,
