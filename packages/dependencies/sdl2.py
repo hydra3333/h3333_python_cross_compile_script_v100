@@ -9,11 +9,11 @@
 		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863' }, ], },
 	],
-	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
-	'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
-	'custom_ldflag' : '-DDECLSPEC=', # 2019.12.13
+	#'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
+	#'custom_ldflag' : '-DDECLSPEC=', # 2019.12.13
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DSDL_SHARED=OFF',
+	'source_subfolder': '_build',
 	'regex_replace': {
 		'post_patch': [
 			{
