@@ -12,10 +12,10 @@
 		'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.a"', # 2020.03.27 required for mpv to link
 		'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',
 	],
-	#'patches' : [
-	#	('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
-	#	('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
-	#],
+	'patches' : [
+		('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
+		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
+	],
 	'run_post_regexreplace' : [ # 2019.12.13
 		'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 	],
