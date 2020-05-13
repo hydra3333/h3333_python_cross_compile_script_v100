@@ -48,6 +48,8 @@ mkdir -pv "./_working"
 rsync -rvtI "./_ref/" "./_working"
 sudo chmod a=rwx -R *
 cd "./_working"
+rm -fv ~/Desktop/_working/*.yaml
+
 #git fetch origin
 #git reset --hard origin/master
 #ls -al
