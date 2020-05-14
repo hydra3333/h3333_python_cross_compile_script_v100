@@ -8,7 +8,8 @@
 	'patches': [
 		#('flac/0001-mingw-fix.patch', '-p1', '..'),
 		#('flac/0001-mingw-fix-2020.05.08.patch', '-p1', '..'), # 2020.05.08
-		('flac/0001-mingw-fix-2020.05.11-ds27.patch', '-p1', '..'), # 2020.05.11 from deadsix27
+		('flac/0001-mingw-fix-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
+		('flac/0001-mingw-fix-src-CMakeLists-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
 	],
 	'regex_replace': {
 		'post_patch': [
