@@ -15,8 +15,8 @@
 		'--backend=ninja '
 		'--buildtype=release '
 		'-Dvulkan=enabled ' # 2020.05.14 added back
-		'-Dglslang=enabled '
-		'-Dshaderc=enabled '
+		#'-Dglslang=enabled '
+		#'-Dshaderc=enabled '
 		'-Dlcms=enabled '
 		'-Dtests=false '
 		'-Dbench=false '
