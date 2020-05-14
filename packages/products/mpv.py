@@ -37,7 +37,7 @@
 		'--enable-cuda-hwaccel '
 		'--enable-cuda-interop '
 		'--prefix={output_prefix}/mpv_git.installed '
-		#'--enable-sdl2 ' # 2020.05.13 re-enable '--disable-sdl2 ' ## 2020.05.13 removed SDL2 '--enable-sdl2 ' 
+		#'--enable-sdl2 ' # 2020.05.14 added back # 2020.05.13 re-enable '--disable-sdl2 ' ## 2020.05.13 removed SDL2 '--enable-sdl2 ' 
 		'--enable-rubberband '
 		'--enable-lcms2 '
 		# '--enable-openal '
@@ -58,7 +58,7 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		# '--enable-vulkan '
+		'--enable-vulkan ' # 2020.05.14 added back
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
@@ -69,13 +69,13 @@
 	,
 	'depends_on' : [
 		'opencl_icd',
-		#'vulkan_loader',
+		'vulkan_loader', # 2020.05.14 added back
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
-		#'sdl2', # 2020.05.13 re-enable 
+		#'sdl2', # # 2020.05.14 added back
 		'luajit',
 		'rubberband',
 		'lcms2',
