@@ -14,8 +14,14 @@
 		'--buildtype=plain '
 		'--backend=ninja '
 		'--buildtype=release '
+		'-Dvulkan=enabled ' # 2020.05.14 added back
+		'-Dglslang=enabled '
+		'-Dshaderc=enabled '
+		'-Dlcms=enabled '
+		'-Dtests=false '
+		'-Dbench=false '
 		'--cross-file={meson_env_file} ./ ..'
 	,
-	'depends_on' : [ 'lcms2', 'shaderc', ], # 2020.04.10 'vulkan_loader' 
+	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', 'vulkan_loader', ], # # 2020.05.14 added back 'vulkan_loader' 
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }

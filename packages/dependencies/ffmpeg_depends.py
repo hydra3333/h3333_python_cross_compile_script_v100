@@ -38,7 +38,7 @@
 		'intel_quicksync_mfx',
 		'amf_headers',
         'opencl_icd', #'opencl_non_icd', # 2020.05.09 swap to back to ICD LOADER since they implemented the symbols-only flag
-		#'vulkan_loader',
+		'vulkan_loader', # 2020.05.14 added back
 		'avisynth_plus_headers',
 		'sdl2', # 2020.05.13 re-enabled sdl2 # 2020.05.13 remove sdl2
 	],

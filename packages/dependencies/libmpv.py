@@ -69,7 +69,7 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		#'--enable-vulkan '
+		'--enable-vulkan ' # 2020.05.14 added back
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
@@ -80,7 +80,7 @@
 	,
 	'depends_on' : [
 		'opencl_icd',
-		#'vulkan_loader',
+		'vulkan_loader', # 2020.05.14 added back
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',
