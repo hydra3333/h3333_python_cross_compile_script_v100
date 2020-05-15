@@ -20,6 +20,7 @@
 	#'run_post_regexreplace' : [ # 2019.12.13
 	#	'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 	#],
-	'depends_on' : [ 'opencl_headers' ],	
+	'depends_on' : [ 'opencl_headers' ],
+	'update_check' : { 'type' : 'git', },	
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL-ICD-Loader' }, # 2019.12.13 clarity with the fancy name
 }

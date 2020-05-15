@@ -16,5 +16,6 @@
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'openh264' },
 }
