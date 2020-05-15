@@ -26,7 +26,7 @@
 		'sed -i.bak \'s/\%PREFIX\%/{target_prefix_sed_escaped}/\' "{pkg_config_path}/vamp-sdk.pc"',
 	],
 	'depends_on' : ['libsndfile',],
-	#'update_check' : { 'url' : 'https://vamp-plugins.org/develop.html', 'type' : 'httpregex', 'regex' : r'.*<ul><li>Download the <b>Vamp plugin SDK<\/b> \(version (?P<version_num>[\d.]+)\):.*' },
-	'update_check' : { 'url' : 'https://code.soundsoftware.ac.uk/projects/vamp-plugin-sdk/files/', 'type' : 'sourceforge', 'regex' : r'	vamp-plugin-sdk-(?P<version_num>[\d.]+)\.tar\.gz', },
+	'update_check' : { 'url' : 'https://vamp-plugins.org/develop.html', 'type' : 'httpregex', 'regex' : r'.*<ul><li>Download the <b>Vamp plugin SDK<\/b> \(version (?P<version_num>[\d.]+)\):.*' },
+	#'update_check' : { 'url' : 'https://code.soundsoftware.ac.uk/projects/vamp-plugin-sdk/files/', 'type' : 'httpindex', 'regex' : r'	vamp-plugin-sdk-(?P<version_num>[\d.]+)\.tar\.gz', },
 	'_info' : { 'version' : '2.9.0', 'fancy_name' : 'vamp-plugin-sdk' },
 }
