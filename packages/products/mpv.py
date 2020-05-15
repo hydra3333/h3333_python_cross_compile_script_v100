@@ -75,7 +75,7 @@
 		'iconv',
 		'python3_libs',
 		'vapoursynth_libs',
-		#'sdl2', # # 2020.05.14 added back
+		#'sdl2', # 2020.05.14 added back ... no it fails in mpv.py
 		'luajit',
 		'rubberband',
 		'lcms2',
@@ -93,31 +93,6 @@
 		'libplacebo',
 		'libffmpeg',
 	],
-	# 2020.04.09 commented out
-	# Dirty hack, so far I've found no way to get -Wl,-Bdynamic into the .pc file or mpv itself without the use of LDFLAGS...
-	#'regex_replace': {
-	#	'post_patch': [
-	#		{
-	#			0: r'Libs: -L\${{libdir}} -lvulkan-1',
-	#			1: r'Libs: -L${{libdir}}',
-	#			'in_file': '{pkg_config_path}/vulkan.pc',
-	#			'out_file': '{pkg_config_path}/vulkan.pc'
-	#		},
-	#		{
-	#			0: r' --dirty', # dirty.
-	#			1: r'',
-	#			'in_file': 'version.sh',
-	#		},
-	#	],
-	#	'post_install': [
-	#		{
-	#			0: r'Libs: -L\${{libdir}}',
-	#			1: r'Libs: -L${{libdir}} -lvulkan-1',
-	#			'in_file': '{pkg_config_path}/vulkan.pc',
-	#			'out_file': '{pkg_config_path}/vulkan.pc'
-	#		}
-	#	]
-	#},
 	'patches': [
 		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
 	],
