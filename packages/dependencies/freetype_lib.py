@@ -7,8 +7,8 @@
 	#            since when that happens, it rebuilds with harfbuzz out-of-order :( and that causes link fails later (eg ffmpeg blaming libbluray when it isn't that)
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
 		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.2/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
 	],
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
@@ -40,31 +40,6 @@
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
 	],
+	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'freetype2' },
 }
-#{
-#	'repo_type' : 'archive',
-#	'download_locations' : [
-#		{ 'url' : 'https://download.savannah.gnu.org/releases/freetype/freetype-2.10.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f' }, ], },
-#		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.1/freetype-2.10.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f' }, ], },
-#		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f' }, ], },
-#	],
-#	'configure_options' : '{autoconf_prefix_options} --build=x86_64-linux-gnu --disable-shared --enable-static --with-zlib={target_prefix} --with-zlib={target_prefix} --without-png --with-harfbuzz=no', # TODO get rid of hardcoded build variable ## 2019.12.15 ensured static # 2019.12.13
-#    'depends_on': [
-#		'zlib', 'bzip2', 'libpng',
-#	],
-#	'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', },
-#	'_info' : { 'version' : '2.10.1', 'fancy_name' : 'freetype2 lib' },
-#}
-# 2019.12.13 old:
-#	'freetype_lib' : {
-#		'repo_type' : 'archive',
-#		'download_locations' : [
-#			#UPDATECHECKS: https://sourceforge.net/projects/freetype/files/freetype2/
-#			{ "url" : "https://fossies.org/linux/misc/freetype-2.10.1.tar.xz", "hashes" : [ { "type" : "sha256", "sum" : "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f" }, ], },
-#			{ "url" : "https://sourceforge.net/projects/freetype/files/freetype2/2.10.1/freetype-2.10.1.tar.xz", "hashes" : [ { "type" : "sha256", "sum" : "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f" }, ], },
-#			{ "url" : "https://download.savannah.gnu.org/releases/freetype/freetype-2.10.1.tar.xz", "hashes" : [ { "type" : "sha256", "sum" : "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f" }, ], },
-#		],
-#		'configure_options': '--host={target_host} --build=x86_64-linux-gnu --prefix={target_prefix} --disable-shared --enable-static --with-zlib={target_prefix} --without-png --with-harfbuzz=no',
-#		'_info' : { 'version' : '2.10.1', 'fancy_name' : 'freetype2' },
-#	},

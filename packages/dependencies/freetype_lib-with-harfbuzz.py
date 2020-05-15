@@ -40,5 +40,6 @@
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
 	],
+	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'freetype2' },
 }

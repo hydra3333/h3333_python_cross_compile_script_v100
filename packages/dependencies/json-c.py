@@ -23,7 +23,7 @@
 		'sed -i \'s/#if !defined(HAVE_SNPRINTF) \&\& defined(_MSC_VER)/#if !defined(HAVE_SNPRINTF) \&\& (defined(_MSC_VER) \|\| defined(__MINGW32__))/g\' "../snprintf_compat.h"',
 		'diff -U 5  "../snprintf_compat.h-orig" "../snprintf_compat.h" && echo "NO difference" || echo "YES differences!"',
 	],
-	#
 	'depends_on' : [ 'dlfcn-win32', ], # 2020.05.13 noticed it depended on dlfcn-win32 during building it
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'json-c' },
 }
