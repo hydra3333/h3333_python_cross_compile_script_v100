@@ -11,22 +11,6 @@
 	'depends_on' : [ # 2019.12.13
 		'gettext', # 2019.12.13
 	], # 2019.12.13
+	'update_check' : { 'type' : 'git', },
     '_info' : { 'version' : 'git (master)', 'fancy_name' : 'libffi' },
 }
-# 2019.12.13 old:
-#	'libffi' : {
-#		'repo_type' : 'git',
-#		'url' : 'https://github.com/libffi/libffi.git',
-#		'rename_folder' : 'libffi_git',
-#		'run_post_regexreplace' : [
-#			#'./autogen.sh',
-#			'autoreconf -fiv',
-#		],
-#		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-portable-binary --enable-purify-safety --disable-docs',
-#		'patches' : [
-#		],
-#		'depends_on' : [
-#			'gettext',
-#		],
-#		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libffi' },
-#	},

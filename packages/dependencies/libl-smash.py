@@ -10,5 +10,6 @@
 			'--extra-libs="-lssp" ' 
 		,
 		'build_options': 'install-lib',
+		'update_check' : { 'type' : 'git', },
 		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libl-smash' },
 }

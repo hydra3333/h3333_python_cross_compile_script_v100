@@ -6,5 +6,6 @@
 	'run_post_regexreplace' : [
 		'sed -i.bak \'s/ SHARED / STATIC /\' ebur128/CMakeLists.txt',
 	],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libebur128' },
 }

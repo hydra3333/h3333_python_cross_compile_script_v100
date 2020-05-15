@@ -8,5 +8,6 @@
 	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libdvdnav' },
 }
