@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/json-c/json-c.git',
 	'depth_git': 0,
 	'conf_system' : 'cmake',
-	'branch': 'json-c-0.14-20200419', # see https://github.com/json-c/json-c/issues/604
+	#'branch': 'json-c-0.14-20200419', # see https://github.com/json-c/json-c/issues/604 # 2020.05.15 fixed in d414d3eabc34269fb1f53b32be4547fab2a9a225
 	'source_subfolder' : 'json-c-build',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_RDRAND=ON -DENABLE_THREADING=ON -DDISABLE_WERROR=ON',
 	#
