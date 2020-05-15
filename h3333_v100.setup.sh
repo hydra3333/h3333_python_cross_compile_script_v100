@@ -64,12 +64,18 @@ sudo pip3 install py2exe
 sudo pip3 install certifi # install latest certificatess for python requests.get
 sudo pip3 install requests
 sudo pip3 install pyyaml
+sudo pip3 install bs4		# for check_versions.py
+sudo pip3 install colorama	# for check_versions.py
+sudo pip3 install html5lib	# for check_versions.py
 #pip  install progressbar2
 pip3 install progressbar2
 pip3 install py2exe
 pip3 install certifi # install latest certificatess for python requests.get
 pip3 install requests
 pip3 install pyyaml
+pip3 install bs4		# for check_versions.py
+pip3 install colorama	# for check_versions.py
+pip3 install html5lib	# for check_versions.py
 
 sudo apt install -y hashalot
 sudo apt install -y git-email
