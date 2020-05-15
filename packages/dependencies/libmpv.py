@@ -91,5 +91,6 @@
 	'patches': [
 		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
 	],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'mpv (library)' },
 }

@@ -22,5 +22,6 @@
 	'depends_on' : [
 		'libogg',
 	],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'flac (library)' },
 }
