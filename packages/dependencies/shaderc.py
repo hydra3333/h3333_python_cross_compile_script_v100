@@ -40,5 +40,6 @@
 		'cp -rv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
 	],
 	'depends_on' : ['glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', ],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'shaderc' },
 }

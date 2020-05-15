@@ -27,20 +27,9 @@
 							'-DENABLE_UNITTESTS=off ' # 2019.12.13 # 
 							,
 	'depends_on' : [ 'gettext', 'gnutls' ],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (tags/v1.4.1)', 'fancy_name' : 'srt' }, # it is actually srt 
 }
-# 2019.12.13 old:
-#	'libsrt' : { # 2019.05.10
-#		'repo_type' : 'git',
-#		'url' : 'https://github.com/Haivision/srt.git',
-#		'source_subfolder' : '_build',
-#		'conf_system' : 'cmake',
-#		'patches' : (
-#		),
-#		'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -D_WIN32_WINNT=0x600 -DENABLE_SHARED=off -DENABLE_STATIC=on -DUSE_STATIC_LIBSTDCXX=on -DUSE_GNUTLS=on -DENABLE_SUFLIP=off -DENABLE_EXAMPLES=off -DHAICRYPT_USE_OPENSSL_EVP=off -DHAICRYPT_USE_OPENSSL_AES=off',
-#		'depends_on' : [ 'gettext', 'gnutls' ],
-#		'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libsrt' },
-#	},
 #
 #option(CYGWIN_USE_POSIX "Should the POSIX API be used for cygwin. Ignored if the system isn't cygwin." OFF)
 #option(ENABLE_CXX11 "Should the c++11 parts (srt-live-transmit) be enabled" ON)
