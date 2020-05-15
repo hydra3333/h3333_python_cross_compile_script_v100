@@ -19,5 +19,6 @@
 			},
 		],
 	},
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libsndfile' },
 }

@@ -21,6 +21,7 @@
 	#,
 	#--------------------
 	'depends_on' : [ ], # 2019.12.13
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libressl' },
 }
 # 2019.12.13 old:

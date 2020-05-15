@@ -16,5 +16,6 @@
 		],
 	},
 	#'depends_on' : [ 'glib2' ], # 2020.05.12 removed 'glib2', 
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'opus' },
 }
