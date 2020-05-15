@@ -32,5 +32,6 @@
 		]
 	},
 	'depends_on' : [ 'leptonica', 'libxml2', 'zlib', 'libarchive', 'libtiff'],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'tesseract' },
 }

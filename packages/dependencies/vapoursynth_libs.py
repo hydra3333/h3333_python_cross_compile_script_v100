@@ -24,5 +24,6 @@
 		'arch' : [ '7za' ],
 	},
 	'depends_on' : [ 'python3_libs' ],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'R50', 'fancy_name' : 'VapourSynth (library-only)' },
 }
