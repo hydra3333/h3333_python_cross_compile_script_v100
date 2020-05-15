@@ -13,5 +13,6 @@
 	'run_post_install' : [
 		"rm -vf {target_prefix}/lib/libcrossc.dll.a", # we only want static, somehow this still gets installed tho.
 	],
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'crossc' },
 }

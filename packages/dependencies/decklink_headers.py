@@ -15,13 +15,3 @@
 	'needs_make_install' : False,
 	'_info' : { 'version' : '10.11.2', 'fancy_name' : 'Decklink SDK Headers' },
 }
-# 2019.12.13 old:
-#	'decklink_headers' : { # not gpl
-#		'repo_type' : 'git',
-#		'url' : 'https://notabug.org/RiCON/decklink-headers.git',
-#		'folder_name' : 'decklink_headers',
-#		'needs_configure' : False,
-#		'needs_make' : False,
-#		'needs_make_install' : True,
-#		'install_options' : '{make_prefix_options} PREFIX={target_prefix}',
-#	},

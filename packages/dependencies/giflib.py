@@ -21,5 +21,3 @@
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/giflib/files/', 'type' : 'sourceforge', 'regex' : r'giflib-(?P<version_num>[\d.]+)\.tar\.bz2' },
 	'_info' : { 'version' : '5.1.9', 'fancy_name' : 'giflib' },
 }
-# 2019.12.13 old:
-# none
