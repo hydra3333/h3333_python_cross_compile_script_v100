@@ -29,35 +29,6 @@
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 	],
-	#'regex_replace': {
-	#	'post_install': [
-	#		{
-	#			0: r'(?:[^\r\n]+)?libdir=(?:[^\r\n]+)?',
-	#			'in_file': '{pkg_config_path}/vulkan.pc',
-	#			'out_file': '{pkg_config_path}/vulkan.pc'
-	#		},
-	#		{
-	#			0: r'exec_prefix=([^\r\n]+)',
-	#			1: r'prefix={{target_prefix}}\nexec_prefix=\1\nlibdir=${{exec_prefix}}/lib\n',
-	#			'in_file': '{pkg_config_path}/vulkan.pc',
-	#			'out_file': '{pkg_config_path}/vulkan.pc'
-	#		},
-	#		{
-	#			0: r'-lvulkan$',
-	#			1: r'-lvulkan-1.dll',
-	#			'in_file': '{pkg_config_path}/vulkan.pc',
-	#			'out_file': '{pkg_config_path}/vulkan.pc'
-	#		},
-	#	]
-	#},
-	#'run_post_install' : [
-	#	##'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
-		#'cp -fv "{target_prefix}/lib/pkgconfig/vulkan.pc" "{target_prefix}/lib/pkgconfig/vulkan.pc.orig"',
-		#'sed -i.bak \'s/-lvulkan/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		#'sed -i.bak \'s/-lvulkan-1.dll-1.dll/-lvulkan-1.dll/g\' "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-		#'diff -U 5 "{target_prefix}/lib/pkgconfig/vulkan.pc.orig" "{target_prefix}/lib/pkgconfig/vulkan.pc" && echo "NO difference" || echo "YES differences!"',
-		#'cat "{target_prefix}/lib/pkgconfig/vulkan.pc"',
-	#],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
