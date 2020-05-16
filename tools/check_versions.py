@@ -206,13 +206,17 @@ class Parsers:
 		return newest
 
 	def githubreleases(self, githubType="name"):
+		#print("DEBUG: githubreleases: Url '%s'" % (self.url))
 		m = re.search(r'http?s:\/\/github.com\/(.+\/.+\/releases)', self.url)
 		if m is None:
 			errorExit("Improper github release URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/releases)" % (self.url))
 
+		#print("DEBUG: githubreleases: m.groups()[0] '%s'" % (m.groups()[0]))
 		releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
+		#print("DEBUG: githubreleases: releaseApiUrl '%s'" % (releaseApiUrl))
 
 		jString = requests.get(releaseApiUrl, headers=HEADERS).content  # .decode("utf-8")
+		#print("DEBUG: githubreleases: jString '%s'" % (jString))
 
 		releases = json.loads(jString)
 
@@ -220,6 +224,49 @@ class Parsers:
 
 		for r in releases:
 			v = r[githubType]
+			#print("DEBUG: githubreleases: r '%s'" % r)
+			#print("DEBUG: githubreleases: v '%s'" % v)
+			if self.verex is not None:
+				#print("DEBUG: githubreleases: self.verex '%s'" % (self.verex))
+				m = re.search(self.verex, v)
+				if m is not None:
+					g = m.groupdict()
+					if "version_num" not in g:
+						errorExit("You have to name a regex group version_num")
+					v = g["version_num"]
+					if "rc_num" in g:
+						v = v + "." + g["rc_num"]
+				else:
+					v = ""
+
+			if v != "":
+				if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+					if LooseVersion(v) > LooseVersion(newest):
+						newest = v
+		return newest
+
+	def githubtags(self, githubType="tag"):
+		#print("DEBUG: githubtags: Url = '%s'" % (self.url))
+		m = re.search(r'http?s:\/\/github.com\/(.+\/.+\/tags)', self.url)
+		if m is None:
+			errorExit("Improper github tag URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/tags)" % (self.url))
+
+		#print("DEBUG: githubtags: m.groups()[0] = '%s'" % (m.groups()[0]))
+		releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
+		#print("DEBUG: githubtags: releaseApiUrl = '%s'" % (releaseApiUrl))
+
+		jString = requests.get(releaseApiUrl, headers=HEADERS).content  # .decode("utf-8")
+		#print("DEBUG: githubtags: jString = '%s'" % (jString))
+
+		releases = json.loads(jString)
+
+		newest = "0.0.0"
+
+		for r in releases:
+			v = r[githubType]
+			#print("DEBUG: githubtags: r = '%s'" % r)
+			#print("DEBUG: githubtags: v = '%s'" % v)
+			#print("DEBUG: githubtags: self.verex '%s'" % (self.verex))
 			if self.verex is not None:
 				m = re.search(self.verex, v)
 				if m is not None:
@@ -378,6 +425,8 @@ def geLatestVersion(versionEl):
 			return parser.httpregex()
 		elif pType == "githubreleases":
 			return parser.githubreleases(ghtype)
+		elif pType == "githubtags":
+			return parser.githubtags(ghtype)
 		else:
 			errorExit("Unknown parser: %s " % (pType))
 	except Exception:
@@ -401,8 +450,56 @@ ignorePkgsUpdate = []
 pkgsWithoutUpdateCheck = []
 
 print("Checking package versions:")
+#for name, pkg in pkgs["prods"].items():
+for name, pkg in sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold()):
+#for name, pkg in enumerate(sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold())):
+	if specificPkgs is not None:
+		if not any(word in name for word in specificPkgs):
+			continue
 
-for name, pkg in {**pkgs["deps"], **pkgs["prods"]}.items():
+	if "repo_type" in pkg and (pkg["repo_type"] == "archive" or (pkg["repo_type"] == "git" and "branch" in pkg)):  # check for packages without update check.
+		if "update_check" not in pkg:
+			if name not in ignorePkgsUpdate:
+				pkgsWithoutUpdateCheck.append(name)
+
+	if "update_check" in pkg:
+
+		versionEl = pkg["update_check"]
+		vType = versionEl["type"]
+
+		if vType == "git":  # packages that are git clones
+			di = getCommitsDiff(pkg)
+			if di is not None:
+
+				numCmts = 0
+
+				if isinstance(di, int):
+					numCmts = di
+				else:
+					numCmts = len(di)
+
+				if numCmts > 0:
+					print(Style.DIM + Fore.YELLOW + "%s is %d commits behind!" % (name.rjust(30), numCmts) + Style.RESET_ALL)
+				else:
+					print(Style.BRIGHT + "%s is up to date." % (name.rjust(30)) + Style.RESET_ALL)
+
+		else:  # packages that are archive downloads
+			ourVer = pkg["_info"]["version"]
+			latestVer = geLatestVersion(versionEl)
+
+			if latestVer == "0.0.0":
+				print(Fore.YELLOW + "%s has an update! [Local: %s Remote: %s] (Error parsing remote version)" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
+				print("Regex pattern:")
+				print("\t" + versionEl["regex"])
+			elif LooseVersion(ourVer) < LooseVersion(latestVer):
+				print(Fore.GREEN + "%s has an update! [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
+			else:
+				print(Style.BRIGHT + "%s is up to date. [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
+
+print("Checking dependency versions:")
+#for name, pkg in pkgs["deps"].items():
+for name, pkg in sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold()):
+#for name, pkg in enumerate(sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold())):
 	if specificPkgs is not None:
 		if not any(word in name for word in specificPkgs):
 			continue
@@ -448,8 +545,8 @@ for name, pkg in {**pkgs["deps"], **pkgs["prods"]}.items():
 
 
 print("\nGit packages without update_check:")
-
-for name, pkg in {**pkgs["deps"], **pkgs["prods"]}.items():
+#for name, pkg in {**pkgs["deps"], **pkgs["prods"]}.items():
+for name, pkg in sorted({**pkgs["deps"], **pkgs["prods"]}.items(),key=lambda i: i[0].casefold()):
 	if specificPkgs is not None:
 		if not any(word in name for word in specificPkgs):
 			continue
