@@ -478,10 +478,17 @@ for name, pkg in sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold()):
 				else:
 					numCmts = len(di)
 
+				gitaffixed = ""
+				if "branch" in pkg:
+					gitaffixed = gitaffixed + " ... affixed at " + pkg["branch"]
+				if "checkout" in pkg:
+					gitaffixed = gitaffixed + " ... affixed at " + pkg["checkout"]
+				if gitaffixed == "":
+					gitaffixed = " ... Git Head"
 				if numCmts > 0:
-					print(Style.DIM + Fore.YELLOW + "%s is %d commits behind!" % (name.rjust(30), numCmts) + Style.RESET_ALL)
+					print(Style.DIM + Fore.YELLOW + "%s is %d commits behind! %s" % (name.rjust(30), numCmts, gitaffixed) + Style.RESET_ALL)
 				else:
-					print(Style.BRIGHT + "%s is up to date." % (name.rjust(30)) + Style.RESET_ALL)
+					print(Style.BRIGHT + "%s is up to date. %s" % (name.rjust(30), gitaffixed) + Style.RESET_ALL)
 
 		else:  # packages that are archive downloads
 			ourVer = pkg["_info"]["version"]
@@ -525,10 +532,17 @@ for name, pkg in sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold()):
 				else:
 					numCmts = len(di)
 
+				gitaffixed = ""
+				if "branch" in pkg:
+					gitaffixed = gitaffixed + " ... affixed at " + pkg["branch"]
+				if "checkout" in pkg:
+					gitaffixed = gitaffixed + " ... affixed at " + pkg["checkout"]
+				if gitaffixed == "":
+					gitaffixed = " ... Git Head"
 				if numCmts > 0:
-					print(Style.DIM + Fore.YELLOW + "%s is %d commits behind!" % (name.rjust(30), numCmts) + Style.RESET_ALL)
+					print(Style.DIM + Fore.YELLOW + "%s is %d commits behind! %s" % (name.rjust(30), numCmts, gitaffixed) + Style.RESET_ALL)
 				else:
-					print(Style.BRIGHT + "%s is up to date." % (name.rjust(30)) + Style.RESET_ALL)
+					print(Style.BRIGHT + "%s is up to date. %s" % (name.rjust(30), gitaffixed) + Style.RESET_ALL)
 
 		else:  # packages that are archive downloads
 			ourVer = pkg["_info"]["version"]
