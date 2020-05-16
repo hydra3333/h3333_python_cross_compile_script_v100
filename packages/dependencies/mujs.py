@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'url' : 'git://git.ghostscript.com/mujs.git',
+	'url' : 'https://github.com/ArtifexSoftware/mujs.git', # this seems to be as up to date as #'url' : 'git://git.ghostscript.com/mujs.git',
 	'needs_configure' : False,
 	'build_options' : '{make_prefix_options} prefix={target_prefix} HAVE_READLINE=no',
 	'install_options' : '{make_prefix_options} prefix={target_prefix} HAVE_READLINE=no',
