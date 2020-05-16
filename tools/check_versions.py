@@ -449,7 +449,7 @@ ignorePkgsUpdate = []
 
 pkgsWithoutUpdateCheck = []
 
-print("Checking package versions:")
+print("\nChecking package versions:")
 #for name, pkg in pkgs["prods"].items():
 for name, pkg in sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold()):
 #for name, pkg in enumerate(sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold())):
@@ -496,7 +496,7 @@ for name, pkg in sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold()):
 			else:
 				print(Style.BRIGHT + "%s is up to date. [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
 
-print("Checking dependency versions:")
+print("\nChecking dependency versions:")
 #for name, pkg in pkgs["deps"].items():
 for name, pkg in sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold()):
 #for name, pkg in enumerate(sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold())):
