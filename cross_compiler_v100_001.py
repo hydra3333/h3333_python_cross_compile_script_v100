@@ -256,8 +256,8 @@ class CrossCompileScript:
 				'output_path': '{work_dir}/{bit_name_win}_output',
 				'bitness': [64, ],
 				'cpu_count': cpu_count(),
-				#'mingw_commit': None, # 2019.12.13 was None,
-				'mingw_commit': '621d33d92e74ed29541d1234497adbe5aab5579a', # following commit breeaks with error: '__ms_vfwscanf' was not declared in this scope;
+				'mingw_commit': None, # 2019.12.13 was None,
+				#'mingw_commit': '621d33d92e74ed29541d1234497adbe5aab5579a', # following commit breeaks with error: '__ms_vfwscanf' was not declared in this scope;
 				#'mingw_commit': 'tags/v7.0.0', # 2019.12.13 was None,
 				'mingw_debug_build': False,
 				'mingw_dir': 'toolchain',
