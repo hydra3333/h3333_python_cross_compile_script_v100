@@ -1,0 +1,28 @@
+From a0904555747e1746d823e2b4b9b8cef7ed567fc8 Mon Sep 17 00:00:00 2001
+From: Mateusz <mateuszb@poczta.onet.pl>
+Date: Sat, 16 May 2020 12:54:11 +0200
+Subject: [PATCH] crt/stdio: Restore declarations for "__ms_v*wscanf" externs
+ in libmingwex.a
+
+Signed-off-by: Mateusz <mateuszb@poczta.onet.pl>
+---
+ mingw-w64-headers/crt/stdio.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/mingw-w64-headers/crt/stdio.h b/mingw-w64-headers/crt/stdio.h
+index 47afb355..d7beb27a 100644
+--- a/mingw-w64-headers/crt/stdio.h
++++ b/mingw-w64-headers/crt/stdio.h
+@@ -1263,6 +1263,9 @@ int vsnwprintf (wchar_t *__stream, size_t __n, const wchar_t *__format, __builti
+   int __cdecl swscanf(const wchar_t * __restrict__ _Src,const wchar_t * __restrict__ _Format,...) __MINGW_ATTRIB_DEPRECATED_SEC_WARN;
+   int __cdecl wscanf(const wchar_t * __restrict__ _Format,...) __MINGW_ATTRIB_DEPRECATED_SEC_WARN;
+ #ifndef __NO_ISOCEXT  /* externs in libmingwex.a */
++  int __cdecl __ms_vwscanf (const wchar_t * __restrict__ , va_list);
++  int __cdecl __ms_vfwscanf (FILE * __restrict__ ,const wchar_t * __restrict__ ,va_list);
++  int __cdecl __ms_vswscanf (const wchar_t * __restrict__ ,const wchar_t * __restrict__ ,va_list);
+ 
+   __mingw_ovr
+   __MINGW_ATTRIB_NONNULL(2)
+-- 
+2.26.2.windows.1
+
