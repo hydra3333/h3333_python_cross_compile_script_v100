@@ -34,7 +34,8 @@ import glob
 import hashlib
 import importlib
 import logging
-import os.path
+import os # 2020.05.20 since we want mkdir
+#import os.path
 import re
 import shutil
 import stat
@@ -303,6 +304,13 @@ class CrossCompileScript:
 		self.projectRoot = Path(os.getcwd())
 		self.fullPatchDir = self.projectRoot.joinpath("patches")
 		self.fullWorkDir = self.projectRoot.joinpath(self.config["toolchain"]["work_dir"])
+		# 2020.05.19
+		sdb_default = 'source_backups'
+		sdb = self.config["toolchain"].get('source_backups_dir', sdb_default)
+		if (sdb is None) or (sdb == ""):
+			self.fullSourceBackupsDir = self.projectRoot.joinpath(sdb_default)
+		else:
+			self.fullSourceBackupsDir = self.projectRoot.joinpath(sdb)
 		self.mingwDir = self.config["toolchain"]["mingw_dir"]
 		self.targetBitness = self.config["toolchain"]["bitness"]
 		self.originalPATH = os.environ["PATH"]
@@ -1657,6 +1665,18 @@ class CrossCompileScript:
 
 			self.logger.debug("Downloading {0} to ({1})".format(url, fileName))
 			self.downloadFile(url, fileName)
+			
+			# *********************************************************************************************************************************
+			# 2020.05.19 Let's try to save a backup of the downloaded file (of source code).  
+			#            Always try to create the backup folder.
+			#            git,svn,mecurial are handled separately, of course.
+			#self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
+			self.logger.debug('mkdir "{0}"'.format(self.fullSourceBackupsDir))
+			self.fullSourceBackupsDir.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.fullSourceBackupsDir, mode=0o777, exist_ok=True)
+			dst = f"{self.fullSourceBackupsDir}/{fileName}"
+			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
+			shutil.copyfile(fileName, dst, follow_symlinks=True) # If destination already exists then it will be replaced with the source file 
+			# *********************************************************************************************************************************
 
 			if "hashes" in dlLocation:
 				if len(dlLocation["hashes"]) >= 1:
@@ -1954,6 +1974,19 @@ class CrossCompileScript:
 				self.runProcess('git submodule foreach --recursive git reset --hard')
 				self.logger.debug('git submodule update --init --recursive')
 				self.runProcess('git submodule update --init --recursive')
+
+		# *********************************************************************************************************************************
+		# 2020.05.19 Let's try to save a backup of the extracted folder (of source code).  
+		#            Always try to create the backup folder.
+		#            archive,git,svn,mecurial are handled here.
+		# About now we have a cleaned-up folder which we've decended into {workDir}
+		# Back it up using tar -cjf backup.tar.bz2 folder  (add option v for verbose)
+		tsrc = f"../{workDir}/"
+		tdst = f"{self.fullSourceBackupsDir}/{workDir}.from_extracted_folder.tar.bz2"
+		tarcmd = f"tar -cjWf {tdst} {tsrc}"
+		self.logger.debug(f"Backing up source folder: {tarcmd}")
+		self.runProcess(tarcmd)
+		# *********************************************************************************************************************************
 
 		if 'source_subfolder' in packageData:
 			if packageData['source_subfolder'] is not None:
