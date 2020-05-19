@@ -1983,7 +1983,7 @@ class CrossCompileScript:
 		# Back it up using tar -cjf backup.tar.bz2 folder  (add option v for verbose)
 		tsrc = f"../{workDir}/"
 		tdst = f"{self.fullSourceBackupsDir}/{workDir}.from_extracted_folder.tar.bz2"
-		tarcmd = f"tar -cjWf {tdst} {tsrc}"
+		tarcmd = f"tar -cjf {tdst} {tsrc}"
 		self.logger.debug(f"Backing up source folder: {tarcmd}")
 		self.runProcess(tarcmd)
 		# *********************************************************************************************************************************
