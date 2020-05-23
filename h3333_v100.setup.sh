@@ -57,6 +57,7 @@ sudo apt install -y python3-distutils
 sudo apt install -y python3-dev 
 sudo apt install -y python3-numpy
 sudo apt install -y cython3
+sudo apt install -y python-is-python3 # for ubuntu 20.04
 
 #sudo pip  install progressbar2
 sudo pip3 install progressbar2
