@@ -1678,12 +1678,13 @@ class CrossCompileScript:
 			# 2020.05.19 Let's try to save a backup of the downloaded file (of source code).  
 			#            Always try to create the backup folder.
 			#            git,svn,mecurial are handled separately, of course.
-			#self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
-			self.logger.debug('mkdir "{0}"'.format(self.backup_source_directory))
-			self.backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
-			dst = f"{self.backup_source_directory}/{fileName}"
-			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
-			shutil.copyfile(fileName, dst, follow_symlinks=True) # If destination already exists then it will be replaced with the source file 
+			if self.backup_source_directory is not None:
+				#self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
+				self.logger.debug('mkdir "{0}"'.format(self.backup_source_directory))
+				self.backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
+				dst = f"{self.backup_source_directory}/{fileName}"
+				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
+				shutil.copyfile(fileName, dst, follow_symlinks=True) # If destination already exists then it will be replaced with the source file 
 			# *********************************************************************************************************************************
 
 			if "hashes" in dlLocation:
@@ -1989,11 +1990,12 @@ class CrossCompileScript:
 		#            archive,git,svn,mecurial are handled here.
 		# About now we have a cleaned-up folder which we've decended into {workDir}
 		# Back it up using tar -cjf backup.tar.bz2 folder  (add option v for verbose)
-		tsrc = f"../{workDir}/"
-		tdst = f"{self.backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
-		tarcmd = f"tar -cjf {tdst} {tsrc}"
-		self.logger.debug(f"Backing up source folder: {tarcmd}")
-		self.runProcess(tarcmd)
+		if self.backup_source_directory is not None:
+			tsrc = f"../{workDir}/"
+			tdst = f"{self.backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
+			tarcmd = f"tar -cjf {tdst} {tsrc}"
+			self.logger.debug(f"Backing up source folder: {tarcmd}")
+			self.runProcess(tarcmd)
 		# *********************************************************************************************************************************
 
 		if 'source_subfolder' in packageData:
