@@ -565,7 +565,7 @@ class CrossCompileScript:
 			buildType = None
 			
 			if args.backup_source_directory:  # note, "-" relaced by "_" in the name
-				self.backup_source_directory = args.backup
+				self.backup_source_directory = args.backup_source_directory
 			else:
 				self.backup_source_directory = None
 
