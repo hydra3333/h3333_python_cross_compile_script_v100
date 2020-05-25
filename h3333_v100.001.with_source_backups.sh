@@ -74,7 +74,7 @@ sudo chmod -R a=rwx *.py
 #cd ~/Desktop
 #sudo chmod a=rwx -R *.sh
 #./cross_compiler_v100_001.py --force --debug --products --dependencies -pl ffmpeg_static_non_free_opencl,x265_multibit
-#./cross_compiler_v100_001.py --force --debug -p x265_multibit
+#./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p x265_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
 #./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug.log
@@ -82,7 +82,7 @@ sudo chmod -R a=rwx *.py
 
 
 rm -fv ./ffmpeg.log
-./cross_compiler_v100_001.py --force --debug -p ffmpeg 2>&1 | tee -a ./ffmpeg.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p ffmpeg 2>&1 | tee -a ./ffmpeg.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -93,7 +93,7 @@ fi
 
 
 rm -fv ./x264.log
-./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./x264.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p x264 2>&1 | tee -a ./x264.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -104,7 +104,7 @@ fi
 
 
 rm -fv ./x265.log
-./cross_compiler_v100_001.py --force --debug -p x265 2>&1 | tee -a ./x265.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p x265 2>&1 | tee -a ./x265.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -115,7 +115,7 @@ fi
 
 
 rm -fv ./mp4box.log
-./cross_compiler_v100_001.py --force --debug -p mp4box 2>&1 | tee -a ./mp4box.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p mp4box 2>&1 | tee -a ./mp4box.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -126,7 +126,7 @@ fi
 
 
 rm -fv ./lame.log
-./cross_compiler_v100_001.py --force --debug -p lame 2>&1 | tee -a ./lame.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p lame 2>&1 | tee -a ./lame.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -137,7 +137,7 @@ fi
 
 
 rm -fv ./aom.log
-./cross_compiler_v100_001.py --force --debug -p aom 2>&1 | tee -a ./aom.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p aom 2>&1 | tee -a ./aom.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -148,7 +148,7 @@ fi
 
 
 rm -fv ./sox.log
-./cross_compiler_v100_001.py --force --debug -p sox 2>&1 | tee -a ./sox.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p sox 2>&1 | tee -a ./sox.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -159,7 +159,7 @@ fi
 
 
 rm -fv ./vpx.log
-./cross_compiler_v100_001.py --force --debug -p vpx 2>&1 | tee -a ./vpx.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p vpx 2>&1 | tee -a ./vpx.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -171,7 +171,7 @@ fi
 
 rm -fv ./webp.log
 ./cross_compiler_v100_001.py --force --debug -d libwebp 2>&1 | tee -a ./webp.log
-./cross_compiler_v100_001.py --force --debug -p webp 2>&1 | tee -a ./webp.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p webp 2>&1 | tee -a ./webp.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -182,7 +182,7 @@ fi
 
 
 rm -fv ./mediainfo.log
-./cross_compiler_v100_001.py --force --debug -p mediainfo 2>&1 | tee -a ./mediainfo.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p mediainfo 2>&1 | tee -a ./mediainfo.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -193,7 +193,7 @@ fi
 
 
 rm -fv ./dav1d.log
-./cross_compiler_v100_001.py --force --debug -p dav1d 2>&1 | tee -a ./dav1d.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p dav1d 2>&1 | tee -a ./dav1d.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -204,7 +204,7 @@ fi
 
 
 rm -fv ./mpv.log
-./cross_compiler_v100_001.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p mpv 2>&1 | tee -a ./mpv.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -217,8 +217,8 @@ rm -fv ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -d fftw3_dll_single 2>&1 | tee -a ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -d fftw3_dll_double 2>&1 | tee -a ./fftw3_dll.log
 ./cross_compiler_v100_001.py --force --debug -d fftw3_dll_ldouble 2>&1 | tee -a ./fftw3_dll.log
-#./cross_compiler_v100_001.py --force --debug -p fftw3_dll_quad 2>&1 | tee -a ./fftw3_dll.log
-./cross_compiler_v100_001.py --force --debug -p fftw3_dll 2>&1 | tee -a ./fftw3_dll.log
+#./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p fftw3_dll_quad 2>&1 | tee -a ./fftw3_dll.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p fftw3_dll 2>&1 | tee -a ./fftw3_dll.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -229,7 +229,7 @@ fi
 
 
 rm -fv ./mkvtoolnix.log
-./cross_compiler_v100_001.py --force --debug -p mkvtoolnix 2>&1 | tee -a ./mkvtoolnix.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p mkvtoolnix 2>&1 | tee -a ./mkvtoolnix.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -240,7 +240,7 @@ fi
 
 
 rm -fv ./youtube-dl.log
-./cross_compiler_v100_001.py --force --debug -p youtube-dl 2>&1 | tee -a ./youtube-dl.log
+./cross_compiler_v100_001.py --force --backup-source-directory 000_backup_subfolder --debug -p youtube-dl 2>&1 | tee -a ./youtube-dl.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
