@@ -743,19 +743,7 @@ class CrossCompileScript:
 		self.originalCflags_trim = (self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]).strip() # 2020.05.13
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
-
-		# no, not here
-		# this, instead, needs to be decided at time of building the product or dependency
-		# since it may be in a product or offtree folder or a dependency folder
-		# which may have conflicting (duplicate) folder names
-		if self.backup_source_directory is None:
-			self.full_backup_source_directory = None
-		else:
-			self.full_backup_source_directory = self.fullWorkDir.joinpath(self.bitnessStr + "/" + self.backup_source_directory)
 		self.formatDict = defaultdict(lambda: "")
-
-
-
 		self.formatDict.update(
 			{
 				'cmake_prefix_options': self.cmakePrefixOptions,
@@ -1670,11 +1658,12 @@ class CrossCompileScript:
 			# 2020.05.19 Let's try to save a backup of the downloaded file (of source code).  
 			#            Always try to create the backup folder.
 			#            git,svn,mecurial are handled separately, of course.
-			if self.full_backup_source_directory is not None:
+			if self.backup_source_directory is not None:
 				self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
-				self.logger.debug('mkdir "{0}"'.format(self.full_backup_source_directory))
-				self.full_backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.full_backup_source_directory, mode=0o777, exist_ok=True)
-				dst = f"{self.full_backup_source_directory}/{fileName}"
+				bsd = f"../{self.backup_source_directory}"
+				self.logger.debug('mkdir "{0}"'.format(bsd))
+				bsd.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
+				dst = f"../{self.backup_source_directory}/{fileName}"
 				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
 				shutil.copyfile(fileName, dst, follow_symlinks=True) # If destination already exists then it will be replaced with the source file 
 			# *********************************************************************************************************************************
@@ -1982,12 +1971,13 @@ class CrossCompileScript:
 		#            archive,git,svn,mecurial are handled here.
 		# About now we have a cleaned-up folder which we've decended into {workDir}
 		# Back it up using tar -cjf backup.tar.bz2 folder  (add option v for verbose)
-		if self.full_backup_source_directory is not None:
+		if self.backup_source_directory is not None:
 			self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
-			self.logger.debug('mkdir "{0}"'.format(self.full_backup_source_directory))
-			self.full_backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.full_backup_source_directory, mode=0o777, exist_ok=True)
+			bsd = f"../{self.backup_source_directory}"
+			self.logger.debug('mkdir "{0}"'.format(bsd))
+			bsd.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
 			tsrc = f"../{workDir}/"
-			tdst = f"{self.full_backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
+			tdst = f"../{self.backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
 			tarcmd = f"tar -cjf {tdst} {tsrc}"
 			self.logger.debug(f"Backing up source folder: {tarcmd}")
 			self.runProcess(tarcmd)
