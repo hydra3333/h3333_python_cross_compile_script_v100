@@ -710,25 +710,15 @@ class CrossCompileScript:
 		self.targetOSStr = "mingw64" if bitness is 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
 		self.bitnessStrWin = "win64" if bitness == 64 else "win32"  # e.g win64
 		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  # e.g x86_64-w64-mingw32
-
 		self.targetPrefix = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", self.targetHostStr)  # workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
-
 		self.inTreePrefix = self.fullWorkDir.joinpath(self.bitnessStr)  # workdir/x86_64
-
 		self.offtreePrefix = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")  # workdir/x86_64_offtree
-
 		self.targetSubPrefix = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32")  # e.g workdir/xcompilers/mingw-w64-x86_64
-
 		self.mingwBinpath = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", "bin")  # e.g workdir/xcompilers/mingw-w64-x86_64/bin
-
 		self.mingwBinpath2 = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", self.bitnessStr + "-w64-mingw32", "bin")  # e.g workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
-
 		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.bitnessStr}-w64-mingw32-"  # e.g workdir/xcompilers/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
-
 		self.shortCrossPrefixStr = F"{self.bitnessStr}-w64-mingw32-"  # e.g x86_64-w64-mingw32-
-
 		self.autoConfPrefixOptions = F'--with-sysroot="{self.targetSubPrefix}" --host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
-
 		self.makePrefixOptions = F'CC={self.shortCrossPrefixStr}gcc ' \
 			F"AR={self.shortCrossPrefixStr}ar " \
 			F"PREFIX={self.targetPrefix} " \
@@ -736,33 +726,27 @@ class CrossCompileScript:
 			F"LD={self.shortCrossPrefixStr}ld " \
 			F"STRIP={self.shortCrossPrefixStr}strip " \
 			F'CXX={self.shortCrossPrefixStr}g++'  # --sysroot="{self.targetSubPrefix}"'
-
 		self.pkgConfigPath = "{0}/lib/pkgconfig".format(self.targetPrefix)  # e.g workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32/lib/pkgconfig
-
 		self.localPkgConfigPath = self.aquireLocalPkgConfigPath()
-
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")
 		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
 		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
 		self.cpuCount = self.config["toolchain"]["cpu_count"]
-
 		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
 		self.original_stack_protector_trim = self.config["toolchain"]["original_stack_protector"].strip() # 2020.05.13
-		
 		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
 		self.original_fortify_source_trim  = self.config["toolchain"]["original_fortify_source"].strip() # 2020.05.13
-		
 		self.originalCflag = self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
 		self.originalCflag_trim = self.config["toolchain"]["original_cflags"].strip() # 2020.05.13 singular
-		
 		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
 		self.originalCflags_trim = (self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]).strip() # 2020.05.13
-
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
-
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
-
+		if self.backup_source_directory is None:
+			self.full_backup_source_directory = None
+		else:
+			self.full_backup_source_directory = self.fullWorkDir.joinpath(self.bitnessStr + self.backup_source_directory)
 		self.formatDict = defaultdict(lambda: "")
 		self.formatDict.update(
 			{
@@ -1678,11 +1662,11 @@ class CrossCompileScript:
 			# 2020.05.19 Let's try to save a backup of the downloaded file (of source code).  
 			#            Always try to create the backup folder.
 			#            git,svn,mecurial are handled separately, of course.
-			if self.backup_source_directory is not None:
+			if self.full_backup_source_directory is not None:
 				#self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
-				self.logger.debug('mkdir "{0}"'.format(self.backup_source_directory))
-				self.backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
-				dst = f"{self.backup_source_directory}/{fileName}"
+				self.logger.debug('mkdir "{0}"'.format(self.full_backup_source_directory))
+				self.full_backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.full_backup_source_directory, mode=0o777, exist_ok=True)
+				dst = f"{self.full_backup_source_directory}/{fileName}"
 				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
 				shutil.copyfile(fileName, dst, follow_symlinks=True) # If destination already exists then it will be replaced with the source file 
 			# *********************************************************************************************************************************
@@ -1990,9 +1974,12 @@ class CrossCompileScript:
 		#            archive,git,svn,mecurial are handled here.
 		# About now we have a cleaned-up folder which we've decended into {workDir}
 		# Back it up using tar -cjf backup.tar.bz2 folder  (add option v for verbose)
-		if self.backup_source_directory is not None:
+		if self.full_backup_source_directory is not None:
+			#self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
+			self.logger.debug('mkdir "{0}"'.format(self.full_backup_source_directory))
+			self.full_backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.full_backup_source_directory, mode=0o777, exist_ok=True)
 			tsrc = f"../{workDir}/"
-			tdst = f"{self.backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
+			tdst = f"{self.full_backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
 			tarcmd = f"tar -cjf {tdst} {tsrc}"
 			self.logger.debug(f"Backing up source folder: {tarcmd}")
 			self.runProcess(tarcmd)
