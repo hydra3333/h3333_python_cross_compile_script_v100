@@ -1661,8 +1661,8 @@ class CrossCompileScript:
 			if self.backup_source_directory is not None:
 				self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
 				bsd = f"../{self.backup_source_directory}"
-				self.logger.debug('mkdir "{0}"'.format(bsd))
-				self.runProcess('mkdir "{0}"'.format(bsd))
+				self.logger.debug('mkdir -pv "{0}"'.format(bsd))
+				self.runProcess('mkdir -pv "{0}"'.format(bsd))
 				# FAILS: bsd.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
 				dst = f"../{self.backup_source_directory}/{fileName}"
 				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
@@ -1975,8 +1975,8 @@ class CrossCompileScript:
 		if self.backup_source_directory is not None:
 			self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
 			bsd = f"../{self.backup_source_directory}"
-			self.logger.debug('mkdir "{0}"'.format(bsd))
-			self.runProcess('mkdir "{0}"'.format(bsd))
+			self.logger.debug('mkdir -pv "{0}"'.format(bsd))
+			self.runProcess('mkdir -pv "{0}"'.format(bsd))
 			# FAILS: bsd.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
 			tsrc = f"../{workDir}/"
 			tdst = f"../{self.backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
