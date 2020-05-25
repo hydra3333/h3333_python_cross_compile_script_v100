@@ -272,8 +272,12 @@ class CrossCompileScript:
 
 		config_file = Path(__file__).stem + ".yaml"
 
-		if not os.path.isfile(config_file):
-			self.writeDefaultConfig(config_file)
+		# 2020.05.25 AWLAYS overwrite config file.
+		#            This is to mitigate changes in mingw commits specified here, which are 
+		#            invisibly overridden by the older .yaml when we don't want them to be.
+		self.writeDefaultConfig(config_file)
+		#if not os.path.isfile(config_file):
+		#	self.writeDefaultConfig(config_file)
 
 		conf = None
 
@@ -304,13 +308,6 @@ class CrossCompileScript:
 		self.projectRoot = Path(os.getcwd())
 		self.fullPatchDir = self.projectRoot.joinpath("patches")
 		self.fullWorkDir = self.projectRoot.joinpath(self.config["toolchain"]["work_dir"])
-		# 2020.05.19
-		sdb_default = 'source_backups'
-		sdb = self.config["toolchain"].get('source_backups_dir', sdb_default)
-		if (sdb is None) or (sdb == ""):
-			self.fullSourceBackupsDir = self.projectRoot.joinpath(sdb_default)
-		else:
-			self.fullSourceBackupsDir = self.projectRoot.joinpath(sdb)
 		self.mingwDir = self.config["toolchain"]["mingw_dir"]
 		self.targetBitness = self.config["toolchain"]["bitness"]
 		self.originalPATH = os.environ["PATH"]
@@ -487,7 +484,7 @@ class CrossCompileScript:
 			def _split_lines(self, text, width):
 				return text.splitlines()
 
-		_epilog = 'Copyright (C) Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100) courtesy Deadsix27\n\n This Source Code Form is subject to the terms of the Mozilla Public\n License, v. 2.0. If a copy of the MPL was not distributed with this\n file, You can obtain one at https://mozilla.org/MPL/2.0/.\n '
+		_epilog = 'Copyright (C) hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100) courtesy Deadsix27\n\n This Source Code Form is subject to the terms of the Mozilla Public\n License, v. 2.0. If a copy of the MPL was not distributed with this\n file, You can obtain one at https://mozilla.org/MPL/2.0/.\n '
 
 		parser = argparse.ArgumentParser(formatter_class=epiFormatter, epilog=_epilog)
 		parser.set_defaults(which='main')
@@ -526,10 +523,16 @@ class CrossCompileScript:
 		group2.add_argument('-p', '--build-product', dest='PRODUCT', help='Build the specificed product package(s)')
 		group2.add_argument('-d', '--build-dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)')
 		group2.add_argument('-a', '--build-all', help='Build all products (according to order)', action='store_true')
+		
 		parser.add_argument('-q', '--quiet', help='Only show info lines', action='store_true')
 		parser.add_argument('-f', '--force', help='Force rebuild, deletes already files', action='store_true')
 		parser.add_argument('-g', '--debug', help='Show debug information', action='store_true')
 		parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building', action='store_true')
+
+		#----------------------------------------------------------------------------------------------------------
+		# 2020.05.25 add -k --backup
+		parser.add_argument('-k', '--backup-source-directory', action='store', type=str, required=False, help='Backup source folder(s) to this specified backup folder name (strictly no trees)')
+		#----------------------------------------------------------------------------------------------------------
 
 		if len(sys.argv) == 1:
 			self.defaultEntrace()
@@ -560,6 +563,11 @@ class CrossCompileScript:
 			if args.force:
 				forceRebuild = True
 			buildType = None
+			
+			if args.backup_source_directory:  # note, "-" relaced by "_" in the name
+				self.backup_source_directory = args.backup
+			else:
+				self.backup_source_directory = None
 
 			finalPkgList = []
 
@@ -1671,9 +1679,9 @@ class CrossCompileScript:
 			#            Always try to create the backup folder.
 			#            git,svn,mecurial are handled separately, of course.
 			#self.logger.debug('self.fullWorkDir="{0}"'.format(self.fullWorkDir))
-			self.logger.debug('mkdir "{0}"'.format(self.fullSourceBackupsDir))
-			self.fullSourceBackupsDir.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.fullSourceBackupsDir, mode=0o777, exist_ok=True)
-			dst = f"{self.fullSourceBackupsDir}/{fileName}"
+			self.logger.debug('mkdir "{0}"'.format(self.backup_source_directory))
+			self.backup_source_directory.mkdir(mode=0o777, exist_ok=True) # or os.makedirs(self.backup_source_directory, mode=0o777, exist_ok=True)
+			dst = f"{self.backup_source_directory}/{fileName}"
 			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(fileName, dst))
 			shutil.copyfile(fileName, dst, follow_symlinks=True) # If destination already exists then it will be replaced with the source file 
 			# *********************************************************************************************************************************
@@ -1982,7 +1990,7 @@ class CrossCompileScript:
 		# About now we have a cleaned-up folder which we've decended into {workDir}
 		# Back it up using tar -cjf backup.tar.bz2 folder  (add option v for verbose)
 		tsrc = f"../{workDir}/"
-		tdst = f"{self.fullSourceBackupsDir}/{workDir}.from_extracted_folder.tar.bz2"
+		tdst = f"{self.backup_source_directory}/{workDir}.from_extracted_folder.tar.bz2"
 		tarcmd = f"tar -cjf {tdst} {tsrc}"
 		self.logger.debug(f"Backing up source folder: {tarcmd}")
 		self.runProcess(tarcmd)
