@@ -746,7 +746,7 @@ class CrossCompileScript:
 		if self.backup_source_directory is None:
 			self.full_backup_source_directory = None
 		else:
-			self.full_backup_source_directory = self.fullWorkDir.joinpath(self.bitnessStr + self.backup_source_directory)
+			self.full_backup_source_directory = self.fullWorkDir.joinpath(self.bitnessStr + "/" + self.backup_source_directory)
 		self.formatDict = defaultdict(lambda: "")
 		self.formatDict.update(
 			{
