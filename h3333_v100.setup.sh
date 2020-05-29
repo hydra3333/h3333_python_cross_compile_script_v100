@@ -54,6 +54,7 @@ sudo apt autoremove -y
 sudo apt install -y python3 
 sudo apt install -y python3-pip 
 sudo apt install -y python3-distutils 
+sudo apt install -y python3-mako # per https://github.com/m-ab-s/media-autobuild_suite/issues/1679#issuecomment-635326237 https://code.videolan.org/videolan/libplacebo#dependencies
 sudo apt install -y python3-dev 
 sudo apt install -y python3-numpy
 sudo apt install -y cython3
