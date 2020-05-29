@@ -13,5 +13,5 @@
 		'zlib',
 	),
 	'update_check' : { 'url' : 'https://www.sqlite.org/index.html', 'type' : 'httpregex', 'regex' : r'<a href="releaselog/.*\.html">Version (?P<version_num>[\d.]+)<\/a>' },
-	'_info' : { 'version' : '3.31.1', 'fancy_name' : 'libsqlite3' },
+	'_info' : { 'version' : '3.32.0', 'fancy_name' : 'libsqlite3' },
 }
