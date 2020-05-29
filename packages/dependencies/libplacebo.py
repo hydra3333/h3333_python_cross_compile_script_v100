@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/haasn/libplacebo.git',
 	'depth_git' : 0,
-	#'branch' : '58f2cd6326029e5f34dce6035b3bbc1041eb7139', # or older 'tags/v2.43.1' # i.e. night of 2020.05.14 last time it worked for me
+	'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b', # 'dca1913c6ac81c455800868e8c5219626351a959', broken
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
