@@ -1,8 +1,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3310100.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae' }, ], },
+		#{ 'url' : 'https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3310100.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae' }, ], },
+		{ 'url' : 'https://www.sqlite.org/2020/sqlite-autoconf-3320000.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '598317fd74f5dcc8921949c47665b9e512d0d9c6a445a2e843430f04dc10bda4' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3320000.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '598317fd74f5dcc8921949c47665b9e512d0d9c6a445a2e843430f04dc10bda4' }, ], },
 	],
 	'cflag_addition' : '-fexceptions -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_USE_MALLOC_H=1 -DSQLITE_USE_MSIZE=1 -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_ENABLE_RTREE=1 -fno-strict-aliasing',
 	'strip_cflags': ['-ffast-math', ],
