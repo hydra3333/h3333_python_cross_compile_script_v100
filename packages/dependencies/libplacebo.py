@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/haasn/libplacebo.git',
 	'depth_git' : 0,
-	'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b', # 'dca1913c6ac81c455800868e8c5219626351a959', broken
+	#'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b', # 'dca1913c6ac81c455800868e8c5219626351a959', broken
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
@@ -17,6 +17,7 @@
 		'--backend=ninja '
 		'--buildtype=release '
 		'-Dvulkan=enabled ' # 2020.05.14 added back
+		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '
 		#'-Dglslang=enabled '
 		#'-Dshaderc=enabled '
 		'-Dlcms=enabled '
