@@ -2613,7 +2613,7 @@ class CrossCompileScript:
 			#	print("##############################")
 			#	print("##############################")
 
-			self.logger.info(F"Building '{packageName}' with 'build_options': {makeOpts} in {os.getcwd()}", extra={'type': buildSystem})
+			self.logger.info(F"Building '{packageName}' with '{build_options}': {makeOpts} in {os.getcwd()}", extra={'type': buildSystem})
 
 			if 'ignore_build_fail_and_run' in packageData:
 				if len(packageData['ignore_build_fail_and_run']) > 0:  # todo check if its a list too
