@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/file/file.git',
 	'depth_git' : 0,
-	'branch' : 'd33b9a8d633c76878168bb85f5c993af36e52e58', # 2020.06.02
+	#'branch' : 'd33b9a8d633c76878168bb85f5c993af36e52e58', # 2020.06.02
 	'rename_folder' : 'libfile.git',
 	'patches' : [
 		( 'libfile/file-win32.patch', '-p1' ),
