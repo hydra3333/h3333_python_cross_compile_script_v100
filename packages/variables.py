@@ -141,6 +141,7 @@
 		'--enable-gpl '
 		'--enable-version3 '
 		'--extra-version=Hydra3333/python_cross_compile_script_v100 '
+		#
 		'--enable-libxml2 '
 		'--enable-libx264 '
 		'--enable-libx265 '
@@ -165,7 +166,9 @@
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-vulkan ' # 2020.05.14 added back
 		'--enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.05.14 added back
+		#
 		'--enable-nonfree --enable-libfdk-aac '
+		#
 		'--enable-libtwolame '
 		'--enable-libwavpack '
         '--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
