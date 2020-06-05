@@ -125,4 +125,52 @@
 		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION" ' # 2019.12.13 addded back in
 	,
+	'ffmpeg_config_tiny' : # the base for all ffmpeg configurations.
+		'--arch={bit_name2} '
+		#'--target-os=mingw32 '
+        '--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
+		'--cross-prefix={cross_prefix_bare} '
+		'--pkg-config=pkg-config '
+		'--pkg-config-flags=--static '
+        '--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
+		'--disable-w32threads '
+        '--enable-pthreads ' # 2019.12.13
+		'--enable-cross-compile '
+		'--target-exec=wine '
+		'--enable-runtime-cpudetect '
+		'--enable-gpl '
+		'--enable-version3 '
+		'--extra-version=Hydra3333/python_cross_compile_script_v100 '
+		'--enable-libxml2 '
+		'--enable-libx264 '
+		'--enable-libx265 '
+		'--enable-libvpx '
+		'--enable-libaom '
+		'--enable-libxvid '
+		'--enable-libopus '
+		'--enable-libmp3lame '
+		'--enable-libvorbis '
+		'--enable-libtheora '
+		'--enable-libsoxr '
+		'--enable-librubberband '
+		'--enable-libwebp '
+		'--enable-ffnvcodec '
+		'--enable-cuvid '
+        #'--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
+		'--enable-cuda-llvm ' # test 2020.03.10
+		'--enable-d3d11va '
+		'--enable-nvenc '
+		'--enable-nvdec '
+		'--enable-dxva2 '
+		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
+		'--enable-vulkan ' # 2020.05.14 added back
+		'--enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.05.14 added back
+		'--enable-nonfree --enable-libfdk-aac '
+		'--enable-libtwolame '
+		'--enable-libwavpack '
+        '--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
+        '--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DGLIB_STATIC_COMPILATION" ' # 2019.12.13 addded back in
+	,
 }
