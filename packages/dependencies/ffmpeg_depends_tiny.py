@@ -17,8 +17,8 @@
 		'libwebp',
 		'nv-codec-headers',
 		'opencl_icd',
-		'vulkan_loader'
-		'fdk_aac'
+		'vulkan_loader',
+		'fdk_aac',
 		'twolame',
 		'wavpack',
 		'fftw3',
