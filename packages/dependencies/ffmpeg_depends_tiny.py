@@ -8,7 +8,7 @@
 		'libaom',
 		'xvidcore',
 		'libopus',
-		'liblame'
+		'liblame',
 		'libogg',
 		'libvorbis',
 		'libtheora',
