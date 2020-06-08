@@ -91,6 +91,16 @@ if [ $exit_status -ne 0 ]; then
 fi
 #read -p "done ffmpeg_static_non_free_opencl press any key to continue"
 
+rm -fv ./ffmpeg_tiny.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg_tiny 2>&1 | tee -a ./ffmpeg_tiny.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+#read -p "done ffmpeg_tiny press any key to continue"
+
 
 rm -fv ./x264.log
 ./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./x264.log
@@ -267,6 +277,8 @@ mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg_tiny.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
