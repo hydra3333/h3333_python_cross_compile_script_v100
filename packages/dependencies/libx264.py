@@ -13,13 +13,15 @@
 							,
 	'depends_on' : [
 		'opencl_icd', # 2020.06.09
+		# 2020.06.09 only the x264 package, not this dependency depends on libffmpeg_extra being built first, so comment this out or it fails to build
 		# 'libffmpeg_extra', 'liblsw',  # 2019.12.13 HolyWu's lsw does not need avresample as it uses libswresample # 2018.11.23 superseded: liblsw required --enable-avresample which was deprecated
 	],
-	'env_exports' : { # 2020.06.09 hope this happens AFTER dependencies built
+	'env_exports' : { 
 		'PKGCONFIG' : 'pkg-config',
-		'SWSCALE_LIBS' : '!CMD(pkg-config --libs libswscale)CMD!',
-		'LAVF_LIBS'    : '!CMD(pkg-config --libs libavformat libavcodec libavutil libswscale)CMD!',  # 2020.06.09
-		'LAVF_CFLAGS'  : '!CMD(pkg-config --cflags libavformat libavcodec libavutil libswscale)CMD!',  # 2020.06.09
+	# 2020.06.09 only the x264 package, not this dependency depends on libffmpeg_extra being built first, so comment this out or it fails to build
+	#	'SWSCALE_LIBS' : '!CMD(pkg-config --libs libswscale)CMD!',
+	#	'LAVF_LIBS'    : '!CMD(pkg-config --libs libavformat libavcodec libavutil libswscale)CMD!',  # 2020.06.09
+	#	'LAVF_CFLAGS'  : '!CMD(pkg-config --cflags libavformat libavcodec libavutil libswscale)CMD!',  # 2020.06.09
 	},
 	#'run_post_patch' : [ # 2020.06.09 see what should be returned for env_exports
 	#	'pkg-config --libs libswscale',

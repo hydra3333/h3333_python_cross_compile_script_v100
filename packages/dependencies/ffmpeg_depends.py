@@ -14,7 +14,7 @@
 		'libcaca',
 		'iconv',
 		'libzimg',
-		'libx264', # 2019.12.13 - ??????? query is this multibit ???
+		'libx264', # 2020.06.09 only the x264 package, not the dependency depends on libffmpeg_extra being built first
 		#'openh264', # 2019.12.13 comment out
 		'libx265_multibit',
 		#'kvazaar',  # 2019.12.13 comment out
