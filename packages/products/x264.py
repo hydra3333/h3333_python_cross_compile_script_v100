@@ -18,11 +18,11 @@
 		'LAVF_CFLAGS'  : '!CMD({cross_prefix_full}pkg-config --cflags libavformat libavcodec libavutil libswscale)CMD!',  # 2020.06.09
 		'SWSCALE_LIBS' : '!CMD({cross_prefix_full}pkg-config --libs libswscale)CMD!',
 	},
-	'run_post_configure' : [ # 2020.06.09 see if the EXPORT stuff worked
-		'export | grep LAVF_LIBS',
-		'export | grep LAVF_CFLAGS',
-		'export | grep SWSCALE_LIBS',
-	],
+	#'run_post_configure' : [ # 2020.06.09 see if the EXPORT stuff worked
+	#	'export | grep LAVF_LIBS',
+	#	'export | grep LAVF_CFLAGS',
+	#	'export | grep SWSCALE_LIBS',
+	#],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x264' },
 }
