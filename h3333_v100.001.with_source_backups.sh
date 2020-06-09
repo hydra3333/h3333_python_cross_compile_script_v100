@@ -268,6 +268,9 @@ cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ff
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
+mv -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg.exe /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg_tiny.exe
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg_tiny.exe ./exe_x64_py/ffmpeg.exe 2>&1 | tee -a ./exe.log
+
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
@@ -292,6 +295,7 @@ cp -fv /home/u/Desktop/_working/workdir/win64_output/mpv_git.installed/bin/mpv.e
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3-3.dll                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
 
 ls -al ./exe_x64_py/  2>&1 | tee -a ./exe.log
 
