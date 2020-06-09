@@ -32,7 +32,10 @@
 		'--with-default-blacklist-file '
 		'--without-tpm '
 		'--without-p11-kit '
-        '--with-libiconv-prefix={target_prefix} ' # 2019.12.13 added this
+        '--with-libiconv-prefix={target_prefix} ' # 2019.12.13 added this from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
+		'--with-libregex-libs=-lsystre ' # 2020.06.09 from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
+		'--disable-libdane ' # 2020.06.09 from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
+		'gl_cv_double_slash_root=yes ' # 2020.06.09 from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
 	,
 	'regex_replace': {
 		'post_install': [
@@ -43,13 +46,16 @@
 			},
 		],
 	},
-	# 'patches' : [
-		#('gnutls/rename-inet_pton_for_srt.diff', '-p1'), # 2019.12.13 hmm, i wonder why this patch was not applied ? Leave it out for now
-        #('gnutls/0005-remove-coverage-rules.patch', '-p1'), # 2019.12.13 hmm, i wonder why this patch was not applied ? Leave it out for now
-	# ],
-	'run_post_regexreplace': [ # 2019.12.13
-		'autoreconf -fiv -I M4', # 2019.12.13
-	], # 2019.12.13
+	 'patches' : [ # 3.6.13 built OK without patches, however 3.6.14 does not ... try these patches from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
+        ('gnutls/0001-add-missing-define.patch', '-p1'), # 2020.06.09 for 3.6.14
+        ('gnutls/0003-gnutls-fix-external-libtasn1-detection.patch', '-p1'), # 2020.06.09 for 3.6.14
+        ('gnutls/0004-disable-broken-examples.patch', '-p1'), # 2020.06.09 for 3.6.14
+        ('gnutls/0005-remove-coverage-rules.patch', '-p1'), # 2020.06.09 for 3.6.14
+        ('gnutls/0006-fix-ncrypt-bcrypt-linking.patch', '-p1'), # 2020.06.09 for 3.6.14
+	 ],
+	'run_post_regexreplace': [
+		'autoreconf -fiv -I M4',
+	],
 	'depends_on' : [
 		'gettext',
 		'iconv',
