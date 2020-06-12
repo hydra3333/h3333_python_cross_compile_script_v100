@@ -91,15 +91,15 @@ if [ $exit_status -ne 0 ]; then
 fi
 #read -p "done ffmpeg_static_non_free_opencl press any key to continue"
 
-rm -fv ./ffmpeg_tiny.log
-./cross_compiler_v100_001.py --force --debug -p ffmpeg_tiny 2>&1 | tee -a ./ffmpeg_tiny.log
-exit_status=$?
-echo "exit_status='$exit_status'"
-if [ $exit_status -ne 0 ]; then
-    echo "Error $exit_status detected"
-	exit $exit_status
-fi
-#read -p "done ffmpeg_tiny press any key to continue"
+#rm -fv ./ffmpeg_tiny.log
+#./cross_compiler_v100_001.py --force --debug -p ffmpeg_tiny 2>&1 | tee -a ./ffmpeg_tiny.log
+#exit_status=$?
+#echo "exit_status='$exit_status'"
+#if [ $exit_status -ne 0 ]; then
+#    echo "Error $exit_status detected"
+#	exit $exit_status
+#fi
+##read -p "done ffmpeg_tiny press any key to continue"
 
 
 rm -fv ./x264.log
