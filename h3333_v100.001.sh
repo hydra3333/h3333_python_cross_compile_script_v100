@@ -237,6 +237,15 @@ if [ $exit_status -ne 0 ]; then
 fi
 #read -p "done fftw3_dll press any key to continue"
 
+rm -fv ./libaacs_dll.log
+./cross_compiler_v100_001.py --force --debug -d libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+#read -p "done libaacs_dll press any key to continue"
 
 rm -fv ./mkvtoolnix.log
 ./cross_compiler_v100_001.py --force --debug -p mkvtoolnix 2>&1 | tee -a ./mkvtoolnix.log
@@ -302,9 +311,15 @@ cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/webpinfo
 cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/cwebp.exe                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/webp.installed/bin/dwebp.exe                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mpv_git.installed/bin/mpv.exe                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3l-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3f-3.dll                 ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/fftw3_dll/bin/libfftw3-3.dll                  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+
+cp -fv /home/u/Desktop/_working/workdir/win64_output/libaacs_dll_git.installed/bin/libaacs-0.dll      ./exe_x64_py/libaacs.dll 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/libaacs_dll_git.installed/bin/libgcrypt-20.dll   ./exe_x64_py/libgcrypt.dll 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/libaacs_dll_git.installed/bin/libgcrypt-20.dll   ./exe_x64_py/libgcrypt-20.dll 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/libaacs_dll_git.installed/bin/libgpg-error-0.dll ./exe_x64_py/libgpg-error.dll 2>&1 | tee -a ./exe.log
 
 ls -al ./exe_x64_py/  2>&1 | tee -a ./exe.log
 
