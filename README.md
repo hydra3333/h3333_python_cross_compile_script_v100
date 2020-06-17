@@ -25,6 +25,7 @@ vpx encoder/decoder
 aom-av1 encoder/decoder
 dav1d av1 video decoder
 sox audio processor
+libaacs.dll (with dependent its libgcrypt*.dll and libgpg_error.dll) (never tried to run it though)
 ```
 
 **Now with ```docker``` (perhaps it'd work).**  
