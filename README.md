@@ -25,6 +25,7 @@ vpx encoder/decoder
 aom-av1 encoder/decoder
 dav1d av1 video decoder
 sox audio processor
+fftw*.dll 3.3.8
 libaacs.dll (with its dependent libgcrypt*.dll and libgpg_error.dll) (never tried to run it though)
 ```
 
