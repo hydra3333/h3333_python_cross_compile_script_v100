@@ -13,20 +13,20 @@ NOTE: attempt to build everything wherever possible with safety settings
           -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2
 ```
 
-This script attempts to build 
+This script attempts to build (eveything 64 bit)
 ```
 ffmpeg.exe (64-bit, static) with and Vapoursynth input and OpenCL (eg to use with nvidia) and multibit h264/h265
 ffprobe.exe (64-bit, static)
-mediainfo.exe
-x264.exe (multibit) with extra input/outout media container types eg mpg
-x265.exe (multibit)
-mp4box.exe
-vpx encoder/decoder
-aom-av1 encoder/decoder
-dav1d av1 video decoder
-sox audio processor
-fftw*.dll 3.3.8
-libaacs.dll (with its dependent libgcrypt*.dll and libgpg_error.dll) (never tried to run it though)
+mediainfo.exe (64-bit, static)
+x264.exe (multibit) with extra input/output media container types eg mpg (64-bit, static)
+x265.exe (multibit) (64-bit, static)
+mp4box.exe (64-bit, static)
+vpx encoder/decoder (64-bit, static)
+aom-av1 encoder/decoder (64-bit, static)
+dav1d av1 video decoder (64-bit, static)
+sox audio processor (64-bit, static)
+fftw*.dll 3.3.8 (64-bit)
+libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried to run it though)
 ```
 
 **Now with ```docker``` (perhaps it'd work).**  
