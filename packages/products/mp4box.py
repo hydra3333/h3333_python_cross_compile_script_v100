@@ -1,8 +1,8 @@
 {
 	'repo_type' : 'git',
 	'depth_git' : 0,
-	'branch' : 'tags/v0.8.1', # 2020.06.19 0.8.1 is not the master, it's a separate branch named legacy
-	#'branch' : 'ce9a843ffcd941d3d17a7bab20749b94a8e3c43c', # as at 2020.06.19, is top of the tree 'legacy' (not the master tree)is ce9a843ffcd941d3d17a7bab20749b94a8e3c43c
+	#'branch' : 'tags/v0.8.1', # 2020.06.19 0.8.1 is not the master, it's a separate branch named legacy
+	'branch' : 'ce9a843ffcd941d3d17a7bab20749b94a8e3c43c', # as at 2020.06.19, is top of the tree 'legacy' (not the master tree)is ce9a843ffcd941d3d17a7bab20749b94a8e3c43c
 	#'branch' : '7d0bb6eb526f0bd9fae53fcbdd846cfe839ed821', # 2020.06.19 as of april 8th, first use of "#include <Windows.h>" in the non-Legacy tree
 	'url' : 'https://github.com/gpac/gpac.git',
 	'rename_folder' : 'mp4box_git',
