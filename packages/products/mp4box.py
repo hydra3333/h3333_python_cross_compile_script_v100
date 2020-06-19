@@ -1,10 +1,13 @@
 {
 	'repo_type' : 'git',
+	'depth_git' : 0,
+	#'branch' : '7d0bb6eb526f0bd9fae53fcbdd846cfe839ed821', #as of april 8th, first use of "#include <Windows.h>"
 	'url' : 'https://github.com/gpac/gpac.git',
 	'rename_folder' : 'mp4box_git',
 	'do_not_bootstrap' : True,
 	'run_post_regexreplace' : [
 		'sed -i.bak \'s/Windows.h/windows.h/g\' "include/gpac/thread.h"', # 2020.06.19 
+		'sed -i.bak \'s/WinBase.h/winbase.h/g\' "include/gpac/thread.h"', # 2020.06.19 
 		'sed -i.bak \'s/Windows.h/windows.h/g\' "src/filters/dec_nvdec_sdk.c"', # 2020.06.19 
 		'sed -i.bak \'s/Windows.h/windows.h/g\' "src/filters/dec_nvdec_sdk.h"', # 2020.06.19 
 		'sed -i.bak \'s/has_dvb4linux="yes"/has_dvb4linux="no"/g\' configure',
