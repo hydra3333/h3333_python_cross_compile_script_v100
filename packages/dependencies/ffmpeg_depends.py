@@ -8,7 +8,7 @@
 		#'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype' so it builds these in the right order
 		'libbluray',
 		'libcdio',
-        'python3_libs', # 2019.12.13
+        'python3_libs',
 		'vapoursynth_libs',
 		'rtmpdump',
 		'libcaca',
@@ -30,6 +30,7 @@
 		'libspeex',
 		'libsoxr',
 		'rubberband',
+		'libfribidi',
 		'libass',
 		'tesseract',
 		#'lensfun',  # 2020.05.12 comment out so we do not have to build glib2
