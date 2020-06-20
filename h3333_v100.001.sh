@@ -238,7 +238,7 @@ fi
 #read -p "done fftw3_dll press any key to continue"
 
 rm -fv ./libaacs_dll.log
-./cross_compiler_v100_001.py --force --debug -d libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
+./cross_compiler_v100_001.py --force --debug -p libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
