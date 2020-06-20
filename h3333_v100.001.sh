@@ -238,6 +238,8 @@ fi
 #read -p "done fftw3_dll press any key to continue"
 
 rm -fv ./libaacs_dll.log
+./cross_compiler_v100_001.py --force --debug -d libgpg_error_for_libaacs 2>&1 | tee -a ./libaacs_dll.log
+./cross_compiler_v100_001.py --force --debug -d libgcrypt_for_libaacs 2>&1 | tee -a ./libaacs_dll.log
 ./cross_compiler_v100_001.py --force --debug -p libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
 exit_status=$?
 echo "exit_status='$exit_status'"
