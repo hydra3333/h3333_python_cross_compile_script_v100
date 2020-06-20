@@ -25,5 +25,5 @@
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (85eb863a42bcf8636d1d865625ebfc3b4eb36577)', 'fancy_name' : 'libfribidi' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libfribidi' },
 }
