@@ -2,13 +2,13 @@
 	'ffmpeg_config' : # the base for all ffmpeg configurations.
 		'--arch={bit_name2} '
 		#'--target-os=mingw32 '
-        '--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
+		'--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
 		'--cross-prefix={cross_prefix_bare} '
 		'--pkg-config=pkg-config '
 		'--pkg-config-flags=--static '
-        '--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
+		'--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
 		'--disable-w32threads '
-        '--enable-pthreads ' # 2019.12.13
+		'--enable-pthreads ' # 2019.12.13
 		'--enable-cross-compile '
 		'--target-exec=wine '
 		'--enable-runtime-cpudetect '
@@ -35,7 +35,7 @@
 		'--enable-libxml2 '
 		'--enable-gmp '
 		'--enable-gnutls ' # nongpl: openssl,libtls(libressl)
-        #'--enable-avresample ' # deprecated. 2018.11.23 ... but LSW depends on it # 2019.11.19 HolyWu's lsw does not need avresample as it uses libswresample
+		#'--enable-avresample ' # deprecated. 2018.11.23 ... but LSW depends on it # 2019.11.19 HolyWu's lsw does not need avresample as it uses libswresample
 
 		# Video/Picture Libs
 		'--enable-libzimg '
@@ -69,7 +69,7 @@
 		# HW Decoders
 		'--enable-ffnvcodec '
 		'--enable-cuvid '
-        #'--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
+		#'--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
 		'--enable-cuda-llvm ' # test 2020.03.10
 		'--enable-opengl '
 		'--enable-d3d11va '
@@ -82,6 +82,7 @@
 		'--enable-opengl '
 		'--enable-vulkan ' # 2020.05.14 added back
 		'--enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.05.14 added back
+		'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
@@ -119,8 +120,8 @@
 		# '--extra-libs="-liconv" ' # -lschannel #-lsecurity -lz -lcrypt32 -lintl -liconv -lpng -loleaut32 -lstdc++ -lspeexdsp -lpsapi
 		# '--extra-cflags="-DLIBTWOLAME_STATIC" '
 		# '--extra-cflags="-DMODPLUG_STATIC" '
-        '--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
-        '--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
+		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
+		'--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DMODPLUG_STATIC"  ' # 2019.12.13 addded back in
 		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION" ' # 2019.12.13 addded back in
@@ -128,13 +129,13 @@
 	'ffmpeg_tiny_config' : # the base for all ffmpeg configurations.
 		'--arch={bit_name2} '
 		#'--target-os=mingw32 '
-        '--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
+		'--target-os={target_OS} ' # 2019.12.13 to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
 		'--cross-prefix={cross_prefix_bare} '
 		'--pkg-config=pkg-config '
 		'--pkg-config-flags=--static '
-        '--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
+		'--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
 		'--disable-w32threads '
-        '--enable-pthreads ' # 2019.12.13
+		'--enable-pthreads ' # 2019.12.13
 		'--enable-cross-compile '
 		'--target-exec=wine '
 		'--enable-runtime-cpudetect '
@@ -157,7 +158,7 @@
 		'--enable-libwebp '
 		'--enable-ffnvcodec '
 		'--enable-cuvid '
-        #'--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
+		#'--enable-cuda-nvcc ' # 2019.10.31 MADE IT TO FREE # 2019.12.13 added it back in
 		'--enable-cuda-llvm ' # test 2020.03.10
 		'--enable-d3d11va '
 		'--enable-nvenc '
@@ -171,8 +172,8 @@
 		#
 		'--enable-libtwolame '
 		'--enable-libwavpack '
-        '--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
-        '--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
+		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
+		'--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION" ' # 2019.12.13 addded back in
 	,
