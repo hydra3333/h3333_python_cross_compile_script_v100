@@ -1,4 +1,5 @@
 { # 2019.12.13 # http://code.videolan.org/?p=libaacs.git # https://vlc-bluray.whoknowsmy.name/
+  # 2020.06.20 https://code.videolan.org/videolan/libaacs browse here
   # see https://forum.videolan.org/viewtopic.php?f=32&t=127218&p=432818&hilit=compile+libaacs#p432818
 
 	'repo_type' : 'git',
