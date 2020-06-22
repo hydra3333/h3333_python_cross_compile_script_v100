@@ -42,6 +42,15 @@ xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\Vapoursynth-x64\" /Y /E /V /F /G
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\Vapoursynth-x64\vapoursynth64\plugins\dll-to-choose-from\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
 REM
+REM ------------------------------------------------------------------------------------------
+xcopy ".\exe_x64_py\libaacs.dll" "C:\SOFTWARE\VLC\" /Y /E /V /F /G /H /R /Z /C
+xcopy ".\exe_x64_py\libg*.dll" "C:\SOFTWARE\VLC\" /Y /E /V /F /G /H /R /Z /C
+REM ------------------------------------------------------------------------------------------
+REM
+
+C:\SOFTWARE\VLC
+
+
 DEL xcopyexcludedfileslist1.txt
 pause
 exit
