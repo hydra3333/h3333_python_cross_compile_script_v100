@@ -385,7 +385,20 @@ def getCommitsDiff(pkg):
 	run("git remote update")
 
 	if curCommit is not None:
-		cmts = [c.split(";;") for c in run("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit)).split("\n") if c != ""]
+		# 2020.06.22 try to cater for either/or or "master" or "main"
+		c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
+		c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
+		try: # 2020.06.22 try using "master"
+			cmts = [c.split(";;") for c in run(c_master).split("\n") if c != ""]
+		except: # an error occurred ... assume it's the trunkl=change thing
+			try: # 2020.06.22 try using "main" instead of "master"
+				cmts = [c.split(";;") for c in run(c_main).split("\n") if c != ""]
+				pass
+			except:
+				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
+				print({0}\n{1}\n".format(c_master,c_main))
+				print("Unexpected error:", sys.exc_info()[0])
+				raise
 	else:
 		cmtsBehind = 0
 		try:
