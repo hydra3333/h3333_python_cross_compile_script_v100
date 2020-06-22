@@ -3,6 +3,7 @@
 	'url' : 'https://github.com/google/shaderc.git',
 	'depth_git': 0, # 2020.03.11 per deadsix27 stay on last working commit
 	#'branch': 'f53792645f0696b8954cfdb3c213f96799dd89b2', # 2020.04.20 COMMENTED OUT 
+	'branch' : 'main',  # 2020.06.22 they've changed the trunl from master to main (a US political race thing against the word, apparently)
 	'configure_options' :
 		'cmake .. {cmake_prefix_options} '
 		'-DCMAKE_BUILD_TYPE=Release '
