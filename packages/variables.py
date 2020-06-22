@@ -82,7 +82,7 @@
 		'--enable-opengl '
 		'--enable-vulkan ' # 2020.05.14 added back
 		'--enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.05.14 added back
-		'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
+		'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
