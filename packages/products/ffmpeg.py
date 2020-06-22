@@ -4,12 +4,12 @@
 	#'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
 	'rename_folder' : 'ffmpeg',
-	#'env_exports' : { # 2020.06.19
-	#	'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
-	#	'CXXFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
-	#	'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
-	#	'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
-	#},
+	'env_exports' : { # 2020.06.19
+		'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
+		'CXXFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
+		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
+		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
+	},
 	'configure_options' : '!VAR(ffmpeg_config)VAR! !VAR(ffmpeg_extra_config)VAR! !VAR(ffmpeg_nonfree)VAR! --prefix={output_prefix}/ffmpeg_git.installed --disable-shared --enable-static',
 	'depends_on' : [ 'ffmpeg_depends', 'ffmpeg_depends_extra', 'ffmpeg_depends_nonfree', ],
 	'update_check' : { 'type' : 'git', },
