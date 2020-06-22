@@ -1461,7 +1461,7 @@ class CrossCompileScript:
 			self.runProcess('hg clone {0} {1}'.format(url, realFolderName + ".tmp"))
 			if desiredBranch is not None:
 				self.cchdir(realFolderName + ".tmp")
-				self.logger.debug("HG updating to:{0}".format(" master" if desiredBranch is None else branchString))
+				self.logger.debug("HG updating to:{0}".format(" master" if desiredBranch is None else branchString))  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 				self.logger.debug('hg up{0} -v'.format("" if desiredBranch is None else branchString))
 				self.runProcess('hg up{0} -v'.format("" if desiredBranch is None else branchString))
 				self.cchdir("..")
@@ -1489,7 +1489,7 @@ class CrossCompileScript:
 		if desiredBranch is not None:
 			branchString = " {0}".format(desiredBranch)
 
-		properBranchString = "master"
+		properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 		if desiredBranch is not None:
 			properBranchString = desiredBranch
 
@@ -1586,9 +1586,9 @@ class CrossCompileScript:
 			self.runProcess('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
 			if desiredBranch is not None:
 				self.cchdir(realFolderName + ".tmp")
-				self.logger.debug("GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString))
-				self.logger.debug('git checkout{0}'.format(" master" if desiredBranch is None else branchString))
-				self.runProcess('git checkout{0}'.format(" master" if desiredBranch is None else branchString))
+				self.logger.debug("GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+				self.logger.debug('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+				self.runProcess('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 				self.cchdir("..")
 			if desiredPR is not None:
 				self.cchdir(realFolderName + ".tmp")
