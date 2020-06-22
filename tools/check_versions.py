@@ -396,7 +396,7 @@ def getCommitsDiff(pkg):
 				pass
 			except:
 				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
-				print({0}\n{1}\n".format(c_master,c_main))
+				print("{0}\n{1}\n".format(c_master,c_main))
 				print("Unexpected error:", sys.exc_info()[0])
 				raise
 	else:
