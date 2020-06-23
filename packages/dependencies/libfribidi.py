@@ -20,7 +20,7 @@
 		'--backend=ninja '
 		'-Ddocs=false '
 		'-Dtests=false '
-		'-DFRIBIDI_LIB_STATIC=true '
+		#'-DFRIBIDI_LIB_STATIC=true ' # 2020.06.23 comment it out
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,
