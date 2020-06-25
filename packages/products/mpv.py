@@ -91,7 +91,7 @@
 		'mujs',
 		'shaderc',
 		'libplacebo',
-		'libffmpeg',
+		'libffmpeg_extra',
 	],
 	'patches': [
 		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
