@@ -19,8 +19,8 @@
 	],
 	'run_post_regexreplace' : [ # 2019.12.13
 		#'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
-		'sed -i.bak \'s/project (OpenCL-ICD-Loader VERSION 1.2)/project (OpenCL-ICD-Loader)/g\' "../CMakeLists.txt"', # 2020.06.27 added since CMakeLists.txt changed
-		'sed -i.bak \'s/set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")/set_target_properties (OpenCL PROPERTIES PREFIX "")/g\' "../CMakeLists.txt"', # 2020.06.27 moved here from patch 0001
+		'sed -i.bak \'s/project (OpenCL-ICD-Loader VERSION 1.2)/project (OpenCL-ICD-Loader)/g\' "CMakeLists.txt"', # 2020.06.27 added since CMakeLists.txt changed
+		'sed -i.bak \'s/set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")/set_target_properties (OpenCL PROPERTIES PREFIX "")/g\' "CMakeLists.txt"', # 2020.06.27 moved here from patch 0001
 	],
 	'depends_on' : [ 'opencl_headers' ],
 	'update_check' : { 'type' : 'git', },	
