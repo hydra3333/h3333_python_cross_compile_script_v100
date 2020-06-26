@@ -32,7 +32,7 @@
 		'rubberband',
 		'libfribidi',
 		'libass',
-		'tesseract',
+		#'tesseract', # 2020.06.27 comment out as no longer required
 		#'lensfun',  # 2020.05.12 comment out so we do not have to build glib2
 		'libwebp',
 		'nv-codec-headers',
