@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/Haivision/srt.git',
 	'depth_git' : 0,
-	#'branch' : 'tags/v1.4.1', # 2020.04.20 COMMENTED OUT 
+	'branch' : '10ed37b6d4b49a3042213b029f0de6bca4bcfe83', # 2020.06.27 the commit after this builds but breaks ffmpeg libsrt building
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
 	'custom_cflag' : '',
