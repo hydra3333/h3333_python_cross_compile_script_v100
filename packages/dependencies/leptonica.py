@@ -14,5 +14,5 @@
 	],
 	'depends_on' : [ 'zlib', 'libopenjpeg', 'libpng', 'libwebp', 'dlfcn-win32', 'libjpeg-turbo', 'giflib', 'libtiff', ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'tesseract' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'leptonica' },
 }
