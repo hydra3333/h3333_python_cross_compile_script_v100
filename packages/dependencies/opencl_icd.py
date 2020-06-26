@@ -14,12 +14,14 @@
 		'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',
 	],
 	'patches' : [
-		('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
+		#('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2020.06.27 moved change to the "sed" below
 		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 	],
-	#'run_post_regexreplace' : [ # 2019.12.13
-	#	'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
-	#],
+	'run_post_regexreplace' : [ # 2019.12.13
+		#'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
+		'sed -i.bak \'s/project (OpenCL-ICD-Loader VERSION 1.2)/project (OpenCL-ICD-Loader)/g\' "../CMakeLists.txt"', # 2020.06.27 added since CMakeLists.txt changed
+		'sed -i.bak \'s/set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")/set_target_properties (OpenCL PROPERTIES PREFIX "")/g\' "../CMakeLists.txt"', # 2020.06.27 moved here from patch 0001
+	],
 	'depends_on' : [ 'opencl_headers' ],
 	'update_check' : { 'type' : 'git', },	
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'OpenCL-ICD-Loader' }, # 2019.12.13 clarity with the fancy name
