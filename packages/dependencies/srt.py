@@ -2,12 +2,10 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/Haivision/srt.git',
 	'depth_git' : 0,
-	'branch' : '10ed37b6d4b49a3042213b029f0de6bca4bcfe83', # 2020.06.27 the commit after this builds but breaks ffmpeg libsrt building
+	#'branch' : '10ed37b6d4b49a3042213b029f0de6bca4bcfe83', # 2020.06.27 the commit after this builds but breaks ffmpeg libsrt building
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
 	'custom_cflag' : '',
-	# F.M.D. had srt sorted and building, now it fails. F.M.D. things are getting fickle !!!
-	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DENABLE_STATIC=1 -DUSE_STATIC_LIBSTDCXX=1 -DUSE_ENCLIB=gnutls -DENABLE_SHARED=0', # 2019.12.13
 	'configure_options' : 	'.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
 							'-DCMAKE_BUILD_TYPE=Release '
 							#'-D_WIN32_WINNT=0x600 '
@@ -17,7 +15,6 @@
 							'-DENABLE_CXX_DEPS=on '
 							'-DUSE_STATIC_LIBSTDCXX=on '
 							'-DENABLE_INET_PTON=off '
-							#'-DUSE_GNUSTL=on '
 							'-DUSE_GNUTLS=on '
 							'-DUSE_ENCLIB=gnutls '
 							'-DHAICRYPT_USE_OPENSSL_EVP=off '
