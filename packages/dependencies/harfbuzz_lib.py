@@ -26,6 +26,6 @@
 	],
 	'update_check' : { 'url' : 'https://github.com/harfbuzz/harfbuzz/releases', 'type' : 'githubreleases', 'name_or_tag' : 'name' },
 	#'update_check' : { 'url' : 'https://www.freedesktop.org/software/harfbuzz/release/?C=M;O=D', 'type' : 'httpindex', 'regex' : r'harfbuzz-(?P<version_num>[\d.]+)\.tar\.xz' },
-	'_info' : { 'version' : '2.6.7', 'fancy_name' : 'harfbuzz' },
+	'_info' : { 'version' : '2.6.8', 'fancy_name' : 'harfbuzz' },
 }
 
