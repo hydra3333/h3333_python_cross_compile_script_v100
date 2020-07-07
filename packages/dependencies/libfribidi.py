@@ -19,7 +19,8 @@
 		'--buildtype=plain '
 		'--backend=ninja '
 		'-Ddocs=false '
-		'-Dtests=false '
+		'-Dbin=false ' 
+		'-Dtests=false ' # 2020.07.07 per MABS
 		#'-DFRIBIDI_LIB_STATIC=true ' # 2020.06.23 comment it out
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
