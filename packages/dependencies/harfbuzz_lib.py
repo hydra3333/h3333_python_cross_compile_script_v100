@@ -3,10 +3,10 @@
 	'download_locations' : [
 		#{ 'url' : 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '9413b8d96132d699687ef914ebb8c50440efc87b3f775d25856d7ec347c03c12' }, ], },
 		#{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-2.6.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '9413b8d96132d699687ef914ebb8c50440efc87b3f775d25856d7ec347c03c12' }, ], },
-		{ 'url' : 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '49e481d06cdff97bf68d99fa26bdf785331f411614485d892ea4c78eb479b218' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-2.6.7.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '49e481d06cdff97bf68d99fa26bdf785331f411614485d892ea4c78eb479b218' }, ], },
-		#{ 'url' : 'https://github.com/harfbuzz/harfbuzz/archive/2.6.8.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '059054760ff471d81171659a136dd253a0ddff7faa9249727cca3d7dbd356a6c' }, ], }, # https://github.com/harfbuzz/harfbuzz/releases
-		#{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-2.6.8.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '059054760ff471d81171659a136dd253a0ddff7faa9249727cca3d7dbd356a6c' }, ], }, # https://fossies.org/linux/misc/
+		#{ 'url' : 'https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.6.7.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '49e481d06cdff97bf68d99fa26bdf785331f411614485d892ea4c78eb479b218' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-2.6.7.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '49e481d06cdff97bf68d99fa26bdf785331f411614485d892ea4c78eb479b218' }, ], },
+		{ 'url' : 'https://github.com/harfbuzz/harfbuzz/archive/2.6.8.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '059054760ff471d81171659a136dd253a0ddff7faa9249727cca3d7dbd356a6c' }, ], }, # https://github.com/harfbuzz/harfbuzz/releases
+		{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-2.6.8.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '059054760ff471d81171659a136dd253a0ddff7faa9249727cca3d7dbd356a6c' }, ], }, # https://fossies.org/linux/misc/
 	],
 	'folder_name' : 'harfbuzz-lib',
 	'rename_folder' : 'harfbuzz-lib',
