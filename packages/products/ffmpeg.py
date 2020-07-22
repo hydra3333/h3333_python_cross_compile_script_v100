@@ -11,10 +11,10 @@
 		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 	},
 	'configure_options' : '!VAR(ffmpeg_config)VAR! !VAR(ffmpeg_extra_config)VAR! !VAR(ffmpeg_nonfree)VAR! --prefix={output_prefix}/ffmpeg_git.installed --disable-shared --enable-static',
-	'depends_on' : [ 'ffmpeg_depends', 'ffmpeg_depends_extra', 'ffmpeg_depends_nonfree', ],
 	'patches' : [
         ('ffmpeg/0001-Replace-deprecated-libsrt-calls-from-MABS.patch', '-p1'), # 2020.07.01 fix deprecated stuff
 	 ],
+	'depends_on' : [ 'ffmpeg_depends', 'ffmpeg_depends_extra', 'ffmpeg_depends_nonfree', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ffmpeg (static) nonfree with OpenCL' }, # 2019.12.13 say that it includes nonfree and openCL
 }
