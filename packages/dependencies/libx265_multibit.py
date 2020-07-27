@@ -17,6 +17,7 @@
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DLIBXML_STATIC=ON ' # 2019.12.13
 		'-DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
+		'-DENABLE_HDR10_PLUS=ON ' # 2020.07.27
 	,
 	'conf_system' : 'cmake',
 	'run_post_build' : [
