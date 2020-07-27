@@ -14,7 +14,8 @@
 		'-DLINKED_10BIT=ON '
 		'-DLINKED_12BIT=ON '
         '-DLIBXML_STATIC=ON -DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
-		'-DCMAKE_INSTALL_PREFIX={output_prefix}/x265_hg.installed'
+		'-DENABLE_HDR10_PLUS=ON ' # 2020.07.27
+		'-DCMAKE_INSTALL_PREFIX={output_prefix}/x265.installed'
 	,
 	'conf_system' : 'cmake',
 	'depends_on' : [ 'libxml2', 'libx265_multibit_10', 'libx265_multibit_12' ],
