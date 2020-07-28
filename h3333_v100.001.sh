@@ -77,8 +77,8 @@ sudo chmod -R a=rwx *.py
 #./cross_compiler_v100_001.py --force --debug -p x265_multibit
 # only use --force if ity's already been fully built, 
 # or it breaks if you use it the first time
-#./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug.log
-#./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./debug.log
+./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug.log
+./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./debug.log
 
 
 rm -fv ./ffmpeg.log
