@@ -707,7 +707,13 @@ class CrossCompileScript:
 		self.bitnessPath = self.fullWorkDir.joinpath("x86_64" if bitness == 64 else "i686")  # e.g x86_64
 		self.bitnessStr2 = "x86_64" if bitness == 64 else "x86"  # just for vpx...
 		self.bitnessStr3 = "mingw64" if bitness == 64 else "mingw"  # just for openssl...
+		
+
+		self.logger.warning("?????????? targetOSStr test below ?????????????? ./cross_compiler_v100_001.py list -p ?????????????? ./cross_compiler_v100_001.py list -d ??????????????")
 		self.targetOSStr = "mingw64" if bitness is 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
+		self.logger.warning("?????????? targetOSStr test abpve ?????????????? ./cross_compiler_v100_001.py list -p ?????????????? ./cross_compiler_v100_001.py list -d ??????????????")
+
+		
 		self.bitnessStrWin = "win64" if bitness == 64 else "win32"  # e.g win64
 		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  # e.g x86_64-w64-mingw32
 		self.targetPrefix = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", self.targetHostStr)  # workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
