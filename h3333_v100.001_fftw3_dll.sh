@@ -131,7 +131,7 @@ cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bi
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/workdir/win64_output/x265_hg.installed/bin/x265.exe                ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/x265.installed/bin/x265.exe                ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/x264_git.installed/bin/x264.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mp4box_git.installed/bin/MP4Box.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
