@@ -1859,13 +1859,13 @@ class CrossCompileScript:
 					self.packages["deps"][packageName]["_already_built"] = True
 				return
 
-		#if self.debugMode:
-		#	print("##############################")
-		#	print("### Environment variables:  ###")
-		#	for tk in os.environ:
-		#		print("\t" + tk + " : " + os.environ[tk])
-		#	print("##############################")
-		#	print("##############################")
+		if self.debugMode:
+			print("##############################")
+			#print("### Environment variables:  ###")
+			#for tk in os.environ:
+			#	print("\t" + tk + " : " + os.environ[tk])
+			#print("##############################")
+			#print("##############################")
 
 		self.logger.info("Building {0} '{1}'".format(type.lower(), packageName))
 		self.resetDefaultEnvVars()
@@ -2024,11 +2024,11 @@ class CrossCompileScript:
 				self.logger.info(F'Added to LDFLAGS, now: "{os.environ["LDFLAGS"]}"')
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 
 		if 'custom_cflag' in packageData:
@@ -2045,11 +2045,11 @@ class CrossCompileScript:
 				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"')
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 		# 2019.12.13 ADDED THIS CODE for custom_ldflag (and hope it ALWAYS gets executed AFTER custom_cflag etc)
 		if 'custom_ldflag' in packageData:
@@ -2060,11 +2060,11 @@ class CrossCompileScript:
 				self.logger.info(F'Set LDFLAGS, now: "{os.environ["LDFLAGS"]}"') # , "{os.environ["CFLAGS"]}"') # 2019.12.13
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 		if 'strip_cflags' in packageData:
 			if isinstance(packageData["strip_cflags"], (list, tuple)) and len(packageData["strip_cflags"]):
@@ -2079,11 +2079,11 @@ class CrossCompileScript:
 					self.logger.info(F'Stripped LDFLAGS, now: "{os.environ["LDFLAGS"]}"')
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 		if 'custom_path' in packageData:
 			if packageData['custom_path'] is not None:
@@ -2091,11 +2091,11 @@ class CrossCompileScript:
 				os.environ["PATH"] = self.replaceVariables(packageData['custom_path'])
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 		if 'flipped_path' in packageData:
 			if packageData['flipped_path'] is True:
@@ -2104,11 +2104,11 @@ class CrossCompileScript:
 				self.logger.debug("Flipping path to: '{0}' from '{1}'".format(bef, os.environ["PATH"]))
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 		if 'env_exports' in packageData:
 			if packageData['env_exports'] is not None:
@@ -2121,11 +2121,11 @@ class CrossCompileScript:
 					os.environ[key] = val
 				if self.debugMode:
 					print("##############################")
-					print("### Environment variables:  ###")
-					for tk in os.environ:
-						print("\t" + tk + " : " + os.environ[tk])
-					print("##############################")
-					print("##############################")
+					#print("### Environment variables:  ###")
+					#for tk in os.environ:
+					#	print("\t" + tk + " : " + os.environ[tk])
+					#print("##############################")
+					#print("##############################")
 
 		if 'copy_over' in packageData and packageData['copy_over'] is not None:
 			for f in packageData['copy_over']:
@@ -2298,11 +2298,11 @@ class CrossCompileScript:
 				os.environ["PATH"] = oldPath
 			if self.debugMode:
 				print("##############################")
-				print("### Environment variables:  ###")
-				for tk in os.environ:
-					print("\t" + tk + " : " + os.environ[tk])
-				print("##############################")
-				print("##############################")
+				#print("### Environment variables:  ###")
+				#for tk in os.environ:
+				#	print("\t" + tk + " : " + os.environ[tk])
+				#print("##############################")
+				#print("##############################")
 
 		self.resetDefaultEnvVars()
 		self.cchdir("..")  # asecond into workdir
@@ -2605,13 +2605,13 @@ class CrossCompileScript:
 			if 'build_options' in packageData:
 				makeOpts = self.replaceVariables(packageData["build_options"])
 
-			#if self.debugMode:
-			#	print("##############################")
-			#	print("### Environment variables:  ###")
-			#	for tk in os.environ:
-			#		print("\t" + tk + " : " + os.environ[tk])
-			#	print("##############################")
-			#	print("##############################")
+			if self.debugMode:
+				print("##############################")
+				#print("### Environment variables:  ###")
+				#for tk in os.environ:
+				#	print("\t" + tk + " : " + os.environ[tk])
+				#print("##############################")
+				#print("##############################")
 
 			self.logger.info(F"Building '{packageName}' with 'build_options': '{makeOpts}' in '{os.getcwd()}'", extra={'type': buildSystem})
 
@@ -2725,11 +2725,11 @@ class CrossCompileScript:
 		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
 		if self.debugMode:
 			print("##############################")
-			print("### Environment variables:  ###")
-			for tk in os.environ:
-				print("\t" + tk + " : " + os.environ[tk])
-			print("##############################")
-			print("##############################")
+			#print("### Environment variables:  ###")
+			#for tk in os.environ:
+			#	print("\t" + tk + " : " + os.environ[tk])
+			#print("##############################")
+			#print("##############################")
 	#:
 
 	def anyFileStartsWith(self, wild):
