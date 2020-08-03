@@ -29,6 +29,22 @@ fftw*.dll 3.3.8 (64-bit)
 libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried to run it though)
 ```
 
+### How to build ?
+
+1. Create an Ubuntu VM (tested with 20.04)   
+2. login into ubuntu and start a Terminal window   
+3. `sudo apt -y install git'   
+4. `cd ~/Desktop`   
+5. `git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git`   
+6. `cp -fv ./h3333_python_cross_compile_script_v100/*.sh ./`   
+7. `chmod +777 *.sh`   
+then to build just ffmpeg   
+8. `./h3333_v100.001_ff.sh`
+or to build everything   
+9. `./h3333_v100.001.sh`
+
+Good luck.
+
 **Now with ```docker``` (perhaps it'd work).**  
 
 Athough - I got sick of docker and haven't tried to use it in ages.  
