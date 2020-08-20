@@ -195,23 +195,24 @@ set +x
 # Build and install nasm
 set -x
 cd ~/Desktop
-rm -vfR nasm-2.14.02
-#if [[ ! -d "nasm-2.14.02" ]]; then
-   echo "Downloading nasm 2.14.02"
-   url="https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.xz"
-   rm -f "nasm-2.14.02.tar.xz"
-   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.14.02.tar.xz" # -L means "allow redirection" or some odd :|
-   tar -xf "nasm-2.14.02.tar.xz" || unzip "nasm-2.14.02.tar.xz"
-   echo "Configuring nasm 2.14.02"
-   cd nasm-2.14.02
+# 2020.08.20 was 2.14.02
+rm -vfR nasm-2.15.03
+#if [[ ! -d "nasm-2.15.03" ]]; then
+   echo "Downloading nasm 2.15.03"
+   url="https://www.nasm.us/pub/nasm/releasebuilds/2.15.03/nasm-2.15.03.tar.xz"
+   rm -f "nasm-2.15.03.tar.xz"
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.15.03.tar.xz" # -L means "allow redirection" or some odd :|
+   tar -xf "nasm-2.15.03.tar.xz" || unzip "nasm-2.15.03.tar.xz"
+   echo "Configuring nasm 2.15.03"
+   cd nasm-2.15.03
       ./autogen.sh || exit 1
       ./configure --prefix=/usr --exec_prefix=/usr --enable-sections --enable-lto  || exit 1
-      echo "Make nasm 2.14"
+      echo "Make nasm 2.15.03"
       make  || exit 1
-      echo "Installing nasm 2.14"
+      echo "Installing nasm 2.15.034"
       sudo make install  || exit 1 # sudo so it copies into /usr folder tree
    cd ..
-   echo "Done sudo apt ing and Installing nasm 2.14.02"
+   echo "Done sudo apt ing and Installing nasm 2.15.03"
 #fi
 set +x
 cd ~/Desktop
