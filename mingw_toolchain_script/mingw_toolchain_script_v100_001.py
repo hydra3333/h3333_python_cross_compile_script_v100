@@ -45,7 +45,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-	'checkout' : '1b1dc6200b6453e441477b9b9abe9087cc9c4e89',
+	'checkout' : '4e51dfbf9baa34af596691342420bff4b5e3ded3',
  	#'checkout' : '621d33d92e74ed29541d1234497adbe5aab5579a', # following commit breeaks with error: '__ms_vfwscanf' was not declared in this scope;
  	#'checkout' : 'tags/v7.0.0', # see calling  .py  -'mingw_commit': 'tags/v7.0.0', 
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
