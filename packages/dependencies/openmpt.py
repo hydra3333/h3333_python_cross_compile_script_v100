@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/OpenMPT/openmpt.git',
+	'depth_git' : 0,
+	'branch' : '91bad3bd24045dab4d0d9ad952f02a391a059c7d', # 2020.08.21 the following commit kills cross compiling
 	# 'source_subfolder' : '_build',
 	'needs_configure' : False,
 	'build_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1',
