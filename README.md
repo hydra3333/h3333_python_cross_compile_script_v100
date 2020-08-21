@@ -3,7 +3,8 @@
 Consider using deadsix27's at https://github.com/DeadSix27/python_cross_compile_script ... although that has ceased active maintenance.  
 Or, maybe use MABS https://github.com/m-ab-s/media-autobuild_suite if you don't mind installing stuff in your nice Win10 PC.  
 
-### A Linux to Windows x64 cross-compile script to build ffmpeg with dependencies  
+### A Linux to Windows x64 cross-compile script to build ffmpeg with dependencies   
+#### eg NVidia's NVENC encoder, optionally some OpenCL filters, and optional Vapoursynth input
 
 A fork of DeadSix27's fantastic work to build a 64-bit STATIC ffmpeg.exe with lots of ffmpeg dependencies and have the ffmpeg.exe run in a Windows 10 64-bit o/s.  
 ... based on deadsix27 fine work at https://github.com/DeadSix27/python_cross_compile_script  
@@ -13,7 +14,8 @@ NOTE: attempt to build everything wherever possible with safety settings
           -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2
 ```
 
-This script attempts to build (eveything 64 bit)
+This script attempts to build (eveything 64 bit) ffmpeg, primarily in order to utilise eg NVidia's NVENC encoder, optionally some OpenCL filters, and optional Vapoursynth input.
+
 ```
 ffmpeg.exe (64-bit, static) with and Vapoursynth input and OpenCL (eg to use with nvidia) and multibit h264/h265
 ffprobe.exe (64-bit, static)
