@@ -9,16 +9,16 @@
 		'-DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DBUILD_TESTS=OFF '
 		'-DUSE_CCACHE=OFF ' # 2020.05.11 per MABS 
-		'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
+		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
 		#'-DUNIX=OFF ' # 2020.05.11 per MABS 
 		'-DENABLE_STATIC_LOADER=ON ' # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
-		'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-		'CXXFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
-		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE
+		'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'CXXFLAGS' : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
