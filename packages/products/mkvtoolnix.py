@@ -3,15 +3,30 @@
 	'recursive_git' : True,
 	'build_system' : 'rake',
 	'url' : 'https://gitlab.com/mbunkus/mkvtoolnix.git',
+	#'depth_git': 0,
+	#'branch' : '1465b5834289d4d18bc26c425666ea02a8e2debb', # 2020.08.22 https://gitlab.com/mbunkus/mkvtoolnix/-/issues/2904
 	'configure_options':
-		'--host={target_host} --prefix={output_prefix}/mkvtoolnix_git.installed --disable-shared --enable-static'
-		' --with-boost={target_prefix} --with-boost-system=boost_system --with-boost-filesystem=boost_filesystem --with-boost-date-time=boost_date_time --with-boost-regex=boost_regex --enable-optimization --enable-qt --enable-static-qt'
-		' --with-moc={mingw_binpath2}/moc --with-uic={mingw_binpath2}/uic --with-rcc={mingw_binpath2}/rcc --with-qmake={mingw_binpath2}/qmake'
-		#' QT_LIBS="-lws2_32 -lprcre"'
-	,
+		'--host={target_host} --prefix={output_prefix}/mkvtoolnix_git.installed --enable-static '
+		'--with-boost={target_prefix} '
+		'--with-boost-system=boost_system '
+		'--with-boost-filesystem=boost_filesystem '
+		'--enable-optimization '
+		'--enable-qt '
+		'--enable-static-qt '
+		'--with-moc={mingw_binpath2}/moc '
+		'--with-uic={mingw_binpath2}/uic '
+		'--with-rcc={mingw_binpath2}/rcc '
+		'--with-qmake={mingw_binpath2}/qmake ',
 	'build_options': '-v',
+	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
+		'CFLAGS'   : ' -DPCRE2_STATIC {original_cflags}',
+		'CXXFLAGS' : ' -DPCRE2_STATIC {original_cflags}',
+		'CPPFLAGS' : ' -DPCRE2_STATIC {original_cflags}',
+		'LDFLAGS'  : ' -DPCRE2_STATIC {original_cflags}',
+	},
+	'custom_ldflag' : ' {original_cflags} -lpcre2-8 ',
 	'depends_on' : [
-		'pcre2', 'cmark', 'libfile', 'libflac', 'libvorbis', 'boost', 'gettext', 'zlib', 
+		'pcre2', 'iconv', 'cmark', 'libfile', 'libflac', 'libvorbis', 'boost', 'gettext', 'zlib', 'libogg', 'libdvdread',
 	],
 	'packages': {
 		'ubuntu' : [ 'xsltproc', 'docbook-utils', 'rake', 'docbook-xsl' ],
