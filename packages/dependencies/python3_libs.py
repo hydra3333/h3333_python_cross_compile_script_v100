@@ -13,7 +13,6 @@
 	'url' : 'https://github.com/hydra3333/python_mingw_libs.git',
 	'needs_configure' : False,
 	'needs_make_install' : False,
-	# python 3.8.2
 	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
 		#'sed -i.bak "s;;;g" "Makefile"',
@@ -24,6 +23,8 @@
 	],
 	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.8.2',
 	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.8.5',
+	# eg 
+	# make -j 4 PREFIX=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 GENDEF=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/gendef DLLTOOL=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-dlltool PYTHON_VERSION=3.8.5
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : '3.8.5', 'fancy_name' : 'Python (library-only)' },
 }
