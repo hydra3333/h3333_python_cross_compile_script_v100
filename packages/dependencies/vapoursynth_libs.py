@@ -6,7 +6,8 @@
 	'needs_make_install' : False,
 	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R49 PYTHON_VERSION=3.8.2',
 	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R50 PYTHON_VERSION=3.8.2',
-	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R51 PYTHON_VERSION=3.8.2',
+	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R51 PYTHON_VERSION=3.8.2',
+	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R52 PYTHON_VERSION=3.8.5',
 	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
 		#'sed -i.bak "s;;;g" "Makefile"',
@@ -26,5 +27,5 @@
 	},
 	'depends_on' : [ 'python3_libs' ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'R50', 'fancy_name' : 'VapourSynth (library-only)' },
+	'_info' : { 'version' : 'R52', 'fancy_name' : 'VapourSynth (library-only)' },
 }
