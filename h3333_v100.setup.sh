@@ -180,7 +180,8 @@ rm -vfR meson_git
    #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
 
    #git clone --depth 1 --branch "0.52.1" https://github.com/mesonbuild/meson.git "meson_git"
-   git clone --depth 1 --branch "0.53.2" https://github.com/mesonbuild/meson.git "meson_git"
+   #git clone --depth 1 --branch "0.53.2" https://github.com/mesonbuild/meson.git "meson_git" # pre 2020.08.30
+   git clone --depth 1 --branch "0.55.1" https://github.com/mesonbuild/meson.git "meson_git"  # 2020.08.30
    cd meson_git
    sudo python3 setup.py clean 
    sudo python3 setup.py build
