@@ -223,21 +223,23 @@ set +x
 # Build and install the latest supported cmake
 set -x
 cd ~/Desktop
-rm -vfR cmake-3.16.5
+#rm -vfR cmake-3.16.5 # pre 2020.08.30
+rm -vfR cmake-3.18.2 # 2020.08.30
 #if [[ ! -d "cmake-3.16.5" ]]; then
-   mkdir cmake-3.16.5
-   cd cmake-3.16.5
-   echo "Downloading cmake-3.16.5"
+   #mkdir cmake-3.16.5 # pre 2020.08.30
+   mkdir cmake-3.18.2 # 2020.08.30
+   cd cmake-3.18.2
+   echo "Downloading cmake-3.18.2"
    sudo apt install -y libssl-dev 
    sudo apt remove -y cmake
-   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5.tar.gz" -L -O
-   tar -xf cmake-3.16.5.tar.gz
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2.tar.gz" -L -O
+   tar -xf cmake-3.18.2.tar.gz
    sudo chmod +777 -R *
-   cd cmake-3.16.5 # unzipped subfolder
+   cd cmake-3.18.2 # unzipped subfolder
       #./bootstrap --help
       ./bootstrap --prefix=/usr && make && sudo make install
    cd ..
-   echo "Done sudo apt ing and Installing cmake-3.16.5"
+   echo "Done sudo apt ing and Installing cmake-3.18.2"
 #fi
 set +x
 cd ~/Desktop
