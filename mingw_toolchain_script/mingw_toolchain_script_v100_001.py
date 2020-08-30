@@ -70,13 +70,13 @@ SOURCES['gmp'] = {
 }
 SOURCES['mpfr'] = {
 	'type': 'archive',
-	'version': '4.0.2',
+	'version': '4.1.0', # 2020.08.30 was '4.0.2', at 'https://ftp.gnu.org/gnu/mpfr/'
 	'url': 'https://ftp.gnu.org/gnu/mpfr/mpfr-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpfr/', 'type': 'httpindex', 'regex': r'mpfr-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
 SOURCES['mpc'] = {
 	'type': 'archive',
-	'version': '1.1.0',
+	'version': '1.2.0', # 2020.08.30 was '1.1.0',
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
@@ -88,7 +88,7 @@ SOURCES['isl'] = {
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.34',
+	'version': '2.35', # 2020.08.30 was '2.34',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
