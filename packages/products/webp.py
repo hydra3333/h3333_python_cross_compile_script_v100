@@ -1,14 +1,14 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libwebp',
+	'folder_name': 'webp_git',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options' : '.. {cmake_prefix_options} '
-		'-DCMAKE_INSTALL_PREFIX={output_prefix}/webp.installed -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release'
+		'-DCMAKE_INSTALL_PREFIX={output_prefix}/webp.installed -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release '
 		'-DWEBP_ENABLE_SIMD=ON '
 		'-DWEBP_NEAR_LOSSLESS=ON '
 		'-DWEBP_UNICODE=ON '
-
 		'-DWEBP_BUILD_GIF2WEBP=OFF '
 		'-DWEBP_BUILD_IMG2WEBP=OFF '
 		'-DWEBP_BUILD_WEBPMUX=OFF '
