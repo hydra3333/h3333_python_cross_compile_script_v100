@@ -93,8 +93,14 @@
 		'libplacebo',
 		'libffmpeg_extra',
 	],
-	'patches': [
-		('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'),
+	#'patches': [ 
+	#	('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'), # 2020.09.01 replaced by the 4 "sed" below
+	#],
+	'run_post_regexreplace' : [
+		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "audio/out/ao_lavc.c"',  # 2020.09.01 replaces the patch above
+		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "common/encode_lavc.c"', # 2020.09.01 replaces the patch above
+		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "common/encode_lavc.h"', # 2020.09.01 replaces the patch above
+		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "video/out/vo_lavc.c"',  # 2020.09.01 replaces the patch above
 	],
 	'run_post_install' : (
 		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.com',
