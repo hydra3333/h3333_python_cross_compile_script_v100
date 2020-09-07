@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'recursive_git' : True,
 	'url' : 'https://code.videolan.org/videolan/libbluray',
-	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --disable-examples --disable-doxygen-doc --disable-bdjava-jar --enable-udf', #--without-libxml2 --without-fontconfig .. optional.. I guess
+	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --disable-examples --disable-doxygen-doc --disable-bdjava-jar --enable-udf --enable-dependency-tracking -with-pic', #--without-libxml2 --without-fontconfig --without-freetype ... optional
 	'patches' : [
 		('libbluray/libbluray_git_remove_strtok_s.patch', '-p1'),
 	],
