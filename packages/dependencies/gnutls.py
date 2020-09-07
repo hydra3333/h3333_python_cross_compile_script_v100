@@ -46,13 +46,14 @@
 			},
 		],
 	},
-	 'patches' : [ # 3.6.13 built OK without patches, however 3.6.14 does not ... try these patches from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
-        ('gnutls/0001-add-missing-define.patch', '-p1'), # 2020.06.09 for 3.6.14
-        ('gnutls/0003-gnutls-fix-external-libtasn1-detection.patch', '-p1'), # 2020.06.09 for 3.6.14
-        ('gnutls/0004-disable-broken-examples.patch', '-p1'), # 2020.06.09 for 3.6.14
-        ('gnutls/0005-remove-coverage-rules.patch', '-p1'), # 2020.06.09 for 3.6.14
-        ('gnutls/0006-fix-ncrypt-bcrypt-linking.patch', '-p1'), # 2020.06.09 for 3.6.14
-	 ],
+	# 2020.09.05 up to v2.6.15 and patch "0006-fix-ncrypt-bcrypt-linking.patch" fails, so see if can do without patches
+	#'patches' : [ # 3.6.13 built OK without patches, however 3.6.14 does not ... try these patches from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
+    #    ('gnutls/0001-add-missing-define.patch', '-p1'), # 2020.06.09 for 3.6.14
+    #    ('gnutls/0003-gnutls-fix-external-libtasn1-detection.patch', '-p1'), # 2020.06.09 for 3.6.14
+    #    ('gnutls/0004-disable-broken-examples.patch', '-p1'), # 2020.06.09 for 3.6.14
+    #    ('gnutls/0005-remove-coverage-rules.patch', '-p1'), # 2020.06.09 for 3.6.14
+    #    ('gnutls/0006-fix-ncrypt-bcrypt-linking.patch', '-p1'), # 2020.06.09 for 3.6.14
+	#],
 	'run_post_regexreplace': [
 		'autoreconf -fiv -I M4',
 	],
