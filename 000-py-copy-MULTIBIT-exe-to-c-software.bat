@@ -48,9 +48,6 @@ xcopy ".\exe_x64_py\libg*.dll" "C:\SOFTWARE\VLC\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
 REM
 
-C:\SOFTWARE\VLC
-
-
 DEL xcopyexcludedfileslist1.txt
 pause
 exit
