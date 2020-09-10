@@ -14,7 +14,7 @@
 		#'ls -al ..',
 		'sed -i.BAK \'s;<VapourSynth.h>;"VapourSynth.h";g\' "../lsmashsource.h"',
 		'sed -i.BAK "s;vapoursynth_dep =;includes = include_directories(\'../include\')\\n\\nvapoursynth_dep =;g" "../meson.build"',
-		'sed -i.BAK \'s;dependencies : deps,;dependencies : deps,\\ninclude_directories : includes,;g\' "../meson.build"',
+		'sed -i.BAK \'s;dependencies: deps,;dependencies : deps,\\ninclude_directories : includes,;g\' "../meson.build"', # 2020.09.10 removed a space prior to :
 		#'sed -iBAK \'s;;;g\' "../"',
 	],
 	'configure_options' :
