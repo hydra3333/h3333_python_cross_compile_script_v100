@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/HolyWu/L-SMASH-Works.git', # 2019.11.19 swap to HolyWu's fork as it seems more updated
 	'depth_git' : 0,
-	'branch' : 'ab66a24f255dc89c03eb955c1a996a12d9c7595a', # 2020.08.21 this commit works per https://github.com/HolyWu/L-SMASH-Works/issues/11
+	#'branch' : 'ab66a24f255dc89c03eb955c1a996a12d9c7595a', # 2020.08.21 this commit works per https://github.com/HolyWu/L-SMASH-Works/issues/11
 	'env_exports' : {
 		'PKGCONFIG' : 'pkg-config',
 	},
