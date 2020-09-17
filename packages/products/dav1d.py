@@ -4,6 +4,12 @@
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
+	'env_exports' : { # 2020.09.17 remove fortify_source sue to link errors
+		'CFLAGS'   : ' -O3 ',
+		'CXXFLAGS' : ' -O3 ',
+		'CPPFLAGS' : ' -O3 ',
+		'LDFLAGS'  : ' -O3 ',
+	},
 	'regex_replace': { #hacky but works, so who cares, for some reason libdav1d thinks we have POSIX_MEMALIGN.. maybe mingw or gcc bug, .. so we'll just force it to not define that we have it so it doesn't use it.
 		'post_patch': [
 			{
