@@ -5,6 +5,11 @@
 	'build_system' : 'ninja',
 	'rename_folder' : 'libdav1d_git',
 	'source_subfolder' : 'build',
+	'env_exports' : { # 2020.09.17 remove fortify_source sue to link errors
+		'CFLAGS'   : ' -O3 ',
+		'CXXFLAGS' : ' -O3 ',
+		'CPPFLAGS' : ' -O3 ',
+		'LDFLAGS'  : ' -O3 ',
 	'regex_replace': { #hacky but works, so who cares, for some reason libdav1d thinks we have POSIX_MEMALIGN.. maybe mingw or gcc bug, .. so we'll just force it to not define that we have it so it doesn't use it.
 		'post_patch': [
 			{
@@ -19,6 +24,8 @@
 			},
 		],
 	},
+    'run_post_regexreplace' : [
+		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build' # 2019.12.13 # 2020.03.19 commented out
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
@@ -28,7 +35,7 @@
 		'-Denable_tools=false '
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
-    ,
+	,
   	#'run_post_regexreplace' : [ # 2019.12.13
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build'   # 2020.03.19 commented out
 	#],  # 2019.12.13
