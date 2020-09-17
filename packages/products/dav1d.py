@@ -27,16 +27,19 @@
     'run_post_regexreplace' : [
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build' # 2019.12.13 # 2020.03.19 commented out
 	],
-	'configure_options' : ''
+	'configure_options' :
 		'--prefix={output_prefix}/dav1d.installed  '    # 2019.12.13 old '--prefix={product_prefix}/dav1d.installed  '
 		'--libdir={output_prefix}/dav1d.installed/lib ' # 2019.12.13 old '--libdir={product_prefix}/dav1d.installed/lib '
 		'--default-library=static '
 		'--backend=ninja '
-		'-Denable_tests=true '
+		'-Denable_tests=false '
 		'-Denable_tools=true '
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,
+  	#'run_post_regexreplace' : [ # 2019.12.13
+		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build'   # 2020.03.19 commented out
+	#],  # 2019.12.13
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : None, 'fancy_name' : 'dav1d' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'dav1d' },
 }
