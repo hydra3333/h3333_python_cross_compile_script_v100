@@ -7,7 +7,7 @@
 		'--prefix={target_prefix} '
 		'--disable-shared --enable-static --enable-webm-io --enable-libyuv --enable-vp9 '
 		'--enable-vp8 --enable-runtime-cpu-detect --enable-postproc '
-		'--enable-vp9-highbitdepth --enable-vp9-postproc --enable-coefficient-range-checking --enable-postproc-visualizer '
+		'--enable-vp9-highbitdepth --enable-vp9-postproc --enable-postproc-visualizer ' # 2020.10.01 removed --enable-coefficient-range-checking 
 		'--enable-error-concealment --enable-better-hw-compatibility '
 		'--enable-multi-res-encoding --enable-vp9-temporal-denoising '
 		'--enable-tools --disable-docs --enable-examples --disable-install-docs ' # 2019.12.13 enable tools and examples
