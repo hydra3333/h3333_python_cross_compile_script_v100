@@ -20,7 +20,7 @@
 		'vulkan_loader',
 		'fdk_aac',
 		'twolame',
-		'wavpack',
+		#'wavpack', # deleted from ffmpeg 2020.10.04
 		'fftw3',
 	],
 }
