@@ -99,7 +99,7 @@
 		'--enable-filter=frei0r '
 		'--enable-libsrt '
 		'--enable-libbs2b '
-		'--enable-libwavpack '
+		#'--enable-libwavpack ' # 'libwavpack' deleted from ffmpeg 2020.10.04
 		'--enable-libilbc '
 		'--enable-libgme '
 		'--enable-libflite '
