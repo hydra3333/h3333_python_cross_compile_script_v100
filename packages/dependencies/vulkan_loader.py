@@ -9,10 +9,10 @@
 		'-DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
 		'-DBUILD_TESTS=OFF '
 		'-DUSE_CCACHE=OFF ' # 2020.05.11 per MABS 
-		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
-		#'-DUNIX=OFF ' # 2020.05.11 per MABS 
-		'-DENABLE_STATIC_LOADER=ON ' # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
+		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
+		'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.11 uncomment
+		'-DENABLE_STATIC_LOADER=ON '  # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
 		'-DUSE_UNSAFE_C_GEN=ON ' # 2020.10.10 per MABS https://github.com/m-ab-s/media-autobuild_suite/commit/7034e948ca14323514fca98c83adc1ec7720909e
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
