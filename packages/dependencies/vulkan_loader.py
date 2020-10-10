@@ -33,6 +33,9 @@
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 	],
+	'run_post_install' : [ 
+		'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"',
+	],
 	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ], # 'glslang',  # 2020
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
