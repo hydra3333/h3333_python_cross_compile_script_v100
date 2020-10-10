@@ -13,6 +13,7 @@
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
 		#'-DUNIX=OFF ' # 2020.05.11 per MABS 
 		'-DENABLE_STATIC_LOADER=ON ' # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
+		'-DUSE_UNSAFE_C_GEN=ON ' # 2020.10.10 per MABS https://github.com/m-ab-s/media-autobuild_suite/commit/7034e948ca14323514fca98c83adc1ec7720909e
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
 		'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
@@ -25,7 +26,8 @@
 	'patches' : [
 		#('vulkan/0001-mingw-workarounds-2020.04.08.patch','-p1','..'),
 		#('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.05.11.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
-		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.08.21.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
+		#('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.08.21.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
+		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2020.10.10.patch','-p1','..'), # 2020.05.11 per MABS # 
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
