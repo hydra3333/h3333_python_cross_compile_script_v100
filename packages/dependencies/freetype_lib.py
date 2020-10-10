@@ -7,8 +7,8 @@
 	#            since when that happens, it rebuilds with harfbuzz out-of-order :( and that causes link fails later (eg ffmpeg blaming libbluray when it isn't that)
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.2/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
+		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.2/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
 	],
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
