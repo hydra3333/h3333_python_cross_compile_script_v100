@@ -17,7 +17,7 @@
 		'libwebp',
 		'nv-codec-headers',
 		'opencl_icd',
-		'vulkan_loader',
+		#'vulkan_loader', # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
 		'fdk_aac',
 		'twolame',
 		#'wavpack', # deleted from ffmpeg 2020.10.04

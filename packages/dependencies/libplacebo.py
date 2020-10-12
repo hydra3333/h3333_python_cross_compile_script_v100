@@ -16,8 +16,8 @@
 		'--buildtype=plain '
 		'--backend=ninja '
 		'--buildtype=release '
-		'-Dvulkan=enabled ' # 2020.05.14 added back
-		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '
+		#'-Dvulkan=enabled ' # 2020.10.12 comment out vulkan since it an no longer be statically linked
+		#'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml ' # 2020.10.12 comment out vulkan since it an no longer be statically linked
 		#'-Dglslang=enabled '
 		#'-Dshaderc=enabled '
 		'-Dlcms=enabled '
@@ -25,7 +25,7 @@
 		'-Dbench=false '
 		'--cross-file={meson_env_file} ./ ..'
 	,
-	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', 'vulkan_loader', ], # 2020.05.14 added back 'vulkan_loader' 
+	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', ], # 'vulkan_loader',  2020.10.12 comment out vulkan since it an no longer be statically linked
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }

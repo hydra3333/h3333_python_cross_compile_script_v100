@@ -39,7 +39,7 @@
 		'intel_quicksync_mfx',
 		'amf_headers',
         'opencl_icd', #'opencl_non_icd', # 2020.05.09 swap to back to ICD LOADER since they implemented the symbols-only flag
-		'vulkan_loader', # 2020.05.14 added back
+		#'vulkan_loader', # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
 		'avisynth_plus_headers',
 		'sdl2', # 2020.05.13 re-enabled sdl2 # 2020.05.13 remove sdl2
 	],
