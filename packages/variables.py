@@ -83,6 +83,7 @@
 		'--enable-vulkan ' # 2020.05.14 added back
 		'--enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2020.05.14 added back
 		'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
+		'--extra-libs="-lpsapi -lintl -liconv -lssp -lglslang -lvulkan" ' # 2019.12.13 add  -lssp for -fstack-protector-all, #2020.10.11 try add -lglslang -lvulkan for vulkan_loader # 2020.10.11 moved here from ffmpeg_extra_config
 	,
 
 	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
@@ -120,7 +121,6 @@
 		# '--extra-libs="-liconv" ' # -lschannel #-lsecurity -lz -lcrypt32 -lintl -liconv -lpng -loleaut32 -lstdc++ -lspeexdsp -lpsapi
 		# '--extra-cflags="-DLIBTWOLAME_STATIC" '
 		# '--extra-cflags="-DMODPLUG_STATIC" '
-		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
 		'--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DMODPLUG_STATIC"  ' # 2019.12.13 addded back in
 		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
