@@ -7,7 +7,7 @@
 	'conf_system' : 'cmake', # from MABS 2020.10.10
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
 	'-DBUILD_SHARED_LIBS=OFF '
-	#'-DUNIX=OFF ' # 2020.10.12 comment out
+	'-DUNIX=OFF ' # 2020.10.12 comment out
 	'-DSKIP_GLSLANG_INSTALL=OFF '
 	'-DENABLE_GLSLANG_INSTALL=ON '
 	'-DENABLE_GLSLANG_BINARIES=OFF '

@@ -3,6 +3,7 @@
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	#'depth_git' : 0,
 	#'branch' : 'tags/v1.2.135',
+	# Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE PER https://github.com/KhronosGroup/Vulkan-Loader/commit/0c0ac2c6c458acdb8ca28902fc990342902fc0a3#diff-4a527f83a3a4ca7e1d70adb26a35b72e
 	'recursive_git' : True, 
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix} '
@@ -12,9 +13,9 @@
 		'-DUSE_CCACHE=OFF ' # 2020.05.11 per MABS 
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
 		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
-		#'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.12 comment out
-		'-DBUILD_STATIC_LOADER=ON '   # 2020.10.11 *** TEST *** THIS MAY NOT WORK (?? for apple only ??) # 2020.10.12 uncomment to get  libvulkan.a
-		'-DENABLE_STATIC_LOADER=ON '  # 2020.04.07 By default, the loader is built as a dynamic library. This allows it to be built as a static library, instead.
+		'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.12 comment out
+		#'-DBUILD_STATIC_LOADER=ON '   # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
+		#'-DENABLE_STATIC_LOADER=ON '  # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
 		'-DUSE_UNSAFE_C_GEN=ON ' # 2020.10.10 per MABS https://github.com/m-ab-s/media-autobuild_suite/commit/7034e948ca14323514fca98c83adc1ec7720909e
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
@@ -35,9 +36,9 @@
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi -lglslang"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27 # 2020.10.11 libglslang
 	],
-	#'run_post_install' : [ 
-	#	'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"',
-	#],
+	'run_post_install' : [ 
+		'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this
+	],
 	'depends_on' : [ 'glslang', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
