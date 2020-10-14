@@ -11,7 +11,7 @@
 	'configure_options' : '--host={target_host} --prefix={target_prefix}',
 	'run_post_install' : [
 		'ls -al {target_prefix}/lib/*xvidcore*',
-		'rm -vf {target_prefix}/lib/libxvidcore.a',
+		'rm -vf {target_prefix}/lib/libxvidcore.dll.a',
 		'ls -al {target_prefix}/lib/*xvidcore*',
 	],
 	'update_check' : { 'type' : 'git', },
