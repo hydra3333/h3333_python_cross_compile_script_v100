@@ -6,12 +6,11 @@
 	#'recursive_git' : True, 
 	'source_subfolder' : 'xvidcore/build/generic',
 	'patches' : [
-		('xvid\MABS-lighde-2020.10.14.patch','-p1','../..'), # 2020.05.11 per MABS # 
+		('xvid/MABS-lighde-2020.10.14.patch','-p1','../../..'), # 2020.05.11 per MABS # 
 	],
 	'configure_options' : '--host={target_host} --prefix={target_prefix}',
 	'run_post_install' : [
-		'rm -v {target_prefix}/lib/xvidcore.dll.a',
-		'mv -v {target_prefix}/lib/xvidcore.a {target_prefix}/lib/libxvidcore.a',
+		'ls -al {target_prefix}/lib/*xvidcore*',
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Xvid core' },
