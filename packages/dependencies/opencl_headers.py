@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-Headers.git',
+	# 2020.10.15 commit https://github.com/KhronosGroup/OpenCL-Headers/commit/9fac4e9866a961f66bdd72fa2bff50145512f972
+	#            changed default header version to 3.0 if CL_TARGET_OPENCL_VERSION is not defined
 	'run_post_regexreplace' : [
 		'if [ ! -d "{target_prefix}/include/CL" ] ; then mkdir -pv "{target_prefix}/include/CL" ; fi',   # 2019.12.13 always try to create the folder
 		'cp -rfv CL/*.h "{target_prefix}/include/CL/"', # 2019.12.13 always copy the files

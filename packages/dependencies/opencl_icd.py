@@ -2,7 +2,6 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-ICD-Loader.git',
 	'depth_git' : 0,
-	#'branch' : '6d0b214b9cc303cdb0b05b3c0dc9afb0c39998c5', # 2020.04.20 icd_loader broke upstream
 	'needs_make_install' : True, #False,
 	#'source_subfolder': '_build',
 	'conf_system' : 'cmake',
@@ -17,10 +16,14 @@
 		#('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2020.06.27 moved change to the "sed" below
 		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
 	],
-	'run_post_regexreplace' : [ # 2019.12.13
+	'run_post_patch' : [ # 2020.10.15 was 'run_post_regexreplace' : [ # 2019.12.13
+		'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
 		#'sed -i.bak \'s/Windows.h/windows.h/\' ./loader/windows/icd_windows_envvars.c',
 		'sed -i.bak \'s/project (OpenCL-ICD-Loader VERSION 1.2)/project (OpenCL-ICD-Loader)/g\' "CMakeLists.txt"', # 2020.06.27 added since CMakeLists.txt changed
 		'sed -i.bak \'s/set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")/set_target_properties (OpenCL PROPERTIES PREFIX "")/g\' "CMakeLists.txt"', # 2020.06.27 moved here from patch 0001
+		# 2020.10.15 commit https://github.com/KhronosGroup/OpenCL-Headers/commit/9fac4e9866a961f66bdd72fa2bff50145512f972 changed default header version to 3.0 if CL_TARGET_OPENCL_VERSION is not defined
+		'sed -i.bak \'s/-DCL_TARGET_OPENCL_VERSION=300/-DCL_TARGET_OPENCL_VERSION=200/g\' "CMakeLists.txt"', # 2020.10.15 they changed it to version 3.0 headers, so put it back to v2.0 (perhaps even 1.2)
+		'diff -U 5 "CMakeLists.txt.orig" "CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"', # 2020.10.15
 	],
 	'depends_on' : [ 'opencl_headers' ],
 	'update_check' : { 'type' : 'git', },	
