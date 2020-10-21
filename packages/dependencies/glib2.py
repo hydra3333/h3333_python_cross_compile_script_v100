@@ -11,20 +11,20 @@
 		'CFLAGS'   : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
 		'CXXFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
 		'CPPFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
-		'LDFLAGS'  : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib',
+		'LDFLAGS'  : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION', # 2020.10.21 RDP uses this however we remove it: -L{target_prefix}/lib',
 	},
 	
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
+		'--includedir={target_prefix}/include '
 		'--default-library=static '
 		'--backend=ninja '
 		'--buildtype=release '
 		'-Dinternal_pcre=false '
 		'-Dforce_posix_threads=true '
 		'-Diconv=external ' # 2020.10.21 try this
-		'-Dlibmount=false ' # 2020.10.21 try this
-		'-DHAVE_LIBMOUNT=false ' # 2020.10.21 try this
+		'-Dlibmount=disabled ' # 2020.10.21 try this
 		'-Dman=false ' # 2020.10.21 try this
 		'-Dfam=false '
 		'-Dinstalled_tests=false '
@@ -34,13 +34,13 @@
 		#('glib2/disable_libmount-make-UTF-yes.patch', '-Np0', '..'), # 2020.10.21 no longer works on v2.6x+
 		('glib2/rdp-glib-2.64.3_mingw-static.patch', '-Np1', '..'), # note Np1, if fails, try adding ", '..')"
 	],
-	'run_post_patch' : [
-		#'cp -fv "Makefile.am" "Makefile.am.orig"', # 2020.10.21 this block no longer works on v2.6x+
-		#'echo \'<<EOF\nEXTRA_DIST =\nCLEANFILES =\nEOF\' > gtk-doc.make',
-		#'sed -i.bak "s/SUBDIRS = . m4macros glib gmodule gthread gobject gio po docs tests subprojects/SUBDIRS = . m4macros glib gmodule gthread gobject gio po subprojects/" Makefile.am', # remove docs and tests
-		#'diff -U 5 "Makefile.am" "Makefile.am.orig" && echo "NO difference" || echo "YES differences!"',
-		#'autoreconf -fiv',
-	],
+	#'run_post_patch' : [
+	#	#'cp -fv "Makefile.am" "Makefile.am.orig"', # 2020.10.21 this block no longer works on v2.6x+
+	#	#'echo \'<<EOF\nEXTRA_DIST =\nCLEANFILES =\nEOF\' > gtk-doc.make',
+	#	#'sed -i.bak "s/SUBDIRS = . m4macros glib gmodule gthread gobject gio po docs tests subprojects/SUBDIRS = . m4macros glib gmodule gthread gobject gio po subprojects/" Makefile.am', # remove docs and tests
+	#	#'diff -U 5 "Makefile.am" "Makefile.am.orig" && echo "NO difference" || echo "YES differences!"',
+	#	#'autoreconf -fiv',
+	#],
 	'run_post_install' : [
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"',
 		#'sed -s -i.bak1 \'s/-lintl/-lintl -liconv -lintl/\' "glib-2.0.pc"',
