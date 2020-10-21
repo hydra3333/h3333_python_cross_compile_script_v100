@@ -34,9 +34,24 @@
 	'patches' : [
 		#('glib2/disable_libmount-make-UTF-yes.patch', '-Np0', '..'), # 2020.10.21 no longer works on v2.6x+
 		('glib2/rdp-glib-2.64.3_mingw-static.patch', '-Np1', '..'), # note Np1, if fails, try adding ", '..')"
-		('glib2/glib2-debug-patch-2020.10.21.patch', '-Np1', '..'), # note Np1, MY TEMPORARY DEBUG PATCH ON TOP OF PRIOR PATCHES for meson.build
+		#('glib2/glib2-debug-patch-2020.10.21.patch', '-Np1', '..'), # note Np1, MY TEMPORARY DEBUG PATCH ON TOP OF PRIOR PATCHES for meson.build
 	],
 	'run_post_patch' : [
+		'ls -al "../meson.build*"',
+		'ls -al "../meson.build*"',
+		'cp -fv "../meson.build" "../meson.build.orig_post_patch"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_prefix=\' + glib_prefix)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_bindir=\' + glib_bindir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_libdir=\' + glib_libdir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_libexecdir=\' + glib_libexecdir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_datadir=\' + glib_datadir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_pkgdatadir=\' + glib_pkgdatadir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_includedir=\' + glib_includedir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_pkgconfigreldir=\' + glib_pkgconfigreldir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;message(\'glib_charsetaliasdir=\' + glib_charsetaliasdir)\ninstalled_tests_metadir =;g" "../meson.build"',
+		'sed -iBAK "s;installed_tests_metadir =;\ninstalled_tests_metadir =;g" "../meson.build"',
+		'diff -U 5 "../meson.build.orig_post_patch" "../meson.build" && echo "NO difference" || echo "YES differences!"',
+		#
 		'/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/pkg-config --modversion libelf',
 		'/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/pkg-config --cflags libelf',
 		'pkg-config --modversion libelf',
