@@ -17,10 +17,9 @@
 	},
 	
 	'configure_options' :
-		' setup --wipe '
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
-		#'--includedir={target_prefix}/include '
+		'--includedir={target_prefix}/include '
 		'--default-library=static '
 		'--backend=ninja '
 		'--buildtype=release '
