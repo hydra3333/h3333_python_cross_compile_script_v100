@@ -1,4 +1,5 @@
-( # 2020.10.21 be more like RDP for later versions of glib2
+{ # 2020.10.21 be more like RDP for later versions of glib2
+	'repo_type' : 'archive',
 	'download_locations' : [
 		{ 'url' : 'https://download.gnome.org/sources/glib/2.66/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
 		{ 'url' : 'https://fossies.org/linux/misc/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
