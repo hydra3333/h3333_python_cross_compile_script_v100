@@ -1,10 +1,9 @@
---- a/meson.build	2020-10-20 23:04:18.626260000 -0700
-+++ b/meson.build	2020-10-20 23:09:37.096142000 -0700
-@@ -88,6 +88,22 @@
+--- a/meson.build	2020-10-20 23:36:46.821648416 -0700
++++ b/meson.build	2020-10-20 23:37:05.606049823 -0700
+@@ -88,6 +88,21 @@
    glib_charsetaliasdir = glib_libdir
  endif
  
-+message('meson.is_cross_build()=' + meson.is_cross_build())
 +message('configinc=' + configinc)
 +message('glibinc=' + glibinc)
 +message('gobjectinc=' + gobjectinc)
