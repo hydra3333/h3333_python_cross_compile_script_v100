@@ -1,8 +1,9 @@
 { # 2020.10.21 be more like RDP for later versions of glib2
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.66/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
-		{ 'url' : 'https://fossies.org/linux/misc/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe9cbc97925d14c804935f067a3ad77ef55c0bbe9befe68962318f5a767ceb22' }, ], }, # 2020.10.21 try this version
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.66/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
 	],
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
@@ -11,24 +12,23 @@
 		'CFLAGS'   : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
 		'CXXFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
 		'CPPFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
-		'LDFLAGS'  : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION', # 2020.10.21 RDP uses this however we remove it: -L{target_prefix}/lib',
+		'LDFLAGS'  : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib', # 2020.10.21 per RDP we add "-L{target_prefix}/lib"
 	},
 	
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
-		'--includedir={target_prefix}/include '
+		#'--includedir={target_prefix}/include '
 		'--default-library=static '
 		'--backend=ninja '
 		'--buildtype=release '
-		'-Dinternal_pcre=false '
+		'-Dinternal_pcre=false ' #'-Dinternal_pcre=true '
 		'-Dforce_posix_threads=true '
 		'-Diconv=external ' # 2020.10.21 try this
 		'-Dlibmount=disabled ' # 2020.10.21 try this
 		'-Dman=false ' # 2020.10.21 try this
 		'-Dfam=false '
 		'-Dinstalled_tests=false '
-		'-Dglib_checks=true '
 		'--cross-file={meson_env_file} ./ ..' ,
 	'patches' : [
 		#('glib2/disable_libmount-make-UTF-yes.patch', '-Np0', '..'), # 2020.10.21 no longer works on v2.6x+
@@ -53,7 +53,7 @@
 		'diff -U 5 "{pkg_config_path}/glib-2.0.pc.orig" "{pkg_config_path}/glib-2.0.pc" && echo "NO difference" || echo "YES differences!"',
 	],
 	
-	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ],
+	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], #  'pcre',
 	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
 	'_info' : { 'version' : '2.66.2', 'fancy_name' : 'glib2 lib' },
 }
