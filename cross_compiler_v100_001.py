@@ -2530,16 +2530,24 @@ class CrossCompileScript:
 	def mesonSource(self, packageName, packageData):
 		touchName = "already_ran_meson_%s" % (self.md5(packageName, self.getKeyOrBlankString(packageData, "configure_options	")))
 
+		## eek, if --force is used, the lready files are already removed by the time we get to here.
+		## for the time being, rely o user removing the folders for meson builds as it previous configure options
+		#if os.path.isfile(touchName):
+		#	self.logger.debug('meson configure --clearcache'.format(makeOpts))	# 2020.10.21
+		#	self.runProcess('meson configure -clearcache'.format(makeOpts))		# 2020.10.21
+		#	self.logger.debug('meson setup --reconfigure {0}'.format(makeOpts))	# 2020.10.21 add "setup --reconfigure" so meson does not shortcut to using previous configure options
+		#	self.runProcess('meson setup --reconfigure {0}'.format(makeOpts))	# 2020.10.21 add "setup --reconfigure" so meson does not shortcut to using previous configure options
+
 		if not os.path.isfile(touchName):
 			self.removeAlreadyFiles()
-
+		
 			makeOpts = ''
 			if 'configure_options' in packageData:
 				makeOpts = self.replaceVariables(packageData["configure_options"])
-			self.logger.info("Meson'ing '{0}' with: setup --reconfigure {1}".format(packageName, makeOpts))
+			self.logger.info("Meson'ing '{0}' with: {1}".format(packageName, makeOpts))
 
-			self.logger.debug('meson setup --reconfigure {0}'.format(makeOpts))	# 2020.10.21 add "setup --reconfigure" so meson does not shortcut to using previous configure options
-			self.runProcess('meson setup --reconfigure {0}'.format(makeOpts))		# 2020.10.21 add "setup --reconfigure" so meson does not shortcut to using previous configure options
+			self.logger.debug('meson {0}'.format(makeOpts))
+			self.runProcess('meson {0}'.format(makeOpts))
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
 				_pos = 'post_configure'
@@ -2600,6 +2608,11 @@ class CrossCompileScript:
 				if os.path.isfile("configure"):
 					self.logger.debug(F'{mkCmd} clean {cpuCountStr}')
 					self.runProcess(F'{mkCmd} clean {cpuCountStr}', True)
+
+			#if buildSystem == "ninja":
+			#	if os.path.isfile("meson.build"):
+			#		self.logger.debug(F'{mkCmd} clean ') # -C builddir 
+			#		self.runProcess(F'{mkCmd} clean ', True) #-C builddir 
 
 			makeOpts = ''
 			if 'build_options' in packageData:
