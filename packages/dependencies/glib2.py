@@ -1,21 +1,23 @@
 { # 2020.10.21 be more like RDP for later versions of glib2
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe9cbc97925d14c804935f067a3ad77ef55c0bbe9befe68962318f5a767ceb22' }, ], }, # 2020.10.21 try this version
-		#{ 'url' : 'https://download.gnome.org/sources/glib/2.66/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
-		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe9cbc97925d14c804935f067a3ad77ef55c0bbe9befe68962318f5a767ceb22' }, ], }, # 2020.10.21 try this version
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.66/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
+		{ 'url' : 'https://fossies.org/linux/misc/glib-2.66.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4' }, ], }, # 2020.10.21 try this version
 	],
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
 	'env_exports' : {
-		'CFLAGS'   : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
-		'CXXFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
-		'CPPFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION',
-		'LDFLAGS'  : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib', # 2020.10.21 per RDP we add "-L{target_prefix}/lib"
+		'CFLAGS'   : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION ',
+		'CXXFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION ',
+		'CPPFLAGS' : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION ',
+		'LDFLAGS'  : '{original_cflags} -pthread -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib ', # 2020.10.21 per RDP we add "-L{target_prefix}/lib"
+		#'PKGCONFIG' : 'pkg-config', # 2020.10.21 try this since it seems to be failing in glib2
 	},
 	
 	'configure_options' :
+		' setup --wipe '
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
 		#'--includedir={target_prefix}/include '
