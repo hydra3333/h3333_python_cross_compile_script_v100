@@ -18,8 +18,8 @@
 	
 	'configure_options' :
 		'--prefix={target_prefix} '
-		'--libdir={target_prefix}/lib '
-		'--includedir={target_prefix}/include '
+		'--libdir=lib '
+		'--includedir=include '
 		'--default-library=static '
 		'--backend=ninja '
 		'--buildtype=release '
@@ -34,14 +34,14 @@
 	'patches' : [
 		#('glib2/disable_libmount-make-UTF-yes.patch', '-Np0', '..'), # 2020.10.21 no longer works on v2.6x+
 		('glib2/rdp-glib-2.64.3_mingw-static.patch', '-Np1', '..'), # note Np1, if fails, try adding ", '..')"
+		('glib2/glib2-debug-patch-2020.10.21.patch', '-Np1', '..'), # note Np1, MY TEMPORARY DEBUG PATCH ON TOP OF PRIOR PATCHES for meson.build
 	],
-	#'run_post_patch' : [
-	#	#'cp -fv "Makefile.am" "Makefile.am.orig"', # 2020.10.21 this block no longer works on v2.6x+
-	#	#'echo \'<<EOF\nEXTRA_DIST =\nCLEANFILES =\nEOF\' > gtk-doc.make',
-	#	#'sed -i.bak "s/SUBDIRS = . m4macros glib gmodule gthread gobject gio po docs tests subprojects/SUBDIRS = . m4macros glib gmodule gthread gobject gio po subprojects/" Makefile.am', # remove docs and tests
-	#	#'diff -U 5 "Makefile.am" "Makefile.am.orig" && echo "NO difference" || echo "YES differences!"',
-	#	#'autoreconf -fiv',
-	#],
+	'run_post_patch' : [
+		'/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/pkg-config --modversion libelf',
+		'/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/pkg-config --cflags libelf',
+		'pkg-config --modversion libelf',
+		'pkg-config --cflags libelf',
+	],
 	'run_post_install' : [
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"',
 		#'sed -s -i.bak1 \'s/-lintl/-lintl -liconv -lintl/\' "glib-2.0.pc"',
