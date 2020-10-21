@@ -2536,10 +2536,10 @@ class CrossCompileScript:
 			makeOpts = ''
 			if 'configure_options' in packageData:
 				makeOpts = self.replaceVariables(packageData["configure_options"])
-			self.logger.info("Meson'ing '{0}' with: setup --wipe {1}".format(packageName, makeOpts))
+			self.logger.info("Meson'ing '{0}' with: setup --reconfigure {1}".format(packageName, makeOpts))
 
-			self.logger.debug('meson setup --wipe {0}'.format(makeOpts))	# 2020.10.21 add "setup --wipe" so meson does not shortcut to using previous configure options
-			self.runProcess('meson setup --wipe {0}'.format(makeOpts))		# 2020.10.21 add "setup --wipe" so meson does not shortcut to using previous configure options
+			self.logger.debug('meson setup --reconfigure {0}'.format(makeOpts))	# 2020.10.21 add "setup --reconfigure" so meson does not shortcut to using previous configure options
+			self.runProcess('meson setup --reconfigure {0}'.format(makeOpts))		# 2020.10.21 add "setup --reconfigure" so meson does not shortcut to using previous configure options
 
 			if 'regex_replace' in packageData and packageData['regex_replace']:
 				_pos = 'post_configure'
