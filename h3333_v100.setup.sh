@@ -173,15 +173,12 @@ sudo apt-get remove -y doxygen
 #pip3 install -y --user meson
 set -x
 cd ~/Desktop
+#m_ver="0.55.1"
+m_ver="0.55.3"
 rm -vfR meson_git
 #if [[ ! -d "meson_git" ]]; then
    #git clone https://github.com/mesonbuild/meson.git
-   #git clone --depth 1 https://github.com/mesonbuild/meson.git "meson_git"
-   #git clone --depth 1 --branch "0.51.2" https://github.com/mesonbuild/meson.git "meson_git"
-
-   #git clone --depth 1 --branch "0.52.1" https://github.com/mesonbuild/meson.git "meson_git"
-   #git clone --depth 1 --branch "0.53.2" https://github.com/mesonbuild/meson.git "meson_git" # pre 2020.08.30
-   git clone --depth 1 --branch "0.55.1" https://github.com/mesonbuild/meson.git "meson_git"  # 2020.08.30
+   git clone --depth 1 --branch "${m_ver}" https://github.com/mesonbuild/meson.git "meson_git"  # 2020.10.22
    cd meson_git
    sudo python3 setup.py clean 
    sudo python3 setup.py build
@@ -196,24 +193,24 @@ set +x
 # Build and install nasm
 set -x
 cd ~/Desktop
-# 2020.08.25 was 2.14.03
-rm -vfR nasm-2.15.05
-#if [[ ! -d "nasm-2.15.05" ]]; then
-   echo "Downloading nasm 2.15.05"
-   url="https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.xz"
-   rm -f "nasm-2.15.05.tar.xz"
-   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-2.15.05.tar.xz" # -L means "allow redirection" or some odd :|
-   tar -xf "nasm-2.15.05.tar.xz" || unzip "nasm-2.15.05.tar.xz"
-   echo "Configuring nasm 2.15.05"
-   cd nasm-2.15.05
+n_ver="2.15.05"
+rm -vfR nasm-${n_ver}
+#if [[ ! -d "nasm-${n_ver}" ]]; then
+   echo "Downloading nasm ${n_ver}"
+   url="https://www.nasm.us/pub/nasm/releasebuilds/${n_ver}/nasm-${n_ver}.tar.xz"
+   rm -f "nasm-${n_ver}.tar.xz"
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-${n_ver}.tar.xz" # -L means "allow redirection" or some odd :|
+   tar -xf "nasm-${n_ver}.tar.xz" || unzip "nasm-${n_ver}.tar.xz"
+   echo "Configuring nasm ${n_ver}"
+   cd nasm-${n_ver}
       ./autogen.sh || exit 1
       ./configure --prefix=/usr --exec_prefix=/usr --enable-sections --enable-lto  || exit 1
-      echo "Make nasm 2.15.05"
+      echo "Make nasm ${n_ver}"
       make  || exit 1
-      echo "Installing nasm 2.15.054"
+      echo "Installing nasm ${n_ver}"
       sudo make install  || exit 1 # sudo so it copies into /usr folder tree
    cd ..
-   echo "Done sudo apt ing and Installing nasm 2.15.05"
+   echo "Done sudo apt ing and Installing nasm ${n_ver}"
 #fi
 set +x
 cd ~/Desktop
@@ -223,22 +220,23 @@ set +x
 # Build and install the latest supported cmake
 set -x
 cd ~/Desktop
-rm -vfR cmake-3.18.3 # 2020.08.30
-#if [[ ! -d "cmake-3.18.3" ]]; then
-   #mkdir cmake-3.18.3 # pre 2020.08.30
-   mkdir cmake-3.18.3 # 2020.08.30
-   cd cmake-3.18.3
-   echo "Downloading cmake-3.18.3"
+#c_ver="3.18.3"
+c_ver="3.18.4"
+rm -vfR cmake-${c_ver} 
+#if [[ ! -d "cmake-${c_ver}" ]]; then
+   mkdir cmake-${c_ver} 
+   cd cmake-${c_ver}
+   echo "Downloading cmake-${c_ver}"
    sudo apt install -y libssl-dev 
    sudo apt remove -y cmake
-   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://github.com/Kitware/CMake/releases/download/v3.18.3/cmake-3.18.3.tar.gz" -L -O
-   tar -xf cmake-3.18.3.tar.gz
+   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://github.com/Kitware/CMake/releases/download/v${c_ver}/cmake-${c_ver}.tar.gz" -L -O
+   tar -xf cmake-${c_ver}.tar.gz
    sudo chmod +777 -R *
-   cd cmake-3.18.3 # unzipped subfolder
+   cd cmake-${c_ver} # unzipped subfolder
       #./bootstrap --help
       ./bootstrap --prefix=/usr && make && sudo make install
    cd ..
-   echo "Done sudo apt ing and Installing cmake-3.18.3"
+   echo "Done sudo apt ing and Installing cmake-${c_ver}"
 #fi
 set +x
 cd ~/Desktop
