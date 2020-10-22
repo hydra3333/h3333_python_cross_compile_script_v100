@@ -29,9 +29,9 @@
 		## 2020.10.15 commit https://github.com/KhronosGroup/OpenCL-Headers/commit/9fac4e9866a961f66bdd72fa2bff50145512f972 changed default header version to 3.0 if CL_TARGET_OPENCL_VERSION is not defined
 		##'sed -i.bak \'s/-DCL_TARGET_OPENCL_VERSION=300/-DCL_TARGET_OPENCL_VERSION=200/g\' "CMakeLists.txt"', # 2020.10.15 they changed it to version 3.0 headers, so put it back to v2.0 (perhaps even 1.2)
 		#'diff -U 5 "CMakeLists.txt.orig" "CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
-		'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
+		'cp -fv "../CMakeLists.txt" "../CMakeLists.txt.orig"',
 		# some sed editing right here
-		'diff -U 5 "CMakeLists.txt.orig" "CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 5 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 	],
 	'depends_on' : [ 'opencl_headers' ],
 	'update_check' : { 'type' : 'git', },	
