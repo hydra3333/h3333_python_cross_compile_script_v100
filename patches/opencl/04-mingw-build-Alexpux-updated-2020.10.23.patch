@@ -1,0 +1,20 @@
+--- a/test/loader_test/test_program_objects.c	2020-10-08 00:01:24.000000000 -0700
++++ b/test/loader_test/test_program_objects.c	2020-10-22 16:41:19.150811000 -0700
+@@ -169,10 +169,17 @@
+     void *return_value;
+     test_icd_app_log("clGetExtensionFunctionAddressForPlatform(%p, %p)\n",
+                      platform,
+                      data->func_name);
+ 
++// # 2020.10.23 START of added block
++    if (!platform) {
++        test_icd_app_log("No stub platform\n");
++        return -2;
++    }
++// # 2020.10.23 END of added block
++
+     return_value=clGetExtensionFunctionAddressForPlatform(platform,
+                                                         data->func_name);
+ 
+     test_icd_app_log("Value returned: %p\n", return_value);
+ 
