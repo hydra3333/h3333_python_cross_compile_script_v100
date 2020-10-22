@@ -16,8 +16,8 @@
 		'if [ ! -f "already_ran_make_install" ] ; then touch already_ran_make_install ; fi',
 	],
 	'patches' : [
-		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # this is from deadsix27 # if source_subfolder then use '..'),
-		('opencl/01-mingw-build-Alexpux-2020.10.23.patch', '-p1', '..'), # 2020.10.23 no header patch for Alexpux
+		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # this is from deadsix27 # if source_subfolder then use '..'), # 2020.10.23 remember, no header patch for Alexpux
+		('opencl/01-mingw-build-Alexpux-updated-2020.10.23.patch', '-p1', '..'), # 2020.10.23 Alexpux patch updated Part 1
 	],
 	'run_post_patch' : [ # 2020.10.15 was 'run_post_regexreplace'
 		#'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
