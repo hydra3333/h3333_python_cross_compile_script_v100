@@ -1,17 +1,103 @@
---- a/CMakeLists.txt	2020-10-22 19:36:16.116017000 -0700
-+++ b/CMakeLists.txt	2020-10-22 19:47:22.102464809 -0700
-@@ -103,10 +103,14 @@
+--- a/CMakeLists.txt	2020-10-22 15:47:16.820597000 -0700
++++ b/CMakeLists.txt	2020-10-22 16:09:40.146525000 -0700
+@@ -1,8 +1,9 @@
+ cmake_minimum_required (VERSION 3.1)
+ 
+-project (OpenCL-ICD-Loader VERSION 1.2)
++#project (OpenCL-ICD-Loader VERSION 1.2) # 2020.10.23
++project (OpenCL-ICD-Loader VERSION 2.2)  # 2020.10.23
+ include (GNUInstallDirs)
+ find_package (Threads REQUIRED)
+ 
+ # The option below allows building the ICD Loader library as a shared library
+ # (ON, default) or a static library (OFF).
+@@ -77,14 +78,16 @@
+ endif ()
+ 
+ set (OPENCL_ICD_LOADER_HEADERS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inc CACHE PATH "Path to OpenCL Headers")
+ 
+ add_library (OpenCL ${OPENCL_ICD_LOADER_SOURCES})
+-set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1")
++#set_target_properties (OpenCL PROPERTIES VERSION "1.2" SOVERSION "1") # 2020.10.23
++set_target_properties (OpenCL PROPERTIES VERSION "2.2" SOVERSION "1")  # 2020.10.23
+ target_include_directories(OpenCL SYSTEM PUBLIC ${OPENCL_ICD_LOADER_HEADERS_DIR})
+ 
+-if (WIN32)
++#if (WIN32) # 2020.10.23
++if (MSVC)   # 2020.10.23
+     target_link_libraries (OpenCL cfgmgr32.lib runtimeobject.lib)
+ 
+     option (OPENCL_ICD_LOADER_DISABLE_OPENCLON12 "Disable support for OpenCLOn12. Support for OpenCLOn12 should only be disabled when building an import lib to link with, and must be enabled when building an ICD loader for distribution!" OFF)
+     if (OPENCL_ICD_LOADER_DISABLE_OPENCLON12)
+         target_compile_definitions(OpenCL PRIVATE OPENCL_ICD_LOADER_DISABLE_OPENCLON12)
+@@ -98,10 +101,12 @@
+         string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+         string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
          string(REPLACE "/MDd" "/MTd" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
          string(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
      endif()
- elseif(MINGW) # 2020.10.23
-     target_link_libraries (OpenCL cfgmgr32) # 2020.10.23
-+    option (OPENCL_ICD_LOADER_DISABLE_OPENCLON12 "Disable support for OpenCLOn12. Support for OpenCLOn12 should only be disabled when building an import lib to link with, and must be enabled when building an ICD loader for distribution!" OFF) # 2020.10.23
-+    if (OPENCL_ICD_LOADER_DISABLE_OPENCLON12)  # 2020.10.23
-+        target_compile_definitions(OpenCL PRIVATE OPENCL_ICD_LOADER_DISABLE_OPENCLON12)  # 2020.10.23
-+    endif()  # 2020.10.23
++elseif(MINGW) # 2020.10.23
++    target_link_libraries (OpenCL cfgmgr32) # 2020.10.23
  else()
      if (APPLE)
          target_link_libraries (OpenCL ${CMAKE_THREAD_LIBS_INIT})
      else ()
          set_target_properties (OpenCL PROPERTIES LINK_FLAGS "-Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/loader/linux/icd_exports.map")
+@@ -111,23 +116,49 @@
+         target_link_libraries (OpenCL ${CMAKE_THREAD_LIBS_INIT})
+     endif ()
+ endif ()
+ 
+ include_directories (${OPENCL_ICD_LOADER_HEADERS_DIR})
+-add_definitions (-DCL_TARGET_OPENCL_VERSION=300)
++#add_definitions (-DCL_TARGET_OPENCL_VERSION=300) # 2020.12.10
++add_definitions (-DCL_TARGET_OPENCL_VERSION=220)  # 2020.12.10 perhaps will need 300, try it and see
+ 
+ target_include_directories (OpenCL PRIVATE ${CMAKE_CURRENT_BINARY_DIR} loader)
+ target_link_libraries (OpenCL ${CMAKE_DL_LIBS})
+ 
+ option (OPENCL_ICD_LOADER_BUILD_TESTING "Enable support for OpenCL ICD Loader testing." OFF)
+ 
+ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR OPENCL_ICD_LOADER_BUILD_TESTING)
+     include(CTest)
+ endif()
+ if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR OPENCL_ICD_LOADER_BUILD_TESTING) AND BUILD_TESTING)
+-    add_subdirectory (test)
++    #add_subdirectory (test) # 2020.120.23
+ endif()
+ 
++# 2020.10.23 START OF ADDED BLOCK
++set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
++set(config_install_dir "lib/cmake/${PROJECT_NAME}")
++set(include_install_dir "include")
++set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
++set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
++set(targets_export_name "${PROJECT_NAME}Targets")
++set(namespace "${PROJECT_NAME}::")
++include(CMakePackageConfigHelpers)
++write_basic_package_version_file(
++    "${version_config}" COMPATIBILITY SameMajorVersion
++)
++configure_file("Config.cmake.in" "${project_config}" @ONLY) # 2020.10.23 this new file will be created by us
++install(
++    FILES "${project_config}" "${version_config}"
++    DESTINATION "${config_install_dir}"
++)
++install(
++    EXPORT "${targets_export_name}"
++    NAMESPACE "${namespace}"
++    DESTINATION "${config_install_dir}"
++)
++# 2020.10.23 END OF ADDED BLOCK
++
+ install (TARGETS OpenCL
++    EXPORT "${targets_export_name}" # 2020.10.23
+     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+--- /dev/null
++++ b/Config.cmake.in
+@@ -0,0 +1,3 @@
++include(CMakeFindDependencyMacro)
++find_dependency(Threads)
++include("${CMAKE_CURRENT_LIST_DIR}/@targets_export_name@.cmake"
