@@ -32,7 +32,7 @@
 	'run_post_patch' : [ # 2020.10.15 was 'run_post_regexreplace'
 		# PATCH OPENCL DEFAULT HEADERS VERSION TO 1.2
 		'cp -fv "{target_prefix}/include/CL/cl_version.h" "{target_prefix}/include/CL/cl_version.h.orig"',
-		'sed -i.bak "s/#define CL_TARGET_OPENCL_VERSION 300/#define CL_TARGET_OPENCL_VERSION 120/g" "{target_prefix}/include/CL/cl_version.h"',
+		'sed -i.bak "s/define CL_TARGET_OPENCL_VERSION 300/define CL_TARGET_OPENCL_VERSION 120/g" "{target_prefix}/include/CL/cl_version.h"',
 		'sed -i.bak "s/Defaulting to 300 (OpenCL 3.0)/Defaulting to 120 (OpenCL 1.2)/g" "{target_prefix}/include/CL/cl_version.h"',
 		'diff -U 5 "{target_prefix}/include/CL/cl_version.h.orig" "{target_prefix}/include/CL/cl_version.h"  && echo "NO difference" || echo "YES differences!"',
 		#
