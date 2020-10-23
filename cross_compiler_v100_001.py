@@ -2515,8 +2515,8 @@ class CrossCompileScript:
 				self.downloadFile(url, fileName)
 
 		self.logger.info("Patching source using: '{0}'".format(fileName))
-		self.logger.debug('patch {2}{0} < "{1}"'.format(type, fileName, ignore))
-		self.runProcess('patch {2}{0} < "{1}"'.format(type, fileName, ignore), ignoreErr, exitOn)
+		self.logger.debug('patch -b {2}{0} < "{1}"'.format(type, fileName, ignore)) # 2020.10.23 add backup to ".orig" using "-b"
+		self.runProcess('patch -b {2}{0} < "{1}"'.format(type, fileName, ignore), ignoreErr, exitOn) # 2020.10.23 add backup to ".orig" using "-b"
 
 		if not postConf:
 			self.removeAlreadyFiles()
