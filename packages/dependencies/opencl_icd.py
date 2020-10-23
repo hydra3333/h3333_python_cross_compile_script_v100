@@ -15,6 +15,7 @@
 	'patches' : [
 		#('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2020.06.27 moved change to the "sed" below
 		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
+		('opencl/0002-OpenCL-git-header-for-mingw64-8plus.patch', '-p1'), # 2020.10.23  for use with Mingw64 8plus
 	],
 	'run_post_patch' : [ # 2020.10.15 was 'run_post_regexreplace' : [ # 2019.12.13
 		'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
