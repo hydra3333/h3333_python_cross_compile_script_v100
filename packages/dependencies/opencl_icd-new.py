@@ -6,6 +6,7 @@
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options': '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} ' # note '..' sinxce we're in a subfolder
+		'-DOPENCL_ICD_LOADER_HEADERS_DIR=${target_prefix}/lib ' # 2020.10.23
 		'-DCMAKE_BUILD_TYPE=Release '
 		'-DBUILD_SHARED_LIBS=ON '
 		'-DBUILD_TESTING=OFF '
