@@ -34,13 +34,13 @@
 		'cp -fv "{target_prefix}/include/CL/cl_version.h" "{target_prefix}/include/CL/cl_version.h.orig"',
 		'sed -i.bak "s/define CL_TARGET_OPENCL_VERSION 300/define CL_TARGET_OPENCL_VERSION 120/g" "{target_prefix}/include/CL/cl_version.h"',
 		'sed -i.bak "s/Defaulting to 300 (OpenCL 3.0)/Defaulting to 120 (OpenCL 1.2)/g" "{target_prefix}/include/CL/cl_version.h"',
-		'diff -U 5 "{target_prefix}/include/CL/cl_version.h.orig" "{target_prefix}/include/CL/cl_version.h"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 3 "{target_prefix}/include/CL/cl_version.h.orig" "{target_prefix}/include/CL/cl_version.h"  && echo "NO difference" || echo "YES differences!"',
 		#
-		'diff -U 5 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 3 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 		'cat "../Config.cmake.in" # newly created file',
-		'diff -U 5 "../loader/windows/icd_windows_hkr.c.orig" "../loader/windows/icd_windows_hkr.c"  && echo "NO difference" || echo "YES differences!"',
-		'diff -U 5 "../test/loader_test/test_create_calls.c.orig" "../test/loader_test/test_create_calls.c"  && echo "NO difference" || echo "YES differences!"',
-		'diff -U 5 "../test/loader_test/test_program_objects.c.orig" "../test/loader_test/test_program_objects.c"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 3 "../loader/windows/icd_windows_hkr.c.orig" "../loader/windows/icd_windows_hkr.c"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 3 "../test/loader_test/test_create_calls.c.orig" "../test/loader_test/test_create_calls.c"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 3 "../test/loader_test/test_program_objects.c.orig" "../test/loader_test/test_program_objects.c"  && echo "NO difference" || echo "YES differences!"',
 	],
 	'run_post_install' : [
 		'cp -vf "{target_prefix}/lib/libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.a"',
