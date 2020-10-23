@@ -14,12 +14,12 @@
 		'-DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON ' # build only symbols per https://github.com/KhronosGroup/OpenCL-ICD-Loader/commit/bb98ad9a9c264d63ad2204c1eeee0a3a1e724e20 
 		'-DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF '
 	,
-	'run_pre_patch' : [
-		'cp -fv "../CMakeLists.txt" "../CMakeLists.txt.orig"',
-		# ../Config.cmake.in does not already exist
-		'cp -fv "../loader/windows/icd_windows_hkr.c" "../loader/windows/icd_windows_hkr.c.orig"',
-		'cp -fv "../test/loader_test/test_create_calls.c" "../test/loader_test/test_create_calls.c.orig"',
-		'cp -fv "../test/loader_test/test_program_objects.c" "../test/loader_test/test_program_objects.c.orig"',
+	'run_pre_patch' : [ # this runs before descending into 'source_subfolder'
+		'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
+		# Config.cmake.in does not already exist
+		'cp -fv "loader/windows/icd_windows_hkr.c" "loader/windows/icd_windows_hkr.c.orig"',
+		'cp -fv "test/loader_test/test_create_calls.c" "test/loader_test/test_create_calls.c.orig"',
+		'cp -fv "test/loader_test/test_program_objects.c" "test/loader_test/test_program_objects.c.orig"',
 	],	
 	'patches' : [
 		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # this is from deadsix27 # if source_subfolder then use '..'), # 2020.10.23 remember, no header patch for Alexpux
