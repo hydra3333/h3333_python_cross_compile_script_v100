@@ -5,13 +5,15 @@
 	'needs_make_install' : True,
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
-	'configure_options': '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} ' # note '..' sinxce we're in a subfolder
+	'configure_options': 
+		'.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} ' # note '..' sinxce we're in a subfolder
 		'-DOPENCL_ICD_LOADER_HEADERS_DIR={target_prefix}/lib ' # 2020.10.23
 		'-DCMAKE_BUILD_TYPE=Release '
 		'-DBUILD_SHARED_LIBS=ON '
 		'-DBUILD_TESTING=OFF '
-		'-DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON', # build only symbols per https://github.com/KhronosGroup/OpenCL-ICD-Loader/commit/bb98ad9a9c264d63ad2204c1eeee0a3a1e724e20 
-		'-DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF ',
+		'-DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON ' # build only symbols per https://github.com/KhronosGroup/OpenCL-ICD-Loader/commit/bb98ad9a9c264d63ad2204c1eeee0a3a1e724e20 
+		'-DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF '
+	,
 	'run_pre_patch' : [
 		'cp -fv "../CMakeLists.txt" "../CMakeLists.txt.orig"',
 		# ../Config.cmake.in does not already exist
