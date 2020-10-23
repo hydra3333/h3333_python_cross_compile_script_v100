@@ -19,6 +19,7 @@
 	'patches' : [
 		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # this is from deadsix27 # if source_subfolder then use '..'), # 2020.10.23 remember, no header patch for Alexpux
 		('opencl/01-mingw-build-Alexpux-updated-2020.10.23.patch', '-p1', '..'), # 2020.10.23 Alexpux patch updated Part 1
+		('opencl/01a-mingw-build-Alexpux-updated-2020.10.23.patch', '-p1', '..'), # 2020.10.23 Alexpux patch updated Part 1
 		('opencl/02-mingw-build-Alexpux-updated-2020.10.23.patch', '-p1', '..'), # 2020.10.23 Alexpux patch updated Part 1
 		('opencl/03-mingw-build-Alexpux-updated-2020.10.23.patch', '-p1', '..'), # 2020.10.23 Alexpux patch updated Part 1
 		('opencl/04-mingw-build-Alexpux-updated-2020.10.23.patch', '-p1', '..'), # 2020.10.23 Alexpux patch updated Part 1
