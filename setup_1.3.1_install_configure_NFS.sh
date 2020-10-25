@@ -80,7 +80,7 @@ echo ""
 set -x
 sudo cp -fv "/etc/fstab" "/etc/fstab.pre-nfs.old"
 sudo sed -i   "s;${server_root_folder} ${nfs_export_full};#${server_root_folder} /NFS-export/mp4library;g" "/etc/fstab"
-sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120,bind 0 0" "/etc/fstab"
+sudo sed -i "$ a ${server_root_folder} ${nfs_export_full} none bind,defaults,nofail,auto,users,rw,exec,umask=000,dmask=000,fmask=000,uid=1000,gid=1000,noatime,nodiratime,x-systemd.device-timeout=120 0 0" "/etc/fstab"
 set +x
 echo ""
 set -x
