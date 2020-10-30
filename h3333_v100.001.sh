@@ -260,14 +260,14 @@ fi
 #read -p "done mkvtoolnix press any key to continue"
 
 
-rm -fv ./youtube-dl.log
-./cross_compiler_v100_001.py --force --debug -p youtube-dl 2>&1 | tee -a ./youtube-dl.log
-exit_status=$?
-echo "exit_status='$exit_status'"
-if [ $exit_status -ne 0 ]; then
-    echo "Error $exit_status detected"
-	exit $exit_status
-fi
+#rm -fv ./youtube-dl.log
+#./cross_compiler_v100_001.py --force --debug -p youtube-dl 2>&1 | tee -a ./youtube-dl.log
+#exit_status=$?
+#echo "exit_status='$exit_status'"
+#if [ $exit_status -ne 0 ]; then
+#    echo "Error $exit_status detected"
+#	exit $exit_status
+#fi
 #read -p "done youtube-dl press any key to continue"
 
 set -x
