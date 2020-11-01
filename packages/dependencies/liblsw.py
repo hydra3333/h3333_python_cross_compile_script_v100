@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/HolyWu/L-SMASH-Works.git', # 2019.11.19 swap to HolyWu's fork as it seems more updated
 	'depth_git' : 0,
-	#'branch' : 'ab66a24f255dc89c03eb955c1a996a12d9c7595a', # 2020.08.21 this commit works per https://github.com/HolyWu/L-SMASH-Works/issues/11 (space between dependencies and :)
+	'branch' : 'ab66a24f255dc89c03eb955c1a996a12d9c7595a', # 2020.08.21 this commit works per https://github.com/HolyWu/L-SMASH-Works/issues/11 (space between dependencies and :)
 	'env_exports' : {
 		'PKGCONFIG' : 'pkg-config',
 	},
@@ -19,7 +19,7 @@
 		'sed -i.BAK "s;vapoursynth_dep =;includes = include_directories(\'../include\')\\n\\nvapoursynth_dep =;g" "../meson.build"',
 		'sed -i.BAK \'s;dependencies : deps,;dependencies : deps,\\ninclude_directories : includes,;g\' "../meson.build"', # 2020.09.10 prior to : to fix an upstream commit - in case we change commit brancges
 		'sed -i.BAK \'s;dependencies: deps,;dependencies: deps,\\ninclude_directories : includes,;g\' "../meson.build"',   # 2020.09.10 removed a space prior to : to fix an upstream commit
-		'sed .-iBAK "s;if host_machine.system() == \'windows\';if host_machine.system() == \'windows\' or host_machine.system() == \'mingw\';g" "../meson.build"',
+		#'sed .-iBAK "s;if host_machine.system() == \'windows\';if host_machine.system() == \'windows\' or host_machine.system() == \'mingw\';g" "../meson.build"',
 		'diff -U 5 "../meson.build.old" "../meson.build" && echo "NO difference" || echo "YES differences!"',
 		'sleep 3',
 		#'sed -iBAK \'s;;;g\' "../"',
