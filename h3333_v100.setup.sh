@@ -173,8 +173,8 @@ sudo apt-get remove -y doxygen
 #pip3 install -y --user meson
 set -x
 cd ~/Desktop
-#m_ver="0.55.1"
-m_ver="0.55.3"
+m_ver="0.55.1"
+#m_ver="0.55.3"
 rm -vfR meson_git
 #if [[ ! -d "meson_git" ]]; then
    #git clone https://github.com/mesonbuild/meson.git
