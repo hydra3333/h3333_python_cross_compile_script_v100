@@ -38,10 +38,11 @@ libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried 
 ```
 sudo apt -y install git
 cd ~/Desktop
+sudo chmod +777 -R ./*
 sudo rm -vfR ./h3333_python_cross_compile_script_v100
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
 cp -fv ./h3333_python_cross_compile_script_v100/*.sh ./
-chmod +777 -R ./*
+sudo chmod +777 -R ./*
 ./h3333_v100.setup.sh # (once-off, before the first build)
 ```
 then to build just ffmpeg:    
