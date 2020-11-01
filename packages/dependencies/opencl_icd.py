@@ -2,7 +2,8 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-ICD-Loader.git',
 	'depth_git' : 0,
-	'branch' : '98ca71fb9f8484f1cd1999f55224bf9e8d18693b', # 2020.011.01 so it works pre-meson, pre-opencl v3 patches
+	'branch' : '98ca71fb9f8484f1cd1999f55224bf9e8d18693b', # 2020.11.01 so it works pre-meson, pre-opencl v3 patches
+	#'branch' : '6d0b214b9cc303cdb0b05b3c0dc9afb0c39998c5', # 2020.04.20 icd_loader broke upstream
 	'needs_make_install' : True, #False,
 	#'source_subfolder': '_build',
 	'conf_system' : 'cmake',
@@ -20,8 +21,8 @@
 	],
 	'patches' : [
 		#('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2020.06.27 moved change to the "sed" below
-		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 for use with BEFORE Mingw64 8plus
-		('opencl/0002-OpenCL-git-header-for-mingw64-8plus.patch', '-p1'), # 2020.10.23 for use with Mingw64 8plus
+		('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 for use with BEFORE Mingw64 8plus
+		#('opencl/0002-OpenCL-git-header-for-mingw64-8plus.patch', '-p1'), # 2020.10.23 for use with Mingw64 8plus
 	],
 	'run_post_patch' : [ # 2020.10.15 was 'run_post_regexreplace' : [ # 2019.12.13
 		'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
