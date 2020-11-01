@@ -46,9 +46,9 @@ sudo chmod +777 -R ./*
 ./h3333_v100.setup.sh # (once-off, before the first build)
 ```
 then to build just ffmpeg:    
-3. `./h3333_v100.001_ff.sh
+3. `./h3333_v100.001_ff.sh`    
 or to build everything:    
-4. `./h3333_v100.001.sh 
+4. `./h3333_v100.001.sh`    
 
 Good luck.
 
