@@ -4,7 +4,6 @@
 	'url' : 'https://github.com/hydra3333/vapoursynth_mingw_libs.git',
 	'needs_configure' : False,
 	'needs_make_install' : False,
-	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R52 PYTHON_VERSION=3.9.0', # 2020.10.17 for vapoursynth R53 ?
 	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R52 PYTHON_VERSION=3.8.6',  # 2020.10.17 for vapoursynth R52
 	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
