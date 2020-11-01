@@ -35,16 +35,19 @@ libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried 
 
 1. Create an Ubuntu VM (tested with 20.04)   
 2. login into ubuntu and start a Terminal window   
-3. `sudo apt -y install git`   
-4. `cd ~/Desktop`   
-5. `git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git`   
-6. `cp -fv ./h3333_python_cross_compile_script_v100/*.sh ./`   
-7. `chmod +777 *.sh`   
-8. `./h3333_v100.setup.sh` (once-off, before the first build)   
+```
+sudo apt -y install git
+cd ~/Desktop
+sudo rm -vfR ./h3333_python_cross_compile_script_v100
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
+cp -fv ./h3333_python_cross_compile_script_v100/*.sh ./
+chmod +777 *.sh
+./h3333_v100.setup.sh # (once-off, before the first build)
+```
 then to build just ffmpeg:    
-9. `./h3333_v100.001_ff.sh`   
+3. `./h3333_v100.001_ff.sh
 or to build everything:    
-10. `./h3333_v100.001.sh`   
+4. `./h3333_v100.001.sh 
 
 Good luck.
 
