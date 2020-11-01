@@ -173,8 +173,8 @@ sudo apt-get remove -y doxygen
 #pip3 install -y --user meson
 set -x
 cd ~/Desktop
-#m_ver="0.52.1"
-m_ver="0.53.2"
+m_ver="0.52.1"
+#m_ver="0.53.2"
 #m_ver="0.53.3"
 #m_ver="0.55.1"
 #m_ver="0.55.3"
