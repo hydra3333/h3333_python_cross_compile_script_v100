@@ -2,10 +2,16 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-ICD-Loader.git',
 	'depth_git' : 0,
+	'branch' : '2df1cbfecce5a0715e798d968a6c0b1207ae920c', # 2020.011.01 so it works pre-meson, pre-opencl v3 patches
 	'needs_make_install' : True, #False,
 	#'source_subfolder': '_build',
 	'conf_system' : 'cmake',
-	'configure_options': '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF -DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON', # build only symbols https://github.com/KhronosGroup/OpenCL-ICD-Loader/commit/bb98ad9a9c264d63ad2204c1eeee0a3a1e724e20 
+	'configure_options': '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
+		'-DCMAKE_BUILD_TYPE=Release '
+		'-DBUILD_SHARED_LIBS=ON '
+		'-DBUILD_TESTING=OFF '
+		'-DOPENCL_ICD_LOADER_REQUIRE_WDK=OFF '
+		'-DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON', # build only symbols https://github.com/KhronosGroup/OpenCL-ICD-Loader/commit/bb98ad9a9c264d63ad2204c1eeee0a3a1e724e20 
 	'run_post_install' : [
 	#	'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.dll.a"', # 2019.12.13 always copy it
 	#	'cp -vf "libOpenCL.dll.a" "{target_prefix}/lib/libOpenCL.a"', # 2020.03.27 required for mpv to link
@@ -14,8 +20,8 @@
 	],
 	'patches' : [
 		#('opencl/0001-OpenCL-git-prefix.patch', '-p1'), # '..'), # 2020.06.27 moved change to the "sed" below
-		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 when working in subfolder _build, use  ", '..'"  otherwise leave it off
-		('opencl/0002-OpenCL-git-header-for-mingw64-8plus.patch', '-p1'), # 2020.10.23  for use with Mingw64 8plus
+		#('opencl/0002-OpenCL-git-header.patch', '-p1'), # '..'), # 2019.12.13 for use with BEFORE Mingw64 8plus
+		('opencl/0002-OpenCL-git-header-for-mingw64-8plus.patch', '-p1'), # 2020.10.23 for use with Mingw64 8plus
 	],
 	'run_post_patch' : [ # 2020.10.15 was 'run_post_regexreplace' : [ # 2019.12.13
 		'cp -fv "CMakeLists.txt" "CMakeLists.txt.orig"',
