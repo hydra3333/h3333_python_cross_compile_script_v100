@@ -1,0 +1,70 @@
+From 05be592093facbc2881f7f4ecb00e0f587a5efad Mon Sep 17 00:00:00 2001
+From: Christopher Degawa <ccom@randomderp.com>
+Date: Thu, 17 Sep 2020 23:45:34 +0000
+Subject: [PATCH 1/2] CMake: Use FindOpenMP again
+
+Signed-off-by: Christopher Degawa <ccom@randomderp.com>
+---
+ CMakeLists.txt | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a453b1f..a4a6d25 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,6 +5,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+ 
+ include (FindSSE)
+ include (GNUInstallDirs)
++find_package(OpenMP)
+ 
+ set(MAJOR_VERSION 1)
+ set(MINOR_VERSION 1)
+@@ -46,8 +47,8 @@ if(SSE2_FOUND)
+ add_definitions( -DUSE_SSE2 -msse2 -ffast-math )
+ endif()
+ 
+-if(USE_OMP)
+-add_definitions(-fopenmp -DUSE_OMP)
++if(USE_OMP AND OPENMP_FOUND)
++add_definitions(${OpenMP_C_FLAGS} -DUSE_OMP)
+ endif()
+ 
+ set(SOURCES src/frameinfo.c src/transformtype.c src/libvidstab.c
+@@ -73,9 +74,11 @@ if(ORC_FOUND)
+ target_link_libraries(vidstab ${ORC_LIBRARIES})
+ set(PKG_EXTRA_LIBS "${PKG_EXTRA_LIBS} ${ORC_LIBRARIES}")
+ endif()
+-if(USE_OMP)
+-target_link_libraries(vidstab gomp)
+-set(PKG_EXTRA_LIBS "${PKG_EXTRA_LIBS} -lgomp -lpthread")
++if(USE_OMP AND OPENMP_FOUND)
++if(TARGET OpenMP::OpenMP_C)
++target_link_libraries(vidstab OpenMP::OpenMP_C)
++endif()
++set(PKG_EXTRA_LIBS "${PKG_EXTRA_LIBS} ${OpenMP_C_FLAGS}")
+ endif()
+ 
+ 
+
+From f6b686dc03628aa596515c799107595745e46ae6 Mon Sep 17 00:00:00 2001
+From: Christopher Degawa <ccom@randomderp.com>
+Date: Fri, 18 Sep 2020 00:54:44 +0000
+Subject: [PATCH 2/2] CMake: Only enable the C language
+
+Signed-off-by: Christopher Degawa <ccom@randomderp.com>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a4a6d25..5476f42 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required (VERSION 2.8.5)
+-project (vid.stab)
++project (vid.stab C)
+ 
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+ 
