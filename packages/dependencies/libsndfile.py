@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/erikd/libsndfile.git',
+	#'url' : 'https://github.com/erikd/libsndfile.git',
+	'url' : 'https://github.com/libsndfile/libsndfile.git', # 2020.11.03 
 	#'depth_git' : 0,
 	#'branch' : '4bdd7414602946a18799b514001b0570e8693a47', # 2020.04.20 COMMENTED OUT # see if this fixes vamp build error
 	'conf_system' : 'cmake',

@@ -4,6 +4,9 @@
 	'rename_folder' : 'vidstab_git',
 	'conf_system' : 'cmake',
 	'configure_options' : '{cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DENABLE_SHARED=OFF -DCMAKE_AR={cross_prefix_full}ar -DUSE_OMP=OFF', #fatal error: omp.h: No such file or directory
+	#'patches' : [
+	#	('vidstab/94-from-mabs-2020.11.03.patch','-Np1'), # 2020.11.03 per MABS # ,'..'
+	#],
 	'run_post_regexreplace' : [
 		'sed -i.bak "s/SHARED/STATIC/g" CMakeLists.txt',
 	],
