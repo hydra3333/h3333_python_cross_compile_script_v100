@@ -3,6 +3,7 @@
 	'recursive_git' : True,
 	'build_system' : 'rake',
 	'url' : 'https://gitlab.com/mbunkus/mkvtoolnix.git',
+	'branch' : 'main',  # 2020.11.05 they've changed the trunk from master to main (a US political race thing against the word, apparently)
 	#'depth_git': 0,
 	#'branch' : '1465b5834289d4d18bc26c425666ea02a8e2debb', # 2020.08.22 https://gitlab.com/mbunkus/mkvtoolnix/-/issues/2904
 	'configure_options':
