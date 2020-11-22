@@ -62,7 +62,7 @@
 		'DEST_OS={bit_name_win} ' # 2020.03.19 changed from 'DEST_OS=win32 '
 	,
 	'depends_on' : [
-		'opencl_icd',
+		'opencl_non_icd',
 		#'vulkan_loader', # 2020.10.12 comment out vulkan since it an no longer be statically linked
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
