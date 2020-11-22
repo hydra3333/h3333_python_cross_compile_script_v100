@@ -3,7 +3,6 @@
 	'url' : 'https://github.com/KhronosGroup/OpenCL-ICD-Loader.git',
 	'depth_git' : 0,
 	'branch' : '98ca71fb9f8484f1cd1999f55224bf9e8d18693b', # 2020.11.01 so it works pre-meson, pre-opencl v3 patches
-	#'branch' : '6d0b214b9cc303cdb0b05b3c0dc9afb0c39998c5', # 2020.04.20 icd_loader broke upstream
 	'needs_make_install' : True, #False,
 	#'source_subfolder': '_build',
 	'conf_system' : 'cmake',
