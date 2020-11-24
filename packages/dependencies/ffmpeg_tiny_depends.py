@@ -16,7 +16,8 @@
 		'rubberband',
 		'libwebp',
 		'nv-codec-headers',
-		'opencl_non_icd',
+		'opencl_icd', # 2020.11.24
+		#'opencl_non_icd', # 2020.11.24
 		#'vulkan_loader', # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
 		'fdk_aac',
 		'twolame',
