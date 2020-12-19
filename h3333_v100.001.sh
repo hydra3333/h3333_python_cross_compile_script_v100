@@ -281,21 +281,21 @@ find /home/u/Desktop/_working -iname "*.dll" 2>&1 | tee -a ./exe.log
 find /home/u/Desktop/_working -iname "*.dll"
 
 cd ~/Desktop
-echo "start of tail ./ffmpeg.log"
-tail ./ffmpeg.log
-echo "end of tail ./ffmpeg.log"
-echo "start of tail ./x264.log"
-tail ./x264.log
-echo "end of tail ./x264.log"
-echo "start of tail ./x265.log"
-tail ./x265.log
-echo "end of tail ./x265.log"
-echo "start of tail ./mp4box.log"
-tail ./mp4box.log
-echo "end of tail ./mp4box.log"
-echo "start of tail ./mediainfo.log"
-tail ./mediainfo.log
-echo "end of tail ./mediainfo.log"
+echo "start of tail -n 20 ~/Desktop/_working/ffmpeg.log"
+tail -n 20 ~/Desktop/_working/ffmpeg.log
+echo "end of tail -n 20 ~/Desktop/_working/ffmpeg.log"
+echo "start of tail -n 20 ~/Desktop/_working/x264.log"
+tail -n 20 ~/Desktop/_working/x264.log
+echo "end of tail -n 20 ~/Desktop/_working/x264.log"
+echo "start of tail -n 20 ~/Desktop/_working/x265.log"
+tail -n 20 ~/Desktop/_working/x265.log
+echo "end of tail -n 20 ~/Desktop/_working/x265.log"
+echo "start of tail -n 20 ~/Desktop/_working/mp4box.log"
+tail -n 20 ~/Desktop/_working/mp4box.log
+echo "end of tail -n 20 ~/Desktop/_working/mp4box.log"
+echo "start of tail -n 20 ~/Desktop/_working/mediainfo.log"
+tail -n 20 ~/Desktop/_working/mediainfo.log
+echo "end of tail -n 20 ~/Desktop/_working/mediainfo.log"
 
 cd ~/Desktop
 sudo chmod a=rwx -R *.sh
