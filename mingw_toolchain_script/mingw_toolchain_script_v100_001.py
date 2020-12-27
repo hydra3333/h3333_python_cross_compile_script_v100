@@ -64,31 +64,31 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 }
 SOURCES['gmp'] = {
 	'type': 'archive',
-	'version': '6.2.0',
+	'version': '6.2.1', # 2020.12.27
 	'url': 'https://ftp.gnu.org/gnu/gmp/gmp-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/gmp/', 'type': 'httpindex', 'regex': r'gmp-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
 SOURCES['mpfr'] = {
 	'type': 'archive',
-	'version': '4.1.0', # 2020.08.30 was '4.0.2', at 'https://ftp.gnu.org/gnu/mpfr/'
+	'version': '4.1.0', # 
 	'url': 'https://ftp.gnu.org/gnu/mpfr/mpfr-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpfr/', 'type': 'httpindex', 'regex': r'mpfr-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
 SOURCES['mpc'] = {
 	'type': 'archive',
-	'version': '1.2.0', # 2020.08.30 was '1.1.0',
+	'version': '1.2.1', # 2020.12.27
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
 SOURCES['isl'] = {
 	'type': 'archive',
-	'version': '0.22',
+	'version': '0.23',
 	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.35', # 2020.08.30 was '2.34',
+	'version': '2.35', # 
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
