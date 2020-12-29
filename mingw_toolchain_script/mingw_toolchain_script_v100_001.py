@@ -84,14 +84,14 @@ SOURCES['mpc'] = {
 }
 SOURCES['isl'] = {
 	'type': 'archive',
-	'version': '0.22',
-	#'version': '0.23', # 2020.12.27
+	#'version': '0.22',
+	'version': '0.23', # 2020.12.27
 	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.35', # 
+	'version': '2.35',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
