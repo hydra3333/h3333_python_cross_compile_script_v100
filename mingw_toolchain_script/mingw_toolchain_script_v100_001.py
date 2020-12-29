@@ -64,21 +64,21 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 }
 SOURCES['gmp'] = {
 	'type': 'archive',
-	'version': '6.2.0',
-	#'version': '6.2.1', # 2020.12.27
+	#'version': '6.2.0',
+	'version': '6.2.1', # 2020.12.27
 	'url': 'https://ftp.gnu.org/gnu/gmp/gmp-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/gmp/', 'type': 'httpindex', 'regex': r'gmp-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
 SOURCES['mpfr'] = {
 	'type': 'archive',
-	'version': '4.1.0', # 
+	'version': '4.1.0',
 	'url': 'https://ftp.gnu.org/gnu/mpfr/mpfr-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpfr/', 'type': 'httpindex', 'regex': r'mpfr-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
 SOURCES['mpc'] = {
 	'type': 'archive',
-	'version': '1.2.0',
-	#'version': '1.2.1', # 2020.12.27
+	#'version': '1.2.0',
+	'version': '1.2.1', # 2020.12.27
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
