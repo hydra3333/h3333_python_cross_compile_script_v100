@@ -104,7 +104,7 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	'version'   : '10.2.0', # stable versions
+	'version'   : '10.1.0', # stable versions
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#'version': '11-20200517', # works # '11-20200621', fails with segmentation fault
 	#'url' : 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # TEST builds server
