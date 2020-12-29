@@ -14,5 +14,5 @@
 	'update_check' : { 'type' : 'git', },
 	'update_check' : { 'url' : 'https://github.com/TimothyGu/libilbc/releases', 'type' : 'githubreleases', 'name_or_tag' : 'name' },
 	#'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libilbc' },
-	'_info' : { 'version' : '3.0.1', 'fancy_name' : 'libilbc' },
+	'_info' : { 'version' : '3.0.3', 'fancy_name' : 'libilbc' },
 }
