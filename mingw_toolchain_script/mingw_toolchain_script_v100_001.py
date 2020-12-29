@@ -64,7 +64,8 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 }
 SOURCES['gmp'] = {
 	'type': 'archive',
-	'version': '6.2.1', # 2020.12.27
+	'version': '6.2.0',
+	#'version': '6.2.1', # 2020.12.27
 	'url': 'https://ftp.gnu.org/gnu/gmp/gmp-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/gmp/', 'type': 'httpindex', 'regex': r'gmp-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
@@ -76,13 +77,15 @@ SOURCES['mpfr'] = {
 }
 SOURCES['mpc'] = {
 	'type': 'archive',
-	'version': '1.2.1', # 2020.12.27
+	'version': '1.2.0',
+	#'version': '1.2.1', # 2020.12.27
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
 SOURCES['isl'] = {
 	'type': 'archive',
-	'version': '0.23',
+	'version': '0.22',
+	#'version': '0.23', # 2020.12.27
 	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
