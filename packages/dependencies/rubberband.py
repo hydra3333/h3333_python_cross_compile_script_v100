@@ -1,8 +1,11 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/breakfastquay/rubberband.git',
+	'depth_git' : 0,
+	#'branch' : 'tags/v1.9',
 	'download_header' : [
 		'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/ladspa.h',
+		#'https://www.ladspa.org/ladspa_sdk/ladspa.h.txt',
 	],
 	'env_exports' : {
 		'AR': '{cross_prefix_bare}ar',
