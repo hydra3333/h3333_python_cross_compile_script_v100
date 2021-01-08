@@ -52,8 +52,11 @@ or to build everything:
 
 To create a new libOpenCL.a after a new nvidia driver is installed on a Win10x64 PC   
 5. Copy `C:\Windows\System32\OpenCL.dll` to an Ubuntu vm with mingw etc installed into folder `~/Desktop/OpenCL/`   
-6. in Ubuntu `/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/gendef OpenCL.dll`   
-7. in Ubuntu `/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-dlltool -l libOpenCL.a -d OpenCL.def -k -A`   
+6. Then in Ubuntu    
+```
+/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/gendef OpenCL.dll
+/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-dlltool -l libOpenCL.a -d OpenCL.def -k -A
+```
 8. Copy/upload/commit resulting `libOpenCL.a` and `libOpenCL.def` into the sources folder in the git   
 
 
