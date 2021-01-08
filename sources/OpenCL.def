@@ -6,8 +6,10 @@
 LIBRARY "OpenCL.dll"
 EXPORTS
 clBuildProgram
+clCloneKernel
 clCompileProgram
 clCreateBuffer
+clCreateBufferWithProperties
 clCreateCommandQueue
 clCreateCommandQueueWithProperties
 clCreateContext
@@ -20,11 +22,13 @@ clCreateFromGLTexture3D
 clCreateImage
 clCreateImage2D
 clCreateImage3D
+clCreateImageWithProperties
 clCreateKernel
 clCreateKernelsInProgram
 clCreatePipe
 clCreateProgramWithBinary
 clCreateProgramWithBuiltInKernels
+clCreateProgramWithIL
 clCreateProgramWithSource
 clCreateSampler
 clCreateSamplerWithProperties
@@ -56,6 +60,7 @@ clEnqueueSVMFree
 clEnqueueSVMMap
 clEnqueueSVMMemFill
 clEnqueueSVMMemcpy
+clEnqueueSVMMigrateMem
 clEnqueueSVMUnmap
 clEnqueueTask
 clEnqueueUnmapMemObject
@@ -67,6 +72,7 @@ clFinish
 clFlush
 clGetCommandQueueInfo
 clGetContextInfo
+clGetDeviceAndHostTimer
 clGetDeviceIDs
 clGetDeviceInfo
 clGetEventInfo
@@ -75,9 +81,11 @@ clGetExtensionFunctionAddress
 clGetExtensionFunctionAddressForPlatform
 clGetGLObjectInfo
 clGetGLTextureInfo
+clGetHostTimer
 clGetImageInfo
 clGetKernelArgInfo
 clGetKernelInfo
+clGetKernelSubGroupInfo
 clGetKernelWorkGroupInfo
 clGetMemObjectInfo
 clGetPipeInfo
@@ -107,11 +115,15 @@ clRetainSampler
 clSVMAlloc
 clSVMFree
 clSetCommandQueueProperty
+clSetContextDestructorCallback
+clSetDefaultDeviceCommandQueue
 clSetEventCallback
 clSetKernelArg
 clSetKernelArgSVMPointer
 clSetKernelExecInfo
 clSetMemObjectDestructorCallback
+clSetProgramReleaseCallback
+clSetProgramSpecializationConstant
 clSetUserEventStatus
 clUnloadCompiler
 clUnloadPlatformCompiler
