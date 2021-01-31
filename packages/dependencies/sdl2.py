@@ -8,8 +8,8 @@
 	'download_locations' : [ # https://www.libsdl.org/release/
 		#{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863' }, ], },
 		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863' }, ], },
-		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'd8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'd8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc' }, ], },
+		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.14.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'd8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.14.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'd8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc' }, ], },
 	],
 	'conf_system' : 'cmake',
 	#'custom_cflag' : '{original_cflags} -DDECLSPEC=', # 2019.12.13
