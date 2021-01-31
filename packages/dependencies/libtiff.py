@@ -1,4 +1,5 @@
 {
+# 2021.01.31 we could consider adding libdeflate for libtiff : https://github.com/ebiggers/libdeflate/tags
 	'repo_type' : 'archive',
 	'download_locations' : [
 		#{ 'url' : 'https://download.osgeo.org/libtiff/tiff-4.1.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634' }, ], },
@@ -29,7 +30,7 @@
 # 2019.12.13 old:
 # none
 #
-# fails to wuild, with
+# fails to build, with
 #FAILED: libtiff/CMakeFiles/tiffxx.dir/tif_stream.cxx.obj 
 #/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ --sysroot=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32  -DNEED_LIBPORT -D_FILE_OFFSET_BITS=64 -I../libtiff -Ilibtiff -I/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2 -O3 -DNDEBUG -MD -MT libtiff/CMakeFiles/tiffxx.dir/tif_stream.cxx.obj -MF libtiff/CMakeFiles/tiffxx.dir/tif_stream.cxx.obj.d -o libtiff/CMakeFiles/tiffxx.dir/tif_stream.cxx.obj -c ../libtiff/tif_stream.cxx
 #In file included from /home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/c++/9.2.0/ext/string_conversions.h:43,
