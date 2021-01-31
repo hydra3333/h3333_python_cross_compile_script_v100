@@ -509,8 +509,11 @@ for name, pkg in sorted(pkgs["prods"].items(),key=lambda i: i[0].casefold()):
 
 			if latestVer == "0.0.0":
 				print(Fore.YELLOW + "%s has an update! [Local: %s Remote: %s] (Error parsing remote version)" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
-				print("Regex pattern:")
-				print("\t" + versionEl["regex"])
+				print("%s Regex pattern:" % name)
+				try:
+					print("\t" + versionEl["regex"])
+				except:
+					print("\nIgnored Error determining 'versionEl[\"regex\"]'")
 			elif LooseVersion(ourVer) < LooseVersion(latestVer):
 				print(Fore.GREEN + "%s has an update! [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
 			else:
@@ -563,8 +566,11 @@ for name, pkg in sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold()):
 
 			if latestVer == "0.0.0":
 				print(Fore.YELLOW + "%s has an update! [Local: %s Remote: %s] (Error parsing remote version)" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
-				print("Regex pattern:")
-				print("\t" + versionEl["regex"])
+				print("%s Regex pattern:" % name)
+				try:
+					print("\t" + versionEl["regex"])
+				except:
+					print("\nIgnored Error determining 'versionEl[\"regex\"]'")
 			elif LooseVersion(ourVer) < LooseVersion(latestVer):
 				print(Fore.GREEN + "%s has an update! [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
 			else:
@@ -615,3 +621,5 @@ if CWD.parent.joinpath("mingw_toolchain_script", "mingw_toolchain_script.py").ex
 					print(Fore.GREEN + "%s has an update! [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
 				else:
 					print(Style.BRIGHT + "%s is up to date. [Local: %s Remote: %s]" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
+
+print("\nFinished.")
