@@ -8,6 +8,7 @@
 		'custom_cflag' : ' ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all -D_FORTIFY_SOURCE=2 
 		'run_post_regexreplace' : (
 			'autoreconf -fiv',
+			'./autogen.sh --build-w64 ', # --prefix={output_prefix}/libaacs_dll_git.installed',									 
 		),
 		'depends_on' : (
 			'iconv', 
