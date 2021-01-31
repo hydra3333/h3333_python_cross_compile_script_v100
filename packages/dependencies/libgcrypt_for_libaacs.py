@@ -13,7 +13,7 @@
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'run_post_regexreplace' : (
 		##'./autogen.sh --find-version',
-		'autoreconf -fiv',
+		#'autoreconf -fiv',
 	),
 	'depends_on' : (
 		'libgpg_error_for_libaacs', 
