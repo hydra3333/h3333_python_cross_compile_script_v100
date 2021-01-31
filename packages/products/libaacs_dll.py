@@ -12,7 +12,7 @@
 	#'configure_options': '--host={target_host} --prefix={target_prefix} --with-libgcrypt-prefix={target_prefix} --with-gpg-error-prefix={target_prefix} --disable-shared --enable-static',
 	'configure_options': '--host={target_host} --prefix={output_prefix}/libaacs_dll_git.installed --with-libgcrypt-prefix={output_prefix}/libaacs_dll_git.installed --with-gpg-error-prefix={output_prefix}/libaacs_dll_git.installed ',
 	'run_post_regexreplace' : (
-		#'autoreconf -fiv',
+		'autoreconf -fiv',
 	),
 	'run_post_install' : (
 		'strip -s {output_prefix}/libaacs_dll_git.installed/bin/libaacs-0.dll',
@@ -23,5 +23,5 @@
 		'libgcrypt_for_libaacs', 
 	),
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libbaacs for libbluray' },
+	'_info' : { 'version' : 'git', 'fancy_name' : 'libbaacs for libbluray' },
 }
