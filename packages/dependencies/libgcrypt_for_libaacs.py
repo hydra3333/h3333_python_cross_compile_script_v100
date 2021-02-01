@@ -9,11 +9,11 @@
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
 	#'branch' : '7c2943309d14407b51c8166c4dcecb56a3628567', # 2020.03.19 try git master # 7c2943309d14407b51c8166c4dcecb56a3628567 works with no errors
 	'rename_folder' : 'libgcrypt_for_aacs_git',
-	'configure_options': '--host={target_host} --prefix={output_prefix}/libaacs_dll_git.installed --with-gpg-error-prefix={output_prefix}/libaacs_dll_git.installed --disable-doc ', # --enable-threads=windows --disable-asm 
+	'configure_options': '--host={target_host} --prefix={output_prefix}/libaacs_dll_git.installed --with-gpg-error-prefix={output_prefix}/libaacs_dll_git.installed --disable-doc --enable-threads=windows ', # --disable-asm 
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'run_post_regexreplace' : (
 		##'./autogen.sh --find-version',
-		#'autoreconf -fiv',
+		'autoreconf -fiv',
 	),
 	'depends_on' : (
 		'libgpg_error_for_libaacs', 
