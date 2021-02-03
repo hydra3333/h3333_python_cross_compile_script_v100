@@ -80,7 +80,7 @@ sudo chmod -R a=rwx *.py
 ./cross_compiler_v100_001.py list -p 2>&1 | tee -a ./debug.log
 ./cross_compiler_v100_001.py list -d 2>&1 | tee -a ./debug.log
 
-
+./Remove_ffmpeg_3333_related_files.sh
 rm -fv ./ffmpeg.log
 ./cross_compiler_v100_001.py --force --debug -p ffmpeg 2>&1 | tee -a ./ffmpeg.log
 exit_status=$?
@@ -90,17 +90,6 @@ if [ $exit_status -ne 0 ]; then
 	exit $exit_status
 fi
 #read -p "done ffmpeg_static_non_free_opencl press any key to continue"
-
-#rm -fv ./ffmpeg_tiny.log
-#./cross_compiler_v100_001.py --force --debug -p ffmpeg_tiny 2>&1 | tee -a ./ffmpeg_tiny.log
-#exit_status=$?
-#echo "exit_status='$exit_status'"
-#if [ $exit_status -ne 0 ]; then
-#    echo "Error $exit_status detected"
-#	exit $exit_status
-#fi
-##read -p "done ffmpeg_tiny press any key to continue"
-
 
 rm -fv ./x264.log
 ./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./x264.log
@@ -270,6 +259,18 @@ fi
 #fi
 #read -p "done youtube-dl press any key to continue"
 
+./Remove_ffmpeg_3333_related_files.sh
+rm -fv ./ffmpeg_3333.log
+./cross_compiler_v100_001.py --force --debug -p ffmpeg_3333 2>&1 | tee -a ./ffmpeg_3333.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+#read -p "done ffmpeg_3333 press any key to continue"
+
+
 set -x
 sudo chmod a=rwx -R *.sh
 rm -fv ./exe.log
@@ -296,18 +297,22 @@ echo "end of tail -n 20 ~/Desktop/_working/mp4box.log"
 echo "start of tail -n 20 ~/Desktop/_working/mediainfo.log"
 tail -n 20 ~/Desktop/_working/mediainfo.log
 echo "end of tail -n 20 ~/Desktop/_working/mediainfo.log"
+echo "start of tail -n 20 ~/Desktop/_working/ffmpeg_3333.log"
+tail -n 20 ~/Desktop/_working/ffmpeg_3333.log
+echo "end of tail -n 20 ~/Desktop/_working/ffmpeg_3333.log"
 
 cd ~/Desktop
 sudo chmod a=rwx -R *.sh
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ffmpeg_max.exe 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ffprobe_max.exe 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ffplay_max.exe 2>&1 | tee -a ./exe.log
 
-#mv -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg.exe /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg_tiny.exe
-#cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_tiny_git.installed/bin/ffmpeg_tiny.exe ./exe_x64_py/ffmpeg_tiny.exe 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffmpeg.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffprobe.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffplay.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log

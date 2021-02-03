@@ -38,12 +38,18 @@ sudo chmod -R a=rwx *.sh
 sudo chmod -R a=rwx *.py
 rm -fR ./_ref
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git ./_ref
-sudo chmod a=rwx ./_ref
+sudo chmod a=rwx ./
 sudo chmod -R a=rwx *.sh
 sudo chmod -R a=rwx *.py
 sudo chmod -R a=rwx ./_ref
 mkdir -pv ./_working
 sudo chmod a=rwx ./_working
+rm -fR ./_working/additional_headers
+rm -fR ./_working/docker
+rm -fR ./_working/packages
+rm -fR ./_working/patches
+rm -fR ./_working/sources
+rm -fR ./_working/tools
 rsync -rvtI ./_ref/ ./_working
 sudo chmod -R a=rwx ./_working/*.sh
 sudo chmod -R a=rwx ./_working/*.py
@@ -69,8 +75,6 @@ sudo chmod a=rwx -R *.sh
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
-./Remove_freetype_harfbuzz_related_files.sh
-./Remove_vulkan_related_files.sh
-./Remove_gettext_related_files.sh
+./Remove_ffmpeg_3333_related_files.sh
 
 exit
