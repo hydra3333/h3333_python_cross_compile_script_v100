@@ -198,7 +198,7 @@
 		'libgsm',
 		'opencore-amr',
 		'vo-amrwbenc',
-		'gnutls_3333 ',
+		'gnutls_3333',
 		'libsnappy',
 		#'frei0r',				# 2021.02.03
 		'srt_3333',
