@@ -11,7 +11,8 @@
 		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
 		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 	},
-	'configure_options' :  
+	'configure_options' : 
+		'--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
 		## ####################################################################
 		## Main
 		##

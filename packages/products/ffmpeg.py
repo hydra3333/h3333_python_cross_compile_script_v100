@@ -10,7 +10,11 @@
 		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
 		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 	},
-	'configure_options' : '!VAR(ffmpeg_config)VAR! !VAR(ffmpeg_extra_config)VAR! !VAR(ffmpeg_nonfree)VAR! --prefix={output_prefix}/ffmpeg_git.installed --disable-shared --enable-static',
+	'configure_options' : 
+		'!VAR(ffmpeg_config)VAR! '
+		'!VAR(ffmpeg_extra_config)VAR! '
+		'!VAR(ffmpeg_nonfree)VAR! '
+		'--prefix={output_prefix}/ffmpeg_git.installed --disable-shared --enable-static ',
 	'depends_on' : [ 'ffmpeg_depends', 'ffmpeg_depends_extra', 'ffmpeg_depends_nonfree', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ffmpeg (static) nonfree with OpenCL' }, # 2019.12.13 say that it includes nonfree and openCL
