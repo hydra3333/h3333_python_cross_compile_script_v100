@@ -71,5 +71,6 @@ mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
 ./Remove_freetype_harfbuzz_related_files.sh
 ./Remove_vulkan_related_files.sh
+./Remove_gettext_related_files.sh
 
 exit

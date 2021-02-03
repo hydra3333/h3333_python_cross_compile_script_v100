@@ -71,31 +71,9 @@ rm -fv ./debug-ff.log
 #echo 'find . -iname "*.exe" -print -delete '>>./debug-ff.log
 #find . -iname "*.exe" -print -delete 2>&1 | tee -a ./debug-ff.log
 
-rm -vfR ~/Desktop/_working/workdir/x86_64/Vulkan-Headers_git
-rm -vfR ~/Desktop/_working/workdir/x86_64/vulkan_d3dheaders
-rm -vfR ~/Desktop/_working/workdir/x86_64/Vulkan-Loader_git
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/libvulkan.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/libvulkan.dll.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libvulkan.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libvulkan.dll.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/vulkan.pc
-rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/vulkan
-rm -vfR ~/Desktop/_working/workdir/x86_64/freetype*
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libfreetype.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/freetype2.pc
-rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/freetype2
-rm -vfR ~/Desktop/_working/workdir/x86_64/harfbuzz*
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libharfbuzz.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/harfbuzz.pc
-rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/harfbuzz
-rm -vfR ~/Desktop/_working/workdir/x86_64/gettext*
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libgettextlib.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libgettextlib.la
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libgettextpo.a
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libgettextpo.la
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libgettextsrc.la
-rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/gettext.pc
-rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/gettext-po.h
+./Remove_freetype_harfbuzz_related_files.sh
+./Remove_vulkan_related_files.sh
+./Remove_gettext_related_files.sh
 
 #cd ~/Desktop
 #sudo chmod -R a=rwx *.sh
