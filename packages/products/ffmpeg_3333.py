@@ -11,7 +11,7 @@
 		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
 		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 	},
-	'configure_options' :  '--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
+	'configure_options' :  
 		## ####################################################################
 		## Main
 		##
@@ -146,7 +146,9 @@
 		'--extra-cflags="-DMODPLUG_STATIC"  ' 	# 2021.02.03
 		'--extra-cflags="-DLIBXML_STATIC" '
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION" '	# 2021.02.03
-		## ####################################################################
+		## ####################################################################################
+		'--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
+		## ####################################################################################
 		,
 	'depends_on' : [ 
 		'bzip2',
