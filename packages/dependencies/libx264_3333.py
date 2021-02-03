@@ -35,5 +35,5 @@
 	#	'export | grep LAVF_CFLAGS',
 	#],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x264 (library) multibit' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x264_3333 (library) multibit' },
 }

@@ -65,5 +65,5 @@
         'gmp', # 2019.12.13
 	],
 	'update_check' : { 'url' : 'ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6', 'type' : 'ftpindex', 'regex' : r'gnutls-(?P<version_num>[\d.]+)\.tar\.xz' },
-	'_info' : { 'version' : '3.6.15', 'fancy_name' : 'gnutls' },
+	'_info' : { 'version' : '3.6.15', 'fancy_name' : 'gnutls_3333' },
 }

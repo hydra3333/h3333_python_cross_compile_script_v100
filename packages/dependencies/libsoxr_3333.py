@@ -15,5 +15,5 @@
 		'libvorbis', 'libopus', 'libflac', # 2021.02.03 'gettext', 
 	], # 2019.12.13
     'update_check' : { 'url' : 'https://sourceforge.net/projects/soxr/files/', 'type' : 'sourceforge', 'regex' : r'soxr-(?P<version_num>[\d.]+)-Source\.tar\.xz' },
-	'_info' : { 'version' : '0.1.3', 'fancy_name' : 'soxr' },
+	'_info' : { 'version' : '0.1.3', 'fancy_name' : 'soxr_3333' },
 }

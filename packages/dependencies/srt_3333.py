@@ -25,7 +25,7 @@
 							,
 	'depends_on' : [ 'gnutls_3333' ], # 20921.02.03 'gettext',
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (tags/v1.4.1)', 'fancy_name' : 'srt' }, # it is actually srt 
+	'_info' : { 'version' : 'git (tags/v1.4.1)', 'fancy_name' : 'srt_3333' }, # it is actually srt 
 }
 #
 #option(CYGWIN_USE_POSIX "Should the POSIX API be used for cygwin. Ignored if the system isn't cygwin." OFF)
