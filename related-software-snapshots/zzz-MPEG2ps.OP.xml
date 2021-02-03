@@ -1,0 +1,50 @@
+<VRDOutputProfile enabled="true">
+	<Name>zzz-MPEG2ps</Name>
+	<OutputMode>Smart</OutputMode>
+	<MPEG2EncoderQuality>High</MPEG2EncoderQuality>
+<RecodeMode>Quality</RecodeMode>
+	<RecodeQualities>
+		<MPEG2>100</MPEG2>
+		<H264>143</H264>
+	</RecodeQualities>
+	<FileType>MPG</FileType>
+	<FileExt></FileExt>
+	<OutputLibrary>
+		<Program>None</Program>
+		<CustomPath></CustomPath>
+	</OutputLibrary>
+	<DefaultOutputDir>T:\HDTV\autoTVS-mpg</DefaultOutputDir>
+	<VideoAttributes>
+		<Encoder>MPEG2</Encoder>
+		<AspectRatio>No Change</AspectRatio>
+		<AspectCorrection>None</AspectCorrection>
+		<EncodeDimensions>
+			<Width>1920</Width>
+			<Height>1080</Height>
+		</EncodeDimensions>
+		<EncodeBitrate>0</EncodeBitrate>
+		<HeaderBitrate>0</HeaderBitrate>
+		<MaxBitrate>0</MaxBitrate>
+		<EncodingMode>SP</EncodingMode>
+		<DeinterlaceMethod>None</DeinterlaceMethod>
+		<FrameRate>No Change</FrameRate>
+	</VideoAttributes>
+	<AudioAttributes>
+		<Encoder>Auto</Encoder>
+		<Bitrate>0</Bitrate>
+		<SampleRate>No Change</SampleRate>
+		<ChannelMode>Auto</ChannelMode>
+		<AllowMultiAudio>False</AllowMultiAudio>
+		<LPCMEndianess>Little</LPCMEndianess>
+	</AudioAttributes>
+	<MPEG2Parameters>
+		<StripUserDataFromVideo>True</StripUserDataFromVideo>
+		<InsertMissingGOPTimecode>True</InsertMissingGOPTimecode>
+		<OutputEndOfSequence>False</OutputEndOfSequence>
+		<RestoreMissingProgressiveFlags>False</RestoreMissingProgressiveFlags>
+		<MinSmartEncodingBitRate>0</MinSmartEncodingBitRate>
+		<DropframeTimecodeInGOPs>False</DropframeTimecodeInGOPs>
+		<SetHeaderToVideoBitRate>False</SetHeaderToVideoBitRate>
+		<ConvertIFramesGOPs>False</ConvertIFramesGOPs>
+	</MPEG2Parameters>
+</VRDOutputProfile>

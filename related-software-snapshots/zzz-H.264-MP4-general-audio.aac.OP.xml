@@ -1,0 +1,48 @@
+<VRDOutputProfile enabled="true">
+	<Name>zzz-H.264-MP4-general-audio.aac</Name>
+	<OutputMode>Smart</OutputMode>
+	<MPEG2EncoderQuality>High</MPEG2EncoderQuality>
+<RecodeMode>Quality</RecodeMode>
+	<RecodeQualities>
+		<MPEG2>100</MPEG2>
+		<H264>100</H264>
+	</RecodeQualities>
+	<FileType>MP4</FileType>
+	<FileExt></FileExt>
+	<OutputLibrary>
+		<Program>None</Program>
+		<CustomPath></CustomPath>
+	</OutputLibrary>
+	<DefaultOutputDir>T:\HDTV\autoTVS-mpg</DefaultOutputDir>
+	<VideoAttributes>
+		<Encoder>H264</Encoder>
+		<AspectRatio>No Change</AspectRatio>
+		<AspectCorrection>None</AspectCorrection>
+		<EncodeDimensions>
+			<Width>3840</Width>
+			<Height>2160</Height>
+		</EncodeDimensions>
+		<EncodeBitrate>0</EncodeBitrate>
+		<HeaderBitrate>0</HeaderBitrate>
+		<MaxBitrate>0</MaxBitrate>
+		<EncodingMode>DP</EncodingMode>
+		<DeinterlaceMethod>None</DeinterlaceMethod>
+		<FrameRate>No Change</FrameRate>
+	</VideoAttributes>
+	<AudioAttributes>
+		<Encoder>AAC</Encoder>
+		<Bitrate>384</Bitrate>
+		<SampleRate>No Change</SampleRate>
+		<ChannelMode>Auto</ChannelMode>
+		<Normalize>-0.010000</Normalize>
+		<AllowMultiAudio>False</AllowMultiAudio>
+		<LPCMEndianess>Little</LPCMEndianess>
+	</AudioAttributes>
+	<EncodingOptions>
+		<H264>
+			<profile>high</profile>
+			<level_id>41</level_id>
+			<entropy_coding_mode>cavlc</entropy_coding_mode>
+		</H264>
+	</EncodingOptions>
+</VRDOutputProfile>
