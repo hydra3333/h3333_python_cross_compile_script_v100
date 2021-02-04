@@ -1644,6 +1644,12 @@ IF /I "!V_ScanType!" == "Progressive" (
 	set dg_deinterlace=0
 	IF /I "!Q_V_Codec_legacy!" == "AVC" (
 		REM is progressive h.264 - no deinterlace, no sharpen, copy video stream only
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** Progressive AVC input - setting ff_cmd accordingly ... copy video stream, convert audio stream
+		ECHO !DATE! !TIME! "***FF*** Progressive AVC input - setting ff_cmd accordingly ... copy video stream, convert audio stream " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
 		REM no -cq:v options or bitrates apply to -c:v copy
 		REM Handle an ffmpeg.exe with a removed Opencl
 		REM set "VO_sharpen=" >> "%vrdlog%" 2>&1
@@ -1651,6 +1657,12 @@ IF /I "!V_ScanType!" == "Progressive" (
 		set ff_cmd="!ffmpegexex64!" -hide_banner -v verbose -nostats !V_cut_start! -i "!scratch_file_qsf!" -vf "setdar=!V_DisplayAspectRatio_String_slash!" !V_cut_duration! -c:v copy !AO_! -y "!destination_file!" >> "%vrdlog%" 2>&1
 	) ELSE (
 		REM is progressive mpeg2 - no deinterlace, yes denoise, sharpen (more for mpeg2 source),  moderate quality
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** Progressive MPEG2 input - setting ff_cmd accordingly ... denoise/sharpen video stream via vapoursynth, convert audio stream "
+		ECHO !DATE! !TIME! "***FF*** Progressive MPEG2 input - setting ff_cmd accordingly ... denoise/sharpen video stream via vapoursynth, convert audio stream " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
 		REM run DGIndex
 		ECHO DEL /F "!_DGI_file!" >> "%vrdlog%" 2>&1
 		DEL /F "!_DGI_file!" >> "%vrdlog%" 2>&1
@@ -1713,7 +1725,7 @@ IF /I "!V_ScanType!" == "Progressive" (
 		set ff_cmd="!ffmpegexex64!" -hide_banner -v verbose -nostats !V_cut_start! -f vapoursynth -i "!_VPY_file!" -i "!scratch_file_qsf!" -map 0:v:0 -map 1:a:0 -vf "setdar=!V_DisplayAspectRatio_String_slash!" !V_cut_duration! !VO_HQ! !AO_! -y "!destination_file!" >> "%vrdlog%" 2>&1
 	)
 ) ELSE (
-	REM Inlerlaced video, deinterlacing required to play the result on chromecast devices
+	REM Interlaced video, deinterlacing required to play the result on chromecast devices
 	REM run DGIndex
 	ECHO DEL /F "!_DGI_file!" >> "%vrdlog%" 2>&1
 	DEL /F "!_DGI_file!" >> "%vrdlog%" 2>&1
@@ -1739,6 +1751,12 @@ IF /I "!V_ScanType!" == "Progressive" (
 	DEL /F "!_DGI_autolog!" >> "%vrdlog%" 2>&1
 	IF /I "!Q_V_Codec_legacy!" == "AVC" (
 		REM is interlaced h.264 - yes deinterlace, yes sharpen (more for mpeg2 source), higher quality
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** Interlaced AVC input - setting ff_cmd accordingly ... denoise/sharpen video stream via vapoursynth, convert audio stream "
+		ECHO !DATE! !TIME! "***FF*** Interlaced AVC input - setting ff_cmd accordingly ... denoise/sharpen video stream via vapoursynth, convert audio stream " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
 		REM Create the .vpy file with the .DGI as input
 		ECHO DEL /F "!_VPY_file!" >> "%vrdlog%" 2>&1
 		DEL /F "!_VPY_file!" >> "%vrdlog%" 2>&1
@@ -1792,6 +1810,12 @@ IF /I "!V_ScanType!" == "Progressive" (
 		REM set Footy_ff_cmd="!ffmpegexex64!" -hide_banner -v verbose -nostats !ff_OpenCL_device_init! !V_cut_start! -i "!scratch_file_qsf!" -vf "setdar=!V_DisplayAspectRatio_String_slash!" !V_cut_duration! !Footy_VO_HQ! !AO_! -y "!destination_file!" >> "%vrdlog%" 2>&1
 		REM
 		IF /I "!Footy_found!" == "TRUE" ( 
+			ECHO !DATE! !TIME! "***FF*** "
+			ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
+			ECHO !DATE! !TIME! "***FF*** Interlaced FOOTY AVC input detected - resetting ff_cmd accordingly ... denoise/sharpen video stream via vapoursynth, with HQ settings, convert audio stream "
+			ECHO !DATE! !TIME! "***FF*** Interlaced FOOTY AVC input detected - resetting ff_cmd accordingly ... denoise/sharpen video stream via vapoursynth, with HQ settings, convert audio stream " >> "%vrdlog%" 2>&1
+			ECHO !DATE! !TIME! "***FF*** "
+			ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
 			set Footy_VO_HQ_DG=-vsync 0 -sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -strict experimental -c:v h264_nvenc -pix_fmt nv12 -preset p7 -multipass fullres !RTX2060super_extra_flags! -rc:v vbr !x_cq_options! -b:v !Footy_FF_V_Target_BitRate! -minrate:v !Footy_FF_V_Target_Minimum_BitRate! -maxrate:v !Footy_FF_V_Target_Maximum_BitRate! -bufsize !Footy_FF_V_Target_BufSize! -profile:v high -level 5.2 -movflags +faststart+write_colr >> "%vrdlog%" 2>&1
 			REM Handle an ffmpeg.exe with a removed Opencl
 			REM set Footy_ff_cmd_DG="!VSffmpegexex64_max!" -hide_banner -v verbose -nostats !ff_OpenCL_device_init! !V_cut_start! -f vapoursynth -i "!_VPY_file!" -i "!scratch_file_qsf!" -map 0:v:0 -map 1:a:0 -vf "setdar=!V_DisplayAspectRatio_String_slash!" !V_cut_duration! !Footy_VO_HQ_DG! !AO_! -y "!destination_file!" >> "%vrdlog%" 2>&1
@@ -1801,6 +1825,12 @@ IF /I "!V_ScanType!" == "Progressive" (
 		REM #####################################################################################################################
 	) ELSE (
 		REM is interlaced mpeg2 - yes deinterlace, yes denoise, sharpen (more for mpeg2 source), moderate quality
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** Interlaced MPEG2 input - setting ff_cmd accordingly ... denoise/more-sharpen video stream via vapoursynth, convert audio stream "
+		ECHO !DATE! !TIME! "***FF*** Interlaced MPEG2 input - setting ff_cmd accordingly ... denoise/more-sharpen video stream via vapoursynth, convert audio stream " >> "%vrdlog%" 2>&1
+		ECHO !DATE! !TIME! "***FF*** "
+		ECHO !DATE! !TIME! "***FF*** " >> "%vrdlog%" 2>&1
 		REM Create the .vpy file with the .DGI as input
 		ECHO DEL /F "!_VPY_file!" >> "%vrdlog%" 2>&1
 		DEL /F "!_VPY_file!" >> "%vrdlog%" 2>&1
