@@ -127,9 +127,9 @@ sudo chmod -R a=rwx *.py
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ffmpeg_max.exe 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ffprobe_max.exe 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ffplay_max.exe 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ffmpeg_OpenCL.exe 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffprobe.exe          ./exe_x64_py/ffprobe_OpenCL.exe 2>&1 | tee -a ./exe.log
+cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffplay.exe           ./exe_x64_py/ffplay_OpenCL.exe 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffmpeg.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffprobe.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
