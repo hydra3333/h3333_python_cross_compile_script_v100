@@ -146,7 +146,8 @@
 		'--enable-libx264 '
 		'--enable-libx265 '
 		'--enable-libvpx '
-		'--enable-libaom '
+		#'--enable-libaom '
+		'--disable-libaom ' # 2021.02.26 because libaom breaks now
 		'--enable-libxvid '
 		'--enable-libopus '
 		'--enable-libmp3lame '
