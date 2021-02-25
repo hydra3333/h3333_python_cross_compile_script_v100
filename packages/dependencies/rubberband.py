@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/breakfastquay/rubberband.git',
 	'depth_git' : 0,
-	#'branch' : 'tags/v1.9',
+	'branch' : 'default',
 	'download_header' : [
 		'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/ladspa.h',
 		#'https://www.ladspa.org/ladspa_sdk/ladspa.h.txt',
@@ -31,5 +31,5 @@
 		'libsamplerate', 'libopus', 'libogg', 'libvorbis', 'libflac', 'libsndfile', 'vamp_plugin', 'fftw3', # 2019.12.13 also changed fft3 to fftw3
 	],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'rubberband' },
+	'_info' : { 'version' : 'git (default)', 'fancy_name' : 'rubberband' },
 }
