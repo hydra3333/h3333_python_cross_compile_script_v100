@@ -62,7 +62,7 @@
 		# '--enable-libkvazaar '
 		'--enable-libvpx '
 		'--enable-libdav1d '
-		'--enable-libaom '
+		'--disable-libaom '
 		'--enable-libxvid '
 		'--enable-gray '
 		##
@@ -172,7 +172,7 @@
 		#'kvazaar',  # 2019.12.13 comment out
 		'libvpx',
 		'libdav1d',
-		'libaom',
+		#'libaom',
 		'xvidcore', # was 'libxvid',
 		'libopus',
 		'liblame',
