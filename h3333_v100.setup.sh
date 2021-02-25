@@ -224,7 +224,8 @@ set +x
 set -x
 cd ~/Desktop
 #c_ver="3.18.3"
-c_ver="3.18.4"
+#c_ver="3.18.4"
+c_ver="3.19.6"
 rm -vfR cmake-${c_ver} 
 #if [[ ! -d "cmake-${c_ver}" ]]; then
    mkdir cmake-${c_ver} 
