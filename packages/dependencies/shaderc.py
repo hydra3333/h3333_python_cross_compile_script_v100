@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/google/shaderc.git',
 	'depth_git': 0, # 2020.03.11 per deadsix27 stay on last working commit
-	#'branch': 'f53792645f0696b8954cfdb3c213f96799dd89b2', # 2020.04.20 COMMENTED OUT 
+	#'branch': '1fce59794079f90ceb091190adbbb5499acd4e95', # 2020.04.20 COMMENTED OUT 
 	'branch' : 'main',  # 2020.06.22 they've changed the trunk from master to main (a US political race thing against the word, apparently)
 	'configure_options' :
 		'cmake .. {cmake_prefix_options} '
@@ -11,6 +11,7 @@
 		'-DSHADERC_SKIP_INSTALL=ON '
 		'-DSHADERC_SKIP_TESTS=ON '
 		'-DSHADERC_ENABLE_SPVC=ON '
+        '-DSHADERC_SKIP_EXAMPLES=ON '
 	,
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
