@@ -45,7 +45,8 @@
 		# '--enable-libkvazaar ' #2019.12.13 disable libkvazaar
 		'--enable-libvpx '
 		'--enable-libdav1d '
-		'--enable-libaom '
+		#'--enable-libaom '
+		'--disable-libaom ' # 2021.02.26 because libaom breaks now
 		'--enable-libxvid '
 		'--enable-gray '
 
