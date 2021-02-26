@@ -13,6 +13,7 @@
 		'-DSPIRV_CROSS_ENABLE_TESTS=OFF'
 	,
 	'run_post_install' : [
+        "mkdir -pv {target_prefix}/lib/pkgconfig",
 		"echo 'prefix={target_prefix}\nexec_prefix=${{prefix}}\nlibdir=${{exec_prefix}}/lib\nincludedir=${{prefix}}/include/spirv_cross\nName: spirv-cross-c-shared\nDescription: C API for SPIRV-Cross\nVersion:\nLibs: -L${{libdir}} -lspirv-cross-c -lspirv-cross-cpp -lspirv-cross-reflect -lspirv-cross-glsl -lspirv-cross-hlsl -lspirv-cross-msl -lspirv-cross-core -lstdc++\nCflags: -I${{includedir}}' > {target_prefix}/lib/pkgconfig/spirv-cross.pc",
 	],
 	'update_check' : { 'type' : 'git', },
