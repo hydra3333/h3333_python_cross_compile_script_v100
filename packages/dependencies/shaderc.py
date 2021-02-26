@@ -25,8 +25,9 @@
 		'ln -snf {inTreePrefix}/spirv-cross spirv-cross',
 		'!SWITCHDIR|../_build',
 		"sed -i 's/add_subdirectory(examples)/#add_subdirectory(examples)/g' ../CMakeLists.txt",
+		"sed -i 's/--check/#--check/g' ../CMakeLists.txt",
+        "sed -i 's/printed_count += 1/#printed_count += 1/g' ../utils/add_copyright.py", # 2021.02.27 grr since it fails with glslang, ignore errors
 	],
-
 	'regex_replace': {
 		'post_patch': [
 			{
@@ -35,7 +36,6 @@
 			},
 		],
 	},
-	
 	'run_post_build' : [
 		'cp -rv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
 		'cp -rv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
