@@ -347,7 +347,7 @@ class CrossCompileScript:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
-									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)'
+									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
 
 							if 'version' in val['_info']:
@@ -382,7 +382,7 @@ class CrossCompileScript:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
-									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)'
+									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
 							if 'version' in val['_info']:
 								ver = Colors.GREEN + val['_info']['version'] + Colors.RESET
@@ -400,7 +400,7 @@ class CrossCompileScript:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
-									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)'
+									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
 
 							if 'version' in val['_info']:
@@ -434,7 +434,7 @@ class CrossCompileScript:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
-									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)'
+									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
 
 							if 'version' in val['_info']:
@@ -2511,7 +2511,7 @@ class CrossCompileScript:
 				shutil.copyfile(local_patch_path, copyPath)
 			else:
 				fileName = os.path.basename(urlparse(url).path)
-				url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url
+				url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url # 2020.06.22 if trunk moves to "main", "main" instead
 				self.downloadFile(url, fileName)
 
 		self.logger.info("Patching source using: '{0}'".format(fileName))
