@@ -51,6 +51,8 @@ sudo chmod -R a=rwx ./_working
 cd ./_working
 rm -fv ~/Desktop/_working/*.yaml
 
+rm -frv /home/u/Desktop/_working/workdir/win64_output
+
 #git fetch origin
 #git reset --hard origin/master
 #ls -al
