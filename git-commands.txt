@@ -45,7 +45,8 @@ to make a local branch and then a pull request -
 
 git clone https://github.com/hydra3333/h3333_python_cross_compile_script.git
 cd h3333_python_cross_compile_script
-git pull origin master
+#git pull origin master
+git pull origin main
 git git checkout -b SDL2_update # create a branch 
 git branch
 ... do modifications etc
@@ -82,10 +83,13 @@ git add -A
 # Commit the changes
 git commit -am "committing an orphan branch"
 # Delete the master branch
-git branch -D master
+#git branch -D master
+git branch -D main
 # Rename the branch latest_branch to master
-git branch -m master
+#git branch -m master
+git branch -m main
 # Finally, force update your repository
-git push -f origin master  # Force push master branch to github
+#git push -f origin master  # Force push master branch to github
+git push -f origin main  # Force push main branch to github
 # remove the old files (loose objects)
 git gc --aggressive --prune=all
