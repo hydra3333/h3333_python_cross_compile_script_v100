@@ -40,6 +40,9 @@ sudo apt install -y libtool
 sudo apt install -y ninja-build
 sudo apt install -y clang
 
+#sudo apt install -y libc6-dev # to solve # per https://github.com/haskell/unix/issues/49#issuecomment-155227394 after sudo apt-get install --reinstall libc6-dev to solve Fatal error: sys/mman.h: No such file or directory
+# no per https://github.com/m-ab-s/media-autobuild_suite/issues/1942#issuecomment-800780569
+
 sudo apt install -y git 
 sudo apt install -y cvs 
 #sudo apt install -y svn
