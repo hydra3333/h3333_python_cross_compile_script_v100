@@ -1,12 +1,12 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/OpenMPT/openmpt.git',
-	#'depth_git' : 0,
-	#'branch' : '91bad3bd24045dab4d0d9ad952f02a391a059c7d', # 2020.08.21 the following commit kills cross compiling
+	'depth_git' : 0,
+    'branch' : 'tags/libopenmpt-0.5.7', # last working tag since a subsequent commit 7b902a892fe59f10f2afa5ba115fe9fbbdce94d8 breaks cross-compiling
 	# 'source_subfolder' : '_build',
 	'needs_configure' : False,
-	'build_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 ', # https://bugs.openmpt.org/view.php?id=1354#c4423 remove MODERN=1
-	'install_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 PREFIX={target_prefix}',
+	'build_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 OPENMPT123=0 ', # https://bugs.openmpt.org/view.php?id=1354#c4423 remove MODERN=1
+	'install_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 OPENMPT123=0 PREFIX={target_prefix} ',
 	# 'configure_path' : '../build/autotools/configure',
 	# 'run_post_regexreplace' : [
 		# '!SWITCHDIR|../build/autotools',
