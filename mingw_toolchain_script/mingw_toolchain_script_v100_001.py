@@ -45,6 +45,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
+	'checkout' : '1c773877f4a13c8bd7bfb8da80e1e8761a889f51', # 2020.10.22 Reverted per Bug Report https://sourceforge.net/p/mingw-w64/bugs/850/ to allow "ICD Loader" to build
 	#'checkout' : '4e51dfbf9baa34af596691342420bff4b5e3ded3', # 2020.10.22 Reverted per Bug Report https://sourceforge.net/p/mingw-w64/bugs/850/ to allow "ICD Loader" to build
  	#'checkout' : 'tags/v8.0.0', # see calling  .py  -'mingw_commit': 'tags/v8.0.0', 
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
