@@ -23,6 +23,7 @@
 		'-Dlcms=enabled '
 		'-Dtests=false '
 		'-Dbench=false '
+        '-Ddemos=false ' # 2021.04.09 try this from MABS
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', ], # 'vulkan_loader',  2020.10.12 comment out vulkan since it an no longer be statically linked
