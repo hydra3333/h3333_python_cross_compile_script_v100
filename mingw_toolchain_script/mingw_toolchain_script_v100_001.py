@@ -45,8 +45,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-	'checkout' : 'fe226dd9028f3f64bef4b4384edb1ef2c95c15f4', # 2020.10.22 Reverted per Bug Report https://sourceforge.net/p/mingw-w64/bugs/850/ to allow "ICD Loader" to build
-	#'checkout' : '4e51dfbf9baa34af596691342420bff4b5e3ded3', # 2020.10.22 Reverted per Bug Report https://sourceforge.net/p/mingw-w64/bugs/850/ to allow "ICD Loader" to build
+	'checkout' : '45def5d7a10885dfb87af3c7996f8de7197183b5', # 2020.10.22 Reverted per Bug Report https://sourceforge.net/p/mingw-w64/bugs/850/ to allow "ICD Loader" to build
  	#'checkout' : 'tags/v8.0.0', # see calling  .py  -'mingw_commit': 'tags/v8.0.0', 
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
   	#	( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/01-test.patch' , 'p1' ),
@@ -102,8 +101,8 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	#'version'   : '10.2.0', # stable versions
-	'version'   : '10.3.0', # stable versions
+	'version'   : '10.2.0', # stable versions
+	#'version'   : '10.3.0', # stable versions
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#'version': '11-20210314',
     #'version': '10-20210313',
