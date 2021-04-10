@@ -10,9 +10,9 @@
 		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
 		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 	},
-	'patches' : [
-		('ffmpeg/ffmpeg-windres-fix.patch', '-p1' ), # 2021.04.10 for binutils 2.36.1 per https://github.com/rdp/ffmpeg-windows-build-helpers/pull/558/commits/4ec72f9f9dab96f7d2fcb1d5935deded53f4ec21
-	],
+	#'patches' : [
+	#	('ffmpeg/ffmpeg-windres-fix.patch', '-p0' ), # 2021.04.10 for binutils 2.36.1 per https://github.com/rdp/ffmpeg-windows-build-helpers/pull/558/commits/4ec72f9f9dab96f7d2fcb1d5935deded53f4ec21
+	#],
 	'configure_options' : 
 		'!VAR(ffmpeg_config)VAR! '
 		'!VAR(ffmpeg_extra_config)VAR! '
