@@ -101,7 +101,10 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	'version'   : '10.1.0', # stable versions
+	#'version'   : '9.1.0', # stable versions
+	'version'   : '9.2.0', # stable versions
+	#'version'   : '9.3.0', # stable versions
+	#'version'   : '10.1.0', # stable versions
 	#'version'   : '10.2.0', # stable versions
 	#'version'   : '10.3.0', # stable versions
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
