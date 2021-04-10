@@ -88,7 +88,8 @@ SOURCES['isl'] = { # http://isl.gforge.inria.fr/
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.36.1', # 2021.03.20
+	'version': '2.35.2', # 2021.03.20
+	#'version': '2.36.1', # 2021.03.20
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
@@ -104,9 +105,9 @@ SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu
 	#'version'   : '9.1.0', # stable versions
 	#'version'   : '9.2.0', # stable versions
 	#'version'   : '9.3.0', # stable versions
-	#'version'   : '10.1.0', # stable versions
+	'version'   : '10.1.0', # stable versions
 	#'version'   : '10.2.0', # stable versions
-	'version'   : '10.3.0', # stable versions
+	#'version'   : '10.3.0', # stable versions
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#'version': '11-20210314',
     #'version': '10-20210313',
