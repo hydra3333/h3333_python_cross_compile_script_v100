@@ -41,7 +41,7 @@
 		'post_install': [
 			{
 				0: r'^(Libs: -L\${{libdir}} -lgnutls)([\n\r\s]+)?$',
-				1: r'\1 -lnettle -lhogweed -lgmp -lcrypt32 -lws2_32 -lintl -liconv -lssp\2', # iconv is required by gettext, but gettext has no .pc file, so... # 2019.12.13 added -lssp
+				1: r'\1 -lnettle -lhogweed -lgmp -lcrypt32 -lws2_32 -liconv -lssp\2', # iconv is required by gettext, but gettext has no .pc file, so... # 2019.12.13 added -lssp # 2021.04.11 removed -lintl 
 				'in_file': '{pkg_config_path}/gnutls.pc'
 			},
 		],
