@@ -11,7 +11,7 @@
 							#'--disable-cli --disable-lavf ' # 2020.06.09 when building .exe do not --disable-cli and also leave off --disable-lavf																								
 							,
 	'depends_on' : [
-		'opencl_icd', # 2020.06.09
+		'opencl_non_icd', # 2020.06.09
 		# 2020.06.09 only the x264 package, not the libx264 dependency depends on libffmpeg_extra being built first,
 		'libffmpeg_extra', 'liblsw',  # 2019.12.13 HolyWu's lsw does not need avresample as it uses libswresample # 2018.11.23 superseded: liblsw required --enable-avresample which was deprecated
 	],
