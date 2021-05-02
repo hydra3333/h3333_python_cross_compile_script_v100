@@ -3,7 +3,7 @@
 Do  
 In Win10, copy `C:\Windows\System32\OpenCL.dll` to a `vm` (with `mingw` etc installed) into folder `~/Desktop/OpenCL/`  
 Then in the Ubunto machine,    
-`cd ~/Desktop`
+`cd ~/Desktop`    
 `rm -fv OpenCL.def`    
 `rm -fv libOpenCL.a`    
 `/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/gendef OpenCL.dll`  
