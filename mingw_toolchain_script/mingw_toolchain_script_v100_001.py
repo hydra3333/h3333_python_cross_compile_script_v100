@@ -107,8 +107,8 @@ SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu
 	#'version'   : '9.3.0', # stable versions
 	#'version'   : '10.1.0', # stable versions
 	#'version'   : '10.2.0', # stable versions
-	'version'   : '10.3.0', # stable versions
-	#'version'   : '11.1.0', # stable versions
+	#'version'   : '10.3.0', # stable versions
+	'version'   : '11.1.0', # stable versions
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#'version': '11-20210314',
     #'version': '10-20210313',
