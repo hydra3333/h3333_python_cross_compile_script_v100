@@ -27,8 +27,8 @@
 		'--enable-libfribidi '
 		'--enable-libbluray '
 		'--enable-libcdio '
-		'--enable-avisynth ' # 2019.12.13 reconsider this, possibly disable it
-		'--enable-vapoursynth ' #maybe works?
+		'--enable-avisynth '
+		'--enable-vapoursynth '
 		'--enable-librtmp '
 		'--enable-libcaca '
 		'--enable-iconv '
