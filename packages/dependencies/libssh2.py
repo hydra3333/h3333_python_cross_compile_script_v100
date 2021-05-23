@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/libssh2/libssh2.git',
 	'depth_git' : 0,
-	'branch' : '35695772d0b93a50a1de79ced596be39062a48f1',  #'b853d7a86e1648c00386790e91cefcfd701bd17b' aborts mediainfo build per https://github.com/libssh2/libssh2/issues/596
+	#'branch' : '35695772d0b93a50a1de79ced596be39062a48f1',  #'b853d7a86e1648c00386790e91cefcfd701bd17b' aborts mediainfo build per https://github.com/libssh2/libssh2/issues/596
 	# OK !!! The latest git objected to --with-sysroot="{target_sub_prefix}" ... doesn't handle it correctly,
 	#        which is contained in {autoconf_prefix_options} 
 	# 	     so remove that and do the configure the hard way
