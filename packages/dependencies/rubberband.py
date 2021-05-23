@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/breakfastquay/rubberband.git',
 	'depth_git' : 0,
 	#'branch' : 'default',
-	'branch' : '57d680a8e3a6523a4151315f99dfa7fa60260c7e', # this is athe last commit which has aconfigure. meson builds fail to build :(
+	'branch' : '57d680a8e3a6523a4151315f99dfa7fa60260c7e', # this is athe last commit which has a configure. meson builds fail to build :(
 	'download_header' : [
 		'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/ladspa.h',
 		#'https://www.ladspa.org/ladspa_sdk/ladspa.h.txt',
@@ -31,7 +31,7 @@
 	'depends_on' : [
 		'libsamplerate', 'libopus', 'libogg', 'libvorbis', 'libflac', 'libsndfile', 'vamp_plugin', 'fftw3', # 2019.12.13 also changed fft3 to fftw3
 	],
-	'update_check' : { 'type' : 'git', },
+	#'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (default)', 'fancy_name' : 'rubberband' },
 }
 #{
