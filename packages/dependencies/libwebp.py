@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libwebp',
+    'depth_git' : 0,
+	'branch' : 'main',
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options' : '.. {cmake_prefix_options} '
