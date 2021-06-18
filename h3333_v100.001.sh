@@ -240,14 +240,14 @@ if [ $exit_status -ne 0 ]; then
 fi
 #read -p "done libaacs_dll press any key to continue"
 
-rm -fv ./mkvtoolnix.log
-./cross_compiler_v100_001.py --force --debug -p mkvtoolnix 2>&1 | tee -a ./mkvtoolnix.log
-exit_status=$?
-echo "exit_status='$exit_status'"
-if [ $exit_status -ne 0 ]; then
-    echo "Error $exit_status detected"
-	exit $exit_status
-fi
+#rm -fv ./mkvtoolnix.log
+#./cross_compiler_v100_001.py --force --debug -p mkvtoolnix 2>&1 | tee -a ./mkvtoolnix.log
+#exit_status=$?
+#echo "exit_status='$exit_status'"
+#if [ $exit_status -ne 0 ]; then
+#    echo "Error $exit_status detected"
+#	exit $exit_status
+#fi
 #read -p "done mkvtoolnix press any key to continue"
 
 
@@ -316,10 +316,10 @@ cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/b
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffprobe.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git_3333.installed/bin/ffplay.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
-cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
-cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+#cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvextract.exe   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+#cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvinfo.exe      ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+#cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvmerge.exe     ./exe_x64_py/ 2>&1 | tee -a ./exe.log
+#cp -fv /home/u/Desktop/_working/workdir/win64_output/mkvtoolnix_git.installed/bin/mkvpropedit.exe  ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/x265.installed/bin/x265.exe                   ./exe_x64_py/ 2>&1 | tee -a ./exe.log
 cp -fv /home/u/Desktop/_working/workdir/win64_output/x264_git.installed/bin/x264.exe               ./exe_x64_py/ 2>&1 | tee -a ./exe.log
