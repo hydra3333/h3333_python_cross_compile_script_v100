@@ -1,6 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libvpx',
+    'depth_git' : 0,
+	'branch' : 'main',
 	'rename_folder' : 'vpx_git',
 	'configure_options' :
 		'--target={bit_name2}-{bit_name_win}-gcc '
