@@ -50,6 +50,7 @@
 		' -opengl desktop'
 		' -no-openssl'
 		#' -xplatform win32-g++'
+        ' -platform linux-g++-64' # added per https://stackoverflow.com/questions/10934683/how-do-i-configure-qt-for-cross-compilation-from-linux-to-windows-target
 		' -xplatform mingw-w64-g++'
 		' -optimized-qmake'
 		' -verbose'
