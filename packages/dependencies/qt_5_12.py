@@ -38,7 +38,7 @@
         # per https://gist.github.com/TheFearsomeDzeraora/6444cea25c64eb887b4c3462b125c441
         # ... now add lines to qtbase/mkspecs/win32-g++/qmake.conf 
         #   sed something to append these lines
-        'sed -i.bak -e \'$a\\n# [QT-STATIC-PATCH]\nQMAKE_LFLAGS += -static -static-libgcc\nQMAKE_CFLAGS_RELEASE -= -O2\nQMAKE_CFLAGS_RELEASE += -Os -momit-leaf-frame-pointer\nDEFINES += QT_STATIC_BUILD\nCONFIG += static\n\' "qtbase/mkspecs/win32-g++/qmake.conf"',
+        'sed -i.bak -e "\$a# [QT-STATIC-PATCH]\nQMAKE_LFLAGS += -static -static-libgcc\nQMAKE_CFLAGS_RELEASE -= -O2\nQMAKE_CFLAGS_RELEASE += -Os -momit-leaf-frame-pointer\nDEFINES += QT_STATIC_BUILD\nCONFIG += static\n" "qtbase/mkspecs/win32-g++/qmake.conf"',
 	],
 	'configure_options' :
 		'-static'
