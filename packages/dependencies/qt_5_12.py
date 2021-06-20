@@ -8,7 +8,7 @@
 		'Build needs around 40G, install around 10-15Gb.',
 		'Make sure you have at least 60GB free when building,',
 		'you can delete the entire source folder of qt after install to free space up again,',
-		'then just uncomment the "'_already_built' : True," line in the qt5 block, so building will be skipped each time.'
+		'then just uncomment the "_already_built" : True," line in the qt5 block, so building will be skipped each time.'
 	],
 	'env_exports' : {
 		'CFLAGS'   : '-DDBUS_STATIC_BUILD -DJAS_DLL=0',
