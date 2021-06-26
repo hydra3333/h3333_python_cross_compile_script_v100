@@ -389,7 +389,7 @@ def getCommitsDiff(pkg):
 		c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
 		c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
 		try: # 2020.06.22 try using "master"
-            print("DEBUG: running '%s'" % c_master)
+			print("DEBUG: running '%s'" % c_master)
 			cmts = [c.split(";;") for c in run(c_master).split("\n") if c != ""]
 		except: # an error occurred ... assume it's the trunkl=change thing
 			try: # 2020.06.22 try using "main" instead of "master"
