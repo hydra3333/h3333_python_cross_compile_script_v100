@@ -399,7 +399,7 @@ def getCommitsDiff(pkg):
 				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
 				print("c_master: {0}\nc_main: {1}\n".format(c_master,c_main))
 				print("Unexpected error:", sys.exc_info()[0])
-                pass
+				pass
 				#raise
 	else:
 		cmtsBehind = 0
