@@ -393,7 +393,7 @@ def getCommitsDiff(pkg):
 			cmts = [c.split(";;") for c in run(c_master).split("\n") if c != ""]
 		except: # an error occurred ... assume it's the trunkl=change thing
 			try: # 2020.06.22 try using "main" instead of "master"
-                print("DEBUG: except try, running '%s'" % c_main)
+				print("DEBUG: except try, running '%s'" % c_main)
 				cmts = [c.split(";;") for c in run(c_main).split("\n") if c != ""]
 			except:
 				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
