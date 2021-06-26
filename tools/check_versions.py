@@ -389,16 +389,18 @@ def getCommitsDiff(pkg):
 		c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
 		c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
 		try: # 2020.06.22 try using "master"
+            print("DEBUG: running '%s'" % c_master)
 			cmts = [c.split(";;") for c in run(c_master).split("\n") if c != ""]
 		except: # an error occurred ... assume it's the trunkl=change thing
 			try: # 2020.06.22 try using "main" instead of "master"
+                print("DEBUG: except try, running '%s'" % c_main)
 				cmts = [c.split(";;") for c in run(c_main).split("\n") if c != ""]
-				pass
 			except:
 				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
-				print("{0}\n{1}\n".format(c_master,c_main))
+				print("c_master: {0}\nc_main: {1}\n".format(c_master,c_main))
 				print("Unexpected error:", sys.exc_info()[0])
-				raise
+                pass
+				#raise
 	else:
 		cmtsBehind = 0
 		try:
