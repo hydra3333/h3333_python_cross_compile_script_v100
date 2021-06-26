@@ -384,7 +384,7 @@ def getCommitsDiff(pkg):
 	os.chdir(clonePath)
 	run("git remote update")
 
-	if (curCommit is not None) and (curCommit != "main") and (curCommit != "master"):
+	if (curCommit is not None) and (curCommit != "main") and (curCommit != "master") and (curCommit != "default"):
 		print("DEBUG: now looking at curCommit: '%s'" % curCommit)
 		# 2020.06.22 try to cater for either/or or "master" or "main"
 		c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
