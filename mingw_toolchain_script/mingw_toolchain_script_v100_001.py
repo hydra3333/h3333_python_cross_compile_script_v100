@@ -82,7 +82,8 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 }
 SOURCES['isl'] = { # http://isl.gforge.inria.fr/
 	'type': 'archive',
-	'version': '0.23', # 2020.12.27
+	#'version': '0.23', # 2020.12.27
+	'version': '0.24', # 2021.05.05
 	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
