@@ -3,8 +3,10 @@
 	'download_locations' : [ # 3.6.14 crashes rtmpdump 
 		#{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.14.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63' }, ], },
 		#{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.14.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63' }, ], },
-		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.15.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0ea8c3283de8d8335d7ae338ef27c53a916f15f382753b174c18b45ffd481558' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.15.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0ea8c3283de8d8335d7ae338ef27c53a916f15f382753b174c18b45ffd481558' }, ], },
+		#{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.15.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0ea8c3283de8d8335d7ae338ef27c53a916f15f382753b174c18b45ffd481558' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.15.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0ea8c3283de8d8335d7ae338ef27c53a916f15f382753b174c18b45ffd481558' }, ], },
+		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1b79b381ac283d8b054368b335c408fedcb9b7144e0c07f531e3537d4328f3b3' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.6.16.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1b79b381ac283d8b054368b335c408fedcb9b7144e0c07f531e3537d4328f3b3' }, ], },
 	],
     'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
 		'CFLAGS'   : ' -D_POSIX_C_SOURCE {original_cflags}',
@@ -65,5 +67,5 @@
         'gmp', # 2019.12.13
 	],
 	'update_check' : { 'url' : 'ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6', 'type' : 'ftpindex', 'regex' : r'gnutls-(?P<version_num>[\d.]+)\.tar\.xz' },
-	'_info' : { 'version' : '3.6.15', 'fancy_name' : 'gnutls_3333' },
+	'_info' : { 'version' : '3.6.16', 'fancy_name' : 'gnutls_3333' },
 }

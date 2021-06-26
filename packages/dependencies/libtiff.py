@@ -27,7 +27,7 @@
 	],
 	'update_check' : { 'url' : 'https://download.osgeo.org/libtiff/?C=M;O=D', 'type' : 'httpindex', 'regex' : r'tiff-(?P<version_num>[\d.]+)\.tar\.gz' },
 	#'_info' : { 'version' : '4.1.0', 'fancy_name' : 'libtiff' },
-	'_info' : { 'version' : '4.2.0', 'fancy_name' : 'libtiff' },
+	'_info' : { 'version' : '4.3.0', 'fancy_name' : 'libtiff' },
 }
 # 2019.12.13 old:
 # none
