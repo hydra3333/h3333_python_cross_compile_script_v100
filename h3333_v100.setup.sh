@@ -185,11 +185,8 @@ sudo apt-get remove -y doxygen
 #pip3 install -y --user meson
 set -x
 cd ~/Desktop
-#m_ver="0.52.1"
-#m_ver="0.53.2"
-#m_ver="0.53.3"
-#m_ver="0.55.1"
-m_ver="0.55.3"
+#m_ver="0.55.3"
+m_ver="0.58.1"
 rm -vfR meson_git
 #if [[ ! -d "meson_git" ]]; then
    #git clone https://github.com/mesonbuild/meson.git
@@ -235,9 +232,8 @@ set +x
 # Build and install the latest supported cmake
 set -x
 cd ~/Desktop
-#c_ver="3.18.3"
 c_ver="3.18.4"
-#c_ver="3.19.6"
+#c_ver="3.20.5"
 rm -vfR cmake-${c_ver} 
 #if [[ ! -d "cmake-${c_ver}" ]]; then
    mkdir cmake-${c_ver} 
