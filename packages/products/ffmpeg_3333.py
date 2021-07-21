@@ -146,10 +146,11 @@
 		# '--enable-libvmaf '
 		# '--extra-libs="-lpsapi" '
 		# '--extra-libs="-liconv" ' # -lschannel #-lsecurity -lz -lcrypt32 -lintl -liconv -lpng -loleaut32 -lstdc++ -lspeexdsp -lpsapi
-		'--extra-cflags="-DLIBTWOLAME_STATIC" '
-		'--extra-cflags="-DMODPLUG_STATIC"  ' 	# 2021.02.03
-		'--extra-cflags="-DLIBXML_STATIC" '
-		'--extra-cflags="-DGLIB_STATIC_COMPILATION" '	# 2021.02.03
+		'--extra-cflags="-DLIBTWOLAME_STATIC -lssp" '
+		'--extra-cflags="-DMODPLUG_STATIC -lssp"  ' 	# 2021.02.03
+		'--extra-cflags="-DLIBXML_STATIC -lssp" '
+		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" '	# 2021.02.03
+		'--extra-libs=" -lssp " '
 		## ####################################################################################
 		'--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
 		## ####################################################################################
