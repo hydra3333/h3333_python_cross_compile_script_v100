@@ -4,6 +4,8 @@
 		'env_exports' : {
 			'PKGCONFIG' : 'pkg-config',
 		},
+    'custom_ldflag' : ' {original_cflags} -lssp ', 
+    'custom_cflag' : ' {original_cflags} -lssp ', 
 		'configure_options':
 			'--prefix={target_prefix} '
 			'--cross-prefix={cross_prefix_bare} '
