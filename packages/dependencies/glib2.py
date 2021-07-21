@@ -68,7 +68,7 @@
 #	'patches' : [
 #		('glib2/0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch', '-Np1'), 
 #		('glib2/0001-win32-Make-the-static-build-work-with-MinGW-when-pos.patch', '-Np1'), 
-		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
+#		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
 #		('glib2/disable_libmount-make-UTF-yes.patch', '-Np0' ), # 2019.12.13 also note Np0
 #		('glib2/0001-disable-some-tests-when-static.patch', '-Np1' ),              # 2019.12.13
 #		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
@@ -138,8 +138,5 @@
 #    unset LDFLAGS
 #  cd ..
 #}
-#
-#
-#
-#
+
 
