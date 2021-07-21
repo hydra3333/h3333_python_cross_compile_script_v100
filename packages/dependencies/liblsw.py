@@ -19,7 +19,7 @@
 		#'diff -U 5 "../meson.build.old" "../meson.build" && echo "NO difference" || echo "YES differences!"',
 		'sleep 3',
 	],
-	'configure_options' : '--prefix={target_prefix} --cross-prefix=$cross_prefix --target-os=mingw ', # --disable-shared --enable-static
+	'configure_options' : '--prefix={target_prefix} --cross-prefix={cross_prefix_bare} --target-os=mingw ', # --disable-shared --enable-static
 	'depends_on' : ['vapoursynth_libs', 'libffmpeg_extra', 'libl-smash'],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'liblsw (VFR-maniac)' },
