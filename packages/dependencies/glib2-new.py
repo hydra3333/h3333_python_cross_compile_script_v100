@@ -8,7 +8,7 @@
 	'repo_type' : 'git',
 	'depth_git' : 0,
 	'url' : 'https://github.com/GNOME/glib.git', # this is a reasonably up to date mirror
-	'branch' : 'tags/2.66.2',
+	'branch' : 'tags/2.69.2',
 	'folder_name' : 'glib2',
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',

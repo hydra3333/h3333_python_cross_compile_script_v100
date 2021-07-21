@@ -2,8 +2,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
 	],
 	# 2020.05.12 DISABLED changed to use my configure to be like deadsix27 (i.e. without old PCRE)
 	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static '
@@ -45,6 +47,8 @@
 		'diff -U 5 "{pkg_config_path}/glib-2.0.pc.orig" "{pkg_config_path}/glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
 	],
 	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
-	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
-	'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 lib' },
+	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.69/" lang="">(?P<version_num>[\d.]+)<\/a>' },
+	#'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
+	'_info' : { 'version' : '2.69.0', 'fancy_name' : 'glib2 lib' },
+	#'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 lib' },
 }
