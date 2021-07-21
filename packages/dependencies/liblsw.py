@@ -19,9 +19,9 @@
 		#'diff -U 5 "../meson.build.old" "../meson.build" && echo "NO difference" || echo "YES differences!"',
 		'sleep 3',
 	],
-    'custom_ldflag' : ' {original_cflags} -lssp ', 
-    'custom_cflag' : ' {original_cflags} -lssp ', 
-	'configure_options' : '--prefix={target_prefix} --cross-prefix={cross_prefix_bare} --target-os=mingw ', # --disable-shared --enable-static
+    #'custom_ldflag' : ' -O3 -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp ', 
+    #'custom_cflag'  : ' -O3 -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp ', 
+	'configure_options' : '--prefix={target_prefix} --cross-prefix={cross_prefix_bare} --target-os=mingw --extra-cflags=" -lssp " --extra-ldflags==" -lssp ', # --disable-shared --enable-static
 	'depends_on' : ['vapoursynth_libs', 'libffmpeg_extra', 'libl-smash'],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'liblsw (VFR-maniac)' },
