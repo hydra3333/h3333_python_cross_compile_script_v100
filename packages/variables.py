@@ -172,9 +172,9 @@
 		#
 		'--enable-libtwolame '
 		'--enable-libwavpack '
-		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
 		'--extra-cflags="-DLIBTWOLAME_STATIC -lssp" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DLIBXML_STATIC -lssp" ' # 2019.12.13 addded back in
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" ' # 2019.12.13 addded back in
+		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
 	,
 }
