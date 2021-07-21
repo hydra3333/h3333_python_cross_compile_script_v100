@@ -82,7 +82,7 @@
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
 		#'--enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan '  # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
-		'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
+		'--extra-cflags="-DFRIBIDI_LIB_STATIC -lssp" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
 		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all, #2020.10.12 moved here from ffmpeg_extra_config
 	,
 
@@ -121,10 +121,11 @@
 		# '--extra-libs="-liconv" ' # -lschannel #-lsecurity -lz -lcrypt32 -lintl -liconv -lpng -loleaut32 -lstdc++ -lspeexdsp -lpsapi
 		# '--extra-cflags="-DLIBTWOLAME_STATIC" '
 		# '--extra-cflags="-DMODPLUG_STATIC" '
-		'--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
-		'--extra-cflags="-DMODPLUG_STATIC"  ' # 2019.12.13 addded back in
-		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
-		'--extra-cflags="-DGLIB_STATIC_COMPILATION" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DLIBTWOLAME_STATIC -lssp" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DMODPLUG_STATIC -lssp"  ' # 2019.12.13 addded back in
+		'--extra-cflags="-DLIBXML_STATIC -lssp" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" ' # 2019.12.13 addded back in
+		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all, #2020.10.12 moved here from ffmpeg_extra_config
 	,
 	'ffmpeg_tiny_config' : # the base for all ffmpeg configurations.
 		'--arch={bit_name2} '
@@ -172,8 +173,8 @@
 		'--enable-libtwolame '
 		'--enable-libwavpack '
 		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all
-		'--extra-cflags="-DLIBTWOLAME_STATIC" ' # 2019.12.13 addded back in
-		'--extra-cflags="-DLIBXML_STATIC" ' # 2019.12.13 addded back in
-		'--extra-cflags="-DGLIB_STATIC_COMPILATION" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DLIBTWOLAME_STATIC -lssp" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DLIBXML_STATIC -lssp" ' # 2019.12.13 addded back in
+		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" ' # 2019.12.13 addded back in
 	,
 }
