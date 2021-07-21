@@ -1,3 +1,46 @@
+# 2021.07.21 TRY TO BUILD BASED ON RDP';S with meson
+{
+	'repo_type' : 'archive',
+	'download_locations' : [
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+	],
+	'patches' : [
+		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
+	],
+    'conf_system' : 'meson',
+	'build_system' : 'ninja',
+    'source_subfolder' : 'build',
+    'custom_cflag'  : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ',
+    'custom_ldflag' : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ', #  # For some reason the frexp configure checks fail without this as math.h isn't found when cross-compiling;
+        'configure_options' :
+        '--prefix={target_prefix} '
+        '--libdir={target_prefix}/lib '
+        '--default-library=static '
+        '--buildtype=release '
+        '-Dinternal_pcre=true '
+        '-Dforce_posix_threads=true '
+        '--cross-file={meson_env_file} ./ ..'   # or . build
+    ,
+	'run_post_install' : [
+		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"', # 2019.12.13
+		'sed -s -i.bak1 \'s/-lintl/-pthread -lm -lintl -liconv -lintl/\' "glib-2.0.pc"', # 2019.12.13
+		'diff -U 5 "glib-2.0.pc.orig" "glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
+		'cp -fv "{pkg_config_path}/glib-2.0.pc" "{pkg_config_path}/glib-2.0.pc.orig"', # 2019.12.13
+		'sed -s -i.bak1 \'s/-lintl/-pthread -lm -lintl -liconv -lintl/\' "glib-2.0.pc"', # 2019.12.13
+		'diff -U 5 "{pkg_config_path}/glib-2.0.pc.orig" "{pkg_config_path}/glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
+	],
+	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
+	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.69/" lang="">(?P<version_num>[\d.]+)<\/a>' },
+	#'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
+	'_info' : { 'version' : '2.69.0', 'fancy_name' : 'glib2 lib' },
+	#'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 2.58.3 lib' },
+}
+#
+#
+#
 # 2020.10.22 see glib2-new for an attempt at a later version
 #{
 #	'repo_type' : 'archive',
@@ -25,6 +68,7 @@
 #	'patches' : [
 #		('glib2/0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch', '-Np1'), 
 #		('glib2/0001-win32-Make-the-static-build-work-with-MinGW-when-pos.patch', '-Np1'), 
+		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
 #		('glib2/disable_libmount-make-UTF-yes.patch', '-Np0' ), # 2019.12.13 also note Np0
 #		('glib2/0001-disable-some-tests-when-static.patch', '-Np1' ),              # 2019.12.13
 #		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
@@ -98,43 +142,4 @@
 #
 #
 #
-# 2021.07.21 TRY TO BUILD BASED ON RDP';S with meson
-{
-	'repo_type' : 'archive',
-	'download_locations' : [
-		#{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
-	],
-	'patches' : [
-		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
-	],
-    'conf_system' : 'meson',
-	'build_system' : 'ninja',
-    'source_subfolder' : 'build',
-    'custom_cflag'  : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ',
-    'custom_ldflag' : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ', #  # For some reason the frexp configure checks fail without this as math.h isn't found when cross-compiling;
-        'configure_options' :
-        '--prefix={target_prefix} '
-        '--libdir={target_prefix}/lib '
-        '--default-library=static '
-        '--buildtype=release '
-        '-Dinternal_pcre=true '
-        '-Dforce_posix_threads=true '
-        '--cross-file={meson_env_file} ./ ..'   # or . build
-    ,
-	'run_post_install' : [
-		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"', # 2019.12.13
-		'sed -s -i.bak1 \'s/-lintl/-pthread -lm -lintl -liconv -lintl/\' "glib-2.0.pc"', # 2019.12.13
-		'diff -U 5 "glib-2.0.pc.orig" "glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
-		'cp -fv "{pkg_config_path}/glib-2.0.pc" "{pkg_config_path}/glib-2.0.pc.orig"', # 2019.12.13
-		'sed -s -i.bak1 \'s/-lintl/-lintl -liconv -lintl/\' "{pkg_config_path}/glib-2.0.pc"', # 2019.12.13
-		'diff -U 5 "{pkg_config_path}/glib-2.0.pc.orig" "{pkg_config_path}/glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
-	],
-	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
-	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.69/" lang="">(?P<version_num>[\d.]+)<\/a>' },
-	#'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
-	'_info' : { 'version' : '2.69.0', 'fancy_name' : 'glib2 lib' },
-	#'_info' : { 'version' : '2.58.3', 'fancy_name' : 'glib2 2.58.3 lib' },
-}
+
