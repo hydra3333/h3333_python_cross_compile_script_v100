@@ -21,10 +21,12 @@
 	#'configure_options' : '--host={target_host} --target-os={bit_name3} --prefix={output_prefix}/mp4box_git.installed --static-modules --cross-prefix={cross_prefix_bare} --static-mp4box --enable-static-bin --disable-oss-audio --disable-x11 --disable-docs --disable-shared --enable-static --extra-cflags="-DLIBXML_STATIC" --extra-cflags="-DGLIB_STATIC_COMPILATION" --enable-sdl-static ', # 2019.12.13 # 2020.05.13 remove --sdl-cfg={cross_prefix_full}sdl2-config 
 	'configure_options' : '--host={target_host} --target-os={bit_name3} --prefix={output_prefix}/mp4box_git.installed --cross-prefix={cross_prefix_bare} '
         '--enable-static --static-modules --static-build --static-bin --disable-shared '
-        '--disable-docs --disable-ipv6 --enable-mem-track --enable-sanitizer --enable-depth '
+        '--disable-docs --disable-ipv6 --enable-mem-track --enable-depth '
         '--enable-sdl-static '
         '--disable-oss-audio --disable-x11 '
-        '--extra-cflags="-DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" ', # 2019.12.13 # 2020.05.13 remove --sdl-cfg={cross_prefix_full}sdl2-config 
+        '--extra-cflags="-DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" '
+        #'--use-ffmpeg=local --extra-ldflags="-L{target_prefix}/lib -lavutil -lavcodec -lavfilter -lavformat -lpostproc" ' # add ffmpeg 
+    , # 2019.12.13 # 2020.05.13 remove --sdl-cfg={cross_prefix_full}sdl2-config 
 	#'run_post_configure' : [ 
 	#	'./check_revision.sh', # 2021.04.10 per https://github.com/rdp/ffmpeg-windows-build-helpers/commit/f8f1c51573b7e3a85183e9f2a1ddcb6895d1e844
 	#],
