@@ -23,5 +23,6 @@
 		'vidstab',
 		'fftw3',
 		'libmodplug',
+        'libbluray',
 	],
 }
