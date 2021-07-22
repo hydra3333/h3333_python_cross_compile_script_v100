@@ -6,7 +6,8 @@
 	'needs_make_install' : False,
 	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R52 PYTHON_VERSION=3.8.6',  # 2020.10.17 for vapoursynth R52
 	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R53 PYTHON_VERSION=3.8.4',  # 2021.04.26 for vapoursynth R53
-	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R53 PYTHON_VERSION=3.9.5',  # 2021.04.26 for vapoursynth R53
+	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R53 PYTHON_VERSION=3.9.5',  # 2021.04.26 for vapoursynth R53
+	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R54 PYTHON_VERSION=3.9.6',  # 2021.04.26 for vapoursynth R54
 	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
 		#'sed -i.bak "s;;;g" "Makefile"',
@@ -26,5 +27,5 @@
 	},
 	'depends_on' : [ 'python3_libs' ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'R53', 'fancy_name' : 'VapourSynth (library-only)' },
+	'_info' : { 'version' : 'R54', 'fancy_name' : 'VapourSynth (library-only)' },
 }

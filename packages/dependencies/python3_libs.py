@@ -21,10 +21,10 @@
 		'sed -i.bak "s;_DEBUG = False;_DEBUG = True;g" "install_python_libs.py"',
 		'diff -U 5 install_python_libs.py.orig install_python_libs.py && echo "NO difference" || echo "YES differences!"',
 	],
-	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.8.6', # for vapoursynth R52
-	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.9.5', # for vapoursynth R53
+	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.9.5', # for vapoursynth R53
+	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool PYTHON_VERSION=3.9.6', # for vapoursynth R54
 	## eg 
 	## make -j 4 PREFIX=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 GENDEF=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/gendef DLLTOOL=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-dlltool PYTHON_VERSION=3.8.5
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : '3.9.5', 'fancy_name' : 'Python (library-only)' },
+	'_info' : { 'version' : '3.9.6', 'fancy_name' : 'Python (library-only)' },
 }
