@@ -3,6 +3,7 @@
 # or, open in nano, control-o and then then alt-M a few times to toggle msdos format off and then save
 
 set -x
+sudo chmod +777 -R *
 
 sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
 sudo apt -y update
