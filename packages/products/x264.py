@@ -6,6 +6,7 @@
 							'--enable-strip --enable-lto --enable-pic '
 							'--bit-depth=all '
 							'--chroma-format=all ' # 2020.06.09
+                            '--disable-lsmash '
 							'--disable-win32thread ' # make posix threeads like the other things being built
 							'--extra-cflags="-DLIBXML_STATIC" --extra-cflags="-DGLIB_STATIC_COMPILATION" '
 							#'--disable-cli --disable-lavf ' # 2020.06.09 when building .exe do not --disable-cli and also leave off --disable-lavf																								
@@ -13,7 +14,7 @@
 	'depends_on' : [
 		'opencl_non_icd', # 2020.06.09
 		# 2020.06.09 only the x264 package, not the libx264 dependency depends on libffmpeg_extra being built first,
-		'libffmpeg_extra', 'liblsw',  # 2019.12.13 HolyWu's lsw does not need avresample as it uses libswresample # 2018.11.23 superseded: liblsw required --enable-avresample which was deprecated
+		'libffmpeg_extra',  # 2021.07.21 lsmashworks no longer builds :( 'liblsw',  # 2019.12.13 HolyWu's lsw does not need avresample as it uses libswresample # 2018.11.23 superseded: liblsw required --enable-avresample which was deprecated
 	],
 	'env_exports' : { # 2020.06.09 hope this happens AFTER dependencies built
 		'PKGCONFIG' : 'pkg-config',
