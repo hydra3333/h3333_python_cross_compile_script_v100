@@ -1,31 +1,44 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/VFR-maniac/L-SMASH-Works.git', # no longer builds: 'https://github.com/HolyWu/L-SMASH-Works.git',
+	#'url' : 'https://github.com/VFR-maniac/L-SMASH-Works.git', # no longer builds: 'https://github.com/HolyWu/L-SMASH-Works.git',
+	'url' : 'https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works', # 2021.07.23
 	'depth_git' : 0,
-    'source_subfolder' : 'VapourSynth', # 'VapourSynth', # 'build',
-	'env_exports' : {
-		'PKGCONFIG' : 'pkg-config',
-	},
+    'source_subfolder' : 'VapourSynth',
+    'conf_system' : 'meson',
+	'build_system' : 'ninja',
+	#'env_exports' : {
+	#	'PKGCONFIG' : 'pkg-config',
+	#},
 	'run_post_regexreplace' : [
-		#'ls -al',
-		#'ls -al ..',
+		'ls -al',
+		'ls -al ..',
 		'cp -fv "lsmashsource.h" "lsmashsource.h.old"',
 		'sed -i.BAK \'s;<VapourSynth.h>;"VapourSynth.h";g\' "lsmashsource.h"',
 		'diff -U 5 "lsmashsource.h.old" "lsmashsource.h" && echo "NO difference" || echo "YES differences!"',
+        #
 		#'cp -fv "../meson.build" "../meson.build.old"',
 		#'sed -i.BAK "s;vapoursynth_dep =;includes = include_directories(\'../include\')\\n\\nvapoursynth_dep =;g" "../meson.build"',
 		#'sed -i.BAK \'s;dependencies : deps,;dependencies : deps,\\ninclude_directories : includes,;g\' "../meson.build"', # 2020.09.10 prior to : to fix an upstream commit - in case we change commit brancges
 		#'sed -i.BAK \'s;dependencies: deps,;dependencies: deps,\\ninclude_directories : includes,;g\' "../meson.build"',   # 2020.09.10 removed a space prior to : to fix an upstream commit
 		#'diff -U 5 "../meson.build.old" "../meson.build" && echo "NO difference" || echo "YES differences!"',
-		'sleep 3',
+		#'sleep 3',
 	],
-    #'custom_ldflag' : ' -O3 -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp ', 
-    #'custom_cflag'  : ' -O3 -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp ', 
-	'configure_options' : '--prefix={target_prefix} --cross-prefix={cross_prefix_bare} --target-os=mingw --extra-libs=" -lssp " ', # --disable-shared --enable-static
+	#'configure_options' : '--prefix={target_prefix} --cross-prefix={cross_prefix_bare} --target-os=mingw --extra-libs=" -lssp " ', # --disable-shared --enable-static
+	'configure_options' :
+		'--prefix={target_prefix} '
+		'--libdir=lib '
+		'--includedir=include '
+		'--default-library=static '
+		'--backend=ninja '
+		'--buildtype=release '
+		'--cross-file={meson_env_file} ./ .'
+	,
 	'depends_on' : ['vapoursynth_libs', 'libffmpeg_extra', 'libl-smash'],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'liblsw (VFR-maniac)' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'liblsw L-SMASH-Works (HomeOfAviSynthPlusEvolution)' },
 }
+
+
 #
 #build_lsw() {
 #   # Build L-Smash-Works, which are plugins based on lsmash
