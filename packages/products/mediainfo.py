@@ -1,7 +1,7 @@
 { # NOTE: now we MUST add --legacy to the mediainfo.exe commandline at runtime to get the "old" fields !!!!! 
 	'repo_type' : 'git',
 	'recursive_git' : True,
-	'url' : 'https://github.com/MediaArea/MediaInfo.git',
+	'url' : 'https://github.com/MediaArea/MediaInfo.git', # 2021.08.12 https://github.com/MediaArea/MediaInfo/issues/551
 	'source_subfolder' : 'Project/GNU/CLI',
 	'rename_folder' : 'mediainfo_git', # 2019.12.13
     'run_post_regexreplace' : [ # 2019.12.13
