@@ -1,11 +1,13 @@
 # 2021.07.21 TRY TO BUILD BASED ON RDP';S with meson
 {
 	'repo_type' : 'archive',
-	'download_locations' : [
+	'download_locations' : [ # https://fossies.org/linux/misc/
 		#{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
 		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1cdb3fd8610f3c57b6622e5cd68e0a3210561d80b0eceb971eb51fb8b63dbfae' }, ], },
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f92f34057a091fc8638d91f10cece842cb8618e9a1090b0ddb19cc15a21bf39c' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f92f34057a091fc8638d91f10cece842cb8618e9a1090b0ddb19cc15a21bf39c' }, ], },
 	],
 	'patches' : [
 		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
