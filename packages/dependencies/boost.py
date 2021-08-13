@@ -1,8 +1,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://fossies.org/linux/misc/boost_1_76_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41' }, ], },
-		{ 'url' : 'https://dl.bintray.com/boostorg/release/1.76.0/source/boost_1_76_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/boost_1_76_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41' }, ], },
+		#{ 'url' : 'https://dl.bintray.com/boostorg/release/1.76.0/source/boost_1_76_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/boost_1_77_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fc9f85fc030e233142908241af7a846e60630aa7388de9a5fafb1f3a26840854' }, ], },
+		{ 'url' : 'https://dl.bintray.com/boostorg/release/1.77.0/source/boost_1_77_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fc9f85fc030e233142908241af7a846e60630aa7388de9a5fafb1f3a26840854' }, ], },
 		# in WIn10 use powershell to find the sha256 of a file https://www.youtube.com/watch?v=YM2CE6zKvoo&t=57
 	],
 	'needs_make' :False,
