@@ -49,7 +49,7 @@
 		'--enable-avisynth '
 		'--enable-vapoursynth '
 		'--enable-librtmp '		# 2021.08.27
-        '--enable-librist',         # 2021.08.27
+        '--enable-librist '         # 2021.08.27
 		'--disable-libcaca '		# 2021.02.03
 		'--enable-iconv '
 		'--enable-libxml2 '
