@@ -48,7 +48,8 @@
 		'--disable-libcdio '		# 2021.02.03
 		'--enable-avisynth '
 		'--enable-vapoursynth '
-		'--disable-librtmp '		# 2021.02.03
+		'--enable-librtmp '		# 2021.08.27
+        '--enable-librist',         # 2021.08.27
 		'--disable-libcaca '		# 2021.02.03
 		'--enable-iconv '
 		'--enable-libxml2 '
@@ -165,7 +166,8 @@
 		#'libcdio',			# 2021.02.03
         'python3_libs',
 		'vapoursynth_libs',
-		#'rtmpdump',		# 2021.02.03
+		'rtmpdump',		# 2021.08.27
+        'librist',      # 2021.08.27
 		#'libcaca',		# 2021.02.03
 		'iconv',
 		'libzimg',
