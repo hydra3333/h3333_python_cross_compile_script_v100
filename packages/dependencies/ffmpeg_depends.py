@@ -11,6 +11,7 @@
         'python3_libs',
 		'vapoursynth_libs',
 		'rtmpdump',
+        'librist',  # 2021.08.27
 		'libcaca',
 		'iconv',
 		'libzimg',
