@@ -30,6 +30,7 @@
 		'--enable-avisynth '
 		'--enable-vapoursynth '
 		'--enable-librtmp '
+		'--enable-librist '
 		'--enable-libcaca '
 		'--enable-iconv '
 		'--enable-libxml2 '
