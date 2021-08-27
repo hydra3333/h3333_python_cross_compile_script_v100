@@ -45,9 +45,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-	#'checkout' : '97806c0ecf06b25295200d636978b06e28aa89bc',
- 	#'checkout' : 'tags/v8.0.0', # see calling  .py  -'mingw_commit': 'tags/v8.0.0', 
-    'checkout' : 'tags/v9.0.0',
+    'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
   	#	( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/01-test.patch' , 'p1' ),
 	#],
