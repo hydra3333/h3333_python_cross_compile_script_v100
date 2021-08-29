@@ -22,6 +22,7 @@
 	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -lz -ld3d11 -lintl -liconv ', # 2020.04.09
 	'configure_options' :
 		'--force '
+        '--enable-ffmpeg-strict-abi '
 		'--enable-libmpv-shared '
 		'--enable-static-build '
 		'--disable-debug-build '
