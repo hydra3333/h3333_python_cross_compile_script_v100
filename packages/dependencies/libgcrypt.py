@@ -5,7 +5,10 @@
 	'recursive_git' : True,
 	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
-	#'branch' : '7c2943309d14407b51c8166c4dcecb56a3628567', # 2020.03.19 try git master # 7c2943309d14407b51c8166c4dcecb56a3628567 works with no errors
+    #'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18
+	'patches' : [
+		('libgcrypt/libgcrypt.patch', '-p1'),
+	],
 	'configure_options': '--host={target_host} --prefix={target_prefix} --with-gpg-error-prefix={target_prefix} --disable-shared --enable-static --disable-doc --enable-threads=windows ', # --disable-asm 
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'run_post_regexreplace' : (
