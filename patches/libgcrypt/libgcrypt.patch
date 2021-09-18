@@ -1,5 +1,5 @@
---- a/gpg-error.m4	2021-09-17 17:55:15.526044000 -0700
-+++ b/gpg-error.m4	2021-09-17 17:59:49.671442000 -0700
+--- a/m4/gpg-error.m4	2021-09-17 17:55:15.526044000 -0700
++++ b/m4/gpg-error.m4	2021-09-17 17:59:49.671442000 -0700
 @@ -10,7 +10,7 @@
  # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
  # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
