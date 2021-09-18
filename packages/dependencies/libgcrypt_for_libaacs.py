@@ -6,7 +6,7 @@
 	'recursive_git' : True,
 	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
-    #'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18
+    #'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18 on commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 	'rename_folder' : 'libgcrypt_for_aacs_git',
    	'patches' : [
 		('libgcrypt/libgcrypt.patch', '-p1'),
