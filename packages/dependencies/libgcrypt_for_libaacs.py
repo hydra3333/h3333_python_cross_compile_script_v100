@@ -9,7 +9,7 @@
     #'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18 on commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 	'rename_folder' : 'libgcrypt_for_aacs_git',
    	'patches' : [
-		('libgcrypt/libgcrypt.patch', '-p1'),
+		('libgcrypt/libgcrypt.patch', '-p1'),   # 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 	],
 	'configure_options': '--host={target_host} --prefix={output_prefix}/libaacs_dll_git.installed --with-gpg-error-prefix={output_prefix}/libaacs_dll_git.installed --disable-doc --enable-threads=windows ', # --disable-asm 
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
