@@ -14,5 +14,5 @@
 		#	                                                         # *** you link to this library.  But I can only do this if you have a
 		#	                                                         # *** shared version of the library, which you do not appear to have.
 	],
-	'_info' : { 'version' : '3.3.9', 'fancy_name' : 'fftw3 shared DLLs' },
+	'_info' : { 'version' : '3.3.10', 'fancy_name' : 'fftw3 shared DLLs' },
 }
