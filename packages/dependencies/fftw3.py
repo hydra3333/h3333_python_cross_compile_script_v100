@@ -54,5 +54,5 @@
 		],
 	},
 	'update_check' : { 'url' : 'ftp://ftp.fftw.org/pub/fftw/', 'type' : 'ftpindex', 'regex' : r'fftw-(?P<version_num>[\d.]+)\.tar\.gz' },
-	'_info' : { 'version' : '3.3.9', 'fancy_name' : 'fftw3' },
+	'_info' : { 'version' : '3.3.10', 'fancy_name' : 'fftw3' },
 }
