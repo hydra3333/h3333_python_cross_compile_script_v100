@@ -24,7 +24,7 @@
 		'./check_revision.sh', # 2021.04.10 per https://github.com/rdp/ffmpeg-windows-build-helpers/commit/f8f1c51573b7e3a85183e9f2a1ddcb6895d1e844
 	],
 	'depends_on' : [
-		 'libffmpeg_extra', 'sdl2', # 2020.05.13 re-enable # 2020.05.13 remove SDL2 'sdl2', 
+		 'freetype', 'libffmpeg_extra', 'sdl2', # 2020.05.13 re-enable # 2020.05.13 remove SDL2 'sdl2', 
 	],
 	'_info' : { 'version' : '(legacy tree)', 'fancy_name' : 'mp4box' },
 }
