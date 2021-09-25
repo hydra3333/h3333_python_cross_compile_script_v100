@@ -5,8 +5,8 @@
 		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863' }, ], },
 		#{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.14.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'd8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc' }, ], },
 		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.14.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'd8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc' }, ], },
-		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.16.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.16.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b' }, ], },
+		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.16.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b' }, ], },
 	],
 	#
 	#'conf_system' : 'cmake',
@@ -55,6 +55,6 @@
 	#	'sed -i.bak "s/  -lmingw32 -lSDL2main -lSDL2 /  -lmingw32 -lSDL2main -lSDL2  -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid/" "{pkg_config_path}/sdl2.pc"', # allow ffmpeg to output anything to console :|
 	#	'cp -fv "{target_prefix}/bin/sdl2-config" "{cross_prefix_full}sdl2-config"', # this is the only mingw dir in the PATH so use it for now [though FFmpeg doesn't use it?]
 	#),
-	'update_check' : { 'url' : 'https://www.libsdl.org/release/', 'type' : 'httpindex', 'regex' : r'SDL2-(?P<version_num>[\d.]+)\.tar\.gz' },
+	#'update_check' : { 'url' : 'https://www.libsdl.org/release/', 'type' : 'httpindex', 'regex' : r'SDL2-(?P<version_num>[\d.]+)\.tar\.gz' },
 	'_info' : { 'version' : '2.0.16', 'fancy_name' : 'SDL2' },
 }
