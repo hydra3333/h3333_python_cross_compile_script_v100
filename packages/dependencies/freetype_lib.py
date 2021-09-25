@@ -44,6 +44,7 @@
 	},
 	'run_post_patch': ( # 2021.09.25
 		'sed -i.bak "s/find_package(BZip2)/find_package(BZip2 REQUIRED)/" "../CMakeLists.txt"',
+        'sed -i.bak \'s/list(APPEND PKG_CONFIG_LIBS_PRIVATE "-lbz2")/list(APPEND PKG_CONFIG_LIBS_PRIVATE "-lbz2")\nlist(APPEND PKG_CONFIG_REQUIRED_PRIVATE "bz2"\'')
 	),
 	'run_post_install': ( # 2021.09.25
 		'sed -i.bak "s/-lfreetype/-lfreetype -lbz2/" "{pkg_config_path}/freetype2.pc"', # hack 2021.09.25
