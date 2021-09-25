@@ -9,10 +9,8 @@
 	'download_locations' : [
 		#{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
 		#{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.2/freetype-2.10.2.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784' }, ], }, # 2020.11.05
-		#{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.4/freetype-2.10.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784' }, ], }, # 2020.11.05
-		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.11.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7' }, ], },
-		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.11.0/freetype-2.11.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7' }, ], },
+		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.4/freetype-2.10.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784' }, ], }, # 2020.11.05
+		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784' }, ], }, # 2020.11.05
 
 	],
 	'conf_system' : 'cmake',
@@ -20,15 +18,15 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DBUILD_SHARED_LIBS=OFF ' # was commented out 2021.09.25
+		#'-DBUILD_SHARED_LIBS=OFF '
 		'-DFT_WITH_HARFBUZZ=OFF '
 		'-DFT_WITH_ZLIB=ON '
 		'-DFT_WITH_BZIP2=ON '
 		'-DFT_WITH_PNG=ON '
 	,
-	#'patches' : [
-	#	('freetype2/freetype_cmake.patch', '-p1', '..') # 2021.09.25 patch no longer required ?
-	#],
+	'patches' : [
+		('freetype2/freetype_cmake.patch', '-p1', '..')
+	],
 	'regex_replace': {
 		'post_install': [
 			{
@@ -42,16 +40,9 @@
 			},
 		],
 	},
-	'run_post_patch': [ # 2021.09.25
-		'sed -i.bak "s/find_package(BZip2)/find_package(BZip2 REQUIRED)/" "../CMakeLists.txt"',
-        'sed -i.bak \'/list(APPEND PKG_CONFIG_LIBS_PRIVATE "-lbz2")/a   list(APPEND PKG_CONFIG_REQUIRED_PRIVATE "bz2")\' "../CMakeLists.txt"',
-	],
-	'run_post_install': ( # 2021.09.25
-		'sed -i.bak "s/-lfreetype/-lfreetype -lbz2/" "{pkg_config_path}/freetype2.pc"', # hack 2021.09.25
-    ),
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
 	],
 	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
-	'_info' : { 'version' : '2.11.0', 'fancy_name' : 'freetype2' },
+	'_info' : { 'version' : '2.10.4', 'fancy_name' : 'freetype2' },
 }
