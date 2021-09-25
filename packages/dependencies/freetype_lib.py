@@ -20,15 +20,15 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		#'-DBUILD_SHARED_LIBS=OFF '
+		'-DBUILD_SHARED_LIBS=OFF ' # was commented out 2021.09.25
 		'-DFT_WITH_HARFBUZZ=OFF '
 		'-DFT_WITH_ZLIB=ON '
 		'-DFT_WITH_BZIP2=ON '
 		'-DFT_WITH_PNG=ON '
 	,
-	'patches' : [
-		('freetype2/freetype_cmake.patch', '-p1', '..')
-	],
+	#'patches' : [
+	#	('freetype2/freetype_cmake.patch', '-p1', '..') # 2021.09.25 patch no longer required ?
+	#],
 	'regex_replace': {
 		'post_install': [
 			{
