@@ -41,6 +41,9 @@
 			},
 		],
 	},
+   	'run_post_regexreplace': ( # 2021.09.25
+		'sed -i.bak "s/find_package(BZip2)/find_package(BZip2 REQUIRED)/" "../CMakeLists.txt"',
+	),
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
 	],
