@@ -20,6 +20,7 @@
 		'--disable-non-suiteb-curves '
 		'--enable-cxx '
 		#'--enable-nls ' # 2020.03.19 comment out
+        '--enable-openssl-compatibility '
 		'--disable-rpath '
 		'--disable-gtk-doc '
 		'--disable-guile '
