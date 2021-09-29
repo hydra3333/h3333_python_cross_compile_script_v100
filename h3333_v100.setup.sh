@@ -58,8 +58,11 @@ sudo apt install -y cvs
 #sudo apt install -y svn
 sudo apt install -y subversion 
 sudo apt install -y mercurial 
-sudo apt install -y hg 
-sudo apt install -y git-remote-hg 
+#sudo apt install -y hg 
+#sudo apt install -y git-remote-hg 
+
+sudo apt install -y asciidoc
+sudo apt install -y xmlto
 
 #sudo apt-get remove -y nasm
 sudo apt-get remove -y python-pip cython # python 
@@ -118,20 +121,21 @@ git config --global credential.helper store
 #git commit --message="Slightly update nvenc error messages and warnings"
 #git send-email -1 --cover-letter --annotate --smtp-debug=1 --to=ffmpeg-devel@ffmpeg.org --subject="Slightly update nvenc error messages and warnings"
 
+sudo apt install -y texlive-base
 sudo apt install -y texinfo 
 sudo apt install -y pax 
 
 sudo apt install -y flex 
 sudo apt install -y bison 
 sudo apt install -y patch 
-sudo apt install -y libtoolize 
+#sudo apt install -y libtoolize 
 
 sudo apt install -y autopoint 
 sudo apt install -y po4a 
 sudo apt install -y gettext 
-sudo apt install -y gettext-autopoint
+#sudo apt install -y gettext-autopoint
 
-sudo apt install -y libxslt 
+#sudo apt install -y libxslt 
 sudo apt install -y libxslt1.1 
 sudo apt install -y rake
 sudo apt install -y gyp 
@@ -146,7 +150,8 @@ sudo apt install -y unzip
 sudo apt install -y docbook-to-man 
 sudo apt install -y docbook2x 
 sudo apt install -y docbook-utils 
-sudo apt install -y docbook-style-xsl 
+#sudo apt install -y docbook-style-xsl 
+sudo apt install -y docbook-xml 
 sudo apt install -y docbook-xsl 
 sudo apt install -y docbook-to-man 
 sudo apt install -y docbook-xsl-doc-html 
@@ -154,7 +159,7 @@ sudo apt install -y docbook-xsl-doc-pdf
 sudo apt install -y docbook-xsl-doc-text 
 sudo apt install -y docbook-xsl-saxon 
 
-sudo apt install -y pando 
+#sudo apt install -y pando 
 sudo apt install -y pandoc 
 
 sudo apt install -y ed
@@ -164,7 +169,7 @@ sudo apt install -y xsltproc
 sudo apt install -y itstool
 
 # gendef is installed with mingw
-sudo apt install -y libmozjs-dev 
+#sudo apt install -y libmozjs-dev 
 sudo apt install -y libxmu-dev 
 sudo apt install -y libgconf2-dev 
 sudo apt install -y libdbus-1-dev 
