@@ -79,12 +79,17 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
-SOURCES['isl'] = { # http://isl.gforge.inria.fr/
+#SOURCES['isl'] = { # http://isl.gforge.inria.fr/
+#	'type': 'archive',
+#	'version': '0.24', # 2021.05.05
+#	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
+#	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
+#}
+SOURCES['isl'] = { # was http://isl.gforge.inria.fr/
 	'type': 'archive',
-	#'version': '0.23', # 2020.12.27
 	'version': '0.24', # 2021.05.05
-	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
-	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
+	'url' : 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', 
+	#'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
