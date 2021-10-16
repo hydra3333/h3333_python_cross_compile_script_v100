@@ -36,6 +36,7 @@
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'run_post_build' : [
+        #echo "Requires.private: fftw3 samplerate" >> "{target_prefix}"/lib/pkgconfig/rubberband.pc
 		'ls -al',
 		'ls -al ..',
 		'cp -fv lib/* "{target_prefix}/lib"',
