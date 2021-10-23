@@ -260,23 +260,23 @@ cd ~/Desktop
 set +x
 
 # Build and install the latest supported autoconf (2.71 since some stuff eg libcaca requires 2.71+)
-set -x
-cd ~/Desktop
-ac_ver="2.71"
-sudo rm -vfR autoconf-${ac_ver} 
-#if [[ ! -d "autoconf-${ac_ver} " ]]; then
-	#wget http://ftp.gnu.org/gnu/autoconf/autoconf-latest.tar.gz
-	wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz
-	tar zxf autoconf-${ac_ver}.tar.gz
-	cd autoconf-${ac_ver} /
-	#yum install -y openssl-devel
-	./configure
-	make
-	sudo make install
-#fi
-set +x
-cd ~/Desktop
-set +x
+#set -x
+#cd ~/Desktop
+#ac_ver="2.71"
+#sudo rm -vfR autoconf-${ac_ver} 
+##if [[ ! -d "autoconf-${ac_ver} " ]]; then
+#	#wget http://ftp.gnu.org/gnu/autoconf/autoconf-latest.tar.gz
+#	wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz
+#	tar zxf autoconf-${ac_ver}.tar.gz
+#	cd autoconf-${ac_ver} /
+#	#yum install -y openssl-devel
+#	./configure
+#	make
+#	sudo make install
+##fi
+#set +x
+#cd ~/Desktop
+#set +x
 
 #------------------------------------------------------------------------------------------------
 #CUDA SDK Toolkit 10.2 Install Commentary https://github.com/DeadSix27/python_cross_compile_script/issues/83#issuecomment-468670437
