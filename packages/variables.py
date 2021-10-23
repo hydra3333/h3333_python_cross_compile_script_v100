@@ -31,7 +31,7 @@
 		'--enable-vapoursynth '
 		'--enable-librtmp '
 		'--enable-librist '
-		'--enable-libcaca '
+		'--disable-libcaca ' # 2021.10.23 now requires autoconf 2.71 which causes other dependencies to fail
 		'--enable-iconv '
 		'--enable-libxml2 '
 		'--enable-gmp '
