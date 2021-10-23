@@ -4,15 +4,15 @@
 		'bzip2',
 		'zlib',
 		'lzma',
-		'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype' so it builds these in the right order
-		'fontconfig', # fontconfig builds 'freetype' (again ?)
+		'fontconfig', # fontconfig builds 'freetype'
+		#'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype' so it builds these in the right order
 		'libbluray',
 		'libcdio',
         'python3_libs',
 		'vapoursynth_libs',
 		'rtmpdump',
         'librist',  # 2021.08.27
-		'libcaca',
+		#'libcaca', # 2021.10.23 now requires autoconf 2.71 which causes other dependencies to fail
 		'iconv',
 		'libzimg',
 		'libx264', # 2020.06.09 only the x264 package, not the dependency depends on libffmpeg_extra being built first
