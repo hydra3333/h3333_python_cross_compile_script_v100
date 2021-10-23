@@ -207,12 +207,11 @@ rm -vfR meson_git
 cd ~/Desktop
 sudo chmod a=rwx *.sh
 set +x
-
 # Build and install nasm
 set -x
 cd ~/Desktop
 n_ver="2.15.05"
-rm -vfR nasm-${n_ver}
+sudo rm -vfR nasm-${n_ver}
 #if [[ ! -d "nasm-${n_ver}" ]]; then
    echo "Downloading nasm ${n_ver}"
    url="https://www.nasm.us/pub/nasm/releasebuilds/${n_ver}/nasm-${n_ver}.tar.xz"
@@ -240,7 +239,7 @@ set -x
 cd ~/Desktop
 #c_ver="3.18.4" # 3.18.4 works
 c_ver="3.21.0"
-rm -vfR cmake-${c_ver} 
+sudo rm -vfR cmake-${c_ver} 
 #if [[ ! -d "cmake-${c_ver}" ]]; then
    mkdir cmake-${c_ver} 
    cd cmake-${c_ver}
@@ -255,6 +254,25 @@ rm -vfR cmake-${c_ver}
       ./bootstrap --prefix=/usr && make && sudo make install
    cd ..
    echo "Done sudo apt ing and Installing cmake-${c_ver}"
+#fi
+set +x
+cd ~/Desktop
+set +x
+
+# Build and install the latest supported autoconf (2.71 since some stuff eg libcaca requires 2.71+)
+set -x
+cd ~/Desktop
+ac_ver="2.71"
+sudo rm -vfR autoconf-${ac_ver} 
+#if [[ ! -d "autoconf-${ac_ver} " ]]; then
+	#wget http://ftp.gnu.org/gnu/autoconf/autoconf-latest.tar.gz
+	wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz
+	tar zxf autoconf-${ac_ver}.tar.gz
+	cd autoconf-${ac_ver} /
+	#yum install -y openssl-devel
+	./configure
+	make
+	sudo make install
 #fi
 set +x
 cd ~/Desktop
