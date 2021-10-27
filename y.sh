@@ -7,9 +7,9 @@
 set -x
 cd "~/Desktop"
 sudo chmod +777 -R *
-mkdir "~/Desktop/cache"
-sudo apt install -y ffmpeg
-sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
+#mkdir "~/Desktop/cache"
+#sudo apt install -y ffmpeg
+#sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
 #
 # usage: https://github.com/yt-dlp/yt-dlp#usage-and-options
 # sudo yt-dlp --version
