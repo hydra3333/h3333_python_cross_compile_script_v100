@@ -85,7 +85,7 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 #	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 #	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 #}
-SOURCES['isl'] = { # was http://isl.gforge.inria.fr/   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
+SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/)   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
 	'version': '0.24', # 2021.05.05
 	'url' : 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', 
