@@ -365,7 +365,7 @@ sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
 # sudo yt-dlp --update 
 # sudo yt-dlp --version
 # mkdir "~/Desktop/cache"
-# yt-dlp --force-ipv4 --no-playlist --abort-on-unavailable-fragment --buffer-size 64k --no-batch-file --paths "~/Desktop" --restrict-filenames --windows-filenames --restrict-filenames --no-mtime --no-force-overwrites --continue --no-write-playlist-metafiles --no-write-comments --cache-dir "~/Desktop/cache" --no-simulate --progress --newline --console-title --verbose --no-check-certificate --prefer-ffmpeg --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]" --check-formats --merge-output-format mp4 "$1"
+# yt-dlp --force-ipv4 --no-playlist --abort-on-unavailable-fragment --buffer-size 64k --no-batch-file --paths "~/Desktop" --restrict-filenames --windows-filenames -o '%(title)s-%(id)s.%(ext)s' --no-mtime --no-force-overwrites --continue --no-write-playlist-metafiles --no-write-comments --cache-dir "~/Desktop/cache" --no-simulate --progress --newline --console-title --verbose --no-check-certificate --prefer-ffmpeg --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]" --check-formats --merge-output-format mp4 "$1"
 # ls -alt
 ## --format FORMAT   eg --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]"
 ## --merge-output-format FORMAT
