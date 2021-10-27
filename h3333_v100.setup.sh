@@ -77,23 +77,23 @@ sudo apt install -y cython3
 sudo apt install -y python-is-python3 # for ubuntu 20.04
 
 #sudo pip  install progressbar2
-sudo pip3 install progressbar2
-sudo pip3 install py2exe
-sudo pip3 install certifi # install latest certificatess for python requests.get
-sudo pip3 install requests
-sudo pip3 install pyyaml
-sudo pip3 install bs4		# for check_versions.py
-sudo pip3 install colorama	# for check_versions.py
-sudo pip3 install html5lib	# for check_versions.py
+sudo pip3 install --upgrade progressbar2
+sudo pip3 install --upgrade py2exe
+sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
+sudo pip3 install --upgrade requests
+sudo pip3 install --upgrade pyyaml
+sudo pip3 install --upgrade bs4		# for check_versions.py
+sudo pip3 install --upgrade colorama	# for check_versions.py
+sudo pip3 install --upgrade html5lib	# for check_versions.py
 #pip  install progressbar2
-pip3 install progressbar2
-pip3 install py2exe
-pip3 install certifi # install latest certificatess for python requests.get
-pip3 install requests
-pip3 install pyyaml
-pip3 install bs4		# for check_versions.py
-pip3 install colorama	# for check_versions.py
-pip3 install html5lib	# for check_versions.py
+pip3 install --upgrade progressbar2
+pip3 install --upgrade py2exe
+pip3 install --upgrade certifi # install latest certificatess for python requests.get
+pip3 install --upgrade requests
+pip3 install --upgrade pyyaml
+pip3 install --upgrade bs4		# for check_versions.py
+pip3 install --upgrade colorama	# for check_versions.py
+pip3 install --upgrade html5lib	# for check_versions.py
 
 sudo apt install -y hashalot
 sudo apt install -y git-email
@@ -188,7 +188,7 @@ sudo apt-get remove -y doxygen
 
 # Build and install meson
 #sudo apt install -y meson
-#pip3 install -y --user meson
+#pip3 install --user --upgrade meson
 set -x
 cd ~/Desktop
 #m_ver="0.58.1"
@@ -356,6 +356,20 @@ set -x
 # fix any missing dependencies https://www.maketecheasier.com/fix-broken-packages-ubuntu/
 sudo apt update --fix-missing
 sudo apt install -f
+
+# replacement for youtube-dl
+sudo apt install -y ffmpeg
+sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
+# usage: https://github.com/yt-dlp/yt-dlp#usage-and-options
+# sudo yt-dlp --version
+# sudo yt-dlp --update 
+# sudo yt-dlp --version
+# mkdir "~/Desktop/cache"
+# sudo yt-dlp --config-location "~/Desktop" --force-ipv4 --no-playlist --abort-on-unavailable-fragment --buffer-size 64k --no-batch-file --paths "~/Desktop" --restrict-filenames --windows-filenames --restrict-filenames --no-mtime --no-force-overwrites --continue --no-write-playlist-metafiles --no-write-comments --cache-dir "~/Desktop/cache" --no-simulate --progress --newline --console-title --verbose --no-check-certificate --prefer-ffmpeg --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]" --check-formats --merge-output-format mp4 "$1"
+
+## --format FORMAT   eg --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]"
+## --merge-output-format FORMAT
+
 
 cd ~/Desktop
 rm -fv ~/Desktop/_working/*.yaml
