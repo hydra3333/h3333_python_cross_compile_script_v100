@@ -44,7 +44,7 @@ SOURCES = OrderedDict()  # Order matters.
 SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/
 	'type': 'git',
 	'git_shallow': False,
-	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
+	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
     'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
   	#	( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/01-test.patch' , 'p1' ),
@@ -85,7 +85,7 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 #	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 #	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 #}
-SOURCES['isl'] = { # was http://isl.gforge.inria.fr/
+SOURCES['isl'] = { # was http://isl.gforge.inria.fr/   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
 	'version': '0.24', # 2021.05.05
 	'url' : 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', 
