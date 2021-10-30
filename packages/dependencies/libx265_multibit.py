@@ -3,13 +3,14 @@
 	#'url' : 'https://bitbucket.org/multicoreware/x265_git',
 	#'folder_name': 'x265_multilib_git',
 	#'depth_git': 0,
-    'repo_type' : 'mercurial',                  # 2021.10.30 per deadsix27
-	'url' : 'http://hg.videolan.org/x265/',     # 2021.10.30 per deadsix27
-	'rename_folder' : 'libx265_hg_multibit',    # 2021.10.30 per deadsix27
+	'repo_type' : 'mercurial',					# 2021.10.30 per deadsix27
+	'url' : 'http://hg.videolan.org/x265/',		# 2021.10.30 per deadsix27
+	'rename_folder' : 'libx265_multibit_hg',	# 2021.10.30 per deadsix27
 	'source_subfolder' : '_build',
 	'configure_options' :
 		'../source {cmake_prefix_options} '
 		'-DCMAKE_AR={cross_prefix_full}ar '
+						
 		'-DENABLE_ASSEMBLY=ON '
 		'-DENABLE_SHARED=OFF '
 		'-DENABLE_CLI:BOOL=OFF '
@@ -21,6 +22,7 @@
 		'-DLIBXML_STATIC=ON ' # 2019.12.13
 		'-DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
 		'-DENABLE_HDR10_PLUS=ON ' # 2020.07.27
+														 
 	,
 	'conf_system' : 'cmake',
 	'run_post_build' : [
