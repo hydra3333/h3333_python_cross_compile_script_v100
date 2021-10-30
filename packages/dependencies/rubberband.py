@@ -1,7 +1,8 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/breakfastquay/rubberband.git',
-	'branch': 'cc13a41fd5888a0c1f9f1b6525e32810b584f6ea',
+	#'branch': 'cc13a41fd5888a0c1f9f1b6525e32810b584f6ea', # fatal: reference is not a tree: cc13a41fd5888a0c1f9f1b6525e32810b584f6ea
+    'depth_git' : 0,
 	'download_header' : [
 		'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/additional_headers/ladspa.h',
 	],
