@@ -25,13 +25,14 @@
         '--enable-sdl-static '
         '--disable-oss-audio --disable-x11 '
         '--extra-cflags="-DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" '
+        '--extra-ldflags="-L{target_prefix}/lib -lbz2" '
         #'--use-ffmpeg=local --extra-ldflags="-L{target_prefix}/lib -lavutil -lavcodec -lavfilter -lavformat -lpostproc" ' # add ffmpeg 
     , # 2019.12.13 # 2020.05.13 remove --sdl-cfg={cross_prefix_full}sdl2-config 
 	#'run_post_configure' : [ 
 	#	'./check_revision.sh', # 2021.04.10 per https://github.com/rdp/ffmpeg-windows-build-helpers/commit/f8f1c51573b7e3a85183e9f2a1ddcb6895d1e844
 	#],
 	'depends_on' : [
-		 'libffmpeg_extra', 'sdl2', # 2020.05.13 re-enable # 2020.05.13 remove SDL2 'sdl2', 
+		 'bzip2', 'libffmpeg_extra', 'sdl2', # 2020.05.13 re-enable # 2020.05.13 remove SDL2 'sdl2', 
 	],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'GPAC library' },
 }
