@@ -8,10 +8,10 @@
 		#'freetype', # it depends on 'freetype_lib', 'harfbuzz_lib-with-freetype' so it builds these in the right order
 		'libbluray',
 		'libcdio',
-        'python3_libs',
+		'python3_libs',
 		'vapoursynth_libs',
 		'rtmpdump',
-        'librist',  # 2021.08.27
+		'librist',  # 2021.08.27
 		#'libcaca', # 2021.10.23 now requires autoconf 2.71 which causes other dependencies to fail
 		'iconv',
 		'libzimg',
@@ -39,9 +39,10 @@
 		'nv-codec-headers',
 		'intel_quicksync_mfx',
 		'amf_headers',
-        #'opencl_icd', # 2020.11.24
-        'opencl_non_icd', # 2020.11.24
+		#'opencl_icd', # 2020.11.24
+		'opencl_non_icd', # 2020.11.24
 		#'vulkan_loader', # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
+		'vulkan_loader', # 2021.10.30 re-try vulkan_loader
 		'avisynth_plus_headers',
 		'sdl2', # 2020.05.13 re-enabled sdl2 # 2020.05.13 remove sdl2
 	],

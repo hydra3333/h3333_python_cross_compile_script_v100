@@ -18,7 +18,7 @@
 		#'davs2', # don't build the chinese software :)
 		#'xavs', # don't build the chinese software :)
 		#'xavs2', # don't build the chinese software :)
-		'openmpt',
+		#'openmpt',
 		'libmysofa',
 		'vidstab',
 		'fftw3',

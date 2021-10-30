@@ -7,7 +7,7 @@
 	'depends_on' : [
 		'zlib', 'libpng', 'libtiff', 'lcms2'
 	],
-	'patches' : [
+	'patches' : [   # 2021.10.30 perhaps follow deadsix27 to remove this patch ?
 		( 'openjpeg2/use-PkgConfig-for-third-party-libraries.patch', '-p1', '..' ),
 	],
 	'update_check' : { 'type' : 'git', },

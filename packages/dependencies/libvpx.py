@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libvpx',
 	'depth_git' : 0,
-	'branch' : 'main',
+	'branch' : 'main',  # they've changed the trunk from master to main (a US political race thing against the word, apparently)
 	'configure_options' :
 		'--target={bit_name2}-{bit_name_win}-gcc '
 		'--prefix={target_prefix} '

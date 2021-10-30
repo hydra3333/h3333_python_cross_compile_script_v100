@@ -14,8 +14,11 @@
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
 		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
 		'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.12 comment out
+		'DUSE_MASM=OFF '                # 2021.10.30 per deadsix27
 		#'-DBUILD_STATIC_LOADER=ON '   # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
+		'-DBUILD_STATIC_LOADER=ON '     # 2021.10.30 per deadsix27
 		#'-DENABLE_STATIC_LOADER=ON '  # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
+		'-DENABLE_STATIC_LOADER=ON '    # 2021.10.30 per deadsix27
 		'-DUSE_UNSAFE_C_GEN=ON ' # 2020.10.10 per MABS https://github.com/m-ab-s/media-autobuild_suite/commit/7034e948ca14323514fca98c83adc1ec7720909e
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
@@ -28,9 +31,8 @@
 	'source_subfolder' : '_build',
 	'patches' : [
 		#('vulkan/0001-mingw-workarounds-2020.04.08.patch','-p1','..'),
-		#('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.05.11.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
-		#('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-shinchiro-2020.08.21.patch','-p1','..'), # 2020.05.11 per MABS # https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
 		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2020.10.10.patch','-p1','..'), # 2020.05.11 per MABS # 
+		# 2021.10.30 hmmmmm, if building with vulkan fails then refer this updated patch from deadsix27 :  patches/vulkan/0001-mingw-workarounds.patch 
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27

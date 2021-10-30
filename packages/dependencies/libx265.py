@@ -5,7 +5,7 @@
 	#'depth_git': 0,
     'repo_type' : 'mercurial',                  # 2021.10.30 per deadsix27
 	'url' : 'http://hg.videolan.org/x265/',     # 2021.10.30 per deadsix27
-	'rename_folder' : 'libx265_hg_multibit',    # 2021.10.30 per deadsix27
+	'rename_folder' : 'libx265_hg',             # 2021.10.30 per deadsix27
 	'source_subfolder' : '_build',
 	'configure_options' :
 		'../source {cmake_prefix_options} '

@@ -2,11 +2,11 @@
 	'repo_type' : 'git',
 	'url' : 'https://chromium.googlesource.com/webm/libwebp',
     'depth_git' : 0,
-	'branch' : 'main',
+	'branch' : 'main',  # they've changed the trunk from master to main (a US political race thing against the word, apparently)
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options' : '.. {cmake_prefix_options} '
-		'-DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release '
+		'-DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF '
 		'-DWEBP_ENABLE_SIMD=ON '
 		'-DWEBP_NEAR_LOSSLESS=ON '
 		'-DWEBP_UNICODE=ON '
@@ -21,6 +21,7 @@
 		'-DWEBP_BUILD_IMG2WEBP=OFF '
 		'-DWEBP_BUILD_WEBP_JS=OFF '
 		'-DWEBP_ENABLE_SWAP_16BIT_CSP=ON ' # 2019.112.13 was off
+        '-DCMAKE_BUILD_TYPE=Release '
 	,
     'run_post_regexreplace': [ # 2019.12.13
 		'sed -i.bak "s/\$LIBPNG_CONFIG /\$LIBPNG_CONFIG --static /g" ../configure.ac', # fix building with libpng # 2019.12.13

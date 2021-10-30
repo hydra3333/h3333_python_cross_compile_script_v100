@@ -2,7 +2,6 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/fribidi/fribidi.git',
 	#'depth_git': 0,
-	#'branch': '85eb863a42bcf8636d1d865625ebfc3b4eb36577', # 2020.06.19 after 85eb863a42bcf8636d1d865625ebfc3b4eb36577 fribidi builds but ffmpeg can't find it
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
@@ -16,7 +15,7 @@
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
-		'--buildtype=plain '
+		#'--buildtype=plain '
 		'--backend=ninja '
 		'-Ddocs=false '
 		'-Dbin=false ' 

@@ -2,7 +2,6 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/google/shaderc.git',
 	'depth_git': 0, # 2020.03.11 per deadsix27 stay on last working commit
-	#'branch': '1fce59794079f90ceb091190adbbb5499acd4e95', # 2020.04.20 COMMENTED OUT 
 	'branch' : 'main',  # 2020.06.22 they've changed the trunk from master to main (a US political race thing against the word, apparently)
 	'configure_options' :
 		'cmake .. {cmake_prefix_options} '
@@ -11,7 +10,7 @@
 		'-DSHADERC_SKIP_INSTALL=ON '
 		'-DSHADERC_SKIP_TESTS=ON '
 		'-DSHADERC_ENABLE_SPVC=ON '
-        '-DSHADERC_SKIP_EXAMPLES=ON '
+		'-DSHADERC_SKIP_EXAMPLES=ON '
 	,
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
@@ -26,7 +25,7 @@
 		'!SWITCHDIR|../_build',
 		"sed -i 's/add_subdirectory(examples)/#add_subdirectory(examples)/g' ../CMakeLists.txt",
 		"sed -i 's/--check/#--check/g' ../CMakeLists.txt",
-        "sed -i 's/printed_count += 1/#printed_count += 1/g' ../utils/add_copyright.py", # 2021.02.27 grr since it fails with glslang, ignore errors
+		"sed -i 's/printed_count += 1/#printed_count += 1/g' ../utils/add_copyright.py", # 2021.02.27 grr since it fails with glslang, ignore errors
 	],
 	'regex_replace': {
 		'post_patch': [

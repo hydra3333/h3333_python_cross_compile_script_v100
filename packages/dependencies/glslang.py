@@ -15,9 +15,7 @@
 	'-DENABLE_GLSLANG_WEBMIN=OFF '
 	'-DUSE_CCACHE=OFF '
 	'-DCMAKE_BUILD_TYPE=Release ', #  # from MABS 2020.10.10 -DENABLE_SPVREMAPPER=OFF
-	#'patches' : [ # 3021.09.22 perhaps need for the patch is gone ? per https://github.com/KhronosGroup/glslang/commit/12e27e17deb3102f1f6f08ec19caf5e32becb3f8#diff-8bfb66f7619ec31ff49b6934cb5cca06b5a459852c6f6d3562d065ea4000de22
-	#	('glslang/glslang-0001-fix-gcc-10.1-error-from-shinchiro.patch', '-p1'), # 2020.05.31 only when using gcc 10.1
-	#],
+    ,
 	'run_post_patch' : [ 
 		'rm -vf "./compile_commands.json"'
 	],
@@ -27,20 +25,3 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git', 'fancy_name' : 'glslang' },
 }
-#{
-#	'repo_type' : 'git',
-#	'rename_folder' : 'glslang',
-#	'url' : 'https://github.com/KhronosGroup/glslang.git',
-#	'depth_git': 0,
-#	#'branch': '3ed344dd784ecbbc5855e613786f3a1238823e56', # 2020.04.20 COMMENTED OUT
-#	'patches' : [ 
-#		('glslang/glslang-0001-fix-gcc-10.1-error-from-shinchiro.patch', '-p1'), # 2020.05.31 only when using gcc 10.1
-#	],
-#	'needs_make' : False,
-#	'needs_make_install' : False,
-#	'needs_configure' : False,
-#	'recursive_git' : True,
-#	'update_check' : { 'type' : 'git', },
-#	#'_info' : { 'version' : 'git (3ed344dd784ecbbc5855e613786f3a1238823e56)', 'fancy_name' : 'glslang' },
-#	'_info' : { 'version' : 'git', 'fancy_name' : 'glslang' },
-#}

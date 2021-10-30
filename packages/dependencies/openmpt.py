@@ -1,19 +1,19 @@
 {
 	'repo_type' : 'git',
-    'url' : 'https://github.com/OpenMPT/openmpt.git',
-    #'depth_git' : 0,
-    #'branch' : 'tags/libopenmpt-0.5.7', # last working tag since a subsequent commit 7b902a892fe59f10f2afa5ba115fe9fbbdce94d8 breaks cross-compiling
-    ## 'source_subfolder' : '_build',
+	'url' : 'https://github.com/OpenMPT/openmpt.git',
+	#'depth_git' : 0,
 	'needs_configure' : False,
-	'build_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 OPENMPT123=0 ', # https://bugs.openmpt.org/view.php?id=1354#c4423 remove MODERN=1
-	'install_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 OPENMPT123=0 PREFIX={target_prefix} ',
-	## 'configure_path' : '../build/autotools/configure',
-	## 'run_post_regexreplace' : [
-		## '!SWITCHDIR|../build/autotools',
-		## 'autoreconf -fiv',
-		## '!SWITCHDIR|../../_build',
-	## ],
-	## 'configure_options' : '--prefix={target_prefix} --host={target_host}',
+	#'build_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 OPENMPT123=0 ', # https://bugs.openmpt.org/view.php?id=1354#c4423 remove MODERN=1
+	#'install_options' : 'CONFIG=mingw64-win64 TEST=0 SHARED_LIB=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 OPENMPT123=0 PREFIX={target_prefix} ',
+	# be more like deadsix27
+	'build_options' : '{make_prefix_options} VERBOSE=1 TEST=0 SHARED_LIB=0 SHARED_SONAME=0 DYNLINK=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1',
+	'install_options' : '{make_prefix_options} VERBOSE=1 TEST=0 SHARED_LIB=0 SHARED_SONAME=0 DYNLINK=0 STATIC_LIB=1 EXAMPLES=0 MODERN=1 PREFIX={target_prefix}', # was uVERBOSE=1
+	'run_post_patch' : [
+		'cp -fv {cross_prefix_full}ld {mingw_binpath}/ld',
+	],
+	'run_post_install' : [
+		'rm -v {mingw_binpath}/ld',
+	]
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'openmpt' },
 }

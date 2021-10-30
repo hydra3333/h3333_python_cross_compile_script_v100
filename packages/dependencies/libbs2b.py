@@ -15,7 +15,8 @@
 		'post_patch': [
 			{
 				0: r' dist-lzma',
-				1: r'',
+				#1: r'',        # 2021.10.30 per deadsix27
+                1: r' dist-xz', # 2021.10.30 per deadsix27
 				'in_file': 'configure.ac' # configure.ac:7: error: support for lzma-compressed distribution archives has been removed
 			},
 			{
