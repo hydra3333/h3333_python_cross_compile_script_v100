@@ -23,6 +23,7 @@
 		'-DENABLE_HDR10_PLUS=ON ' # 2020.07.27
 	,
 	'run_post_install' : [
+        'if [ ! -d "{offtree_prefix}/libx265_12bit/lib" ]; then mkdir -pv –m777 "{offtree_prefix}/libx265_12bit/lib"; fi ;',
 		'mv -fv "{offtree_prefix}/libx265_12bit/lib/libx265.a" "{offtree_prefix}/libx265_12bit/lib/libx265_main12.a"'
 	],
 	'conf_system' : 'cmake',
