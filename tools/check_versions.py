@@ -183,7 +183,7 @@ class Parsers:
 		return newest
 
 	def httpindex(self):
-		cwd, listing = htmllistparse.fetch_listing(self.url, timeout=30)
+		cwd, listing = htmllistparse.fetch_listing(self.url, timeout=2) # timeout=30
 		newest = "0.0.0"
 		for entry in listing:
 			v = entry.name
@@ -215,7 +215,7 @@ class Parsers:
 		releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
 		#print("DEBUG: githubreleases: releaseApiUrl '%s'" % (releaseApiUrl))
 
-		jString = requests.get(releaseApiUrl, headers=HEADERS).content  # .decode("utf-8")
+		jString = requests.get(releaseApiUrl, headers=HEADERS, timeout=2).content  # .decode("utf-8")
 		#print("DEBUG: githubreleases: jString '%s'" % (jString))
 
 		releases = json.loads(jString)
@@ -286,7 +286,7 @@ class Parsers:
 		return newest
 
 	def httpregex(self):
-		r = requests.get(self.url, headers=HEADERS)
+		r = requests.get(self.url, headers=HEADERS, timeout=2)
 
 		html = r.content.decode("utf-8")
 
@@ -302,7 +302,7 @@ class Parsers:
 
 	def ftp(self):
 		pUrl = urlparse(self.url)
-		ftp = ftplib.FTP(pUrl.netloc)
+		ftp = ftplib.FTP(pUrl.netloc, timeout=2)
 		ftp.login()
 		ftp.cwd(pUrl.path)
 		files = []
@@ -384,24 +384,21 @@ def getCommitsDiff(pkg):
 	os.chdir(clonePath)
 	run("git remote update")
 
-	if (curCommit is not None) and (curCommit != "main") and (curCommit != "master") and (curCommit != "default"):
-		print("DEBUG: now looking at curCommit: '%s'" % curCommit)
+	if curCommit is not None:
 		# 2020.06.22 try to cater for either/or or "master" or "main"
 		c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
 		c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
 		try: # 2020.06.22 try using "master"
-			#print("DEBUG: running '%s'" % c_master)
 			cmts = [c.split(";;") for c in run(c_master).split("\n") if c != ""]
 		except: # an error occurred ... assume it's the trunkl=change thing
 			try: # 2020.06.22 try using "main" instead of "master"
-				#print("DEBUG: except try, running '%s'" % c_main)
 				cmts = [c.split(";;") for c in run(c_main).split("\n") if c != ""]
+				pass
 			except:
 				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
-				print("c_master: {0}\nc_main: {1}\n".format(c_master,c_main))
+				print("{0}\n{1}\n".format(c_master,c_main))
 				print("Unexpected error:", sys.exc_info()[0])
-				pass
-				#raise
+				raise
 	else:
 		cmtsBehind = 0
 		try:
