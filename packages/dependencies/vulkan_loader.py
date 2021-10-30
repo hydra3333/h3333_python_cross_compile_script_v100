@@ -58,14 +58,14 @@
 		]
 	},
 	'run_post_install' : [ 
-		'cat {pkg_config_path}/vulkan.pc',
+		#'cat {pkg_config_path}/vulkan.pc',
 		'sed -i.bak "s;/Lib;/lib;g" "{pkg_config_path}/vulkan.pc"',
 		'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
-		'cat {pkg_config_path}/vulkan.pc',		'ls -al {target_prefix}/lib/libvulkan*',
-		#'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
+		#'cat {pkg_config_path}/vulkan.pc',		'ls -al {target_prefix}/lib/libvulkan*',
+		##'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
 		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
 		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
-		'ls -al {target_prefix}/lib/libvulkan*',
+		#'ls -al {target_prefix}/lib/libvulkan*',
 	],
 	'depends_on' : [ 'glslang', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
 	'update_check' : { 'type' : 'git', },
