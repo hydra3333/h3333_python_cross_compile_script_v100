@@ -14,7 +14,7 @@
 		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
 		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
 		'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.12 comment out
-		'DUSE_MASM=OFF '                # 2021.10.30 per deadsix27
+		'-DUSE_MASM=OFF '                # 2021.10.30 per deadsix27
 		#'-DBUILD_STATIC_LOADER=ON '   # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
 		'-DBUILD_STATIC_LOADER=ON '     # 2021.10.30 per deadsix27
 		#'-DENABLE_STATIC_LOADER=ON '  # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
@@ -30,16 +30,38 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'patches' : [
-		#('vulkan/0001-mingw-workarounds-2020.04.08.patch','-p1','..'),
-		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2020.10.10.patch','-p1','..'), # 2020.05.11 per MABS # 
-		# 2021.10.30 hmmmmm, if building with vulkan fails then refer this updated patch from deadsix27 :  patches/vulkan/0001-mingw-workarounds.patch 
+		#('vulkan/0001-mingw-workarounds-deadsix27-2021.10.30.patch','-p1','..'),
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi -lglslang"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27 # 2020.10.11 libglslang
 	],
+	'regex_replace': {
+		'post_install': [
+			{
+				0: r'(?:[^\r\n]+)?libdir=(?:[^\r\n]+)?',
+				'in_file': '{pkg_config_path}/vulkan.pc',
+				'out_file': '{pkg_config_path}/vulkan.pc'
+			},
+			{
+				0: r'exec_prefix=([^\r\n]+)',
+				1: r'prefix={{target_prefix}}\nexec_prefix=\1\nlibdir=${{exec_prefix}}/lib\n',
+				'in_file': '{pkg_config_path}/vulkan.pc',
+				'out_file': '{pkg_config_path}/vulkan.pc'
+			},
+			#{
+			#	0: r'-lvulkan$',
+			#	1: r'-lvulkan-1',
+			#	'in_file': '{pkg_config_path}/vulkan.pc',
+			#	'out_file': '{pkg_config_path}/vulkan.pc'
+			#},
+		]
+	},
 	'run_post_install' : [ 
-		'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this
+		'ls -al "{target_prefix}/lib/libvulkan*.*"',
+		'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
+		'ls -al "{target_prefix}/lib/libvulkan*.*"',
+        #'cat "{pkg_config_path}/vulkan.pc"',
 	],
 	'depends_on' : [ 'glslang', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
 	'update_check' : { 'type' : 'git', },
