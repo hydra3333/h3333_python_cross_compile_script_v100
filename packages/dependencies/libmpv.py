@@ -13,7 +13,6 @@
 	},
 	'custom_cflag'  : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} ', # 2020.05.13 
 	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -fstack-protector-strong -lvulkan -lz -ld3d11 -lintl -liconv ', # 2021.10.30 add vulkan back in
-
 	'configure_options' :
 		'--force '
 		'--enable-libmpv-shared '
@@ -53,7 +52,7 @@
 		'--enable-vapoursynth '
 		'--enable-uchardet '
 		#'--enable-vulkan ' # 2020.10.12 comment out vulkan since it an no longer be statically linked
-		'--enable-vulkan ', # 2021.10.30 re-try vulkan_loader
+		'--enable-vulkan ' # 2021.10.30 re-try vulkan_loader
 		'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
