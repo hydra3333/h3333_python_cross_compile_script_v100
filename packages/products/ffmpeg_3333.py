@@ -105,9 +105,8 @@
 		'--disable-amf '			# 2021.02.03
 		'--disable-opencl '			# 2021.02.03
 		#'--enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2021.02.03 # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
-		#'--enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2021.10.30 re-try with vulkan
-        '--disable-vulkan '
-		#'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
+		'--enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan ' # 2021.10.30 re-try with vulkan #'--disable-vulkan '
+        #'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
 		'--extra-libs="-lpsapi -liconv -lssp" '#  add  -lssp for -fstack-protector-all, # 2021.04.11 removed -lintl  (ex gettext) #2020.10.12 moved here from ffmpeg_extra_config
 		##
 		## nonfree
@@ -201,7 +200,7 @@
 		#'opencl_icd', # 2020.11.24
 		#'opencl_non_icd',		# 2021.02.03
 		#'vulkan_loader', # 2020.10.12 pith off vulkan since vulkan_loader can no longer be statically linked
-		#'vulkan_loader', # 2021.10.30 re-try vulkan
+		'vulkan_loader', # 2021.10.30 re-try vulkan
 		'avisynth_plus_headers',
 		'sdl2', # 2020.05.13 re-enabled sdl2 # 2020.05.13 remove sdl2
 ##
