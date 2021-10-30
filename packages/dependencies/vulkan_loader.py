@@ -35,21 +35,21 @@
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi -lglslang"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27 # 2020.10.11 libglslang
-        'cat {pkg_config_path}/vulkan.pc',
+		'cat {pkg_config_path}/vulkan.pc',
 	],
 	'regex_replace': {
 		'post_install': [
-			{
-				0: r'(?:[^\r\n]+)?libdir=(?:[^\r\n]+)?',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			},
-			{
-				0: r'exec_prefix=([^\r\n]+)',
-				1: r'prefix={{target_prefix}}\nexec_prefix=\1\nlibdir=${{exec_prefix}}/lib\n',
-				'in_file': '{pkg_config_path}/vulkan.pc',
-				'out_file': '{pkg_config_path}/vulkan.pc'
-			},
+			#{
+			#	0: r'(?:[^\r\n]+)?libdir=(?:[^\r\n]+)?',
+			#	'in_file': '{pkg_config_path}/vulkan.pc',
+			#	'out_file': '{pkg_config_path}/vulkan.pc'
+			#},
+			#{
+			#	0: r'exec_prefix=([^\r\n]+)',
+			#	1: r'prefix={{target_prefix}}\nexec_prefix=\1\nlibdir=${{exec_prefix}}/lib\n',
+			#	'in_file': '{pkg_config_path}/vulkan.pc',
+			#	'out_file': '{pkg_config_path}/vulkan.pc'
+			#},
 			#{
 			#	0: r'-lvulkan$',
 			#	1: r'-lvulkan-1',
@@ -59,9 +59,10 @@
 		]
 	},
 	'run_post_install' : [ 
-        'cat {pkg_config_path}/vulkan.pc',
-        'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
-        'cat {pkg_config_path}/vulkan.pc',		'ls -al {target_prefix}/lib/libvulkan*',
+		'cat {pkg_config_path}/vulkan.pc',
+		'sed -i.bak "s;/Lib;/lib;g" "{pkg_config_path}/vulkan.pc"',
+		'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
+		'cat {pkg_config_path}/vulkan.pc',		'ls -al {target_prefix}/lib/libvulkan*',
 		#'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
 		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
 		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
