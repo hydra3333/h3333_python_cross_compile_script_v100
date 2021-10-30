@@ -13,7 +13,7 @@
 	],
 	'run_post_install' : [
 		'rm -v {mingw_binpath}/ld',
-	]
+	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'openmpt' },
 }
