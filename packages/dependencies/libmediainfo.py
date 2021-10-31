@@ -2,17 +2,17 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/MediaArea/MediaInfoLib.git',
 	'depth_git' : 0,
-	'branch' : 'tags/v21.09', # 2021.10.31 A RELEASE
+	#'branch' : 'tags/v21.09', # 2021.10.31 A RELEASE
 	'recursive_git' : True,
 	'source_subfolder' : 'Project/GNU/Library',
-    #
+	#
 	#'repo_type' : 'archive',
 	#'download_locations' : [
 	#	{ 'url' : 'https://github.com/MediaArea/MediaInfoLib/archive/refs/tags/v21.09.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '6db61bef0ad5b126d17bb59210c240f33fafb3450946e7b114d7884abf6e99fb' }, ], }, # https://github.com/MediaArea/MediaInfoLib/releases
 	#],
 	#'folder_name' : 'MediaInfoLib-21.09',
 	#'source_subfolder' : 'Project/GNU/Library',
-    #
+	#
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --enable-shared --enable-static --with-libcurl --with-libmms --with-libmediainfo-name=MediaInfo.dll', # --enable-static --disable-shared --enable-shared=no
 	'custom_cflag' : '-D__USE_MINGW_ANSI_STDIO=1 {original_cflags}', # 2019.12.13
 	'run_post_regexreplace' : [
