@@ -2,6 +2,8 @@
 	'repo_type' : 'git',
 	'source_subfolder' : 'Project/GNU/Library',
 	'url' : 'https://github.com/MediaArea/MediaInfoLib.git',
+    'depth_git' : 0,
+    'branch' : 'be004a49b90c7e9d71c3322bd803d5c9fee3d1a9', # 2021.10.31 for debug
 	'recursive_git' : True,
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --enable-shared --enable-static --with-libcurl --with-libmms --with-libmediainfo-name=MediaInfo.dll', # --enable-static --disable-shared --enable-shared=no
 	'custom_cflag' : '-D__USE_MINGW_ANSI_STDIO=1 {original_cflags}', # 2019.12.13
