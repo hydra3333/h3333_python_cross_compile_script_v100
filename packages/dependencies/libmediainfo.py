@@ -18,8 +18,8 @@
 	'run_post_regexreplace' : [
 		#'sed -i.bak \'s/Windows.h/windows.h/g\' ../../../Source/MediaInfo/Reader/Reader_File.h',	# no longer needed
 		#'sed -i.bak \'s/Windows.h/windows.h/g\' ../../../Source/MediaInfo/Reader/Reader_File.cpp', # no longer needed
-		#'./autogen.sh NOCONFIGURE=1',
-		#'autoreconf -fiv',
+		'./autogen.sh NOCONFIGURE=1',
+		'autoreconf -fiv',
 	],
 	'run_post_configure' : [
 		'sed -i.bak \'s/ -DSIZE_T_IS_LONG//g\' Makefile',
