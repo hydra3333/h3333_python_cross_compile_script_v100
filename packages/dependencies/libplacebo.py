@@ -3,6 +3,7 @@
 	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git
 	'depth_git' : 0,
 	#'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b',
+    'recursive_git' : True,
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
@@ -13,7 +14,7 @@
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
-		'--buildtype=plain '
+		'--buildtype=release '
 		'--backend=ninja '
 		'--buildtype=release '
 		'-Dvulkan=enabled ' # 2021.10.30 re-try vulkan
