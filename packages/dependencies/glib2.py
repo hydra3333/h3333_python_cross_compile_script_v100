@@ -4,8 +4,12 @@
 	'download_locations' : [ # https://fossies.org/linux/misc/
 		#{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f92f34057a091fc8638d91f10cece842cb8618e9a1090b0ddb19cc15a21bf39c' }, ], },
 		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f92f34057a091fc8638d91f10cece842cb8618e9a1090b0ddb19cc15a21bf39c' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '47af2c6e06becee44d447ae7d1212dbab255b002b5141d9b62a4357c0ecc058f' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '47af2c6e06becee44d447ae7d1212dbab255b002b5141d9b62a4357c0ecc058f' }, ], },
 		{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '47af2c6e06becee44d447ae7d1212dbab255b002b5141d9b62a4357c0ecc058f' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/glib-2.69.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '47af2c6e06becee44d447ae7d1212dbab255b002b5141d9b62a4357c0ecc058f' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.70/glib-2.70.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f9b7bce7f51753a1f43853bbcaca8bf09e15e994268e29cfd7a76f65636263c0' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.70.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'f9b7bce7f51753a1f43853bbcaca8bf09e15e994268e29cfd7a76f65636263c0' }, ], },
 	],
 	'patches' : [
 		('glib2/glib-2.64.3_mingw-static.patch', '-Np1'), 
