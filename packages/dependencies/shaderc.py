@@ -29,6 +29,10 @@
 		"sed -i 's/add_subdirectory(examples)/#add_subdirectory(examples)/g' ../CMakeLists.txt",
 		"sed -i 's/--check/#--check/g' ../CMakeLists.txt",
 		"sed -i 's/printed_count += 1/#printed_count += 1/g' ../utils/add_copyright.py", # 2021.02.27 grr since it fails with glslang, ignore errors
+        'if [ -f "{target_prefix}/lib/libshaderc.a" ] ; then rm -fv "{target_prefix}/lib/libshaderc.a" ; fi',
+        'if [ -f "{target_prefix}/lib/libshaderc_combined.a" ] ; then rm -fv "{target_prefix}/lib/libshaderc_combined.a" ; fi',
+        'if [ -d "{target_prefix}/include/shaderc" ] ; then rm -fvR "{target_prefix}/include/shaderc" ; fi',
+        'if [ -d "{target_prefix}/include/libshaderc_util" ] ; then rm -fvR "{target_prefix}/include/libshaderc_util" ; fi',
 	],
 	'regex_replace': {
 		'post_patch': [
