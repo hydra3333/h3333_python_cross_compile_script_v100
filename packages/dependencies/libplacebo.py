@@ -17,10 +17,10 @@
 		'--buildtype=release '
 		'--backend=ninja '
 		'--buildtype=release '
-		'-Dvulkan=enabled ' # 2021.10.30 re-try vulkan
+		#'-Dvulkan=enabled ' # 2021.11.01 it finds it better without this
 		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '  # 2021.10.30 re-try vulkan
-		#'-Dglslang=enabled ' # 2021.10.30 add back ? since the dependency is built
-		#'-Dshaderc=enabled ' # 2021.10.30 add back ? since the dependency is built
+		#'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
+		#'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
 		'-Dlcms=enabled '
 		'-Dtests=false '
 		'-Dbench=false '
