@@ -1,20 +1,23 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/google/shaderc.git',
+	'url' : 'https://github.com/google/shaderc.git', # https://github.com/google/shaderc.git
 	'depth_git': 0, # 2020.03.11 per deadsix27 stay on last working commit
 	'branch' : 'main',  # 2020.06.22 they've changed the trunk from master to main (a US political race thing against the word, apparently)
+	'recursive_git' : True,
 	'configure_options' :
 		'cmake .. {cmake_prefix_options} '
+		'-GNinja ' # 2021.11.01 per MABS
 		'-DCMAKE_BUILD_TYPE=Release '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DSHADERC_SKIP_INSTALL=ON '
 		'-DSHADERC_SKIP_TESTS=ON '
 		'-DSHADERC_ENABLE_SPVC=ON '
 		'-DSHADERC_SKIP_EXAMPLES=ON '
+		'-DSHADERC_ENABLE_WERROR_COMPILE=OFF ' # 2021.11.01 per MABS
 	,
 	'source_subfolder' : '_build',
 	'conf_system' : 'cmake',
-	'needs_make_install' : False,
+	#'needs_make_install' : False,
 	'build_options' : '',
 	'run_post_patch' : [ # 2020.04.08 eveything else uses run_post_regexreplace instead of run_post_patch, shaderc depends on run_post_patch
 		'!SWITCHDIR|../third_party',
@@ -36,9 +39,10 @@
 		],
 	},
 	'run_post_build' : [
-		'cp -rv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
-		'cp -rv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
-		'cp -rv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
+		'cp -frv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
+		'cp -frv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
+		'cp -frv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
+		#'cp -frv "libshaderc/libshaderc.a" "{target_prefix}/lib/libshaderc.a"',
 	],
 	'depends_on' : ['glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', ],
 	'update_check' : { 'type' : 'git', },
