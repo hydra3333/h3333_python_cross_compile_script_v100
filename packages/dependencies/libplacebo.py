@@ -1,8 +1,8 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/haasn/libplacebo.git',
+	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git
 	'depth_git' : 0,
-	#'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b', # '65e5e17edffaf0b9b1adcd9ba90637a27641e59b', works # 'dca1913c6ac81c455800868e8c5219626351a959', broken
+	#'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b',
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
