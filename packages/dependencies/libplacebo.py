@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git
+	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git 
 	'depth_git' : 0,
 	#'branch' : '65e5e17edffaf0b9b1adcd9ba90637a27641e59b',
     'recursive_git' : True,
