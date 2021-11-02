@@ -3,13 +3,17 @@
 	'repo_type' : 'archive',
 	'download_locations' : [ # https://fossies.org/linux/misc/
 		{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe9cbc97925d14c804935f067a3ad77ef55c0bbe9befe68962318f5a767ceb22' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.69/glib-2.69.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '47af2c6e06becee44d447ae7d1212dbab255b002b5141d9b62a4357c0ecc058f' }, ], },
 	],
 	'patches' : [
-		('glib2/glib-2.64.3_mingw-static.patch', '-Np1') # add , ".."),  only when using 'source_subfolder' : 'build',
+		('glib2/glib-2.64.3_mingw-static.patch', '-Np1' , "..") # add , ".."),  only when using 'source_subfolder' : 'build',
 	],
+    #'run_post_patch' : [
+    #    'if [ ! -d "./build"] ; then mkdir -pv –m777 "./build"; fi ;',
+    #],
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
-	#'source_subfolder' : 'build',
+	'source_subfolder' : 'build',
 	'custom_ldflag' : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ', #  # For some reason the frexp configure checks fail without this as math.h isn't found when cross-compiling;
 	'configure_options' :
 		'--prefix={target_prefix} '
@@ -18,7 +22,7 @@
 		'--buildtype=release '
 		'-Dinternal_pcre=true '
 		'-Dforce_posix_threads=true '
-		'--cross-file={meson_env_file} . build' # either ./ ..  only when using 'source_subfolder' : 'build', or  . build if not using 'source_subfolder' : 'build'
+		'--cross-file={meson_env_file} ./ .. ' # either ./ ..  only when using 'source_subfolder' : 'build', or  . build if not using 'source_subfolder' : 'build'
 	,
 	'run_post_install' : [
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"', # 2019.12.13
@@ -29,7 +33,7 @@
 		'diff -U 5 "{pkg_config_path}/glib-2.0.pc.orig" "{pkg_config_path}/glib-2.0.pc"  && echo "NO difference" || echo "YES differences!"', # 2019.12.13
 	],
 	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
-	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.69/" lang="">(?P<version_num>[\d.]+)<\/a>' },
+	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.64/" lang="">(?P<version_num>[\d.]+)<\/a>' },
 	#'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
 	'_info' : { 'version' : '2.69.3', 'fancy_name' : 'glib2 lib' },
 }
