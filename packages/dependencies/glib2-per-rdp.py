@@ -2,24 +2,24 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [ # https://fossies.org/linux/misc/
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '47af2c6e06becee44d447ae7d1212dbab255b002b5141d9b62a4357c0ecc058f' }, ], },
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.64/glib-2.64.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe9cbc97925d14c804935f067a3ad77ef55c0bbe9befe68962318f5a767ceb22' }, ], },
 	],
 	'patches' : [
-		('glib2/glib-2.64.3_mingw-static.patch', '-Np1', ".."), 
+		('glib2/glib-2.64.3_mingw-static.patch', '-Np1') # add , ".."),  only when using 'source_subfolder' : 'build',
 	],
-    'conf_system' : 'meson',
+	'conf_system' : 'meson',
 	'build_system' : 'ninja',
-    'source_subfolder' : 'build',
-    'custom_ldflag' : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ', #  # For some reason the frexp configure checks fail without this as math.h isn't found when cross-compiling;
-        'configure_options' :
-        '--prefix={target_prefix} '
-        '--libdir={target_prefix}/lib '
-        '--default-library=static '
-        '--buildtype=release '
-        '-Dinternal_pcre=true '
-        '-Dforce_posix_threads=true '
-        '--cross-file={meson_env_file} ./ ..'   # or . build
-    ,
+	#'source_subfolder' : 'build',
+	'custom_ldflag' : ' {original_cflags} -L${target_prefix}/lib -pthread -DGLIB_STATIC_COMPILATION -lintl -liconv -lintl ', #  # For some reason the frexp configure checks fail without this as math.h isn't found when cross-compiling;
+	'configure_options' :
+		'--prefix={target_prefix} '
+		'--libdir={target_prefix}/lib '
+		'--default-library=static '
+		'--buildtype=release '
+		'-Dinternal_pcre=true '
+		'-Dforce_posix_threads=true '
+		'--cross-file={meson_env_file} . build' # either ./ ..  only when using 'source_subfolder' : 'build', or  . build if not using 'source_subfolder' : 'build'
+	,
 	'run_post_install' : [
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"', # 2019.12.13
 		'sed -s -i.bak1 \'s/-lintl/-pthread -lm -lintl -liconv -lintl/\' "glib-2.0.pc"', # 2019.12.13
