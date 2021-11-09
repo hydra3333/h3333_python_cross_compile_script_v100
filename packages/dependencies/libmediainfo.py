@@ -15,9 +15,9 @@
 	#
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --enable-shared --enable-static --with-libcurl --with-libmms --with-libmediainfo-name=MediaInfo.dll', # --enable-static --disable-shared --enable-shared=no
 	'custom_cflag' : '-D__USE_MINGW_ANSI_STDIO=1 {original_cflags}', # 2019.12.13
-    'patches' : [
-        ('mediainfolib/mediainfolib-patch-per-mabs-commit-2b8ffd6034953cae46765c4e50380f03d508f24a.patch', '-p1', "../../.."), # see https://github.com/MediaArea/MediaInfoLib/issues/1449
-	],
+    #'patches' : [ # 2021.11.09 see if latest upstream commit resolves it
+    #    ('mediainfolib/mediainfolib-patch-per-mabs-commit-2b8ffd6034953cae46765c4e50380f03d508f24a.patch', '-p1', "../../.."), # see https://github.com/MediaArea/MediaInfoLib/issues/1449 
+	#],
 	'run_post_regexreplace' : [
 		#'sed -i.bak \'s/Windows.h/windows.h/g\' ../../../Source/MediaInfo/Reader/Reader_File.h',	# no longer needed
 		#'sed -i.bak \'s/Windows.h/windows.h/g\' ../../../Source/MediaInfo/Reader/Reader_File.cpp', # no longer needed
