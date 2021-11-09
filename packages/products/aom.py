@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://aomedia.googlesource.com/aom',
-	#'depth_git': 0,
+	'depth_git': 0,
 	#'branch': 'acc2adf9195ff4c5d061132d860d2fe38b28aa55', # 2020.03.19 comment out
 	#'rename_folder' : 'aom_git',
 	'conf_system' : 'cmake',
