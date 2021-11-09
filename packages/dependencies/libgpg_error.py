@@ -17,6 +17,6 @@
 		'depends_on' : (
 			'iconv', 
 		),
-		'update_check' : { 'type' : 'git', },
+		#'update_check' : { 'type' : 'git', },
 		'_info' : { 'version' : 'git master', 'fancy_name' : 'libgpg-error for libaacs' },
 }
