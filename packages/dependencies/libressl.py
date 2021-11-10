@@ -2,7 +2,8 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/libressl-portable/portable.git',
 	'depth_git' : 0,
-	#'branch' : '',
+	'branch' : 'tags/v3.4.1',   # 2021.11.10 is broken some time after this release
+	'recursive_git' : True,
 	'folder_name' : 'libressl_git',
 	#--------------------
 	'run_post_regexreplace' : ( './autogen.sh ', ), # per instructions from the git website above
