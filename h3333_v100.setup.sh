@@ -29,7 +29,7 @@ sudo apt install -y build-essential
 #sudo apt install -y gcc-c++ 
 #sudo apt install -y g++ 
 # The commands below configures alternative for each version and associate a priority with it. 
-# The default version is the one with the highest priority, in our case that is gcc-10.
+# The default version is the one with the highest priority, in our case that is gcc-11
 sudo apt install -y gcc-8 g++-8 gcc-9 g++-9 gcc-10 g++-10 gcc-11 g++-11
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10  90 --slave /usr/bin/g++ g++ /usr/bin/g++-10 --slave /usr/bin/gcov gcov /usr/bin/gcov-10
