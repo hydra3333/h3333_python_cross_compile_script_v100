@@ -6,6 +6,7 @@
 	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
     #'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18 on commit d2b3d046fc66a3166dc0c003a430ce756532ff74
+    'branch' : '5e0187d84fc16d9ff0fbb0ccd4348657fea90d36',  # works: '5e0187d84fc16d9ff0fbb0ccd4348657fea90d36' breaks on and after: '3bacdac611b9eb3bd5ae8d78156b1110e77e9518'
 	'patches' : [
 		('libgcrypt/libgcrypt.patch', '-p1'),   # 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 	],
