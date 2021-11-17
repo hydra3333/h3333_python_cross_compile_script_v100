@@ -43,9 +43,14 @@ SOURCES = OrderedDict()  # Order matters.
 
 SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/
 	'type': 'git',
-	'git_shallow': False,
+    #
+	#'git_shallow': False,
+	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
+    #'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
+    #
+	'git_shallow': True,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-    'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
+    #
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
   	#	( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/01-test.patch' , 'p1' ),
 	#],
@@ -63,7 +68,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 }
 SOURCES['gmp'] = { # https://ftp.gnu.org/gnu/gmp/
 	'type': 'archive',
-	'version': '6.2.1', # 2020.12.27
+	'version': '6.2.1',
 	'url': 'https://ftp.gnu.org/gnu/gmp/gmp-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/gmp/', 'type': 'httpindex', 'regex': r'gmp-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
@@ -75,26 +80,19 @@ SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 }
 SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'type': 'archive',
-	'version': '1.2.1', # 2020.12.27
+	'version': '1.2.1',
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
-#SOURCES['isl'] = { # http://isl.gforge.inria.fr/
-#	'type': 'archive',
-#	'version': '0.24', # 2021.05.05
-#	'url' : 'http://isl.gforge.inria.fr/isl-{version}.tar.bz2', # 'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
-#	'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
-#}
 SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/)   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
-	'version': '0.24', # 2021.05.05
-	'url' : 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', 
+	'version': '0.24',
+	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 	#'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	#'version': '2.36.1', # 2021.03.20
-	'version': '2.37', # 2021.03.20
+	'version': '2.37',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
@@ -107,17 +105,9 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	#'version'   : '9.1.0', # stable versions
-	#'version'   : '9.2.0', # stable versions
-	#'version'   : '9.3.0', # stable versions
-	#'version'   : '10.1.0', # stable versions
-	#'version'   : '10.2.0', # stable versions
 	#'version'   : '10.3.0', # stable versions ... builds libmediainfo OK
-	'version'   : '11.2.0', # stable versions # 2021.08.12 mediainfo won't build under gcc 11.2.0  https://github.com/MediaArea/MediaInfo/issues/551
+	'version'   : '11.2.0',
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	#'version': '11-20210314',
-    #'version': '10-20210313',
-	#'url' : 'ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/{version}/gcc-{version}.tar.xz', # TEST builds server
 	#'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
 		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0140-gcc-7-Enable-std-experimental-filesystem.patch', 'p1' ), #Unable to get this to work.
@@ -164,8 +154,7 @@ BUILDS['mingw-w64-headers'] = {
 		' --enable-sdk=all'
 		' --enable-secure-api'
 		' --enable-idl'
-		' --with-default-win32-winnt=0x600 '
-    ,
+		' --with-default-win32-winnt=0x600 ' ,
 	'softLinks': [
 		('{prefix}', './{target}', './mingw'),
 		('{prefix}/{target}', '../include', './include'),
