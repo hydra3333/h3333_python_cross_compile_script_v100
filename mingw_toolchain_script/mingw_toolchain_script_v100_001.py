@@ -44,12 +44,12 @@ SOURCES = OrderedDict()  # Order matters.
 SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/
 	'type': 'git',
     #
-	#'git_shallow': False,
-	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-    #'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
-    #
-	'git_shallow': True,
+	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
+    'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
+    #
+	#'git_shallow': True,
+	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
     #
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
   	#	( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/01-test.patch' , 'p1' ),
