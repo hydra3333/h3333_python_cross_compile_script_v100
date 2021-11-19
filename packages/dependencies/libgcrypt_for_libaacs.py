@@ -12,12 +12,12 @@
 	'patches' : [
 		('libgcrypt/libgcrypt.patch', '-p1'),   # 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 	],
-	'configure_options': '--host={target_host} --prefix={output_prefix}/libaacs_dll_git.installed --with-gpg-error-prefix={output_prefix}/libaacs_dll_git.installed --disable-doc --enable-threads=windows ', # --disable-asm 
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'run_post_regexreplace' : (
 		'autoreconf -fiv', # https://dev.gnupg.org/T5696
-		#'./autogen.sh --force --build-w64',     # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=blob_plain;f=README.GIT;hb=HEAD https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=blob_plain;f=README;hb=HEAD
+		#'./autogen.sh --force --build-w64 --prefix={output_prefix}/libaacs_dll_git.installed',     # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=blob_plain;f=README.GIT;hb=HEAD https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=blob_plain;f=README;hb=HEAD
 	),
+	'configure_options': '--host={target_host} --prefix={output_prefix}/libaacs_dll_git.installed --with-gpg-error-prefix={output_prefix}/libaacs_dll_git.installed --disable-doc --enable-threads=windows ', # --disable-asm 
 	'depends_on' : (
 		'libgpg_error_for_libaacs', 
 	),
