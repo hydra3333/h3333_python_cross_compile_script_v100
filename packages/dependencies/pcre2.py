@@ -1,8 +1,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.37.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.37.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270' }, ], },
+		#{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.37.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.37.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270' }, ], },
+		{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
 	],
 	'conf_system' : 'cmake',
 	'patches' : [
