@@ -391,11 +391,12 @@ def getCommitsDiff(pkg):
 		try: # 2020.06.22 try using "master"
 			cmts = [c.split(";;") for c in run(c_master).split("\n") if c != ""]
 		except: # an error occurred ... assume it's the trunkl=change thing
+			#print("*** Exception: 'git log --pretty' ABORTED using 'master' in: {0} ... attempting to use 'main' next".format(name))
 			try: # 2020.06.22 try using "main" instead of "master"
 				cmts = [c.split(";;") for c in run(c_main).split("\n") if c != ""]
 				pass
 			except:
-				print("Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in:")
+				print("*** Fatal Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' in: {0} ... aborting".format(name))
 				print("{0}\n{1}\n".format(c_master,c_main))
 				print("Unexpected error:", sys.exc_info()[0])
 				raise
@@ -563,7 +564,7 @@ for name, pkg in sorted(pkgs["deps"].items(),key=lambda i: i[0].casefold()):
 		else:  # packages that are archive downloads
 			ourVer = pkg["_info"]["version"]
 			latestVer = geLatestVersion(versionEl)
-
+			#print("DEBUG: Name: '%s' ourVer: '%s' latestVer: '%s'" % (name, ourVer, latestVer))
 			if latestVer == "0.0.0":
 				print(Fore.YELLOW + "%s has an update! [Local: %s Remote: %s] (Error parsing remote version)" % (name.rjust(30), ourVer.center(10), latestVer.center(10)) + Style.RESET_ALL)
 				print("%s Regex pattern:" % name)
