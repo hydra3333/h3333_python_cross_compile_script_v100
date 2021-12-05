@@ -5,6 +5,7 @@
 	#	{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
 	#],
     'repo_type' : 'git',
+    'folder_name' : 'pcre2_git',
 	'recursive_git' : True,
     'branch' : 'tags/pcre2-10.39', # 2021.12.05
 	'conf_system' : 'cmake',
