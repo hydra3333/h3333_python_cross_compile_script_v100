@@ -1,13 +1,6 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [
-		#{ 'url' : 'https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.xz',	'hashes' : [ { 'type' : 'sha256', 'sum' : '1ea6965b15c2106b6bbe883397271c80dfa0331cdf821b2c319591b55eadc0a4' },	], },
-		#{ 'url' : 'https://fossies.org/linux/www/expat-2.2.9.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1ea6965b15c2106b6bbe883397271c80dfa0331cdf821b2c319591b55eadc0a4' }, ],	},
-		#{ 'url' : 'https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.xz',	'hashes' : [ { 'type' : 'sha256', 'sum' : '5dfe538f8b5b63f03e98edac520d7d9a6a4d22e482e5c96d4d06fcc5485c25f2' },	], },
-		#{ 'url' : 'https://fossies.org/linux/www/expat-2.2.10.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5dfe538f8b5b63f03e98edac520d7d9a6a4d22e482e5c96d4d06fcc5485c25f2' }, ],	},
-		#{ 'url' : 'https://fossies.org/linux/www/expat-2.2.10.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5dfe538f8b5b63f03e98edac520d7d9a6a4d22e482e5c96d4d06fcc5485c25f2' }, ],	},
-		#{ 'url' : 'https://github.com/libexpat/libexpat/releases/download/R_2_4_0/expat-2.4.0.tar.xz',	'hashes' : [ { 'type' : 'sha256', 'sum' : '63c548501ea0bb9265b64b5492da49bb487d94009b599596549ec5e709d81e12' },	], },
-		#{ 'url' : 'https://fossies.org/linux/www/expat-2.4.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '63c548501ea0bb9265b64b5492da49bb487d94009b599596549ec5e709d81e12' }, ],	},
 		{ 'url' : 'https://github.com/libexpat/libexpat/releases/download/R_2_4_1/expat-2.4.1.tar.xz',	'hashes' : [ { 'type' : 'sha256', 'sum' : 'cf032d0dba9b928636548e32b327a2d66b1aab63c4f4a13dd132c2d1d2f2fb6a' },	], },
 		{ 'url' : 'https://fossies.org/linux/www/expat-2.4.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'cf032d0dba9b928636548e32b327a2d66b1aab63c4f4a13dd132c2d1d2f2fb6a' }, ],	},
 	],

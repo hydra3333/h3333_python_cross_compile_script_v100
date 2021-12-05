@@ -1,15 +1,17 @@
 { # 2021.12.05 https://pcre.org/ says now use https://github.com/PhilipHazel/pcre2.git
-	#'repo_type' : 'archive',
-	#'download_locations' : [
-	#	{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
-	#	{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
-	#],
-    'repo_type' : 'git',
-    'url' : 'https://github.com/PhilipHazel/pcre2.git',
-    'folder_name' : 'pcre2_git',
-	'recursive_git' : True,
-    #'branch' : 'tags/pcre2-10.39', # 2021.12.05
-    'branch' : '35fee4193b852cb504892352bd0155de10809889', # 35fee4193b852cb504892352bd0155de10809889 is 'tags/pcre2-10.39', # 2021.12.05
+	'repo_type' : 'archive',
+	'download_locations' : [
+		{ 'url' : 'https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+	],
+    #
+	#'repo_type' : 'git',
+	#'url' : 'https://github.com/PhilipHazel/pcre2.git',
+	#'folder_name' : 'pcre2_git',
+	#'recursive_git' : True,
+	#'branch' : 'tags/pcre2-10.39', # 2021.12.05
+	#'branch' : '35fee4193b852cb504892352bd0155de10809889', # 35fee4193b852cb504892352bd0155de10809889 is 'tags/pcre2-10.39', # 2021.12.05
+	#
 	'conf_system' : 'cmake',
 	'patches' : [
 		('pcre2/0001-pcre2-iswild.patch', '-p1'),
@@ -23,7 +25,7 @@
 	'depends_on' : [
 		'bzip2', 'zlib',  # # 2020.05.12 'pcre', 2019.12.13 removed 'pcre'
 	],
-	#'update_check' : { 'url' : 'ftp://ftp.pcre.org/pub/pcre/', 'type' : 'ftpindex', 'regex' : r'pcre2-(?P<version_num>[\d.]+)\.tar\.bz2' }, # ! TODO Fix version check
-    'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : '10.39', 'fancy_name' : 'pcre2' },
+	#'update_check' : { 'type' : 'git', },
+   	'update_check' : { 'url' : 'https://github.com/libexpat/libexpat/releases', 'type' : 'githubreleases', 'name_or_tag' : 'name' },
+	'_info' : { 'version' : 'pcre2-10.39', 'fancy_name' : 'pcre2' },
 }
