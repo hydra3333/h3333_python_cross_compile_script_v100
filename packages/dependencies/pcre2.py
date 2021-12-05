@@ -26,6 +26,6 @@
 		'bzip2', 'zlib',  # # 2020.05.12 'pcre', 2019.12.13 removed 'pcre'
 	],
 	#'update_check' : { 'type' : 'git', },
-   	'update_check' : { 'url' : 'https://github.com/libexpat/libexpat/releases', 'type' : 'githubreleases', 'name_or_tag' : 'name' },
+   	'update_check' : { 'url' : 'https://github.com/PhilipHazel/pcre2/releases/download', 'type' : 'githubreleases', 'name_or_tag' : 'name' },
 	'_info' : { 'version' : 'pcre2-10.39', 'fancy_name' : 'pcre2' },
 }
