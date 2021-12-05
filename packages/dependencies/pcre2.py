@@ -8,7 +8,8 @@
     'url' : 'https://github.com/PhilipHazel/pcre2.git',
     'folder_name' : 'pcre2_git',
 	'recursive_git' : True,
-    'branch' : 'tags/pcre2-10.39', # 2021.12.05
+    #'branch' : 'tags/pcre2-10.39', # 2021.12.05
+    'branch' : '35fee4193b852cb504892352bd0155de10809889', # 35fee4193b852cb504892352bd0155de10809889 is 'tags/pcre2-10.39', # 2021.12.05
 	'conf_system' : 'cmake',
 	'patches' : [
 		('pcre2/0001-pcre2-iswild.patch', '-p1'),
