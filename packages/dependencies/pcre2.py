@@ -1,11 +1,12 @@
-{
-	'repo_type' : 'archive',
-	'download_locations' : [
-		#{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.37.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.37.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270' }, ], },
-		{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
-	],
+{ # 2021.12.05 https://pcre.org/ says now use https://github.com/PhilipHazel/pcre2.git
+	#'repo_type' : 'archive',
+	#'download_locations' : [
+	#	{ 'url' : 'https://ftp.pcre.org/pub/pcre/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+	#	{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+	#],
+    'repo_type' : 'git',
+	'recursive_git' : True,
+    'branch' : 'tags/pcre2-10.39', # 2021.12.05
 	'conf_system' : 'cmake',
 	'patches' : [
 		('pcre2/0001-pcre2-iswild.patch', '-p1'),
@@ -20,6 +21,6 @@
 		'bzip2', 'zlib',  # # 2020.05.12 'pcre', 2019.12.13 removed 'pcre'
 	],
 	#'update_check' : { 'url' : 'ftp://ftp.pcre.org/pub/pcre/', 'type' : 'ftpindex', 'regex' : r'pcre2-(?P<version_num>[\d.]+)\.tar\.bz2' }, # ! TODO Fix version check
-	'update_check' : { 'url' : 'https://ftp.pcre.org/pub/pcre/', 'type' : 'ftpindex', 'regex' : r'pcre2-(?P<version_num>[\d.]+)\.tar\.bz2' }, # ! TODO Fix version check
+    'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : '10.39', 'fancy_name' : 'pcre2' },
 }
