@@ -397,15 +397,15 @@ def getCommitsDiff(pkg):
 				cmts = [c.split(";;") for c in run(c_main).split("\n") if c != ""]
 				pass
 			except:
-                #print("*** Exception: 'git log --pretty' ABORTED using 'main' in: {0} ... attempting to use 'default' next".format(name))
-                try: # 2020.06.22 try using "default" instead of "main" instead of "master"
-                    cmts = [c.split(";;") for c in run(c_default).split("\n") if c != ""]
-                    pass
-                except:
-                    print("*** Fatal Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' nor 'default' in: {0} ... aborting ...".format(name))
-                    print("{0}\n{1}\n".format(c_master,c_main))
-                    print("Unexpected error:", sys.exc_info()[0])
-                    raise
+				#print("*** Exception: 'git log --pretty' ABORTED using 'main' in: {0} ... attempting to use 'default' next".format(name))
+				try: # 2020.06.22 try using "default" instead of "main" instead of "master"
+					cmts = [c.split(";;") for c in run(c_default).split("\n") if c != ""]
+					pass
+				except:
+					print("*** Fatal Exception: 'git log --pretty' ABORTED using either of 'master' nor 'main' nor 'default' in: {0} ... aborting ...".format(name))
+					print("{0}\n{1}\n".format(c_master,c_main))
+					print("Unexpected error:", sys.exc_info()[0])
+					raise
 	else:
 		cmtsBehind = 0
 		try:
