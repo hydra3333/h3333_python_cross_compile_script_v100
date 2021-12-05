@@ -1,4 +1,4 @@
-{ # 2020.09.27 latest git doesn't work, revert to release
+{ # 2020.09.27 latest git doesn't work, revert to release ... https://fossies.org/linux/misc/
 	#'repo_type' : 'git',
 	#'rename_folder' : 'sox_git',
 	#'url' : 'git://git.code.sf.net/p/sox/code',
