@@ -1,0 +1,26 @@
+From 91c24a8b10b2ff3810ac5fc8d1b747124e697176 Mon Sep 17 00:00:00 2001
+From: Christopher Degawa <ccom@randomderp.com>
+Date: Tue, 14 Dec 2021 13:32:53 -0600
+Subject: [PATCH] libav_internal: include libavutil/hwcontext_vulkan.h
+
+include/libplacebo/utils/libav_internal.h: In function 'pl_map_avframe_vulkan':
+include/libplacebo/utils/libav_internal.h:862:11: error: unknown type name 'AVVulkanFramesContext'
+  862 |     const AVVulkanFramesContext *vkfc = hwfc->hwctx;
+
+Signed-off-by: Christopher Degawa <ccom@randomderp.com>
+---
+ src/include/libplacebo/utils/libav_internal.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/include/libplacebo/utils/libav_internal.h b/src/include/libplacebo/utils/libav_internal.h
+index 2a8ddb1..8ffc07a 100644
+--- a/src/include/libplacebo/utils/libav_internal.h
++++ b/src/include/libplacebo/utils/libav_internal.h
+@@ -35,6 +35,7 @@
+ 
+ #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(57, 8, 100)
+ # define HAVE_LAV_VULKAN
++# include <libavutil/hwcontext_vulkan.h>
+ # include <libplacebo/vulkan.h>
+ #endif
+ 
