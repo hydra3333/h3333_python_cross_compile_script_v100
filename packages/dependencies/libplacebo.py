@@ -8,7 +8,7 @@
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
 	'patches' : [
-		('libplacebo/115-from-MABS.patch', '-p1', '..'),
+		#('libplacebo/115-from-MABS.patch', '-p1', '..'),	# 2022.01.02 revert patch per MABS
 	],
 	#'run_post_regexreplace' : [
 	#	'cp -fuv "/usr/bin/pkg-config" "{cross_prefix_full}pkg-config"', # gotta fix this properly at some point.
