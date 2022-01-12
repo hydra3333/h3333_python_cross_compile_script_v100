@@ -1,10 +1,10 @@
 { # cmake doesn't work, throws an issue with custom_cflags
 	'repo_type' : 'archive', # 2020.05.11 change to download the archive
 	'download_locations' : [ # https://www.libsdl.org/release/
-		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.16.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b' }, ], },
-		#{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.16.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.18.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '94d40cd73dbfa10bb6eadfbc28f355992bb2d6ef6761ad9d4074eff95ee5711c' }, ], },
-		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.18.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '94d40cd73dbfa10bb6eadfbc28f355992bb2d6ef6761ad9d4074eff95ee5711c' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.18.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '94d40cd73dbfa10bb6eadfbc28f355992bb2d6ef6761ad9d4074eff95ee5711c' }, ], },
+		#{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.18.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '94d40cd73dbfa10bb6eadfbc28f355992bb2d6ef6761ad9d4074eff95ee5711c' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.20.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c56aba1d7b5b0e7e999e4a7698c70b63a3394ff9704b5f6e1c57e0c16f04dd06' }, ], },
+		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.20.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c56aba1d7b5b0e7e999e4a7698c70b63a3394ff9704b5f6e1c57e0c16f04dd06' }, ], },
 	],
 	#
 	#'conf_system' : 'cmake',
@@ -54,5 +54,5 @@
 	#	'cp -fv "{target_prefix}/bin/sdl2-config" "{cross_prefix_full}sdl2-config"', # this is the only mingw dir in the PATH so use it for now [though FFmpeg doesn't use it?]
 	#),
 	'update_check' : { 'url' : 'https://www.libsdl.org/release/', 'type' : 'httpindex', 'regex' : r'SDL2-(?P<version_num>[\d.]+)\.tar\.gz' },
-	'_info' : { 'version' : '2.0.18', 'fancy_name' : 'SDL2' },
+	'_info' : { 'version' : '2.0.20', 'fancy_name' : 'SDL2' },
 }

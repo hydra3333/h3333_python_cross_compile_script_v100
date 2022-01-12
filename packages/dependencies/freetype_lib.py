@@ -47,5 +47,5 @@
 	],
 	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
     'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', },
-	'_info' : { 'version' : '2.11.0', 'fancy_name' : 'freetype2_lib' },
+	'_info' : { 'version' : '2.11.1', 'fancy_name' : 'freetype2_lib' },
 }

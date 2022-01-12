@@ -28,5 +28,5 @@
 		'./b2 toolset=gcc-mingw link=static threading=multi target-os=windows address-model=64 architecture=x86 --prefix={target_prefix} variant=release --with-system --with-filesystem --with-regex --with-date_time --with-thread --user-config=user-config.jam install',
 	],
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/boost/files/boost/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)', },
-	'_info' : { 'version' : '1.77.0', 'fancy_name' : 'Boost' },
+	'_info' : { 'version' : '1.78.0', 'fancy_name' : 'Boost' },
 }
