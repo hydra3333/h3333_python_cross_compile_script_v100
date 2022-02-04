@@ -7,7 +7,8 @@
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
 	'patches' : [
-		('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2021.10.23.patch', '-p1', '..')
+		#('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2021.10.23.patch', '-p1', '..')
+		('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2022.02.04.patch', '-p1', '..')
 	],
 	'run_post_patch' : [
         'if [ -d "{target_prefix}/include/librist" ] ; then rm -fvR "{target_prefix}/include/librist" ; fi',    # per MABS
