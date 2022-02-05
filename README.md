@@ -1,4 +1,4 @@
-## THIS SCRIPT MAY NOT WORK  
+## THIS SCRIPT MAY NOT WORK ! 
 (mainly due to upstream dependencies changing regularly)  
 Consider using deadsix27's at https://github.com/DeadSix27/python_cross_compile_script ... although that has ceased active maintenance.  
 Or, maybe use MABS https://github.com/m-ab-s/media-autobuild_suite if you don't mind installing stuff in your nice Win10 PC.  
