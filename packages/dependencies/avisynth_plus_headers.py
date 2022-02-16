@@ -19,6 +19,10 @@
 	'source_subfolder' : 'avisynth-build',
 	'conf_system' : 'cmake',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DHEADERS_ONLY:bool=on ',
+	'run_post_install' : [
+		# per https://github.com/rdp/ffmpeg-windows-build-helpers/issues/614 and https://github.com/AviSynth/AviSynthPlus/blob/master/README.md
+		"make '{make_prefix_options} prefix={target_prefix} VersionGen install",
+	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Avisynth+ (Headers only)' },
 }
