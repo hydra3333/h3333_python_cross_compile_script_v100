@@ -10,7 +10,7 @@
 	#'branch' : '',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
-		('libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
+		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
 	],
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'run_post_regexreplace' : (
