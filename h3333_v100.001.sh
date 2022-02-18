@@ -91,6 +91,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done ffmpeg_static_non_free_opencl press any key to continue"
 
 rm -fv ./x264.log
@@ -101,6 +102,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done x264 press any key to continue"
 
 
@@ -112,6 +114,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done x265 press any key to continue"
 
 
@@ -123,6 +126,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done mp4box press any key to continue"
 
 
@@ -134,6 +138,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done lame press any key to continue"
 
 
@@ -145,6 +150,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done aom press any key to continue"
 
 
@@ -156,6 +162,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done sox press any key to continue"
 
 
@@ -167,6 +174,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done vpx press any key to continue"
 
 
@@ -179,6 +187,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done webp press any key to continue"
 
 
@@ -190,6 +199,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done mediainfo press any key to continue"
 
 
@@ -201,6 +211,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done dav1d press any key to continue"
 
 
@@ -212,6 +223,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done mpv press any key to continue"
 
 rm -fv ./fftw3_dll.log
@@ -226,6 +238,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done fftw3_dll press any key to continue"
 
 rm -fv ./libaacs_dll.log
@@ -238,6 +251,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done libaacs_dll press any key to continue"
 
 #rm -fv ./mkvtoolnix.log
@@ -248,6 +262,7 @@ fi
 #    echo "Error $exit_status detected"
 #	exit $exit_status
 #fi
+sleep 5s
 #read -p "done mkvtoolnix press any key to continue"
 
 
@@ -259,6 +274,7 @@ fi
 #    echo "Error $exit_status detected"
 #	exit $exit_status
 #fi
+sleep 5s
 #read -p "done youtube-dl press any key to continue"
 
 ./Remove_ffmpeg_3333_related_files.sh
@@ -270,6 +286,7 @@ if [ $exit_status -ne 0 ]; then
     echo "Error $exit_status detected"
 	exit $exit_status
 fi
+sleep 5s
 #read -p "done ffmpeg_3333 press any key to continue"
 
 
