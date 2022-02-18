@@ -4,10 +4,11 @@
 	#'url' : 'https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.8.3.tar.bz2',
 	'repo_type' : 'git',
 	'recursive_git' : True,
-	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
+	#'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
 	##'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18 on commit d2b3d046fc66a3166dc0c003a430ce756532ff74
-	#'branch' : '',	'rename_folder' : 'libgcrypt_for_aacs_git',
+	#'branch' : '',	
+	'rename_folder' : 'libgcrypt_for_aacs_git',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16

@@ -4,7 +4,7 @@
 	#'url' : 'https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.8.3.tar.bz2',
 	'repo_type' : 'git',
 	'recursive_git' : True,
-	'depth_git' : 0,
+	#'depth_git' : 0,
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
 	##'branch' : 'tags/libgcrypt-1.9.2',  # 1.9.3 onward fails 2021.09.18 on commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 	#'branch' : '',
