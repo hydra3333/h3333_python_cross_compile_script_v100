@@ -5,7 +5,8 @@
 	'branch': 'default', # "default" is another 'merican race/colour word mis-use/move away from master as a plain word # fatal: reference is not a tree: cc13a41fd5888a0c1f9f1b6525e32810b584f6ea
     'depth_git' : 0,
 	'download_header' : [
-		'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/additional_headers/ladspa.h',
+		#'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/additional_headers/ladspa.h',
+		'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/additional_headers/ladspa.h',
 	],
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
