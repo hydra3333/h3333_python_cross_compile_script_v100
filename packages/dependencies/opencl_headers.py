@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/OpenCL-Headers.git',
+	'branch' : 'main',
 	# 2020.10.15 commit https://github.com/KhronosGroup/OpenCL-Headers/commit/9fac4e9866a961f66bdd72fa2bff50145512f972
 	#            changed default header version to 3.0 if CL_TARGET_OPENCL_VERSION is not defined
 	'run_post_regexreplace' : [
