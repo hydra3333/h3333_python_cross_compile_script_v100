@@ -8,7 +8,7 @@
 		'--target={bit_name2}-{bit_name_win}-gcc '
 		'--prefix={output_prefix}/vpx_git.installed '
 		'--disable-shared --enable-static --enable-webm-io --enable-libyuv --enable-vp9 '
-		'--enable-vp8 --enable-runtime-cpu-detect --enable-postproc '
+		'--enable-vp8 --enable-ssse3 --enable-runtime-cpu-detect --enable-postproc '
 		'--enable-vp9-highbitdepth --enable-vp9-postproc --enable-coefficient-range-checking --enable-postproc-visualizer '
 		'--enable-error-concealment --enable-better-hw-compatibility '
 		'--enable-multi-res-encoding --enable-vp9-temporal-denoising '
