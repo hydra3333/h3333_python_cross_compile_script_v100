@@ -40,7 +40,7 @@
 		'-Denable_docs=false '
 		'-Dtestdata_tests=false '
 		'-Denable_asm=true '
-		'-DBITDEPTHS=['8','16'] '
+		'-DBITDEPTHS=["8","16"] '
 		'--cross-file={meson_env_file} ./ .. '
 	,
   	#'run_post_regexreplace' : [ # 2019.12.13
