@@ -1,7 +1,7 @@
 {
 	'is_dep_inheriter' : True,
-	#'run_pre_depends_on' : [
-	'run_post_regexreplace' : [
+	'run_pre_depends_on' : [
+	#'run_post_regexreplace' : [
 		'echo "#"',
 		'echo "#"',
 		'echo "WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING "',
