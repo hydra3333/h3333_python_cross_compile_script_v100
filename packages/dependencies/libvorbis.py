@@ -32,7 +32,7 @@
 		]
 	},
 	'run_post_regexreplace' : [
-		'sh ./autogen.sh',
+		'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
 	],
 	'depends_on': [
 		'libogg', 'sqlite3',

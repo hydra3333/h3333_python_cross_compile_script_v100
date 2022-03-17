@@ -16,7 +16,7 @@
 		],
 	},
 	'run_post_regexreplace' : [
-		'sh ./autogen.sh',
+		'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
 	],
 	#'depends_on' : [ 'glib2' ], # 2020.05.12 removed 'glib2', 
 	'depends_on' : [ 

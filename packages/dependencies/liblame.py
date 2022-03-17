@@ -16,8 +16,6 @@
 	),
     'configure_options': '{autoconf_prefix_options} --build=x86_64-linux-gnu --target={target_host} --disable-shared --enable-static --enable-nasm --disable-frontend --enable-largefile --disable-silent-rules '
 						 ' --disable-rpath --disable-cpml --disable-gtktest --disable-mp3x --disable-mp3rtp --disable-dynamic-frontends --disable-expopt --disable-debug --disable-analyzer-hooks --disable-efence ',
-	
-	
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/lame/files/lame/', 'type' : 'sourceforge', },
 	'_info' : { 'version' : '3.100', 'fancy_name' : 'LAME (library)' },
 }

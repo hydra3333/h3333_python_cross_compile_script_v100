@@ -21,7 +21,7 @@
 		],
 	},
 	'run_post_regexreplace' : [
-		'sh ./autogen.sh',
+		'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
 	],
 	'depends_on' : [ 'libogg', 'libvorbis', 'libflac', 'libsamplerate', 'libopus', 'libspeex', 'sqlite3', ], # 2020.05.29 add sqlite3
 	'update_check' : { 'type' : 'git', },
