@@ -10,6 +10,7 @@
 						'-DPNG_SHARED=OFF -DPNG_STATIC=ON -DPNG_TESTS=OFF -DPNG_BUILD_ZLIB=ON -DPNG_FRAMEWORK=OFF '
 						'-DPNG_HARDWARE_OPTIMIZATIONS=ON -DPNG_DEBUG=OFF '
 						'-DBUILD_SHARED_LIBS=OFF -DBUILD_BINARY=OFF  '
+						,
 						
 	'patches' : [
 		('libpng/libpng-1.6.37-apng.patch', '-p1'),
