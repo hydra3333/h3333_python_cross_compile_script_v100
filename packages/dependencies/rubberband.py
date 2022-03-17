@@ -14,7 +14,7 @@
 	# building the command-line utility aborts, so do not build it
 	'run_post_regexreplace' : [
 		# building the command-line utility aborts, so do not build it
-		'sed -i \\'s|if have_sndfile|\#if have_sndfile # building the command-line utility aborts, so do not build it\nif false|\\' ../meson.build',
+		'sed -i \'s|if have_sndfile|\#if have_sndfile # building the command-line utility aborts, so do not build it\\nif false|\' ../meson.build',
 	],
 	'configure_options' :
 		'--prefix={target_prefix} '
