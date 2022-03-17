@@ -45,9 +45,9 @@
 	'run_post_install' : [
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lfreetype.*/Libs: -L${{libdir}} -lfreetype -lbz2 -lharfbuzz/\' "{pkg_config_path}/freetype2.pc"',
     ],
-	#'run_post_regexreplace' : [
-	#	'pwd ; sh ./autogen.sh ; pwd',
-	#],
+	'run_post_regexreplace' : [
+		'pwd ; sh ./autogen.sh ; pwd',
+	],
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
 	],

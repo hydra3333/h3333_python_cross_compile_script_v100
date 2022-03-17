@@ -43,7 +43,6 @@
 	#	'sed -i.bak \'s/Libs: -L${{libdir}} -lfreetype.*/Libs: -L${{libdir}} -lfreetype -lbz2 -lharfbuzz/\' "{pkg_config_path}/freetype2.pc"',
     #],
 	'run_post_regexreplace' : [
-		#'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
 		'pwd ; sh ./autogen.sh ; pwd',
 	],
 	'depends_on': [
