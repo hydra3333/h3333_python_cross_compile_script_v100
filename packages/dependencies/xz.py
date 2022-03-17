@@ -10,7 +10,7 @@
 	'run_post_regexreplace' : [
 		'pwd ; autoreconf -fiv ; pwd', # autoreconf is almost identical to ./autogen.sh
 	],
-	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --enable-assembler --disable-debug --disable-small --enable-threads=posix '
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --enable-assembler --disable-debug --disable-small ' # --enable-threads=posix
 							'--disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc '
 							'--disable-lzma-links --disable-scripts '
 	,
