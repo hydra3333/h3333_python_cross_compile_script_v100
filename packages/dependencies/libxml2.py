@@ -11,7 +11,15 @@
 	'run_post_patch' : [
 		'pwd ; cd .. ; sh autogen.sh --no-symlink ; cd _build ; pwd',
 	],	
-	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --without-python --enable-tests=no --enable-programs=no',
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --enable-tests=no --enable-programs=no '
+						'--disable-silent-rules --enable-dependency-tracking '
+						'--disable-rebuild-docs --disable-ipv6 --with-pic '
+						'--with-c14n --with-catalog --without-debug --with-docbook --with-ftp --without-history '
+						'--with-html --with-http --with-iconv --without-icu --with-iso8859x --with-legacy --without-mem-debug '
+						'--without-minimum --with-output --with-pattern --with-push --without-python  --with-reader  --with-regexps '
+						'--without-run-debug --with-sax1 --with-schemas --with-schematron --with-threads --without-thread-alloc '
+						'--with-tree --with-valid --with-writer --with-xinclude --with-xpath --with-xptr --with-modules '
+						'--with-zlib --with-lzma --with-coverage '
 	'run_post_install' : [
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lxml2/Libs: -L${{libdir}} -lxml2 -lz -llzma -liconv -lws2_32/\' "{pkg_config_path}/libxml-2.0.pc"', # libarchive complaints without this.
 	],
@@ -26,8 +34,6 @@
 #	'run_post_regexreplace' : [
 #		#'autoreconf -fiv',
 #		'./autogen.sh',
-#
-#
 # CMAKE does not have the usual options, revert or ordinary configure/make
 #	'conf_system' : 'cmake',
 #	'source_subfolder' : '_build',
