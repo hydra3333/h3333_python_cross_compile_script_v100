@@ -12,7 +12,7 @@
 		('vamp/vamp-plugin-sdk-2.7.1.patch','-p0'), #They rely on M_PI which is gone since c99 or w/e, give them a self defined one and hope for the best.
 	],
 	'configure_options' : 'sdkstatic --host={target_host} --prefix={target_prefix}--libdir={target_prefix}/lib --disable-programs ',
-	'build_options' : '{make_prefix_options} sdkstatic  --host={target_host} --prefix={target_prefix} --libdir={target_prefix}/lib --disable-programs ', # for DLL's add 'sdk rdfgen' # 2022.03.17 try 'configure' instead if just build 
+	'build_options' : '{make_prefix_options} sdkstatic ', # for DLL's add 'sdk rdfgen' # 2022.03.17 try 'configure' instead if just build 
 	'needs_make_install' : False, # doesnt s support xcompile installing
 	'run_post_build' : [ # lets install it manually then I guess?
 		'cp -fv libvamp-sdk.a "{target_prefix}/lib/"',
@@ -32,3 +32,7 @@
 	# { 'url' : 'https://code.soundsoftware.ac.uk/projects/vamp-plugin-sdk/files/', 'type' : 'httpindex', 'regex' : r'	vamp-plugin-sdk-(?P<version_num>[\d.]+)\.tar\.gz', },
 	'_info' : { 'version' : '2.9.0', 'fancy_name' : 'vamp-plugin-sdk' },
 }
+#make: unrecognized option '--host=x86_64-w64-mingw32'
+#make: unrecognized option '--prefix=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+#make: unrecognized option '--libdir=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib'
+#make: unrecognized option '--disable-programs'
