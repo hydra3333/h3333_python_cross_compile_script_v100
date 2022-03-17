@@ -13,7 +13,7 @@
         
 	],
 	'folder_name' : 'freetype-with-harfbuzz',
-	'rename_folder' : 'freetype-with-harfbuzz_2_11_1',
+	'rename_folder' : 'freetype-with-harfbuzz',
 	#'conf_system' : 'cmake',
 	#'source_subfolder' : '_build',
 	#'configure_options' : 
@@ -45,10 +45,9 @@
 	'run_post_install' : [
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lfreetype.*/Libs: -L${{libdir}} -lfreetype -lbz2 -lharfbuzz/\' "{pkg_config_path}/freetype2.pc"',
     ],
-	'run_post_regexreplace' : [
-		#'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
-		'pwd ; sh ./autogen.sh ; pwd',
-	],
+	#'run_post_regexreplace' : [
+	#	'pwd ; sh ./autogen.sh ; pwd',
+	#],
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
 	],
