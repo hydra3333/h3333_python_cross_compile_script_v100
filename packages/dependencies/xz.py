@@ -6,10 +6,11 @@
 	#'url' : 'http://git.tukaani.org/xz.git',
 	#'custom_cflag' : ' -D_FORTIFY_SOURCE=2 ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all
 	#'custom_cflag' : ' -O3 -fstack-protector-all -D_FORTIFY_SOURCE=2 ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all
+	#'run_post_regexreplace' : [ # 
 	'run_post_regexreplace' : [
-		'sh ./autogen.sh',
+		'autoreconf -fiv', # autoreconf is almost identical to ./autogen.sh
 	],
-	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc', # 2019.12.13 --disable-shared --enable-static
+	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc',
 	'depends_on' : [ 'iconv', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'xz' },
