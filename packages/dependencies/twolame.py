@@ -15,10 +15,10 @@
 	# Do the autoreconf AFTER the SED's above
 	'run_post_patch' : [
 		'sed -i \'s|AC_SUBST(TWOLAME_BIN)|TWOLAME_BIN=\"\"\nAC_SUBST(TWOLAME_BIN)|\' ./configure.ac',
-		'sed -i "/frontend\/Makefile/d" ./configure.ac',
-		'sed -i "/simplefrontend\/Makefile/d" ./configure.ac',
-		'sed -i "/tests\/Makefile/d" ./configure.ac',
-		'sed -i "s/libtwolame frontend simplefrontend doc tests/libtwolame/" ./Makefile.am',
+		'sed -i \'/frontend\/Makefile/d\' ./configure.ac',
+		'sed -i \'/simplefrontend\/Makefile/d\' ./configure.ac',
+		'sed -i \'/tests\/Makefile/d\' ./configure.ac',
+		'sed -i \'s/libtwolame frontend simplefrontend doc tests/libtwolame/\' ./Makefile.am',
 		'autoreconf -fiv',
 	],
 	'depends_on' : ['libsndfile', ],
