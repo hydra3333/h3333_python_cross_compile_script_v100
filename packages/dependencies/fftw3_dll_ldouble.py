@@ -11,7 +11,7 @@
 	'rename_folder' : 'fftw3_dll_ldouble',
 	'configure_options': '--host={target_host} --prefix={output_prefix}/fftw3_dll --exec-prefix={output_prefix}/fftw3_dll '
                          '--enable-shared --disable-static '
-                         '--disable-silent-rules --disable-doc '
+                         '--disable-silent-rules --disable-doc --with-pic '
                          '--disable-alloca --with-our-malloc --with-windows-f77-mangling '
                          '--enable-threads --with-combined-threads '
                          '--disable-float --enable-long-double -disable-quad-precision ' # 2019.12.13 (the default is "DOUBLE") we ask long-double
