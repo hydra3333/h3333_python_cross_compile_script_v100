@@ -8,7 +8,7 @@
 	#'custom_cflag' : ' -O3 -fstack-protector-all -D_FORTIFY_SOURCE=2 ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all
 	#'run_post_regexreplace' : [ # 
 	'run_post_regexreplace' : [
-		'autoreconf -fiv', # autoreconf is almost identical to ./autogen.sh
+		'pwd ; autoreconf -fiv ; pwd', # autoreconf is almost identical to ./autogen.sh
 	],
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc',
 	'depends_on' : [ 'iconv', ],
