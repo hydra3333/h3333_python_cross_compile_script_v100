@@ -29,6 +29,7 @@
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build' # 2019.12.13 # 2020.03.19 commented out
 	#],
 	'configure_options' :
+		'./ .. {cmake_prefix_options} '
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
@@ -40,7 +41,7 @@
 		'-Denable_docs=false '
 		'-Dtestdata_tests=false '
 		'--buildtype=release '
-		'--cross-file={meson_env_file} ./ ..'
+		'--cross-file={meson_env_file} '
 	,
   	#'run_post_regexreplace' : [ # 2019.12.13
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build'   # 2020.03.19 commented out
@@ -48,3 +49,19 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'dav1d (library)' },
 }
+#
+# pre changes:
+#	'configure_options' :
+#		'--prefix={target_prefix} '
+#		'--libdir={target_prefix}/lib '
+#		'--default-library=static '
+#		'--strip '
+#		'--backend=ninja '
+#		'-Denable_tests=false '
+#		'-Denable_tools=false '
+#		'-Denable_examples=false '
+#		'-Denable_docs=false '
+#		'-Dtestdata_tests=false '
+#		'--buildtype=release '
+#		'--cross-file={meson_env_file} ./ ..'
+		
