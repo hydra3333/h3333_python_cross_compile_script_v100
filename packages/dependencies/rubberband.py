@@ -20,7 +20,7 @@
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
-		'--buildtype=release '  # plain
+		'--buildtype=release '
 		'--backend=ninja '
 		'-Dno_shared=true '
 		'-Dresampler=libsamplerate '
@@ -28,7 +28,6 @@
 		'-DHAVE_POSIX_MEMALIGN=true '
 		'-Dfft=fftw '
 		'-DHAVE_FFTW3=true '
-		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'depends_on' : [
@@ -37,4 +36,8 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'rubberband' },
 }
-
+#make: unrecognized option '--host=x86_64-w64-mingw32'
+#make: unrecognized option '--prefix=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+#make: unrecognized option '--libdir=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib'
+#make: unrecognized option '--disable-programs'
+#Usage: make [options] [target] ...
