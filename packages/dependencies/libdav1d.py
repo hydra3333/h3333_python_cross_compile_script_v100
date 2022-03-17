@@ -42,7 +42,7 @@
 		'-Dtestdata_tests=false '
 		'-Denable_asm=true '
 		'-DBITDEPTHS=["8","16"] '
-		'--cross-file={meson_env_file} ./ .. '
+		'--cross-file={meson_env_file} ./ ..'
 	,
   	#'run_post_regexreplace' : [ # 2019.12.13
 		# 'sed -i.bak \'s/sdl2_dependency.found()/false/\' ../tools/meson.build'   # 2020.03.19 commented out
