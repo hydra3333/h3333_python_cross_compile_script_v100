@@ -23,7 +23,7 @@
 		'--buildtype=release '  # plain
 		'--backend=ninja '
 		'-Dno_shared=true '
-		'-Dresampler=libsamplerate ',
+		'-Dresampler=libsamplerate '
 		'-DUSE_PTHREADS=true '
 		'-DHAVE_POSIX_MEMALIGN=true '
 		'-Dfft=fftw '
