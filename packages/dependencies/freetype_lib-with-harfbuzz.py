@@ -47,7 +47,7 @@
     ],
 	'run_post_regexreplace' : [
 		#'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
-		'pwd ; sh ./autogen.sh ; read -p "Press ENTER" to continue" x ; pwd',
+		'pwd ; sh ./autogen.sh ; pwd',
 	],
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
