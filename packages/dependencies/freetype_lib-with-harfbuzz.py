@@ -13,7 +13,7 @@
         
 	],
 	'folder_name' : 'freetype-with-harfbuzz',
-	'rename_folder' : 'freetype-with-harfbuzz',
+	'rename_folder' : 'freetype-with-harfbuzz_2_11_1',
 	#'conf_system' : 'cmake',
 	#'source_subfolder' : '_build',
 	#'configure_options' : 
@@ -47,7 +47,7 @@
     ],
 	'run_post_regexreplace' : [
 		#'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
-		'pwd ; sh ./autogen.sh ; pwd',
+		'pwd ; sh ./autogen.sh ; read -p "Press ENTER" to continue" x ; pwd',
 	],
 	'depends_on': [
 		'zlib', 'bzip2', 'libpng',
