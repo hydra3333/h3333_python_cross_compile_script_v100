@@ -12,7 +12,7 @@
 		('flac/0001-mingw-fix-src-CMakeLists-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
 	],
 	'run_post_patch' : [
-		'pwd ; cd .. ; sh autogen.sh --no-symlink ; cd _build ; pwd',
+		'pwd ; cd .. ; sh ./autogen.sh --no-symlink ; cd _build ; pwd',
 	],
 	'regex_replace': {
 		'post_patch': [
