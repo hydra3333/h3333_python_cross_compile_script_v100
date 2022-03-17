@@ -19,7 +19,7 @@
 						'--without-minimum --with-output --with-pattern --with-push --without-python  --with-reader  --with-regexps '
 						'--without-run-debug --with-sax1 --with-schemas --with-schematron --with-threads --without-thread-alloc '
 						'--with-tree --with-valid --with-writer --with-xinclude --with-xpath --with-xptr --with-modules '
-						'--with-zlib --with-lzma --with-coverage '
+						'--with-zlib --with-lzma --with-coverage ',
 	'run_post_install' : [
 		'sed -i.bak \'s/Libs: -L${{libdir}} -lxml2/Libs: -L${{libdir}} -lxml2 -lz -llzma -liconv -lws2_32/\' "{pkg_config_path}/libxml-2.0.pc"', # libarchive complaints without this.
 	],
