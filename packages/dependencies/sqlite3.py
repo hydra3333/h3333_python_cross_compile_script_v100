@@ -16,3 +16,4 @@
 	'update_check' : { 'url' : 'https://www.sqlite.org/index.html', 'type' : 'httpregex', 'regex' : r'<a href="releaselog/.*\.html">Version (?P<version_num>[\d.]+)<\/a>' },
 	'_info' : { 'version' : '3.37.2', 'fancy_name' : 'libsqlite3' },
 }
+# https://fossies.org/linux/misc/sqlite-autoconf-3380000.tar.gz
