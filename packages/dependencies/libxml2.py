@@ -9,7 +9,16 @@
 	'folder_name' : 'libxml2-2.9.12',
 	#'rename_folder' : 'libxml2-2.9.12',
 	'run_post_patch' : [
-		'pwd ; sh ./autogen.sh ; pwd',
+		'sh ./autogen.sh '
+		'{autoconf_prefix_options} --disable-shared --enable-static --disable-tests --disable-programs '
+						'--disable-silent-rules --enable-dependency-tracking '
+						'--disable-rebuild-docs --disable-ipv6 --with-pic '
+						'--with-c14n --with-catalog --without-debug --with-docbook --with-ftp --without-history '
+						'--with-html --with-http --with-iconv --without-icu --with-iso8859x --with-legacy --without-mem-debug '
+						'--without-minimum --with-output --with-pattern --with-push --without-python  --with-reader  --with-regexps '
+						'--without-run-debug --with-sax1 --with-schemas --with-schematron --with-threads --without-thread-alloc '
+						'--with-tree --with-valid --with-writer --with-xinclude --with-xpath --with-xptr --with-modules '
+						'--with-zlib --with-lzma --with-coverage ',
 	],	
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --disable-tests --disable-programs '
 						'--disable-silent-rules --enable-dependency-tracking '
