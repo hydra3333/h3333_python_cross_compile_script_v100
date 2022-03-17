@@ -8,10 +8,11 @@
 	'patches' : [ # 2019.12.13
 		('lame/0007-revert-posix-code.patch','-Np1'), # borrowing their file since lame will fix this shortly anyway, its already fixed on svn
 		# patchjes from Alexpux follow:
-		('lame/0002-07-field-width-fix.all.patch','-p1'), # 
-		('lame/0005-no-gtk.all.patch','-p1'), # 
-		('lame/0006-dont-use-outdated-symbol-list.patch','-p1'), # 
-		('lame/0008-skip-termcap.patch','-p1'), # 
+		('lame/0002-07-field-width-fix.all.patch','-Np1'), # 
+		('lame/0005-no-gtk.all.patch','-Np1'), # 
+		('lame/0006-dont-use-outdated-symbol-list.patch','-Np1'), # 
+		('lame/0007-revert-posix-code.patch','-Np1'), # 2019.12.13
+		('lame/0008-skip-termcap.patch','-Np1'), # 
 	],
     'run_post_regexreplace' : ( # 2019.12.13
 		'autoreconf -fiv',
