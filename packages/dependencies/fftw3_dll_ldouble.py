@@ -6,7 +6,6 @@
 		#{ "url" : "https://fossies.org/linux/misc/fftw-3.3.9.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "bf2c7ce40b04ae811af714deb512510cc2c17b9ab9d6ddcf49fe4487eea7af3d" }, ], },
 		{ "url" : "http://fftw.org/fftw-3.3.10.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467" }, ], },
 		{ "url" : "https://fossies.org/linux/misc/fftw-3.3.10.tar.gz", "hashes" : [ { "type" : "sha256", "sum" : "56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467" }, ], },
-
 	],
 	'rename_folder' : 'fftw3_dll_ldouble',
 	'configure_options': '--host={target_host} --prefix={output_prefix}/fftw3_dll --exec-prefix={output_prefix}/fftw3_dll '
