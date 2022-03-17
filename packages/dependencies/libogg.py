@@ -8,7 +8,7 @@
 		'sh ./autogen.sh',
 	],
 	'depends_on' : [
-		'libogg', 'sqlite3',
+		'sqlite3',
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ogg' },
