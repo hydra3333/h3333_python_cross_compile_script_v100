@@ -5,7 +5,7 @@
 	#'branch' : '30c490373b740f357d219c9e9672698d739f11f3', # 2020.04.08 something broke after this commit :(
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF ',
+	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DHAVE_SQLITE3=ON ',
 	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DINSTALL_CMAKE_PACKAGE_MODULE=ON ',
 	'regex_replace': {
 		'post_install': [
@@ -31,7 +31,12 @@
 			},
 		]
 	},
-	'depends_on': ['libogg',],
+	'run_post_regexreplace' : [
+		'sh ./autogen.sh',
+	],
+	'depends_on': [
+		'libogg', 'sqlite3',
+	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'vorbis' },
 }

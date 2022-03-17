@@ -10,6 +10,7 @@
 							'--disable-win32thread ' # make posix threeads like the other things being built
 							'--extra-cflags="-DLIBXML_STATIC" --extra-cflags="-DGLIB_STATIC_COMPILATION" '
 							'--disable-cli --disable-lavf ' # 2020.06.09 re-added --disable-lavf to libx264 building only
+							'--disable-opencl '
 							,
 	#'depends_on' : [
 	#	#'opencl_icd', # 2020.11.24

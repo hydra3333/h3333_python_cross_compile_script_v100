@@ -25,9 +25,16 @@
 			},
 		],
 	},
+	'run_post_regexreplace' : [
+		'autoreconf -fiv',
+	],
     'run_post_install' : (
 		'ls -alR {output_prefix}/fftw3_dll/bin',
 	),
 	'update_check' : { 'url' : 'ftp://ftp.fftw.org/pub/fftw/', 'type' : 'ftpindex', 'regex' : r'fftw-(?P<version_num>[\d.]+)\.tar\.gz' },
 	'_info' : { 'version' : '3.3.10', 'fancy_name' : 'fftw3_dll_single' },
 }
+
+
+
+autoreconf -fiv

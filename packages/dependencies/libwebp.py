@@ -42,6 +42,11 @@
 			},
 		],
 	},
+	'run_post_regexreplace' : [
+		'cd ..'
+		'sh ./autogen.sh',
+		'cd _build',
+	],
 	'depends_on' : [ 'xz', 'libpng', 'libjpeg-turbo' ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libwebp' },

@@ -11,10 +11,13 @@
 		('liblame/0007-revert-posix-code.patch','-Np1'), # 2019.12.13
 		('liblame/0008-skip-termcap.patch','-Np1'), # 2019.12.13
 	), # 2019.12.13
-	'run_post_regexreplace' : ( # 2019.12.13
+	'run_post_regexreplace' : (
 		'autoreconf -fiv', # 2019.12.13
-	), # 2019.12.13
-    'configure_options': '{autoconf_prefix_options} --build=x86_64-linux-gnu --target={target_host} --disable-shared --enable-static --enable-nasm --disable-frontend', # 2019.12.13
+	),
+    'configure_options': '{autoconf_prefix_options} --build=x86_64-linux-gnu --target={target_host} --disable-shared --enable-static --enable-nasm --disable-frontend --enable-largefile --disable-silent-rules '
+						 ' --disable-rpath --disable-cpml --disable-gtktest --disable-mp3x --disable-mp3rtp --disable-dynamic-frontends --disable-expopt --disable-debug --disable-analyzer-hooks --disable-efence ',
+	
+	
 	'update_check' : { 'url' : 'https://sourceforge.net/projects/lame/files/lame/', 'type' : 'sourceforge', },
 	'_info' : { 'version' : '3.100', 'fancy_name' : 'LAME (library)' },
 }

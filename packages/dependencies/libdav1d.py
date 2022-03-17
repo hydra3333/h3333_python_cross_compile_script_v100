@@ -32,9 +32,13 @@
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
+		'--strip '
 		'--backend=ninja '
 		'-Denable_tests=false '
 		'-Denable_tools=false '
+		'-Denable_examples=false '
+		'-Denable_docs=false '
+		'-Dtestdata_tests=false '
 		'--buildtype=release '
 		'--cross-file={meson_env_file} ./ ..'
 	,

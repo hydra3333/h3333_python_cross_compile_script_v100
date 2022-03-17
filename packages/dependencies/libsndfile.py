@@ -8,7 +8,6 @@
 	'source_subfolder' : '_build',
 	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DENABLE_BOW_DOCS=OFF -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_STATIC_RUNTIME=ON -DHAVE_SQLITE3=OFF -DHAVE_ALSA_ASOUNDLIB_H=OFF -DENABLE_EXTERNAL_LIBS=ON ', # -DENABLE_EXPERIMENTAL=ON -DENABLE_EXTERNAL_LIBS=ON ', 
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DENABLE_BOW_DOCS=OFF -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_STATIC_RUNTIME=ON -DHAVE_SQLITE3=ON -DHAVE_ALSA_ASOUNDLIB_H=OFF -DENABLE_EXTERNAL_LIBS=ON ', # -DENABLE_EXPERIMENTAL=ON -DENABLE_EXTERNAL_LIBS=ON ', # 2020.05.29
-	'depends_on' : [ 'libogg', 'libvorbis', 'libflac', 'libsamplerate', 'libopus', 'libspeex', 'sqlite3', ], # 2020.05.29 add sqlite3
 	# 'run_post_install' : [ # -lspeex
 	# 	'sed -i.bak \'s/Libs: -L${{libdir}} -lsndfile/Libs: -L${{libdir}} -lsndfile -lopus -lFLAC -lvorbis -lvorbisenc -logg/\' "{pkg_config_path}/sndfile.pc"',  # -lssp
 	# ],
@@ -21,6 +20,10 @@
 			},
 		],
 	},
+	'run_post_regexreplace' : [
+		'sh ./autogen.sh',
+	],
+	'depends_on' : [ 'libogg', 'libvorbis', 'libflac', 'libsamplerate', 'libopus', 'libspeex', 'sqlite3', ], # 2020.05.29 add sqlite3
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libsndfile' },
 }

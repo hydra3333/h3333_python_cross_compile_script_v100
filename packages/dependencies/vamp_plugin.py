@@ -6,11 +6,13 @@
 	],
 	'run_post_regexreplace' : [
 		'cp -fv build/Makefile.mingw64 Makefile',
+		'autoreconf -fiv',
 	],
 	'patches' : [
 		('vamp/vamp-plugin-sdk-2.7.1.patch','-p0'), #They rely on M_PI which is gone since c99 or w/e, give them a self defined one and hope for the best.
 	],
-	'build_options' : '{make_prefix_options} sdkstatic', # for DLL's add 'sdk rdfgen'
+	'configure_options' : 'sdkstatic --host={target_host} --prefix={target_prefix}--libdir={target_prefix}/lib --disable-programs ',
+	'build_options' : '{make_prefix_options} sdkstatic  --host={target_host} --prefix={target_prefix} --libdir={target_prefix}/lib --disable-programs ', # for DLL's add 'sdk rdfgen' # 2022.03.17 try 'configure' instead if just build 
 	'needs_make_install' : False, # doesnt s support xcompile installing
 	'run_post_build' : [ # lets install it manually then I guess?
 		'cp -fv libvamp-sdk.a "{target_prefix}/lib/"',

@@ -11,7 +11,7 @@
 		'--enable-vp9-highbitdepth --enable-vp9-postproc --enable-postproc-visualizer ' # 2020.10.01 removed --enable-coefficient-range-checking 
 		'--enable-error-concealment --enable-better-hw-compatibility '
 		'--enable-multi-res-encoding --enable-vp9-temporal-denoising '
-		'--enable-tools --disable-docs --enable-examples --disable-install-docs ' # 2019.12.13 enable tools and examples
+		'--disable-tools --disable-docs --disable-examples --disable-install-docs ' # 2019.12.13 enable tools and examples
 		'--disable-unit-tests --disable-decode-perf-tests --disable-encode-perf-tests '
         '--disable-avx512 --as=nasm ' # 2013.13.13 back to --as=nasm rather than yasm # 2019.12.13 removed --as=yasm, added --disable-avx512
 	,

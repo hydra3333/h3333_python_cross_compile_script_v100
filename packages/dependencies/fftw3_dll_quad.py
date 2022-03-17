@@ -34,6 +34,9 @@
 			},
 		],
 	},
+	'run_post_regexreplace' : [
+		'autoreconf -fiv',
+	],
     'run_post_install' : (
 		'ls -alR {output_prefix}/fftw3_dll/bin',
 	),
