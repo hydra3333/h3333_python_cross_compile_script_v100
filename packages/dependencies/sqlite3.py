@@ -2,7 +2,7 @@
 	'repo_type' : 'archive',
 	'download_locations' : [ # https://fossies.org/linux/misc/
 		{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3380000.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1c76e25dc63d9f3935e0f406aec520a33ee77cf54ea5147dffe1fae8369eff68' }, ], },
-		{ 'url' : 'https://www.sqlite.org/2021/sqlite-autoconf-3380000.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1c76e25dc63d9f3935e0f406aec520a33ee77cf54ea5147dffe1fae8369eff68' }, ], },
+		#{ 'url' : 'https://www.sqlite.org/2021/sqlite-autoconf-3380000.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1c76e25dc63d9f3935e0f406aec520a33ee77cf54ea5147dffe1fae8369eff68' }, ], },
 	],
 	'cflag_addition' : '-fexceptions -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_USE_MALLOC_H=1 -DSQLITE_USE_MSIZE=1 -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_ENABLE_RTREE=1 -fno-strict-aliasing',
 	'strip_cflags': ['-ffast-math', ],
