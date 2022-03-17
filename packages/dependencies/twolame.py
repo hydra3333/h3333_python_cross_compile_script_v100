@@ -14,7 +14,7 @@
 	## building the frontend aborts, so try not build it (this one SED does not manage it)
 	# Do the autoreconf AFTER the SED's above
 	'run_post_patch' : [
-		'sed -i "s|AC_SUBST(TWOLAME_BIN)|TWOLAME_BIN=""\nAC_SUBST(TWOLAME_BIN)|" ./configure.ac',
+		'sed -i \'s|AC_SUBST(TWOLAME_BIN)|TWOLAME_BIN=\"\"\nAC_SUBST(TWOLAME_BIN)|\' ./configure.ac',
 		'sed -i "/frontend\/Makefile/d" ./configure.ac',
 		'sed -i "/simplefrontend\/Makefile/d" ./configure.ac',
 		'sed -i "/tests\/Makefile/d" ./configure.ac',
