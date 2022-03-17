@@ -4,9 +4,8 @@
 	'needs_configure' : False,
 	'needs_make' : False,
 	'needs_make_install' : False,
-	#'run_pre_depends_on' : [
-	#],
-	'run_post_regexreplace' : [
+	'run_pre_depends_on' : [
+	#'run_post_regexreplace' : [
 		#'echo ""',
 		#'ls -al',
 		#'rm -fv "./OpenCL.dll ./libOpenCL.a ./OpenCL.def ./already_ran_make_install"',
