@@ -43,9 +43,7 @@
 		],
 	},
 	'run_post_regexreplace' : [
-		'cd ..'
-		'sh ./autogen.sh',
-		'cd _build',
+		'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
 	],
 	'depends_on' : [ 'xz', 'libpng', 'libjpeg-turbo' ],
 	'update_check' : { 'type' : 'git', },
