@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'depth_git' : 0,
+	#'depth_git' : 0,
 	'url' : 'https://github.com/gpac/gpac.git',
 	'branch' : 'tags/v2.0.0',
 	'rename_folder' : 'GPAC_git',
