@@ -3,6 +3,7 @@
 	'depth_git' : 0,
 	'url' : 'https://github.com/gpac/gpac.git',
 	'branch' : 'tags/v2.0.0',
+	'folder_name' : 'mp4box_git',
 	'rename_folder' : 'mp4box_git',
 	'do_not_bootstrap' : True,
 	'run_post_regexreplace' : [
