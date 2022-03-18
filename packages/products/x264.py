@@ -33,7 +33,7 @@
 	#	'export | grep LAVF_CFLAGS',
 	#],
     'depends_on' : [
-		 'libgpac', # libgpac depends on ffmpeg_extra
+		 'libgpac', # libgpac depends on libffmpeg
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x264 multibit built with lavf' },
