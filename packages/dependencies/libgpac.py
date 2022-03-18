@@ -3,7 +3,7 @@
 	'depth_git' : 0,
 	'url' : 'https://github.com/gpac/gpac.git',
 	'branch' : 'tags/v2.0.0',
-	#'branch' : '7f40077a2af0b50d8fbdd1f95d01cb02c36e22db',
+	'folder_name' : 'gpac_lib_git',
 	'rename_folder' : 'gpac_lib_git',
 	'do_not_bootstrap' : True,
 	'run_post_regexreplace' : [
@@ -17,11 +17,17 @@
 		'sed -i.bak \'s/SHFLAGS=-shared/SHFLAGS=/g\' configure',
 		'sed -i.bak \'s/extralibs="$extralibs -lws2_32 -lwinmm -limagehlp"/extralibs="$extralibs -lws2_32 -lwinmm -lz -lssp"/g\' configure',
 	],
+	'env_exports' : {
+		'CFLAGS'   : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc "',
+		'CXXFLAGS' : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc "',
+		'CPPFLAGS' : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc "',
+		'LDFLAGS'  : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc "',
+	},
 	'configure_options' : '--host={target_host} --target-os={bit_name3} --prefix={output_prefix}/mp4box_git.installed --cross-prefix={cross_prefix_bare} '
         '--enable-static --static-modules --static-build --static-bin --disable-shared '
         '--disable-docs --disable-ipv6 --enable-mem-track --enable-depth '
         '--disable-oss-audio --disable-x11 '
-        #'--use-ffmpeg=no '
+        '--use-ffmpeg=no '
         #'--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION " '
         #'--extra-ldflags=" -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc " '
         #'--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc " '
