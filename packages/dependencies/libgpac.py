@@ -7,34 +7,34 @@
 	#'rename_folder' : 'gpac_lib_git',
 	'do_not_bootstrap' : True,
 	'run_post_regexreplace' : [
-		#'sed -i.bak \'s/Windows.h/windows.h/g\' "include/gpac/thread.h"', # 2020.06.19 ah, tree "legacy" does not have these to do a sed on
-		#'sed -i.bak \'s/WinBase.h/winbase.h/g\' "include/gpac/thread.h"', # 2020.06.19 ah, tree "legacy" does not have these to do a sed on 
-		#'sed -i.bak \'s/Windows.h/windows.h/g\' "src/filters/dec_nvdec_sdk.c"', # 2020.06.19 ah, tree "legacy" does not have these to do a sed on
-		#'sed -i.bak \'s/Windows.h/windows.h/g\' "src/filters/dec_nvdec_sdk.h"', # 2020.06.19 ah, tree "legacy" does not have these to do a sed on
 		'sed -i.bak \'s/has_dvb4linux="yes"/has_dvb4linux="no"/g\' configure',
 		'sed -i.bak \'s/targetos=`uname -s`/targetos=MINGW64/g\' configure',
 		'sed -i.bak \'s/extralibs="-lm"/extralibs=""/g\' configure',
 		'sed -i.bak \'s/SHFLAGS=-shared/SHFLAGS=/g\' configure',
 		'sed -i.bak \'s/extralibs="$extralibs -lws2_32 -lwinmm -limagehlp"/extralibs="$extralibs -lws2_32 -lwinmm -lz -lbz2 -lssp"/g\' configure',
+		# DEBUG for zlib not found:
+		#'sed -i.BAK0 \'s|if docc -lz $LDFLAGS ; then|if docczlib -lz \$LDFLAGS ; then|\' configure',
+		#'sed -i.BAK1 \'s|docc()|docczlib() {\\n \$cc -o \$TMPO \$TMPC \$@ \\n \$cc -o \$TMPO \$TMPC \$@ 0\>/dev/null 2\>\$TMPL\\n dolog $@\\n}\\ndocc()|\' configure',
 	],
 	'env_exports' : {
-		'CFLAGS'   : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -municode "',
-		'CXXFLAGS' : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -municode "',
-		'CPPFLAGS' : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -municode "',
-		'LDFLAGS'  : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -municode "',
+		'CFLAGS'   : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 ',
+		'CXXFLAGS' : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 ',
+		'CPPFLAGS' : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 ',
+		'LDFLAGS'  : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 ',
 	},
-	'configure_options' : '--host={target_host} --target-os={bit_name3} --prefix={output_prefix}/mp4box_git.installed --cross-prefix={cross_prefix_bare} '
+	#'cpu_count' : '1',
+	'configure_options' : '--host={target_host} --target-os={bit_name3} --prefix={target_prefix} --cross-prefix={cross_prefix_bare} '
         '--enable-static --static-modules --static-build --static-bin --disable-shared '
         '--disable-docs --disable-ipv6 --enable-mem-track --enable-depth '
         '--disable-oss-audio --disable-x11 '
-        '--use-ffmpeg=no '
+#        '--use-ffmpeg=no '
         #'--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION " '
-        #'--extra-ldflags=" -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc " '
-        #'--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc " '
-        #'--extra-ldflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc " '
-        '--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -municode " '
-        '--extra-ldflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -municode " '
-		'--extra-libs=" -L{target_prefix}/lib -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
+        #'--extra-ldflags=" -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
+        #'--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
+        #'--extra-ldflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
+        '--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
+        '--extra-ldflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
+		'--extra-libs=" -L{target_prefix}/lib/ -lbz2 -lavutil -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 " '
 		#'--disable-all '
 		'--enable-mem-track --enable-depth --enable-sdl-static '
 		'--enable-avi --enable-m2ps --enable-m2ts --enable-m2ts-mux --enable-parsers --enable-import '
