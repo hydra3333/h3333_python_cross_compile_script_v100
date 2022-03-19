@@ -93,6 +93,7 @@
 		'shaderc',
 		'libplacebo',
 		'libffmpeg_extra',
+		'libmpv',
 	],
 	#'patches': [ 
 	#	('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'), # 2020.09.01 replaced by the 4 "sed" below
