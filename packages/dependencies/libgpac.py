@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'depth_git' : 0,
 	'url' : 'https://github.com/gpac/gpac.git',
-	'branch' : 'tags/v2.0.0',
+	#'branch' : 'tags/v2.0.0',
 	#'folder_name' : 'gpac_lib_git',
 	#'rename_folder' : 'gpac_lib_git',
 	'do_not_bootstrap' : True,
