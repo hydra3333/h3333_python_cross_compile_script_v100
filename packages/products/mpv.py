@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/mpv-player/mpv.git',
 	'build_system' : 'waf',
 	'conf_system' : 'waf',
-	'rename_folder' : 'mpv_git',
+	'rename_folder' : 'mpv_product_git',
 	#'env_exports' : {
 	#	'DEST_OS' : 'win32',
 	#	'TARGET'  : '{target_host}',
@@ -18,6 +18,15 @@
 	},
 	'custom_cflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} ', # 2020.05.13 
 	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -fstack-protector-strong -lvulkan -lz -ld3d11 -lintl -liconv ',
+	#'patches': [
+	#	('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'), # resolve naming collision with xavs2
+	#],
+	'run_post_regexreplace' : [ # 2022.03.18 replace the patch with some sed # resolve naming collision with xavs2
+		'sed -i.bak \'s/encoder_encode(/encoder_encode_mpv(/g\' audio/out/ao_lavc.c',
+		'sed -i.bak \'s/encoder_encode(/encoder_encode_mpv(/g\' common/encode_lavc.c',
+		'sed -i.bak \'s/encoder_encode(/encoder_encode_mpv(/g\' common/encode_lavc.h',
+		'sed -i.bak \'s/encoder_encode(/encoder_encode_mpv(/g\' video/out/vo_lavc.c',
+	],
 	'configure_options' :
 		'--prefix={output_prefix}/mpv_git.installed '
 		'TARGET={target_host} '
@@ -94,15 +103,6 @@
 		'libplacebo',
 		'libffmpeg_extra',
 		'libmpv',
-	],
-	#'patches': [ 
-	#	('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'), # 2020.09.01 replaced by the 4 "sed" below
-	#],
-	'run_post_regexreplace' : [
-		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "audio/out/ao_lavc.c"',  # 2020.09.01 replaces the patch above
-		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "common/encode_lavc.c"', # 2020.09.01 replaces the patch above
-		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "common/encode_lavc.h"', # 2020.09.01 replaces the patch above
-		'sed -i.bak1 "s/encoder_encode(/encoder_encode_mpv(/g" "video/out/vo_lavc.c"',  # 2020.09.01 replaces the patch above
 	],
 	'run_post_install' : (
 		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.com',
