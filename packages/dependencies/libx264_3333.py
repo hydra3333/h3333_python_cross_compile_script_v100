@@ -34,8 +34,8 @@
 		'zlib', 
 		'opencl_non_icd', # 2020.06.09
 		# 2020.06.09 only the x264 package, not the libx264 dependency depends on libffmpeg_extra being built first,
-		'libffmpeg_extra',   # 2021.07.21 lsmashworks no longer builds :( 'liblsw',  # 2019.12.13 HolyWu's lsw does not need avresample as it uses libswresample # 2018.11.23 superseded: liblsw required --enable-avresample which was deprecated
-		'libgpac',  # libgpac depends on libffmpeg
+		#'libffmpeg_extra',   # 2021.07.21 lsmashworks no longer builds :( 'liblsw',  # 2019.12.13 HolyWu's lsw does not need avresample as it uses libswresample # 2018.11.23 superseded: liblsw required --enable-avresample which was deprecated
+		#'libgpac',  # libgpac depends on libffmpeg
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'x264_3333 (library) multibit' },
