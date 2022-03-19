@@ -13,8 +13,10 @@
 		'sed -i.bak \'s/SHFLAGS=-shared/SHFLAGS=/g\' configure',
 		'sed -i.bak \'s/extralibs="$extralibs -lws2_32 -lwinmm -limagehlp"/extralibs="$extralibs -lws2_32 -lwinmm -lz -lbz2 -lssp"/g\' configure',
 		# DEBUG for zlib not found:
-		#'sed -i.BAK0 \'s|if docc -lz $LDFLAGS ; then|if docczlib -lz \$LDFLAGS ; then|\' configure',
-		#'sed -i.BAK1 \'s|docc()|docczlib() {\\n \$cc -o \$TMPO \$TMPC \$@ \\n \$cc -o \$TMPO \$TMPC \$@ 0\>/dev/null 2\>\$TMPL\\n dolog $@\\n}\\ndocc()|\' configure',
+		#'sed -i.BAK0 \'s|has_ffmpeg="no"|has_ffmpeg="system"|g\' configure',
+		#'diff -U 1 configure.BAK0 configure && echo "NO difference" || echo "YES differences!"',
+		#'sed -i.BAK1 \'s|ffmpeg_cflags=""|ffmpeg_cflags="-L{target_prefix}/lib/ -lz -lavcodec -lavformat -lavutil -lavdevice -lswscale -lswresample -lavfilter \$ffmpeg_extra_ldflags"\\nhas_ffmpeg="system"|\' configure',
+		#'diff -U 5 configure.BAK1 configure && echo "NO difference" || echo "YES differences!"',
 	],
 	'env_exports' : {
 		'CFLAGS'   : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavdevice -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 ',
@@ -44,7 +46,9 @@
 		'--use-vorbis=system '
 		'--use-theora=system '
 		'--use-ogg=system '
-		'--use-ffmpeg=system '
+		'--use-ffmpeg=no '
+		#'--use-ffmpeg=local '
+		#'--use-ffmpeg=system '
     ,
 	#'run_post_configure' : [ 
 	#	'./check_revision.sh', # 2021.04.10 per https://github.com/rdp/ffmpeg-windows-build-helpers/commit/f8f1c51573b7e3a85183e9f2a1ddcb6895d1e844
