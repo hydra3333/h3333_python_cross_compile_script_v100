@@ -4,7 +4,9 @@
 	#'depth_git' : 0,
 	#'branch' : 'tags/v1.2.135',
 	# Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE PER https://github.com/KhronosGroup/Vulkan-Loader/commit/0c0ac2c6c458acdb8ca28902fc990342902fc0a3#diff-4a527f83a3a4ca7e1d70adb26a35b72e
-	'recursive_git' : True, 
+	#'recursive_git' : True, 
+	'conf_system' : 'cmake',
+	'source_subfolder' : '_build',
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
@@ -27,11 +29,9 @@
 		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
-	'conf_system' : 'cmake',
-	'source_subfolder' : '_build',
-	'patches' : [
-		#('vulkan/0001-mingw-workarounds-deadsix27-2021.10.30.patch','-p1','..'),
-	],
+	#'patches' : [
+	#	#('vulkan/0001-mingw-workarounds-deadsix27-2021.10.30.patch','-p1','..'),
+	#],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi -lglslang"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27 # 2020.10.11 libglslang
