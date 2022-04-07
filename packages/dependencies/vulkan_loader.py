@@ -10,17 +10,16 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
+		'-DENABLE_WERROR=OFF ' # 2022.04.08
 		'-DBUILD_LOADER=ON '
+		'-DBUILD_STATIC_LOADER=ON '     # 2021.10.30 per deadsix27
+		'-DENABLE_STATIC_LOADER=ON '    # 2021.10.30 per deadsix27
+		'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2022.04.08 back in
+		'-DUSE_MASM=OFF '                # 2021.10.30 per deadsix27
+		'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.12 comment out
 		'-DBUILD_TESTS=OFF '
 		'-DUSE_CCACHE=OFF ' # 2020.05.11 per MABS 
-		#'-DCMAKE_ASM_COMPILER="$(command -v nasm)" ' # 2020.05.11 per MABS but without the .exe
 		#'-DSTRSAFE_NO_DEPRECATE=ON ' # 2020.08.21 per MABS
-		'-DUNIX=OFF '                 # 2020.05.11 per MABS # 2020.10.12 comment out
-		'-DUSE_MASM=OFF '                # 2021.10.30 per deadsix27
-		#'-DBUILD_STATIC_LOADER=ON '   # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
-		'-DBUILD_STATIC_LOADER=ON '     # 2021.10.30 per deadsix27
-		#'-DENABLE_STATIC_LOADER=ON '  # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE
-		'-DENABLE_STATIC_LOADER=ON '    # 2021.10.30 per deadsix27
 		'-DUSE_UNSAFE_C_GEN=ON ' # 2020.10.10 per MABS https://github.com/m-ab-s/media-autobuild_suite/commit/7034e948ca14323514fca98c83adc1ec7720909e
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
