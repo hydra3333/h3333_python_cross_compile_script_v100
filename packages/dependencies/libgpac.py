@@ -3,6 +3,7 @@
 	'depth_git' : 0,
 	'url' : 'https://github.com/gpac/gpac.git',
 	#'branch' : 'tags/v2.0.0',
+	#'branch' : '1c4256fe98b848dddb7cb65b698e4689587d687c',
 	#'folder_name' : 'gpac_lib_git',
 	#'rename_folder' : 'gpac_lib_git',
 	'do_not_bootstrap' : True,
@@ -38,18 +39,25 @@
 		'--enable-avi --enable-m2ps --enable-m2ts --enable-m2ts-mux --enable-parsers --enable-import '
 		'--enable-loader-isoff --enable-loader-bt --enable-loader-xmt '
 		'--enable-isoff --enable-isoff-write --enable-isoff-hint --enable-isoff-frag --enable-isoff-hds '
-		'--enable-streaming --enable-hevc --enable-nvdec '
+		'--enable-streaming '
 		'--enable-streaming '
 		'--enable-hevc '
 		'--enable-nvdec '
 		'--use-a52==system '
 		'--use-zlib==system '
+		#'--use-vorbis=local '
 		'--use-vorbis=system '
+		#'--use-vorbis=no '
+		#'--use-theora=local '
 		'--use-theora=system '
-		'--use-ogg=system '
-		'--use-ffmpeg=no '
+		#'--use-theora=no '
+		#'--use-ogg=local '
+		#'--use-ogg=system '
+		#'--use-ogg=no '
+		'-disable-ogg ' # 2022.04.08 x264 won't build with ogg built :( duplicate definitions at link time
 		#'--use-ffmpeg=local '
 		#'--use-ffmpeg=system '
+		'--use-ffmpeg=no '
     ,
 	#'run_post_configure' : [ 
 	#	'./check_revision.sh', # 2021.04.10 per https://github.com/rdp/ffmpeg-windows-build-helpers/commit/f8f1c51573b7e3a85183e9f2a1ddcb6895d1e844
