@@ -53,7 +53,7 @@
 		#'--use-theora=no '
 		#'--use-ogg=local '
 		#'--use-ogg=system '
-		#'--use-ogg=no '
+		'--use-ogg=no '
 		'-disable-ogg ' # 2022.04.08 x264 won't build with ogg built :( duplicate definitions at link time
 		#'--use-ffmpeg=local '
 		#'--use-ffmpeg=system '
