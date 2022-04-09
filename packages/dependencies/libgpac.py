@@ -52,10 +52,10 @@
 		#'--use-theora=system '
 		'--use-theora=no '
 		'-disable-theora ' # 2022.04.09
-		#'--use-ogg=local '
+		'--use-ogg=local '
 		#'--use-ogg=system '
-		'--use-ogg=no '
-		'-disable-ogg ' # 2022.04.08 x264 won't build with ogg built :( duplicate definitions at link time
+		#'--use-ogg=no '
+		#'-disable-ogg ' # 2022.04.08 x264 won't build with ogg built :( duplicate definitions at link time
 		#'--use-ffmpeg=local '
 		#'--use-ffmpeg=system '
 		'--use-ffmpeg=no '
