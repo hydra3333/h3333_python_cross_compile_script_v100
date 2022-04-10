@@ -2138,6 +2138,26 @@ class CrossCompileScript:
 				self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(f_formatted, dst))
 				shutil.copyfile(f_formatted, dst)
 
+			# 2022.04.10 add something just before patch !
+			if 'run_justbefore_patch' in packageData and packageData['run_justbefore_patch']:
+					for cmd in packageData['run_justbefore_patch']:
+						ignoreFail = False
+						if isinstance(cmd, tuple):
+							cmd = cmd[0]
+							ignoreFail = cmd[1]
+						if cmd.startswith("!SWITCHDIRBACK"):
+							self.cchdir(currentFullDir)
+						elif cmd.startswith("!SWITCHDIR"):
+							_dir = self.replaceVariables("|".join(cmd.split("|")[1:]))
+							self.cchdir(_dir)
+						else:
+							self.logger.debug("Running justbefore_patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.12.13
+							cmd = self.replaceVariables(cmd)
+							self.logger.info("Running justbefore_patch-command: '{0}'".format(cmd))
+							# self.run_process(cmd)
+							self.logger.debug(cmd)
+							self.runProcess(cmd, ignoreFail)
+
 		if 'patches' in packageData:
 			if packageData['patches'] is not None:
 				for p in packageData['patches']:
@@ -2154,6 +2174,7 @@ class CrossCompileScript:
 			#				self.handleRegexReplace(r, packageName)
 			#			except re.error as e:
 			#				self.errorExit(e)
+			#
 
 			if 'run_post_patch' in packageData and packageData['run_post_patch']:
 					for cmd in packageData['run_post_patch']:
