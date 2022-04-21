@@ -7,7 +7,7 @@
 	'source_subfolder' : '_build',
 	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.3 -DCMAKE_BUILD_TYPE=Release',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
-								'-DENABLE_64_BIT_WORDS=ON -DBUILD_PROGRAMS=OFF -DINSTALL_PKGCONFIG_MODULES=ON -DINSTALL_MANPAGES=OFF -DBUILD_SHARED_LIBS=OFF '
+								'-DENABLE_64_BIT_WORDS=ON -DBUILD_PROGRAMS=OFF -DBUILD_UTILS=OFF -DINSTALL_PKGCONFIG_MODULES=ON -DINSTALL_MANPAGES=OFF -DBUILD_SHARED_LIBS=OFF '
 								'-DWITH_OGG=ON -DBUILD_DOCS=OFF -DWITH_STACK_PROTECTOR=ON -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.4 '
 								'-DCMAKE_BUILD_TYPE=Release',
 #	'patches': [
@@ -24,10 +24,12 @@
 		#'sed -i.bak "s/Libs: -L${libdir} -lFLAC/Libs: -L${libdir} -lFLAC -lssp/" ../src/libFLAC/flac.pc.in',
 		#'diff -U 5 "../src/libFLAC/flac.pc.in.bak" "../src/libFLAC/flac.pc.in"  && echo "NO difference" || echo "YES differences!"',
 		#
-		#'sed -i.bak "s|add_subdirectory(\"microbench\")||g" ../CMakeLists.txt',
-		#'sed -i.bak "s|add_subdirectory(utils/flacdiff)||g" ../src/CMakeLists.txt',
-		#'sed -i.bak "s|add_subdirectory(utils/flactimer)||g" ../src/CMakeLists.txt',
-		#'diff -U 5 "../src/CMakeLists.txt.bak" "../src/CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak \'s|add_subdirectory("microbench")||g\' ../CMakeLists.txt',
+		'diff -U 5 "../CMakeLists.txt.bak" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		'cp -fv ../src/CMakeLists.txt ../src/CMakeLists.txt.orig',
+		'sed -i.bak "s|add_subdirectory(utils/flacdiff)||g"  ../src/CMakeLists.txt',
+		'sed -i.bak "s|add_subdirectory(utils/flactimer)||g" ../src/CMakeLists.txt',
+		'diff -U 5 "../src/CMakeLists.txt.orig" "../src/CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 		#
 		'pwd ; cd .. ; sh ./autogen.sh --no-symlink ; cd _build ; pwd',
 	],
