@@ -24,6 +24,11 @@
 		#'sed -i.bak "s/Libs: -L${libdir} -lFLAC/Libs: -L${libdir} -lFLAC -lssp/" ../src/libFLAC/flac.pc.in',
 		#'diff -U 5 "../src/libFLAC/flac.pc.in.bak" "../src/libFLAC/flac.pc.in"  && echo "NO difference" || echo "YES differences!"',
 		#
+		#
+		'sed -i.bak "s|__declspec(dllimport)||g" ../include/FLAC++/export.h',
+		'diff -U 5 "../include/FLAC++/export.h.bak" "../include/FLAC++/export.h"  && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak "s|__declspec(dllimport)||g" ../include/FLAC/export.h',
+		'diff -U 5 "../include/FLAC/export.h.bak" "../include/FLAC/export.h"  && echo "NO difference" || echo "YES differences!"',
 		'sed -i.bak \'s|add_subdirectory("microbench")||g\' ../CMakeLists.txt',
 		'diff -U 5 "../CMakeLists.txt.bak" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 		'cp -fv ../src/CMakeLists.txt ../src/CMakeLists.txt.orig',
@@ -32,6 +37,12 @@
 		'diff -U 5 "../src/CMakeLists.txt.orig" "../src/CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 		#
 		'pwd ; cd .. ; sh ./autogen.sh --no-symlink ; cd _build ; pwd',
+	],
+	'run_post_install' : [
+		'sed -i.bak "s|__declspec(dllimport)||g" {target_prefix}/include/FLAC++/export.h',
+		'diff -U 5 "{target_prefix}/include/FLAC++/export.h.bak" "{target_prefix}/include/FLAC++/export.h"  && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak "s|__declspec(dllimport)||g" {target_prefix}/include/FLAC/export.h',
+		'diff -U 5 "{target_prefix}/include/FLAC/export.h.bak" "{target_prefix}/include/FLAC/export.h"  && echo "NO difference" || echo "YES differences!"',
 	],
 	'depends_on' : [
 		'libogg',
