@@ -10,26 +10,27 @@
 								'-DENABLE_64_BIT_WORDS=ON -DBUILD_PROGRAMS=OFF -DINSTALL_PKGCONFIG_MODULES=ON -DINSTALL_MANPAGES=OFF -DBUILD_SHARED_LIBS=OFF '
 								'-DWITH_OGG=ON -DBUILD_DOCS=OFF -DWITH_STACK_PROTECTOR=ON -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DVERSION=1.3.4 '
 								'-DCMAKE_BUILD_TYPE=Release',
-	'patches': [
-		('flac/0001-mingw-fix-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
-		('flac/0001-mingw-fix-src-CMakeLists-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
-	],
+#	'patches': [
+#		('flac/0001-mingw-fix-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
+#		('flac/0001-mingw-fix-src-CMakeLists-2020.05.14.patch', '-p1', '..'), # 2020.05.11 from deadsix27
+#	],
 	'run_post_patch' : [
+		'sed -i.bak "s/#elif defined(_WIN32)/#elif defined(_MSC_VER)/" ../include/FLAC++/export.h',
+		'diff -U 5 "../include/FLAC++/export.h.bak" "../include/FLAC++/export.h"  && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak "s/#elif defined(_WIN32)/#elif defined(_MSC_VER)/" ../include/FLAC/export.h',
+		'diff -U 5 "../include/FLAC/export.h.bak" "../include/FLAC/export.h"  && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak "s/Libs: -L${libdir} -lFLAC/Libs: -L${libdir} -lFLAC -lssp/" ../src/libFLAC++/flac++.pc.in',
+		'diff -U 5 "../src/libFLAC++/flac++.pc.in.bak" "../src/libFLAC++/flac++.pc.in"  && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak "s/Libs: -L${libdir} -lFLAC/Libs: -L${libdir} -lFLAC -lssp/" ../src/libFLAC/flac.pc.in',
+		'diff -U 5 "../src/libFLAC/flac.pc.in.bak" "../src/libFLAC/flac.pc.in"  && echo "NO difference" || echo "YES differences!"',
+		#
+		'sed -i.bak "s|add_subdirectory(\"microbench\")||g" ../CMakeLists.txt',
+		'sed -i.bak "s|    add_subdirectory(utils/flacdiff)||g" ../src/CMakeLists.txt',
+		'sed -i.bak "s|        add_subdirectory(utils/flactimer)||g" ../src/CMakeLists.txt',
+		'diff -U 5 "../src/CMakeLists.txt.bak" "../src/CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		#
 		'pwd ; cd .. ; sh ./autogen.sh --no-symlink ; cd _build ; pwd',
 	],
-	'regex_replace': {
-		'post_patch': [
-			{
-				0: r'add_subdirectory\("microbench"\)',
-				'in_file': '../CMakeLists.txt'
-			},
-            # {
-			# 	0: r'add_definitions\(-DHAVE_CONFIG_H\)',
-			# 	1: r'add_definitions\(-DHAVE_CONFIG_H -D_FORTIFY_SOURCE=0\)',
-			# 	'in_file': '../src/CMakeLists.txt'
-			# },
-		],
-	},
 	'depends_on' : [
 		'libogg',
 	],
