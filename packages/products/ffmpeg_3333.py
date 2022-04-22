@@ -128,7 +128,7 @@
 		'--disable-frei0r '				# 2021.02.03
 		#'--disable-filter=frei0r '		# 2021.02.03
 		'--enable-libsrt '
-		'--enable-libbs2b '
+		'--disable-libbs2b ' #'--enable-libbs2b #  2022.04.22 commented out
 		#'--enable-libwavpack ' # 'libwavpack' deleted from ffmpeg 2020.10.04
 		'--enable-libilbc '
 		'--disable-libgme '		# 2021.02.03
@@ -213,7 +213,7 @@
 		'libsnappy',
 		#'frei0r',				# 2021.02.03
 		'srt_3333',
-		'libbs2b',
+		#'libbs2b',  # 2022.04.22 commented out
 		#'wavpack', # deleted from ffmpeg 2020.10.04
 		'libilbc',
 		#'libgme_game_music_emu',				# 2021.02.03
