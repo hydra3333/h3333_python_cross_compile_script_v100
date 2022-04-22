@@ -9,7 +9,7 @@
 		'libsnappy',
 		'frei0r',
 		'srt',
-		'libbs2b',
+		#'libbs2b', # 2022.04.22 commented out
 		#'wavpack', # deleted from ffmpeg 2020.10.04
 		'libilbc',
 		'libgme_game_music_emu',
