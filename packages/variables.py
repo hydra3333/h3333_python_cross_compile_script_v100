@@ -101,7 +101,7 @@
 		'--enable-frei0r '
 		'--enable-filter=frei0r '
 		'--enable-libsrt '
-		'--enable-libbs2b '
+		'--disable-libbs2b ' # '--enable-libbs2b ' # 2022.04.22 commented out
 		#'--enable-libwavpack ' # 'libwavpack' deleted from ffmpeg 2020.10.04
 		'--enable-libilbc '
 		'--enable-libgme '
