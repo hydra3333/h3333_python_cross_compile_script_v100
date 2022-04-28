@@ -46,11 +46,10 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
     #
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-    'checkout' : 'tags/v9.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
+    'checkout' : 'tags/v10.0.0', # see calling  .py  -'mingw_commit': 'tags/v9.0.0', 
     #
 	#'git_shallow': True,
 	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-    #
 	#'patches' : [ # 2020.05.16 test patch per bug report https://sourceforge.net/p/mingw-w64/bugs/839/#e4f0
   	#	( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/01-test.patch' , 'p1' ),
 	#],
@@ -105,8 +104,8 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	#'version'   : '10.3.0', # stable versions ... builds libmediainfo OK
-	'version'   : '11.2.0',
+	#'version'   : '11.2.0',
+	'version'   : '11.3.0',
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
