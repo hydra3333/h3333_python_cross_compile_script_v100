@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://code.videolan.org/videolan/dav1d.git',
-	'conf_system' : 'meson',
+	'conf_system' : 'meson', # not cmake
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
 	#'env_exports' : { # 2020.09.17 remove fortify_source sue to link errors
@@ -40,7 +40,7 @@
 		'-Denable_docs=false '
 		'-Dtestdata_tests=false '
 		'-Denable_asm=true '
-		'-DBITDEPTHS=["8","16"] '
+		'-Dbitdepths="[\'8\',\'16\']" '
 		'--cross-file={meson_env_file} ./ ..'
 	,
   	#'run_post_regexreplace' : [ # 2019.12.13
