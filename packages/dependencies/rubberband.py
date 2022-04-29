@@ -19,15 +19,15 @@
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
-		'--default-library=static '
+		'--default-library=static --strip '
 		'--buildtype=release '
 		'--backend=ninja '
 		'-Dno_shared=true '
 		'-Dresampler=libsamplerate '
-		'-DUSE_PTHREADS=true '
-		'-DHAVE_POSIX_MEMALIGN=true '
+		'-Duse_pthreads=true '
+		'-Dhave_posix_memalign=true '
 		'-Dfft=fftw '
-		'-DHAVE_FFTW3=true '
+		'-Dhave_fftw3=true '
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'depends_on' : [
