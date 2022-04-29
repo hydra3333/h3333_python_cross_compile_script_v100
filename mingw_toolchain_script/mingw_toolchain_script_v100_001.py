@@ -91,7 +91,8 @@ SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/)   https://libisl.sourcefo
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.37',
+	#'version': '2.37',
+	'version': '2.38',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
