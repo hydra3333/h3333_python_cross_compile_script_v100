@@ -23,7 +23,7 @@
 		'--target-os={target_OS} ' #  to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
 		'--cross-prefix={cross_prefix_bare} '
 		'--pkg-config=pkg-config '
-		'--pkg-config-flags=--shared '
+		#'--pkg-config-flags=--shared '
 		'--enable-shared --disable-static '
 		'--disable-w32threads '
 		'--enable-pthreads ' 
