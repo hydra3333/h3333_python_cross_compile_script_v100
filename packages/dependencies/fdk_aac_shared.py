@@ -16,6 +16,9 @@
 	],
 	#'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_INSTALL_LIBDIR={target_prefix}/lib -DBUILD_SHARED_LIBS=ON -DBUILD_PROGRAMS=OFF -DCMAKE_BUILD_TYPE=Release',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={output_prefix}/fdk_aac_shared.installed -DCMAKE_INSTALL_LIBDIR={output_prefix}/fdk_aac_shared.installed/lib  -DBUILD_SHARED_LIBS=ON -DBUILD_PROGRAMS=OFF -DCMAKE_BUILD_TYPE=Release',
+	'run_post_install' : [
+		'cp -fv "{output_prefix}/fdk_aac_shared.installed/lib/libfdk-aac-2.dll" "{output_prefix}/fdk_aac_shared.installed/lib/libfdk-aac.dll"',
+	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'fdk-aac-shared' },
 }
