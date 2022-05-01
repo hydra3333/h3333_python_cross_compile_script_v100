@@ -154,7 +154,7 @@
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" '	# 2021.02.03
 		'--extra-libs=" -lssp " '
 		## ####################################################################################
-		'--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
+		'--prefix={output_prefix}/ffmpeg_git_3333.installed '
 		## ####################################################################################
 		,
 	'depends_on' : [ 

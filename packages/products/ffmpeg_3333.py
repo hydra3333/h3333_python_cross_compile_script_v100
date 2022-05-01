@@ -15,7 +15,7 @@
 	#	('ffmpeg/ffmpeg-windres-fix.patch', '-p0' ), # 2021.04.10 for binutils 2.36.1 per https://github.com/rdp/ffmpeg-windows-build-helpers/pull/558/commits/4ec72f9f9dab96f7d2fcb1d5935deded53f4ec21
 	#],
 	'configure_options' : 
-		'--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
+		'--prefix={output_prefix}/ffmpeg_git_3333.installed '
 		## ####################################################################
 		## Main
 		##
@@ -154,7 +154,7 @@
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" '	# 2021.02.03
 		'--extra-libs=" -lssp " '
 		## ####################################################################################
-		'--prefix={output_prefix}/ffmpeg_git_3333.installed --disable-shared --enable-static '
+		'--prefix={output_prefix}/ffmpeg_git_3333.installed '
 		## ####################################################################################
 		,
 	'depends_on' : [ 
