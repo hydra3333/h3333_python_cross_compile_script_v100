@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/mstorsjo/fdk-aac.git',
+	'rename_folder' : 'fdk-aac_shared',
 	# Note does not like to be compiled without optimisations: error: inlining failed in call to always_inline 'void fft_4(FIXP_DBL*)': indirect function call with a yet undetermined callee
 	# So make sure to empty the cflags or enable optimisations when your global c(xx)flags are defaulting to -0g/0:
 	# 'custom_cflag': '',
