@@ -3,7 +3,8 @@
 	'url' : 'https://github.com/libressl-portable/portable.git',
 	'depth_git' : 0,
 	#'branch' : 'tags/v3.4.1',   # 2021.11.10 is broken some time after this release
-	'branch' : 'tags/v3.4.2',   # 2021.12.05 well, try v3.4.2 to see if it works - if not, revert to 3.4.1
+	#'branch' : 'tags/v3.4.2',   # 2021.12.05 well, try v3.4.2 to see if it works - if not, revert to 3.4.1
+	'branch' : 'tags/v3.5.2',   # 2022.05.06 well, try v3.5.2
 	'recursive_git' : True,
 	'folder_name' : 'libressl_git',
 	#--------------------
@@ -24,7 +25,7 @@
 	#--------------------
 	'depends_on' : [ ], # 2019.12.13
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (v3.4.2)', 'fancy_name' : 'libressl' },
+	'_info' : { 'version' : 'git (v3.5.2)', 'fancy_name' : 'libressl' },
 }
 # 2019.12.13 old:
 #	'libressl' : { # 2018.11.12 since git libressl is broken :( :( :( ... build per Alexpux

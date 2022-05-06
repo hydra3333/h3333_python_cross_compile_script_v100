@@ -1,8 +1,10 @@
 { # 2021.12.05 https://pcre.org/ says now use https://github.com/PhilipHazel/pcre2.git
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+		#{ 'url' : 'https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.39.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440' }, ], },
+		{ 'url' : 'https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.40/pcre2-10.40.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '14e4b83c4783933dc17e964318e6324f7cae1bc75d8f3c79bc6969f00c159d68' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/pcre2-10.40.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '14e4b83c4783933dc17e964318e6324f7cae1bc75d8f3c79bc6969f00c159d68' }, ], },
 	],
     #
 	#'repo_type' : 'git',
@@ -27,5 +29,5 @@
 	],
 	#'update_check' : { 'type' : 'git', },
    	'update_check' : { 'url' : 'https://github.com/PhilipHazel/pcre2/releases/download', 'type' : 'githubreleases', 'name_or_tag' : 'name' },
-	'_info' : { 'version' : 'pcre2-10.39', 'fancy_name' : 'pcre2' },
+	'_info' : { 'version' : 'pcre2-10.40', 'fancy_name' : 'pcre2' },
 }

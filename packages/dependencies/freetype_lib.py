@@ -2,14 +2,12 @@
 	'repo_type' : 'archive',
 	'download_locations' : [
         # freetype 2.11.0 kills mp4box building, so keep freetype 2.10.4 ? mp4box fails anyway so just keep going
-		#{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.10.4/freetype-2.10.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784' }, ], }, # 2020.11.05
-		#{ 'url' : 'https://fossies.org/linux/misc/freetype-2.10.4.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784' }, ], }, # 2020.11.05
-        #{ 'url' : 'https://download.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7' }, ], },
-		#{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.11.0/freetype-2.11.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/freetype-2.11.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7' }, ], },
-        { 'url' : 'https://download.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8' }, ], },
-		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8' }, ], },
+        #{ 'url' : 'https://download.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8' }, ], },
+		#{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/freetype-2.11.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8' }, ], },
+        { 'url' : 'https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f' }, ], },
+		{ 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/2.12.1/freetype-2.12.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/freetype-2.12.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f' }, ], },
 	],
 	#'conf_system' : 'cmake',
 	#'source_subfolder' : '_build',
@@ -50,5 +48,5 @@
 	],
 	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
     'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', },
-	'_info' : { 'version' : '2.11.1', 'fancy_name' : 'freetype2_lib' },
+	'_info' : { 'version' : '2.12.1', 'fancy_name' : 'freetype2_lib' },
 }

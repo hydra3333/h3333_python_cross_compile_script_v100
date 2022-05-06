@@ -4,6 +4,8 @@
 	'download_locations' : [
 		{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.72/glib-2.71.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.72.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2' }, ], },
 	],
 	# 2020.05.12 DISABLED changed to use my configure to be like deadsix27 (i.e. without old PCRE)
 	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static '
