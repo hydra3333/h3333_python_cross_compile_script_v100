@@ -38,10 +38,10 @@
 		#'./autogen.sh NOCONFIGURE=1', # 2019.12.13 # 2020.05.12 comment out to be more like deadsix27
 	],
 	'patches' : [
-		('glib2/0001-Update-g_fopen-g_open-and-g_creat-to-open-with-FILE_.patch', '-Np1', '..'), 
-		('glib2/0002-disable_glib_compile_schemas_warning.patch', '-Np1', '..'), 
+		('glib2/ALEXPUX_2.72.1_0001-Update-g_fopen-g_open-and-g_creat-to-open-with-FILE_.patch', '-Np1', '..'), 
+		('glib2/ALEXPUX_2.72.1_0002-disable_glib_compile_schemas_warning.patch', '-Np1', '..'), 
 		# https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2613
-		('glib2/0003-gtestutils-include-stdlib.patch', '-Np1', '..'), 
+		('glib2/ALEXPUX_2.72.1_0003-gtestutils-include-stdlib.patch', '-Np1', '..'), 
   	],
 	'run_post_install' : [
 		'cp -fv "glib-2.0.pc" "glib-2.0.pc.orig"',
