@@ -27,7 +27,7 @@
 		'-Dtests=false '
 		'-Dman=false '
 		'-Dlibmount=disabled '
-		'-Dfam-false '
+		'-Dfam=false '
 		'-Dforce_posix_threads=true '
 		'--cross-file={meson_env_file} ./ ..'
 	,
