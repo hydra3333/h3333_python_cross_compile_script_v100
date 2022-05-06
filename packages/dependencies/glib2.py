@@ -2,10 +2,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [
-		#{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
-		{ 'url' : 'https://download.gnome.org/sources/glib/2.72/glib-2.72.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/glib-2.72.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2' }, ], },
+		{ 'url' : 'https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/glib-2.58.3.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '8f43c31767e88a25da72b52a40f3301fefc49a665b56dc10ee7cc9565cbe7481' }, ], },
+		#{ 'url' : 'https://download.gnome.org/sources/glib/2.72/glib-2.72.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/glib-2.72.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2' }, ], },
 	],
 	# 2020.05.12 DISABLED changed to use my configure to be like deadsix27 (i.e. without old PCRE)
 	#'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static '
@@ -29,10 +29,10 @@
 		('glib2/0001-disable-some-tests-when-static.patch', '-Np1' ),              # 2019.12.13
 		('glib2/0001-Revert-tests-W32-ugly-fix-for-sscanf-format.patch', '-Np1' ), # 2019.12.13
 		#
-		('glib2/ALEXPUX_2.72.1_0001-Update-g_fopen-g_open-and-g_creat-to-open-with-FILE_.patch', '-Np1', '..'), 
-		('glib2/ALEXPUX_2.72.1_0002-disable_glib_compile_schemas_warning.patch', '-Np1', '..'), 
-		# https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2613
-		('glib2/ALEXPUX_2.72.1_0003-gtestutils-include-stdlib.patch', '-Np1', '..'), 
+		#('glib2/ALEXPUX_2.72.1_0001-Update-g_fopen-g_open-and-g_creat-to-open-with-FILE_.patch', '-Np1', '..'), 
+		#('glib2/ALEXPUX_2.72.1_0002-disable_glib_compile_schemas_warning.patch', '-Np1', '..'), 
+		## https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2613
+		#('glib2/ALEXPUX_2.72.1_0003-gtestutils-include-stdlib.patch', '-Np1', '..'), 
 	],
 	'custom_ldflag' : ' {original_cflags} -lintl -liconv -lintl ',
 	'run_post_install' : [
@@ -46,7 +46,8 @@
 	],
 	'depends_on' : [ 'iconv', 'gettext', 'pcre2', 'libffi', 'zlib', 'python3_libs', 'libelf' ], # 2020.05.12 'pcre', # 2019.12.13 added my stuff, removed 'pcre' ... testing if pcre2 is good enough
 	'update_check' : { 'url' : 'https://developer.gnome.org/glib/', 'type' : 'httpregex', 'regex' : r'<a class="doc-link" href="2.58/" lang="">(?P<version_num>[\d.]+)<\/a>' },
-	'_info' : { 'version' : '2.71.2', 'fancy_name' : 'glib2 lib' },
+	'_info' : { 'version' : '2.58.1', 'fancy_name' : 'glib2 lib' },
+	#'_info' : { 'version' : '2.71.2', 'fancy_name' : 'glib2 lib' },
 }
 
 
