@@ -105,8 +105,8 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	#'version'   : '11.3.0',
-	'version'   : '12.1.0',
+	'version'   : '11.3.0',
+	#'version'   : '12.1.0',
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#'patches': [
 		#( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-gcc_7_1_0_weak_refs_x86_64.patch', 'p1' ),
