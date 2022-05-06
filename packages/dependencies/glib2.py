@@ -33,7 +33,7 @@
 	,
 	'run_post_regexreplace' : [
 		'if [ ! -f "INSTALL" ] ; then touch INSTALL ; fi',
-		, 'pwd ; cd .. ; autoreconf -fiv ; cd build ; pwd',
+		'pwd ; cd .. ; autoreconf -fiv ; cd build ; pwd',
 		#'rm -fv ./configure',  # 2019.12.13 # 2020.05.12 comment out to be more like deadsix27
 		#'./autogen.sh NOCONFIGURE=1', # 2019.12.13 # 2020.05.12 comment out to be more like deadsix27
 	],
