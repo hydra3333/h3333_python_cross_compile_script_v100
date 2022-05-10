@@ -1,10 +1,10 @@
 { # cmake doesn't work, throws an issue with custom_cflags
 	'repo_type' : 'archive', # 2020.05.11 change to download the archive
 	'download_locations' : [ # https://www.libsdl.org/release/
-		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.20.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c56aba1d7b5b0e7e999e4a7698c70b63a3394ff9704b5f6e1c57e0c16f04dd06' }, ], },
-		#{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.20.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c56aba1d7b5b0e7e999e4a7698c70b63a3394ff9704b5f6e1c57e0c16f04dd06' }, ], },
 		{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.22.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852ab9dd87960697f2e' }, ], },
 		{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.22.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852ab9dd87960697f2e' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/SDL2-2.0.23.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '???' }, ], },
+		#{ 'url' : 'https://www.libsdl.org/release/SDL2-2.0.23.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '???' }, ], },
 	],
 	#
 	#'conf_system' : 'cmake',
@@ -30,6 +30,11 @@
 	#'run_post_regexreplace' : (
 	#	'../autogen.sh --build-w64 ',							 
 	#),
+	#
+	# 2022.05.10 MABS added the below to patch ffmpeg, so when 2.23 is released we should add it to all ffmpeg product/dependency .py !
+	#'patches' : [
+	#	('ffmpeg/MABS-0001-configure-add-check-for-sdl2-2.23.0.patch', '-Np1'),
+	#],
 	#
 	'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static',
 	'regex_replace': {
