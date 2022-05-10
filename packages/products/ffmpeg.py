@@ -10,8 +10,9 @@
 		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags} -lssp ', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
 		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags} -lssp ',
 	},
+	# 2022.05.10 MABS added the below to patch ffmpeg, so when 2.23 is released we should add it to all ffmpeg product/dependency .py !
 	#'patches' : [
-	#	('ffmpeg/ffmpeg-windres-fix.patch', '-p0' ), # 2021.04.10 for binutils 2.36.1 per https://github.com/rdp/ffmpeg-windows-build-helpers/pull/558/commits/4ec72f9f9dab96f7d2fcb1d5935deded53f4ec21
+	#	('ffmpeg/MABS-0001-configure-add-check-for-sdl2-2.23.0.patch', '-Np1'),
 	#],
 	'configure_options' : 
 		'!VAR(ffmpeg_config)VAR! '
