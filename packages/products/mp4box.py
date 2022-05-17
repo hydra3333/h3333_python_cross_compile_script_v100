@@ -17,6 +17,8 @@
 		#'diff -U 1 configure.BAK0 configure && echo "NO difference" || echo "YES differences!"',
 		#'sed -i.BAK1 \'s|ffmpeg_cflags=""|ffmpeg_cflags="-L{target_prefix}/lib/ -lz -lavcodec -lavformat -lavutil -lavdevice -lswscale -lswresample -lavfilter \$ffmpeg_extra_ldflags"\\nhas_ffmpeg="system"|\' configure',
 		#'diff -U 5 configure.BAK1 configure && echo "NO difference" || echo "YES differences!"',
+		'sed -i.bak "s/Psapi.h/psapi.h/g" applications/gpac/compositor_tools.c',
+		'sed -i.bak "s/Psapi.h/psapi.h/g" applications/deprecated/mp4client/main.c',
 	],
 	'env_exports' : {
 		'CFLAGS'   : ' {original_cflags} -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavdevice -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 ',
