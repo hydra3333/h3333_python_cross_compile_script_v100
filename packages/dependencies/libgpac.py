@@ -26,8 +26,10 @@
         '--disable-docs --disable-ipv6 --enable-mem-track --enable-depth '
         '--enable-sdl-static '
         '--disable-oss-audio --disable-x11 '
-        '--extra-cflags="-DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION" '
-        '--extra-ldflags="-L{target_prefix}/lib -lbz2" '
+        '--extra-cflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavdevice -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -lpsapi " '
+        #'--extra-ldflags="-L{target_prefix}/lib -lbz2 -lpsapi " '
+		'--extra-ldflags=" -DGPAC_STATIC_MODULES -DLIBXML_STATIC -DGLIB_STATIC_COMPILATION -L{target_prefix}/lib/ -lbz2 -lavutil -lavdevice -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -lpsapi " '
+		'--extra-libs=" -L{target_prefix}/lib/ -lbz2 -lavutil -lavdevice -lavcodec -lavfilter -lavformat -lpostproc -lz -lbz2 -lpsapi " '
         #'--use-ffmpeg=local --extra-ldflags="-L{target_prefix}/lib -lavutil -lavcodec -lavfilter -lavformat -lpostproc" ' # add ffmpeg 
     , # 2019.12.13 # 2020.05.13 remove --sdl-cfg={cross_prefix_full}sdl2-config 
 	#'run_post_configure' : [ 
