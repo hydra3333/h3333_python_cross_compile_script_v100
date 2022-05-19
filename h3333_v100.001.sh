@@ -94,16 +94,16 @@ fi
 sleep 5s
 #read -p "done ffmpeg_static_non_free_opencl press any key to continue"
 
-#rm -fv ./x264.log
-#./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./x264.log
-#exit_status=$?
-#echo "exit_status='$exit_status'"
-#if [ $exit_status -ne 0 ]; then
-#    echo "Error $exit_status detected"
-#	exit $exit_status
-#fi
-#sleep 5s
-##read -p "done x264 press any key to continue"
+rm -fv ./x264.log
+./cross_compiler_v100_001.py --force --debug -p x264 2>&1 | tee -a ./x264.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+sleep 5s
+#read -p "done x264 press any key to continue"
 #
 #
 #rm -fv ./x265.log
