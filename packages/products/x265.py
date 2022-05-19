@@ -10,6 +10,7 @@
 	'configure_options' : 
 		'../source {cmake_prefix_options} '
 		'-DCMAKE_AR={cross_prefix_full}ar '
+		'-DCMAKE_INSTALL_PREFIX={output_prefix}/x265.installed '
 		'-DENABLE_SHARED=OFF '
 		'-DENABLE_ASSEMBLY=ON '
 		'-DENABLE_SHARED=OFF '
@@ -18,7 +19,6 @@
 		'-DEXTRA_LINK_FLAGS="-L{offtree_prefix}/libx265_10bit/lib;-L{offtree_prefix}/libx265_12bit/lib" '
 		'-DLINKED_10BIT=ON '
 		'-DLINKED_12BIT=ON '
-		'-DCMAKE_INSTALL_PREFIX={output_prefix}/x265.installed'
 		'-DLIBXML_STATIC=ON '
 		'-DGLIB_STATIC_COMPILATION=ON ' # 2019.12.13
 		'-DENABLE_HDR10_PLUS=ON ' # 2020.07.27
