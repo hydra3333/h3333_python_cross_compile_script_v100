@@ -78,7 +78,7 @@
 		'--enable-nvenc '
 		'--enable-nvdec '
 		'--enable-dxva2 '
-		'--enable-libmfx '
+		#'--enable-libmfx ' # 2022.05.25 comment out intel_quicksync_mfx since ffmpeg quicksync no longer detects https://github.com/lu-zero/mfx_dispatch.git as valid.
 		'--enable-amf '
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
