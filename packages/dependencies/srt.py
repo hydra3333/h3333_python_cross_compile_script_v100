@@ -15,7 +15,7 @@
 							'-DENABLE_CXX_DEPS=on '
 							'-DUSE_STATIC_LIBSTDCXX=on '
 							'-DENABLE_INET_PTON=off '
-							'-DUSE_GNUTLS=on '
+							#'-DUSE_GNUTLS=on ' # USE_GNUTLS is deprecated. Use -DUSE_ENCLIB=gnutls instead
 							'-DUSE_ENCLIB=gnutls '
 							'-DHAICRYPT_USE_OPENSSL_EVP=off '
 							'-DHAICRYPT_USE_OPENSSL_AES=off '
