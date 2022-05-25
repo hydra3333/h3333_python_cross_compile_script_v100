@@ -37,7 +37,7 @@
 		#'lensfun',  # 2020.05.12 comment out so we do not have to build glib2
 		'libwebp',
 		'nv-codec-headers',
-		'intel_quicksync_mfx',
+		#'intel_quicksync_mfx', # 2022.05.25 comment out intel_quicksync_mfx since ffmpeg quicksync no longer detects https://github.com/lu-zero/mfx_dispatch.git as valid.
 		'amf_headers',
 		#'opencl_icd', # 2020.11.24
 		'opencl_non_icd', # 2020.11.24
