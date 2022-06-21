@@ -2,8 +2,10 @@
 # 2021.01.31 we could consider adding libdeflate for libtiff : https://github.com/ebiggers/libdeflate/tags
 	'repo_type' : 'archive',
 	'download_locations' : [
-		{ 'url' : 'https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/tiff-4.3.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8' }, ], },
+		#{ 'url' : 'https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/tiff-4.3.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8' }, ], },
+		{ 'url' : 'https://download.osgeo.org/libtiff/tiff-4.4.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/tiff-4.4.0.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed' }, ], },
 	],
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
@@ -22,5 +24,5 @@
 		'zlib', 'libjpeg-turbo', 'libwebp',
 	],
 	'update_check' : { 'url' : 'https://download.osgeo.org/libtiff/?C=M;O=D', 'type' : 'httpindex', 'regex' : r'tiff-(?P<version_num>[\d.]+)\.tar\.gz' },
-	'_info' : { 'version' : '4.3.0', 'fancy_name' : 'libtiff' },
+	'_info' : { 'version' : '4.4.0', 'fancy_name' : 'libtiff' },
 }
