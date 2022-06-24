@@ -20,6 +20,9 @@
 			}
 		]
 	},
+	'run_post_regexreplace' : [
+		'pwd ; sh ./autogen.sh ',
+	],
 	'depends_on' : [
 		'zlib', 'libjpeg-turbo', 'libwebp',
 	],
