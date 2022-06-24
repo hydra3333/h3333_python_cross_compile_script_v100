@@ -23,7 +23,6 @@
 	'run_post_regexreplace' : [
 		'pwd ; cd .. ; sh ./autogen.sh ; cd _build ; pwd',
 	],
-	],
 	'depends_on' : [
 		'zlib', 'libjpeg-turbo', 'libwebp',
 	],
