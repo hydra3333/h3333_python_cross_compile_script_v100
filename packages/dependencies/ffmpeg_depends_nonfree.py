@@ -1,6 +1,6 @@
 {
 	'is_dep_inheriter' : True,
 	'depends_on' : [
-		'decklink_headers', 'fdk_aac'
+		'fdk_aac', # 2022.06.25 remove 'decklink_headers', 
 	],
 }
