@@ -9,11 +9,13 @@
 	],
 	'run_post_regexreplace' : [
 		'git submodule update --remote --recursive', # MABS: git submodule update --init --recursive
-	],
-	'run_post_patch' : [
 		#'autoreconf -fiv', # 2020.11.07 from MABS 
 		'sh ./autogen.sh',
 	],
+	#'run_post_patch' : [
+	#	#'autoreconf -fiv', # 2020.11.07 from MABS 
+	#	'sh ./autogen.sh',
+	#],
 	'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --enable-x86simd -disable-testapp --disable-example --disable-unit-test --disable-debug', # 2019.12.13
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'zimg' },
