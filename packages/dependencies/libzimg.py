@@ -9,7 +9,7 @@
 	],
 	'run_post_regexreplace' : [
 		'git submodule update --init --recursive',
-		'git submodule update --remote --recursive', # MABS: git submodule update --init --recursive
+		##'git submodule update --remote --recursive', # MABS: git submodule update --init --recursive
 		#'autoreconf -fiv', # 2020.11.07 from MABS 
 		'sh ./autogen.sh',
 	],
