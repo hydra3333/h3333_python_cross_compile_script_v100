@@ -88,7 +88,7 @@
 		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all, #2020.10.12 moved here from ffmpeg_extra_config
 	,
 
-	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac --enable-decklink', # --enable-cuda-sdk # nonfree stuff
+	'ffmpeg_nonfree': '--enable-nonfree --enable-libfdk-aac', # --enable-cuda-sdk # nonfree stuff # 2022.06.26 remove --enable-decklink
 
 	'ffmpeg_extra_config' :
 		'--enable-libtwolame '
