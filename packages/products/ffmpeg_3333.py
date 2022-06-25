@@ -2,7 +2,7 @@
 	# 2021.02.03 - minimum viable for NV/Vapoursynth/mp4/h.264/h.265/mpeg2/aac,ac3,etc conversions
 	'repo_type' : 'git',
 	'url' : 'git://git.ffmpeg.org/ffmpeg.git',
-	#'depth_git': 0,
+	'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
 	'rename_folder' : 'ffmpeg_3333',
 	'env_exports' : { # 2020.06.19
