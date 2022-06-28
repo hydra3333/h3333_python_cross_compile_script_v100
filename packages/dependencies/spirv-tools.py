@@ -17,6 +17,7 @@
 		'-DSPIRV_TOOLS_BUILD_STATIC=ON '
 		'-DSPIRV_SKIP_EXECUTABLES=ON '
 		'-DSPIRV_SKIP_TESTS=ON '
+		'-DSKIP_SPIRV_HEADERS_INSTALL=ON '
 	,
 	#
 	# If SPIR-V Tools is configured as a standalone project, then 
