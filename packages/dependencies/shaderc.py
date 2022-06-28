@@ -68,6 +68,8 @@
 				'in_file': '../third_party/glslang/glslang/Include/Common.h'
 			},
 		],
+	},
+	'post_regex_replace': {
 		'pwd',
 		'if [ !-d "../third_party" ] ; then mkdir -pv "../third_party" ; fi',
 		'if [ -d "../third_party/glslang" ] ; then rm -fvR "../third_party/glslang" ; fi',
