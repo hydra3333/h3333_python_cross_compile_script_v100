@@ -28,16 +28,10 @@
 		'-Dtests=false '
 		'-Dbench=false '
 		'-Ddemos=false ' # 2021.04.09 try this from MABS
-		'-Dd3d11=enabled ' # 2022.06.28 form MABS
 		'--cross-file={meson_env_file} ./ ..'
 	,
-	'run_post_regexreplace' : [
-		'pwd',
-		'if [ ! -d "{target_prefix}/share" ] ; then mkdir -pv "{target_prefix}/share" ; fi',
-		'if [ ! -d "{target_prefix}/share/vulkan" ] ; then mkdir -pv "{target_prefix}/share/vulkan" ; fi',
-		'if [ ! -d "{target_prefix}/share/vulkan/registry" ] ; then mkdir -pv "{target_prefix}/share/vulkan/registry" ; fi',
-	],
-	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', 'vulkan_loader' ], # 2022.06.28 'spirv-tools' dependency is in glslang
+	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', ], # 2021.10.30 add spirv-tools # 'vulkan_loader',	2020.10.12 comment out vulkan since it an no longer be statically linked
+	'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_loader' ], # 2021.10.30 re-try 'vulkan_loader'
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }
