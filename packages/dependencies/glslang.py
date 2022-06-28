@@ -17,7 +17,7 @@
 		'-DENABLE_CTEST=OFF '
 	,
 	'run_post_patch' : [ 
-		'rm -vf "./compile_commands.json"'
+		'rm -vf "./compile_commands.json"',
 		'if [ -d "../external/googletest" ] ; then rm -fvR   "External/googletest" ; fi',
 		'git clone https://github.com/google/googletest.git  External/googletest',
 		#' echo "TEMPORARY NOTICE: additionally perform the following to avoid a current breakage in googletest:"',
