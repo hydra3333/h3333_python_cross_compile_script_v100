@@ -48,7 +48,7 @@
 	#	'--buildtype=release '
 	#	'--cross-file={meson_env_file} ./ ..'
 	'patches' : [
-		('spirv-cross/0001-add-a-basic-Meson-build-system-for-use-as-a-subproje-MABS-2022.06.28.patch','-p1','..'),
+		('spirv-cross/0001-add-a-basic-Meson-build-system-for-use-as-a-subproje-MABS-2022.06.28.patch', '-Np1', '..'),
 	],
 	'run_post_patch' : [
 		'ls -al "{target_prefix}/lib/pkgconfig/spirv-cross.pc"',

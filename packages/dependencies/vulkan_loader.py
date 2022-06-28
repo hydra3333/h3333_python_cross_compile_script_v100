@@ -29,8 +29,8 @@
 		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
 	'patches' : [
-		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.06.28.patch','-p1','..'),
-		('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.06.28','-p1','..'),
+		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.06.28.patch', '-Np1', '..'),
+		('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.06.28', '-Np1', '..'),
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27

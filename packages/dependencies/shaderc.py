@@ -89,8 +89,8 @@
 	#],
 	#
 	'patches' : [
-		('shaderc/0001-third_party-set-INSTALL-variables-as-cache-MABS-2022.06.28.patch','-p1','..'),
-		('shaderc/0002-shaderc_util-add-install-MABS-2022.06.28.patch','-p1','..'),
+		('shaderc/0001-third_party-set-INSTALL-variables-as-cache-MABS-2022.06.28.patch', '-Np1', '..'),
+		('shaderc/0002-shaderc_util-add-install-MABS-2022.06.28.patch',' -Np1', '..'),
 	],
 	#
 	'depends_on' : [ 'spirv-headers', 'spirv-tools', 'spirv-cross', 'glslang', ],
