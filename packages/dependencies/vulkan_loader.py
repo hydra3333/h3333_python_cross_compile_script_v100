@@ -63,12 +63,13 @@
 		'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
 		'sed -i.bak "s;/Lib;/lib;g" "{pkg_config_path}/vulkan.pc"',
 		#'cat {pkg_config_path}/vulkan.pc',		'ls -al {target_prefix}/lib/libvulkan*',
+		# patching ? sed ? fix the need to rename "-1"
 		#'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"',
-		'ls -al {target_prefix}/lib/libvulkan*',
-		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"',
-		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
-		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.dll.a"',
-		'ls -al {target_prefix}/lib/libvulkan*',
+		#'ls -al {target_prefix}/lib/libvulkan*',
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"',
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.dll.a"',
+		#'ls -al {target_prefix}/lib/libvulkan*',
 	],
 	#'depends_on' : [ 'glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'shaderc', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
 	'depends_on' : [  'vulkan_headers', 'vulkan-d3dheaders', ], # MABS/DEADSIX27 VULKAN depends only on these
