@@ -19,6 +19,11 @@
 		'-DSPIRV_SKIP_TESTS=ON '
 		'-DSKIP_SPIRV_HEADERS_INSTALL=ON '
 	,
+	#
+	# If SPIR-V Tools is configured as a standalone project, then 
+	# download the googletest source into the 
+	# <spirv-dir>/external/googletest 
+	# directory before configuring and building the project.
 	'run_post_regexreplace' : [
 		'pwd',
 		'!SWITCHDIR|../external',

@@ -31,6 +31,8 @@
 		#'git clone https://github.com/KhronosGroup/SPIRV-Headers.git ../external/spirv-headers',
 		'!SWITCHDIR|../external',
 		'ln -snf {inTreePrefix}/spirv-headers_likeMABS/ spirv-headers',
+		'pwd',
+		'ls -al',
 		'!SWITCHDIR|../_build',
 		'if [ -d "../external/googletest" ] ; then rm -fvR "../external/googletest" ; fi',
 		'if [ -d "../external/effcee" ] ; then rm -fvR "../external/effcee" ; fi',
