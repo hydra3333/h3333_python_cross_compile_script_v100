@@ -54,7 +54,7 @@
 		'cp -frv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
 		'cp -frv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
 		'cp -frv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
-		#'cp -frv "libshaderc/libshaderc.a" "{target_prefix}/lib/libshaderc.a"',
+		'cp -frv "libshaderc/libshaderc.a" "{target_prefix}/lib/libshaderc.a"',
 	],
 	#'depends_on' : ['glslang', 'spirv-headers', 'spirv-cross', 'spirv-tools', ],
 	'depends_on' : [ 'spirv-headers', 'spirv-cross', 'spirv-tools', 'glslang', ],
