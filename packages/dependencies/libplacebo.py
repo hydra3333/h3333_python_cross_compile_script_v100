@@ -38,7 +38,7 @@
 		'if [ ! -d "{target_prefix}/share/vulkan" ] ; then mkdir -pv "{target_prefix}/share/vulkan" ; fi',
 		'if [ ! -d "{target_prefix}/share/vulkan/registry" ] ; then mkdir -pv "{target_prefix}/share/vulkan/registry" ; fi',
 	],
-	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', 'vulkan_loader' ], # 2022.06.28 'spirv-tools_likeMABS' dependency is in glslang
+	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', 'vulkan_loader' ], # 2022.06.28 'spirv-tools' dependency is in glslang
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }
