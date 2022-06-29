@@ -60,11 +60,10 @@
 	},
 	'run_post_install' : [ 
 		#'cat {pkg_config_path}/vulkan.pc',
-		'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
 		'sed -i.bak "s;/Lib;/lib;g" "{pkg_config_path}/vulkan.pc"',
-		'cat {pkg_config_path}/vulkan.pc',		
-		#'ls -al {target_prefix}/lib/libvulkan*',
-		# patching ? sed ? fix the need to rename "-1"
+		'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
+		'cat {pkg_config_path}/vulkan.pc',
+		'ls -al {target_prefix}/lib/libvulkan*',
 		#'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"',
 		#'ls -al {target_prefix}/lib/libvulkan*',
 		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"',
