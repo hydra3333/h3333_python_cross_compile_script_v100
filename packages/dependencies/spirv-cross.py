@@ -3,8 +3,8 @@
 	'rename_folder' : 'spirv-cross',
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Cross.git',
 	'depth_git': 0,
-	'recursive_git' : True,	
-	# 2022.06.28 for now, stay with cmake not meson which MABS creates	
+	'recursive_git' : True,
+	# 2022.06.28 for now, stay with cmake not meson which MABS creates
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : 
@@ -53,6 +53,7 @@
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak "s/0.13.0/0.48.0/" ../meson.build',
+	],
 	'depends_on' : [ 'spirv-headers', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SPIRV Cross' },
