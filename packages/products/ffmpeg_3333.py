@@ -153,6 +153,7 @@
 		'--extra-cflags="-DMODPLUG_STATIC -lssp"  ' 	# 2021.02.03
 		'--extra-cflags="-DLIBXML_STATIC -lssp" '
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" '	# 2021.02.03
+		'--extra-cxxflags="-fpermissive" ' # 2022.06.29 per MABS
 		'--extra-libs=" -lssp " '
 		,
 	'depends_on' : [ 
