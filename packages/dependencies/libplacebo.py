@@ -24,6 +24,7 @@
 		'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
 		'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
 		#'-Dd3d11=enabled ' # 2022.06.28 from MABS
+		'-Dd3d11=disabled ' # 2022.06.28 from MABS
 		'-Dlcms=enabled '
 		'-Dtests=false '
 		'-Dbench=false '
