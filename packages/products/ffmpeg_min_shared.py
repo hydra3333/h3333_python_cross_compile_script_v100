@@ -2,9 +2,9 @@
 	# 2021.02.03 - minimum viable for NV/Vapoursynth/mp4/h.264/h.265/mpeg2/aac,ac3,etc conversions
 	'repo_type' : 'git',
 	'url' : 'git://git.ffmpeg.org/ffmpeg.git',
-	'depth_git': 0,
+	#'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
-	'rename_folder' : 'ffmpeg_3333',
+	'rename_folder' : 'ffmpeg_3333_shared',
 	'env_exports' : { # 2020.06.19
 		'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 		'CXXFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
@@ -16,7 +16,7 @@
 	#	('ffmpeg/MABS-0001-configure-add-check-for-sdl2-2.23.0.patch', '-Np1'),
 	#],
 	'configure_options' : 
-		'--prefix={output_prefix}/ffmpeg_git_3333.installed '
+		'--prefix={output_prefix}/ffmpeg_git_3333_shared.installed '
 		## ####################################################################
 		## Main
 		##
@@ -24,8 +24,8 @@
 		'--target-os={target_OS} ' #  to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
 		'--cross-prefix={cross_prefix_bare} '
 		'--pkg-config=pkg-config '
-		'--pkg-config-flags="--keep-system-libs --keep-system-cflags --static" ' # 2022.06.29 per MABS # '--pkg-config-flags=--static '
-		'--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
+		#'--pkg-config-flags=--shared '
+		'--enable-shared --disable-static '
 		'--disable-w32threads '
 		'--enable-pthreads ' 
 		'--enable-cross-compile '
@@ -33,7 +33,7 @@
 		'--enable-runtime-cpudetect '
 		'--enable-gpl '
 		'--enable-version3 '
-		'--extra-version="Hydra3333/python_cross_compile_script_v100/3333" '
+		'--extra-version="Hydra3333/python_cross_compile_script_v100/3333_shared" '
 		##
 		## Misc.
 		##
@@ -153,7 +153,6 @@
 		'--extra-cflags="-DMODPLUG_STATIC -lssp"  ' 	# 2021.02.03
 		'--extra-cflags="-DLIBXML_STATIC -lssp" '
 		'--extra-cflags="-DGLIB_STATIC_COMPILATION -lssp" '	# 2021.02.03
-		'--extra-cxxflags="-fpermissive" ' # 2022.06.29 per MABS
 		'--extra-libs=" -lssp " '
 		,
 	'depends_on' : [ 
@@ -230,7 +229,7 @@
 		'fdk_aac',
 	],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ffmpeg (static) 3333 SPECIAL' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ffmpeg (static) 3333_shared SPECIAL' },
 }
 #-------------------------------------------
 
