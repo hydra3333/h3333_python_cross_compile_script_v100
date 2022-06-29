@@ -19,6 +19,20 @@
 		'-DSPIRV_SKIP_TESTS=ON '
 		'-DSKIP_SPIRV_HEADERS_INSTALL=ON '
 	,
+	'run_post_regexreplace' : [
+		'pwd',
+		'!SWITCHDIR|../external',
+		'ln -snf {inTreePrefix}/spirv-headers/ spirv-headers',
+		'pwd',
+		'ls -al',
+		'!SWITCHDIR|../_build',
+		#'if [ -d "../external/googletest" ] ; then rm -fvR "../external/googletest" ; fi',
+		#'if [ -d "../external/effcee" ] ; then rm -fvR "../external/effcee" ; fi',
+		#'if [ -d "../external/re2" ] ; then rm -fvR "../external/re2" ; fi',
+		#'git clone https://github.com/google/googletest.git          ../external/googletest',
+		#'git clone https://github.com/google/effcee.git              ../external/effcee',
+		#'git clone https://github.com/google/re2.git                 ../external/re2',
+	],
 	'depends_on' : [ 'spirv-headers', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SPIRV Tools' },
