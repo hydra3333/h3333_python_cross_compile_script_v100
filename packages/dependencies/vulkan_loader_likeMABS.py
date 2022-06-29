@@ -73,7 +73,7 @@
 		'ls -al {target_prefix}/lib/libvulkan*',
 	],
 	#'depends_on' : [ 'glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'shaderc', 'vulkan_headers', 'vulkan-d3dheaders', ],
-	'depends_on' : [  'vulkan_headers_likeMABS', 'vulkan-d3dheaders_likeMABS', ], # MABS/DEADSIX27 VULKAN depends only on these
+	'depends_on' : [ 'vulkan_headers_likeMABS', 'vulkan-d3dheaders_likeMABS', ], # MABS/DEADSIX27 VULKAN depends only on these
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }

@@ -30,8 +30,9 @@
 		'-Ddemos=false ' # 2021.04.09 try this from MABS
 		'--cross-file={meson_env_file} ./ ..'
 	,
-	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', ], # 2021.10.30 add spirv-tools # 'vulkan_loader',	2020.10.12 comment out vulkan since it an no longer be statically linked
-	'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_loader' ], # 2021.10.30 re-try 'vulkan_loader'
+	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_loader' ],
+	'depends_on' : [ 'lcms2', 'glslang', 'shaderc', 'vulkan_loader' ], # 2022.06.28 'spirv-tools_likeMABS' dependency is in glslang
+
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }

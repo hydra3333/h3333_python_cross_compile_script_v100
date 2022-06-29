@@ -13,7 +13,7 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DSKIP_SPIRV_TOOLS_INSTALL=OFF '
+		'-DSKIP_SPIRV_TOOLS_INSTALL=ON '
 		'-DSPIRV_TOOLS_BUILD_STATIC=ON '
 		'-DSPIRV_SKIP_EXECUTABLES=ON '
 		'-DSPIRV_SKIP_TESTS=ON '

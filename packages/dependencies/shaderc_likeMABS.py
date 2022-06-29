@@ -95,7 +95,7 @@
 		('shaderc/0002-shaderc_util-add-install-MABS-2022.06.28.patch',' -Np1', '..'),
 	],
 	#
-	'depends_on' : [ 'spirv-headers_likeMABS', 'spirv-tools_likeMABS', 'spirv-cross_likeMABS', 'glslang_likeMABS', ],
+	'depends_on' : [ 'spirv-headers_likeMABS', 'spirv-cross_likeMABS', 'spirv-tools_likeMABS', 'glslang_likeMABS', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'shaderc' },
 }

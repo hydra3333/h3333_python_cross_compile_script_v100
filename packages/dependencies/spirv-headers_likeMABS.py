@@ -10,8 +10,7 @@
 	#'needs_configure' : False,
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
-	#'needs_make' : False,
-	#'needs_make_install' : False,
+
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '

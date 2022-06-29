@@ -66,7 +66,8 @@
 		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
 		#'ls -al {target_prefix}/lib/libvulkan*',
 	],
-	'depends_on' : [ 'glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'shaderc', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
+	#'depends_on' : [ 'glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'shaderc', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
+	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ], # MABS/DEADSIX27 VULKAN depends only on these
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
