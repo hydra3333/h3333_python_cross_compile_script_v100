@@ -25,7 +25,7 @@
 		'-DSPIRV_SKIP_EXECUTABLES=ON '
 		'-DSPIRV_TOOLS_BUILD_STATIC=ON '
 		'-DBUILD_SHARED_LIBS=OFF '
-		'-DSKIP_GLSLANG_INSTALL=N '
+		'-DSKIP_GLSLANG_INSTALL=ON '
 		'-DSKIP_SPIRV_HEADERS_INSTALL=ON '
 		'-DSKIP_SPIRV_CROSS_INSTALL=ON '
 		'-DSKIP_SPIRV_TOOLS_INSTALL=ON '
@@ -37,7 +37,7 @@
 	#-DSKIP_{GLSLANG,SPIRV_TOOLS,GOOGLETEST}_INSTALL=ON 
 	#-DSPIRV_HEADERS_SKIP_{INSTALL,EXAMPLES}=ON
 	#
-	##'needs_make_install' : False,
+	#'needs_make_install' : False,
 	#'build_options' : '',
 	#
 	'run_post_patch' : [ # 2020.04.08 eveything else uses run_post_regexreplace instead of run_post_patch, BUT shaderc depends on run_post_patch
