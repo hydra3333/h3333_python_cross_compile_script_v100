@@ -6,7 +6,7 @@
     'recursive_git' : True,
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
-	'source_subfolder' : 'build',
+	'source_subfolder' : '_build',
 	'patches' : [
 		#('libplacebo/115-from-MABS.patch', '-p1', '..'),	# 2022.01.02 revert patch per MABS
 	],
@@ -19,21 +19,22 @@
 		'--default-library=static '
 		'--buildtype=release '
 		'--backend=ninja '
-		'--buildtype=release '
-		#'-Dvulkan=enabled ' # 2021.11.01 it finds it better without this
+		'-Dvulkan=enabled ' # 2021.11.01 it finds it better without this
 		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '  # 2021.10.30 re-try vulkan
-		#'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
-		#'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
+		'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
+		'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
+		#'-Dd3d11=enabled ' # 2022.06.28 from MABS
 		'-Dlcms=enabled '
 		'-Dtests=false '
 		'-Dbench=false '
 		'-Ddemos=false ' # 2021.04.09 try this from MABS
-		'-Dd3d11=enabled ' # 2022.06.28 form MABS
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_loader' ],
 	'run_post_regexreplace' : [
 		'pwd',
+		'sed -i.bak "s/shaderc = dependency(\'shaderc\',/shaderc = dependency(\'shaderc_static\',/" ../src/meson.build',
+		'sed -i.bak "s/cross = dependency(\'spirv-cross-c-shared\',/cross = dependency(\'spirv-cross\',/" ../src/meson.build',
 		'if [ ! -d "{target_prefix}/share" ] ; then mkdir -pv "{target_prefix}/share" ; fi',
 		'if [ ! -d "{target_prefix}/share/vulkan" ] ; then mkdir -pv "{target_prefix}/share/vulkan" ; fi',
 		'if [ ! -d "{target_prefix}/share/vulkan/registry" ] ; then mkdir -pv "{target_prefix}/share/vulkan/registry" ; fi',
