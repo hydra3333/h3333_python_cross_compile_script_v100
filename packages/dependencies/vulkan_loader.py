@@ -28,12 +28,14 @@
 		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
-	#'patches' : [
-	#	#('vulkan/0001-mingw-workarounds-deadsix27-2021.10.30.patch','-p1','..'),
-	#],
+	'patches' : [
+		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.06.28.patch', '-Np1', '..'),
+		('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.06.28.patch', '-Np1', '..'),
+	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
 		'sed -i.bak \'s/ -lshlwapi -lcfgmgr32"/ -lcfgmgr32 -lpthread -lm -lshlwapi -lglslang"/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27 # 2020.10.11 libglslang
+		'sed -i.bak "s/\@VULKAN_LIB_SUFFIX\@//" ../loader/vulkan.pc.in',
 	],
 	'regex_replace': {
 		'post_install': [
@@ -60,13 +62,17 @@
 		#'cat {pkg_config_path}/vulkan.pc',
 		'sed -i.bak "s;/Lib;/lib;g" "{pkg_config_path}/vulkan.pc"',
 		'sed -i.bak "s/-lvulkan-1/-lvulkan/g" "{pkg_config_path}/vulkan.pc"',
-		#'cat {pkg_config_path}/vulkan.pc',		'ls -al {target_prefix}/lib/libvulkan*',
-		##'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
-		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
-		'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"', # Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE so do this ????
+		'cat {pkg_config_path}/vulkan.pc',
+		'ls -al {target_prefix}/lib/libvulkan*',
+		#'cp -fv "{target_prefix}/lib/libvulkan.dll.a" "{target_prefix}/lib/libvulkan.a"',
 		#'ls -al {target_prefix}/lib/libvulkan*',
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan.a"',
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.a"',
+		#'cp -fv "{target_prefix}/lib/libvulkan-1.dll.a" "{target_prefix}/lib/libvulkan-1.dll.a"',
+		'ls -al {target_prefix}/lib/libvulkan*',
 	],
-	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', ], # MABS/DEADSIX27 VULKAN depends only on these
+	#'depends_on' : [ 'glslang', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'shaderc', 'vulkan_headers', 'vulkan-d3dheaders', ], # 2020.10.11 libglslang
+	'depends_on' : [ 'vulkan_headers_likeMABS', 'vulkan-d3dheaders_likeMABS', ], # MABS/DEADSIX27 VULKAN depends only on these
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan Loader' },
 }
