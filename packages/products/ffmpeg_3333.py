@@ -24,7 +24,7 @@
 		'--target-os={target_OS} ' #  to enable mingw64 for 64-bit target ... {bit_name3} won't yield "mingw32" 
 		'--cross-prefix={cross_prefix_bare} '
 		'--pkg-config=pkg-config '
-		'--pkg-config-flags="--keep-system-cflags --static" ' # 2022.06.29 per MABS # '--pkg-config-flags=--static '
+		'--pkg-config-flags="--static" ' # 2022.06.29 per MABS # '--pkg-config-flags=--static '
 		'--disable-shared --enable-static ' # 2019.10.31 - I ENFORCE NOTHING BUT STATIC, disable shared !
 		'--disable-w32threads '
 		'--enable-pthreads ' 
