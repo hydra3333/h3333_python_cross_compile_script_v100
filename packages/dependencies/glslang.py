@@ -6,18 +6,15 @@
 	'recursive_git' : True,
 	'conf_system' : 'cmake', # from MABS 2020.10.10
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DCMAKE_BUILD_TYPE=Release '
-		'-DUNIX=OFF ' # 2020.10.12 comment out
 		'-DBUILD_SHARED_LIBS=OFF '
-		'-DBUILD_EXTERNAL=OFF '
+		'-DUNIX=OFF ' # 2020.10.12 comment out
 		'-DSKIP_GLSLANG_INSTALL=OFF '
 		'-DENABLE_GLSLANG_INSTALL=ON '
 		'-DENABLE_GLSLANG_BINARIES=OFF '
-		'-DENABLE_GLSLANG_JS=OFF '
-		'-DENABLE_OPT=ON '
 		'-DENABLE_CTEST=OFF '
 		'-DENABLE_GLSLANG_WEBMIN=OFF '
 		'-DUSE_CCACHE=OFF '
+		'-DCMAKE_BUILD_TYPE=Release ' #	 # from MABS 2020.10.10 -DENABLE_SPVREMAPPER=OFF
 	,
 	'run_post_patch' : [ 
 		'rm -vf "./compile_commands.json"'
