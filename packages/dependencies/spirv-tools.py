@@ -38,7 +38,7 @@
 		#'git clone https://github.com/google/effcee.git              ../external/effcee',
 		#'git clone https://github.com/google/re2.git                 ../external/re2',
 	],
-	'depends_on' : [ 'spirv-headers_likeMABS', ],
+	'depends_on' : [ 'spirv-headers', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SPIRV Tools' },
 }

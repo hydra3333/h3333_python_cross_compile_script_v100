@@ -75,7 +75,7 @@
 		('shaderc/0001-third_party-set-INSTALL-variables-as-cache-MABS-2022.06.28.patch', '-Np1', '..'),
 		('shaderc/0002-shaderc_util-add-install-MABS-2022.06.28.patch',' -Np1', '..'),
 	],
-	'depends_on' : [ 'spirv-headers_likeMABS', 'spirv-cross_likeMABS', 'spirv-tools_likeMABS', 'glslang_likeMABS', ],
+	'depends_on' : [ 'spirv-headers', 'spirv-cross', 'spirv-tools', 'glslang', ],
 
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'shaderc' },

@@ -53,7 +53,7 @@
 	'run_post_patch' : [ 
 		'sed -i.bak "s/0.13.0/0.48.0/" ../meson.build',
 	],
-	'depends_on' : [ 'spirv-headers_likeMABS', ],
+	'depends_on' : [ 'spirv-headers', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'SPIRV Cross' },
 

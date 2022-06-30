@@ -25,7 +25,7 @@
 	#'run_post_install' : [ 
 	#	'cp -vf "{target_prefix}/lib/libglslangd.a" "{target_prefix}/lib/libglslang.a"' # 2020.10.10 only needed if CMAKE_BUILD_TYPE not defined or is "Debug"
 	#],
-	'depends_on' : [  'spirv-cross_likeMABS', 'spirv-tools_likeMABS', ],
+	'depends_on' : [  'spirv-cross', 'spirv-tools', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git', 'fancy_name' : 'glslang' },
 }
