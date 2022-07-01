@@ -82,8 +82,17 @@
 		'--enable-amf '
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
-		#'--enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan '  # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
-		'--enable-vulkan --enable-filter=scale_vulkan --enable-filter=avgblur_vulkan --enable-filter=chromaber_vulkan --enable-filter=overlay_vulkan '  # 2021.10.30 re-try vulkan
+		'--enable-vulkan '
+			'--enable-filter=scale_vulkan '
+			'--enable-filter=avgblur_vulkan '
+			'--enable-filter=chromaber_vulkan '
+			'--enable-filter=overlay_vulkan '
+			'--enable-filter=blend_vulkan '
+			'--enable-filter=flip_vulkan '
+			'--enable-filter=gblur_vulkan '
+			'--enable-filter=hflip_vulkan '
+			'--enable-filter=transpose_vulkan '
+			'--enable-filter=vflip_vulkan '
 		'--extra-cflags="-DFRIBIDI_LIB_STATIC -lssp" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
 		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all, #2020.10.12 moved here from ffmpeg_extra_config
 		#
