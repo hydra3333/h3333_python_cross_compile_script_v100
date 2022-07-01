@@ -105,7 +105,7 @@
 		'--disable-libmfx '			# 2021.02.03
 		'--disable-amf '			# 2021.02.03
 		'--disable-opencl '			# 2021.02.03
-		'--enable-vulkan '
+		'--enable-vulkan  --enable-libshaderc --enable-libglslang '
 			'--enable-filter=scale_vulkan '
 			'--enable-filter=avgblur_vulkan '
 			'--enable-filter=chromaber_vulkan '
