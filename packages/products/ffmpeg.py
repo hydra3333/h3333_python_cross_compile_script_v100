@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
-	#'url' : 'git://git.ffmpeg.org/ffmpeg.git',
-	'url' : 'https://github.com/hydra3333/FFmpeg.git',
+	'url' : 'git://git.ffmpeg.org/ffmpeg.git', # for debug
+	#'url' : 'https://github.com/hydra3333/FFmpeg.git',
 	'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
 	'rename_folder' : 'ffmpeg',
@@ -15,7 +15,7 @@
 	#'patches' : [
 	#	('ffmpeg/MABS-0001-configure-add-check-for-sdl2-2.23.0.patch', '-Np1'),
 	#],
-	'cpu_count' : '1',
+	#'cpu_count' : '1', # FOR DEBUG
 	'configure_options' : 
 		'!VAR(ffmpeg_config)VAR! '
 		'!VAR(ffmpeg_extra_config)VAR! '
