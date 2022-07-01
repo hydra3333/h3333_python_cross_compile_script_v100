@@ -2,8 +2,8 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	'depth_git' : 0,
-	#'branch' : 'tags/v1.3.218',
-	'branch' : 'e91cfe1cf9c540597e969f3b01b16384ec4b9c50',
+	##'branch' : 'tags/v1.3.218',
+	#'branch' : 'e91cfe1cf9c540597e969f3b01b16384ec4b9c50',
 	# Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE PER https://github.com/KhronosGroup/Vulkan-Loader/commit/0c0ac2c6c458acdb8ca28902fc990342902fc0a3#diff-4a527f83a3a4ca7e1d70adb26a35b72e
 	#'recursive_git' : True, 
 	'conf_system' : 'cmake',
