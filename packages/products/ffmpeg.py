@@ -15,6 +15,7 @@
 	#'patches' : [
 	#	('ffmpeg/MABS-0001-configure-add-check-for-sdl2-2.23.0.patch', '-Np1'),
 	#],
+	'cpu_count' : '1',
 	'configure_options' : 
 		'!VAR(ffmpeg_config)VAR! '
 		'!VAR(ffmpeg_extra_config)VAR! '
