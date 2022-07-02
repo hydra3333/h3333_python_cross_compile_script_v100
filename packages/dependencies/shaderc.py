@@ -67,8 +67,11 @@
 	'run_post_build' : [
 		'cp -frv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
 		'cp -frv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
-		'cp -frv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
-		'cp -frv "libshaderc/libshaderc.a" "{target_prefix}/lib/libshaderc.a"',
+		#'cp -frv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
+		#'cp -frv "libshaderc/libshaderc.a" "{target_prefix}/lib/libshaderc.a"',
+		#'if [ ! -f "{target_prefix}/lib/pkgconfig/shaderc_shared.pc" ] ; then cp -frv "{target_prefix}/lib/pkgconfig/shaderc.pc" "{target_prefix}/lib/pkgconfig/shaderc_shared.pc" ; fi', # save a copy of shaderc.pc (it is "shared" by default)
+		'cp -frv "{target_prefix}/lib/pkgconfig/shaderc.pc" "{target_prefix}/lib/pkgconfig/shaderc_shared.pc"', # save a copy of shaderc.pc (it is "shared" by default)
+		'cp -frv "{target_prefix}/lib/pkgconfig/shaderc_static.pc" "{target_prefix}/lib/pkgconfig/shaderc.pc"', # make shaderc.pc the "static" version by copying the static, overwriting the "shared" default one
 	],
 	#
 	'patches' : [
@@ -76,7 +79,6 @@
 		('shaderc/0002-shaderc_util-add-install-MABS-2022.06.28.patch',' -Np1', '..'),
 	],
 	'depends_on' : [ 'spirv-headers', 'spirv-cross', 'spirv-tools', 'glslang', ],
-
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'shaderc' },
 }
