@@ -64,7 +64,7 @@
 		],
 	},
 	# 2022.06.28 ???????? DOES run_post_build NEED TO BE RUN ???????? leave it in for now
-	'run_post_build' : [
+	'run_post_install' : [
 		'cp -frv "../libshaderc/include/shaderc" "{target_prefix}/include/"',
 		'cp -frv "../libshaderc_util/include/libshaderc_util" "{target_prefix}/include/"',
 		#'cp -frv "libshaderc/libshaderc_combined.a" "{target_prefix}/lib/libshaderc_combined.a"',
