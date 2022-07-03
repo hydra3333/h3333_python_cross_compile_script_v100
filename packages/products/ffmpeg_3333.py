@@ -106,7 +106,7 @@
 		'--disable-amf '			# 2021.02.03
 		'--disable-opencl '			# 2021.02.03
 		#'--enable-vulkan --enable-libshaderc ' # --extra-libs="-lshaderc  -lshaderc_util"' # --enable-libglslang # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
-		'--enable-vulkan --enable-libglslang ' # --enable-libplacebo ' # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
+		'--enable-vulkan --enable-libglslang '  # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
 			'--enable-filter=scale_vulkan '
 			'--enable-filter=avgblur_vulkan '
 			'--enable-filter=chromaber_vulkan '
@@ -117,7 +117,8 @@
 			'--enable-filter=hflip_vulkan '
 			'--enable-filter=transpose_vulkan '
 			'--enable-filter=vflip_vulkan '
-			#'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
+		'--disable-libplacebo '
+		#'--extra-cflags="-DFRIBIDI_LIB_STATIC" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
 		'--extra-libs="-lpsapi -liconv -lssp" '#  add  -lssp for -fstack-protector-all, # 2021.04.11 removed -lintl  (ex gettext) #2020.10.12 moved here from ffmpeg_extra_config
 		##
 		## nonfree
