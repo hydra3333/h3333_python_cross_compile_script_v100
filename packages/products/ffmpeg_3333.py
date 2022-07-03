@@ -105,7 +105,8 @@
 		'--disable-libmfx '			# 2021.02.03
 		'--disable-amf '			# 2021.02.03
 		'--disable-opencl '			# 2021.02.03
-		'--enable-vulkan --enable-libshaderc --extra-libs="-lshaderc  -lshaderc_util"' # --enable-libglslang # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
+		#'--enable-vulkan --enable-libshaderc ' # --extra-libs="-lshaderc  -lshaderc_util"' # --enable-libglslang # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
+		'--enable-vulkan --enable-libglslang ' # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
 			'--enable-filter=scale_vulkan '
 			'--enable-filter=avgblur_vulkan '
 			'--enable-filter=chromaber_vulkan '
