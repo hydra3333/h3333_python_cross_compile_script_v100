@@ -30,7 +30,7 @@
 		'-Dbench=false '
 		'-Ddemos=false ' # 2021.04.09 try this from MABS
 		'-Dfuzz=false '
-		'-Dunwind=false '
+		'-Dunwind=disabled '
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_loader' ],
