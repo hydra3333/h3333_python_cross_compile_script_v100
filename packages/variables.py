@@ -82,7 +82,8 @@
 		'--enable-amf '
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
-		'--enable-vulkan --enable-libshaderc ' # --extra-libs="-lshaderc  -lshaderc_util"' # --enable-libglslang # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
+		#'--enable-vulkan --enable-libshaderc ' # --extra-libs="-lshaderc  -lshaderc_util"' # --enable-libglslang # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
+		'--enable-vulkan --enable-libglslang ' # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
 			'--enable-filter=scale_vulkan '
 			'--enable-filter=avgblur_vulkan '
 			'--enable-filter=chromaber_vulkan '
