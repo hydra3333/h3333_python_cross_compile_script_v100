@@ -22,13 +22,15 @@
 		'-Dvulkan=enabled ' # 2021.11.01 it finds it better without this
 		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '  # 2021.10.30 re-try vulkan
 		'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
-		'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
+		'-Dshaderc=disabled ' # 2021.11.01 it finds it better without this
 		#'-Dd3d11=enabled ' # 2022.06.28 from MABS
 		'-Dd3d11=disabled ' # 2022.06.28 from MABS
 		'-Dlcms=enabled '
 		'-Dtests=false '
 		'-Dbench=false '
 		'-Ddemos=false ' # 2021.04.09 try this from MABS
+		'-Dfuzz=false '
+		'-Dunwind=false '
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_loader' ],
