@@ -83,7 +83,7 @@
 		'--enable-opencl ' # 2019.12.13, added it, not sure why it wasn't in any of the configs ? depends on opencl_non_icd or opencl_icd
 		'--enable-opengl '
 		#'--enable-vulkan --enable-libshaderc ' # --extra-libs="-lshaderc  -lshaderc_util"' # --enable-libglslang # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
-		'--enable-vulkan --enable-libglslang ' # --enable-libplacebo ' # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
+		'--enable-vulkan --enable-libglslang '  # ERROR: libshaderc and libglslang are mutually exclusive, if in doubt, disable libglslang
 			'--enable-filter=scale_vulkan '
 			'--enable-filter=avgblur_vulkan '
 			'--enable-filter=chromaber_vulkan '
@@ -94,6 +94,7 @@
 			'--enable-filter=hflip_vulkan '
 			'--enable-filter=transpose_vulkan '
 			'--enable-filter=vflip_vulkan '
+		'--disable-libplacebo '
 		'--extra-cflags="-DFRIBIDI_LIB_STATIC -lssp" ' # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416 # --extra-libs="-lfribidi"
 		'--extra-libs="-lpsapi -lintl -liconv -lssp" ' # 2019.12.13 add  -lssp for -fstack-protector-all, #2020.10.12 moved here from ffmpeg_extra_config
 		#
