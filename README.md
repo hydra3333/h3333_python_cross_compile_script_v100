@@ -58,9 +58,8 @@ then to build just ffmpeg:
 3. `./h3333_v100.001_ff.sh`    
 or to build everything:    
 4. `./h3333_v100.001.sh`    
-
 5. To create your own new static `libOpenCL.a` wrapper after a new nvidia driver with OpenCL.dll is installed on a Win10x64 PC,
-and a new `libvulkan.a` wrapper after microsoft updates install a new vulkan dll, which you can upload into in your own fork, please see:  
+and a new `libvulkan-1.a` wrapper after microsoft updates install a new vulkan dll, which you can upload into in your own fork, please see:  
 `https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources`   
 since this method is used here, rather than building those OpenCL and vulkan_loader from source.   
 NOTE: we do it this way because khronos frequently updated stuff which then frequently broke building ffmpeg; Nvidia and Microsoft keep these updated reasonably frequently.   
