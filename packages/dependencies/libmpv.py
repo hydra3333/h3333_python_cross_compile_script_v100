@@ -67,8 +67,8 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		'--enable-vulkan ' # 2021.10.30 re-try vulkan
-		'--enable-libplacebo '
+		#'--enable-vulkan ' # 2021.10.30 re-try vulkan
+		#'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
 		'--disable-manpage-build '
