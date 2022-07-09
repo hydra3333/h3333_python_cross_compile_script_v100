@@ -1,7 +1,15 @@
-## THIS SCRIPT MAY NOT WORK ! 
+## THIS SCRIPT WILL PROBABLY NOT WORK !   
+## DO NOT RELY ON THIS TO SATISFY YOUR NEEDS
 (mainly due to upstream dependencies changing regularly)  
+
 Consider using deadsix27's at https://github.com/DeadSix27/python_cross_compile_script ... although that has ceased active maintenance.  
-Or, maybe use MABS https://github.com/m-ab-s/media-autobuild_suite if you don't mind installing stuff in your nice Win10 PC.  
+
+Or, preferably use MABS https://github.com/m-ab-s/media-autobuild_suite   
+... update: MABS works really well under Windows Sandbox and doesn't leave stuff on your PC - you can copy results from the Sandbox to your PC before closing the sandbox. 
+... perhaps see https://github.com/m-ab-s/media-autobuild_suite/issues/2227 for draft-oinly sample .wsb and whatnot
+
+Or, use rdp's loverly build system https://github.com/rdp/ffmpeg-windows-build-helpers
+
 
 ### A Linux to Windows x64 cross-compile script to build ffmpeg with dependencies   
 #### i.e. NVidia's NVENC encoder, OpenCL filters, and Vapoursynth input
