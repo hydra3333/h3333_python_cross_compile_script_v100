@@ -208,8 +208,8 @@
 		#'amf_headers',			# 2021.02.03
 		#'opencl_icd', # 2020.11.24
 		#'opencl_non_icd',		# 2021.02.03
-		#'vulkan_loader', # 2020.10.12 pith off vulkan since vulkan_loader can no longer be statically linked
-		'vulkan_loader', 'spirv-headers', 'spirv-cross', 'spirv-tools', 'libplacebo', 'shaderc',  # all these go together
+		'vulkan_from_windows_dll', # 'vulkan_loader',
+		'spirv-headers', 'spirv-cross', 'spirv-tools', 'libplacebo', 'shaderc',  # all these go together
 		'avisynth_plus_headers',
 		'sdl2', # 2020.05.13 re-enabled sdl2 # 2020.05.13 remove sdl2
 ##
