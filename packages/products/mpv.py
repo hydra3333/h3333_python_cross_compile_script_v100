@@ -69,7 +69,7 @@
 		'--enable-uchardet '
 		#'--enable-vulkan ' # 2020.10.12 comment out vulkan since it an no longer be statically linked
 		'--enable-vulkan ' # 2021.10.30 re-try vulkan
-		'--enable-libplacebo '
+		#'--enable-libplacebo '
 		'--enable-libarchive '
 		'--enable-javascript '
 		'--disable-manpage-build '
@@ -99,7 +99,7 @@
 		'libarchive',
 		'mujs',
 		'shaderc',
-		'libplacebo',
+		#'libplacebo',
 		'libffmpeg_extra',
 		'libmpv',
 	],
