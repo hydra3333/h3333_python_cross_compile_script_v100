@@ -41,8 +41,8 @@ libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried 
 
 ### How to build ?
 
-0. Probably fork your own https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git and then change a small number of things in .py files to point to your fork   
-1. Create an Ubuntu VM (tested with 20.04)   
+0. Probably fork your own `https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git` and then change a small number of things in .py files to point to your fork   
+1. Create an Ubuntu VM (tested with 20.04+)   
 2. login into ubuntu and start a Terminal window   
 ```
 sudo apt -y install git
@@ -59,19 +59,11 @@ then to build just ffmpeg:
 or to build everything:    
 4. `./h3333_v100.001.sh`    
 
-To create your own new static libOpenCL.a werapper after a new nvidia driver with OpenCL.dll is installed on a Win10x64 PC,
-and a new libvulkan.a wrapper after microsoft updates install a new vulkan dll, which you can upload into in your own fork, please see:  
-https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources   
+5. To create your own new static `libOpenCL.a` wrapper after a new nvidia driver with OpenCL.dll is installed on a Win10x64 PC,
+and a new `libvulkan.a` wrapper after microsoft updates install a new vulkan dll, which you can upload into in your own fork, please see:  
+`https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources`   
 since this method is used here, rather than building those OpenCL and vulkan_loader from source.   
 NOTE: we do it this way because khronos frequently updated stuff which then frequently broke building ffmpeg; Nvidia and Microsoft keep these updated reasonably frequently.   
-
-5. Copy `C:\Windows\System32\OpenCL.dll` to an Ubuntu vm with mingw etc installed into folder `~/Desktop/OpenCL/`   
-6. Then in Ubuntu    
-```
-/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/gendef OpenCL.dll
-/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-dlltool -l libOpenCL.a -d OpenCL.def -k -A
-```   
-7. Copy/upload/commit resulting `libOpenCL.a` and `libOpenCL.def` into the sources folder in the git   
 
 
 Good luck.
