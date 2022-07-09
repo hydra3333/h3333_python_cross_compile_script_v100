@@ -41,6 +41,7 @@ libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried 
 
 ### How to build ?
 
+0. Probably fork your own https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git and then change a small number of things in .py files to point to your fork   
 1. Create an Ubuntu VM (tested with 20.04)   
 2. login into ubuntu and start a Terminal window   
 ```
@@ -48,7 +49,7 @@ sudo apt -y install git
 cd ~/Desktop
 sudo chmod +777 -R ./*
 sudo rm -vfR ./h3333_python_cross_compile_script_v100
-git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git # or your fork
 cp -fv ./h3333_python_cross_compile_script_v100/*.sh ./
 sudo chmod +777 -R ./*
 ./h3333_v100.setup.sh # (once-off, before the first build)
@@ -58,7 +59,12 @@ then to build just ffmpeg:
 or to build everything:    
 4. `./h3333_v100.001.sh`    
 
-To create a new libOpenCL.a after a new nvidia driver is installed on a Win10x64 PC   
+To create your own new static libOpenCL.a werapper after a new nvidia driver with OpenCL.dll is installed on a Win10x64 PC,
+and a new libvulkan.a wrapper after microsoft updates install a new vulkan dll, which you can upload into in your own fork, please see:  
+https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources   
+since this method is used here, rather than building those OpenCL and vulkan_loader from source.   
+NOTE: we do it this way because khronos frequently updated stuff which then frequently broke building ffmpeg; Nvidia and Microsoft keep these updated reasonably frequently.   
+
 5. Copy `C:\Windows\System32\OpenCL.dll` to an Ubuntu vm with mingw etc installed into folder `~/Desktop/OpenCL/`   
 6. Then in Ubuntu    
 ```
@@ -69,18 +75,4 @@ To create a new libOpenCL.a after a new nvidia driver is installed on a Win10x64
 
 
 Good luck.
-
-**Now with ```docker``` (perhaps it'd work).**  
-
-Athough - I got sick of docker and haven't tried to use it in ages.  
-
-Perhaps instead use the above with Ubuntu in HyperV (it has some issues) or in VMWare etc.  
-
-The below will probably not work, now.  
-
-In the folder ```/docker/app``` are instructions for attempting to build and use a docker image,
-so that ffmpeg can be repeatably built easily in a disposable/re-usable docker container.  
-It's a tad convoluted, mainly because the standard ```docker build``` command 
-using a ```Dockerfile``` doesn't accept tty input which some of the dependency 
-installs depend on, thus we use another way (```commit```) to build basic docker images.   
 
