@@ -17,7 +17,7 @@
 		#'LDFLAGS' : '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ' # see my 'custom_ldflag' instead
 	},
 	'custom_cflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} ', # 2020.05.13 
-	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -fstack-protector-strong -lvulkan -lz -ld3d11 -lintl -liconv ',
+	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -fstack-protector-strong -lvulkan-1 -lz -ld3d11 -lintl -liconv ',
 	#'patches': [
 	#	('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'), # resolve naming collision with xavs2
 	#],
@@ -67,7 +67,6 @@
 		'--enable-lua '
 		'--enable-vapoursynth '
 		'--enable-uchardet '
-		#'--enable-vulkan ' # 2020.10.12 comment out vulkan since it an no longer be statically linked
 		'--enable-vulkan ' # 2021.10.30 re-try vulkan
 		'--enable-libplacebo '
 		'--enable-libarchive '
