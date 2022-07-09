@@ -78,8 +78,7 @@
 	'depends_on' : [
 		#'opencl_icd', # 2020.11.24
 		'opencl_non_icd', # 2020.11.24
-		#'vulkan_loader', # 2020.10.12 comment out vulkan since it can no longer be statically linked
-		'vulkan_loader', # 2021.10.30 re-try vulkan
+		'vulkan_from_windows_dll', # 'vulkan_loader',
 		'zlib',
 		#'libzimg', # including -lzimg always throws an error
 		'iconv',

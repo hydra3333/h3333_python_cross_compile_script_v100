@@ -18,8 +18,7 @@
 		'nv-codec-headers',
 		#'opencl_icd', # 2020.11.24
 		'opencl_non_icd', # 2020.11.24
-		#'vulkan_loader', # 2020.10.12 pith off vulcan since vulkan_loader can no longer be statically linked
-		'vulkan_loader', # 2021.10.30 re-try vulkan_loader
+		'vulkan_from_windows_dll', # 'vulkan_loader',
 		'fdk_aac',
 		'twolame',
 		#'wavpack', # deleted from ffmpeg 2020.10.04
