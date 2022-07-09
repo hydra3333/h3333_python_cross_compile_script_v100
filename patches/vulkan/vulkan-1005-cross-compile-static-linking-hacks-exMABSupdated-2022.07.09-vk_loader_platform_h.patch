@@ -1,5 +1,5 @@
 --- a/loader/vk_loader_platform.h	2022-07-08 17:16:03.760835000 -0700
-+++ b/loader/vk_loader_platform.h	2022-07-08 17:26:41.694433000 -0700
++++ b/loader/vk_loader_platform.h	2022-07-08 18:04:22.073796000 -0700
 @@ -201,15 +201,16 @@
  
  // The once init functionality is not used when building a DLL on Windows. This is because there is no way to clean up the
@@ -7,7 +7,7 @@
  // ones. When building a DLL, we use DllMain() instead to allow properly cleaning up resources.
  
 -#if defined(__APPLE__) && defined(BUILD_STATIC_LOADER)
-+##if defined(__APPLE__) && defined(BUILD_STATIC_LOADER)
++//#if defined(__APPLE__) && defined(BUILD_STATIC_LOADER)
 +#if defined(BUILD_STATIC_LOADER)
  static inline void loader_platform_thread_once_fn(pthread_once_t *ctl, void (*func)(void)) {
      assert(func != NULL);
