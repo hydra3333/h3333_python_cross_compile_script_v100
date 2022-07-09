@@ -3,8 +3,7 @@
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	'depth_git' : 0,
 	##'branch' : 'tags/v1.3.218',
-	#'branch' : 'e91cfe1cf9c540597e969f3b01b16384ec4b9c50',
-	# Hmmm ... 2020.10.11 STATIC LINKING NO LONGER POSSIBLE PER https://github.com/KhronosGroup/Vulkan-Loader/commit/0c0ac2c6c458acdb8ca28902fc990342902fc0a3#diff-4a527f83a3a4ca7e1d70adb26a35b72e
+	'branch' : '57d5dd568b701b5a3dd17d758f3a665c128116a7', # 2022.07.09 affix just prior to vulkan breaking MABS patches
 	#'recursive_git' : True, 
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
@@ -30,13 +29,14 @@
 		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
 	'patches' : [
-		#('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.06.28.patch', '-Np1', '..'),
-		#('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.06.28.patch', '-Np1', '..'),
-		('vulkan/vulkan-1001-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-CMakeLists_txt.patch', '-Np1', '..'),
-		#('vulkan/vulkan-1002-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_h.patch', '-Np1', '..'),
-		('vulkan/vulkan-1003-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader.rc_in.patch', '-Np1', '..'),
-		('vulkan/vulkan-1004-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_windows_c.patch', '-Np1', '..'),
-		('vulkan/vulkan-1005-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-vk_loader_platform_h.patch', '-Np1', '..'),
+		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.06.28.patch', '-Np1', '..'),
+		('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.06.28.patch', '-Np1', '..'),
+		# below are attempted updates to MABS patches, yields - error: unknown type name 'pthread_once_t'
+		#('vulkan/vulkan-1001-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-CMakeLists_txt.patch', '-Np1', '..'),
+		##('vulkan/vulkan-1002-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_h.patch', '-Np1', '..'),
+		#('vulkan/vulkan-1003-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader.rc_in.patch', '-Np1', '..'),
+		#('vulkan/vulkan-1004-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_windows_c.patch', '-Np1', '..'),
+		#('vulkan/vulkan-1005-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-vk_loader_platform_h.patch', '-Np1', '..'),
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
