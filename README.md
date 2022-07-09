@@ -6,7 +6,7 @@ Consider using deadsix27's at https://github.com/DeadSix27/python_cross_compile_
 
 Or, preferably use MABS https://github.com/m-ab-s/media-autobuild_suite   
 ... update: MABS works really well under Windows Sandbox and doesn't leave stuff on your PC - you can copy results from the Sandbox to your PC before closing the sandbox.   
-... perhaps see https://github.com/m-ab-s/media-autobuild_suite/issues/2227 for draft-oinly sample .wsb and whatnot
+... perhaps see https://github.com/m-ab-s/media-autobuild_suite/issues/2227 for draft-only sample .wsb and whatnot
 
 Or, use rdp's loverly build system https://github.com/rdp/ffmpeg-windows-build-helpers
 
