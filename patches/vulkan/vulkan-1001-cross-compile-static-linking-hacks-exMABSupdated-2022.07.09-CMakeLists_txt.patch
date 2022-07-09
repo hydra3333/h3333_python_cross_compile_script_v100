@@ -1,0 +1,109 @@
+--- a/loader/CMakeLists.txt	2022-07-08 16:44:47.443310000 -0700
++++ b/loader/CMakeLists.txt	2022-07-08 16:57:09.376730000 -0700
+@@ -22,14 +22,16 @@
+ 
+ add_library(loader_specific_options INTERFACE)
+ target_link_libraries(loader_specific_options INTERFACE loader_common_options Vulkan::Headers)
+ target_include_directories(loader_specific_options INTERFACE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/generated ${CMAKE_CURRENT_BINARY_DIR})
+ 
+-if(WIN32)
++#if(WIN32)
++if(MSVC)
+     if(MSVC)
+         # Use static MSVCRT libraries
+         foreach(configuration
++        foreach(configuration
+                 in
+                 CMAKE_C_FLAGS_DEBUG
+                 CMAKE_C_FLAGS_MINSIZEREL
+                 CMAKE_C_FLAGS_RELEASE
+                 CMAKE_C_FLAGS_RELWITHDEBINFO
+@@ -124,11 +126,12 @@
+ # Check for assembler support
+ set(ASM_FAILURE_MSG "The build will fall back on building with C code\n")
+ set(ASM_FAILURE_MSG "${ASM_FAILURE_MSG}Note that this may be unsafe, as the C code requires tail-call optimizations to remove")
+ set(ASM_FAILURE_MSG "${ASM_FAILURE_MSG} the stack frame for certain calls. If the compiler does not do this, then unknown device")
+ set(ASM_FAILURE_MSG "${ASM_FAILURE_MSG} extensions will suffer from a corrupted stack.")
+-if(WIN32)
++#if(WIN32)
++if(WIN32 AND NOT USE_UNSAFE_C_GEN)
+     if(MINGW)
+         find_program(JWASM_FOUND jwasm)
+         if (JWASM_FOUND)
+             set(CMAKE_ASM_MASM_COMPILER ${JWASM_FOUND})
+             execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE COMPILER_VERSION_OUTPUT)
+@@ -166,11 +169,12 @@
+         add_custom_target(loader_asm_gen_files)
+         add_library(loader-unknown-chain OBJECT unknown_ext_chain.c)
+         target_link_libraries(loader-unknown-chain loader_specific_options)
+         set_target_properties(loader-unknown-chain PROPERTIES CMAKE_C_FLAGS_DEBUG "${MODIFIED_C_FLAGS_DEBUG}")
+     endif()
+-elseif(APPLE)
++#elseif(APPLE)
++elseif(USE_UNSAFE_C_GEN OR APPLE)
+     # For MacOS, use the C code and force the compiler's tail-call optimization instead of using assembly code.
+     set(OPT_LOADER_SRCS ${OPT_LOADER_SRCS} unknown_ext_chain.c)
+     set_source_files_properties(${OPT_LOADER_SRCS} PROPERTIES COMPILE_FLAGS -O)
+     add_custom_target(loader_asm_gen_files) # This causes no assembly files to be generated.
+ else() # i.e.: Linux
+@@ -213,11 +217,12 @@
+         set(OPT_LOADER_SRCS ${OPT_LOADER_SRCS} unknown_ext_chain.c)
+         add_custom_target(loader_asm_gen_files)
+     endif()
+ endif()
+ 
+-if(WIN32)
++#if(WIN32)
++if(MSVC)
+     add_library(loader-opt STATIC ${OPT_LOADER_SRCS})
+     target_link_libraries(loader-opt PUBLIC loader_specific_options)
+     add_dependencies(loader-opt loader_asm_gen_files)
+     set_target_properties(loader-opt PROPERTIES CMAKE_C_FLAGS_DEBUG "${MODIFIED_C_FLAGS_DEBUG}")
+ 
+@@ -249,22 +254,27 @@
+     endif()
+ 
+     add_dependencies(vulkan loader_asm_gen_files)
+ 
+ else()
+-    if(APPLE AND BUILD_STATIC_LOADER)
++#    if(APPLE AND BUILD_STATIC_LOADER)
++    if(BUILD_STATIC_LOADER)
+         add_library(vulkan STATIC ${NORMAL_LOADER_SRCS} ${OPT_LOADER_SRCS})
+         target_compile_definitions(vulkan PRIVATE BUILD_STATIC_LOADER)
+     else()
+         add_library(vulkan SHARED ${NORMAL_LOADER_SRCS} ${OPT_LOADER_SRCS})
+     endif()
+     add_dependencies(vulkan loader_asm_gen_files)
+-    # set version based on LOADER_GENERATED_HEADER_VERSION used to generate the code
+-    set_target_properties(vulkan
++#    # set version based on LOADER_GENERATED_HEADER_VERSION used to generate the code
++#    set_target_properties(vulkan
++    if (NOT BUILD_STATIC_LOADER)
++        # set version based on LOADER_GENERATED_HEADER_VERSION used to generate the code
++        set_target_properties(vulkan
+                           PROPERTIES SOVERSION "1"
+                           VERSION ${LOADER_GENERATED_HEADER_VERSION})
+-    target_link_libraries(vulkan PRIVATE ${CMAKE_DL_LIBS} m)
++    endif()
++	target_link_libraries(vulkan PRIVATE ${CMAKE_DL_LIBS} m)
+     if (NOT ANDROID)
+         target_link_libraries(vulkan PRIVATE Threads::Threads)
+     endif()
+ 
+     if(APPLE)
+@@ -318,10 +328,14 @@
+ set_target_properties(vulkan ${LOADER_STANDARD_C_PROPERTIES})
+ if (TARGET asm_offset)
+     set_target_properties(asm_offset ${LOADER_STANDARD_C_PROPERTIES})
+ endif()
+ 
++if(WIN32)
++    list(APPEND PLATFORM_LIBS cfgmgr32)
++endif()
++
+ # Generate pkg-config file.
+ include(FindPkgConfig QUIET)
+ if(PKG_CONFIG_FOUND)
+     set(VK_API_VERSION "${LOADER_GENERATED_HEADER_VERSION}")
+     foreach(LIB ${CMAKE_CXX_IMPLICIT_LINK_LIBRARIES} ${PLATFORM_LIBS})
