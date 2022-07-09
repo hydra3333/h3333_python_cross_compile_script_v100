@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	'depth_git' : 0,
 	##'branch' : 'tags/v1.3.218',
-	'branch' : '57d5dd568b701b5a3dd17d758f3a665c128116a7', # 2022.07.09 affix just prior to vulkan breaking MABS patches
+	'branch' : '26921924d63bda937feb0d7caf9258dfb2d1d894', # 2022.07.09 affix just prior to vulkan breaking MABS patches
 	#'recursive_git' : True, 
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
