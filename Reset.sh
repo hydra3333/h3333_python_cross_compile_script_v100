@@ -54,6 +54,8 @@ rsync -rvtI ./_ref/ ./_working
 sudo chmod -R a=rwx ./_working/*.sh
 sudo chmod -R a=rwx ./_working/*.py
 sudo chmod -R a=rwx ./_working
+sudo cp -fv ./_ref/*.sh ~/Desktop/
+sudo chmod -R a=rwx ./Desktop/*.sh
 cd ./_working
 rm -fv *.yaml
 #git fetch origin
