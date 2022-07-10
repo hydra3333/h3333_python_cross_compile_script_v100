@@ -161,6 +161,7 @@ sudo apt install -y docbook-xsl-doc-html
 sudo apt install -y docbook-xsl-doc-pdf 
 sudo apt install -y docbook-xsl-doc-text 
 sudo apt install -y docbook-xsl-saxon 
+sudo apt install -y gtk-doc-tools
 
 #sudo apt install -y pando 
 sudo apt install -y pandoc 
