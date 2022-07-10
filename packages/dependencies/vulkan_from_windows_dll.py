@@ -36,21 +36,29 @@
 		'cp -fv "libOpenCL.a" "{target_prefix}/lib/libOpenCL.a"',     # 2020.04.28
 		'cp -fv "libOpenCL.a" "{target_prefix}/lib/libOpenCL.dll.a"', # 2020.04.28
 		'echo ""',
-		'rm -fv "./vulkan-1.dll ./libvulkan-1.a ./vulkan-1.def"',
+		'rm -fv "./vulkan-1.dll ./libvulkan-1.a ./vulkan-1.def ./vulkan-1.pc"',
 		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/vulkan-1.def?raw=true" --retry 50 -L --output "./vulkan-1.def"',
 		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/libvulkan-1.a?raw=true" --retry 50 -L --output "./libvulkan-1.a"',
+		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/vulkan-1.pc?raw=true" --retry 50 -L --output "./vulkan-1.pc"',
 		'cp -fv "libvulkan-1.a" "{target_prefix}/lib/libvulkan-1.a"',     # 2022.07.09
 		'cp -fv "libvulkan-1.a" "{target_prefix}/lib/libvulkan-1.dll.a"', # 2022.07.09
+		'cp -fv "vulkan-1.pc"   "{target_prefix}/lib/pkgconfig/vulkan-1.pc"', # 2022.07.09
 		'echo ""',
-		'rm -fv "./vulkan.dll ./libvulkan.a ./vulkan.def"',
+		'rm -fv "./vulkan.dll ./libvulkan.a ./vulkan.def ./vulkan.pc"',
 		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/vulkan.def?raw=true" --retry 50 -L --output "./vulkan.def"',
 		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/libvulkan.a?raw=true" --retry 50 -L --output "./libvulkan.a"',
+		'curl -4 "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/blob/master/sources/vulkan.pc?raw=true" --retry 50 -L --output "./vulkan.pc"',
 		'cp -fv "libvulkan.a" "{target_prefix}/lib/libvulkan.a"',     # 2022.07.09
 		'cp -fv "libvulkan.a" "{target_prefix}/lib/libvulkan.dll.a"', # 2022.07.09
+		'cp -fv "vulkan.pc"   "{target_prefix}/lib/pkgconfig/vulkan.pc"', # 2022.07.09
 		'echo ""',
 		'echo ""',
-		'echo "To create a new libOpenCL.a and libvulkan.a etc after a new nvidia driver is installed or windows is updated on a Win10x64 PC,"',
-		'echo "refer the readme in https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources"',
+		'echo ""',
+		'echo ""',
+		'echo "INFO: To create a new libOpenCL.a and libvulkan.a etc after a new nvidia driver is installed or windows is updated on a Win10x64 PC,"',
+		'echo "INFO: refer the readme in https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources"',
+		'echo ""',
+		'echo ""',
 		'echo ""',
 		'echo ""',
 		'touch already_ran_make_install',
