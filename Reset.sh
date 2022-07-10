@@ -81,10 +81,12 @@ mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
 ./Remove_ffmpeg_3333_related_files.sh
 
+set +x
 echo "NOW do these:"
 echo "sudo cp -fv ~/Desktop/_ref/*.sh ~/Desktop/"
 echo "sudo chmod -R a=rwx ./Desktop/*.sh"
 echo "sudo cp -fv ~/Desktop/_ref/*.sh ~/Desktop/_working/"
 echo "sudo chmod -R a=rwx ./Desktop/_working/*.sh"
+set -x
 
 exit
