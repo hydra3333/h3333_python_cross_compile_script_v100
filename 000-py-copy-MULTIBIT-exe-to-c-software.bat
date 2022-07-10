@@ -6,7 +6,8 @@ REM ----------------------------------------------------------------------------
 REM echo .dll> xcopyexcludedfileslist1.txt
 echo.> xcopyexcludedfileslist1.txt
 REM ------------------------------------------------------------------------------------------
-.\exe_x64_py\ffmpeg.exe -h full > ".\exe_x64_py\ffmpeg_fullhelp.txt" 2>&1
+.\exe_x64_py\ffmpeg.exe -h full  >  ".\exe_x64_py\ffmpeg_fullhelp.txt" 2>&1
+.\exe_x64_py\ffmpeg.exe -filters >> ".\exe_x64_py\ffmpeg_fullhelp.txt" 2>&1
 REM ------------------------------------------------------------------------------------------
 REM
 xcopy ".\exe_x64_py\*.*" "C:\SOFTWARE\ffmpeg\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
@@ -37,9 +38,17 @@ REM ----------------------------------------------------------------------------
 REM ------------------------------------------------------------------------------------------
 xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\Vapoursynth-x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 REM ------------------------------------------------------------------------------------------
-xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS370_x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
-xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS370_x64\" /Y /E /V /F /G /H /R /Z /C
-xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS370_x64\plugins\" /Y /E /V /F /G /H /R /Z /C
+REM comment-out copy to AVSPLUS370_x64 since avisynth 3.7.1 is out now and the new ffmpeg should go there not here
+ECHO comment-out copy to AVSPLUS370_x64 since avisynth 3.7.1 is out now and the new ffmpeg should go there not here
+REM xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS370_x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
+REM xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS370_x64\" /Y /E /V /F /G /H /R /Z /C
+REM xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS370_x64\plugins\" /Y /E /V /F /G /H /R /Z /C
+REM ------------------------------------------------------------------------------------------
+REM ------------------------------------------------------------------------------------------
+ECHO AVSPLUS371_x64 takes over from AVSPLUS370_x64 since avisynth 3.7.1 is out now and the new ffmpeg should go to 3.7.1 not 3.7.0
+xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS371_x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
+xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS371_x64\" /Y /E /V /F /G /H /R /Z /C
+xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS371_x64\plugins\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
 REM ------------------------------------------------------------------------------------------
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\Vapoursynth-x64\" /Y /E /V /F /G /H /R /Z /C
