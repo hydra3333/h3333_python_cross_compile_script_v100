@@ -22,5 +22,5 @@
 	#'cpu_count' : '1',
 	'build_options' : '{make_prefix_options} INSTALL_ROOT={target_prefix}',
 	'update_check' : { 'url' : 'http://www.quut.com/gsm', 'type' : 'httpregex', 'regex' : r'<a href="http:\/\/www.quut.com/gsm/gsm-(?P<version_num>[\d.]+)\.tar\.gz">sourcecode<\/a>' },
-	'_info' : { 'version' : '1.0.19', 'fancy_name' : 'gsm' },
+	'_info' : { 'version' : '1.0.20', 'fancy_name' : 'gsm' },
 }
