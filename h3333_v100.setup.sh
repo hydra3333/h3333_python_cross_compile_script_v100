@@ -249,8 +249,8 @@ set +x
 # Build and install the latest supported cmake
 set -x
 cd ~/Desktop
-#c_ver="3.21.0"
-c_ver="3.23.1"
+#c_ver="3.21.1"
+c_ver="3.23.2"
 sudo rm -vfR cmake-${c_ver} 
 #if [[ ! -d "cmake-${c_ver}" ]]; then
    mkdir cmake-${c_ver} 
