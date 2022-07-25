@@ -8,7 +8,7 @@ sudo chmod +777 -R *
 sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
 sudo apt -y update
 
-sudo apt -y install cifs-utils
+sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
 sudo chmod +777 /mnt
 sudo chmod +777 /mnt/exe_x64_py
