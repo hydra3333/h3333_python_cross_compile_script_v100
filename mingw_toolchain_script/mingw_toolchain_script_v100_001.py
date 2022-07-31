@@ -40,6 +40,7 @@ _DEBUG = True
 _VERSION = "4.4"
 
 SOURCES = OrderedDict()  # Order matters.
+SOURCES_deprecated = OrderedDict()  # Order matters.
 
 SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/
 	'type': 'git',
@@ -85,14 +86,16 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 }
 SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/)   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
-	'version': '0.24',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	#'version': '0.24',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	'version': '0.25',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
 	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 	#'update_check': {'url': 'http://isl.gforge.inria.fr/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'}, # {'url': 'https://gcc.gnu.org/pub/gcc/infrastructure/', 'type': 'httpindex', 'regex': r'isl-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
-SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
+SOURCES_deprecated['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
 	'version': '2.37',
 	#'version': '2.38', # 2.38 fails to build 2022.04.29
+	#'version': '2.39',
 	# 'patches' : [
   		# ( 'https://raw.githubusercontent.com/hydra3333/h3333_python_cross_compile_script_v100/master/mingw_toolchain_script/patches/0001-binutils-remove_provide_qualifiers_from_ctor_and_dtor_list.patch' , 'p1' ),
 	# ],
@@ -102,6 +105,19 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 		('gmp', 'gmp'),
 	],
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/binutils/', 'type': 'httpindex', 'regex': r'binutils-(?P<version_num>[\d.]+)\.tar\.bz2'},
+}
+SOURCES['binutils'] = { # https://sourceware.org/git/binutils-gdb.git 
+	'type': 'git',
+	'git_shallow': False,
+    'checkout' : 'binutils-2_39-branch', # 'tags/binutils-2_39-branch', 
+	'url': 'https://sourceware.org/git/binutils-gdb.git',  
+	'run_after_patches': [
+		('autoreconf -fiv', ),
+	],
+	'softlink_to_package': [
+		('isl', 'isl'),
+		('gmp', 'gmp'),
+	],
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
