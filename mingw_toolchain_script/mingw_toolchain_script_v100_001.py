@@ -109,7 +109,9 @@ SOURCES_deprecated['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 SOURCES['binutils'] = { # https://sourceware.org/git/binutils-gdb.git 
 	'type': 'git',
 	'git_shallow': False,
-    'checkout' : 'binutils-2_39-branch', # 'tags/binutils-2_39-branch', 
+    #'checkout' : 'binutils-2_39-branch', # 2.38 fails to build
+    'checkout' : 'tags/binutils-2_37', 
+	'branch' : '',
 	'url': 'https://sourceware.org/git/binutils-gdb.git',  
 	'run_after_patches': [
 		('autoreconf -fiv', ),
