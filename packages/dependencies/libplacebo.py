@@ -34,7 +34,7 @@
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'run_post_regexreplace' : [
-		'pwd',
+		'pwd ; cd .. ; git submodule update --remote --recursive ; cd _build ; pwd',
 		'sed -i.bak "s/shaderc = dependency(\'shaderc\',/shaderc = dependency(\'shaderc_static\',/" ../src/meson.build',
 		'sed -i.bak "s/cross = dependency(\'spirv-cross-c-shared\',/cross = dependency(\'spirv-cross\',/" ../src/meson.build',
 		'if [ ! -d "{target_prefix}/share" ] ; then mkdir -pv "{target_prefix}/share" ; fi',
