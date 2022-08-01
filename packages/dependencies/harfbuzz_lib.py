@@ -3,8 +3,8 @@
 	'download_locations' : [
 		#{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-4.4.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c5bc33ac099b2e52f01d27cde21cee4281b9d5bfec7684135e268512478bc9ee' }, ], }, # https://fossies.org/linux/misc/
 		#{ 'url' : 'https://github.com/harfbuzz/harfbuzz/releases/download/4.4.1/harfbuzz-4.4.1.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c5bc33ac099b2e52f01d27cde21cee4281b9d5bfec7684135e268512478bc9ee' }, ], }, # https://github.com/harfbuzz/harfbuzz/releases
-		{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-5.1.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5352ff2eec538ea9a63a485cf01ad8332a3f63aa79921c5a2e301cef185caea1' }, ], }, # https://fossies.org/linux/misc/
-		{ 'url' : 'https://github.com/harfbuzz/harfbuzz/releases/download/5.1.0/harfbuzz-5.1.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '5352ff2eec538ea9a63a485cf01ad8332a3f63aa79921c5a2e301cef185caea1' }, ], }, # https://github.com/harfbuzz/harfbuzz/releases
+		{ 'url' : 'https://fossies.org/linux/misc/harfbuzz-5.1.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '2edb95db668781aaa8d60959d21be2ff80085f31b12053cdd660d9a50ce84f05' }, ], }, # https://fossies.org/linux/misc/
+		{ 'url' : 'https://github.com/harfbuzz/harfbuzz/releases/download/5.1.0/harfbuzz-5.1.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '2edb95db668781aaa8d60959d21be2ff80085f31b12053cdd660d9a50ce84f05' }, ], }, # https://github.com/harfbuzz/harfbuzz/releases
 	],
 	'folder_name' : 'harfbuzz-lib',
 	'rename_folder' : 'harfbuzz-lib',
