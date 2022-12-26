@@ -37,7 +37,7 @@ _WORKDIR = "toolchain"
 _CPU_COUNT = cpu_count()
 _NO_CONFIG_GUESS = True  # Instead of downloading config.guess we use gcc -dumpmachine, this obviously only works when gcc is installed, but we need it to be installed anyway.
 _DEBUG = True
-_VERSION = "4.5"
+_VERSION = "4.5-zeranoe_switches"
 
 SOURCES = OrderedDict()  # Order matters.
 
@@ -176,7 +176,8 @@ BUILDS['mingw-w64-headers'] = {
 		('{prefix}/{target}', '../include', './include'),
 	],
 	'lineInstall': 'install-strip',
-	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install',
+	'lineInstallDebug': 'install-strip',
 }
 BUILDS['gcc-1'] = {
 	'lineConfig':
@@ -227,7 +228,8 @@ BUILDS['gcc-1'] = {
 	,
 	'lineMake'	: 'all-gcc',
 	'lineInstall': 'install-strip-gcc',
-	'lineInstallDebug': 'install-gcc',
+	#'lineInstallDebug': 'install-gcc',
+	'lineInstallDebug': 'install-strip-gcc',
 }
 BUILDS['mingw-w64-crt'] = {
 	'lineConfig':
@@ -251,7 +253,8 @@ BUILDS['mingw-w64-crt'] = {
 		('{prefix}/{target}', 'ln -s "../lib" "./lib"', True),
 	],
 	'lineInstall': 'install-strip',
-	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install',
+	'lineInstallDebug': 'install-strip',
 }
 BUILDS['mingw-w64-winpthreads'] = {
 	'lineConfig':
@@ -270,15 +273,16 @@ BUILDS['mingw-w64-winpthreads'] = {
 		' --prefix="{prefix}"'
 	,
 	'lineInstall': 'install-strip',
-	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install',
+	'lineInstallDebug': 'install-strip',
 	'cpu_count': 1,
 }
 BUILDS['gcc-2'] = {
 	'lineConfig': 'dummy',
 	'noConfigure': True,
 	'lineInstall': 'install-strip',
-	'lineInstallDebug': 'install',
-
+	#'lineInstallDebug': 'install',
+	'lineInstallDebug': 'install-strip',
 }
 BUILDS['mingw-w64-gendef'] = {
 	'lineConfig':
@@ -295,7 +299,8 @@ BUILDS['mingw-w64-gendef'] = {
 		' --enable-static'
 	,
 	'lineInstall': 'install-strip',
-	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install',
+	'lineInstallDebug': 'install-strip',
 	'customCommands': [
 		('{prefix}', 'cp -f "./bin/gendef" "./bin/{target}-gendef"'),
 	],
@@ -310,7 +315,8 @@ BUILDS['mingw-w64-gendef'] = {
 # 		' --target="{target}"'
 # 	,
 # 	'lineInstall' : 'install-strip',
-#	'lineInstallDebug' : 'install',
+#	#'lineInstallDebug' : 'install',
+# 	'lineInstallDebug' : 'install-strip',
 #}
 BUILDS['gmp'] = {
 	'dummy': True,
@@ -321,10 +327,9 @@ BUILDS['mpfr'] = {
 BUILDS['mpc'] = {
 	'dummy': True,
 }
-#BUILDS['isl'] = {
+#BUILDS['isl'] = { # 2022.12.27 zeranoe doesn;t use this and binutils 2.39 causes it to fail to build
 #	'dummy': True,
 #}
-
 
 class Event:
 	def __init__(self):
