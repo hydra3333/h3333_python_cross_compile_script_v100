@@ -1,0 +1,24 @@
+--- a/meson.build	2020-10-20 23:36:46.821648416 -0700
++++ b/meson.build	2020-10-20 23:37:05.606049823 -0700
+@@ -88,6 +88,21 @@
+   glib_charsetaliasdir = glib_libdir
+ endif
+ 
++message('configinc=' + configinc)
++message('glibinc=' + glibinc)
++message('gobjectinc=' + gobjectinc)
++message('gmoduleinc=' + gmoduleinc)
++message('gioinc=' + gioinc)
++message('glib_prefix=' + glib_prefix)
++message('glib_bindir=' + glib_bindir)
++message('glib_libdir=' + glib_libdir)
++message('glib_libexecdir=' + glib_libexecdir)
++message('glib_datadir=' + glib_datadir)
++message('glib_pkgdatadir=' + glib_pkgdatadir)
++message('glib_includedir=' + glib_includedir)
++message('glib_pkgconfigreldir=' + glib_pkgconfigreldir)
++message('glib_charsetaliasdir=' + glib_charsetaliasdir)
++
+ installed_tests_metadir = join_paths(glib_datadir, 'installed-tests', meson.project_name())
+ installed_tests_execdir = join_paths(glib_libexecdir, 'installed-tests', meson.project_name())
+ installed_tests_enabled = get_option('installed_tests')

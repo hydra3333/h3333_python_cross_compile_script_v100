@@ -1,0 +1,33 @@
+From af2a7b7f9e11f281403cdf457a1d0144937967eb Mon Sep 17 00:00:00 2001
+From: Christopher Degawa <ccom@randomderp.com>
+Date: Wed, 24 Mar 2021 14:16:24 -0500
+Subject: [PATCH] configure.ac: use mingw as the case instead of mingw32 per https://code.videolan.org/videolan/libbluray/-/merge_requests/26.patch https://github.com/m-ab-s/media-autobuild_suite/commit/dac0764ee50f221f75f1daef1af08ab5b92b5bfd
+
+config.guess returns x86_64-pc-mingw64 on some msys2 installations
+
+Signed-off-by: Christopher Degawa <ccom@randomderp.com>
+---
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 9449ab32..9327f98a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -31,12 +31,12 @@ case "${host_os}" in
+   "")
+     SYS=unknown
+     ;;
+-  *mingw32* | *cygwin* | *wince* | *mingwce*)
++  *mingw* | *cygwin* | *wince* | *mingwce*)
+     case "${host_os}" in
+       *wince* | *mingwce* | *mingw32ce*)
+         SYS=mingwce
+         ;;
+-      *mingw32*)
++      *mingw*)
+         SYS=mingw32
+         AC_DEFINE([_WIN32_WINNT], 0x0502, [Define to '0x0502' for Windows XP SP2 APIs.])
+         AC_DEFINE([_WIN32_IE], 0x0501, [Define to '0x0501' for IE 5.01.])
+-- 
+GitLab

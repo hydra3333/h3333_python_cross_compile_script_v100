@@ -1,0 +1,27 @@
+--- a/loader/windows/icd_windows_hkr.h	2020-10-23 00:38:57.989433473 -0700
++++ b/loader/windows/icd_windows_hkr.h	2020-10-23 00:41:34.973087147 -0700
+@@ -18,5 +18,24 @@
+ 
+ #include <stdbool.h>
+ #include "icd_windows.h"
++#include <guiddef.h> 
+ 
+ bool khrIcdOsVendorsEnumerateHKR(void);
++
++typedef unsigned long int DEVPROPTYPE, *PDEVPROPTYPE;
++
++typedef GUID  DEVPROPGUID, *PDEVPROPGUID;
++typedef unsigned long int DEVPROPID,   *PDEVPROPID;
++
++typedef struct _DEVPROPKEY_2 {
++    DEVPROPGUID fmtid;
++    DEVPROPID   pid;
++} DEVPROPKEY_2, *PDEVPROPKEY_2;
++
++#define CM_GETIDLIST_FILTER_PRESENT             (0x00000100)
++#define CM_GETIDLIST_FILTER_CLASS               (0x00000200)
++
++#define DEFINE_DEVPROPKEY(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8, pid) extern const DEVPROPKEY_2 DECLSPEC_SELECTANY name = { { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }, pid }
++
++// 2020.10.23 Comment this next line out when using newer MIngW (8+) as it's already defined, per https://sourceforge.net/p/mingw-w64/bugs/850/#d4b6
++// DEFINE_DEVPROPKEY(DEVPKEY_Device_ClassGuid,              0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0, 10);    // DEVPROP_TYPE_GUID

@@ -1,0 +1,12 @@
+--- a/src/CMakeLists.txt	2020-05-14 21:57:28.702838000 +0930
++++ b/src/CMakeLists.txt	2020-05-14 22:04:03.254031927 +0930
+@@ -19,9 +19,7 @@
+     add_subdirectory("metaflac")
+ endif()
+ if(BUILD_UTILS)
+-    add_subdirectory(utils/flacdiff)
+     if(WIN32)
+-        add_subdirectory(utils/flactimer)
+     endif()
+ endif()
+ 

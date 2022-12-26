@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VRDOutputProfileList version="2">
+
+<VRDOutputProfile>
+	<Name>VRDTVS-for-QSF-MPEG2</Name>
+	<OutputMode>Smart</OutputMode>
+	<MPEG2EncoderQuality>High</MPEG2EncoderQuality>
+<RecodeMode>Quality</RecodeMode>
+	<FileType>MPG</FileType>
+	<FileExt></FileExt>
+	<OutputLibrary>
+		<Program>None</Program>
+		<CustomPath></CustomPath>
+	</OutputLibrary>
+	<DefaultOutputDir></DefaultOutputDir>
+	<EditAccuracy>Frame</EditAccuracy>
+	<VideoAttributes>
+		<Encoder>Match</Encoder>
+		<AspectRatio>No Change</AspectRatio>
+		<AspectCorrection>None</AspectCorrection>
+		<EncodeDimensions>
+			<Width>0</Width>
+			<Height>0</Height>
+		</EncodeDimensions>
+		<EncodeBitrate>0</EncodeBitrate>
+		<HeaderBitrate>0</HeaderBitrate>
+		<MaxBitrate>0</MaxBitrate>
+		<EncodingMode>SP</EncodingMode>
+		<DeinterlaceMethod>None</DeinterlaceMethod>
+		<FrameRate>No Change</FrameRate>
+		<ResizeQuality>High</ResizeQuality>
+	</VideoAttributes>
+	<AudioAttributes>
+		<Encoder>Auto</Encoder>
+		<Bitrate>0</Bitrate>
+		<SampleRate>No Change</SampleRate>
+		<ChannelMode>Auto</ChannelMode>
+		<AllowMultiAudio>False</AllowMultiAudio>
+		<LPCMEndianess>Little</LPCMEndianess>
+	</AudioAttributes>
+</VRDOutputProfile>
+
+</VRDOutputProfileList>

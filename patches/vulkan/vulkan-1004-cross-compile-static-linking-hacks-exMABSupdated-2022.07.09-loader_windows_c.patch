@@ -1,0 +1,41 @@
+--- a/loader/loader_windows.c	2022-07-08 17:13:22.003386000 -0700
++++ b/loader/loader_windows.c	2022-07-08 17:15:04.100410000 -0700
+@@ -88,10 +88,11 @@
+     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+     _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+ #endif
+ }
+ 
++#if defined(LOADER_DYNAMIC_LIB)
+ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved) {
+     switch (reason) {
+         case DLL_PROCESS_ATTACH:
+             loader_initialize();
+             break;
+@@ -104,10 +105,11 @@
+             // Do nothing
+             break;
+     }
+     return TRUE;
+ }
++#endif
+ 
+ bool windows_add_json_entry(const struct loader_instance *inst,
+                             char **reg_data,    // list of JSON files
+                             PDWORD total_size,  // size of reg_data
+                             LPCSTR key_name,    // key name - used for debug prints - i.e. VulkanDriverName
+@@ -223,10 +225,14 @@
+         loader_instance_heap_free(inst, manifest_path);
+     }
+     RegCloseKey(hkrKey);
+     return found;
+ }
++#ifdef __MINGW32__
++#define CM_GETIDLIST_FILTER_PRESENT (0x00000100)
++#define CM_GETIDLIST_FILTER_CLASS (0x00000200)
++#endif
+ 
+ VkResult windows_get_device_registry_files(const struct loader_instance *inst, uint32_t log_target_flag, char **reg_data,
+                                            PDWORD reg_data_size, LPCSTR value_name) {
+     static const wchar_t *softwareComponentGUID = L"{5c4c3332-344d-483c-8739-259e934c9cc8}";
+     static const wchar_t *displayGUID = L"{4d36e968-e325-11ce-bfc1-08002be10318}";

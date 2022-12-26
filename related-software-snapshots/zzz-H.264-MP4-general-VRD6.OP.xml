@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VRDOutputProfileList version="2">
+
+<VRDOutputProfile>
+	<Name>zzz-H.264-MP4-general-VRD6</Name>
+	<OutputMode>Smart</OutputMode>
+	<MPEG2EncoderQuality>High</MPEG2EncoderQuality>
+<RecodeMode>Quality</RecodeMode>
+	<RecodeQualities>
+		<MPEG2>100</MPEG2>
+		<H264>100</H264>
+		<HEVC>167</HEVC>
+	</RecodeQualities>
+	<FileType>MP4</FileType>
+	<FileExt></FileExt>
+	<OutputCodecSet>NVEnc</OutputCodecSet>
+	<OutputLibrary>
+		<Program>None</Program>
+		<CustomPath></CustomPath>
+	</OutputLibrary>
+	<DefaultOutputDir></DefaultOutputDir>
+	<VideoAttributes>
+		<Encoder>H264</Encoder>
+		<AspectRatio>No Change</AspectRatio>
+		<AspectCorrection>None</AspectCorrection>
+		<EncodeDimensions>
+			<Width>0</Width>
+			<Height>0</Height>
+		</EncodeDimensions>
+		<EncodeBitrate>0</EncodeBitrate>
+		<HeaderBitrate>0</HeaderBitrate>
+		<MaxBitrate>0</MaxBitrate>
+		<EncodingMode>SP</EncodingMode>
+		<DeinterlaceMethod>None</DeinterlaceMethod>
+		<FrameRate>No Change</FrameRate>
+	</VideoAttributes>
+	<AudioAttributes>
+		<Encoder>Auto</Encoder>
+		<Bitrate>0</Bitrate>
+		<SampleRate>No Change</SampleRate>
+		<ChannelMode>Auto</ChannelMode>
+		<AllowMultiAudio>False</AllowMultiAudio>
+		<LPCMEndianess>Little</LPCMEndianess>
+	</AudioAttributes>
+	<H264Parameters>
+		<RemoveEndOfSequenceNALs>False</RemoveEndOfSequenceNALs>
+		<OutputHRDParameters>True</OutputHRDParameters>
+		<RemoveFillerNALs>False</RemoveFillerNALs>
+	</H264Parameters>
+	<EncodingOptions>
+		<H264>
+			<profile>high10</profile>
+			<level_id>51</level_id>
+			<subpel_mode>2</subpel_mode>
+			<preset>slow</preset>
+		</H264>
+	</EncodingOptions>
+</VRDOutputProfile>
+
+</VRDOutputProfileList>

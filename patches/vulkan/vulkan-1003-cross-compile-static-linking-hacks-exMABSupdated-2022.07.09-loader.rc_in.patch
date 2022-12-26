@@ -1,0 +1,18 @@
+--- a/loader/loader.rc.in	2022-07-08 17:10:19.272409000 -0700
++++ b/loader/loader.rc.in	2022-07-08 17:11:47.357364000 -0700
+@@ -17,11 +17,15 @@
+ //
+ // Author: David Pinedo <david@lunarg.com>
+ // Author: Charles Giessen <charles@lunarg.com>
+ //
+ 
++#ifdef __MINGW64__
++#include <winresrc.h>
++#else // MSVC
+ #include "winres.h"
++#endif
+ 
+ // All set through CMake
+ #define VER_FILE_VERSION ${LOADER_VER_FILE_VERSION}
+ #define VER_FILE_DESCRIPTION_STR ${LOADER_VER_FILE_DESCRIPTION_STR}
+ #define VER_FILE_VERSION_STR ${LOADER_VER_FILE_VERSION_STR}

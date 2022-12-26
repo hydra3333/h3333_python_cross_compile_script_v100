@@ -1,0 +1,33 @@
+--- a/m4/gpg-error.m4	2022-02-15 20:16:32.155935000 -0800
++++ b/m4/gpg-error.m4	2022-02-15 20:41:29.078926000 -0800
+@@ -63,11 +63,12 @@
+ 
+   AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
+   min_gpg_error_version=ifelse([$1], ,1.33,$1)
+   ok=no
+ 
+-  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
++  #AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
++  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no)
+   if test "$GPGRT_CONFIG" != "no"; then
+     # Determine gpgrt_libdir
+     #
+     # Get the prefix of gpgrt-config assuming it's something like:
+     #   <PREFIX>/bin/gpgrt-config
+@@ -78,12 +79,14 @@
+     #   GNU cross style: /usr/<triplet>/lib
+     #   Debian style: /usr/lib/<multiarch-name>
+     #   Fedora/openSUSE style: /usr/lib, /usr/lib32 or /usr/lib64
+     # It is assumed that CC is specified to the one of host on cross build.
+     if libdir_candidates=$(${CC:-cc} -print-search-dirs | \
+-          sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
+-/g;p;}"); then
++#          sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
++#/g;p;}"); then
++           sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
++/gp}"); then
+       # From the output of -print-search-dirs, select valid pkgconfig dirs.
+       libdir_candidates=$(for dir in $libdir_candidates; do
+         if p=$(cd $dir 2>/dev/null && pwd); then
+           test -d "$p/pkgconfig" && echo $p;
+         fi

@@ -1,0 +1,30 @@
+--- a/m4/gpg-error.m4	2021-09-17 17:55:15.526044000 -0700
++++ b/m4/gpg-error.m4	2021-09-17 17:59:49.671442000 -0700
+@@ -10,7 +10,7 @@
+ # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ #
+-# Last-changed: 2021-03-31
++# Last-changed: 2021-02-16
+ 
+ 
+ dnl AM_PATH_GPG_ERROR([MINIMUM-VERSION,
+@@ -65,7 +65,7 @@
+   min_gpg_error_version=ifelse([$1], ,1.33,$1)
+   ok=no
+ 
+-  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
++  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no)
+   if test "$GPGRT_CONFIG" != "no"; then
+     # Determine gpgrt_libdir
+     #
+@@ -80,8 +80,7 @@
+     #   Fedora/openSUSE style: /usr/lib, /usr/lib32 or /usr/lib64
+     # It is assumed that CC is specified to the one of host on cross build.
+     if libdir_candidates=$(${CC:-cc} -print-search-dirs | \
+-          sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
+-/g;p;}"); then
++          sed -n -e "/^libraries/{s/libraries: =//;s/:/\n/gp}"); then
+       # From the output of -print-search-dirs, select valid pkgconfig dirs.
+       libdir_candidates=$(for dir in $libdir_candidates; do
+         if p=$(cd $dir 2>/dev/null && pwd); then

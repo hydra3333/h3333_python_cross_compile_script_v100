@@ -1,0 +1,16 @@
+Version of C:\Windows\System32\OpenCL.dll used to create libOpenCL.a
+
+Right-click on the DLL, choose properties, choose Details tab.
+
+Version 3.0.1.0
+Date Modified: 11/10/2022
+
+
+
+Version of C:\Windows\System32\vulkan-1.dll used to create libvulkan.a and libvulkan-1.a
+
+Right-click on the DLL, choose properties, choose Details tab.
+
+Version 1.3.204.1
+Date Modified: 11/10/2022
+

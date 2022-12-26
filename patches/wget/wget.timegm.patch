@@ -1,0 +1,63 @@
+diff -Nur wget_git_orig/gnulib/lib/mktime-internal.h wget_git/gnulib/lib/mktime-internal.h
+--- wget_git_orig/gnulib/lib/mktime-internal.h	2020-03-09 14:36:26.815211151 +0100
++++ wget_git/gnulib/lib/mktime-internal.h	2020-03-09 14:38:37.179099933 +0100
+@@ -47,7 +47,7 @@
+ # define __gmtime64_r __gmtime_r
+ # define __localtime64_r __localtime_r
+ # define __mktime64 mktime
+-# define __timegm64 timegm
++# define __timegm64 timegm_wget
+ #endif
+ 
+ #ifndef _LIBC
+diff -Nur wget_git_orig/gnulib/lib/time.in.h wget_git/gnulib/lib/time.in.h
+--- wget_git_orig/gnulib/lib/time.in.h	2020-03-09 14:36:26.781878119 +0100
++++ wget_git/gnulib/lib/time.in.h	2020-03-09 14:38:09.022756428 +0100
+@@ -324,17 +324,17 @@
+ #  if @REPLACE_TIMEGM@
+ #   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+ #    undef timegm
+-#    define timegm rpl_timegm
++#    define timegm_wget rpl_timegm
+ #   endif
+-_GL_FUNCDECL_RPL (timegm, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
+-_GL_CXXALIAS_RPL (timegm, time_t, (struct tm *__tm));
++_GL_FUNCDECL_RPL (timegm_wget, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
++_GL_CXXALIAS_RPL (timegm_wget, time_t, (struct tm *__tm));
+ #  else
+ #   if ! @HAVE_TIMEGM@
+-_GL_FUNCDECL_SYS (timegm, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
++_GL_FUNCDECL_SYS (timegm_wget, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
+ #   endif
+-_GL_CXXALIAS_SYS (timegm, time_t, (struct tm *__tm));
++_GL_CXXALIAS_SYS (timegm_wget, time_t, (struct tm *__tm));
+ #  endif
+-_GL_CXXALIASWARN (timegm);
++_GL_CXXALIASWARN (timegm_wget);
+ # endif
+ 
+ /* Encourage applications to avoid unsafe functions that can overrun
+diff -Nur wget_git_orig/gnulib/lib/time_rz.c wget_git/gnulib/lib/time_rz.c
+--- wget_git_orig/gnulib/lib/time_rz.c	2020-03-09 14:36:26.785211421 +0100
++++ wget_git/gnulib/lib/time_rz.c	2020-03-09 14:37:44.117938145 +0100
+@@ -321,7 +321,7 @@
+ mktime_z (timezone_t tz, struct tm *tm)
+ {
+   if (!tz)
+-    return timegm (tm);
++    return timegm_wget (tm);
+   else
+     {
+       timezone_t old_tz = set_tz (tz);
+diff -Nur wget_git_orig/src/http.c wget_git/src/http.c
+--- wget_git_orig/src/http.c	2020-03-09 14:36:26.998542830 +0100
++++ wget_git/src/http.c	2020-03-09 14:38:37.719651833 +0100
+@@ -4976,7 +4976,7 @@
+ 
+       if (check_end (strptime (time_string, time_formats[i], &t)))
+         {
+-          ret = timegm (&t);
++          ret = timegm_wget (&t);
+           break;
+         }
+     }

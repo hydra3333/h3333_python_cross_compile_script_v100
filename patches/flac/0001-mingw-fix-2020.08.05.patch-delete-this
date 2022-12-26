@@ -1,0 +1,65 @@
+From da28e130d86f5392be32aa824b10624dba0efd3a Mon Sep 17 00:00:00 2001
+From: DeadSix27 <DeadSix27@users.noreply.github.com>
+Date: Tue, 7 Apr 2020 06:36:52 +0200
+Subject: [PATCH] mingw-work_arounds
+
+---
+ include/FLAC++/export.h    | 2 +-
+ include/FLAC/export.h      | 2 +-
+ src/CMakeLists.txt         | 1 -
+ src/libFLAC++/flac++.pc.in | 2 +-
+ src/libFLAC/flac.pc.in     | 2 +-
+ 5 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/include/FLAC++/export.h b/include/FLAC++/export.h
+index d8dccf54..2858688d 100644
+--- a/include/FLAC++/export.h
++++ b/include/FLAC++/export.h
+@@ -59,7 +59,7 @@
+ #if defined(FLAC__NO_DLL)
+ #define FLACPP_API
+ 
+-#elif defined(_WIN32)
++#elif defined(_MSC_VER)
+ #ifdef FLACPP_API_EXPORTS
+ #define	FLACPP_API __declspec(dllexport)
+ #else
+diff --git a/include/FLAC/export.h b/include/FLAC/export.h
+index 3e3e7648..23a33842 100644
+--- a/include/FLAC/export.h
++++ b/include/FLAC/export.h
+@@ -59,7 +59,7 @@
+ #if defined(FLAC__NO_DLL)
+ #define FLAC_API
+ 
+-#elif defined(_WIN32)
++#elif defined(_MSC_VER)
+ #ifdef FLAC_API_EXPORTS
+ #define	FLAC_API __declspec(dllexport)
+ #else
+diff --git a/src/libFLAC++/flac++.pc.in b/src/libFLAC++/flac++.pc.in
+index f09c251a..b1958307 100644
+--- a/src/libFLAC++/flac++.pc.in
++++ b/src/libFLAC++/flac++.pc.in
+@@ -7,5 +7,5 @@ Name: FLAC++
+ Description: Free Lossless Audio Codec Library (C++ API)
+ Version: @VERSION@
+ Requires: flac
+-Libs: -L${libdir} -lFLAC++
++Libs: -L${libdir} -lFLAC++ -lssp
+ Cflags: -I${includedir}
+diff --git a/src/libFLAC/flac.pc.in b/src/libFLAC/flac.pc.in
+index 56e8594e..2a98ecf2 100644
+--- a/src/libFLAC/flac.pc.in
++++ b/src/libFLAC/flac.pc.in
+@@ -7,6 +7,6 @@ Name: FLAC
+ Description: Free Lossless Audio Codec Library
+ Version: @VERSION@
+ Requires.private: @OGG_PACKAGE@
+-Libs: -L${libdir} -lFLAC
++Libs: -L${libdir} -lFLAC -lssp
+ Libs.private: -lm
+ Cflags: -I${includedir}
+-- 
+2.26.0
+

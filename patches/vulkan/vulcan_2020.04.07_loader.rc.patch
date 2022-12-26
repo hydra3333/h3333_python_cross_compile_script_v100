@@ -1,0 +1,14 @@
+--- a/loader/loader.rc	2020-04-07 15:43:30.000000000 +0930
++++ b/loader/loader.rc	2020-04-07 15:43:52.000000000 +0930
+@@ -43,7 +43,11 @@
+ ///////////////////////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////////////////////
+ 
++#ifdef __MINGW64__
++#include <winresrc.h>
++#else // MSVC
+ #include "winres.h"
++#endif
+ 
+ #define VER_FILE_VERSION            VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_BUILDNO
+ 

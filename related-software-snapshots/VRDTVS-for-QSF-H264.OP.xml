@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VRDOutputProfileList version="2">
+
+<VRDOutputProfile>
+	<Name>VRDTVS-for-QSF-H264</Name>
+	<OutputMode>Smart</OutputMode>
+	<MPEG2EncoderQuality>High</MPEG2EncoderQuality>
+<RecodeMode>Quality</RecodeMode>
+	<RecodeQualities>
+		<MPEG2>100</MPEG2>
+		<H264>100</H264>
+		<HEVC>167</HEVC>
+	</RecodeQualities>
+	<FileType>MP4</FileType>
+	<FileExt></FileExt>
+	<OutputLibrary>
+		<Program>None</Program>
+		<CustomPath></CustomPath>
+	</OutputLibrary>
+	<DefaultOutputDir></DefaultOutputDir>
+	<VideoAttributes>
+		<Encoder>Match</Encoder>
+		<AspectRatio>No Change</AspectRatio>
+		<AspectCorrection>None</AspectCorrection>
+		<EncodeDimensions>
+			<Width>0</Width>
+			<Height>0</Height>
+		</EncodeDimensions>
+		<EncodeBitrate>0</EncodeBitrate>
+		<HeaderBitrate>0</HeaderBitrate>
+		<MaxBitrate>0</MaxBitrate>
+		<EncodingMode>SP</EncodingMode>
+		<DeinterlaceMethod>None</DeinterlaceMethod>
+		<FrameRate>No Change</FrameRate>
+		<ResizeQuality>High</ResizeQuality>
+	</VideoAttributes>
+	<AudioAttributes>
+		<Encoder>Auto</Encoder>
+		<Bitrate>0</Bitrate>
+		<SampleRate>No Change</SampleRate>
+		<ChannelMode>Auto</ChannelMode>
+		<AllowMultiAudio>False</AllowMultiAudio>
+		<LPCMEndianess>Little</LPCMEndianess>
+	</AudioAttributes>
+</VRDOutputProfile>
+
+</VRDOutputProfileList>

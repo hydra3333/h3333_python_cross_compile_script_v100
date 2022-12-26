@@ -1,0 +1,26 @@
+--- a/test/loader_test/test_create_calls.c	2020-10-22 16:36:43.525725000 -0700
++++ b/test/loader_test/test_create_calls.c	2020-10-22 16:36:43.525725000 -0700
+@@ -183,15 +183,22 @@
+                 PLATFORM_NAME_SIZE,
+                 (void*)platform_name,
+                 &param_val_ret_size );  
+ 
+         if (ret_val == CL_SUCCESS ){
+-            if(!strcmp(platform_name, "ICD_LOADER_TEST_OPENCL_STUB")) {
++            // if(!strcmp(platform_name, "ICD_LOADER_TEST_OPENCL_STUB")) {
++            if(!strcmp(platform_name, "ICD_LOADER_TEST_OPENCL_STUB")) { // 2020.10.13
+                 platform = all_platforms[i];                
+             }
+         }
+     }
++// 2020.10.13 START of addee block
++    if (!platform) {
++        // The stub OpenCL not found.
++        return -2;
++    }
++// 2020.10.13 END of addee block
+ 
+ #if ENABLE_MISMATCHING_PRINTS
+     test_icd_app_log("Value returned: %d\n", ret_val);
+ #endif
+ 

@@ -1,0 +1,32 @@
+From 18e9c5c9fc919632476a2fc9c1e2b2d35eb4c68a Mon Sep 17 00:00:00 2001
+From: Maxime Gervais <gervais.maxime@gmail.com>
+Date: Tue, 26 Oct 2021 14:18:41 +0200
+Subject: [PATCH] Avoid GCC/Windows type conflict
+
+Signed-off-by: Maxime Gervais <gervais.maxime@gmail.com>
+---
+ Source/MediaInfo/Reader/Reader_libcurl.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Source/MediaInfo/Reader/Reader_libcurl.cpp b/Source/MediaInfo/Reader/Reader_libcurl.cpp
+index a7ee2aaeb..16e25e654 100644
+--- a/Source/MediaInfo/Reader/Reader_libcurl.cpp
++++ b/Source/MediaInfo/Reader/Reader_libcurl.cpp
+@@ -26,8 +26,6 @@
+ //---------------------------------------------------------------------------
+ 
+ //---------------------------------------------------------------------------
+-#include "MediaInfo/Reader/Reader_libcurl.h"
+-#include "MediaInfo/File__Analyze.h"
+ #if defined MEDIAINFO_LIBCURL_DLL_RUNTIME
+     //Copy of cURL include files
+     #include "MediaInfo/Reader/Reader_libcurl_Include.h"
+@@ -36,6 +34,8 @@
+     #undef __TEXT
+     #include "curl/curl.h"
+ #endif
++#include "MediaInfo/Reader/Reader_libcurl.h"
++#include "MediaInfo/File__Analyze.h"
+ #include <ctime>
+ #include <algorithm> //For Url
+ #define MEDIAINFO_HMAC 1
