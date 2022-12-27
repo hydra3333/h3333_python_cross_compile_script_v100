@@ -78,11 +78,12 @@ SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 }
 SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'type': 'archive',
-	'version': '1.2.1',
+	#'version': '1.2.1',
+	'version': '1.3.1', # 2022.12.27
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
-# 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl
+# 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl so comment-out isl
 #SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 #	'type': 'archive',
 #	'version': '0.25',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
