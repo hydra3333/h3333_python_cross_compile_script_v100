@@ -36,7 +36,7 @@ import requests  # Please run: pip3 install requests
 _WORKDIR = "toolchain"
 _CPU_COUNT = cpu_count()
 _NO_CONFIG_GUESS = True  # Instead of downloading config.guess we use gcc -dumpmachine, this obviously only works when gcc is installed, but we need it to be installed anyway.
-_DEBUG = True
+_DEBUG_LOG = True
 _VERSION = "4.5-zeranoe_switches"
 
 SOURCES = OrderedDict()  # Order matters.
@@ -61,7 +61,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 		'mingw-w64-headers',
 		'mingw-w64-gendef',
 		'mingw-w64-winpthreads',
-		'mingw-w64-widl',
+		#'mingw-w64-widl',
 	]
 }
 SOURCES['gmp'] = { # https://ftp.gnu.org/gnu/gmp/
@@ -176,8 +176,8 @@ BUILDS['mingw-w64-headers'] = {
 		('{prefix}/{target}', '../include', './include'),
 	],
 	'lineInstall': 'install-strip',
-	#'lineInstallDebug': 'install',
-	'lineInstallDebug': 'install-strip',
+	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install-strip',
 }
 BUILDS['gcc-1'] = {
 	'lineConfig':
@@ -228,8 +228,8 @@ BUILDS['gcc-1'] = {
 	,
 	'lineMake'	: 'all-gcc',
 	'lineInstall': 'install-strip-gcc',
-	#'lineInstallDebug': 'install-gcc',
-	'lineInstallDebug': 'install-strip-gcc',
+	'lineInstallDebug': 'install-gcc',
+	#'lineInstallDebug': 'install-strip-gcc',
 }
 BUILDS['mingw-w64-crt'] = {
 	'lineConfig':
@@ -253,8 +253,8 @@ BUILDS['mingw-w64-crt'] = {
 		('{prefix}/{target}', 'ln -s "../lib" "./lib"', True),
 	],
 	'lineInstall': 'install-strip',
-	#'lineInstallDebug': 'install',
-	'lineInstallDebug': 'install-strip',
+	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install-strip',
 }
 BUILDS['mingw-w64-winpthreads'] = {
 	'lineConfig':
@@ -273,16 +273,16 @@ BUILDS['mingw-w64-winpthreads'] = {
 		' --prefix="{prefix}"'
 	,
 	'lineInstall': 'install-strip',
-	#'lineInstallDebug': 'install',
-	'lineInstallDebug': 'install-strip',
+	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install-strip',
 	'cpu_count': 1,
 }
 BUILDS['gcc-2'] = {
 	'lineConfig': 'dummy',
 	'noConfigure': True,
 	'lineInstall': 'install-strip',
-	#'lineInstallDebug': 'install',
-	'lineInstallDebug': 'install-strip',
+	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install-strip',
 }
 BUILDS['mingw-w64-gendef'] = {
 	'lineConfig':
@@ -299,24 +299,25 @@ BUILDS['mingw-w64-gendef'] = {
 		' --enable-static'
 	,
 	'lineInstall': 'install-strip',
-	#'lineInstallDebug': 'install',
-	'lineInstallDebug': 'install-strip',
+	'lineInstallDebug': 'install',
+	#'lineInstallDebug': 'install-strip',
 	'customCommands': [
 		('{prefix}', 'cp -f "./bin/gendef" "./bin/{target}-gendef"'),
 	],
 }
-BUILDS['mingw-w64-widl'] = {
- 	'lineConfig' :
- 		'mingw-w64-tools/widl/configure'
- 		' --with-widl-includedir="{prefix}/include"'
-		' --build="{host}"'
- 		' --prefix="{prefix}"'
- 		' --target="{target}"'
- 	,
- 	'lineInstall' : 'install-strip',
-	#'lineInstallDebug' : 'install',
- 	'lineInstallDebug' : 'install-strip',
-}
+# 2022.12.27 re-comment out widl as it does not build
+#BUILDS['mingw-w64-widl'] = {
+# 	'lineConfig' :
+# 		'mingw-w64-tools/widl/configure'
+# 		' --with-widl-includedir="{prefix}/include"'
+#		' --build="{host}"'
+# 		' --prefix="{prefix}"'
+# 		' --target="{target}"'
+# 	,
+# 	'lineInstall' : 'install-strip',
+#	'lineInstallDebug' : 'install',
+# 	#'lineInstallDebug' : 'install-strip',
+#}
 BUILDS['gmp'] = {
 	'dummy': True,
 }
@@ -389,7 +390,7 @@ class MinGW64ToolChainBuilder:
 	def log(self, msg, type=None):
 		if self.onStatusUpdate.any():
 			if type == "debug":
-				if _DEBUG == True:
+				if _DEBUG_LOG == True:
 					self.onStatusUpdate("[TOOLCHAIN] " + msg)
 			else:
 				self.onStatusUpdate("[TOOLCHAIN] " + msg)
@@ -699,7 +700,7 @@ class MinGW64ToolChainBuilder:
 	#:
 
 	def cchdir(self, dir):
-		if _DEBUG:
+		if _DEBUG_LOG:
 			self.log("Changing dir from {0} to {1}".format(os.getcwd(), dir))
 		os.chdir(dir)
 	#:
@@ -776,7 +777,7 @@ class MinGW64ToolChainBuilder:
 					self.log("Patching " + str(pn) + " with: " + str(patchTuple[0]))
 					if not os.path.isfile(os.path.basename(patchTuple[0])):
 						result = self.applyPatch(patchTuple[0], patchTuple[1])
-						if _DEBUG:
+						if _DEBUG_LOG:
 							self.log(result)
 						self.logFile.write(result)
 
@@ -885,20 +886,20 @@ class MinGW64ToolChainBuilder:
 				cpuCount = p["cpu_count"]
 
 			if self.customCflags != None:
-				if _DEBUG:
+				if _DEBUG_LOG:
 					self.log("Setting custom C(XX)FLAGS to: " + self.customCflags)
 				os.environ["CFLAGS"] = self.customCflags
 				os.environ["CXXFLAGS"] = self.customCflags
 				# os.environ["CPPFLAGS"] = "-O3" # 2022.12.18 per DEADSIX27
 			else:
 				if self.debugBuild:
-					if _DEBUG:
+					if _DEBUG_LOG:
 						self.log("Setting C(XX)FLAGS to: -ggdb")
 					os.environ["CFLAGS"] = "-ggdb"
 					os.environ["CXXFLAGS"] = "-ggdb"
 					# os.environ["CPPFLAGS"] = "-O3" # 2022.12.18 per DEADSIX27
 				else:
-					if _DEBUG:
+					if _DEBUG_LOG:
 						self.log("Setting C(XX)FLAGS to: -O3")
 					os.environ["CFLAGS"] = "-O3"
 					os.environ["CXXFLAGS"] = "-O3"
