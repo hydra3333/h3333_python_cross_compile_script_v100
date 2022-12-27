@@ -10,14 +10,52 @@ hydra3333@gmail.com
 #rm -f -v file
 #
 
+
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/hydra3333/h3333_python_cross_compile_script_v100_v100.git/'
+
+
 echo ensure we are in folder git first !!
 read -p "ensure we are in folder git first !!  press enter to continue"
 
 
-remote: Support for password authentication was removed on August 13, 2021.
-remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
-fatal: Authentication failed for 'https://github.com/hydra3333/h3333_python_cross_compile_script_v100_v100.git/'
+# to ensure a fresh copy, to delete all tags and releases
+sudo apt -y install git gh
+cd ~/Desktop
+rm -f -R -v h3333_python_cross_compile_script_v100
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
+cd h3333_python_cross_compile_script_v100
+git config --global user.name "hydra3333"
+git config --global user.email "hydra3333@gmail.com"
+git config --global credential.helper store
+#git config --global credential.helper 'store [options]'
+#git config --global credential.helper 'cache --timeout 3600000'
+#gh auth login
+## now use up/down arrows to choose options then past the authentication token
+#---
+## to delete all tags/releases
+## https://dev.to/dakdevs/delete-all-releases-from-github-repo-13ad
+git fetch
+##git tag -l | xargs -n 1 git push --delete origin
+git tag -l | xargs -n 1 git tag --delete --force origin
 
+
+
+
+#---
+cd ~/Desktop
+rm -f -R -v h3333_python_cross_compile_script_v100
+git clone https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git
+cd h3333_python_cross_compile_script_v100
+## to list all releases
+gh release list -L 999
+## to list all tags
+git tag -l 
+
+
+
+
+remote: Support for password authentication was removed on August 13, 2021.
 
 # to ensure a fresh copy
 cd ~/Desktop
