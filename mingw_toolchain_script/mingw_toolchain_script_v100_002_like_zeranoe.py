@@ -61,7 +61,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 		'mingw-w64-headers',
 		'mingw-w64-gendef',
 		'mingw-w64-winpthreads',
-		#'mingw-w64-widl',
+		'mingw-w64-widl',
 	]
 }
 SOURCES['gmp'] = { # https://ftp.gnu.org/gnu/gmp/
@@ -305,19 +305,18 @@ BUILDS['mingw-w64-gendef'] = {
 		('{prefix}', 'cp -f "./bin/gendef" "./bin/{target}-gendef"'),
 	],
 }
-# 2020.05.13 comment out the build of widl
-#BUILDS['mingw-w64-widl'] = {
-# 	'lineConfig' :
-# 		'mingw-w64-tools/widl/configure'
-# 		' --with-widl-includedir="{prefix}/include"'
-#		' --build="{host}"'
-# 		' --prefix="{prefix}"'
-# 		' --target="{target}"'
-# 	,
-# 	'lineInstall' : 'install-strip',
-#	#'lineInstallDebug' : 'install',
-# 	'lineInstallDebug' : 'install-strip',
-#}
+BUILDS['mingw-w64-widl'] = {
+ 	'lineConfig' :
+ 		'mingw-w64-tools/widl/configure'
+ 		' --with-widl-includedir="{prefix}/include"'
+		' --build="{host}"'
+ 		' --prefix="{prefix}"'
+ 		' --target="{target}"'
+ 	,
+ 	'lineInstall' : 'install-strip',
+	#'lineInstallDebug' : 'install',
+ 	'lineInstallDebug' : 'install-strip',
+}
 BUILDS['gmp'] = {
 	'dummy': True,
 }
