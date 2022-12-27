@@ -63,6 +63,7 @@ sudo apt install -y clang
 # no per https://github.com/m-ab-s/media-autobuild_suite/issues/1942#issuecomment-800780569
 
 sudo apt install -y git 
+sudo apt install -y gh
 sudo apt install -y cvs 
 #sudo apt install -y svn
 sudo apt install -y subversion 
