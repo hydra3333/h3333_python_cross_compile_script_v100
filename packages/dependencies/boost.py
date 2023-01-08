@@ -1,10 +1,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [ # https://fossies.org/linux/misc/
-		#{ 'url' : 'https://fossies.org/linux/misc/boost_1_79_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '475d589d51a7f8b3ba2ba4eda022b170e562ca3b760ee922c146b6c65856ef39' }, ], },
-		#{ 'url' : 'https://dl.bintray.com/boostorg/release/1.79.0/source/boost_1_79_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '475d589d51a7f8b3ba2ba4eda022b170e562ca3b760ee922c146b6c65856ef39' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/boost_1_80_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0' }, ], },
-		{ 'url' : 'https://dl.bintray.com/boostorg/release/1.80.0/source/boost_1_80_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/boost_1_80_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0' }, ], },
+		#{ 'url' : 'https://dl.bintray.com/boostorg/release/1.80.0/source/boost_1_80_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/boost_1_81_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '71feeed900fbccca04a3b4f2f84a7c217186f28a940ed8b7ed4725986baf99fa' }, ], },
+		{ 'url' : 'https://dl.bintray.com/boostorg/release/1.81.0/source/boost_1_81_0.tar.bz2', 'hashes' : [ { 'type' : 'sha256', 'sum' : '71feeed900fbccca04a3b4f2f84a7c217186f28a940ed8b7ed4725986baf99fa' }, ], },
 		# in WIn10 use powershell to find the sha256 of a file https://www.youtube.com/watch?v=YM2CE6zKvoo&t=57
 		# in linux: sha256sum filename
 	],
