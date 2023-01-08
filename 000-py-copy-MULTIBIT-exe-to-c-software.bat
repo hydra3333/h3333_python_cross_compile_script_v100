@@ -19,6 +19,10 @@ xcopy ".\exe_x64_py\*.*" "C:\SOFTWARE\youtube-dl\" /Y /E /V /F /G /H /R /Z /C /e
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\youtube-dl\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
 REM ------------------------------------------------------------------------------------------
+xcopy ".\exe_x64_py\*.*" "C:\SOFTWARE\yt-dlp\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
+xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\yt-dlp\" /Y /E /V /F /G /H /R /Z /C
+REM ------------------------------------------------------------------------------------------
+REM ------------------------------------------------------------------------------------------
 xcopy ".\exe_x64_py\mediainfo.exe" "C:\SOFTWARE\MediaInfo\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 xcopy ".\exe_x64_py\ffprobe.exe" "C:\SOFTWARE\MediaInfo\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\MediaInfo\" /Y /E /V /F /G /H /R /Z /C
