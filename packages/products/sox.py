@@ -12,6 +12,10 @@
 	'configure_options' : '--host={target_host} --prefix={output_prefix}/sox_git.installed --disable-shared --enable-static --without-gsm --disable-examples', # 2019.12.13
 	'env_exports' : { # 2019.12.13
 		'LIBS'   : '-lFLAC -lFLAC++',
+		'CFLAGS'   : ' -DLIBTWOLAME_STATIC {original_cflags} ', # 2022.12.31 per MABS
+		'CXXFLAGS' : ' -DLIBTWOLAME_STATIC {original_cflags} ', # 2022.12.31 per MABS
+		'CPPFLAGS' : ' -DLIBTWOLAME_STATIC {original_cflags} ', # 2022.12.31 per MABS
+		'LDFLAGS'  : ' -DLIBTWOLAME_STATIC {original_cflags} ', # 2022.12.31 per MABS
 	},
 	'run_post_regexreplace' : [
 		'autoreconf -fiv',
