@@ -1,5 +1,6 @@
 {
 	'repo_type' : 'git',
+	#'url' : 'https://github.com/hydra3333/FFmpeg.git',
 	'url' : 'git://git.ffmpeg.org/ffmpeg.git',
 	#'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
