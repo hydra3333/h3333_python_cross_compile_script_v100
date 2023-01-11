@@ -9,7 +9,7 @@
 		'TARGET'  : '{target_host}',
 		'PKG_CONFIG' : 'pkg-config',
 		#'LDFLAGS' : '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ' # see my 'custom_ldflag' instead
-		'WAF_NO_PREFORK' : '1', # 2023.01.11 per https://github.com/m-ab-s/media-autobuild_suite/commit/df2e20294debda9780da42738e003818243be06c?diff=split
+		#'WAF_NO_PREFORK' : '1', # 2023.01.11 per https://github.com/m-ab-s/media-autobuild_suite/commit/df2e20294debda9780da42738e003818243be06c?diff=split
 	},
 	'custom_cflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} ', # 2020.05.13 
 	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -fstack-protector-strong -lvulkan-1 -lz -ld3d11 -lintl -liconv ',
