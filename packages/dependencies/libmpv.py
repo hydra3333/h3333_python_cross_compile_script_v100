@@ -4,20 +4,18 @@
 	'build_system' : 'waf',
 	'conf_system' : 'waf',
 	'rename_folder' : 'libmpv_git',
-	#'env_exports' : {
-	#	'DEST_OS' : 'win32',
-	#	'TARGET'  : '{target_host}',
-	#	'PKG_CONFIG' : 'pkg-config',
-	#	'LDFLAGS': '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong' # See near 'regex_replace'
-	#},
 	'env_exports' : {
 		'DEST_OS' : '{bit_name_win}', #'DEST_OS' : 'win32',
 		'TARGET'  : '{target_host}',
 		'PKG_CONFIG' : 'pkg-config',
 		#'LDFLAGS' : '-Wl,-Bdynamic -lvulkan-1 -fstack-protector-strong ' # see my 'custom_ldflag' instead
+		'WAF_NO_PREFORK' : '1', # 2023.01.11 per https://github.com/m-ab-s/media-autobuild_suite/commit/df2e20294debda9780da42738e003818243be06c?diff=split
 	},
 	'custom_cflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} ', # 2020.05.13 
 	'custom_ldflag' : ' -Wl,-Bdynamic {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -fstack-protector-strong -lvulkan-1 -lz -ld3d11 -lintl -liconv ',
+	#'patches': [
+	#	('mpv/0001-resolve-naming-collision-with-xavs2.patch', '-p1'), # resolve naming collision with xavs2
+	#],
 	'run_post_regexreplace' : [ # 2022.03.18 replace the patch with some sed # resolve naming collision with xavs2
 		'sed -i.bak \'s/encoder_encode(/encoder_encode_mpv(/g\' audio/out/ao_lavc.c',
 		'sed -i.bak \'s/encoder_encode(/encoder_encode_mpv(/g\' common/encode_lavc.c',
