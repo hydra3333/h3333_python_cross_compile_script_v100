@@ -4,7 +4,7 @@
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Headers.git',
 	#'depth_git': 0,
 	'recursive_git' : True,
-	#'branch': '204cd131c42b90d129073719f2766293ce35c081', # 2020.03.19 comment out
+	'branch': 'main', # 2023.01.12 address more 'merican embedded racism
 	#'needs_make' : False,
 	#'needs_make_install' : False,
 	#'needs_configure' : False,
