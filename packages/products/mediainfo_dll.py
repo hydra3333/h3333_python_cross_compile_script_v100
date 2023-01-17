@@ -12,10 +12,10 @@
 		'./autogen.sh NOCONFIGURE=1',
 		'autoreconf -fiv',
 	],
-	'configure_options': '--host={target_host} --prefix={output_prefix}/mediainfo_dll_git.installed --enaable-shared --disable-static-libs',
+	'configure_options': '--host={target_host} --prefix={output_prefix}/mediainfo_dll_git.installed --enable-shared --enable-static-libs',
 	'custom_cflag' : '-D__USE_MINGW_ANSI_STDIO=1 {original_cflags}', # 2019.12.13
 	'depends_on': [
-		'zenlib', 'libmediainfo', # 2019.12.13
+		'zenlib', 'libmediainfo_dll', # 2019.12.13
 	],
 	'run_post_configure' : [
 		'sed -i.bak \'s/ -DSIZE_T_IS_LONG//g\' Makefile',
