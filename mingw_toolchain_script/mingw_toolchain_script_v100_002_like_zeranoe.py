@@ -72,7 +72,8 @@ SOURCES['gmp'] = { # https://ftp.gnu.org/gnu/gmp/
 }
 SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 	'type': 'archive',
-	'version': '4.1.1',
+	#'version': '4.1.1',
+	'version': '4.2.0',
 	'url': 'https://ftp.gnu.org/gnu/mpfr/mpfr-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpfr/', 'type': 'httpindex', 'regex': r'mpfr-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
@@ -91,7 +92,8 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 #}
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.39', # 2.39 fails to build ... # 2022.12.18 per DEADSIX27 retry 2.39 instead of 2.37 which does work
+	#'version': '2.39', # 2.39 fails to build ... # 2022.12.18 per DEADSIX27 retry 2.39 instead of 2.37 which does work
+	'version': '2.40',
 	'url': 'https://ftp.gnu.org/gnu/binutils/binutils-{version}.tar.bz2',
 	'softlink_to_package': [
 		#('isl', 'isl'), # 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl
