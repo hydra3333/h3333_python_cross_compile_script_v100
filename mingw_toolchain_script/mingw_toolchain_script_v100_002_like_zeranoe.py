@@ -79,7 +79,6 @@ SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 }
 SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'type': 'archive',
-	#'version': '1.2.1',
 	'version': '1.3.1', # 2022.12.27
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
