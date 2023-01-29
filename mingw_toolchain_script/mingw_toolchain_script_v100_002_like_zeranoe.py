@@ -84,11 +84,11 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
 # 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl so comment-out isl
-#SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
-#	'type': 'archive',
-#	'version': '0.25',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
-#	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
-#}
+SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
+	'type': 'archive',
+	'version': '0.25',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
+}
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
 	#'version': '2.39', # 2.39 fails to build ... # 2022.12.18 per DEADSIX27 retry 2.39 instead of 2.37 which does work
