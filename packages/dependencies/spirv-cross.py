@@ -4,6 +4,7 @@
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Cross.git',
 	'depth_git': 0,
 	'recursive_git' : True,
+	'branch': 'main', # 2023.01.29 address more 'merican embedded racism
 	# 2022.06.28 for now, stay with cmake not meson which MABS creates
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
