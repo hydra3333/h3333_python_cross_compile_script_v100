@@ -52,7 +52,7 @@
 		# 2022.09.05 SHADERC depends on GLSLANG ... GLSLANG is "ahead" of SHADERC 
 		#            and there is a mismatch, so we affix GLSLANG to a KNOWN GOOD COMMIT
 		#            both in glslang.py and here in shaderc.py at 'glslang_revision'
-		'sed -i "s/\'glslang_revision\':.*/\'glslang_revision\': \'728c689574fba7e53305b475cd57f196c1a21226\',/g" ../DEPS',  # 2022.12.18 per DEADSIX27
+		'sed -i "s/\'glslang_revision\':.*/\'glslang_revision\': \'1fb2f1d7896627d62a289439a2c3e750e551a7ab\',/g" ../DEPS',  # 2022.12.18 per DEADSIX27
 		'sed -i "s/\'spirv_headers_revision\':.*/\'spirv_headers_revision\': \'\',/g" ../DEPS',
 		'sed -i "s/\'spirv_tools_revision\':.*/\'spirv_tools_revision\': \'\',/g" ../DEPS',
 	],

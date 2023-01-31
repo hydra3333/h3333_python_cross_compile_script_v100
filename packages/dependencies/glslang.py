@@ -8,7 +8,7 @@
 	#            and there is a mismatch, so we affix GLSLANG to a KNOWN GOOD COMMIT
 	#            both here in glslang.py and in shaderc.py at 'glslang_revision'
 	#
-	'branch' : '728c689574fba7e53305b475cd57f196c1a21226',  # 2022.12.18 per DEADSIX27
+	'branch' : '1fb2f1d7896627d62a289439a2c3e750e551a7ab',
 	#
 	'recursive_git' : True,
 	'conf_system' : 'cmake', # from MABS 2020.10.10

@@ -41,7 +41,7 @@
 	],
 	'run_post_patch' : [
 		'sed -i.bak "s/0.13.0/0.48.0/" ../meson.build',
-		'if [   -f "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ] ; then rm -fv "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ; fi', # 2022.12.21 remove .pc beofre building
+		'if [   -f "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ] ; then rm -fv "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ; fi', # 2022.12.21 remove .pc before building
 	],
 	'run_post_install' : [
 		# 2022.06.28 the next line is to create a .pc ... if SHOULD not be needed any more ??? 
