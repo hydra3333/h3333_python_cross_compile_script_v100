@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'rename_folder' : 'spirv-tools',
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Tools.git',
-	#'depth_git': 0,
+	'depth_git': 0,
 	'branch': 'main', # 2023.01.12 address more 'merican embedded racism
 	'recursive_git' : True,
 	#'needs_make' : False,
