@@ -13,7 +13,7 @@
 	},
 	# 2022.05.10 MABS added the below to patch ffmpeg, so when 2.23 is released we should add it to all ffmpeg product/dependency .py !
 	'patches' : [
-		('vapoursynth/0001-Add-Alternative-VapourSynth-demuxer-to-ffmpeg-per-MABS.patch', '-Np0', '..'), # from MABS, adds demuxer vapoursynth_alt https://forum.videohelp.com/threads/397728-ffmpeg-accepting-vapoursynth-vpy-input-directly-and-gpu-accelerated-speed#post2679781
+		('vapoursynth/0001-Add-Alternative-VapourSynth-demuxer-to-ffmpeg-per-MABS.patch', '-Np0'), # from MABS, adds demuxer vapoursynth_alt https://forum.videohelp.com/threads/397728-ffmpeg-accepting-vapoursynth-vpy-input-directly-and-gpu-accelerated-speed#post2679781
 	],
 	#'cpu_count' : '1', # FOR DEBUG
 	'configure_options' : 
