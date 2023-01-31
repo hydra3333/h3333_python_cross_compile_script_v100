@@ -231,6 +231,7 @@ n_ver="2.16.01"
 sudo rm -vfR nasm-${n_ver}
 #if [[ ! -d "nasm-${n_ver}" ]]; then
    echo "Downloading nasm ${n_ver}"
+   # https://www.nasm.us/pub/nasm/releasebuilds/
    url="https://www.nasm.us/pub/nasm/releasebuilds/${n_ver}/nasm-${n_ver}.tar.xz"
    rm -f "nasm-${n_ver}.tar.xz"
    curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-${n_ver}.tar.xz" # -L means "allow redirection" or some odd :|
@@ -255,7 +256,7 @@ set +x
 set -x
 cd ~/Desktop
 #c_ver="3.23.2"
-c_ver="3.25.1"
+c_ver="3.25.2"
 sudo rm -vfR cmake-${c_ver} 
 #if [[ ! -d "cmake-${c_ver}" ]]; then
    mkdir cmake-${c_ver} 
@@ -263,6 +264,7 @@ sudo rm -vfR cmake-${c_ver}
    echo "Downloading cmake-${c_ver}"
    sudo apt install -y libssl-dev 
    sudo apt remove -y cmake
+   # https://github.com/Kitware/CMake/releases/
    curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "https://github.com/Kitware/CMake/releases/download/v${c_ver}/cmake-${c_ver}.tar.gz" -L -O
    tar -xf cmake-${c_ver}.tar.gz
    sudo chmod +777 -R *
