@@ -3,8 +3,10 @@
 	'rename_folder' : 'spirv-tools',
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Tools.git',
 	'depth_git': 0,
-	#'branch': 'main', # 2023.01.12 address more 'merican embedded racism
-	'branch': '64ba112ffb1fed55f1514e209db8ddbafbd7b9ae', # 2023.01.12 address more 'merican embedded racism
+	'branch': 'main', # 2023.01.12 address more 'merican embedded racism
+	#'branch': 'fcfc3c580c75be90a33711dd894dec58ebde9eec',
+	#'branch': '0174dd11ff8fc2e039815e4ae9f9bc1c626beb49',
+	#'branch': '64ba112ffb1fed55f1514e209db8ddbafbd7b9ae', # this works
 	'recursive_git' : True,
 	#'needs_make' : False,
 	#'needs_make_install' : False,
