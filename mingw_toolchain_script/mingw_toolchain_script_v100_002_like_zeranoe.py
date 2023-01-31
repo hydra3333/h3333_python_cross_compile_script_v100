@@ -45,7 +45,7 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-    'checkout' : 'tags/v10.0.0', # 2022.12.18 comment out # see the calling  .py  -'mingw_commit': 'tags/v10.0.0', 
+    'checkout' : 'master' # 'tags/v10.0.0', # 2023.01.31 also see the calling .py
     #
 	#'git_shallow': True,
 	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
