@@ -258,7 +258,7 @@ class CrossCompileScript:
 				'output_path': '{work_dir}/{bit_name_win}_output',
 				'bitness': [64, ],
 				'cpu_count': cpu_count(),
-				'mingw_commit': None,
+				'mingw_commit': None,	# specify a commit, or None which leaves that up to the toolchain builder
 				'mingw_debug_build': False,
 				'mingw_dir': 'toolchain',
 				'mingw_custom_cflags': None,
@@ -887,7 +887,7 @@ class CrossCompileScript:
 			toolchainBuilder = mod.MinGW64ToolChainBuilder()
 
 			toolchainBuilder.workDir = self.mingwDir
-			if self.config["toolchain"]["mingw_commit"] is not None:
+			if self.config["toolchain"]["mingw_commit"] is not None:	# specify a commit, or None which leaves that up to the toolchain builder
 				toolchainBuilder.setMinGWcheckout(self.config["toolchain"]["mingw_commit"])
 			if self.config["toolchain"]["mingw_custom_cflags"] is not None:
 				toolchainBuilder.setCustomCflags(self.config["toolchain"]["mingw_custom_cflags"])
