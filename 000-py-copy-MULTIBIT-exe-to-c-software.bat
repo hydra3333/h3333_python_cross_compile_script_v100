@@ -54,6 +54,9 @@ ECHO AVSPLUS371_x64 takes over from AVSPLUS370_x64 since avisynth 3.7.1 is out n
 xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS371_x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS371_x64\" /Y /E /V /F /G /H /R /Z /C
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS371_x64\plugins\" /Y /E /V /F /G /H /R /Z /C
+xcopy ".\exe_x64_py\ff*.exe" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS372_x64\" /Y /E /V /F /G /H /R /Z /C /exclude:xcopyexcludedfileslist1.txt
+xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS372_x64\" /Y /E /V /F /G /H /R /Z /C
+xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\AVISynth\AvisynthRepository\AVSPLUS372_x64\plugins\" /Y /E /V /F /G /H /R /Z /C
 REM ------------------------------------------------------------------------------------------
 REM ------------------------------------------------------------------------------------------
 xcopy ".\exe_x64_py\libfftw3*.dll" "C:\SOFTWARE\Vapoursynth-x64\" /Y /E /V /F /G /H /R /Z /C
