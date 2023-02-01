@@ -215,15 +215,15 @@ sleep 5s
 #read -p "done dav1d press any key to continue"
 
 
-rm -fv ./mpv.log
-./cross_compiler_v100_002.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
-exit_status=$?
-echo "exit_status='$exit_status'"
-if [ $exit_status -ne 0 ]; then
-    echo "Error $exit_status detected"
-	exit $exit_status
-fi
-sleep 5s
+#rm -fv ./mpv.log
+#./cross_compiler_v100_002.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
+#exit_status=$?
+#echo "exit_status='$exit_status'"
+#if [ $exit_status -ne 0 ]; then
+#    echo "Error $exit_status detected"
+#	exit $exit_status
+#fi
+#sleep 5s
 #read -p "done mpv press any key to continue"
 
 rm -fv ./fftw3_dll.log
