@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'rename_folder' : 'spirv-headers',
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Headers.git',
-	#'depth_git': 0,
+	'depth_git': 0,
 	'recursive_git' : True,
 	#'branch': 'main', # 2023.01.12 address more 'merican embedded racism
 	'branch': '!CMD(cat "shaderc_commit_dependencies/spirv_headers_revision.commit")CMD!', # 2023.02.04
