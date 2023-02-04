@@ -10,7 +10,7 @@
 	#
 	'run_pre_depends_on' : [
 		'pwd',
-		'!SWITCHDIR|x86_64_products',
+		'!SWITCHDIR|x86_64',
 		'if [ ! -d "shaderc_commit_dependencies" ]; then mkdir -pv shaderc_commit_dependencies ; fi',
 		'!SWITCHDIR|shaderc_commit_dependencies',
 		'pwd',

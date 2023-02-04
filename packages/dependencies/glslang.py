@@ -8,7 +8,8 @@
 	#            and there is a mismatch, so we affix GLSLANG to a KNOWN GOOD COMMIT
 	#            both here in glslang.py and in shaderc.py at 'glslang_revision'
 	#
-	'branch' : '1fb2f1d7896627d62a289439a2c3e750e551a7ab',
+	#'branch' : '1fb2f1d7896627d62a289439a2c3e750e551a7ab',
+	'branch' : '!CMD(cat "shaderc_commit_dependencies/glslang_revision.commit")CMD!',  # 2023.02.04
 	#
 	'recursive_git' : True,
 	'conf_system' : 'cmake', # from MABS 2020.10.10
@@ -33,7 +34,7 @@
 	#'run_post_install' : [ 
 	#	'cp -vf "{target_prefix}/lib/libglslangd.a" "{target_prefix}/lib/libglslang.a"' # 2020.10.10 only needed if CMAKE_BUILD_TYPE not defined or is "Debug"
 	#],
-	'depends_on' : [  'spirv-cross', 'spirv-tools', ],
+	'depends_on' : [  'shaderc_commit_dependencies', 'spirv-cross', 'spirv-tools', ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git', 'fancy_name' : 'glslang' },
 }
