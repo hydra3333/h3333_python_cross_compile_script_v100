@@ -343,7 +343,6 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
-										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -379,7 +378,6 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
-										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -398,7 +396,6 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
-										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -433,7 +430,6 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
-										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
