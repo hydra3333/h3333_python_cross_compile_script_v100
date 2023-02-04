@@ -111,6 +111,14 @@ class MyLogFormatter(logging.Formatter):
 		return result
 
 
+	def replaceCmdVariables(inStr):
+		cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
+		if cmdList:
+			for cmd in cmdList:
+				cmdReplacer = subprocess.check_output(cmd, shell=True).decode("utf-8").replace("\n", "").replace("\r", "").strip()
+				inStr = re.sub(r"!CMD\(([^\)\(]+)\)CMD!", F"{cmdReplacer}", inStr, flags=re.DOTALL)
+		return inStr
+
 class CrossCompileScript:
 
 	def __init__(self):
@@ -223,11 +231,26 @@ class CrossCompileScript:
 					else:
 						packages["prods"][packageName] = o
 						self.logger.debug("h3333 tmp parsing prod package list, Loaded Product '%s' ." % (p))
-
 				except SyntaxError:
 					self.errorExit("Loading '%s.py' failed:\n\n%s" % (packageName, traceback.format_exc()))
 
 		self.logger.info("Loaded %d packages", len(packages["prods"]) + len(packages["deps"]))
+		#---------------------------------------------------------------------------------------------------
+		#---------------------------------------------------------------------------------------------------
+		self.logger.debug("h3333 parsing prod package list, Loaded Products START EVALUATION.")
+		for key, val in packages["prods"].items():
+			if 'branch' in val:
+				if val['branch'] is not None:
+					self.logger.debug(f"h3333 Product {key} has branch='{val['branch']}'")
+		self.logger.debug("h3333 parsing prod package list, Loaded Products END   EVALUATION.")
+		self.logger.debug("h3333 parsing prod package list, Loaded Dependencies START EVALUATION.")
+		for key, val in packages["deps"].items():
+			if 'branch' in val:
+				if val['branch'] is not None:
+					self.logger.debug(f"h3333 Dependency {key} has replaceVariables branch='{val['branch']}'")
+		self.logger.debug("h3333 parsing prod package list, Loaded Dependencies END   EVALUATION.")
+		#---------------------------------------------------------------------------------------------------
+		#---------------------------------------------------------------------------------------------------
 		return packages
 
 	def confDiff(self, default, users):  # very basic config comparison
