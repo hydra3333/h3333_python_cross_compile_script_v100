@@ -1493,7 +1493,8 @@ class CrossCompileScript:
 
 		branchString = ""
 		if desiredBranch is not None:
-			branchString = " {0}".format(self.replaceVariables(desiredBranch)) # 2023.02.04 only for git checkout do we allow gameds with self.replaceVariables() and 'branch'
+			desiredBranch = self.replaceVariables(desiredBranch)
+			branchString = " {0}".format(desiredBranch) # 2023.02.04 only for git checkout do we allow gameds with self.replaceVariables() and 'branch'
 
 		properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 		if desiredBranch is not None:
