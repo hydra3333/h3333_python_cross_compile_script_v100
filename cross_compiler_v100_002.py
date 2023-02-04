@@ -343,6 +343,7 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
+										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -378,6 +379,7 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
+										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -396,6 +398,7 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
+										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -430,6 +433,7 @@ class CrossCompileScript:
 							if val['repo_type'] == 'git' or val['repo_type'] == 'mercurial':
 								if 'branch' in val:
 									if val['branch'] is not None:
+										branch = self.replaceVariables(branch)
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
 										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 								else:
@@ -1494,7 +1498,7 @@ class CrossCompileScript:
 		branchString = ""
 		if desiredBranch is not None:
 			desiredBranch = self.replaceVariables(desiredBranch)
-			branchString = " {0}".format(desiredBranch) # 2023.02.04 only for git checkout do we allow gameds with self.replaceVariables() and 'branch'
+			branchString = " {0}".format(desiredBranch) # 2023.02.04 only for git checkout do we allow games with self.replaceVariables() and 'branch'
 
 		properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 		if desiredBranch is not None:
@@ -1788,6 +1792,8 @@ class CrossCompileScript:
 
 		if packageData["repo_type"] == "git":
 			branch = self.getValueOrNone(packageData, 'branch')
+			if branch is not None:
+				branch = self.replaceVariables(branch)
 			recursive = self.getValueOrNone(packageData, 'recursive_git')
 			git_depth = packageData.get('depth_git', -1)
 			folderName = self.getValueOrNone(packageData, 'folder_name')
@@ -1800,6 +1806,8 @@ class CrossCompileScript:
 			workDir = self.svnClone(self.getPrimaryPackageUrl(packageData, packageName), packageData["folder_name"], renameFolder)
 		if packageData['repo_type'] == 'mercurial':
 			branch = self.getValueOrNone(packageData, 'branch')
+			if branch is not None:
+				branch = self.replaceVariables(branch)
 			workDir = self.mercurialClone(self.getPrimaryPackageUrl(packageData, packageName), self.getValueOrNone(packageData, 'folder_name'), renameFolder, branch)
 		if packageData["repo_type"] == "archive":
 			if "folder_name" in packageData:
@@ -1896,6 +1904,8 @@ class CrossCompileScript:
 
 		if packageData["repo_type"] == "git":
 			branch = self.getValueOrNone(packageData, 'branch')
+			if branch is not None:
+				branch = self.replaceVariables(branch)
 			recursive = self.getValueOrNone(packageData, 'recursive_git')
 			git_depth = packageData.get('depth_git', -1)
 			folderName = self.getValueOrNone(packageData, 'folder_name')
@@ -1912,6 +1922,8 @@ class CrossCompileScript:
 			workDir = self.svnClone(self.getPrimaryPackageUrl(packageData, packageName), packageData["folder_name"], renameFolder)
 		elif packageData['repo_type'] == 'mercurial':
 			branch = self.getValueOrNone(packageData, 'branch')
+			if branch is not None:
+				branch = self.replaceVariables(branch)
 			workDir = self.mercurialClone(self.getPrimaryPackageUrl(packageData, packageName), self.getValueOrNone(packageData, 'folder_name'), renameFolder, branch, forceRebuild)
 		elif packageData["repo_type"] == "archive":
 			if "folder_name" in packageData:
