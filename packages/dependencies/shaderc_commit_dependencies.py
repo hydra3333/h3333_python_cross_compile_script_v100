@@ -16,10 +16,10 @@
 		#'!SWITCHDIR|x86_64',
 		#'if [ ! -d "shaderc_commit_dependencies" ]; then mkdir -pv shaderc_commit_dependencies ; fi',
 		#'!SWITCHDIR|shaderc_commit_dependencies',
-		'pwd',
+		'pwd ; ls -al',
 		'if [ -f "DEPS" ] ; then rm -fv DEPS ; fi',
 		'wget https://raw.githubusercontent.com/google/shaderc/main/DEPS',
-		'cat ./DEPS',
+		#'cat ./DEPS',
 		#
 		'if [ -f "./glslang_revision.txt" ] ; then rm -f ./glslang_revision.txt ; fi',
 		'if [ -f "./glslang_revision.commit" ] ; then rm -f ./glslang_revision.commit ; fi',
