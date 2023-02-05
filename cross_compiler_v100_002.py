@@ -394,6 +394,10 @@ class CrossCompileScript:
 				branch = None
 				outPath = os.getcwd()	# save the current path so e can return to it before exiting
 				PackageSubfolderName = packageName
+				if packageData['repo_type'] == 'git':
+					PackageSubfolderName = packageName + "_git"
+				if packageData['repo_type'] == 'mercurial':
+					PackageSubfolderName = packageName + "_hg"
 				folder_name = None
 				rename_folder = None
 
@@ -436,19 +440,20 @@ class CrossCompileScript:
 				print(F"DEBUG self.getPackageBranch:       incoming path: '{outPath}'")
 				print(F"DEBUG self.getPackageBranch: target package path: '{targetDir}'")
 	
-
-				... this will fail, there's no contiuing after an except
+				#... this will fail, there's no contiuing after an except
 				try:
-					self.cchdir(self.targetDir)
+					print(F"Changing dir from {os.getcwd()} to {targetDir}")
+					os.chdir(targetDir)
 				except:
 					print(F"DEBUG self.getPackageBranch: failed to CD into target package path '{targetDir}' ... ignoring")
-					self.cchdir(outPath)	# return to the saved the path before exiting
+					print(F"Changing dir from {os.getcwd()} to {outPath}")
+					os.chdir(outPath)
 					branch = None
 					return branch
 
 				# now that we are in the correct folder for this package/dependency,
 				# do stuff like decode the dynamic "commit id"
-				... this will fail, there's no contiuing after an except
+				#... this will fail, there's no contiuing after an except
 				try:
 					branch = self.gPBreplaceCmdVariables(original_branch)
 				except:
@@ -457,7 +462,8 @@ class CrossCompileScript:
 					return branch
 
 				# CD back to the original path and return the result
-				self.cchdir(outPath)	# CD back to the saved the path before exiting
+				print(F"Changing dir from {os.getcwd()} to {outPath}")
+				os.chdir(outPath)
 				print(F"DEBUG self.getPackageBranch: package '{packageName}' success, original_branch='{original_branch}' branch='{branch}'")
 				return branch
 
@@ -477,7 +483,8 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
-										
+										print(F"DEBUG")
+										print(F"DEBUG")
 										print(F"DEBUG listifyPackages: key='{key}'")
 										print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
 										print(F"DEBUG listifyPackages: type='{type}'")
@@ -485,6 +492,8 @@ class CrossCompileScript:
 										print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
 										branch = self.getPackageBranch(key, val, type)
 										print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
+										print(F"DEBUG")
+										print(F"DEBUG")
 										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 										cVer = rTypeStr + ' (' + branch + ')'
 								else:
