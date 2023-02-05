@@ -1880,6 +1880,7 @@ class CrossCompileScript:
 				skipDepends = True
 		#-----
 		# 2020.04.10 add this in for building freetype cleanly (it crashed if re-run)
+		# This causes this section to run even if is_dep_inheriter is set and performs an early return
 		if 'run_pre_depends_on' in packageData and packageData['run_pre_depends_on']:
 				for cmd in packageData['run_pre_depends_on']:
 					ignoreFail = False
