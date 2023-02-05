@@ -111,13 +111,13 @@ class MyLogFormatter(logging.Formatter):
 		return result
 
 
-	def replaceCmdVariables(inStr):
-		cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
-		if cmdList:
-			for cmd in cmdList:
-				cmdReplacer = subprocess.check_output(cmd, shell=True).decode("utf-8").replace("\n", "").replace("\r", "").strip()
-				inStr = re.sub(r"!CMD\(([^\)\(]+)\)CMD!", F"{cmdReplacer}", inStr, flags=re.DOTALL)
-		return inStr
+def replaceCmdVariables(inStr, type_P_or_D):
+	cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
+	if cmdList:
+		for cmd in cmdList:
+			cmdReplacer = subprocess.check_output(cmd, shell=True).decode("utf-8").replace("\n", "").replace("\r", "").strip()
+			inStr = re.sub(r"!CMD\(([^\)\(]+)\)CMD!", F"{cmdReplacer}", inStr, flags=re.DOTALL)
+	return inStr
 
 class CrossCompileScript:
 
@@ -128,7 +128,10 @@ class CrossCompileScript:
 		hdlr.setFormatter(fmt)
 		self.logger = logging.getLogger(__name__)
 		self.logger.addHandler(hdlr)
-		self.logger.setLevel(logging.INFO)
+		initial_logging_mode = logging.INFO
+		#initial_logging_mode = logging.DEBUG
+		self.logger.setLevel(initial_logging_mode)
+		#self.logger.info(f'__init__: logger.setLevel is {initial_logging_mode} ... logging.INFO={logging.INFO} logging.DEBUG={logging.DEBUG} ')
 		self.config = self.loadConfig()
 		fmt = MyLogFormatter(self.config["script"]["log_format"], self.config["script"]["log_date_format"])
 		hdlr.setFormatter(fmt)
@@ -237,18 +240,25 @@ class CrossCompileScript:
 		self.logger.info("Loaded %d packages", len(packages["prods"]) + len(packages["deps"]))
 		#---------------------------------------------------------------------------------------------------
 		#---------------------------------------------------------------------------------------------------
-		self.logger.debug("h3333 parsing prod package list, Loaded Products START EVALUATION.")
-		for key, val in packages["prods"].items():
-			if 'branch' in val:
-				if val['branch'] is not None:
-					self.logger.debug(f"h3333 Product {key} has branch='{val['branch']}'")
-		self.logger.debug("h3333 parsing prod package list, Loaded Products END   EVALUATION.")
-		self.logger.debug("h3333 parsing prod package list, Loaded Dependencies START EVALUATION.")
-		for key, val in packages["deps"].items():
-			if 'branch' in val:
-				if val['branch'] is not None:
-					self.logger.debug(f"h3333 Dependency {key} has replaceVariables branch='{val['branch']}'")
-		self.logger.debug("h3333 parsing prod package list, Loaded Dependencies END   EVALUATION.")
+		#	packages["deps"][packageName]
+		#	packages["deps"][packageName]["branch"]
+		If False:	# this dumps entirely too much info
+			self.logger.info("h3333 parsing prod package list, Loaded Products START EVALUATION.")
+			for key, val in packages["prods"].items():	# key = package name, val = the json content
+				self.logger.info(f"h3333 Product {key} found")
+				#self.logger.info(f"h3333 Product {key} has val='{val}'")
+				if 'branch' in val:
+					if val['branch'] is not None:
+						self.logger.info(f"h3333 Product {key} has branch='{val['branch']}'")
+			self.logger.info("h3333 parsing prod package list, Loaded Products END   EVALUATION.")
+			self.logger.info("h3333 parsing deps package list, Loaded Dependencies START EVALUATION.")
+			for key, val in packages["deps"].items():	# key = package name, val = the json content
+				self.logger.info(f"h3333 Dependency {key} found")
+				#self.logger.info(f"h3333 Dependency {key} has val='{val}'")
+				if 'branch' in val:
+					if val['branch'] is not None:
+						self.logger.info(f"h3333 Dependency {key} has branch='{val['branch']}'")
+			self.logger.info("h3333 parsing deps package list, Loaded Dependencies END   EVALUATION.")
 		#---------------------------------------------------------------------------------------------------
 		#---------------------------------------------------------------------------------------------------
 		return packages
@@ -338,16 +348,18 @@ class CrossCompileScript:
 		self.userAgent = self.config["script"]["user_agent"]
 		if self.debugMode:
 			self.initDebugMode()
+			#self.logger.info('init: self.debugMode=True so initDebugMode executed')
 		if self.quietMode:
 			self.initQuietMode()
+			#self.logger.info('init: self.quietMode=True so initQuietMode executed')
 
 	def initQuietMode(self):
-		self.logger.warning('Quiet mode is enabled')
 		self.buildLogFile = codecs.open("raw_build.log", "w", "utf-8")
+		#self.logger.info('initQuietMode Quiet mode is enabled')
 
 	def initDebugMode(self):
 		self.logger.setLevel(logging.DEBUG)
-		self.logger.debug('Debugging is on')
+		#self.logger.debug(f'initDebugMode: logger.setLevel is {logging.DEBUG} logging.DEBUG')
 
 	def listifyPackages(self, pdlist, type):
 		class customArgsAction(argparse.Action):
@@ -525,7 +537,11 @@ class CrossCompileScript:
 		list_p.add_argument('-md', '--markdown', help='Print list in markdown format', action='store_true')
 		list_p.add_argument('-cv', '--csv', help='Print list as CSV-like string', action='store_true')
 		list_p_group1 = list_p.add_mutually_exclusive_group(required=True)
+		# BELOW: so, by the time this is called: self.listifyPackages(self.packages["prods"], "P")
+		#	self.packages["prods"] has already been loaded WITHOUT variable processing on 'branch' (to do so requires change folder to the prod item's parent folder and back each time to allow for relative folder CMD processing)
 		list_p_group1.add_argument('-p', '--products', nargs=0, help='List all products', action=self.listifyPackages(self.packages["prods"], "P"))
+		# BELOW: so, by the time this is called: self.listifyPackages(self.packages["deps"], "D")
+		#	self.packages["deps"]  has already been loaded WITHOUT variable processing on 'branch' (to do so requires change folder to the prod item's parent folder and back each time to allow for relative folder CMD processing)
 		list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action=self.listifyPackages(self.packages["deps"], "D"))
 
 		chelps_p = subparsers.add_parser('chelps', help='Type: \'' + parser.prog + ' chelps --help\' for more help')
@@ -546,9 +562,9 @@ class CrossCompileScript:
 		group2.add_argument('-d', '--build-dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)')
 		group2.add_argument('-a', '--build-all', help='Build all products (according to order)', action='store_true')
 		
+		parser.add_argument('-g', '--debug', help='Show debug information', action='store_true')
 		parser.add_argument('-q', '--quiet', help='Only show info lines', action='store_true')
 		parser.add_argument('-f', '--force', help='Force rebuild, deletes already files', action='store_true')
-		parser.add_argument('-g', '--debug', help='Show debug information', action='store_true')
 		parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building', action='store_true')
 
 		#----------------------------------------------------------------------------------------------------------
@@ -578,12 +594,18 @@ class CrossCompileScript:
 			forceRebuild = False
 			if args.debug:
 				self.debugMode = True
+				self.logger.info("commandLineEntrace args.debug=True, set self.debugMode=True, executing self.initDebugMode()")
 				self.initDebugMode()
+				self.logger.info("commandLineEntrace args.debug=True, TEST of log statement with .info ")
+				self.logger.debug("commandLineEntrace args.debug=True, TEST of log statement with .debug ")
 			if args.quiet:
 				self.quietMode = True
+				self.logger.info("commandLineEntrace args.quiet=True, set self.quietMode=True, executing self.initQuietMode()")
 				self.initQuietMode()
 			if args.force:
 				forceRebuild = True
+				self.logger.info("commandLineEntrace args.force=True, set forceRebuild=True")
+
 			buildType = None
 			
 			if args.backup_source_directory:  # note, "-" relaced by "_" in the name
@@ -1462,6 +1484,7 @@ class CrossCompileScript:
 
 		branchString = ""
 		if desiredBranch is not None:
+			desiredBranch = self.replaceVariables(desiredBranch)
 			branchString = " {0}".format(desiredBranch)
 
 		# we have to do it the hard way because "hg purge" is an extension that is not on by default
