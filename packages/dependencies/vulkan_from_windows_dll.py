@@ -4,7 +4,7 @@
 	'needs_configure' : False,
 	'needs_make' : False,
 	'needs_make_install' : False,
-	#'run_pre_depends_on' : [
+	#'run_pre_depends_on' : [ # run_pre_depends_on causes this to run even though is_dep_inheriter is true
 	'run_post_regexreplace' : [
 		#'echo ""',
 		#'ls -al',

@@ -2,17 +2,20 @@
 	# eg the glslang version where sometimes glslang is ahead of shaderc and it breaks things when they are not compatible.
 	# So ... find the relevant compatible commit(s) and save them
 	#
-	'is_dep_inheriter' : True,
-	'recursive_git' : False,
+	
+	#'is_dep_inheriter' : True, 
+	'repo_type' : 'none',
+	'folder_name' : 'shaderc_commit_dependencies',
 	'needs_configure' : False,
 	'needs_make' : False,
 	'needs_make_install' : False,
 	#
-	'run_pre_depends_on' : [
-		'pwd',
-		'!SWITCHDIR|x86_64',
-		'if [ ! -d "shaderc_commit_dependencies" ]; then mkdir -pv shaderc_commit_dependencies ; fi',
-		'!SWITCHDIR|shaderc_commit_dependencies',
+	#'run_pre_depends_on' : [ # run_pre_depends_on causes this to run even though is_dep_inheriter is true
+	'run_post_regexreplace' : [	# not using is_dep_inheriter and run_pre_depends_on allows the system to create the folder etc for us
+		'pwd ; ls -al',
+		#'!SWITCHDIR|x86_64',
+		#'if [ ! -d "shaderc_commit_dependencies" ]; then mkdir -pv shaderc_commit_dependencies ; fi',
+		#'!SWITCHDIR|shaderc_commit_dependencies',
 		'pwd',
 		'if [ -f "DEPS" ] ; then rm -fv DEPS ; fi',
 		'wget https://raw.githubusercontent.com/google/shaderc/main/DEPS',
@@ -61,9 +64,9 @@
 		#
 		'if [ -f "already_done" ] ; then rm -fv  "already_done" ; fi',
 		'touch  "already_done"',
-		'!SWITCHDIR|..',
-		'!SWITCHDIR|..',
-		'pwd',
+		#'!SWITCHDIR|..',
+		#'!SWITCHDIR|..',
+		'pwd ; ls -al',
 		#--------------------------------------
 		#--------------------------------------
 		#
@@ -75,4 +78,6 @@
 		#--------------------------------------
 		#--------------------------------------
 	],
+	#'depends_on' : [ , ],
+	'_info' : { 'version' : 'see shaderc file DEPS', 'fancy_name' : 'shaderc_commit_dependencies' }, # 2022.02.04
 }

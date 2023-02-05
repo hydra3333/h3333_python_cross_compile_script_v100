@@ -1,6 +1,6 @@
 {
 	'is_dep_inheriter' : True,
-	'run_pre_depends_on' : [
+	'run_pre_depends_on' : [ # run_pre_depends_on causes this to run even though is_dep_inheriter is true
 	#'run_post_regexreplace' : [
 		'echo "#"',
 		'echo "#"',
