@@ -12,7 +12,7 @@
 	#
 	#'run_pre_depends_on' : [ # run_pre_depends_on causes this to run even though is_dep_inheriter is true
 	'run_post_regexreplace' : [	# not using is_dep_inheriter and run_pre_depends_on allows the system to create the folder etc for us
-		'pwd',
+		#'pwd',
 		#'ls -al',
 		#'!SWITCHDIR|x86_64',
 		#'if [ ! -d "shaderc_commit_dependencies" ]; then mkdir -pv shaderc_commit_dependencies ; fi',
@@ -69,7 +69,7 @@
 		#'ls -al',
 		#'!SWITCHDIR|..',
 		#'!SWITCHDIR|..',
-		'pwd',
+		#'pwd',
 		#'ls -al',
 		#--------------------------------------
 		#--------------------------------------
