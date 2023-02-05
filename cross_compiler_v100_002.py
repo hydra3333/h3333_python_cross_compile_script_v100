@@ -242,7 +242,7 @@ class CrossCompileScript:
 		#---------------------------------------------------------------------------------------------------
 		#	packages["deps"][packageName]
 		#	packages["deps"][packageName]["branch"]
-		If False:	# this dumps entirely too much info
+		if False:	# this dumps entirely too much info
 			self.logger.info("h3333 parsing prod package list, Loaded Products START EVALUATION.")
 			for key, val in packages["prods"].items():	# key = package name, val = the json content
 				self.logger.info(f"h3333 Product {key} found")
@@ -594,17 +594,17 @@ class CrossCompileScript:
 			forceRebuild = False
 			if args.debug:
 				self.debugMode = True
-				self.logger.info("commandLineEntrace args.debug=True, set self.debugMode=True, executing self.initDebugMode()")
+				#self.logger.info("commandLineEntrace args.debug=True, set self.debugMode=True, executing self.initDebugMode()")
 				self.initDebugMode()
-				self.logger.info("commandLineEntrace args.debug=True, TEST of log statement with .info ")
-				self.logger.debug("commandLineEntrace args.debug=True, TEST of log statement with .debug ")
+				#self.logger.info("commandLineEntrace args.debug=True, TEST of log statement with .info ")
+				#self.logger.debug("commandLineEntrace args.debug=True, TEST of log statement with .debug ")
 			if args.quiet:
 				self.quietMode = True
-				self.logger.info("commandLineEntrace args.quiet=True, set self.quietMode=True, executing self.initQuietMode()")
+				#self.logger.info("commandLineEntrace args.quiet=True, set self.quietMode=True, executing self.initQuietMode()")
 				self.initQuietMode()
 			if args.force:
 				forceRebuild = True
-				self.logger.info("commandLineEntrace args.force=True, set forceRebuild=True")
+				#self.logger.info("commandLineEntrace args.force=True, set forceRebuild=True")
 
 			buildType = None
 			
@@ -1941,7 +1941,7 @@ class CrossCompileScript:
 
 		if type == "PRODUCT":
 			self.cchdir(self.fullProductDir)  # descend into x86_64_products
-		else:
+		else: # DEPENDENCY
 			self.cchdir(self.bitnessPath)  # descend into x86_64
 
 		if packageData["repo_type"] == "git":
