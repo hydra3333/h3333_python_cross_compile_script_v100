@@ -53,6 +53,23 @@ import progressbar  # Run pip3 install progressbar2
 import requests  # Run pip3 install requests
 import yaml
 
+# A TERRIBLE HACK for use in listify
+# A TERRIBLE HACK for use in listify
+# A TERRIBLE HACK for use in listify
+bitness=64
+projectRoot = Path(os.getcwd())
+#
+fullWorkDir = projectRoot.joinpath('workdir')
+bitnessStr = "x86_64" if bitness == 64 else "i686"  # e.g x86_64
+fullProductDir = fullWorkDir.joinpath(bitnessStr + "_products")
+GLOBAL_fullProductDir = fullProductDir
+#
+bitnessPath = fullWorkDir.joinpath("x86_64" if bitness == 64 else "i686")  # e.g x86_64
+GLOBAL_bitnessPath = bitnessPath
+# A TERRIBLE HACK for use in listify
+# A TERRIBLE HACK for use in listify
+# A TERRIBLE HACK for use in listify
+
 
 class Colors:  # ansi colors
 	RESET = '\033[0m'
@@ -110,14 +127,6 @@ class MyLogFormatter(logging.Formatter):
 		self._style._fmt = format_orig
 		return result
 
-
-def replaceCmdVariables(inStr, type_P_or_D):
-	cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
-	if cmdList:
-		for cmd in cmdList:
-			cmdReplacer = subprocess.check_output(cmd, shell=True).decode("utf-8").replace("\n", "").replace("\r", "").strip()
-			inStr = re.sub(r"!CMD\(([^\)\(]+)\)CMD!", F"{cmdReplacer}", inStr, flags=re.DOTALL)
-	return inStr
 
 class CrossCompileScript:
 
@@ -244,7 +253,7 @@ class CrossCompileScript:
 		#	packages["deps"][packageName]["branch"]
 		if False:	# this dumps entirely too much info
 			self.logger.info("h3333 parsing prod package list, Loaded Products START EVALUATION.")
-			for key, val in packages["prods"].items():	# key = package name, val = the json content
+			for key, val in sorted(packages["prods"].items()):	# key = package name, val = the json content
 				self.logger.info(f"h3333 Product {key} found")
 				#self.logger.info(f"h3333 Product {key} has val='{val}'")
 				if 'branch' in val:
@@ -252,7 +261,7 @@ class CrossCompileScript:
 						self.logger.info(f"h3333 Product {key} has branch='{val['branch']}'")
 			self.logger.info("h3333 parsing prod package list, Loaded Products END   EVALUATION.")
 			self.logger.info("h3333 parsing deps package list, Loaded Dependencies START EVALUATION.")
-			for key, val in packages["deps"].items():	# key = package name, val = the json content
+			for key, val in sorted(packages["deps"].items()):	# key = package name, val = the json content
 				self.logger.info(f"h3333 Dependency {key} found")
 				#self.logger.info(f"h3333 Dependency {key} has val='{val}'")
 				if 'branch' in val:
@@ -363,6 +372,95 @@ class CrossCompileScript:
 
 	def listifyPackages(self, pdlist, type):
 		class customArgsAction(argparse.Action):
+			def gPBreplaceCmdVariables(self, inStr):
+				cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
+				if cmdList:
+					for cmd in cmdList:
+						cmdReplacer = subprocess.check_output(cmd, shell=True).decode("utf-8").replace("\n", "").replace("\r", "").strip()
+						inStr = re.sub(r"!CMD\(([^\)\(]+)\)CMD!", F"{cmdReplacer}", inStr, flags=re.DOTALL)
+				return inStr
+			def gPBboolKey(self, p, k):
+				if k in p:
+					if p[k]:
+						return True
+				return False
+			def getPackageBranch(self, packageName, packageData, type):  # type = PRODUCT or DEPENDENCY
+				# Return a decoded 'branch', whcih can by a dynamic "!CMD" type thing
+				# which can only work when inside the correct subfolder since we allow relative paths
+				#
+				# Note: cater for ascending order of precedence for subfolder names:
+				# package_name first, folder_name second, and then rename_folder
+				#
+				branch = None
+				outPath = os.getcwd()	# save the current path so e can return to it before exiting
+				PackageSubfolderName = packageName
+				folder_name = None
+				rename_folder = None
+
+				is_dep_inheriter = self.gPBboolKey(packageData, "is_dep_inheriter")
+				if is_dep_inheriter:
+					print(F"DEBUG self.getPackageBranch: package '{packageName}' is_dep_inheriter ... ignoring")
+					branch = None
+					return branch
+				is_disabled = self.gPBboolKey(packageData, "_disabled")
+				if is_disabled:
+					print(F"DEBUG self.getPackageBranch: package '{packageName}' is disabled ... ignoring")
+					branch = None
+					return branch
+
+				if 'branch' in packageData:
+					if packageData['branch'] is not None:
+						branch = packageData['branch']
+				original_branch = branch
+	
+				# the following are in STRICT order, and deliver a full pathname to CD into
+				if 'folder_name' in packageData:
+					if packageData['folder_name'] is not None:
+						folder_name = packageData['folder_name']
+						PackageSubfolderName = folder_name
+				if 'rename_folder' in packageData:
+					if packageData['rename_folder'] is not None:
+						rename_folder = packageData['rename_folder']
+						PackageSubfolderName = rename_folder
+				
+				print(F"DEBUG GLOBAL_fullProductDir='{GLOBAL_fullProductDir}'")
+				print(F"DEBUG GLOBAL_bitnessPath='{GLOBAL_bitnessPath}'")
+				if type == "P":		# PRODUCTS are in a different folder tree to DEPENDENCIES
+					#targetDir = os.path.join(self.fullProductDir,PackageSubfolderName)
+					targetDir = os.path.join(GLOBAL_fullProductDir,PackageSubfolderName)
+				else:				# PRODUCTS are in a different folder tree to DEPENDENCIES
+					#targetDir = os.path.join(self.bitnessPath,PackageSubfolderName)
+					targetDir = os.path.join(GLOBAL_bitnessPath,PackageSubfolderName)
+	
+				print(F"DEBUG self.getPackageBranch:        package name: '{packageName}'")
+				print(F"DEBUG self.getPackageBranch:       incoming path: '{outPath}'")
+				print(F"DEBUG self.getPackageBranch: target package path: '{targetDir}'")
+	
+
+				... this will fail, there's no contiuing after an except
+				try:
+					self.cchdir(self.targetDir)
+				except:
+					print(F"DEBUG self.getPackageBranch: failed to CD into target package path '{targetDir}' ... ignoring")
+					self.cchdir(outPath)	# return to the saved the path before exiting
+					branch = None
+					return branch
+
+				# now that we are in the correct folder for this package/dependency,
+				# do stuff like decode the dynamic "commit id"
+				... this will fail, there's no contiuing after an except
+				try:
+					branch = self.gPBreplaceCmdVariables(original_branch)
+				except:
+					print(F"DEBUG self.getPackageBranch: package '{packageName}' could not gPBreplaceCmdVariables on branch={original_branch} ... ignoring")
+					branch = None
+					return branch
+
+				# CD back to the original path and return the result
+				self.cchdir(outPath)	# CD back to the saved the path before exiting
+				print(F"DEBUG self.getPackageBranch: package '{packageName}' success, original_branch='{original_branch}' branch='{branch}'")
+				return branch
+
 			def __call__(self, parser, args, values, option_string=None):
 				format = "CLI"
 				if args.markdown:
@@ -379,7 +477,16 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
-										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										
+										print(F"DEBUG listifyPackages: key='{key}'")
+										print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
+										print(F"DEBUG listifyPackages: type='{type}'")
+										print(F"DEBUG listifyPackages: val='{val}'")
+										print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
+										branch = self.getPackageBranch(key, val, type)
+										print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
+										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										cVer = rTypeStr + ' (' + branch + ')'
 								else:
 									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
@@ -414,7 +521,9 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
-										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										branch = self.getPackageBranch(key, val, type)
+										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										cVer = rTypeStr + ' (' + branch + ')'
 								else:
 									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
@@ -432,7 +541,9 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
-										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										branch = self.getPackageBranch(key, val, type)
+										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										cVer = rTypeStr + ' (' + branch + ')'
 								else:
 									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
@@ -749,6 +860,8 @@ class CrossCompileScript:
 		self.currentBitness = bitness
 		self.bitnessStr = "x86_64" if bitness == 64 else "i686"  # e.g x86_64
 		self.bitnessPath = self.fullWorkDir.joinpath("x86_64" if bitness == 64 else "i686")  # e.g x86_64
+		GLOBAL_bitnessPath = self.bitnessPath
+		#self.logger.info(F"DEBUG set GLOBAL_bitnessPath='{GLOBAL_bitnessPath}'")
 		self.bitnessStr2 = "x86_64" if bitness == 64 else "x86"  # just for vpx...
 		self.bitnessStr3 = "mingw64" if bitness == 64 else "mingw"  # just for openssl...
 		self.targetOSStr = "mingw64" if bitness == 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
@@ -787,6 +900,8 @@ class CrossCompileScript:
 		self.originalCflags_trim = (self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]).strip() # 2020.05.13
 		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
+		GLOBAL_fullProductDir = self.fullProductDir
+		#self.logger.info(F"DEBUG set GLOBAL_fullProductDir='{GLOBAL_fullProductDir}'")
 		self.formatDict = defaultdict(lambda: "")
 		self.formatDict.update(
 			{
@@ -1926,7 +2041,11 @@ class CrossCompileScript:
 			#print("##############################")
 			#print("##############################")
 
+		#-----------------------------------------------------------------------
+		#-----------------------------------------------------------------------
 		self.logger.info("Building {0} '{1}'".format(type.lower(), packageName))
+		#-----------------------------------------------------------------------
+		#-----------------------------------------------------------------------
 		self.resetDefaultEnvVars()
 
 		if 'warnings' in packageData:
@@ -2878,7 +2997,7 @@ class CrossCompileScript:
 					inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"{0}".format(variableContent), inStr, flags=re.DOTALL)
 				else:
 					inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"".format(variableContent), inStr, flags=re.DOTALL)
-					self.logger.warn(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
+					self.logger.warning(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
 
 		inStr = self.replaceToolChainVars(inStr)
 
