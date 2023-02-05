@@ -403,12 +403,12 @@ class CrossCompileScript:
 
 				is_dep_inheriter = self.gPBboolKey(packageData, "is_dep_inheriter")
 				if is_dep_inheriter:
-					print(F"DEBUG self.getPackageBranch: package '{packageName}' is_dep_inheriter ... ignoring")
+					#print(F"DEBUG self.getPackageBranch: package '{packageName}' is_dep_inheriter ... ignoring")
 					branch = None
 					return branch
 				is_disabled = self.gPBboolKey(packageData, "_disabled")
 				if is_disabled:
-					print(F"DEBUG self.getPackageBranch: package '{packageName}' is disabled ... ignoring")
+					#print(F"DEBUG self.getPackageBranch: package '{packageName}' is disabled ... ignoring")
 					branch = None
 					return branch
 
@@ -427,29 +427,32 @@ class CrossCompileScript:
 						rename_folder = packageData['rename_folder']
 						PackageSubfolderName = rename_folder
 				
-				print(F"DEBUG GLOBAL_fullProductDir='{GLOBAL_fullProductDir}'")
-				print(F"DEBUG GLOBAL_bitnessPath='{GLOBAL_bitnessPath}'")
+				#	SINCE 'branch' is evaluated before descending into the actual product/dependency folder
+				#	here we must only chdir into it's parent folder, just like when executing a build
+				#print(F"DEBUG GLOBAL_fullProductDir='{GLOBAL_fullProductDir}'")
+				#print(F"DEBUG GLOBAL_bitnessPath='{GLOBAL_bitnessPath}'")
+				#if type == "P":		# PRODUCTS are in a different folder tree to DEPENDENCIES
+				#	targetDir = os.path.join(GLOBAL_fullProductDir,PackageSubfolderName)
+				#else:				# PRODUCTS are in a different folder tree to DEPENDENCIES
+				#	targetDir = os.path.join(GLOBAL_bitnessPath,PackageSubfolderName)
 				if type == "P":		# PRODUCTS are in a different folder tree to DEPENDENCIES
-					#targetDir = os.path.join(self.fullProductDir,PackageSubfolderName)
-					targetDir = os.path.join(GLOBAL_fullProductDir,PackageSubfolderName)
+					targetDir = GLOBAL_fullProductDir
 				else:				# PRODUCTS are in a different folder tree to DEPENDENCIES
-					#targetDir = os.path.join(self.bitnessPath,PackageSubfolderName)
-					targetDir = os.path.join(GLOBAL_bitnessPath,PackageSubfolderName)
-	
-				print(F"DEBUG self.getPackageBranch:        package name: '{packageName}'")
-				print(F"DEBUG self.getPackageBranch:       incoming path: '{outPath}'")
-				print(F"DEBUG self.getPackageBranch: target package path: '{targetDir}'")
+					targetDir = GLOBAL_bitnessPath
+				#print(F"DEBUG self.getPackageBranch:        package name: '{packageName}'")
+				#print(F"DEBUG self.getPackageBranch:       incoming path: '{outPath}'")
+				#print(F"DEBUG self.getPackageBranch: target package path: '{targetDir}'")
 	
 				#... this will fail, there's no contiuing after an except
 				try:
-					print(F"Changing dir from {os.getcwd()} to {targetDir}")
+					#print(F"DEBUG Changing dir from {os.getcwd()} to {targetDir}")
 					os.chdir(targetDir)
 				except:
-					print(F"DEBUG self.getPackageBranch: failed to CD into target package path '{targetDir}' ... ignoring")
-					print(F"Changing dir from {os.getcwd()} to {outPath}")
+					#print(F"DEBUG self.getPackageBranch: failed to CD into target package path '{targetDir}' ... ignoring")
+					#print(F"DEBUG Changing dir from {os.getcwd()} to {outPath}")
 					os.chdir(outPath)
-					branch = None
-					return branch
+					branch = original_branch
+					return original_branch
 
 				# now that we are in the correct folder for this package/dependency,
 				# do stuff like decode the dynamic "commit id"
@@ -457,14 +460,14 @@ class CrossCompileScript:
 				try:
 					branch = self.gPBreplaceCmdVariables(original_branch)
 				except:
-					print(F"DEBUG self.getPackageBranch: package '{packageName}' could not gPBreplaceCmdVariables on branch={original_branch} ... ignoring")
-					branch = None
-					return branch
+					#print(F"DEBUG self.getPackageBranch: package '{packageName}' could not gPBreplaceCmdVariables on branch={original_branch} ... ignoring")
+					branch = original_branch
+					return original_branch
 
 				# CD back to the original path and return the result
-				print(F"Changing dir from {os.getcwd()} to {outPath}")
+				#print(F"Changing dir from {os.getcwd()} to {outPath}")
 				os.chdir(outPath)
-				print(F"DEBUG self.getPackageBranch: package '{packageName}' success, original_branch='{original_branch}' branch='{branch}'")
+				#print(F"DEBUG self.getPackageBranch: package '{packageName}' success, original_branch='{original_branch}' branch='{branch}'")
 				return branch
 
 			def __call__(self, parser, args, values, option_string=None):
@@ -483,17 +486,17 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
-										print(F"DEBUG")
-										print(F"DEBUG")
-										print(F"DEBUG listifyPackages: key='{key}'")
-										print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
-										print(F"DEBUG listifyPackages: type='{type}'")
-										print(F"DEBUG listifyPackages: val='{val}'")
-										print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
+										#print(F"DEBUG")
+										#print(F"DEBUG")
+										#print(F"DEBUG listifyPackages: key='{key}'")
+										#print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
+										#print(F"DEBUG listifyPackages: type='{type}'")
+										#print(F"DEBUG listifyPackages: val='{val}'")
+										#print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
 										branch = self.getPackageBranch(key, val, type)
-										print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
-										print(F"DEBUG")
-										print(F"DEBUG")
+										#print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
+										#print(F"DEBUG")
+										#print(F"DEBUG")
 										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 										cVer = rTypeStr + ' (' + branch + ')'
 								else:
@@ -530,7 +533,17 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
+										#print(F"DEBUG")
+										#print(F"DEBUG")
+										#print(F"DEBUG listifyPackages: key='{key}'")
+										#print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
+										#print(F"DEBUG listifyPackages: type='{type}'")
+										#print(F"DEBUG listifyPackages: val='{val}'")
+										#print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
 										branch = self.getPackageBranch(key, val, type)
+										#print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
+										#print(F"DEBUG")
+										#print(F"DEBUG")
 										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 										cVer = rTypeStr + ' (' + branch + ')'
 								else:
@@ -550,7 +563,17 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
+										#print(F"DEBUG")
+										#print(F"DEBUG")
+										#print(F"DEBUG listifyPackages: key='{key}'")
+										#print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
+										#print(F"DEBUG listifyPackages: type='{type}'")
+										#print(F"DEBUG listifyPackages: val='{val}'")
+										#print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
 										branch = self.getPackageBranch(key, val, type)
+										#print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
+										#print(F"DEBUG")
+										#print(F"DEBUG")
 										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
 										cVer = rTypeStr + ' (' + branch + ')'
 								else:
@@ -586,7 +609,19 @@ class CrossCompileScript:
 								if 'branch' in val:
 									if val['branch'] is not None:
 										rTypeStr = 'git' if val['repo_type'] == 'git' else 'hg '
-										cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										#print(F"DEBUG")
+										#print(F"DEBUG")
+										#print(F"DEBUG listifyPackages: key='{key}'")
+										#print(F"DEBUG listifyPackages: val['branch']='{val['branch']}'")
+										#print(F"DEBUG listifyPackages: type='{type}'")
+										#print(F"DEBUG listifyPackages: val='{val}'")
+										#print(F"DEBUG listifyPackages: calling self.getPackageBranch ...")
+										branch = self.getPackageBranch(key, val, type)
+										#cVer = rTypeStr + ' (' + val['branch'][0:6] + ')'
+										#print(F"DEBUG listifyPackages: returned from calling self.getPackageBranch ...")
+										#print(F"DEBUG")
+										#print(F"DEBUG")
+										cVer = rTypeStr + ' (' + branch + ')'
 								else:
 									cVer = 'git (master)' if val['repo_type'] == 'git' else 'hg (default)' # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 								val['_info']['version'] = cVer
