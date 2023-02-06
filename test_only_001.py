@@ -88,7 +88,7 @@ class settings:
 			self.initial_logging_mode = logging.INFO					# at what level to start logging initially. logging.INFO logging.DEBUG
 		self.current_logging_mode = self.initial_logging_mode			# to keep track of the prevailing logging mode, if changed
 
-		# fixed variables first, calculated variables later
+		# mostly fixed variables first, calculated variables later
 		
 		self.bitness = 64												# bits to build ffmpeg etc
 		self.toolchain_bitness = self.bitness							# bits to build the toolchain
@@ -98,13 +98,20 @@ class settings:
 		self.originalPATH = os.environ["PATH"] 							# the original environment path, used for resets
 
 		self.packages_subfolder = 'packages'							# 'packages' is the subfolder where the .py files reside
-		self.patches_subfolder = 'patches'								# 'packages' is the subfolder where the patch files reside
+		self.patches_subfolder = 'patches'								# 'patches' is the subfolder where the patch files reside
+		
+		self.additionalheaders_subfolder = 'additional_headers'		# 'additional_headers' is where additional headers reside
+		self.sources_subfolder = 'sources'								# 'sources' is where some sources reside
+		self.tools_subfolder = 'tools'									# 'tools' is where some tools reside
+		
 		self.workdir_subfolder ='workdir'								# 'workdir'  is the subfolder where actual build stuff happens
 		self.bitnessStr = "x86_64"										# eg x86_64 underneath workdir_subfolder
 		self.bitnessStr2 = "x86_64"										# just for vpx... underneath workdir_subfolder
 		self.bitnessStr3 = "mingw64"									# just for openssl... underneath workdir_subfolder
 		self.targetOSStr = "mingw64"									# 2019.12.13 just for "--target-os=" 
 		self.bitnessStrWin = "win64"									# eg 'win64'
+
+		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  			# e.g x86_64-w64-mingw32
 
 		self.original_cflags = '-O3'
 		self.original_stack_protector = '-fstack-protector-all'
@@ -122,21 +129,24 @@ class settings:
 		self.log_date_format = '%H:%M:%S'
 
 		# calculated variables next
+
+		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
+		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
 	
 		self.packagesFolder = self.projectRoot.joinpath(self.packages_subfolder)	# for input, eg /home/u/Desktop/working/packages
 		self.prodFolder     = self.packagesFolder.joinpath("products")					# for input, eg /home/u/Desktop/working/packages/products
 		self.depsFolder     = self.packagesFolder.joinpath("dependencies")				# for input, eg /home/u/Desktop/working/packages/dependencies
 		self.varsPath       = self.packagesFolder.joinpath("variables.py")				# for input, eg /home/u/Desktop/working/packages/variables.py
 		self.patchesFolder	= self.projectRoot.joinpath(self.patches_subfolder)			# for input, eg /home/u/Desktop/working/packages
+		self.additionalheadersFolder	= self.projectRoot.joinpath(self.additionalheaders_subfolder)			# for input, eg /home/u/Desktop/working/packages
+		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg /home/u/Desktop/working/packages
+		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg /home/u/Desktop/working/packages
+
 		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)			# for output, eg /home/u/Desktop/working/workdir
-		
-		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  			# e.g x86_64-w64-mingw32
+
 		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)	# for output, eg /home/u/Desktop/working/workdir/x86_64
 		self.fullProductDir = self.bitnessPath.joinpath('_products')	# for output, eg /home/u/Desktop/working/workdir/x86_64_products
 		self.fullDependencyDir = self.bitnessPath.joinpath('')			# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
-
-		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
-		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
 
 		self.toolchain_output_path = self.fullWorkDir.joinpath(self.bitnessStrWin + "_output")
 
@@ -150,6 +160,12 @@ class settings:
 		#	self.errorExit(f"Variables file '{self.varsPath}' does not exist." )
 		#if not os.path.isdir(self.patchesFolder):	# for input, eg /home/u/Desktop/working/packages
 		#	self.errorExit(f"Patches folder '{self.patchesFolder}' does not exist." )
+		#if not os.path.isdir(self.additionalheadersFolder):	# for input, eg /home/u/Desktop/working/additional_headers
+		#	self.errorExit(f"additional_headers folder '{self.additionalheadersFolder}' does not exist." )
+		#if not os.path.isdir(self.sourcesFolder):	# for input, eg /home/u/Desktop/working/sources
+		#	self.errorExit(f"Patches folder '{self.sourcesFolder}' does not exist." )
+		#if not os.path.isdir(self.toolsFolder):	# for input, eg /home/u/Desktop/working/tools
+		#	self.errorExit(f"Patches folder '{self.toolsFolder}' does not exist." )
 		## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
 		#if not os.path.isdir(self.fullWorkDir):	# for output, eg /home/u/Desktop/working/workdir
 		#	self.errorExit(f"Working folder '{self.fullWorkDir}' does not exist.")
@@ -424,6 +440,9 @@ if __name__ == "__main__":
 	global_settings = settings()
 	if global_settings.debugMode:
 		global_settings.dump_vars("SETTINGS in debugMode")
+
+	# TEMPORARY ... REMOVE THIS LATER ...
+	global_settings.dump_vars("SETTINGS in debugMode")
 	
 	# initialize Logging
 	global logging_handler 	# the handler for the logger, only used for initialization
