@@ -511,14 +511,14 @@ if __name__ == "__main__":
 	print(f"TEMPORARY MESSAGE: if help or list etc, do that and exit")
 	logger.debug(f"Prepare: if help or list etc, do that and exit")
 
-	print(f"TEMPORARY MESSAGE: Prepare: create folder trees")
-	logger.debug(f"Prepare: create folder trees")
+	print(f"TEMPORARY MESSAGE: create folder trees")
+	logger.debug(f"create folder trees")
 
 	print(f"TEMPORARY MESSAGE: check and build the toolchain")
 	logger.debug(f"check and build the toolchain")
 
 	print(f"TEMPORARY MESSAGE: execute build etc")
-	logger.debug(f"Prepare: execute build etc")
+	logger.debug(f"execute build etc")
 
 
 	#_epilog = 'Copyright (C) 2023-2024 hydra3333\n\n This Source Code Form is subject to the terms of the GNU General Public License version 3 or any later version. If a copy of the GPLv3 was not distributed with this file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html'
