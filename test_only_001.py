@@ -191,8 +191,35 @@ class settings:
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
 
-##################################################################################################
-# This function is consumed within objects so the code does not have to repeated.
+
+###################################################################################################
+class Colors:  # ansi colors
+	RESET = '\033[0m'
+	BLACK = '\033[30m'
+	RED = '\033[31m'
+	GREEN = '\033[32m'
+	YELLOW = '\033[33m'
+	BLUE = '\033[34m'
+	MAGENTA = '\033[35m'
+	CYAN = '\033[36m'
+	WHITE = '\033[37m'
+	LIGHTBLACK_EX = '\033[90m'  # those seem to work on the major OS so meh.
+	LIGHTRED_EX = '\033[91m'
+	LIGHTGREEN_EX = '\033[92m'
+	LIGHTYELLOW_EX = '\033[93m'
+	LIGHTBLUE_EX = '\033[94m'
+	LIGHTMAGENTA_EX = '\033[95m'
+	LIGHTCYAN_EX = '\033[96m'
+	LIGHTWHITE_EX = '\033[9m'
+	#eg print(f"{Colors.RESET}Someting normal {Colors.LIGHTCYAN_EX}Something LIGHTCYAN_EX {Colors.RESET}Something back to normal")
+
+###################################################################################################
+def errorExit(msg):
+	logger.error(msg)
+	sys.exit(1)
+
+###################################################################################################
+# This function is consumed within objects so the code does not need to repeated in them.
 # Called in a class like:	global_dump_object_variables(self,"this is a heading")
 def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
 	def name_of_object(xx):		# get the name of the object instantiated with a class https://stackoverflow.com/posts/16139159/revisions
@@ -215,26 +242,6 @@ def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
 		print(f"DEBUG: {k} = '{val}'")
 	return
 
-###################################################################################################
-class Colors:  # ansi colors
-	RESET = '\033[0m'
-	BLACK = '\033[30m'
-	RED = '\033[31m'
-	GREEN = '\033[32m'
-	YELLOW = '\033[33m'
-	BLUE = '\033[34m'
-	MAGENTA = '\033[35m'
-	CYAN = '\033[36m'
-	WHITE = '\033[37m'
-	LIGHTBLACK_EX = '\033[90m'  # those seem to work on the major OS so meh.
-	LIGHTRED_EX = '\033[91m'
-	LIGHTGREEN_EX = '\033[92m'
-	LIGHTYELLOW_EX = '\033[93m'
-	LIGHTBLUE_EX = '\033[94m'
-	LIGHTMAGENTA_EX = '\033[95m'
-	LIGHTCYAN_EX = '\033[96m'
-	LIGHTWHITE_EX = '\033[9m'
-	#eg print(f"{Colors.RESET}Someting normal {Colors.LIGHTCYAN_EX}Something LIGHTCYAN_EX {Colors.RESET}Something back to normal")
 
 ###################################################################################################
 class dot_py_object:					# a single .py - name,  and json values in a dictionary
@@ -325,7 +332,6 @@ class dot_py_object_dict:			# a dictionary of build objects
 			tmp.Val = self.BO[the_key]			# yes, insert the doct of jason info into the tmp object
 		return tmp								# return the new dot_py_object 
 
-
 ###################################################################################################
 class MissingDependency(Exception):
 	__module__ = 'exceptions'
@@ -381,10 +387,6 @@ class epiFormatter(argparse.RawDescriptionHelpFormatter):
 		return text.splitlines()
 
 
-###################################################################################################
-def errorExit(msg):
-	logger.error(msg)
-	sys.exit(1)
 
 ###################################################################################################
 ###################################################################################################
