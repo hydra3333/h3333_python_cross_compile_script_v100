@@ -88,7 +88,7 @@ class settings:
 			self.initial_logging_mode = logging.INFO					# at what level to start logging initially. logging.INFO logging.DEBUG
 		self.current_logging_mode = self.initial_logging_mode			# to keep track of the prevailing logging mode, if changed
 
-		# mostly fixed variables first, calculated variables later
+		# mainly fixed variables first, do calculated variables later
 		
 		self.bitness = 64												# bits to build ffmpeg etc
 		self.toolchain_bitness = self.bitness							# bits to build the toolchain
@@ -131,7 +131,7 @@ class settings:
 		self.log_format = '[%(asctime)s][%(levelname)s]%(type)s %(message)s'
 		self.log_date_format = '%H:%M:%S'
 
-		# calculated variables next
+		# mainly calculated variables next
 
 		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
 		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
