@@ -124,7 +124,10 @@ class settings:
 		self.toolchain_mingw_debug_build = False
 		self.toolchain_mingw_custom_cflags = None
 		
-		self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'
+		#self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'		# old
+		self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0'		# LTS as at 2023.02.07
+		#self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0'	# as at 2023.02.07
+		
 		self.log_format = '[%(asctime)s][%(levelname)s]%(type)s %(message)s'
 		self.log_date_format = '%H:%M:%S'
 
