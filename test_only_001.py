@@ -419,32 +419,38 @@ if __name__ == "__main__":
 	# Initialize python3 system stuff
 	# initialize settings
 	# initialize logging (with default loglevel)
-	# process CMDLINE arguments
+	# process CMDLINE arguments and change settings
 	# prepare ... 
-	#	reset logging level after cmdline arguments, create folder trees
+	#	reset logging level after cmdline arguments
 	#	set environment variables
 	#	init and load products
 	#	init and load dependencies
 	#	init and load variables (the .py)
+	# if help or list etc, do that and exit
+	# create folder trees
 	# check and build the toolchain
 	# execute build etc
 
 
 	# initialize system stuff
+	print(f"TEMPORARY MESSAGE: initialize system stuff")
 	PY_REQUIRE = (3, 8)
 	if sys.version_info < PY_REQUIRE:
 		sys.exit("You need at least Python %s.%s or later to run this script.\n" % PY_REQUIRE)
 	sys.dont_write_bytecode = True  # Avoid __pycache__ folder, never liked that solution
 
 	# initial settings, they can be overridden later by commandline options
+	print(f"TEMPORARY MESSAGE: initialize global settings")
 	global_settings = settings()
 	if global_settings.debugMode:
 		global_settings.dump_vars("SETTINGS in debugMode")
 
 	# TEMPORARY ... REMOVE THIS LATER ...
-	global_settings.dump_vars("SETTINGS in debugMode")
+	print(f"TEMPORARY MESSAGE: dump global settings")
+	global_settings.dump_vars("dump global settings")
 	
 	# initialize Logging
+	print(f"TEMPORARY MESSAGE: initialize logging")
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object
 	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
@@ -455,19 +461,59 @@ if __name__ == "__main__":
 	logger.setLevel(global_settings.initial_logging_mode)	# set trhe level in our instance
 	logger.debug(f'__main__: logger.setLevel is {global_settings.initial_logging_mode} ... (logging.INFO={logging.INFO} logging.DEBUG={logging.DEBUG})')
 
+	# TEMPORARY ONLY
+	#global_settings.debugMode = True
+	#global_settings.current_logging_mode = logging.DEBUG	# we can do this now the logger is initialised
+	#logger.setLevel(global_settings.current_logging_mode)	# we can do this now the logger is initialised
 
 	# process CMDLINE arguments
-	
-	
-	#prepare ... 
+	print(f"TEMPORARY MESSAGE: process CMDLINE arguments")
+	logger.debug(f"Processing CMDLINE arguments")
+
+	# prepare ... 
+	#	reset logging level after cmdline arguments, create folder trees
+	#	set environment variables
+	#	init and load products
+	#	init and load dependencies
+	#	init and load variables (the .py)
 	#
+	print(f"TEMPORARY MESSAGE: Commencing Preparation ...")
+	logger.debug(f"Commencing Preparation ...")
+
+	print(f"TEMPORARY MESSAGE: Prepare: Reset logging level after cmdline arguments")
+	logger.debug(f"Prepare: Reset logging level after cmdline arguments")
+	
 	# set environment variables
+	print(f"TEMPORARY MESSAGE: Prepare: set environment variables")
+	logger.debug(f"Prepare: set environment variables")
 	#os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
 	#os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
 	#os.environ["PKG_CONFIG_LIBDIR"] = ""
 	#os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
 	#os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
 
+	print(f"TEMPORARY MESSAGE: Prepare: init and load products")
+	logger.debug(f"Prepare: init and load products")
+
+	print(f"TEMPORARY MESSAGE: Prepare: init and load dependencies")
+	logger.debug(f"Prepare: init and load dependencies")
+
+	print(f"TEMPORARY MESSAGE: Prepare: init and load variables.py")
+	logger.debug(f"Prepare: init and load variables.py")
+
+	# if help or list etc, do that and exit
+
+	print(f"TEMPORARY MESSAGE: if help or list etc, do that and exit")
+	logger.debug(f"Prepare: if help or list etc, do that and exit")
+
+	print(f"TEMPORARY MESSAGE: Prepare: create folder trees")
+	logger.debug(f"Prepare: create folder trees")
+
+	print(f"TEMPORARY MESSAGE: check and build the toolchain")
+	logger.debug(f"check and build the toolchain")
+
+	print(f"TEMPORARY MESSAGE: execute build etc")
+	logger.debug(f"Prepare: execute build etc")
 
 
 	#_epilog = 'Copyright (C) 2023-2024 hydra3333\n\n This Source Code Form is subject to the terms of the GNU General Public License version 3 or any later version. If a copy of the GPLv3 was not distributed with this file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html'
