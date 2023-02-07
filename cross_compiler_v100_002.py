@@ -102,10 +102,10 @@ class MyLogFormatter(logging.Formatter):
 	def __init__(self, l, ld):
 		MyLogFormatter.log_format = l
 		MyLogFormatter.log_date_format = ld
-		MyLogFormatter.inf_fmt = Colors.LIGHTCYAN_EX + MyLogFormatter.log_format + Colors.RESET
-		MyLogFormatter.err_fmt = Colors.LIGHTRED_EX + MyLogFormatter.log_format + Colors.RESET
-		MyLogFormatter.dbg_fmt = Colors.LIGHTYELLOW_EX + MyLogFormatter.log_format + Colors.RESET
-		MyLogFormatter.war_fmt = Colors.YELLOW + MyLogFormatter.log_format + Colors.RESET
+		MyLogFormatter.inf_fmt = Colors.RESET + Colors.LIGHTCYAN_EX + MyLogFormatter.log_format + Colors.RESET
+		MyLogFormatter.err_fmt = Colors.RESET + Colors.LIGHTRED_EX + MyLogFormatter.log_format + Colors.RESET
+		MyLogFormatter.dbg_fmt = Colors.RESET + Colors.LIGHTYELLOW_EX + MyLogFormatter.log_format + Colors.RESET
+		MyLogFormatter.war_fmt = Colors.RESET + Colors.YELLOW + MyLogFormatter.log_format + Colors.RESET
 		super().__init__(fmt="%(levelno)d: %(msg)s", datefmt=MyLogFormatter.log_date_format, style='%')
 
 	def format(self, record):
