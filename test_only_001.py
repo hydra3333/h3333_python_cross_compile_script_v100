@@ -32,8 +32,14 @@
 # pip3 install --upgrade PyYAML
 # pip3 install --upgrade pymediainfo
 # pip3 install --upgrade Pillow
-#
-#
+
+# Global Variables and Functions and Objects
+# Strictly, global declaration is not needed here (only inside functions)
+# however it shows these can be found elsewhere where read&write globals are needed.
+
+global logging_handler 	# the handler for the logger, only used for initialization
+global logger 			# the logger object used everywhere
+global SETTINGS			# the SETTINGS object used everywhere
 
 import argparse
 import ast
@@ -61,14 +67,10 @@ import json
 import progressbar
 import yaml
 
-# Global Variables and Functions and Objects
-global logging_handler 	# the handler for the logger, only used for initialization
-global logger 			# the logger object
-
 ###################################################################################################
 class settings:
 	# https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables
-	# Variables set here are Class Variables and are shared across all instances
+	# Variables set at the top here are Class Variables and apparently shared across all instances
 	
 	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
 		#logger.error(msg)
@@ -76,12 +78,12 @@ class settings:
 		sys.exit(1)
 	
 	def __init__(self):
-
 		# NOTE:	here we fully flesh out all variables
 		#		nothing is left with !CMDxxxCMD! or !VARxxxVAR! type stuff in it
 		#		so, we do not rely on functions like replaceVariables or replaceVariables
 
-		self.debugMode = False											# True or False
+		self.debugMode = True											# True or False
+		# be cautious, set the loglevel based on debugMode, but initDebugMode still needs to be called after the logger is initialized outside of this class
 		if self.debugMode:
 			self.initial_logging_mode = logging.DEBUG					# at what level to start logging initially. logging.INFO logging.DEBUG
 		else:
@@ -336,17 +338,6 @@ class dot_py_object_dict:			# a dictionary of build objects
 		return tmp								# return the new dot_py_object 
 
 ###################################################################################################
-class MissingDependency(Exception):
-	__module__ = 'exceptions'
-
-	def __init__(self, message):
-		self.message = message
-
-	def dump_vars(self, heading='VARIABLES DUMP:'):
-		global_dump_object_variables(self, heading)
-
-###################################################################################################
-
 class MyLogFormatter(logging.Formatter):
 	def __init__(self, l, ld):
 		MyLogFormatter.log_format = l
@@ -389,6 +380,55 @@ class epiFormatter(argparse.RawDescriptionHelpFormatter):
 	def _split_lines(self, text, width):
 		return text.splitlines()
 
+###################################################################################################
+	def initLogger():
+		global SETTINGS
+		global logging_handler
+		global logger
+		#print(f"TEMPORARY MESSAGE: initialize logging")
+		logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
+		fmt = MyLogFormatter(SETTINGS.log_format, SETTINGS.log_date_format)	# this is a class, it returns an object
+		logging_handler.setFormatter(fmt)						# set the format into the handler for the logger
+		logger = logging.getLogger(__name__)					# get an instance of the logger ?
+		logger.addHandler(logging_handler)						# add our handler into the instance
+		if SETTINGS.debugMode:									# if SETTINGS.debugMode is true, set loglevel to logging.DEBUG regardless of initial_logging_mode
+			setLogLevel(logging.DEBUG)
+		else:
+			setLogLevel(SETTINGS.initial_logging_mode)
+		return
+
+###################################################################################################
+	def setLogLevel(new_mode=SETTINGS.initial_logging_mode):
+		# set the loglevel and track its current state in SETTINGS.current_logging_mode
+		# call with new_mode = (in order) one of logging.DEBUG logging.INFO logging.WARNING logging.ERROR 
+		# when logging, any level LESS than the prevailing set loglevel is not logged by the logger
+		global SETTINGS
+		global logging_handler
+		global logger
+		if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
+			logger.setLevel(logging.DEBUG)
+			logger.debug(f"INVALID setLogLevel specified '{new_mode}' ... note: logging.DEBUG={logging.DEBUG} logging.INFO={logging.INFO} logging.WARNING={logging.WARNING} logging.ERROR={logging.ERROR}")
+			logger.setLevel(SETTINGS.current_logging_mode)
+		else:
+			SETTINGS.current_logging_mode = new_mode
+			logger.setLevel(SETTINGS.current_logging_mode)
+			logger.debug(f"logger.setLevel to '{SETTINGS.initial_logging_mode}'")
+		return
+
+###################################################################################################
+	def setDebugMode(new_debugMode=SETTINGS.debugMode):
+		global SETTINGS
+		global logging_handler
+		global logger
+		if SETTINGS.debugMode:
+			SETTINGS.debugMode = True
+			setLogLevel(logging.DEBUG)
+		else:
+			SETTINGS.debugMode = False
+			setLogLevel(SETTINGS.current_logging_mode)
+			logger.debug(f"")
+		logger.warning(f"DebugMode explicitly set to '{SETTINGS.debugMode}'")
+		return
 
 
 ###################################################################################################
@@ -416,8 +456,8 @@ class epiFormatter(argparse.RawDescriptionHelpFormatter):
 #objProdsDict.add_dot_py_obj(objProd)
 #print(f" ")
 #print(f"about to instantiate settings()")
-#global_settings = settings()
-#global_settings.dump_vars("VARIABLES DUMP:")
+#SETTINGS = settings()
+#SETTINGS.dump_vars("VARIABLES DUMP:")
 
 if __name__ == "__main__":
 
@@ -436,6 +476,7 @@ if __name__ == "__main__":
 	# check and build the toolchain
 	# execute build etc
 
+	# globals already defined at the top, this is __main__ not a function.
 
 	# initialize system stuff
 	print(f"TEMPORARY MESSAGE: initialize system stuff")
@@ -446,30 +487,19 @@ if __name__ == "__main__":
 
 	# initial settings, they can be overridden later by commandline options
 	print(f"TEMPORARY MESSAGE: initialize global settings")
-	global_settings = settings()
-	if global_settings.debugMode:
-		global_settings.dump_vars("SETTINGS in debugMode")
+	SETTINGS = settings()
+	if SETTINGS.debugMode:
+		SETTINGS.dump_vars("SETTINGS in debugMode")
 
 	# TEMPORARY ... REMOVE THIS LATER ...
 	print(f"TEMPORARY MESSAGE: dump global settings")
-	global_settings.dump_vars("dump global settings")
+	SETTINGS.dump_vars("dump global settings")
 	
-	# initialize Logging
-	print(f"TEMPORARY MESSAGE: initialize logging")
-	global logging_handler 	# the handler for the logger, only used for initialization
-	global logger 			# the logger object
-	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
-	fmt = MyLogFormatter(global_settings.log_format, global_settings.log_date_format)
-	logging_handler.setFormatter(fmt)						# set the format into the handler for the logger
-	logger = logging.getLogger(__name__)					# get an instance of the logger ?
-	logger.addHandler(logging_handler)						# add our handler into the instance
-	logger.setLevel(global_settings.initial_logging_mode)	# set trhe level in our instance
-	logger.debug(f'__main__: logger.setLevel is {global_settings.initial_logging_mode} ... (logging.INFO={logging.INFO} logging.DEBUG={logging.DEBUG})')
+	# Initialize Logging
+	initLogger()
 
-	# TEMPORARY ONLY
-	#global_settings.debugMode = True
-	#global_settings.current_logging_mode = logging.DEBUG	# we can do this now the logger is initialised
-	#logger.setLevel(global_settings.current_logging_mode)	# we can do this now the logger is initialised
+	# Initialize DEBUG mode ... ONLY ONLY AFTER initLogger() since that sets the initial loglevel
+	setDebugMode(SETTINGS.debugMode)
 
 	# process CMDLINE arguments
 	print(f"TEMPORARY MESSAGE: process CMDLINE arguments")
@@ -523,3 +553,129 @@ if __name__ == "__main__":
 
 	#_epilog = 'Copyright (C) 2023-2024 hydra3333\n\n This Source Code Form is subject to the terms of the GNU General Public License version 3 or any later version. If a copy of the GPLv3 was not distributed with this file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html'
 	#parser = argparse.ArgumentParser(formatter_class=epiFormatter, epilog=_epilog)
+	
+	exit()
+
+##########################################################################################################################
+##########################################################################################################################
+##########################################################################################################################
+##########################################################################################################################
+##########################################################################################################################
+
+'''
+plans
+
+a setlevel function per other, has global SETTINGS declared so as to reset it
+
+global vars for packages,deps,variables
+
+missing settings ??? 
+
+
+		THEN prepareBuilding(self, bitness) DOES THIS
+		---------------------------------------------
+		self.logger.info('Starting build script')
+		if not self.fullWorkDir.exists():
+			self.logger.info("Creating workdir: %s" % (self.fullWorkDir))
+			self.fullWorkDir.mkdir()
+		self.cchdir(self.fullWorkDir)
+
+		self.currentBitness = bitness
+		self.bitnessStr = "x86_64" if bitness == 64 else "i686"  # e.g x86_64
+		self.bitnessPath = self.fullWorkDir.joinpath("x86_64" if bitness == 64 else "i686")  # e.g x86_64
+		GLOBAL_bitnessPath = self.bitnessPath
+		#self.logger.info(F"DEBUG set GLOBAL_bitnessPath='{GLOBAL_bitnessPath}'")
+		self.bitnessStr2 = "x86_64" if bitness == 64 else "x86"  # just for vpx...
+		self.bitnessStr3 = "mingw64" if bitness == 64 else "mingw"  # just for openssl...
+		self.targetOSStr = "mingw64" if bitness == 64 else "mingw32" # 2019.12.13 just for "--target-os=" 
+		self.bitnessStrWin = "win64" if bitness == 64 else "win32"  # e.g win64
+		self.targetHostStr = F"{self.bitnessStr}-w64-mingw32"  # e.g x86_64-w64-mingw32
+		self.targetPrefix = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", self.targetHostStr)  # workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
+		self.inTreePrefix = self.fullWorkDir.joinpath(self.bitnessStr)  # workdir/x86_64
+		self.offtreePrefix = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")  # workdir/x86_64_offtree
+		self.targetSubPrefix = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32")  # e.g workdir/xcompilers/mingw-w64-x86_64
+		self.mingwBinpath = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", "bin")  # e.g workdir/xcompilers/mingw-w64-x86_64/bin
+		self.mingwBinpath2 = self.fullWorkDir.joinpath(self.mingwDir, self.bitnessStr + "-w64-mingw32", self.bitnessStr + "-w64-mingw32", "bin")  # e.g workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
+		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.bitnessStr}-w64-mingw32-"  # e.g workdir/xcompilers/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
+		self.shortCrossPrefixStr = F"{self.bitnessStr}-w64-mingw32-"  # e.g x86_64-w64-mingw32-
+		self.autoConfPrefixOptions = F'--with-sysroot="{self.targetSubPrefix}" --host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
+		self.makePrefixOptions = F'CC={self.shortCrossPrefixStr}gcc ' \
+			F"AR={self.shortCrossPrefixStr}ar " \
+			F"PREFIX={self.targetPrefix} " \
+			F"RANLIB={self.shortCrossPrefixStr}ranlib " \
+			F"LD={self.shortCrossPrefixStr}ld " \
+			F"STRIP={self.shortCrossPrefixStr}strip " \
+			F'CXX={self.shortCrossPrefixStr}g++'  # --sysroot="{self.targetSubPrefix}"'
+		self.pkgConfigPath = "{0}/lib/pkgconfig".format(self.targetPrefix)  # e.g workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32/lib/pkgconfig
+		self.localPkgConfigPath = self.aquireLocalPkgConfigPath()
+		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")
+		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")
+		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
+		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
+		self.cpuCount = self.config["toolchain"]["cpu_count"]
+		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
+		self.original_stack_protector_trim = self.config["toolchain"]["original_stack_protector"].strip() # 2020.05.13
+		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
+		self.original_fortify_source_trim  = self.config["toolchain"]["original_fortify_source"].strip() # 2020.05.13
+		self.originalCflag = self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
+		self.originalCflag_trim = self.config["toolchain"]["original_cflags"].strip() # 2020.05.13 singular
+		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
+		self.originalCflags_trim = (self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]).strip() # 2020.05.13
+		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
+		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
+		GLOBAL_fullProductDir = self.fullProductDir
+		#self.logger.info(F"DEBUG set GLOBAL_fullProductDir='{GLOBAL_fullProductDir}'")
+		self.formatDict = defaultdict(lambda: "")
+		self.formatDict.update(
+			{
+				'cmake_prefix_options': self.cmakePrefixOptions,
+				'cmake_prefix_options_old': self.cmakePrefixOptionsOld,
+				'make_prefix_options': self.makePrefixOptions,
+				'autoconf_prefix_options': self.autoConfPrefixOptions,
+				'pkg_config_path': self.pkgConfigPath,
+				'local_pkg_config_path': self.localPkgConfigPath,
+				'local_path': self.originalPATH,
+				'mingw_binpath': self.mingwBinpath,
+				'mingw_binpath2': self.mingwBinpath2,
+				'cross_prefix_bare': self.shortCrossPrefixStr,
+				'cross_prefix_full': self.fullCrossPrefixStr,
+				'target_prefix': self.targetPrefix,
+				'project_root': self.projectRoot,
+				'work_dir': self.fullWorkDir,
+				'inTreePrefix': self.inTreePrefix,
+				'offtree_prefix': self.offtreePrefix,
+				'target_host': self.targetHostStr,
+				'target_sub_prefix': self.targetSubPrefix,
+				'bit_name': self.bitnessStr,
+				'bit_name2': self.bitnessStr2,
+				'bit_name3': self.bitnessStr3,
+				'bit_name_win': self.bitnessStrWin,
+				'bit_num': self.currentBitness,
+				'product_prefix': self.fullProductDir,
+				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
+				'make_cpu_count': "-j {0}".format(self.cpuCount),
+				'original_cflags': self.originalCflags,
+				'cflag_string': self.generateCflagString('--extra-cflags='),
+				'current_path': os.getcwd(),
+				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
+				'meson_env_file': self.mesonEnvFile
+				# 2019.12.13 --- add own hydra3333 variables
+				,'target_OS': self.targetOSStr
+				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'original_cflags_trim': self.originalCflags_trim # 2020.05.13
+				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
+				,'original_stack_protector_trim' : self.original_stack_protector_trim # 2020.05.13
+				,'original_fortify_source' : self.original_fortify_source # 2019.11.15
+				,'original_fortify_source_trim' : self.original_fortify_source_trim # 2020.05.13
+				,'original_cflag': self.originalCflag # 2020.05.13
+				,'original_cflag_trim': self.originalCflag_trim # 2020.05.13
+			}
+		)
+
+
+		-----------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------
+
+'''
