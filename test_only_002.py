@@ -482,7 +482,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 						logger.debug(f"dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
 				except SyntaxError:
 					self.errorExit(f"dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
-		logger.info(f"Loaded {len(self.BO)} {heading} files")
+		logger.info(f"Loaded {len(self.BO)} {heading} files into dictionary {self.name}")
 		return
 
 	def get_dot_py(self, package_name):	
