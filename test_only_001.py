@@ -99,7 +99,7 @@ import sys
 import traceback
 import urllib.parse
 import urllib.request
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from multiprocessing import cpu_count
 from pathlib import Path
 from urllib.parse import urlparse
@@ -368,8 +368,8 @@ class dot_py_object_dict:			# a dictionary of build objects
 	def __init__(self):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
 		logger.debug(f"DEBUG: dot_py_object_dict __init__")
-		#self.BO = OrderedDict()				# we can have the dictionary ordered if we want to
-		self.BO = {}
+		self.BO = OrderedDict({})				# we can have the dictionary ordered if we want to
+		#self.BO = {}							# or, not
 		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
@@ -815,19 +815,26 @@ if __name__ == "__main__":
 		setDebugMode(or_debug_modes)
 		logger.debug(f"Prepare: Reset logging level after cmdline arguments")
 
-
-	print(f"TEMPORARY MESSAGE: Prepare: init and load products")
 	logger.debug(f"Prepare: init and load products")
+	dictProducts = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	products_folder_to_parse = ???
+	dictProducts.load_py_files(type="P", folder=products_folder_to_parse)
 
-	print(f"TEMPORARY MESSAGE: Prepare: init and load dependencies")
 	logger.debug(f"Prepare: init and load dependencies")
+	dictDependencies = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	dependencies_folder_to_parse = ???
+	dictDependencies.load_py_files(type="D", folder=dependencies_folder_to_parse) ?????????? fix to store the type
 
-	print(f"TEMPORARY MESSAGE: Prepare: init and load variables.py")
 	logger.debug(f"Prepare: init and load variables.py")
+	objVariables = dot_py_object() # an object of the variables, of class dot_py_object
+	objVariables.load_py_file(folder=variables_folder_to_parse) # it's an object, not a dict
+
+
+
 	
 	# prepare ... 
-	#	reset logging level after cmdline arguments, create folder trees
 	#	set environment variables
+	#	create folder trees
 	
 	
 	# set environment variables
