@@ -110,7 +110,12 @@ import yaml
 class settings:
 	# https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables
 	# Variables set at the top here are Class Variables and apparently shared across all instances
-	
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+
 	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
 		#logger.error(msg)
 		print("Settings Error: " + msg)
@@ -412,9 +417,12 @@ class MyLogFormatter(logging.Formatter):
 
 ###################################################################################################
 def initLogger():
-	global objSETTINGS
-	global logging_handler
-	global logger
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+
 	#print(f"TEMPORARY MESSAGE: initialize logging")
 	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
 	fmt = MyLogFormatter(objSETTINGS.log_format, objSETTINGS.log_date_format)	# this is a class, it returns an object
@@ -432,9 +440,12 @@ def setLogLevel(new_mode):
 	# set the loglevel and track its current state in objSETTINGS.current_logging_mode
 	# call with new_mode = (in order) one of logging.DEBUG logging.INFO logging.WARNING logging.ERROR 
 	# when logging, any level LESS than the prevailing set loglevel is not logged by the logger
-	global objSETTINGS
-	global logging_handler
-	global logger
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+
 	if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
 		logger.setLevel(logging.DEBUG)
 		logger.debug(f"INVALID setLogLevel specified '{new_mode}' ... note: logging.DEBUG={logging.DEBUG} logging.INFO={logging.INFO} logging.WARNING={logging.WARNING} logging.ERROR={logging.ERROR}")
@@ -447,9 +458,12 @@ def setLogLevel(new_mode):
 
 ###################################################################################################
 def setDebugMode(new_debugMode):
-	global objSETTINGS
-	global logging_handler
-	global logger
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+
 	if objSETTINGS.debugMode:
 		objSETTINGS.debugMode = True
 		setLogLevel(logging.DEBUG)
@@ -474,6 +488,8 @@ class processCmdLineArguments():
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
@@ -654,15 +670,18 @@ if __name__ == "__main__":
 	# Initialize DEBUG mode ... ONLY ONLY AFTER initLogger() since that sets the initial loglevel
 	setDebugMode(objSETTINGS.debugMode)
 
-	# process CMDLINE arguments
+	# Process CMDLINE arguments
 	logger.debug(f"Processing CommandLine arguments")
 	objArgParser = processCmdLineArguments()
 	if objSETTINGS.debugMode:
 		objArgParser.dump_vars('### processCmdLineArguments: SETTINGS INTERNAL VARIABLES DUMP:')
-	# And just because we can:
 	#objParser = objArgParser.parser	# the actual parser object
+	# And just because we can, retrieve the parser object from our new objArgParser object
 	#if objSETTINGS.debugMode:
 	#	global_dump_object_variables(objParser, "### objParser retrieved from objArgParser")
+
+
+
 
 	
 	# prepare ... 
