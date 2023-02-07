@@ -79,6 +79,9 @@ global logging_handler 	# the handler for the logger, only used for initializati
 global logger 			# the logger object used everywhere
 global objArgParser		# the ArgParser which may be used everywhere
 global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+global objVariables		# an object of the variables, of class dot_py_object
 
 import argparse
 import ast
@@ -115,6 +118,9 @@ class settings:
 	global logger 			# the logger object used everywhere
 	global objArgParser		# the ArgParser which may be used everywhere
 	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
 
 	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
 		#logger.error(msg)
@@ -272,6 +278,14 @@ def errorExit(msg):
 # This function is consumed within objects so the code does not need to repeated in them.
 # Called in a class like:	global_dump_object_variables(self,"this is a heading")
 def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
 	def name_of_object(xx):		# get the name of the object instantiated with a class https://stackoverflow.com/posts/16139159/revisions
 		object_name = ''
 		for objname, oid in globals().items():
@@ -310,32 +324,34 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 		self.Name = ''
 		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
 		self.Val = {}							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
-		print(f"DEBUG: dot_py_object __init__ Created dot_py_object")
+		logger.debug(f"DEBUG: dot_py_object __init__ Created dot_py_object")
 		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
+		return
 
 	def set_data_py(self, Name='', Val={}):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
 		self.Name = Name
 		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
 		self.Val = Val							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
-		print(f"DEBUG: dot_py_object set_data_py added Name='{self.Name}'")
+		logger.debug(f"DEBUG: dot_py_object set_data_py added Name='{self.Name}'")
 		for key2, val2 in self.Val.items():
-			print(f"\t{key2}='{val2}'")
+			logger.debug(f"\t{key2}='{val2}'")
 		return
 
 	def dump_vars(self, heading='OBJECT VARIABLES DUMP'):
 		print(f"DEBUG: {heading}")
 		#members = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
-		#print(members)
+		#logger.debug(members)
 		max_var_len = 0
 		for key,val in vars(self).items():
 			max_var_len = max(max_var_len,len(key))
 		for key,val in vars(self).items():
 			k = key.ljust(max_var_len,' ')
 			print(f"DEBUG: {k} = '{val}'")
+		return
 
 ###################################################################################################
 class dot_py_object_dict:			# a dictionary of build objects
@@ -351,36 +367,38 @@ class dot_py_object_dict:			# a dictionary of build objects
 
 	def __init__(self):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
-		print(f"DEBUG: dot_py_object_dict __init__")
+		logger.debug(f"DEBUG: dot_py_object_dict __init__")
 		#self.BO = OrderedDict()				# we can have the dictionary ordered if we want to
 		self.BO = {}
 		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
+		return
 
-	def add_dot_py_obj(self, objBO):				# assumes objBO is of class dot_py_object
+	def add_dot_py_obj(self, objBO):
+		# assumes the incoming objBO is of class dot_py_object
 		#https://docs.python.org/3/whatsnew/3.9.html#dictionary-merge-update-operators
 		#If a key appears in both operands, the last-seen value (i.e. that from the right-hand operand) wins:
 		# Dict Union is not commutative
 		#self.BO = self.BO | { objBO.Name : objBO.Val }
-		self.BO |= { objBO.Name : objBO.Val }
-		print(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: key='{objBO.Name}' val='{objBO.Val}'")
-		print(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
+		self.BO |= { objBO.Name : objBO.Val } # the operator '|=' appends to the dict
+		logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: key='{objBO.Name}' val='{objBO.Val}'")
+		logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
 		for key, val in self.BO.items():
-			#print(f"DEBUG: add_dot_py_obj: key='{key}' val='{val}'")
-			print(f"DEBUG: add_dot_py_obj: Name='{key}'")
+			logger.debug(f"DEBUG: add_dot_py_obj: Name='{key}'")
 			for key2, val2 in val.items():
-				print(f"\t{key2}='{val2}'")
+				logger.debug(f"\t{key2}='{val2}'")
 		return
 
-	def get_dot_py(self, package_name):
-		print(f"DEBUG: get_dot_py")
-		tmp = dot_py_object()					# create a new empty instance of a dot_py_object
+	def get_dot_py(self, package_name):	
+		# return a key/value pair as an object of class dot_py_object
+		logger.debug(f"DEBUG: get_dot_py")
+		tmp = dot_py_object()					# create a new empty instance of class dot_py_object
 		if package_name in self.BO:				# check whether a single key is in the dictionary
 			tmp.Name = package_name				# yes, insert the package name into the tmp object
-			tmp.Val = self.BO[the_key]			# yes, insert the doct of jason info into the tmp object
-		return tmp								# return the new dot_py_object 
+			tmp.Val = self.BO[the_key]			# yes, insert the dict of json info into the tmp object
+		return tmp								# return the object of class dot_py_object 
 
 ###################################################################################################
 class MyLogFormatter(logging.Formatter):
@@ -392,9 +410,11 @@ class MyLogFormatter(logging.Formatter):
 		MyLogFormatter.dbg_fmt = Colors.RESET + Colors.LIGHTYELLOW_EX + MyLogFormatter.log_format + Colors.RESET
 		MyLogFormatter.war_fmt = Colors.RESET + Colors.YELLOW + MyLogFormatter.log_format + Colors.RESET
 		super().__init__(fmt="%(levelno)d: %(msg)s", datefmt=MyLogFormatter.log_date_format, style='%')
+		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
+		return
 
 	def format(self, record):
 		if not hasattr(record, "type"):
@@ -422,6 +442,9 @@ def initLogger():
 	global logger 			# the logger object used everywhere
 	global objArgParser		# the ArgParser which may be used everywhere
 	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
 
 	#print(f"TEMPORARY MESSAGE: initialize logging")
 	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
@@ -445,6 +468,9 @@ def setLogLevel(new_mode):
 	global logger 			# the logger object used everywhere
 	global objArgParser		# the ArgParser which may be used everywhere
 	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
 
 	if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
 		logger.setLevel(logging.DEBUG)
@@ -463,6 +489,9 @@ def setDebugMode(new_debugMode):
 	global logger 			# the logger object used everywhere
 	global objArgParser		# the ArgParser which may be used everywhere
 	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
 
 	if objSETTINGS.debugMode:
 		objSETTINGS.debugMode = True
@@ -490,9 +519,13 @@ class processCmdLineArguments():
 	global logger 			# the logger object used everywhere
 	global objArgParser		# the ArgParser which may be used everywhere
 	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
+		return
 		
 	def __init__(self):
 		logger.debug(f"Entered processCmdLineArguments")
@@ -741,7 +774,6 @@ if __name__ == "__main__":
 	# execute build etc
 
 	# initialize system stuff
-	print(f"TEMPORARY MESSAGE: initialize system stuff")
 	PY_REQUIRE = (3, 10)
 	if sys.version_info < PY_REQUIRE:
 		print(f"ERROR: You need at least Python %s.%s or later to run this script." % PY_REQUIRE)
@@ -751,7 +783,6 @@ if __name__ == "__main__":
 	sys.dont_write_bytecode = True  # Avoid __pycache__ folder, never liked that solution
 
 	# Initialize global settings, they can be overridden later by commandline options
-	print(f"TEMPORARY MESSAGE: Initialize global settings")	# logger not available yet, do not do logging.info etc
 	objSETTINGS = settings()
 	if objSETTINGS.debugMode:
 		objSETTINGS.dump_vars('### debugMode: SETTINGS INTERNAL VARIABLES DUMP:')
@@ -779,7 +810,6 @@ if __name__ == "__main__":
 	logger.debug(f"*objArgParser.skip_depends='{objArgParser.skip_depends}'")
 
 	# Reset logging level and Debug_mode
-	print(f"TEMPORARY MESSAGE: Prepare: Reset logging level and Debug_mode after cmdline arguments")
 	or_debug_modes = objSETTINGS.debugMode or objArgParser.debug
 	if or_debug_modes:	# one or the other is true, so make it all true, a one-way
 		setDebugMode(or_debug_modes)
