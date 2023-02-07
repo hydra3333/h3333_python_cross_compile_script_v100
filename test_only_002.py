@@ -314,7 +314,7 @@ def isPathDisabled(path):
 	return False
 
 ###################################################################################################
-def boolKey(self, d, k):
+def boolKey(d, k):
 	if k in d:
 		if d[k]:
 			return True
@@ -322,6 +322,15 @@ def boolKey(self, d, k):
 
 ###################################################################################################
 class dot_py_object:					# a single .py - name,  and json values in a dictionary
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+
 	# objDict = dict([('key1', val1),('key2',val2)])	# dict() constructor builds dictionaries directly from sequences of key-value pairs:
 	# list(objDict)					# returns a list of all the keys used in the dictionary, in insertion order
 	# list(sorted(objDict))			# returns a list of all the keys used in the dictionary, sorted
@@ -340,13 +349,13 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	def __init__(self, Name='', Val={}):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
 		self.Name = ''
-		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
 		self.Val = {}							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
-		logger.debug(f"DEBUG: dot_py_object __init__ object instatiation")
+		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
+		#logger.debug(f"DEBUG: dot_py_object __init__ object instatiation")
 		return
 
 	def __del__(self):
-		logger.debug(f"DEBUG: dot_py_object __del__ to delete this object")
+		#logger.debug(f"DEBUG: dot_py_object __del__ to delete this object")
 		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
@@ -356,11 +365,10 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	def set_data_py(self, Name='', Val={}):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
 		self.Name = Name
-		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
-		self.Val = Val							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
-		logger.debug(f"DEBUG: dot_py_object set_data_py added Name='{self.Name}'")
-		for key2, val2 in self.Val.items():
-			logger.debug(f"\t{key2}='{val2}'")
+		self.Val = Val							# this variable is a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
+		#logger.debug(f"DEBUG: dot_py_object set_data_py added Name='{self.Name}'")
+		#for key2, val2 in self.Val.items():
+		#	logger.debug(f"\t{key2}='{val2}'")
 		return
 
 	def dump_vars(self, heading='OBJECT VARIABLES DUMP'):
@@ -377,6 +385,15 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 
 ###################################################################################################
 class dot_py_object_dict:			# a dictionary of build objects
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+
 	# objDict = dict([('key1', val1),('key2',val2)])	# dict() constructor builds dictionaries directly from sequences of key-value pairs:
 	# list(objDict)					# returns a list of all the keys used in the dictionary, in insertion order
 	# list(sorted(objDict))			# returns a list of all the keys used in the dictionary, sorted
@@ -394,13 +411,13 @@ class dot_py_object_dict:			# a dictionary of build objects
 
 	def __init__(self):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
-		logger.debug(f"DEBUG: dot_py_object_dict __init__ object instatiation")
-		self.BO = OrderedDict({})				# we can have the dictionary ordered if we want to
+		#logger.debug(f"DEBUG: dot_py_object_dict __init__ object instatiation")
 		#self.BO = {}							# or, not
+		self.BO = OrderedDict({})				# we can have the dictionary ordered if we want to
 		return
 
 	def __del__(self):
-		logger.debug(f"DEBUG: dot_py_object_dict __del__ to delete this object")
+		#logger.debug(f"DEBUG: dot_py_object_dict __del__ to delete this object")
 		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
@@ -414,13 +431,14 @@ class dot_py_object_dict:			# a dictionary of build objects
 		# Dict Union is not commutative
 		#self.BO = self.BO | { objBO.Name : objBO.Val }
 		self.BO |= { objBO.Name : objBO.Val } # the operator '|=' appends to the dict
-		logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: key='{objBO.Name}' val='{objBO.Val}'")
-		logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
-		for key, val in self.BO.items():
-			logger.debug(f"DEBUG: add_dot_py_obj: Name='{key}'")
-			for key2, val2 in val.items():
-				logger.debug(f"\t{key2}='{val2}'")
-		return
+		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: key='{objBO.Name}'")
+		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: val='{objBO.Val}'")
+		#logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
+		#for key, val in self.BO.items():
+		#	logger.debug(f"DEBUG: add_dot_py_obj: Name='{key}'")
+		#	for key2, val2 in val.items():
+		#		logger.debug(f"\t{key2}='{val2}'")
+		#return
 
 	def load_py_files(self, folder='',heading=''):
 		# Load .py files from the specified folder tree, if they are not disabled
@@ -432,12 +450,13 @@ class dot_py_object_dict:			# a dictionary of build objects
 			for name in files:
 				p = Path(os.path.join(path, name))
 				if p.suffix == ".py":
-					self.logger.debug(f"dot_py_object_dict: load_py_files: Found {heading} .py filename '{p}'")
+					#logger.debug(f"dot_py_object_dict: load_py_files: Found {heading} .py filename '{name}'")
 					if not isPathDisabled(p):
 						tmp_file_list.append(p)
-						self.logger.debug(f"dot_py_object_dict: load_py_files: Saved {heading} .py filename '{p}')
+						#logger.debug(f"dot_py_object_dict: load_py_files: Saved {heading} .py filename '{name}'")
 					else:
-						self.logger.debug(f"dot_py_object_dict: load_py_files: Did NOT save {heading} .py filename due to isPathDisabled('{p}')")
+						logger.debug(f"dot_py_object_dict: load_py_files: Ignored {heading} {name}.py due to isPathDisabled")
+
 		if len(tmp_file_list) < 1:
 			self.errorExit(f"There are no non-disabled .py files in the folder '{folder}'" )
 		# Parse the saved non-disabled .py file paths and load the parsed filename/json pairs into the local dictionary already created within __init__
@@ -448,23 +467,21 @@ class dot_py_object_dict:			# a dictionary of build objects
 				try:
 					objJSON = ast.literal_eval(f.read())
 					if not isinstance(objJSON, dict):
-						self.errorExit(f"dot_py_object_dict: load_py_files: {heading} File '{p.name}' is misformatted")
-
-					if "_info" not in objJSON and not self.boolKey(objJSON, "is_dep_inheriter"):
-						self.logger.warning(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' is missing '_info' tag")
-
-					if self.boolKey(objJSON, "_disabled"):
-						self.logger.warning(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' has option '_disabled' set, not loading")
+						self.errorExit(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}' is misformatted")
+					if "_info" not in objJSON and not boolKey(objJSON, "is_dep_inheriter"):
+						logger.debug(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' is missing '_info' tag")
+					if boolKey(objJSON, "_disabled"):
+						logger.debug(f"dot_py_object_dict: load_py_files: Ignored {heading} {packageName} due to '_disabled'")
 					else:
 						# do it the long way around with an interim object, instead of of directly with name/value pair in the call
 						obj = dot_py_object()		# create an object with the name/value pair
 						obj.set_data_py(packageName, objJSON) # this may not work ... it's an object being passed :(
 						self.add_dot_py_obj(obj)	# save name/value pair into the dictionary in this instance
 						del obj
-						self.logger.debug(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' loaded")
+						logger.debug(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' loaded")
 				except SyntaxError:
 					self.errorExit(f"dot_py_object_dict: load_py_files: Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
-		self.logger.info(f"Loaded {len(self.BO])} {heading} files"))
+		logger.info(f"Loaded {len(self.BO)} {heading} files")
 		return
 
 	def get_dot_py(self, package_name):	
