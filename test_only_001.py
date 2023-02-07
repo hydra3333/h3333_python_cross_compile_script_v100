@@ -591,6 +591,76 @@ class processCmdLineArguments():
 		# We use that since it's commonly global, rathe than another global object
 		# note to self: ensure in objSETTINGS that all arguments are catered for and preset to None or something
 
+		#
+		self.args = self.parser.parse_args()		# ACTUALLY PARSE THE ARGUMENTS
+
+		# process generic args first
+		if self.args.force:
+			self.force = True
+		else:
+			self.force = False
+		logger.debug(f"CMDLINE Processed arg self.args.force='{self.args.force}'")
+
+		if self.args.debug:
+			self.debug = True
+		else:
+			self.debug = False
+		# check and possibly over-ride any debug mode 
+		logger.debug(f"CMDLINE Processing arg self.args.debug='{self.args.debug}' self.debug='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
+		or_debug_modes = objSETTINGS.debugMode or self.debug
+		if or_debug_modes:	# one or the other is true, so make it all true
+			self.debug = True
+			setDebugMode(self.debug)
+		logger.debug(f"CMDLINE Processed arg self.args.debug='{self.args.debug}' self.debug='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
+			
+	
+		
+
+		# process specific commands args next
+		# the 'match' statement only works in Python 3.10 and above # https://learnpython.com/blog/python-match-case-statement/
+		match self.args.which.lower():
+			case "list_p":
+				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='list_p'")
+				if self.args.products:
+					logger.debug(f"CMDLINE Processing arg self.args.products='{self.args.products}' in 'list_p'")
+					return
+				if self.args.dependencies:
+					logger.debug(f"CMDLINE Processing arg self.args.dependencies='{self.args.dependencies}' in 'list_p'")
+					return
+				msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+				logger.error(msg)
+				return
+			case "info_p":
+				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='info_p'")
+				if self.args.required_by:
+					logger.debug(f"CMDLINE Processed arg self.args.required_by='{self.args.required_by}' in 'info_p'")
+					return
+				if self.args.depends_on:
+					logger.debug(f"CMDLINE Processing arg self.args.depends_on='{self.args.depends_on}' in 'info_p'")
+					return
+				msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+				logger.error(msg)
+				return
+			case "main":
+				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main'")
+				pass
+			case _:	# the "_" means a final "else"
+				msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHING CMDLINE CONDITION ... exiting"
+				logger.error(msg)
+				exit()
+		
+		msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' which should only = 'main' if it gets to here."
+		logger.debug(msg)
+		
+		# If it gets down to here, then args.which is unrecognised which is not very handy
+		
+
+
+		#if args.PRODUCT or args.DEPENDENCY:
+		#	strPkgs = args.DEPENDENCY
+		#	buildType = "DEPENDENCY"
+
+
 
 
 		#if objSETTINGS.debugMode:
@@ -653,8 +723,11 @@ if __name__ == "__main__":
 
 	# initialize system stuff
 	print(f"TEMPORARY MESSAGE: initialize system stuff")
-	PY_REQUIRE = (3, 8)
+	PY_REQUIRE = (3, 10)
 	if sys.version_info < PY_REQUIRE:
+		print(f"ERROR: You need at least Python %s.%s or later to run this script." % PY_REQUIRE)
+		print(f"       Python 3.10 upwards implemented a 'switch case' feature called 'structural pattern matching'.\n" \
+			   "       This script depends on that feature with the Python3 'match' and 'case' keywords.\n")
 		sys.exit("You need at least Python %s.%s or later to run this script.\n" % PY_REQUIRE)
 	sys.dont_write_bytecode = True  # Avoid __pycache__ folder, never liked that solution
 
@@ -667,7 +740,7 @@ if __name__ == "__main__":
 	# Initialize Logging
 	initLogger()
 
-	# Initialize DEBUG mode ... ONLY ONLY AFTER initLogger() since that sets the initial loglevel
+	# Initialize DEBUG mode ... do it ONLY ONLY AFTER initLogger() since that sets the initial loglevel inside the logger
 	setDebugMode(objSETTINGS.debugMode)
 
 	# Process CMDLINE arguments
