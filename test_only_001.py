@@ -381,54 +381,54 @@ class epiFormatter(argparse.RawDescriptionHelpFormatter):
 		return text.splitlines()
 
 ###################################################################################################
-	def initLogger():
-		global SETTINGS
-		global logging_handler
-		global logger
-		#print(f"TEMPORARY MESSAGE: initialize logging")
-		logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
-		fmt = MyLogFormatter(SETTINGS.log_format, SETTINGS.log_date_format)	# this is a class, it returns an object
-		logging_handler.setFormatter(fmt)						# set the format into the handler for the logger
-		logger = logging.getLogger(__name__)					# get an instance of the logger ?
-		logger.addHandler(logging_handler)						# add our handler into the instance
-		if SETTINGS.debugMode:									# if SETTINGS.debugMode is true, set loglevel to logging.DEBUG regardless of initial_logging_mode
-			setLogLevel(logging.DEBUG)
-		else:
-			setLogLevel(SETTINGS.initial_logging_mode)
-		return
+def initLogger():
+	global SETTINGS
+	global logging_handler
+	global logger
+	#print(f"TEMPORARY MESSAGE: initialize logging")
+	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
+	fmt = MyLogFormatter(SETTINGS.log_format, SETTINGS.log_date_format)	# this is a class, it returns an object
+	logging_handler.setFormatter(fmt)						# set the format into the handler for the logger
+	logger = logging.getLogger(__name__)					# get an instance of the logger ?
+	logger.addHandler(logging_handler)						# add our handler into the instance
+	if SETTINGS.debugMode:									# if SETTINGS.debugMode is true, set loglevel to logging.DEBUG regardless of initial_logging_mode
+		setLogLevel(logging.DEBUG)
+	else:
+		setLogLevel(SETTINGS.initial_logging_mode)
+	return
 
 ###################################################################################################
-	def setLogLevel(new_mode=SETTINGS.initial_logging_mode):
-		# set the loglevel and track its current state in SETTINGS.current_logging_mode
-		# call with new_mode = (in order) one of logging.DEBUG logging.INFO logging.WARNING logging.ERROR 
-		# when logging, any level LESS than the prevailing set loglevel is not logged by the logger
-		global SETTINGS
-		global logging_handler
-		global logger
-		if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
-			logger.setLevel(logging.DEBUG)
-			logger.debug(f"INVALID setLogLevel specified '{new_mode}' ... note: logging.DEBUG={logging.DEBUG} logging.INFO={logging.INFO} logging.WARNING={logging.WARNING} logging.ERROR={logging.ERROR}")
-			logger.setLevel(SETTINGS.current_logging_mode)
-		else:
-			SETTINGS.current_logging_mode = new_mode
-			logger.setLevel(SETTINGS.current_logging_mode)
-			logger.debug(f"logger.setLevel to '{SETTINGS.initial_logging_mode}'")
-		return
+def setLogLevel(new_mode):
+	# set the loglevel and track its current state in SETTINGS.current_logging_mode
+	# call with new_mode = (in order) one of logging.DEBUG logging.INFO logging.WARNING logging.ERROR 
+	# when logging, any level LESS than the prevailing set loglevel is not logged by the logger
+	global SETTINGS
+	global logging_handler
+	global logger
+	if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
+		logger.setLevel(logging.DEBUG)
+		logger.debug(f"INVALID setLogLevel specified '{new_mode}' ... note: logging.DEBUG={logging.DEBUG} logging.INFO={logging.INFO} logging.WARNING={logging.WARNING} logging.ERROR={logging.ERROR}")
+		logger.setLevel(SETTINGS.current_logging_mode)
+	else:
+		SETTINGS.current_logging_mode = new_mode
+		logger.setLevel(SETTINGS.current_logging_mode)
+		logger.debug(f"logger.setLevel to '{SETTINGS.initial_logging_mode}'")
+	return
 
 ###################################################################################################
-	def setDebugMode(new_debugMode=SETTINGS.debugMode):
-		global SETTINGS
-		global logging_handler
-		global logger
-		if SETTINGS.debugMode:
-			SETTINGS.debugMode = True
-			setLogLevel(logging.DEBUG)
-		else:
-			SETTINGS.debugMode = False
-			setLogLevel(SETTINGS.current_logging_mode)
-			logger.debug(f"")
-		logger.warning(f"DebugMode explicitly set to '{SETTINGS.debugMode}'")
-		return
+def setDebugMode(new_debugMode):
+	global SETTINGS
+	global logging_handler
+	global logger
+	if SETTINGS.debugMode:
+		SETTINGS.debugMode = True
+		setLogLevel(logging.DEBUG)
+	else:
+		SETTINGS.debugMode = False
+		setLogLevel(SETTINGS.current_logging_mode)
+		logger.debug(f"")
+	logger.warning(f"DebugMode explicitly set to '{SETTINGS.debugMode}'")
+	return
 
 
 ###################################################################################################
