@@ -535,12 +535,10 @@ class processCmdLineArguments():
 		# and name it with which='list_p' ... parser.prog is the programname we set
 		logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
 		self.list_p = self.subparsers.add_parser('list', help='Type: \'' + self.parser.prog + ' list')
-		self.list_p.set_defaults(which='list_p')
+		self.list_p.set_defaults(which='list')
 		# add arguments to the 'list' command parser which='list_p'
 		# Note: the second argument contains the variable-name to check later eg 'if args.dependencies'
 		list_p_group1 = self.list_p.add_mutually_exclusive_group(required=True)
-		#list_p_group1.add_argument('-p', '--products',     nargs=0, help='List all products',     action='store_true', default=False)
-		#list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
 		list_p_group1.add_argument('-p', '--products',     help='List all products',     action='store_true', default=False)
 		list_p_group1.add_argument('-d', '--dependencies', help='List all dependencies', action='store_true', default=False)
 		# called like:	program.py list -d
@@ -550,8 +548,8 @@ class processCmdLineArguments():
 		# create and add the (sub)parser for the "info" command to the sub-parsers object 
 		# and name it with which='list_p' ... parser.prog is the programname we set
 		logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
-		self.info_p = self.subparsers.add_parser('info_p', help='Type: \'' + self.parser.prog + ' info')
-		self.info_p.set_defaults(which='info_p')
+		self.info_p = self.subparsers.add_parser('info', help='Type: \'' + self.parser.prog + ' info')
+		self.info_p.set_defaults(which='info')
 		# add arguments to the 'info' command parser which='info_p'
 		# Note: the second argument contains the variable-name to check later eg 'args.required_by'
 		self.info_p_group1 = self.info_p.add_mutually_exclusive_group(required=True)
@@ -567,9 +565,9 @@ class processCmdLineArguments():
 		self.group2 = self.parser.add_mutually_exclusive_group(required=False)
 		# add arguments to the mutially exclusive group, to build a dependency or a product
 		# Note: the second argument contains the variable-name to check later eg 'if args.build_product'
-		self.group2.add_argument('-p', '--build_product',    help='Build the specificed product package(s)',		default=None)	# dest='PRODUCT', 
-		self.group2.add_argument('-d', '--build_dependency', help='Build the specificed dependency package(s)',	default=None)	# dest='DEPENDENCY',
-		self.group2.add_argument('-c', '--cmd_help',            help='Do nothing but show help', action='store_true', default=False) # use '-c' since -h and --help CONFLICT with system stuff
+		self.group2.add_argument('-p', '--build_product',    dest='PRODUCT',    help='Build the specificed product package(s)',	default=None)	# dest='PRODUCT', 
+		self.group2.add_argument('-d', '--build_dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)',	default=None)	# dest='DEPENDENCY',
+		self.group2.add_argument('-c', '--cmd_help', help='Do nothing but show help', action='store_true', default=False) # use '-c' since -h and --help CONFLICT with system stuff
 		# called like:	program.py -d avisynth_plus_headers
 		# 				program.py -p ffmpeg
 		logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
@@ -581,7 +579,7 @@ class processCmdLineArguments():
 		logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
 		self.parser.add_argument('-g', '--debug',        help='Show debug information',										action='store_true', default=False)
 		self.parser.add_argument('-f', '--force',        help='Force rebuild, deletes already existing files (recommended)',	action='store_true', default=False)
-		self.parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building',								action='store_true', default=False)
+		self.parser.add_argument('-s', '--skip_depends', help='Skip dependencies when building',								action='store_true', default=False)
 		# called like:	program.py --force --debug -d avisynth_plus_headers
 		# 				program.py --force --debug -p ffmpeg
 		# 				program.py --force --debug --skip-depends -p ffmpeg
@@ -594,12 +592,18 @@ class processCmdLineArguments():
 		#
 		self.args = self.parser.parse_args()		# ACTUALLY PARSE THE ARGUMENTS
 
-		# process generic args first
+		# Process generic args first
 		if self.args.force:
 			self.force = True
 		else:
 			self.force = False
 		logger.debug(f"CMDLINE Processed arg self.args.force='{self.args.force}'")
+
+		if self.args.skip_depends:
+			self.skip_depends = True
+		else:
+			self.skip_depends = False
+		logger.debug(f"CMDLINE Processed arg self.args.skip_depends='{self.args.skip_depends}'")
 
 		if self.args.debug:
 			self.debug = True
@@ -608,71 +612,86 @@ class processCmdLineArguments():
 		# check and possibly over-ride any debug mode 
 		logger.debug(f"CMDLINE Processing arg self.args.debug='{self.args.debug}' self.debug='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
 		or_debug_modes = objSETTINGS.debugMode or self.debug
-		if or_debug_modes:	# one or the other is true, so make it all true
+		if or_debug_modes:	# one or the other is true, so make it all true, a one-way
 			self.debug = True
 			setDebugMode(self.debug)
 		logger.debug(f"CMDLINE Processed arg self.args.debug='{self.args.debug}' self.debug='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
-			
-	
-		
 
-		# process specific commands args next
-		# the 'match' statement only works in Python 3.10 and above # https://learnpython.com/blog/python-match-case-statement/
+		# initialize for finding specific commands and parameters
+		self.list = False
+		self.list_products = False
+		self.list_dependencies = False
+		self.info = False
+		self.info_required_by = None
+		self.info_depends_on = None
+		self.build = False
+		self.build_PRODUCT = None
+		self.build_DEPENDENCY = None
+
+		# Note: the 'match' statement only works in Python 3.10 and above # https://learnpython.com/blog/python-match-case-statement/
 		match self.args.which.lower():
-			case "list_p":
+			case "list":
 				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='list_p'")
+				self.list = True
 				if self.args.products:
 					logger.debug(f"CMDLINE Processing arg self.args.products='{self.args.products}' in 'list_p'")
-					return
-				if self.args.dependencies:
+					self.list_products = True
+				elif self.args.dependencies:
 					logger.debug(f"CMDLINE Processing arg self.args.dependencies='{self.args.dependencies}' in 'list_p'")
-					return
-				msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
-				logger.error(msg)
-				return
-			case "info_p":
+					self.list_dependencies = True
+				else:
+					msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+					logger.error(msg)
+					exit()
+			case "info":
 				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='info_p'")
+				self.info = True
 				if self.args.required_by:
+					# the name of the thing to process with INFO is in self.args.required_by
 					logger.debug(f"CMDLINE Processed arg self.args.required_by='{self.args.required_by}' in 'info_p'")
-					return
-				if self.args.depends_on:
+					self.info_required_by = self.args.required_by
+				elif self.args.depends_on:
+					# the name of the thing to process with INFO is in self.args.depends_on
 					logger.debug(f"CMDLINE Processing arg self.args.depends_on='{self.args.depends_on}' in 'info_p'")
-					return
-				msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
-				logger.error(msg)
-				return
+					self.info_depends_on = self.args.depends_on
+				else:
+					msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+					logger.error(msg)
+					exit()
 			case "main":
 				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main'")
-				pass
+				self.build = True
+				if self.args.PRODUCT:
+					self.build_PRODUCT = self.args.PRODUCT
+					logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main' self.build_PRODUCT='{self.build_PRODUCT}'")
+				elif self.args.DEPENDENCY:
+					self.build_DEPENDENCY = self.args.DEPENDENCY
+					logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main' self.build_PRODUCT='{self.build_DEPENDENCY}'")
+				else:
+					msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+					logger.error(msg)
+					exit()
 			case _:	# the "_" means a final "else"
 				msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHING CMDLINE CONDITION ... exiting"
 				logger.error(msg)
 				exit()
+
+		# If it gets to here, relevant 'self' variables have been set to inform us what to do.
+		# The relevant 'self' variables can be queried from the newly instantiated object. 
+		# NOTE: the only exception is --debug which is processed straight away to change the global setting
 		
-		msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' which should only = 'main' if it gets to here."
-		logger.debug(msg)
-		
-		# If it gets down to here, then args.which is unrecognised which is not very handy
-		
-
-
-		#if args.PRODUCT or args.DEPENDENCY:
-		#	strPkgs = args.DEPENDENCY
-		#	buildType = "DEPENDENCY"
-
-
-
-
+		#logger.debug(f"*processCmdLineArguments self.list='{self.list}' self.list_products='{self.list_products}' self.list_dependencies='{ self.list_dependencies}'")
+		#logger.debug(f"*processCmdLineArguments self.info='{self.info}' self.info_required_by='{self.info_required_by}' self.info_depends_on='{self.info_depends_on}'")
+		#logger.debug(f"*processCmdLineArguments self.build='{self.build}' self.build_PRODUCT='{self.build_PRODUCT}' self.build_DEPENDENCY='{self.build_DEPENDENCY}'")
+		#logger.debug(f"*processCmdLineArguments self.debug='{self.debug}'")
+		#logger.debug(f"*processCmdLineArguments self.force='{self.force}'")
+		#logger.debug(f"*processCmdLineArguments self.skip_depends='{self.skip_depends}'")
 		#if objSETTINGS.debugMode:
 		#	self.dump_vars('### debugMode: processCmdLineArguments INTERNAL VARIABLES DUMP:')
+		
 		logger.debug(f"Returning from processCmdLineArguments")
+
 		return
-
-
-
-
-
-
 
 
 ###################################################################################################
@@ -743,32 +762,43 @@ if __name__ == "__main__":
 	# Initialize DEBUG mode ... do it ONLY ONLY AFTER initLogger() since that sets the initial loglevel inside the logger
 	setDebugMode(objSETTINGS.debugMode)
 
-	# Process CMDLINE arguments
+	# Process CMDLINE arguments into variables in the processCmdLineArguments object
 	logger.debug(f"Processing CommandLine arguments")
 	objArgParser = processCmdLineArguments()
-	if objSETTINGS.debugMode:
-		objArgParser.dump_vars('### processCmdLineArguments: SETTINGS INTERNAL VARIABLES DUMP:')
+	#if objSETTINGS.debugMode:
+	#	objArgParser.dump_vars('### processCmdLineArguments: SETTINGS INTERNAL VARIABLES DUMP:')
 	#objParser = objArgParser.parser	# the actual parser object
 	# And just because we can, retrieve the parser object from our new objArgParser object
 	#if objSETTINGS.debugMode:
 	#	global_dump_object_variables(objParser, "### objParser retrieved from objArgParser")
+	logger.debug(f"*objArgParser.list='{objArgParser.list}' objArgParser.list_products='{objArgParser.list_products}' objArgParser.list_dependencies='{ objArgParser.list_dependencies}'")
+	logger.debug(f"*objArgParser.info='{objArgParser.info}' objArgParser.info_required_by='{objArgParser.info_required_by}' objArgParser.info_depends_on='{objArgParser.info_depends_on}'")
+	logger.debug(f"*objArgParser.build='{objArgParser.build}' objArgParser.build_PRODUCT='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
+	logger.debug(f"*objArgParser.debug='{objArgParser.debug}'")
+	logger.debug(f"*objArgParser.force='{objArgParser.force}'")
+	logger.debug(f"*objArgParser.skip_depends='{objArgParser.skip_depends}'")
+
+	# Reset logging level and Debug_mode
+	print(f"TEMPORARY MESSAGE: Prepare: Reset logging level and Debug_mode after cmdline arguments")
+	or_debug_modes = objSETTINGS.debugMode or objArgParser.debug
+	if or_debug_modes:	# one or the other is true, so make it all true, a one-way
+		setDebugMode(or_debug_modes)
+		logger.debug(f"Prepare: Reset logging level after cmdline arguments")
 
 
+	print(f"TEMPORARY MESSAGE: Prepare: init and load products")
+	logger.debug(f"Prepare: init and load products")
 
+	print(f"TEMPORARY MESSAGE: Prepare: init and load dependencies")
+	logger.debug(f"Prepare: init and load dependencies")
 
+	print(f"TEMPORARY MESSAGE: Prepare: init and load variables.py")
+	logger.debug(f"Prepare: init and load variables.py")
 	
 	# prepare ... 
 	#	reset logging level after cmdline arguments, create folder trees
 	#	set environment variables
-	#	init and load products
-	#	init and load dependencies
-	#	init and load variables (the .py)
-	#
-	print(f"TEMPORARY MESSAGE: Commencing Preparation ...")
-	logger.debug(f"Commencing Preparation ...")
-
-	print(f"TEMPORARY MESSAGE: Prepare: Reset logging level after cmdline arguments")
-	logger.debug(f"Prepare: Reset logging level after cmdline arguments")
+	
 	
 	# set environment variables
 	print(f"TEMPORARY MESSAGE: Prepare: set environment variables")
@@ -778,6 +808,12 @@ if __name__ == "__main__":
 	#os.environ["PKG_CONFIG_LIBDIR"] = ""
 	#os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
 	#os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
+
+
+	# create folder trees
+	print(f"TEMPORARY MESSAGE: Prepare: create folder trees")
+	logger.debug(f"Prepare: create folder trees")
+
 
 	print(f"TEMPORARY MESSAGE: Prepare: init and load products")
 	logger.debug(f"Prepare: init and load products")
