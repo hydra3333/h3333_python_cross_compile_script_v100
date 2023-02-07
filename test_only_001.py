@@ -74,9 +74,11 @@
 # Strictly, global declaration is not needed here (only inside functions)
 # however it shows these can be found elsewhere where read&write globals are needed.
 
+global objSETTINGS		# the SETTINGS object used everywhere
 global logging_handler 	# the handler for the logger, only used for initialization
 global logger 			# the logger object used everywhere
-global SETTINGS			# the SETTINGS object used everywhere
+global objArgParser		# the ArgParser which may be used everywhere
+global objParser		# the parser creat6ed by ArgParser which may be used everywhere
 
 import argparse
 import ast
@@ -113,6 +115,9 @@ class settings:
 		#logger.error(msg)
 		print("Settings Error: " + msg)
 		sys.exit(1)
+
+	def dump_vars(self, heading='### SETTINGS INTERNAL VARIABLES DUMP:'):
+		global_dump_object_variables(self, heading)
 	
 	def __init__(self):
 		# NOTE:	here we fully flesh out all variables
@@ -231,10 +236,6 @@ class settings:
 		#	self.errorExit(f"mingw build folder '{self.toolchain_output_path}' does not exist.")
 
 		return
-
-	def dump_vars(self, heading='VARIABLES DUMP:'):
-		global_dump_object_variables(self, heading)
-
 
 ###################################################################################################
 class Colors:  # ansi colors
@@ -411,160 +412,175 @@ class MyLogFormatter(logging.Formatter):
 
 ###################################################################################################
 def initLogger():
-	global SETTINGS
+	global objSETTINGS
 	global logging_handler
 	global logger
 	#print(f"TEMPORARY MESSAGE: initialize logging")
 	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
-	fmt = MyLogFormatter(SETTINGS.log_format, SETTINGS.log_date_format)	# this is a class, it returns an object
+	fmt = MyLogFormatter(objSETTINGS.log_format, objSETTINGS.log_date_format)	# this is a class, it returns an object
 	logging_handler.setFormatter(fmt)						# set the format into the handler for the logger
 	logger = logging.getLogger(__name__)					# get an instance of the logger ?
 	logger.addHandler(logging_handler)						# add our handler into the instance
-	if SETTINGS.debugMode:									# if SETTINGS.debugMode is true, set loglevel to logging.DEBUG regardless of initial_logging_mode
+	if objSETTINGS.debugMode:								# if objSETTINGS.debugMode is true, set loglevel to logging.DEBUG regardless of initial_logging_mode
 		setLogLevel(logging.DEBUG)
 	else:
-		setLogLevel(SETTINGS.initial_logging_mode)
+		setLogLevel(objSETTINGS.initial_logging_mode)
 	return
 
 ###################################################################################################
 def setLogLevel(new_mode):
-	# set the loglevel and track its current state in SETTINGS.current_logging_mode
+	# set the loglevel and track its current state in objSETTINGS.current_logging_mode
 	# call with new_mode = (in order) one of logging.DEBUG logging.INFO logging.WARNING logging.ERROR 
 	# when logging, any level LESS than the prevailing set loglevel is not logged by the logger
-	global SETTINGS
+	global objSETTINGS
 	global logging_handler
 	global logger
 	if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
 		logger.setLevel(logging.DEBUG)
 		logger.debug(f"INVALID setLogLevel specified '{new_mode}' ... note: logging.DEBUG={logging.DEBUG} logging.INFO={logging.INFO} logging.WARNING={logging.WARNING} logging.ERROR={logging.ERROR}")
-		logger.setLevel(SETTINGS.current_logging_mode)
+		logger.setLevel(objSETTINGS.current_logging_mode)
 	else:
-		SETTINGS.current_logging_mode = new_mode
-		logger.setLevel(SETTINGS.current_logging_mode)
-		logger.debug(f"logger.setLevel to '{SETTINGS.initial_logging_mode}'")
+		objSETTINGS.current_logging_mode = new_mode
+		logger.setLevel(objSETTINGS.current_logging_mode)
+		logger.debug(f"logger.setLevel to '{objSETTINGS.initial_logging_mode}'")
 	return
 
 ###################################################################################################
 def setDebugMode(new_debugMode):
-	global SETTINGS
+	global objSETTINGS
 	global logging_handler
 	global logger
-	if SETTINGS.debugMode:
-		SETTINGS.debugMode = True
+	if objSETTINGS.debugMode:
+		objSETTINGS.debugMode = True
 		setLogLevel(logging.DEBUG)
 	else:
-		SETTINGS.debugMode = False
-		setLogLevel(SETTINGS.current_logging_mode)
+		objSETTINGS.debugMode = False
+		setLogLevel(objSETTINGS.current_logging_mode)
 		logger.debug(f"")
-	logger.warning(f"DebugMode explicitly set to '{SETTINGS.debugMode}'")
+	logger.warning(f"DebugMode explicitly set to '{objSETTINGS.debugMode}'")
 	return
 
 ###################################################################################################
-def processCmdLineArguments():
+class epiFormatter(argparse.RawDescriptionHelpFormatter):	# this class needss to be declared at the root level or argparse.argumentparser spews
+	w = shutil.get_terminal_size((120, 10))[0]
+	def __init__(self, max_help_position=w, width=w, *args, **kwargs):
+		kwargs['max_help_position'] = max_help_position
+		kwargs['width'] = width
+		super(epiFormatter, self).__init__(*args, **kwargs)
+	def _split_lines(self, text, width):
+		return text.splitlines()
+class processCmdLineArguments():
 	# Process arguments on CommandLine and change global settings accordingly
-	global SETTINGS
-	global logging_handler
-	global logger
-	class epiFormatter(argparse.RawDescriptionHelpFormatter):
-		w = shutil.get_terminal_size((120, 10))[0]
-		def __init__(self, max_help_position=w, width=w, *args, **kwargs):
-			kwargs['max_help_position'] = max_help_position
-			kwargs['width'] = width
-			super(epiFormatter, self).__init__(*args, **kwargs)
-		def _split_lines(self, text, width):
-			return text.splitlines()
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
 
-	logger.debug(f"Entered processCmdLineArguments")
-	
-	# Create a neew main parser
-	logger.debug(f"Creating the ArgumentParser with parser = argparse.ArgumentParser")
-	parser_programname = 'h3333_python_cross_compile_script'
-	parser_program_description = Colors.RESET + Colors.CYAN + parser_programname + Colors.RESET + "\n" \
-									'\nExample usages:' \
-									'\n "{0} list -p"             - lists all the products' \
-									'\n "{0} -a"                  - builds everything' \
-									'\n "{0} -f -d libx264"       - forces the rebuilding of libx264' \
-									'\n "{0} -pl x265_10bit,mpv"  - builds this list of products in that order' \
-									'\n "{0} -q -p ffmpeg_static" - will quietly build ffmpeg-static'.format(parser_programname)
-	parser_epilog = 'Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n' \
-					'This Source Code Form is subject to the terms of the Mozilla Public\n License v. 2.0 (MPLv2).\n' \
-					'If a copy of the MPLv2 was not distributed with this file,\n' \
-					'You can obtain one at https://mozilla.org/MPL/2.0/ \n '
-	parser = argparse.ArgumentParser(	formatter_class=epiFormatter, \
-										prog=parser_programname, \
-										description=parser_program_description, \
-										epilog=parser_epilog )
-	logger.debug(f"Created the ArgumentParser with argparse.ArgumentParser")
+	def dump_vars(self, heading='VARIABLES DUMP:'):
+		global_dump_object_variables(self, heading)
+		
+	def __init__(self):
+		logger.debug(f"Entered processCmdLineArguments")
 
-	# set a name in the top level main ArgumentParser
-	logger.debug(f"Setting a name in the top level ArgumentParser")
-	parser.set_defaults(which='main') # set a default argument "which" with a default value "main" in the main parser
-	logger.debug(f"Set a name in the top level ArgumentParser")
+		# Create a neew main parser
+		logger.debug(f"Creating the ArgumentParser with parser = argparse.ArgumentParser")
+		self.parser_programname = 'h3333_python_cross_compile_script'
+		self.parser_program_description = Colors.RESET + Colors.CYAN + self.parser_programname + Colors.RESET + "" \
+										'\nExample usages:' \
+										'\n "{0} list -p"                                   - lists all products' \
+										'\n "{0} list -d"                                   - lists all dependencies' \
+										'\n "{0} info --required_by avisynth_plus_headers"  - List all packages this dependency is required by' \
+										'\n "{0} info --depends_on ffmpeg"                  - List all packages this package depends on (recursively)' \
+										'\n "{0} --force --debug -d avisynth_plus_headers"  - forces rebuilding of dependency avisynth_plus_headers' \
+										'\n "{0} --force -debug -p ffmpeg"                  - forces rebuilding of product ffmpeg' \
+										'\n "{0} --cmd_help"                                - Do nothing but show help and exit' \
+										''.format(self.parser_programname)
+		self.parser_epilog = 'Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n' \
+						'This Source Code Form is subject to the terms of the\n' \
+						'Mozilla Public License v. 2.0 (MPLv2).\n' \
+						'If a copy of the MPLv2 was not distributed with this file,\n' \
+						'You can obtain one at https://mozilla.org/MPL/2.0/ \n '
+		self.parser = argparse.ArgumentParser(	formatter_class=epiFormatter, \
+											prog=self.parser_programname, \
+											description=self.parser_program_description, \
+											epilog=self.parser_epilog )
+		logger.debug(f"Created the ArgumentParser with argparse.ArgumentParser")
 
-	# add sub-parsers object to the main ArgumentParser object
-	logger.debug(f"Add sub-parsers object to the top level ArgumentParser")
-	subparsers = parser.add_subparsers(help='Sub commands')
-	logger.debug(f"Added sub-parsers object to the top level ArgumentParser")
+		# set a name in the top level main ArgumentParser
+		logger.debug(f"Setting a name in the top level ArgumentParser")
+		self.parser.set_defaults(which='main') # set a default argument "which" with a default value "main" in the main parser
+		logger.debug(f"Set a name in the top level ArgumentParser")
 
-	# create and add the (sub)parser for the "list" command to the sub-parsers object 
-	# and name it with which='list_p' ... parser.prog is the programname we set
-	logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
-	list_p = subparsers.add_parser('list', help='Type: \'' + parser.prog + ' list')
-	list_p.set_defaults(which='list_p')
-	# add arguments to the 'list' command parser which='list_p'
-	# Note: the second argument contains the variable-name to check later eg 'if args.dependencies'
-	list_p_group1 = list_p.add_mutually_exclusive_group(required=True)
-	#list_p_group1.add_argument('-p', '--products',     nargs=0, help='List all products',     action='store_true', default=False)
-	#list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
-	list_p_group1.add_argument('-p', '--products',     help='List all products',     action='store_true', default=False)
-	list_p_group1.add_argument('-d', '--dependencies', help='List all dependencies', action='store_true', default=False)
-	# called like:	program.py list -d
-	# 				program.py list -p
-	logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
+		# add sub-parsers object to the main ArgumentParser object
+		logger.debug(f"Add sub-parsers object to the top level ArgumentParser")
+		self.subparsers = self.parser.add_subparsers(help='Sub commands')
+		logger.debug(f"Added sub-parsers object to the top level ArgumentParser")
 
-	# create and add the (sub)parser for the "info" command to the sub-parsers object 
-	# and name it with which='list_p' ... parser.prog is the programname we set
-	logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
-	info_p = subparsers.add_parser('info_p', help='Type: \'' + parser.prog + ' info')
-	info_p.set_defaults(which='info_p')
-	# add arguments to the 'info' command parser which='info_p'
-	# Note: the second argument contains the variable-name to check later eg 'args.required_by'
-	info_p_group1 = info_p.add_mutually_exclusive_group(required=True)
-	info_p_group1.add_argument('-r', '--required_by', help='List all packages this dependency is required by',        default=None)
-	info_p_group1.add_argument('-d', '--depends_on',  help='List all packages this package depends on (recursively)', default=None)
-	# called like:	program.py info -r avisynth_plus_headers
-	# 				program.py info -d ffmpeg
-	logger.debug(f"Created and added arguments to the (sub)parser for the 'info' command")
+		# create and add the (sub)parser for the "list" command to the sub-parsers object 
+		# and name it with which='list_p' ... parser.prog is the programname we set
+		logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
+		self.list_p = self.subparsers.add_parser('list', help='Type: \'' + self.parser.prog + ' list')
+		self.list_p.set_defaults(which='list_p')
+		# add arguments to the 'list' command parser which='list_p'
+		# Note: the second argument contains the variable-name to check later eg 'if args.dependencies'
+		list_p_group1 = self.list_p.add_mutually_exclusive_group(required=True)
+		#list_p_group1.add_argument('-p', '--products',     nargs=0, help='List all products',     action='store_true', default=False)
+		#list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
+		list_p_group1.add_argument('-p', '--products',     help='List all products',     action='store_true', default=False)
+		list_p_group1.add_argument('-d', '--dependencies', help='List all dependencies', action='store_true', default=False)
+		# called like:	program.py list -d
+		# 				program.py list -p
+		logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
 
-	# *** Now it is time for arguments to initiate the build process
-	# create and add a mutually exclusive group to the main ArgumentParser object
-	logger.debug(f"Create and add arguments to the top level ArgumentParser for building stuff")
-	group2 = parser.add_mutually_exclusive_group(required=False)
-	# add arguments to the mutially exclusive group, to build a dependency or a product
-	# Note: the second argument contains the variable-name to check later eg 'if args.build_product'
-	group2.add_argument('-p', '--build_product',    help='Build the specificed product package(s)',		default=None)	# dest='PRODUCT', 
-	group2.add_argument('-d', '--build_dependency', help='Build the specificed dependency package(s)',	default=None)	# dest='DEPENDENCY',
-	group2.add_argument('-c', '--cmd_help',            help='Do nothing but show help', action='store_true', default=False) # use '-c' since -h and --help CONFLICT with system stuff
-	# called like:	program.py -d avisynth_plus_headers
-	# 				program.py -p ffmpeg
-	logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
+		# create and add the (sub)parser for the "info" command to the sub-parsers object 
+		# and name it with which='list_p' ... parser.prog is the programname we set
+		logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
+		self.info_p = self.subparsers.add_parser('info_p', help='Type: \'' + self.parser.prog + ' info')
+		self.info_p.set_defaults(which='info_p')
+		# add arguments to the 'info' command parser which='info_p'
+		# Note: the second argument contains the variable-name to check later eg 'args.required_by'
+		self.info_p_group1 = self.info_p.add_mutually_exclusive_group(required=True)
+		self.info_p_group1.add_argument('-r', '--required_by', help='List all packages this dependency is required by',        default=None)
+		self.info_p_group1.add_argument('-d', '--depends_on',  help='List all packages this package depends on (recursively)', default=None)
+		# called like:	program.py info -r avisynth_plus_headers
+		# 				program.py info -d ffmpeg
+		logger.debug(f"Created and added arguments to the (sub)parser for the 'info' command")
 
-	# *** Now it is time for generic arguments
-	# add generic arguments to the main ArgumentParser object. 
-	# Note the '-g' for debug, since "-d" is already taken for dependency processing
-	# Note: the second argument contains the variable-name to check later eg 'if args.debug'
-	logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
-	parser.add_argument('-g', '--debug',        help='Show debug information',										action='store_true', default=False)
-	parser.add_argument('-f', '--force',        help='Force rebuild, deletes already existing files (recommended)',	action='store_true', default=False)
-	parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building',								action='store_true', default=False)
-	# called like:	program.py --force --debug -d avisynth_plus_headers
-	# 				program.py --force --debug -p ffmpeg
-	# 				program.py --force --debug --skip-depends -p ffmpeg
-	logger.debug(f"Created and added arguments to the top level ArgumentParser for generic use")
+		# *** Now it is time for arguments to initiate the build process
+		# create and add a mutually exclusive group to the main ArgumentParser object
+		logger.debug(f"Create and add arguments to the top level ArgumentParser for building stuff")
+		self.group2 = self.parser.add_mutually_exclusive_group(required=False)
+		# add arguments to the mutially exclusive group, to build a dependency or a product
+		# Note: the second argument contains the variable-name to check later eg 'if args.build_product'
+		self.group2.add_argument('-p', '--build_product',    help='Build the specificed product package(s)',		default=None)	# dest='PRODUCT', 
+		self.group2.add_argument('-d', '--build_dependency', help='Build the specificed dependency package(s)',	default=None)	# dest='DEPENDENCY',
+		self.group2.add_argument('-c', '--cmd_help',            help='Do nothing but show help', action='store_true', default=False) # use '-c' since -h and --help CONFLICT with system stuff
+		# called like:	program.py -d avisynth_plus_headers
+		# 				program.py -p ffmpeg
+		logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
+
+		# *** Now it is time for generic arguments
+		# add generic arguments to the main ArgumentParser object. 
+		# Note the '-g' for debug, since "-d" is already taken for dependency processing
+		# Note: the second argument contains the variable-name to check later eg 'if args.debug'
+		logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
+		self.parser.add_argument('-g', '--debug',        help='Show debug information',										action='store_true', default=False)
+		self.parser.add_argument('-f', '--force',        help='Force rebuild, deletes already existing files (recommended)',	action='store_true', default=False)
+		self.parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building',								action='store_true', default=False)
+		# called like:	program.py --force --debug -d avisynth_plus_headers
+		# 				program.py --force --debug -p ffmpeg
+		# 				program.py --force --debug --skip-depends -p ffmpeg
+		logger.debug(f"Created and added arguments to the top level ArgumentParser for generic use")
+
+		# OK now we've setup the ArgumentParser stuff, lets parse the arguments and set variables in global objSETTINGS
+		# We use that since it's commonly global, rathe than another global object
+		# note to self: ensure in objSETTINGS that all arguments are catered for and preset to None or something
 
 
-	logger.debug(f"Returning from processCmdLineArguments")
-	return
+
+		#if objSETTINGS.debugMode:
+		#	self.dump_vars('### debugMode: processCmdLineArguments INTERNAL VARIABLES DUMP:')
+		logger.debug(f"Returning from processCmdLineArguments")
+		return
 
 
 
@@ -598,8 +614,8 @@ def processCmdLineArguments():
 #objProdsDict.add_dot_py_obj(objProd)
 #print(f" ")
 #print(f"about to instantiate settings()")
-#SETTINGS = settings()
-#SETTINGS.dump_vars("VARIABLES DUMP:")
+#objSETTINGS = settings()
+#objSETTINGS.dump_vars("VARIABLES DUMP:")
 
 if __name__ == "__main__":
 	# GLOBALS are already defined at the top, this is __main__ so it sees them
@@ -628,23 +644,27 @@ if __name__ == "__main__":
 
 	# Initialize global settings, they can be overridden later by commandline options
 	print(f"TEMPORARY MESSAGE: Initialize global settings")	# logger not available yet, do not do logging.info etc
-	SETTINGS = settings()
-	if SETTINGS.debugMode:
-		SETTINGS.dump_vars("SETTINGS in debugMode")
+	objSETTINGS = settings()
+	if objSETTINGS.debugMode:
+		objSETTINGS.dump_vars('### debugMode: SETTINGS INTERNAL VARIABLES DUMP:')
 	
 	# Initialize Logging
 	initLogger()
 
 	# Initialize DEBUG mode ... ONLY ONLY AFTER initLogger() since that sets the initial loglevel
-	setDebugMode(SETTINGS.debugMode)
+	setDebugMode(objSETTINGS.debugMode)
 
 	# process CMDLINE arguments
 	logger.debug(f"Processing CommandLine arguments")
-	processCmdLineArguments()
+	objArgParser = processCmdLineArguments()
+	if objSETTINGS.debugMode:
+		objArgParser.dump_vars('### processCmdLineArguments: SETTINGS INTERNAL VARIABLES DUMP:')
+	# And just because we can:
+	#objParser = objArgParser.parser	# the actual parser object
+	#if objSETTINGS.debugMode:
+	#	global_dump_object_variables(objParser, "### objParser retrieved from objArgParser")
 
-
-
-
+	
 	# prepare ... 
 	#	reset logging level after cmdline arguments, create folder trees
 	#	set environment variables
