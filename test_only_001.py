@@ -1,25 +1,61 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+# ######################################################################################################
+# Copyright (C) 2018-2024 DeadSix27 (https://github.com/DeadSix27/python_cross_compile_script)
+# with additions by Hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
 #
-# This Source Code Form is subject to the terms of the 
-# GNU General Public License version 3 or any later version.
-# If a copy of the GPLv3 was not distributed with this
-# file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Subject to and governed by the GPLv3,
-# Unless required by applicable law or agreed to
-# in writing, software distributed under the License is available
-# and/or distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-# CONDITIONS OF ANY KIND either express or implied.
+# ######################################################################################################
+# Copyright (C) 2023-2024 hydra3333(https://github.com/hydra3333/h3333_python_cross_compile_script_v100)
+# Based on work by Deadsix27.
 #
-# Subject to and governed by the GPLv3,
-# Under no circumstance and/or theory of any kind
-# is the author and/or authors and/or distributer and/or distributers
-# to be considered and/or held liable at any time for any matter of any
-# and all kinds, including direct or indirect, connected in any
-# and all ways with this software.
+# The following individual clauses only apply where they are compatible with
+# the Mozilla Public License v. 2.0 (MPLv2) and they also limit to zero
+# and/or reduce toward zero any and/or all liabiility arising in any way
+# when applying the MPLv2 and the clauses above.
+#
+# Subject to and governed by the Mozilla Public License v. 2.0 (MPLv2),
+# unless required by applicable law or agreed to in writing, software
+# distributed under the License is available and/or distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND either
+# express or implied.
+# The meaning of this clause is to limit, under any theory, to zero
+# and/or reduce toward zero any and/or all liabiility arising in any way 
+# when applying the MPLv2.
+# If a copy of the MPLv2 was not distributed with this file,
+# you can obtain one at https://mozilla.org/MPL/2.0/
+#
+# Subject to and governed by the  Mozilla Public License v. 2.0 (MPLv2),
+# under no circumstance and/or theory of any kind is the author and/or
+# authors and/or distributer and/or distributers to be considered and/or
+# held liable at any time for any matter of any and all kinds, including
+# direct and/or indirect, connected in any and/or all ways with this software.
+# The meaning of this clause is to limit, under any theory, to zero
+# and/or reduce toward zero any and/or all liabiility arising in any way 
+# when applying the MPLv2.
+# If a copy of the MPLv2 was not distributed with this file,
+# you can obtain one at https://mozilla.org/MPL/2.0/
+#
+# Subject to and governed by the  Mozilla Public License v. 2.0 (MPLv2),
+# the GNU GENERAL PUBLIC LICENSE Version 3 or any later version (GPLv3) also
+# applies only wherever it is compatible with the MPLv2 as is also compatible with
+# clauses above and does not increase liability over MPLv2 in any way under any theory.
+# If a copy of the GPLv3 was not distributed with this file, you can obtain one via 
+# https://www.gnu.org/licenses/licenses.html or https://www.gnu.org/licenses/gpl-3.0.html
+#
+# ######################################################################################################
+
+# Setup Notes:
 #
 # ONLY and ONLY from an ADMINISTRATOR account cmd:
 # pip3 install --upgrade  pip-review
@@ -32,7 +68,8 @@
 # pip3 install --upgrade PyYAML
 # pip3 install --upgrade pymediainfo
 # pip3 install --upgrade Pillow
-
+#
+#
 # Global Variables and Functions and Objects
 # Strictly, global declaration is not needed here (only inside functions)
 # however it shows these can be found elsewhere where read&write globals are needed.
@@ -82,6 +119,7 @@ class settings:
 		#		nothing is left with !CMDxxxCMD! or !VARxxxVAR! type stuff in it
 		#		so, we do not rely on functions like replaceVariables or replaceVariables
 
+		# WORKING and STATUS stuff first
 		self.debugMode = True											# True or False
 		# be cautious, set the loglevel based on debugMode, but initDebugMode still needs to be called after the logger is initialized outside of this class
 		if self.debugMode:
@@ -89,6 +127,7 @@ class settings:
 		else:
 			self.initial_logging_mode = logging.INFO					# at what level to start logging initially. logging.INFO logging.DEBUG
 		self.current_logging_mode = self.initial_logging_mode			# to keep track of the prevailing logging mode, if changed
+		self.lastError = None
 
 		# mainly fixed variables first, do calculated variables later
 		
@@ -371,16 +410,6 @@ class MyLogFormatter(logging.Formatter):
 		return result
 
 ###################################################################################################
-class epiFormatter(argparse.RawDescriptionHelpFormatter):
-	w = shutil.get_terminal_size((120, 10))[0]
-	def __init__(self, max_help_position=w, width=w, *args, **kwargs):
-		kwargs['max_help_position'] = max_help_position
-		kwargs['width'] = width
-		super(epiFormatter, self).__init__(*args, **kwargs)
-	def _split_lines(self, text, width):
-		return text.splitlines()
-
-###################################################################################################
 def initLogger():
 	global SETTINGS
 	global logging_handler
@@ -430,6 +459,99 @@ def setDebugMode(new_debugMode):
 	logger.warning(f"DebugMode explicitly set to '{SETTINGS.debugMode}'")
 	return
 
+###################################################################################################
+def processCmdLineArguments()
+	# Process arguments on CommandLine and change global settings accordingly
+	global SETTINGS
+	global logging_handler
+	global logger
+	class epiFormatter(argparse.RawDescriptionHelpFormatter):
+		w = shutil.get_terminal_size((120, 10))[0]
+		def __init__(self, max_help_position=w, width=w, *args, **kwargs):
+			kwargs['max_help_position'] = max_help_position
+			kwargs['width'] = width
+			super(epiFormatter, self).__init__(*args, **kwargs)
+		def _split_lines(self, text, width):
+			return text.splitlines()
+
+	logger.debug(f"Entered processCmdLineArguments")
+	
+	logger.debug(f"Creating the parser with parser = argparse.ArgumentParser")
+	parser_programname = 'h3333_python_cross_compile_script'
+	parser_program_description = Colors.RESET + Colors.CYAN + parser_program_description + Colors.RESET + "\n" \
+									'\nExample usages:' \
+									'\n "{0} list -p"             - lists all the products' \
+									'\n "{0} -a"                  - builds everything' \
+									'\n "{0} -f -d libx264"       - forces the rebuilding of libx264' \
+									'\n "{0} -pl x265_10bit,mpv"  - builds this list of products in that order' \
+									'\n "{0} -q -p ffmpeg_static" - will quietly build ffmpeg-static'.format(parser_programname)
+	parser_epilog = 'Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n' \
+					'This Source Code Form is subject to the terms of the Mozilla Public\n License v. 2.0 (MPLv2).\n' \
+					'If a copy of the MPLv2 was not distributed with this file,\n'
+					'You can obtain one at https://mozilla.org/MPL/2.0/ \n '
+	parser = argparse.ArgumentParser(	formatter_class=epiFormatter, \
+										prog=parser_programname, \
+										description=parser_program_description, \
+										epilog=parser_epilog )
+	logger.debug(f"Created the parser with argparse.ArgumentParser")
+
+
+	# set a name in the top level main parser
+	logger.debug(f"Setting a name in the top level parser")
+	parser.set_defaults(which='main') # set a default argument "which" with a default value "main" in the main parser
+	logger.debug(f"Set a name in the top level parser")
+
+	# add sub-parsers object to the main parser object
+	logger.debug(f"Add sub-parsers object to the top level parser")
+	subparsers = parser.add_subparsers(help='Sub commands')
+	logger.debug(f"Added sub-parsers object to the top level parser")
+
+	# create and add the parser for the "list" command to the sub-parsers object 
+	# and name it with which='list_p' ... parser.prog is the programname we set
+	list_p = subparsers.add_parser('list', help='Type: \'' + parser.prog + ' list')
+	list_p.set_defaults(which='list_p')
+	# add arguments to the 'list' command parser which='list_p'
+	# Note: the second argument contains the variable-name to check later eg 'if args.dependencies'
+	list_p_group1 = list_p.add_mutually_exclusive_group(required=True)
+	list_p_group1.add_argument('-p', '--products',     nargs=0, help='List all products',     action='store_true', default=False)
+	list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
+	# called like:	program.py list -d
+	# 				program.py list -p
+
+	# create and add the parser for the "info" command to the sub-parsers object 
+	# and name it with which='list_p' ... parser.prog is the programname we set
+	info_p = subparsers.add_parser('info_p', help='Type: \'' + parser.prog + ' info')
+	info_p.set_defaults(which='info_p')
+	# add arguments to the 'info' command parser which='info_p'
+	# Note: the second argument contains the variable-name to check later eg 'if args.markdown' or 'if args.csv'
+	info_p_group1 = info_p.add_mutually_exclusive_group(required=True)
+	info_p_group1.add_argument('-r', '--required-by', help='List all packages this dependency is required by',        type='str', default=None)
+	info_p_group1.add_argument('-d', '--depends-on',  help='List all packages this package depends on (recursively)', type='str', default=None)
+	# called like:	program.py info -r avisynth_plus_headers
+	# 				program.py info -d ffmpeg
+
+	# *** Now it is time for arguments to initiate the build process
+	# create and add a mutually exclusive group to the main parser object
+	group2 = parser.add_mutually_exclusive_group(required=False)
+	# add arguments to the mutially exclusive group, to build a dependency or a product
+	# Note: the second argument contains the variable-name to check later eg 'if args.markdown' or 'if args.csv'
+	group2.add_argument('-p', '--build-product', dest='PRODUCT', help='Build the specificed product package(s)')
+	group2.add_argument('-d', '--build-dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)')
+	#group2.add_argument('-a', '--build-all', help='Build all products (according to order)', action='store_true') # un-implemented
+	# called like:	program.py -d avisynth_plus_headers
+	# 				program.py -p ffmpeg
+
+	# *** Now it is time for generic arguments
+	# add generic arguments to the main parser object. 
+	# Note the '-g' for debug, since "-d" is already taken for dependency processing
+	# Note: the second argument contains the variable-name to check later eg 'if args.markdown' or 'if args.csv'
+	parser.add_argument('-g', '--debug', help='Show debug information',							action='store_true', default=False)
+	parser.add_argument('-f', '--force', help='Force rebuild, deletes already existing files',	action='store_true', default=False)
+	parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building',			action='store_true', default=False)
+	# called like:	program.py --force --debug -d avisynth_plus_headers
+	# 				program.py --force --debug -p ffmpeg
+	# 				program.py --force --debug --skip-depends -p ffmpeg
+
 
 ###################################################################################################
 ###################################################################################################
@@ -460,10 +582,11 @@ def setDebugMode(new_debugMode):
 #SETTINGS.dump_vars("VARIABLES DUMP:")
 
 if __name__ == "__main__":
-
-	# Initialize python3 system stuff
-	# initialize settings
-	# initialize logging (with default loglevel)
+	# GLOBALS are already defined at the top, this is __main__ so it sees them
+	# NOTE:
+	#	Apparently, also specifying globals inside a function/class-instance permits these to see
+	#	globals as read/write global variables rather than as read-only global variables if at all
+	
 	# process CMDLINE arguments and change settings
 	# prepare ... 
 	#	reset logging level after cmdline arguments
@@ -476,8 +599,6 @@ if __name__ == "__main__":
 	# check and build the toolchain
 	# execute build etc
 
-	# globals already defined at the top, this is __main__ not a function.
-
 	# initialize system stuff
 	print(f"TEMPORARY MESSAGE: initialize system stuff")
 	PY_REQUIRE = (3, 8)
@@ -485,15 +606,11 @@ if __name__ == "__main__":
 		sys.exit("You need at least Python %s.%s or later to run this script.\n" % PY_REQUIRE)
 	sys.dont_write_bytecode = True  # Avoid __pycache__ folder, never liked that solution
 
-	# initial settings, they can be overridden later by commandline options
-	print(f"TEMPORARY MESSAGE: initialize global settings")
+	# Initialize global settings, they can be overridden later by commandline options
+	print(f"TEMPORARY MESSAGE: Initialize global settings")	# logger not available yet, do not do logging.info etc
 	SETTINGS = settings()
 	if SETTINGS.debugMode:
 		SETTINGS.dump_vars("SETTINGS in debugMode")
-
-	# TEMPORARY ... REMOVE THIS LATER ...
-	print(f"TEMPORARY MESSAGE: dump global settings")
-	SETTINGS.dump_vars("dump global settings")
 	
 	# Initialize Logging
 	initLogger()
@@ -502,8 +619,11 @@ if __name__ == "__main__":
 	setDebugMode(SETTINGS.debugMode)
 
 	# process CMDLINE arguments
-	print(f"TEMPORARY MESSAGE: process CMDLINE arguments")
-	logger.debug(f"Processing CMDLINE arguments")
+	logger.debug(f"Processing CommandLine arguments")
+	processCmdLineArguments()
+
+
+
 
 	# prepare ... 
 	#	reset logging level after cmdline arguments, create folder trees
@@ -551,8 +671,8 @@ if __name__ == "__main__":
 	logger.debug(f"execute build etc")
 
 
-	#_epilog = 'Copyright (C) 2023-2024 hydra3333\n\n This Source Code Form is subject to the terms of the GNU General Public License version 3 or any later version. If a copy of the GPLv3 was not distributed with this file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html'
-	#parser = argparse.ArgumentParser(formatter_class=epiFormatter, epilog=_epilog)
+	#parser_epilog = 'Copyright (C) 2023-2024 hydra3333\n\n This Source Code Form is subject to the terms of the GNU General Public License version 3 or any later version. If a copy of the GPLv3 was not distributed with this file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html'
+	#parser = argparse.ArgumentParser(formatter_class=epiFormatter, epilog=parser_epilog)
 	
 	exit()
 
@@ -677,5 +797,142 @@ missing settings ???
 		-----------------------------------------------------------------------------------------------------
 		-----------------------------------------------------------------------------------------------------
 		-----------------------------------------------------------------------------------------------------
+
+		parser_epilog = 'Copyright (C) 2018-2023 DeadSix27 (https://github.com/DeadSix27/python_cross_compile_script)\n\n This Source Code Form is subject to the terms of the Mozilla Public\n License, v. 2.0. If a copy of the MPL was not distributed with this\n file, You can obtain one at https://mozilla.org/MPL/2.0/.\n '
+
+		parser = argparse.ArgumentParser(formatter_class=epiFormatter, epilog=parser_epilog)
+		parser.set_defaults(which='main')
+		parser.description = Colors.CYAN + 'Pythonic Cross Compile Helper (MPL2.0)' + Colors.RESET + '\n\nExample usages:' \
+			'\n "{0} list -p"             - lists all the products' \
+			'\n "{0} -a"                  - builds everything' \
+			'\n "{0} -f -d libx264"       - forces the rebuilding of libx264' \
+			'\n "{0} -pl x265_10bit,mpv"  - builds this list of products in that order' \
+			'\n "{0} -q -p ffmpeg_static" - will quietly build ffmpeg-static'.format(parser.prog)
+
+		subparsers = parser.add_subparsers(help='Sub commands')
+
+		list_p = subparsers.add_parser('list', help='Type: \'' + parser.prog + ' list --help\' for more help')
+		list_p.set_defaults(which='list_p')
+
+		list_p.add_argument('-md', '--markdown', help='Print list in markdown format', action='store_true')
+		list_p.add_argument('-cv', '--csv', help='Print list as CSV-like string', action='store_true')
+		list_p_group1 = list_p.add_mutually_exclusive_group(required=True)
+		# BELOW: so, by the time this is called: self.listifyPackages(self.packages["prods"], "P")
+		#	self.packages["prods"] has already been loaded WITHOUT variable processing on 'branch' (to do so requires change folder to the prod item's parent folder and back each time to allow for relative folder CMD processing)
+		list_p_group1.add_argument('-p', '--products', nargs=0, help='List all products', action=self.listifyPackages(self.packages["prods"], "P"))
+		# BELOW: so, by the time this is called: self.listifyPackages(self.packages["deps"], "D")
+		#	self.packages["deps"]  has already been loaded WITHOUT variable processing on 'branch' (to do so requires change folder to the prod item's parent folder and back each time to allow for relative folder CMD processing)
+		list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action=self.listifyPackages(self.packages["deps"], "D"))
+
+		chelps_p = subparsers.add_parser('chelps', help='Type: \'' + parser.prog + ' chelps --help\' for more help')
+		list_p.set_defaults(which='chelps_p')
+		chelps_p_group1 = chelps_p.add_mutually_exclusive_group(required=True)
+		chelps_p_group1.add_argument('-p', '--products', nargs=0, help='Write all product config helps to confighelps.txt', action=self.assembleConfigHelps(self.packages["prods"], "P", self))
+		chelps_p_group1.add_argument('-d', '--dependencies', nargs=0, help='Write all dependency config helps to confighelps.txt', action=self.assembleConfigHelps(self.packages["deps"], "D", self))
+
+		info_p = subparsers.add_parser('info', help='Type: \'' + parser.prog + ' info --help\' for more help')
+		info_p.set_defaults(which='info_p')
+
+		info_p_group1 = info_p.add_mutually_exclusive_group(required=True)
+		info_p_group1.add_argument('-r', '--required-by', help='List all packages this dependency is required by', default=None)
+		info_p_group1.add_argument('-d', '--depends-on', help='List all packages this package depends on (recursively)', default=None)
+
+		group2 = parser.add_mutually_exclusive_group(required=False)
+		group2.add_argument('-p', '--build-product', dest='PRODUCT', help='Build the specificed product package(s)')
+		group2.add_argument('-d', '--build-dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)')
+		group2.add_argument('-a', '--build-all', help='Build all products (according to order)', action='store_true')
+		
+		parser.add_argument('-g', '--debug', help='Show debug information', action='store_true')
+		parser.add_argument('-q', '--quiet', help='Only show info lines', action='store_true')
+		parser.add_argument('-f', '--force', help='Force rebuild, deletes already files', action='store_true')
+		parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building', action='store_true')
+
+		#----------------------------------------------------------------------------------------------------------
+		# 2020.05.25 add -k --backup
+		parser.add_argument('-k', '--backup-source-directory', action='store', type=str, required=False, help='Backup source folder(s) to this specified backup folder name (strictly no trees)')
+		#----------------------------------------------------------------------------------------------------------
+
+		if len(sys.argv) == 1:
+			self.defaultEntrace()
+		else:
+			def errorOut(p, t, m=None):
+				if m is None:
+					fullStr = Colors.LIGHTRED_EX + 'Error:\n ' + Colors.CYAN + '\'{0}\'' + Colors.LIGHTRED_EX + ' is not a valid {2}\n Type: ' + Colors.CYAN + '\'{1} list --products/--dependencies\'' + Colors.LIGHTRED_EX + ' for a full list'
+					print(fullStr.format(p, os.path.basename(__file__), "Product" if t == "PRODUCT" else "Dependency") + Colors.RESET)
+				else:
+					print(m)
+				exit(1)
+			args = parser.parse_args()
+
+			if args.which == "info_p":
+				if args.required_by:
+					self.listRequiredBy(args.required_by)
+				if args.depends_on:
+					self.listDependsOn(args.depends_on)
+				return
+
+			forceRebuild = False
+			if args.debug:
+				self.debugMode = True
+				#self.logger.info("commandLineEntrace args.debug=True, set self.debugMode=True, executing self.initDebugMode()")
+				self.initDebugMode()
+				#self.logger.info("commandLineEntrace args.debug=True, TEST of log statement with .info ")
+				#self.logger.debug("commandLineEntrace args.debug=True, TEST of log statement with .debug ")
+			if args.quiet:
+				self.quietMode = True
+				#self.logger.info("commandLineEntrace args.quiet=True, set self.quietMode=True, executing self.initQuietMode()")
+				self.initQuietMode()
+			if args.force:
+				forceRebuild = True
+				#self.logger.info("commandLineEntrace args.force=True, set forceRebuild=True")
+
+			buildType = None
+			
+			if args.backup_source_directory:  # note, "-" relaced by "_" in the name
+				self.backup_source_directory = args.backup_source_directory
+			else:
+				self.backup_source_directory = None
+
+			finalPkgList = []
+
+			if args.PRODUCT or args.DEPENDENCY:
+				strPkgs = args.DEPENDENCY
+				buildType = "DEPENDENCY"
+				if args.PRODUCT is not None:
+					strPkgs = args.PRODUCT
+					buildType = "PRODUCT"
+				pkgList = re.split(r'(?<!\\),', strPkgs)
+				for p in pkgList:
+					if buildType == "PRODUCT":
+						if p not in self.packages["prods"]:
+							self.errorExit("Product package '%s' does not exist." % (p))
+					if buildType == "DEPENDENCY":
+						if p not in self.packages["deps"]:
+							self.errorExit("Dependency package '%s' does not exist." % (p))
+
+					finalPkgList.append(p.replace("\\,", ","))
+
+			elif args.build_all:
+				self.defaultEntrace()
+				return
+
+			self.logger.info('Starting custom build process for: {0}'.format(",".join(finalPkgList)))
+
+			skipDeps = False
+
+			if args.skip_depends:
+				skipDeps = True
+
+			for thing in finalPkgList:
+				for b in self.targetBitness:
+					main.prepareBuilding(b)
+					main.buildMingw(b)
+					main.initBuildFolders()
+					if buildType == "PRODUCT":
+						self.buildThing(thing, self.packages["prods"][thing], buildType, forceRebuild, skipDeps)
+					else:
+						self.buildThing(thing, self.packages["deps"][thing], buildType, forceRebuild, skipDeps)
+					main.finishBuilding()
+
 
 '''
