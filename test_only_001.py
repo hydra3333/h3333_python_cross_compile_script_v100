@@ -514,8 +514,10 @@ def processCmdLineArguments():
 	# add arguments to the 'list' command parser which='list_p'
 	# Note: the second argument contains the variable-name to check later eg 'if args.dependencies'
 	list_p_group1 = list_p.add_mutually_exclusive_group(required=True)
-	list_p_group1.add_argument('-p', '--products',     nargs=0, help='List all products',     action='store_true', default=False)
-	list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
+	#list_p_group1.add_argument('-p', '--products',     nargs=0, help='List all products',     action='store_true', default=False)
+	#list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
+	list_p_group1.add_argument('-p', '--products',     help='List all products',     action='store_true', default=False)
+	list_p_group1.add_argument('-d', '--dependencies', help='List all dependencies', action='store_true', default=False)
 	# called like:	program.py list -d
 	# 				program.py list -p
 	logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
@@ -528,8 +530,8 @@ def processCmdLineArguments():
 	# add arguments to the 'info' command parser which='info_p'
 	# Note: the second argument contains the variable-name to check later eg 'args.required_by'
 	info_p_group1 = info_p.add_mutually_exclusive_group(required=True)
-	info_p_group1.add_argument('-r', '--required_by', help='List all packages this dependency is required by',        type='str', default=None)
-	info_p_group1.add_argument('-d', '--depends_on',  help='List all packages this package depends on (recursively)', type='str', default=None)
+	info_p_group1.add_argument('-r', '--required_by', help='List all packages this dependency is required by',        default=None)
+	info_p_group1.add_argument('-d', '--depends_on',  help='List all packages this package depends on (recursively)', default=None)
 	# called like:	program.py info -r avisynth_plus_headers
 	# 				program.py info -d ffmpeg
 	logger.debug(f"Created and added arguments to the (sub)parser for the 'info' command")
@@ -540,9 +542,9 @@ def processCmdLineArguments():
 	group2 = parser.add_mutually_exclusive_group(required=False)
 	# add arguments to the mutially exclusive group, to build a dependency or a product
 	# Note: the second argument contains the variable-name to check later eg 'if args.build_product'
-	group2.add_argument('-p', '--build_product',    help='Build the specificed product package(s)',		type='str', default=None)	# dest='PRODUCT', 
-	group2.add_argument('-d', '--build_dependency', help='Build the specificed dependency package(s)',	type='str', default=None)	# dest='DEPENDENCY',
-	group2.add_argument('-h', '--help',             help='Do nothing but show help', action='store_true', default=False)
+	group2.add_argument('-p', '--build_product',    help='Build the specificed product package(s)',		default=None)	# dest='PRODUCT', 
+	group2.add_argument('-d', '--build_dependency', help='Build the specificed dependency package(s)',	default=None)	# dest='DEPENDENCY',
+	group2.add_argument('-c', '--cmd_help',            help='Do nothing but show help', action='store_true', default=False) # use '-c' since -h and --help CONFLICT with system stuff
 	# called like:	program.py -d avisynth_plus_headers
 	# 				program.py -p ffmpeg
 	logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
