@@ -460,7 +460,7 @@ def setDebugMode(new_debugMode):
 	return
 
 ###################################################################################################
-def processCmdLineArguments()
+def processCmdLineArguments():
 	# Process arguments on CommandLine and change global settings accordingly
 	global SETTINGS
 	global logging_handler
@@ -476,9 +476,10 @@ def processCmdLineArguments()
 
 	logger.debug(f"Entered processCmdLineArguments")
 	
-	logger.debug(f"Creating the parser with parser = argparse.ArgumentParser")
+	# Create a neew main parser
+	logger.debug(f"Creating the ArgumentParser with parser = argparse.ArgumentParser")
 	parser_programname = 'h3333_python_cross_compile_script'
-	parser_program_description = Colors.RESET + Colors.CYAN + parser_program_description + Colors.RESET + "\n" \
+	parser_program_description = Colors.RESET + Colors.CYAN + parser_programname + Colors.RESET + "\n" \
 									'\nExample usages:' \
 									'\n "{0} list -p"             - lists all the products' \
 									'\n "{0} -a"                  - builds everything' \
@@ -487,27 +488,27 @@ def processCmdLineArguments()
 									'\n "{0} -q -p ffmpeg_static" - will quietly build ffmpeg-static'.format(parser_programname)
 	parser_epilog = 'Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n' \
 					'This Source Code Form is subject to the terms of the Mozilla Public\n License v. 2.0 (MPLv2).\n' \
-					'If a copy of the MPLv2 was not distributed with this file,\n'
+					'If a copy of the MPLv2 was not distributed with this file,\n' \
 					'You can obtain one at https://mozilla.org/MPL/2.0/ \n '
 	parser = argparse.ArgumentParser(	formatter_class=epiFormatter, \
 										prog=parser_programname, \
 										description=parser_program_description, \
 										epilog=parser_epilog )
-	logger.debug(f"Created the parser with argparse.ArgumentParser")
+	logger.debug(f"Created the ArgumentParser with argparse.ArgumentParser")
 
-
-	# set a name in the top level main parser
-	logger.debug(f"Setting a name in the top level parser")
+	# set a name in the top level main ArgumentParser
+	logger.debug(f"Setting a name in the top level ArgumentParser")
 	parser.set_defaults(which='main') # set a default argument "which" with a default value "main" in the main parser
-	logger.debug(f"Set a name in the top level parser")
+	logger.debug(f"Set a name in the top level ArgumentParser")
 
-	# add sub-parsers object to the main parser object
-	logger.debug(f"Add sub-parsers object to the top level parser")
+	# add sub-parsers object to the main ArgumentParser object
+	logger.debug(f"Add sub-parsers object to the top level ArgumentParser")
 	subparsers = parser.add_subparsers(help='Sub commands')
-	logger.debug(f"Added sub-parsers object to the top level parser")
+	logger.debug(f"Added sub-parsers object to the top level ArgumentParser")
 
-	# create and add the parser for the "list" command to the sub-parsers object 
+	# create and add the (sub)parser for the "list" command to the sub-parsers object 
 	# and name it with which='list_p' ... parser.prog is the programname we set
+	logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
 	list_p = subparsers.add_parser('list', help='Type: \'' + parser.prog + ' list')
 	list_p.set_defaults(which='list_p')
 	# add arguments to the 'list' command parser which='list_p'
@@ -517,40 +518,57 @@ def processCmdLineArguments()
 	list_p_group1.add_argument('-d', '--dependencies', nargs=0, help='List all dependencies', action='store_true', default=False)
 	# called like:	program.py list -d
 	# 				program.py list -p
+	logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
 
-	# create and add the parser for the "info" command to the sub-parsers object 
+	# create and add the (sub)parser for the "info" command to the sub-parsers object 
 	# and name it with which='list_p' ... parser.prog is the programname we set
+	logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
 	info_p = subparsers.add_parser('info_p', help='Type: \'' + parser.prog + ' info')
 	info_p.set_defaults(which='info_p')
 	# add arguments to the 'info' command parser which='info_p'
-	# Note: the second argument contains the variable-name to check later eg 'if args.markdown' or 'if args.csv'
+	# Note: the second argument contains the variable-name to check later eg 'args.required_by'
 	info_p_group1 = info_p.add_mutually_exclusive_group(required=True)
-	info_p_group1.add_argument('-r', '--required-by', help='List all packages this dependency is required by',        type='str', default=None)
-	info_p_group1.add_argument('-d', '--depends-on',  help='List all packages this package depends on (recursively)', type='str', default=None)
+	info_p_group1.add_argument('-r', '--required_by', help='List all packages this dependency is required by',        type='str', default=None)
+	info_p_group1.add_argument('-d', '--depends_on',  help='List all packages this package depends on (recursively)', type='str', default=None)
 	# called like:	program.py info -r avisynth_plus_headers
 	# 				program.py info -d ffmpeg
+	logger.debug(f"Created and added arguments to the (sub)parser for the 'info' command")
 
 	# *** Now it is time for arguments to initiate the build process
-	# create and add a mutually exclusive group to the main parser object
+	# create and add a mutually exclusive group to the main ArgumentParser object
+	logger.debug(f"Create and add arguments to the top level ArgumentParser for building stuff")
 	group2 = parser.add_mutually_exclusive_group(required=False)
 	# add arguments to the mutially exclusive group, to build a dependency or a product
-	# Note: the second argument contains the variable-name to check later eg 'if args.markdown' or 'if args.csv'
-	group2.add_argument('-p', '--build-product', dest='PRODUCT', help='Build the specificed product package(s)')
-	group2.add_argument('-d', '--build-dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)')
-	#group2.add_argument('-a', '--build-all', help='Build all products (according to order)', action='store_true') # un-implemented
+	# Note: the second argument contains the variable-name to check later eg 'if args.build_product'
+	group2.add_argument('-p', '--build_product',    help='Build the specificed product package(s)',		type='str', default=None)	# dest='PRODUCT', 
+	group2.add_argument('-d', '--build_dependency', help='Build the specificed dependency package(s)',	type='str', default=None)	# dest='DEPENDENCY',
+	group2.add_argument('-h', '--help',             help='Do nothing but show help', action='store_true', default=False)
 	# called like:	program.py -d avisynth_plus_headers
 	# 				program.py -p ffmpeg
+	logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
 
 	# *** Now it is time for generic arguments
-	# add generic arguments to the main parser object. 
+	# add generic arguments to the main ArgumentParser object. 
 	# Note the '-g' for debug, since "-d" is already taken for dependency processing
-	# Note: the second argument contains the variable-name to check later eg 'if args.markdown' or 'if args.csv'
-	parser.add_argument('-g', '--debug', help='Show debug information',							action='store_true', default=False)
-	parser.add_argument('-f', '--force', help='Force rebuild, deletes already existing files',	action='store_true', default=False)
-	parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building',			action='store_true', default=False)
+	# Note: the second argument contains the variable-name to check later eg 'if args.debug'
+	logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
+	parser.add_argument('-g', '--debug',        help='Show debug information',										action='store_true', default=False)
+	parser.add_argument('-f', '--force',        help='Force rebuild, deletes already existing files (recommended)',	action='store_true', default=False)
+	parser.add_argument('-s', '--skip-depends', help='Skip dependencies when building',								action='store_true', default=False)
 	# called like:	program.py --force --debug -d avisynth_plus_headers
 	# 				program.py --force --debug -p ffmpeg
 	# 				program.py --force --debug --skip-depends -p ffmpeg
+	logger.debug(f"Created and added arguments to the top level ArgumentParser for generic use")
+
+
+	logger.debug(f"Returning from processCmdLineArguments")
+	return
+
+
+
+
+
+
 
 
 ###################################################################################################
