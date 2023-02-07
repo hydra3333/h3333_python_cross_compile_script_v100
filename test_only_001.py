@@ -815,19 +815,26 @@ if __name__ == "__main__":
 		setDebugMode(or_debug_modes)
 		logger.debug(f"Prepare: Reset logging level after cmdline arguments")
 
+	# init and load Products - note the use of a fixed text string type="P" to identify it as a product
 	logger.debug(f"Prepare: init and load products")
 	dictProducts = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	products_folder_to_parse = ???
+	???? how can we get the dict in the class to store the type="P" as well as the key/value pair ????
 	dictProducts.load_py_files(type="P", folder=products_folder_to_parse)
 
+	# init and load dependencies - note the use of a fixed text string type="D" to identify it as a dependencies
 	logger.debug(f"Prepare: init and load dependencies")
 	dictDependencies = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	dependencies_folder_to_parse = ???
+	???? how can we get the dict in the class to store the type="D" as well as the key/value pair ????
 	dictDependencies.load_py_files(type="D", folder=dependencies_folder_to_parse) ?????????? fix to store the type
 
+	# init and load the Variable - note the use of a fixed text string type="V" to identify it as a Variable
 	logger.debug(f"Prepare: init and load variables.py")
 	objVariables = dot_py_object() # an object of the variables, of class dot_py_object
-	objVariables.load_py_file(folder=variables_folder_to_parse) # it's an object, not a dict
+	variables_folder_to_parse = ???
+	???? how can we get the object in the class to also store the type="V" as well as the other name/json ????
+	objVariables.load_py_file(type="V" folder=variables_folder_to_parse) # it's an object, not a dict
 
 
 
