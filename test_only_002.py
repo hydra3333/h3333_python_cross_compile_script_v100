@@ -913,18 +913,21 @@ if __name__ == "__main__":
 	dictProducts = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	products_folder_to_parse = objSETTINGS.prodFolder	# for input, eg /home/u/Desktop/working/packages/products
 	dictProducts.load_py_files(folder=products_folder_to_parse, heading='Product')
+	#dictProducts.dump_vars(heading='PRODUCT VARIABLES DUMP:')
 
 	# init and load dependencies - note the use of a fixed text string type="D" to identify it as a dependencies
 	logger.debug(f"Prepare: init and load dependencies")
 	dictDependencies = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	dependencies_folder_to_parse = objSETTINGS.depsFolder	# for input, eg /home/u/Desktop/working/packages/dependencies
 	dictDependencies.load_py_files(folder=dependencies_folder_to_parse, heading='Dependency')
+	#dictDependencies.dump_vars(heading='DEPENDENCY VARIABLES DUMP:')
 
 	# init and load the Variable - note the use of a fixed text string type="V" to identify it as a Variable
 	logger.debug(f"Prepare: init and load variables.py")
 	objVariables = dot_py_object() # an object of the variables, of class dot_py_object
 	variables_file_to_parse = objSETTINGS.varsPath	# for input, eg /home/u/Desktop/working/packages/variables.py
 	objVariables.load_py_file(file=variables_file_to_parse, heading='Variable')
+	#objVariables.dump_vars(heading='VARIABLE VARIABLES DUMP:')
 
 
 
