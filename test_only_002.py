@@ -406,18 +406,19 @@ class dot_py_object_dict:			# a dictionary of build objects
 
 	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
 		#logger.error(msg)
-		print("dot_py_object_dict Error: " + msg)
+		print("dot_py_object_dict({self.name}): Error: " + msg)
 		sys.exit(1)
 
-	def __init__(self):
+	def __init__(self, name=''):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
-		#logger.debug(f"DEBUG: dot_py_object_dict __init__ object instatiation")
+		self.name = name
+		#logger.debug(f"DEBUG: dot_py_object_dict({self.name}): __init__ object instatiation")
 		#self.BO = {}							# or, not
 		self.BO = OrderedDict({})				# we can have the dictionary ordered if we want to
 		return
 
 	def __del__(self):
-		#logger.debug(f"DEBUG: dot_py_object_dict __del__ to delete this object")
+		#logger.debug(f"DEBUG: dot_py_object_dict({self.name}): __del__ to delete this object")
 		return
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
@@ -431,8 +432,8 @@ class dot_py_object_dict:			# a dictionary of build objects
 		# Dict Union is not commutative
 		#self.BO = self.BO | { objBO.Name : objBO.Val }
 		self.BO |= { objBO.Name : objBO.Val } # the operator '|=' appends to the dict
-		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: key='{objBO.Name}'")
-		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict: val='{objBO.Val}'")
+		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.Name}'")
+		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): val='{objBO.Val}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
 		#for key, val in self.BO.items():
 		#	logger.debug(f"DEBUG: add_dot_py_obj: Name='{key}'")
@@ -443,19 +444,19 @@ class dot_py_object_dict:			# a dictionary of build objects
 	def load_py_files(self, folder='',heading=''):
 		# Load .py files from the specified folder tree, if they are not disabled
 		if not os.path.isdir(folder):
-			self.errorExit(f"load_py_files: Folder '{folder}' does not exist.")
+			self.errorExit(f"dot_py_object_dict({self.name}): load_py_files: Folder '{folder}' does not exist.")
 		# Locate and save non-disabled .py file paths from the specified folder tree
 		tmp_file_list = []
 		for path, subdirs, files in os.walk(folder):
 			for name in files:
 				p = Path(os.path.join(path, name))
 				if p.suffix == ".py":
-					#logger.debug(f"dot_py_object_dict: load_py_files: Found {heading} .py filename '{name}'")
+					#logger.debug(f"dot_py_object_dict({self.name}): Found {heading} .py filename '{name}'")
 					if not isPathDisabled(p):
 						tmp_file_list.append(p)
-						#logger.debug(f"dot_py_object_dict: load_py_files: Saved {heading} .py filename '{name}'")
+						#logger.debug(f"dot_py_object_dict({self.name}): Saved {heading} .py filename '{name}'")
 					else:
-						logger.debug(f"dot_py_object_dict: load_py_files: Ignored {heading} {name}.py due to isPathDisabled")
+						logger.debug(f"dot_py_object_dict({self.name}): Ignored {heading} {name}.py due to isPathDisabled")
 
 		if len(tmp_file_list) < 1:
 			self.errorExit(f"There are no non-disabled .py files in the folder '{folder}'" )
@@ -467,20 +468,20 @@ class dot_py_object_dict:			# a dictionary of build objects
 				try:
 					objJSON = ast.literal_eval(f.read())
 					if not isinstance(objJSON, dict):
-						self.errorExit(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}' is misformatted")
+						self.errorExit(f"dot_py_object_dict({self.name}): {heading} File '{packageName}' is misformatted")
 					if "_info" not in objJSON and not boolKey(objJSON, "is_dep_inheriter"):
-						logger.debug(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' is missing '_info' tag")
+						logger.debug(f"dot_py_object_dict({self.name}): {heading} File '{packageName}.py' is missing '_info' tag")
 					if boolKey(objJSON, "_disabled"):
-						logger.debug(f"dot_py_object_dict: load_py_files: Ignored {heading} {packageName} due to '_disabled'")
+						logger.debug(f"dot_py_object_dict({self.name}): Ignored {heading} {packageName} due to '_disabled'")
 					else:
 						# do it the long way around with an interim object, instead of of directly with name/value pair in the call
 						obj = dot_py_object()		# create an object with the name/value pair
 						obj.set_data_py(packageName, objJSON) # this may not work ... it's an object being passed :(
 						self.add_dot_py_obj(obj)	# save name/value pair into the dictionary in this instance
 						del obj
-						logger.debug(f"dot_py_object_dict: load_py_files: {heading} File '{packageName}.py' loaded")
+						logger.debug(f"dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
 				except SyntaxError:
-					self.errorExit(f"dot_py_object_dict: load_py_files: Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
+					self.errorExit(f"dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
 		logger.info(f"Loaded {len(self.BO)} {heading} files")
 		return
 
@@ -910,14 +911,14 @@ if __name__ == "__main__":
 
 	# init and load Products - note the use of a fixed text string type="P" to identify it as a product
 	logger.debug(f"Prepare: init and load products")
-	dictProducts = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	dictProducts = dot_py_object_dict(name='PRODUCTS')	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	products_folder_to_parse = objSETTINGS.prodFolder	# for input, eg /home/u/Desktop/working/packages/products
 	dictProducts.load_py_files(folder=products_folder_to_parse, heading='Product')
 	#dictProducts.dump_vars(heading='PRODUCT VARIABLES DUMP:')
 
 	# init and load dependencies - note the use of a fixed text string type="D" to identify it as a dependencies
 	logger.debug(f"Prepare: init and load dependencies")
-	dictDependencies = dot_py_object_dict()	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	dictDependencies = dot_py_object_dict(name='DEPENDENCIES')	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	dependencies_folder_to_parse = objSETTINGS.depsFolder	# for input, eg /home/u/Desktop/working/packages/dependencies
 	dictDependencies.load_py_files(folder=dependencies_folder_to_parse, heading='Dependency')
 	#dictDependencies.dump_vars(heading='DEPENDENCY VARIABLES DUMP:')
