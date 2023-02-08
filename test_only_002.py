@@ -891,7 +891,6 @@ def info_print_required_by(packageName):
 	#logger.debug(f"info_print_required_by: Entered with packageName='{packageName}'")
 	is_recognised = False
 	obj_top_Package = None
-	
 	if packageName in dictProducts.BO:
 		is_recognised = True
 		obj_top_Package = dictProducts.get_dot_py_obj(packageName)		# returns an object of class dot_py_object 
@@ -908,30 +907,30 @@ def info_print_required_by(packageName):
 	if obj_top_Package.name is None:
 		logger.error(f"info_print_required_by: SANITY CHECK: '{packageName}' was recognised but NOT retrieved from the dictionary")
 		sys.exit(1)
-		
 	logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
 	#logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
-	def info_print_required_by_xxx(packageName, indent=1):
-		a_obj_Package=dictDependencies.get_dot_py_obj(packageName)
-		a_name = a_obj_Package.name
+	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as obne
+	def info_print_required_by_recursive(packageName, indent=1):
+		a_name = packageName
+		#bigDict[packageName]
 		#print(f"xxxx: '{a_name}'")
-		if 'depends_on' not in a_obj_Package.Val:
+		if 'depends_on' not in bigDict[packageName]:
 			return
-		zz_depends_on = a_obj_Package.Val['depends_on']
+		zz_depends_on = bigDict[packageName]['depends_on']
 		if len(zz_depends_on) <= 0:
 			return
-		#if boolKey(a_obj_Package.Val, "is_dep_inheriter"):
+		#if boolKey(bigDict[packageName], "is_dep_inheriter"):
 		#	return ret
 		for d in zz_depends_on:
 			spaces = ' '*(3*indent)
 			print(f"{spaces}'{d}'")
-			sub = info_print_required_by_xxx(d,indent+1)
+			sub = info_print_required_by_recursive(d,indent+1)
 		return
 	print(f"")
 	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
 	print(msg)
-	info_print_required_by_xxx(obj_top_Package.name, indent=1)
+	info_print_required_by_recursive(obj_top_Package.name, indent=1)
 
 ###################################################################################################
 def info_print_depends_on(packageName):
