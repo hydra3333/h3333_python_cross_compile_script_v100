@@ -82,6 +82,9 @@ global objParser		# the parser creat6ed by ArgParser which may be used everywher
 global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 global objVariables		# an object of the variables, of class dot_py_object
+global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+TERMINAL_WIDTH = 132	# for Console setup and PrettyPrint setup
 
 import argparse
 import ast
@@ -108,6 +111,7 @@ import json
 # installed via pip3 --upgrade install  ...
 import progressbar
 import yaml
+import pprint
 
 ###################################################################################################
 class settings:
@@ -121,6 +125,8 @@ class settings:
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
 		#logger.error(msg)
@@ -286,6 +292,9 @@ def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+
 	def name_of_object(xx):		# get the name of the object instantiated with a class https://stackoverflow.com/posts/16139159/revisions
 		object_name = ''
 		for objname, oid in globals().items():
@@ -330,6 +339,8 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	# objDict = dict([('key1', val1),('key2',val2)])	# dict() constructor builds dictionaries directly from sequences of key-value pairs:
 	# list(objDict)					# returns a list of all the keys used in the dictionary, in insertion order
@@ -415,6 +426,8 @@ class dot_py_object_dict:			# a dictionary of build objects
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	# objDict = dict([('key1', val1),('key2',val2)])	# dict() constructor builds dictionaries directly from sequences of key-value pairs:
 	# list(objDict)					# returns a list of all the keys used in the dictionary, in insertion order
@@ -561,6 +574,8 @@ def initLogger():
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	#print(f"TEMPORARY MESSAGE: initialize logging")
 	logging_handler = logging.StreamHandler(sys.stdout)		# a handler for the logger
@@ -587,6 +602,8 @@ def setLogLevel(new_mode):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	if new_mode not in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:
 		logger.setLevel(logging.DEBUG)
@@ -608,6 +625,8 @@ def setDebugMode(new_debugMode):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	if objSETTINGS.debugMode:
 		objSETTINGS.debugMode = True
@@ -621,7 +640,7 @@ def setDebugMode(new_debugMode):
 
 ###################################################################################################
 class epiFormatter(argparse.RawDescriptionHelpFormatter):	# this class needss to be declared at the root level or argparse.argumentparser spews
-	w = shutil.get_terminal_size((120, 10))[0]
+	w = shutil.get_terminal_size((TERMINAL_WIDTH, 10))[0]
 	def __init__(self, max_help_position=w, width=w, *args, **kwargs):
 		kwargs['max_help_position'] = max_help_position
 		kwargs['width'] = width
@@ -638,6 +657,8 @@ class processCmdLineArguments():
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
@@ -791,7 +812,7 @@ class processCmdLineArguments():
 				else:
 					msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
 					logger.error(msg)
-					exit()
+					sys.exit(1)
 			case "info":
 				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='info_p'")
 				self.info = True
@@ -806,7 +827,7 @@ class processCmdLineArguments():
 				else:
 					msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
 					logger.error(msg)
-					exit()
+					sys.exit(1)
 			case "main":
 				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main'")
 				self.build = True
@@ -819,11 +840,12 @@ class processCmdLineArguments():
 				else:
 					msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
 					logger.error(msg)
-					exit()
+					sys.exit(1)
 			case _:	# the "_" means a final "else"
 				msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHING CMDLINE CONDITION ... exiting"
 				logger.error(msg)
-				exit()
+				sys.exit(1)
+				sys.exit(1)
 
 		# If it gets to here, relevant 'self' variables have been set to inform us what to do.
 		# The relevant 'self' variables can be queried from the newly instantiated object. 
@@ -877,19 +899,7 @@ if __name__ == "__main__":
 	#	Apparently, also specifying globals inside a function/class-instance permits these to see
 	#	globals as read/write global variables rather than as read-only global variables if at all
 	
-	# process CMDLINE arguments and change settings
-	# prepare ... 
-	#	reset logging level after cmdline arguments
-	#	set environment variables
-	#	init and load products
-	#	init and load dependencies
-	#	init and load variables (the .py)
-	# if help or list etc, do that and exit
-	# create folder trees
-	# check and build the toolchain
-	# execute build etc
-
-	# initialize system stuff
+	# Initialize system stuff
 	PY_REQUIRE = (3, 10)
 	if sys.version_info < PY_REQUIRE:
 		print(f"ERROR: You need at least Python %s.%s or later to run this script." % PY_REQUIRE)
@@ -898,12 +908,15 @@ if __name__ == "__main__":
 		sys.exit("You need at least Python %s.%s or later to run this script.\n" % PY_REQUIRE)
 	sys.dont_write_bytecode = True  # Avoid __pycache__ folder, never liked that solution
 
+	# Initialize PrettyPrint at the start
+	objPrettyPrint = pprint.PrettyPrinter(width=TERMINAL_WIDTH, compact=False, sort_dicts=False)	# facilitates formatting and printing of text and dicts etc
+
 	# Initialize global settings, they can be overridden later by commandline options
 	objSETTINGS = settings()
 	if objSETTINGS.debugMode:
 		objSETTINGS.dump_vars('### debugMode: SETTINGS INTERNAL VARIABLES DUMP:')
 	
-	# Initialize Logging
+	# Initialize Logging, this depends on objSETTINGS being initialized first
 	initLogger()
 
 	# Initialize DEBUG mode ... do it ONLY ONLY AFTER initLogger() since that sets the initial loglevel inside the logger
@@ -931,27 +944,78 @@ if __name__ == "__main__":
 		setDebugMode(or_debug_modes)
 		logger.debug(f"Prepare: Reset logging level after cmdline arguments")
 
-	# init and load Products - note the use of a fixed text string type="P" to identify it as a product
-	logger.debug(f"Prepare: init and load products")
+	# Initialize and load Products - note the use of a fixed text string type="P" to identify it as a product
+	logger.debug(f"Prepare: Initialize and load products")
 	dictProducts = dot_py_object_dict(name='PRODUCTS')	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	products_folder_to_parse = objSETTINGS.prodFolder	# for input, eg /home/u/Desktop/working/packages/products
 	dictProducts.load_py_files(folder=products_folder_to_parse, heading='Product')
 	#dictProducts.dump_vars(heading='PRODUCT VARIABLES DUMP:')
 
-	# init and load dependencies - note the use of a fixed text string type="D" to identify it as a dependencies
-	logger.debug(f"Prepare: init and load dependencies")
+	# Initialize and load dependencies - note the use of a fixed text string type="D" to identify it as a dependencies
+	logger.debug(f"Prepare: Initialize and load dependencies")
 	dictDependencies = dot_py_object_dict(name='DEPENDENCIES')	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	dependencies_folder_to_parse = objSETTINGS.depsFolder	# for input, eg /home/u/Desktop/working/packages/dependencies
 	dictDependencies.load_py_files(folder=dependencies_folder_to_parse, heading='Dependency')
 	#dictDependencies.dump_vars(heading='DEPENDENCY VARIABLES DUMP:')
 
-	# init and load the Variables - note the use of a fixed text string type="V" to identify it as a Variables
-	logger.debug(f"Prepare: init and load variables.py")
+	# Initialize and load the Variables - note the use of a fixed text string type="V" to identify it as a Variables
+	logger.debug(f"Prepare: Initialize and load variables.py")
 	objVariables = dot_py_object(name='VARIABLES') # an object of the variables, of class dot_py_object
 	variables_file_to_parse = objSETTINGS.varsPath	# for input, eg /home/u/Desktop/working/packages/variables.py
 	objVariables.load_py_file(file=variables_file_to_parse, heading='Variables')
 	#objVariables.dump_vars(heading='variables.py VARIABLES DUMP:')
 
+	# DEBUG: have a look at products and dependencies and variables
+	#
+	#for key in dictProducts.BO:
+	#	print(f"dictProducts(key)={key}")
+	#for key, val in dictProducts.BO.items():
+	#	#objPrettyPrint.pprint(key)
+	#	#objPrettyPrint.pprint(val)
+	#	tmp = "##### PRODUCT ##### " + objPrettyPrint.pformat(key) + " #####\n" + objPrettyPrint.pformat(val)
+	#	print(tmp)
+	#
+	#for key in dictDependencies.BO:
+	#	print(f"dictDependencies(key)={key}")
+	#for key, val in dictDependencies.BO.items():
+	#	#objPrettyPrint.pprint(key)
+	#	#objPrettyPrint.pprint(val)
+	#	tmp = "##### DEPENDENCY ##### " + objPrettyPrint.pformat(key) + " #####\n" + objPrettyPrint.pformat(val)
+	#	#print(tmp)
+	#
+	#tmp = "##### VARIABLES #####\n" + objPrettyPrint.pformat(objVariables.Val)
+	#print(tmp)
+
+	# SANITY CHECK to ensure names are unique across PRODUCTS and DEPENDENCIES
+	is_duplicated = False
+	for key in dictProducts.BO:
+		if key in dictDependencies.BO:
+			is_duplicated = True
+			logger.error(f"SANITY CHECK: PRODUCT: {key} has a duplicate filename in DEPENDENCIES")
+	for key in dictDependencies.BO:
+		if key in dictProducts.BO:
+			is_duplicated = True
+			logger.error(f"SANITY CHECK: DEPENDENCY: {key} has a duplicate filename in PRODUCTS")
+	if is_duplicated:
+		logger.error(f"SANITY CHECK: duplicated PRODUCT and DEPENDENCY filenames ... exiting")
+		sys.exit(1)
+	logger.info(f"SANITY CHECK: passed. No duplicate PRODUCT and DEPENDENCY filenames detected")
+
+
+
+
+	# if commandline says INFO then do as requested and exit
+	if objArgParser.info:
+		if objArgParser.info_depends_on:			# ./this_script.py --debug info --depends_on avisynth_plus_headers
+			print_info_depends_on(objArgParser.info_depends_on)
+		if 	objArgParser.info_required_by:			# ./this_script.py --debug info --requited_by ffmpeg
+			print_info_required_by(objArgParser.info_required_by)
+		exit()
+
+
+############################################################################################################
+
+############################################################################################################
 
 
 	
@@ -961,13 +1025,9 @@ if __name__ == "__main__":
 	
 	
 	# set environment variables
-	print(f"TEMPORARY MESSAGE: Prepare: set environment variables")
+	print(f"TEMPORARY MESSAGE: Prepare: prepare for building")
 	logger.debug(f"Prepare: set environment variables")
-	#os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
-	#os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
-	#os.environ["PKG_CONFIG_LIBDIR"] = ""
-	#os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
-	#os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
+
 
 
 	# create folder trees
