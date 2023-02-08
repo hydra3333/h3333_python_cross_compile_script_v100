@@ -912,20 +912,17 @@ def info_print_required_by(packageName):
 
 	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as obne
 	def info_print_required_by_recursive(packageName, indent=1):
-		a_name = packageName
-		#bigDict[packageName]
-		#print(f"xxxx: '{a_name}'")
 		if 'depends_on' not in bigDict[packageName]:
 			return
-		zz_depends_on = bigDict[packageName]['depends_on']
-		if len(zz_depends_on) <= 0:
+		_zz_depends_on = bigDict[packageName]['depends_on']
+		if len(_zz_depends_on) <= 0:
 			return
 		#if boolKey(bigDict[packageName], "is_dep_inheriter"):
 		#	return ret
-		for d in zz_depends_on:
-			spaces = ' '*(3*indent)
-			print(f"{spaces}'{d}'")
-			sub = info_print_required_by_recursive(d,indent+1)
+		for _d in _zz_depends_on:
+			_spaces = ' '*(3*indent)
+			print(f"{_spaces}'{_d}'")
+			sub = info_print_required_by_recursive(_d,indent+1)
 		return
 	print(f"")
 	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
