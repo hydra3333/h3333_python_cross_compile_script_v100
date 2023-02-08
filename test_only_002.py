@@ -910,19 +910,19 @@ def info_print_required_by(packageName):
 	logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
 	#logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
-	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as obne
+	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	def info_print_required_by_recursive(packageName, indent=1):
 		if 'depends_on' not in bigDict[packageName]:
 			return
-		_zz_depends_on = bigDict[packageName]['depends_on']
-		if len(_zz_depends_on) <= 0:
+		zz_depends_on = bigDict[packageName]['depends_on']
+		if len(zz_depends_on) <= 0:
 			return
 		#if boolKey(bigDict[packageName], "is_dep_inheriter"):
 		#	return ret
-		for _d in _zz_depends_on:
-			_spaces = ' '*(3*indent)
-			print(f"{_spaces}'{_d}'")
-			sub = info_print_required_by_recursive(_d,indent+1)
+		for d in zz_depends_on:
+			_spaces = ' '*(4*indent)
+			print(f"{_spaces}'{d}' is a child of '{packageName}'")
+			sub = info_print_required_by_recursive(d,indent+1)
 		return
 	print(f"")
 	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
@@ -963,40 +963,30 @@ def info_print_depends_on(packageName):
 	if obj_top_Package.name is None:
 		logger.error(f"info_print_depends_on: SANITY CHECK: '{packageName}' was recognised but NOT retrieved from the dictionary")
 		sys.exit(1)
-		
 	logger.debug(f"info_print_depends_on: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
 	#logger.debug(f"info_print_depends_on: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-	print(f"info_print_depends_on NOT CURRENTLY WORKING")
-
-	print(f"")
-	msg = f"INFO: DEPENDS_ON: The following packages depend on '{packageName}':\n\n{packageName}"
-	print(msg)
-	bigDict = dictProducts.BO | dictDependencies.BO
-	def getDeps(dKey, indent=2):
-		if "depends_on" in bigDict[dKey]:
-			for dKey in bigDict[dKey]["depends_on"]:
-				if "depends_on" in bigDict[dKey]:
-					for _newPackageName in bigDict[dKey]["depends_on"]:
-						_dummy = getDeps(_newPackageName, indent+1)
-						spaces = ' '*(2*indent)
-						print(f"{spaces}{_newPackageName}")
+	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	#objPrettyPrint.pprint(bigDict['ffmpeg'])
+	#for key, val in bigDict.items():
+	#	print(f"key='{key}'")
+	#for key, val in bigDict['ffmpeg'].items():
+	#	print(f"ffmpeg key='{key}'")
+	#print(bigDict['ffmpeg'])
+	n = packageName
+	def info_print_depends_on_recursive(y,indent=1):
+		for k, v in bigDict.items():
+			if "depends_on" in bigDict[k]:
+				if len(bigDict[k]['depends_on']) > 0:
+					if y in bigDict[k]['depends_on']:
+						_spaces = ' '*(4*indent)
+						print(f"{_spaces}'{k}' is a parent of '{y}'")
+						sub = info_print_depends_on_recursive(k,indent+1)
 		return
-	printList = getDeps(obj_top_Package.name, indent=1)
 	print(f"")
-	del printList
-
-	
-
-	
-	
+	msg = f"INFO: DEPENDS_ON: The following packages depend on '{packageName}':\n\n'{packageName}'"
+	print(msg)
+	info_print_depends_on_recursive(obj_top_Package.name, indent=1)
 
 ###################################################################################################
 ###################################################################################################
