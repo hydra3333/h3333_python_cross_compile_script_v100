@@ -874,8 +874,9 @@ class processCmdLineArguments():
 
 		return
 
-def print_info_depends_on(packageName):
-	# recurrently print what depends on the nominated package name ... will all be in dependencies
+###################################################################################################
+def info_print_required_by(packageName):
+	# recurrently print what is required by nominated package name ... will all be in dependencies
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -887,47 +888,119 @@ def print_info_depends_on(packageName):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	#logger.debug(f"print_info_depends_on: Entered with packageName='{packageName}'")
+	#logger.debug(f"info_print_required_by: Entered with packageName='{packageName}'")
 	is_recognised = False
 	obj_top_Package = None
 	
 	if packageName in dictProducts.BO:
 		is_recognised = True
 		obj_top_Package = dictProducts.get_dot_py_obj(packageName)		# returns an object of class dot_py_object 
-		logger.debug(f"print_info_depends_on: recognised '{packageName}' in dictProducts.BO")
-		#logger.debug(f"print_info_depends_on: dictProducts.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictProducts.BO[packageName])}'") 
+		logger.debug(f"info_print_required_by: recognised '{packageName}' in dictProducts.BO")
+		#logger.debug(f"info_print_required_by: dictProducts.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictProducts.BO[packageName])}'") 
 	if packageName in dictDependencies.BO:
 		is_recognised = True
 		obj_top_Package = dictDependencies.get_dot_py_obj(packageName)	# returns an object of class dot_py_object 
-		logger.debug(f"print_info_depends_on: recognised '{packageName}' in dictDependencies.BO")
-		#logger.debug(f"print_info_depends_on: dictDependencies.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictDependencies.BO[packageName])}'") 
+		logger.debug(f"info_print_required_by: recognised '{packageName}' in dictDependencies.BO")
+		#logger.debug(f"info_print_required_by: dictDependencies.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictDependencies.BO[packageName])}'") 
 	if not is_recognised:
-		logger.error(f"print_info_depends_on: '{packageName}' is not an recognised package name")
+		logger.error(f"info_print_required_by: '{packageName}' is NOT a recognised package name")
 		sys.exit(1)
 	if obj_top_Package.name is None:
-		logger.error(f"print_info_depends_on: SANITY CHECK: '{packageName}' was recognised but NOT retrieved from the dictionary")
+		logger.error(f"info_print_required_by: SANITY CHECK: '{packageName}' was recognised but NOT retrieved from the dictionary")
 		sys.exit(1)
 		
-	logger.debug(f"print_info_depends_on: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
-	logger.debug(f"print_info_depends_on: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
+	logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
+	#logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
-	#def getDependenciesOf(x):	# SO FAR, ONLY WORKS IF EVERYTHING IS IN dictDependencies
-	#	oobj = {}
-	#	if "depends_on" in dictDependencies.BO[x]:
-	#		for x in dictDependencies.BO[x]["depends_on"]:
-	#			oobj[x] = None
-	#			if "depends_on" in dictDependencies.BO[x]:
-	#				oobj[x] = {}
-	#				for _new_packageName in dictDependencies.BO[x]["depends_on"]:
-	#					oobj[x][_new_packageName] = getDependenciesOf(_new_packageName)
-	#	return oobj
-	#objPrettyPrint.pprint(getDependenciesOf(packageName))
+	def info_print_required_by_xxx(packageName, indent=1):
+		a_obj_Package=dictDependencies.get_dot_py_obj(packageName)
+		a_name = a_obj_Package.name
+		#print(f"xxxx: '{a_name}'")
+		if 'depends_on' not in a_obj_Package.Val:
+			return
+		zz_depends_on = a_obj_Package.Val['depends_on']
+		if len(zz_depends_on) <= 0:
+			return
+		#if boolKey(a_obj_Package.Val, "is_dep_inheriter"):
+		#	return ret
+		for d in zz_depends_on:
+			spaces = ' '*(3*indent)
+			print(f"{spaces}'{d}'")
+			sub = info_print_required_by_xxx(d,indent+1)
+		return
+	print(f"")
+	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
+	print(msg)
+	info_print_required_by_xxx(obj_top_Package.name, indent=1)
 
+###################################################################################################
+def info_print_depends_on(packageName):
+	# recurrently print what depends on nominated package name ...
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	#objPrettyPrint.pprint(obj_top_Package.Val)
+	#logger.debug(f"info_print_depends_on: Entered with packageName='{packageName}'")
+	is_recognised = False
+	obj_top_Package = None
+	
+	if packageName in dictProducts.BO:
+		is_recognised = True
+		obj_top_Package = dictProducts.get_dot_py_obj(packageName)		# returns an object of class dot_py_object 
+		logger.debug(f"info_print_depends_on: recognised '{packageName}' in dictProducts.BO")
+		#logger.debug(f"info_print_depends_on: dictProducts.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictProducts.BO[packageName])}'") 
+	if packageName in dictDependencies.BO:
+		is_recognised = True
+		obj_top_Package = dictDependencies.get_dot_py_obj(packageName)	# returns an object of class dot_py_object 
+		logger.debug(f"info_print_depends_on: recognised '{packageName}' in dictDependencies.BO")
+		#logger.debug(f"info_print_depends_on: dictDependencies.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictDependencies.BO[packageName])}'") 
+	if not is_recognised:
+		logger.error(f"info_print_depends_on: '{packageName}' is NOT a recognised package name")
+		sys.exit(1)
+	if obj_top_Package.name is None:
+		logger.error(f"info_print_depends_on: SANITY CHECK: '{packageName}' was recognised but NOT retrieved from the dictionary")
+		sys.exit(1)
+		
+	logger.debug(f"info_print_depends_on: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
+	#logger.debug(f"info_print_depends_on: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
+	print(f"info_print_depends_on NOT CURRENTLY WORKING")
 
+	print(f"")
+	msg = f"INFO: DEPENDS_ON: The following packages depend on '{packageName}':\n\n{packageName}"
+	print(msg)
+	bigDict = dictProducts.BO | dictDependencies.BO
+	def getDeps(dKey, indent=2):
+		if "depends_on" in bigDict[dKey]:
+			for dKey in bigDict[dKey]["depends_on"]:
+				if "depends_on" in bigDict[dKey]:
+					for _newPackageName in bigDict[dKey]["depends_on"]:
+						_dummy = getDeps(_newPackageName, indent+1)
+						spaces = ' '*(2*indent)
+						print(f"{spaces}{_newPackageName}")
+		return
+	printList = getDeps(obj_top_Package.name, indent=1)
+	print(f"")
+	del printList
 
+	
+
+	
+	
 
 ###################################################################################################
 ###################################################################################################
@@ -1068,9 +1141,9 @@ if __name__ == "__main__":
 	# If commandline says INFO then do it and exit
 	if objArgParser.info:
 		if objArgParser.info_depends_on:			# ./this_script.py --debug info --depends_on avisynth_plus_headers
-			print_info_depends_on(objArgParser.info_depends_on)
-		if 	objArgParser.info_required_by:			# ./this_script.py --debug info --requited_by ffmpeg
-			print_info_required_by(objArgParser.info_required_by)
+			info_print_depends_on(objArgParser.info_depends_on)
+		if 	objArgParser.info_required_by:			# ./this_script.py --debug info --required_by ffmpeg
+			info_print_required_by(objArgParser.info_required_by)
 		exit()
 
 
