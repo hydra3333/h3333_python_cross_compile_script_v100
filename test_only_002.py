@@ -357,11 +357,11 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 		print(f"dot_py_object({self.name}): Error: " + msg)
 		sys.exit(1)
 		
-	def __init__(self, name='', Val={}):
+	def __init__(self, name=None, Val={}):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
 		self.name = name
 		self.Val = {}							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
-		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
+		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to, but NO since we want .Val content to print in the order originally created
 		#logger.debug(f"DEBUG: dot_py_object __init__ object instatiation")
 		return
 
@@ -404,15 +404,18 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 				objJSON = ast.literal_eval(f.read())
 				if not isinstance(objJSON, dict):
 					self.errorExit(f"dot_py_object({self.name}): {heading} variables File '{packageName}' is misformatted")
-				#if "_info" not in objJSON and not boolKey(objJSON, "is_dep_inheriter"):
-				#	logger.debug(f"dot_py_object({self.name}): {heading} variables File '{packageName}.py' is missing '_info' tag")
-				#if boolKey(objJSON, "_disabled"):
-				#	logger.debug(f"dot_py_object({self.name}): Ignored {heading} variables File {packageName} due to '_disabled'")
 				else:
-					self.set_data_py(name=self.name, Val=objJSON)
-					logger.debug(f"dot_py_object({self.name}): {heading} variables File '{packageName}.py' loaded")
+					if "_info" not in objJSON:
+						logger.warning(f"load_py_file: dot_py_object({self.name}): {heading} variables File '{packageName}.py' is missing '_info' tag")
+					if boolKey(objJSON, "is_dep_inheriter"):
+						logger.warning(f"load_py_file: dot_py_object({self.name}): {heading} variables File {packageName} contains 'is_dep_inheriter'")
+					if boolKey(objJSON, "_disabled"):
+						logger.debug(f"load_py_file: dot_py_object({self.name}): Ignored {heading} variables File {packageName} due to '_disabled'")
+					else:
+						self.set_data_py(name=self.name, Val=objJSON)
+						logger.debug(f"load_py_file: dot_py_object({self.name}): {heading} variables File '{packageName}.py' loaded")
 			except SyntaxError:
-				self.errorExit(f"dot_py_object({self.name}): Loading {heading} variables File '{packageName}' failed:\n\n{traceback.format_exc()}")
+				self.errorExit(f"load_py_file: dot_py_object({self.name}): Loading {heading} variables File '{packageName}' failed:\n\n{traceback.format_exc()}")
 		logger.info(f"Loaded {heading} variables file into dictionary {self.name}")
 		return
 
@@ -465,6 +468,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 		#https://docs.python.org/3/whatsnew/3.9.html#dictionary-merge-update-operators
 		#If a key appears in both operands, the last-seen value (i.e. that from the right-hand operand) wins:
 		# Dict Union is not commutative
+		#logger.debug(f"DEBUG: Entered add_dot_py_obj")
 		#self.BO = self.BO | { objBO.name : objBO.Val }
 		self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.name}'")
@@ -476,14 +480,17 @@ class dot_py_object_dict:			# a dictionary of build objects
 		#		logger.debug(f"\t{key2}='{val2}'")
 		#return
 
-	def get_dot_py(self, package_name):	
+	def get_dot_py_obj(self, package_name):	
 		# return a key/value pair as an object of class dot_py_object
-		logger.debug(f"DEBUG: get_dot_py")
-		tmp = dot_py_object()					# create a new empty instance of class dot_py_object
+		#logger.debug(f"DEBUG: Entered get_dot_py_obj")
+		tmp = dot_py_object()					# create a new instance of class dot_py_object
 		if package_name in self.BO:				# check whether a single key is in the dictionary
 			tmp.name = package_name				# yes, insert the package name into the tmp object
-			tmp.Val = self.BO[the_key]			# yes, insert the dict of json info into the tmp object
-		return tmp								# return the object of class dot_py_object 
+			tmp.Val = self.BO[package_name]		# yes, insert the dict of json info into the tmp object
+		else:
+			tmp.name = None						# this should be the object's default for class dot_py_object anyway
+			tmp.Val = {}						# this should be the object's default for class dot_py_object anyway
+		return tmp								# return the object of class dot_py_object, wither filled in or with values None
 
 	def load_py_files(self, folder='',heading=''):
 		# Load .py files from the specified folder tree, if they are not disabled
@@ -495,15 +502,15 @@ class dot_py_object_dict:			# a dictionary of build objects
 			for name in files:
 				p = Path(os.path.join(path, name))
 				if p.suffix == ".py":
-					#logger.debug(f"dot_py_object_dict({self.name}): Found {heading} .py filename '{name}'")
+					#logger.debug(f"load_py_files: dot_py_object_dict({self.name}): Found {heading} .py filename '{name}'")
 					if not isPathDisabled(p):
 						tmp_file_list.append(p)
-						#logger.debug(f"dot_py_object_dict({self.name}): Saved {heading} .py filename '{name}'")
+						#logger.debug(f"load_py_files: dot_py_object_dict({self.name}): Saved {heading} .py filename '{name}'")
 					else:
-						logger.debug(f"dot_py_object_dict({self.name}): Ignored {heading} {name}.py due to isPathDisabled")
+						logger.debug(f"load_py_files: dot_py_object_dict({self.name}): Ignored {heading} {name}.py due to isPathDisabled")
 
 		if len(tmp_file_list) < 1:
-			self.errorExit(f"There are no non-disabled .py files in the folder '{folder}'" )
+			self.errorExit(f"load_py_files: There are no non-disabled .py files in the folder '{folder}'" )
 		# Parse the saved non-disabled .py file paths and load the parsed filename/json pairs into the local dictionary already created within __init__
 		for d in tmp_file_list:
 			with open(d, "r", encoding="utf-8") as f:
@@ -512,20 +519,23 @@ class dot_py_object_dict:			# a dictionary of build objects
 				try:
 					objJSON = ast.literal_eval(f.read())
 					if not isinstance(objJSON, dict):
-						self.errorExit(f"dot_py_object_dict({self.name}): {heading} File '{packageName}' is misformatted")
-					if "_info" not in objJSON and not boolKey(objJSON, "is_dep_inheriter"):
-						logger.debug(f"dot_py_object_dict({self.name}): {heading} File '{packageName}.py' is missing '_info' tag")
-					if boolKey(objJSON, "_disabled"):
-						logger.debug(f"dot_py_object_dict({self.name}): Ignored {heading} {packageName} due to '_disabled'")
+						self.errorExit(f"load_py_files: dot_py_object_dict({self.name}): {heading} File '{packageName}' is misformatted")
 					else:
-						# do it the long way around with an interim object, instead of of directly with name/value pair in the call
-						obj = dot_py_object(name=packageName)		# create an object with the name/value pair
-						obj.set_data_py(name=packageName, Val=objJSON) 		# this may not work ... it's an object being passed :(
-						self.add_dot_py_obj(obj)	# save name/value pair into the dictionary in this instance
-						del obj
-						logger.debug(f"dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
+						if boolKey(objJSON, "is_dep_inheriter"):
+							logger.debug(f"load_py_files: dot_py_object_dict({self.name}): {heading} File '{packageName}.py' contains 'is_dep_inheriter'")
+						if "_info" not in objJSON: # somehow this combo fails if include: and not boolKey(objJSON, "is_dep_inheriter")  
+							logger.warning(f"load_py_files: dot_py_object_dict({self.name}): {heading} File '{packageName}.py' is missing '_info' tag")
+						if boolKey(objJSON, "_disabled"):
+							logger.debug(f"load_py_files: dot_py_object_dict({self.name}): Ignored {heading} {packageName} due to '_disabled'")
+						else:
+							# do it the long way around with an interim object, instead of of directly with name/value pair in the call
+							obj = dot_py_object(name=packageName)		# create an object with the name/value pair
+							obj.set_data_py(name=packageName, Val=objJSON) 		# this may not work ... it's an object being passed :(
+							self.add_dot_py_obj(obj)	# save name/value pair into the dictionary in this instance
+							del obj
+							logger.debug(f"load_py_files: dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
 				except SyntaxError:
-					self.errorExit(f"dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
+					self.errorExit(f"load_py_files: dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
 		logger.info(f"Loaded {len(self.BO)} {heading} files into dictionary {self.name}")
 		return
 
@@ -756,7 +766,7 @@ class processCmdLineArguments():
 		logger.debug(f"Created and added arguments to the top level ArgumentParser for generic use")
 
 		# OK now we've setup the ArgumentParser stuff, lets parse the arguments and set variables in global objSETTINGS
-		# We use that since it's commonly global, rathe than another global object
+		# We use that since it's commonly global, rather than another global object
 		# note to self: ensure in objSETTINGS that all arguments are catered for and preset to None or something
 
 		#
@@ -863,6 +873,60 @@ class processCmdLineArguments():
 		logger.debug(f"Returning from processCmdLineArguments")
 
 		return
+
+def print_info_depends_on(packageName):
+	# recurrently print what depends on the nominated package name ... will all be in dependencies
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+
+	#logger.debug(f"print_info_depends_on: Entered with packageName='{packageName}'")
+	is_recognised = False
+	obj_top_Package = None
+	
+	if packageName in dictProducts.BO:
+		is_recognised = True
+		obj_top_Package = dictProducts.get_dot_py_obj(packageName)		# returns an object of class dot_py_object 
+		logger.debug(f"print_info_depends_on: recognised '{packageName}' in dictProducts.BO")
+		#logger.debug(f"print_info_depends_on: dictProducts.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictProducts.BO[packageName])}'") 
+	if packageName in dictDependencies.BO:
+		is_recognised = True
+		obj_top_Package = dictDependencies.get_dot_py_obj(packageName)	# returns an object of class dot_py_object 
+		logger.debug(f"print_info_depends_on: recognised '{packageName}' in dictDependencies.BO")
+		#logger.debug(f"print_info_depends_on: dictDependencies.BO['{packageName}']=\n'{objPrettyPrint.pformat(dictDependencies.BO[packageName])}'") 
+	if not is_recognised:
+		logger.error(f"print_info_depends_on: '{packageName}' is not an recognised package name")
+		sys.exit(1)
+	if obj_top_Package.name is None:
+		logger.error(f"print_info_depends_on: SANITY CHECK: '{packageName}' was recognised but NOT retrieved from the dictionary")
+		sys.exit(1)
+		
+	logger.debug(f"print_info_depends_on: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
+	logger.debug(f"print_info_depends_on: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
+
+	#def getDependenciesOf(x):	# SO FAR, ONLY WORKS IF EVERYTHING IS IN dictDependencies
+	#	oobj = {}
+	#	if "depends_on" in dictDependencies.BO[x]:
+	#		for x in dictDependencies.BO[x]["depends_on"]:
+	#			oobj[x] = None
+	#			if "depends_on" in dictDependencies.BO[x]:
+	#				oobj[x] = {}
+	#				for _new_packageName in dictDependencies.BO[x]["depends_on"]:
+	#					oobj[x][_new_packageName] = getDependenciesOf(_new_packageName)
+	#	return oobj
+	#objPrettyPrint.pprint(getDependenciesOf(packageName))
+
+
+	#objPrettyPrint.pprint(obj_top_Package.Val)
+
+
 
 
 ###################################################################################################
@@ -1001,10 +1065,7 @@ if __name__ == "__main__":
 		sys.exit(1)
 	logger.info(f"SANITY CHECK: passed. No duplicate PRODUCT and DEPENDENCY filenames detected")
 
-
-
-
-	# if commandline says INFO then do as requested and exit
+	# If commandline says INFO then do it and exit
 	if objArgParser.info:
 		if objArgParser.info_depends_on:			# ./this_script.py --debug info --depends_on avisynth_plus_headers
 			print_info_depends_on(objArgParser.info_depends_on)
@@ -1013,12 +1074,7 @@ if __name__ == "__main__":
 		exit()
 
 
-############################################################################################################
 
-############################################################################################################
-
-
-	
 	# prepare ... 
 	#	set environment variables
 	#	create folder trees
