@@ -341,14 +341,14 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	# https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables
 	# Variables set here are Class Variables and are shared across all instances
 
-	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
-		#logger.error(msg)
-		print("dot_py_object Error: " + msg)
+	def errorExit(self, msg):
+		logger.error(f"dot_py_object({self.name}): Error: " + msg)
+		print(f"dot_py_object({self.name}): Error: " + msg)
 		sys.exit(1)
 		
-	def __init__(self, Name='', Val={}):
+	def __init__(self, name='', Val={}):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
-		self.Name = ''
+		self.name = name
 		self.Val = {}							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
 		#self.Val = OrderedDict()				# we can have the dictionary ordered if we want to
 		#logger.debug(f"DEBUG: dot_py_object __init__ object instatiation")
@@ -361,26 +361,48 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	def dump_vars(self, heading='VARIABLES DUMP:'):
 		global_dump_object_variables(self, heading)
 		return
+	#def dump_vars(self, heading='OBJECT VARIABLES DUMP'):
+	#	print(f"DEBUG: {heading}")
+	#	#members = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
+	#	#logger.debug(members)
+	#	max_var_len = 0
+	#	for key,val in vars(self).items():
+	#		max_var_len = max(max_var_len,len(key))
+	#	for key,val in vars(self).items():
+	#		k = key.ljust(max_var_len,' ')
+	#		print(f"DEBUG: {k} = '{val}'")
+	#	return
 
-	def set_data_py(self, Name='', Val={}):
+	def set_data_py(self, name='', Val={}):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
-		self.Name = Name
-		self.Val = Val							# this variable is a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
-		#logger.debug(f"DEBUG: dot_py_object set_data_py added Name='{self.Name}'")
+		self.name = name
+		self.Val = Val							# self.Val is a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
+		#logger.debug(f"DEBUG: dot_py_object set_data_py added name='{self.name}'")
 		#for key2, val2 in self.Val.items():
 		#	logger.debug(f"\t{key2}='{val2}'")
 		return
 
-	def dump_vars(self, heading='OBJECT VARIABLES DUMP'):
-		print(f"DEBUG: {heading}")
-		#members = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
-		#logger.debug(members)
-		max_var_len = 0
-		for key,val in vars(self).items():
-			max_var_len = max(max_var_len,len(key))
-		for key,val in vars(self).items():
-			k = key.ljust(max_var_len,' ')
-			print(f"DEBUG: {k} = '{val}'")
+	def load_py_file(self, file='',heading=''):
+		# Load the variables.py file from the specified folder tree
+		if not os.path.isfile(file):
+			self.errorExit(f"dot_py_object({self.name}): load_py_file: variables File '{file}' does not exist.")
+		with open(file, "r", encoding="utf-8") as f:
+			p = Path(file)
+			packageName = p.stem.lower()
+			try:
+				objJSON = ast.literal_eval(f.read())
+				if not isinstance(objJSON, dict):
+					self.errorExit(f"dot_py_object({self.name}): {heading} variables File '{packageName}' is misformatted")
+				#if "_info" not in objJSON and not boolKey(objJSON, "is_dep_inheriter"):
+				#	logger.debug(f"dot_py_object({self.name}): {heading} variables File '{packageName}.py' is missing '_info' tag")
+				#if boolKey(objJSON, "_disabled"):
+				#	logger.debug(f"dot_py_object({self.name}): Ignored {heading} variables File {packageName} due to '_disabled'")
+				else:
+					self.set_data_py(name=self.name, Val=objJSON)
+					logger.debug(f"dot_py_object({self.name}): {heading} variables File '{packageName}.py' loaded")
+			except SyntaxError:
+				self.errorExit(f"dot_py_object({self.name}): Loading {heading} variables File '{packageName}' failed:\n\n{traceback.format_exc()}")
+		logger.info(f"Loaded {heading} variables file into dictionary {self.name}")
 		return
 
 ###################################################################################################
@@ -404,9 +426,9 @@ class dot_py_object_dict:			# a dictionary of build objects
 	# https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables
 	# Variables set here are Class Variables and are shared across all instances
 
-	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
-		#logger.error(msg)
-		print("dot_py_object_dict({self.name}): Error: " + msg)
+	def errorExit(self, msg):
+		logger.error(f"dot_py_object_dict({self.name}): Error: " + msg)
+		print(f"dot_py_object_dict({self.name}): Error: " + msg)
 		sys.exit(1)
 
 	def __init__(self, name=''):
@@ -430,16 +452,25 @@ class dot_py_object_dict:			# a dictionary of build objects
 		#https://docs.python.org/3/whatsnew/3.9.html#dictionary-merge-update-operators
 		#If a key appears in both operands, the last-seen value (i.e. that from the right-hand operand) wins:
 		# Dict Union is not commutative
-		#self.BO = self.BO | { objBO.Name : objBO.Val }
-		self.BO |= { objBO.Name : objBO.Val } # the operator '|=' appends to the dict
-		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.Name}'")
+		#self.BO = self.BO | { objBO.name : objBO.Val }
+		self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
+		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.name}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): val='{objBO.Val}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
 		#for key, val in self.BO.items():
-		#	logger.debug(f"DEBUG: add_dot_py_obj: Name='{key}'")
+		#	logger.debug(f"DEBUG: add_dot_py_obj: name='{key}'")
 		#	for key2, val2 in val.items():
 		#		logger.debug(f"\t{key2}='{val2}'")
 		#return
+
+	def get_dot_py(self, package_name):	
+		# return a key/value pair as an object of class dot_py_object
+		logger.debug(f"DEBUG: get_dot_py")
+		tmp = dot_py_object()					# create a new empty instance of class dot_py_object
+		if package_name in self.BO:				# check whether a single key is in the dictionary
+			tmp.name = package_name				# yes, insert the package name into the tmp object
+			tmp.Val = self.BO[the_key]			# yes, insert the dict of json info into the tmp object
+		return tmp								# return the object of class dot_py_object 
 
 	def load_py_files(self, folder='',heading=''):
 		# Load .py files from the specified folder tree, if they are not disabled
@@ -475,8 +506,8 @@ class dot_py_object_dict:			# a dictionary of build objects
 						logger.debug(f"dot_py_object_dict({self.name}): Ignored {heading} {packageName} due to '_disabled'")
 					else:
 						# do it the long way around with an interim object, instead of of directly with name/value pair in the call
-						obj = dot_py_object()		# create an object with the name/value pair
-						obj.set_data_py(packageName, objJSON) # this may not work ... it's an object being passed :(
+						obj = dot_py_object(name=packageName)		# create an object with the name/value pair
+						obj.set_data_py(name=packageName, Val=objJSON) 		# this may not work ... it's an object being passed :(
 						self.add_dot_py_obj(obj)	# save name/value pair into the dictionary in this instance
 						del obj
 						logger.debug(f"dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
@@ -484,15 +515,6 @@ class dot_py_object_dict:			# a dictionary of build objects
 					self.errorExit(f"dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
 		logger.info(f"Loaded {len(self.BO)} {heading} files into dictionary {self.name}")
 		return
-
-	def get_dot_py(self, package_name):	
-		# return a key/value pair as an object of class dot_py_object
-		logger.debug(f"DEBUG: get_dot_py")
-		tmp = dot_py_object()					# create a new empty instance of class dot_py_object
-		if package_name in self.BO:				# check whether a single key is in the dictionary
-			tmp.Name = package_name				# yes, insert the package name into the tmp object
-			tmp.Val = self.BO[the_key]			# yes, insert the dict of json info into the tmp object
-		return tmp								# return the object of class dot_py_object 
 
 ###################################################################################################
 class MyLogFormatter(logging.Formatter):
@@ -923,12 +945,12 @@ if __name__ == "__main__":
 	dictDependencies.load_py_files(folder=dependencies_folder_to_parse, heading='Dependency')
 	#dictDependencies.dump_vars(heading='DEPENDENCY VARIABLES DUMP:')
 
-	# init and load the Variable - note the use of a fixed text string type="V" to identify it as a Variable
+	# init and load the Variables - note the use of a fixed text string type="V" to identify it as a Variables
 	logger.debug(f"Prepare: init and load variables.py")
-	objVariables = dot_py_object() # an object of the variables, of class dot_py_object
+	objVariables = dot_py_object(name='VARIABLES') # an object of the variables, of class dot_py_object
 	variables_file_to_parse = objSETTINGS.varsPath	# for input, eg /home/u/Desktop/working/packages/variables.py
-	objVariables.load_py_file(file=variables_file_to_parse, heading='Variable')
-	#objVariables.dump_vars(heading='VARIABLE VARIABLES DUMP:')
+	objVariables.load_py_file(file=variables_file_to_parse, heading='Variables')
+	#objVariables.dump_vars(heading='variables.py VARIABLES DUMP:')
 
 
 
