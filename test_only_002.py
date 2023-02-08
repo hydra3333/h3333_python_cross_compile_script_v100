@@ -421,7 +421,7 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 		
 	def list_print(self, heading=''):
 		print(f"")
-		print(f"LIST: {heading}:\n")
+		print(f"LIST: {heading}: {len(self.Val.items())} items.\n")
 		for key, val in self.Val.items():
 			pkey = key.ljust(32,' ')
 			print(f" {Colors.GREEN}{pkey}{Colors.RESET} ... '{val}'")
@@ -549,7 +549,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 
 	def list_print(self, heading=''):
 		print(f"")
-		print(f"LIST: {heading}:\n")
+		print(f"LIST: {heading}: {len(self.BO.items())} items.\n")
 		for key, val in self.BO.items():
 			if '_info' in val:
 				#print(f"val['_info'] = {val['_info']}")
