@@ -418,6 +418,14 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 				self.errorExit(f"load_py_file: dot_py_object({self.name}): Loading {heading} variables File '{packageName}' failed:\n\n{traceback.format_exc()}")
 		logger.info(f"Loaded {heading} variables file into dictionary {self.name}")
 		return
+		
+	def list_print(self, heading=''):
+		print(f"")
+		print(f"LIST: {heading}:\n")
+		for key, val in self.Val.items():
+			pkey = key.ljust(32,' ')
+			print(f" {Colors.GREEN}{pkey}{Colors.RESET} ... '{val}'")
+		return
 
 ###################################################################################################
 class dot_py_object_dict:			# a dictionary of build objects
@@ -555,7 +563,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 					v = val['_info']['version']
 				else:
 					v = ''
-				info = f"'{fn}'  ... version: '{v}'"
+				info = f"'{fn}' ... version: '{v}'"
 			else:
 				info = ''
 			pkey = key.ljust(32,' ')
