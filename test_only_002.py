@@ -393,7 +393,7 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 		#	logger.debug(f"\t{key2}='{val2}'")
 		return
 
-	def load_py_file(self, file='',heading=''):
+	def load_py_file(self, file='', heading=''):
 		# Load the variables.py file from the specified folder tree
 		if not os.path.isfile(file):
 			self.errorExit(f"dot_py_object({self.name}): load_py_file: variables File '{file}' does not exist.")
@@ -492,7 +492,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 			tmp.Val = {}						# this should be the object's default for class dot_py_object anyway
 		return tmp								# return the object of class dot_py_object, wither filled in or with values None
 
-	def load_py_files(self, folder='',heading=''):
+	def load_py_files(self, folder='', heading=''):
 		# Load .py files from the specified folder tree, if they are not disabled
 		if not os.path.isdir(folder):
 			self.errorExit(f"dot_py_object_dict({self.name}): load_py_files: Folder '{folder}' does not exist.")
@@ -537,6 +537,29 @@ class dot_py_object_dict:			# a dictionary of build objects
 				except SyntaxError:
 					self.errorExit(f"load_py_files: dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
 		logger.info(f"Loaded {len(self.BO)} {heading} files into dictionary {self.name}")
+		return
+
+	def list_print(self, heading=''):
+		print(f"")
+		print(f"LIST: {heading}:\n")
+		for key, val in self.BO.items():
+			if '_info' in val:
+				#print(f"val['_info'] = {val['_info']}")
+				#print(f"val['_info']['fancy_name'] = {val['_info']['fancy_name']}")
+				#print(f"val['_info']['version'] = {val['_info']['version']}")
+				if 'fancy_name' in val['_info']:
+					fn = val['_info']['fancy_name']
+				else:
+					fn = ''
+				if 'version' in val['_info']:
+					v = val['_info']['version']
+				else:
+					v = ''
+				info = f"'{fn}'  ... version: '{v}'"
+			else:
+				info = ''
+			pkey = key.ljust(32,' ')
+			print(f" {pkey} ... {info}")
 		return
 
 ###################################################################################################
@@ -1124,12 +1147,22 @@ if __name__ == "__main__":
 		sys.exit(1)
 	logger.info(f"SANITY CHECK: passed. No duplicate PRODUCT and DEPENDENCY filenames detected")
 
-	# If commandline says INFO then do it and exit
+	# If commandline says INFO then do INFO stuff and exit
 	if objArgParser.info:
 		if objArgParser.info_depends_on:			# ./this_script.py --debug info --depends_on avisynth_plus_headers
-			info_print_depends_on(objArgParser.info_depends_on)
+			info_print_depends_on(objArgParser.info_depends_on)		# pass the name of the package the subject of the query
 		if 	objArgParser.info_required_by:			# ./this_script.py --debug info --required_by ffmpeg
-			info_print_required_by(objArgParser.info_required_by)
+			info_print_required_by(objArgParser.info_required_by)	# pass the name of the package the subject of the query
+		exit()
+
+	# If commandline says LIST then do LIST stuff and exit
+	if objArgParser.list:
+		if objArgParser.list_products:				# ./this_script.py --debug list -d
+			dictProducts.list_print(heading='PRODUCTS')
+		if 	objArgParser.list_dependencies:			# ./this_script.py --debug list -p
+			dictDependencies.list_print(heading='DEPENDENCIES')
+		# for good measure, always list Variables free,gratis after the others
+		objVariables.list_print(heading='VARIABLES')
 		exit()
 
 
