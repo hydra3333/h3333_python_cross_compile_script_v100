@@ -332,7 +332,7 @@ class settings:
 				'bit_name2': self.bitnessStr2,
 				'bit_name3': self.bitnessStr3,
 				'bit_name_win': self.bitnessStrWin,
-				'bit_num': self.currentBitness,
+				'bit_num': self.bitness,
 				'product_prefix': self.fullProductDir,
 				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
 				'make_cpu_count': "-j {0}".format(self.cpuCount),
