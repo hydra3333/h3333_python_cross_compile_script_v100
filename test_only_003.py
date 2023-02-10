@@ -134,7 +134,33 @@ class settings:
 		sys.exit(1)
 
 	def dump_vars(self, heading='### SETTINGS INTERNAL VARIABLES DUMP:'):
-		global_dump_object_variables(self, heading)
+		global_dump_object_variables(self, heading)	# dump variables thr ordinary way
+		#members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
+		#print(members)
+		# we need to convert  vars(self).items() to a LIST, since dict does not allow duplicate keys
+		#objPrettyPrint.pprint(vars(self))
+		print(f"\nDEBUG: {heading} VARIABLES DUMPING IN ALPHABETIC NAME ORDER")
+		c = sorted(vars(self).items(), key=lambda yvar: str(yvar[0]).lower() )
+		choppy = 35
+		for d,e in c:
+			sd = str(d)
+			L = min(choppy,len(sd))
+			sd = sd[0:L]
+			s = ' ' * (choppy-len(sd)+1)
+			print(f"'{sd}'{s} = '{e}'")
+		print(f"\n{len(c)} items IN ALPHABETIC NAME ORDER\n")
+		del c
+		print(f"\nDEBUG: {heading} VARIABLES DUMPING IN ALPHABETIC VALUE ORDER")
+		f = sorted(vars(self).items(), key=lambda yvar: str(yvar[1]).lower() )
+		choppy = 48
+		for g,h in f:
+			sh = str(h)
+			m = max(0,choppy-len(sh)+1)
+			s = ' '*m
+			print(f"'{sh}'{s} = '{g}'")
+		print(f"\n{len(f)} items ALPHABETIC VALUE ORDER\n")
+		del f
+		return
 	
 	def __init__(self):
 		# NOTE:	here we fully flesh out all variables
@@ -253,8 +279,11 @@ class settings:
 # self.inTreePrefix='workdir/x86_64'
 # self.offtreePrefix='workdir/x86_64_offtree'
 # self.targetSubPrefix='workdir/toolchain/x86_64-w64-mingw32'
-# self.mingwBinpath='workdir/toolchain/x86_64-w64-mingw32/bin'
+# self.mingwBinpath ='workdir/toolchain/x86_64-w64-mingw32/bin'
 # self.mingwBinpath2='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'
+# YES down to here
+
+
 # self.fullCrossPrefixStr='workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'
 # self.shortCrossPrefixStr='x86_64-w64-mingw32-'
 # self.autoConfPrefixOptions='--with-sysroot="workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'
@@ -334,7 +363,7 @@ class settings:
 # before: os.environ['COLOR']='None'
 # before: os.environ['CLICOLOR_FORCE']='None'
 
-# after :  os.environ['PATH']='workdir/toolchain/x86_64-w64-mingw32/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
+# after : os.environ['PATH']='workdir/toolchain/x86_64-w64-mingw32/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
 # after : os.environ['PKG_CONFIG_PATH']='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
 # after : os.environ['PKG_CONFIG_LIBDIR']=''
 # after : os.environ['COLOR']='ON'
