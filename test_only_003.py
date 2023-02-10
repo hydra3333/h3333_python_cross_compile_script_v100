@@ -175,8 +175,8 @@ class settings:
 		self.targetOSStr = "mingw64"									# 2019.12.13 just for "--target-os=" 
 		self.bitnessStrWin = "win64"									# eg 'win64'
 
-		self.targetHostStr       = F"{self.bitnessStr}-w64-mingw32"  	# e.g. x86_64-w64-mingw32
-		self.shortCrossPrefixStr = F"{self.bitnessStr}-w64-mingw32-"	# e.g. x86_64-w64-mingw32-
+		self.targetHostStr       = F"{self.bitnessStr}-w64-mingw32"  	# eg x86_64-w64-mingw32
+		self.shortCrossPrefixStr = F"{self.bitnessStr}-w64-mingw32-"	# eg x86_64-w64-mingw32-
 
 
 		self.original_cflags = '-O3'
@@ -201,74 +201,121 @@ class settings:
 
 		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
 		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
-	
-		self.packagesFolder = self.projectRoot.joinpath(self.packages_subfolder)	# for input, eg /home/u/Desktop/_working/packages
-		self.prodFolder     = self.packagesFolder.joinpath("products")					# for input, eg /home/u/Desktop/_working/packages/products
-		self.depsFolder     = self.packagesFolder.joinpath("dependencies")				# for input, eg /home/u/Desktop/_working/packages/dependencies
-		self.varsPath       = self.packagesFolder.joinpath("variables.py")				# for input, eg /home/u/Desktop/_working/packages/variables.py
-		self.patchesFolder	= self.projectRoot.joinpath(self.patches_subfolder)			# for input, eg /home/u/Desktop/_working/packages
-		self.additionalheadersFolder	= self.projectRoot.joinpath(self.additionalheaders_subfolder)			# for input, eg /home/u/Desktop/_working/packages
-		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg /home/u/Desktop/_working/packages
-		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg /home/u/Desktop/_working/packages
-
-		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)			# for output, eg /home/u/Desktop/_working/workdir
-
-		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)	# for output, eg /home/u/Desktop/_working/workdir/x86_64
-		self.fullProductDir = self.bitnessPath.joinpath('_products')	# for output, eg /home/u/Desktop/_working/workdir/x86_64_products
-		self.fullDependencyDir = self.bitnessPath.joinpath('')			# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
-		self.offtreePrefix = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")	# eg /home/u/Desktop/_working/x86_64_offtree
-
-		# toolchain_output_path is the same as deadsix27 fullOutputDir
-		self.toolchain_output_path = self.fullWorkDir.joinpath(self.bitnessStrWin + "_output")	# eg /home/u/Desktop/_working/workdir/win64_output
-
-		# toolchain_mingw_subfolder is the same as deadsix27 mingwDir
-		self.mingwBinpath  = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder, self.bitnessStr + "-w64-mingw32", "bin")  									# e.g. workdir/xcompilers/x86_64-w64-mingw32/bin
-		self.mingwBinpath2 = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder, self.bitnessStr + "-w64-mingw32", self.bitnessStr + "-w64-mingw32", "bin")	# e.g. workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
-		self.targetPrefix = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder, self.bitnessStr + "-w64-mingw32", self.targetHostStr)							# e.g. workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
-
 
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")			# used when building packages
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")	# used when building packages
 
+		self.packagesFolder = self.projectRoot.joinpath(self.packages_subfolder)	# for input, eg packages
+		self.prodFolder     = self.packagesFolder.joinpath("products")					# for input, eg packages/products
+		self.depsFolder     = self.packagesFolder.joinpath("dependencies")				# for input, eg packages/dependencies
+		self.varsPath       = self.packagesFolder.joinpath("variables.py")				# for input, eg packages/variables.py
+		self.patchesFolder	= self.projectRoot.joinpath(self.patches_subfolder)			# for input, eg packages
+		self.additionalheadersFolder	= self.projectRoot.joinpath(self.additionalheaders_subfolder)			# for input, eg packages
+		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg packages
+		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg packages
+
+		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)			# for output, eg workdir
+
+		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)					# for output, eg workdir/x86_64
+		self.fullProductDir = self.bitnessPath.joinpath('_products')					# for output, eg workdir/x86_64_products
+		self.fullOfftreeDir = self.bitnessPath.joinpath('_offtree')						# for output, eg workdir/x86_64_offtree
+		self.fullDependencyDir = self.bitnessPath.joinpath('')							# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
+
+		# toolchain_output_path is the same as deadsix27 fullOutputDir
+		self.toolchain_output_path = self.fullWorkDir.joinpath(self.bitnessStrWin + "_output")	# eg workdir/win64_output
+
+		# toolchain_mingw_subfolder is the same as deadsix27 mingwDir
+
+		self.mingwpath     = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder, self.bitnessStr + "-w64-mingw32") 	# eg workdir/toolchain/x86_64-w64-mingw32
+		self.mingwBinpath  = self.mingwpath.joinpath("bin")  																# eg workdir/toolchain/x86_64-w64-mingw32/bin
+		self.mingwBinpath2 = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32", "bin")								# eg workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
+
+		self.targetPrefix  = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32", self.targetHostStr)					# eg workdir/toolchain/x86_64-w64-mingw32/mingw-w64-x86_64/x86_64-w64-mingw32
+		self.targetSubPrefix = self.mingwpath																				# eg workdir/toolchain/mingw-w64-x86_64
+
+		self.inTreePrefix = self.bitnessPath													 							# eg workdir/x86_64
+		self.offtreePrefix = self.fullOfftreeDir																			# eg workdir/x86_64_offtree
 
 
+		??? WHICH IS IT ?
+		# original
+		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.bitnessStr}-w64-mingw32-"										# e.g workdir/toolchain/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
+		# new draft 
+		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.shortCrossPrefixStr")											# e.g workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32-
+
+#
+# DIRECTLY FROM A RUN:
+#
+# fullWorkDir='/home/u/Desktop/_working/workdir'
+# currentBitness='64'
+# bitnessStr='x86_64'
+# bitnessPath='/home/u/Desktop/_working/workdir/x86_64'
+# bitnessStr2='x86_64'
+# bitnessStr3='mingw64'
+# bitnessStrWin='win64'
+# targetHostStr='x86_64-w64-mingw32'
+# targetPrefix='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+# inTreePrefix='/home/u/Desktop/_working/workdir/x86_64'
+# offtreePrefix='/home/u/Desktop/_working/workdir/x86_64_offtree'
+# targetSubPrefix='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32'
+# mingwBinpath='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin'
+# mingwBinpath2='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'
+# fullCrossPrefixStr='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'
+# shortCrossPrefixStr='x86_64-w64-mingw32-'
+# autoConfPrefixOptions='--with-sysroot="/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'
+# makePrefixOptions='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'
+# pkgConfigPath='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
+# localPkgConfigPath='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
+# mesonEnvFile='/home/u/Desktop/_working/workdir/meson_environment.txt'
+# cmakeToolchainFile='/home/u/Desktop/_working/workdir/mingw_toolchain.cmake'
+# cmakePrefixOptions='-DCMAKE_TOOLCHAIN_FILE="/home/u/Desktop/_working/workdir/mingw_toolchain.cmake" -G"Ninja"'
+# cmakePrefixOptionsOld='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+# cpuCount='6'
+# original_stack_protector='-fstack-protector-all'
+# original_stack_protector_trim='-fstack-protector-all'
+# original_fortify_source='-D_FORTIFY_SOURCE=2'
+# original_fortify_source_trim='-D_FORTIFY_SOURCE=2'
+# originalCflag='-O3'
+# originalCflag_trim='-O3'
+# originalCflags='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '
+# originalCflags_trim='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'
+# originbalLdLibPath=''
+# fullProductDir='/home/u/Desktop/_working/workdir/x86_64_products
+
+deadsix27's
+
+		
+		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.bitnessStr}-w64-mingw32-"  # e.g workdir/xcompilers/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
+		
+		
+		self.autoConfPrefixOptions = F'--with-sysroot="{self.targetSubPrefix}" --host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
+		self.makePrefixOptions = F'CC={self.shortCrossPrefixStr}gcc ' \
+			F"AR={self.shortCrossPrefixStr}ar " \
+			F"PREFIX={self.targetPrefix} " \
+			F"RANLIB={self.shortCrossPrefixStr}ranlib " \
+			F"LD={self.shortCrossPrefixStr}ld " \
+			F"STRIP={self.shortCrossPrefixStr}strip " \
+			F'CXX={self.shortCrossPrefixStr}g++'  # --sysroot="{self.targetSubPrefix}"'
+		self.pkgConfigPath = "{0}/lib/pkgconfig".format(self.targetPrefix)  # e.g workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32/lib/pkgconfig
+		self.localPkgConfigPath = self.aquireLocalPkgConfigPath()
+		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")
+		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")
+		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
+		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
+		self.cpuCount = self.config["toolchain"]["cpu_count"]
+		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
+		self.original_stack_protector_trim = self.config["toolchain"]["original_stack_protector"].strip() # 2020.05.13
+		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
+		self.original_fortify_source_trim  = self.config["toolchain"]["original_fortify_source"].strip() # 2020.05.13
+		self.originalCflag = self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
+		self.originalCflag_trim = self.config["toolchain"]["original_cflags"].strip() # 2020.05.13 singular
+		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
+		self.originalCflags_trim = (self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]).strip() # 2020.05.13
+		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
+		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
+		GLOBAL_fullProductDir = self.fullProductDir
 
 
-		#if not os.path.isdir(self.packagesFolder):	# for input, eg /home/u/Desktop/_working/packages
-		#	self.errorExit(f"Packages folder '{self.packagesFolder}' does not exist.")
-		#if not os.path.isdir(self.prodFolder):	# for input, eg /home/u/Desktop/_working/packages/products
-		#	self.errorExit(f"Packages Products folder '{self.prodFolder}' does not exist.")
-		#if not os.path.isdir(delf.depsFolder):	# for input, eg /home/u/Desktop/_working/packages/dependencies
-		#	self.errorExit(f"Packages Dependencies folder '{self.depsFolder}' does not exist.")
-		#if not os.path.isfile(self.varsPath):	# for input, eg /home/u/Desktop/_working/packages/variables.py
-		#	self.errorExit(f"Variables file '{self.varsPath}' does not exist." )
-		#if not os.path.isdir(self.patchesFolder):	# for input, eg /home/u/Desktop/_working/packages
-		#	self.errorExit(f"Patches folder '{self.patchesFolder}' does not exist." )
-		#if not os.path.isdir(self.additionalheadersFolder):	# for input, eg /home/u/Desktop/_working/additional_headers
-		#	self.errorExit(f"additional_headers folder '{self.additionalheadersFolder}' does not exist." )
-		#if not os.path.isdir(self.sourcesFolder):	# for input, eg /home/u/Desktop/_working/sources
-		#	self.errorExit(f"Patches folder '{self.sourcesFolder}' does not exist." )
-		#if not os.path.isdir(self.toolsFolder):	# for input, eg /home/u/Desktop/_working/tools
-		#	self.errorExit(f"Patches folder '{self.toolsFolder}' does not exist." )
-		## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-		#if not os.path.isdir(self.fullWorkDir):	# for output, eg /home/u/Desktop/_working/workdir
-		#	self.errorExit(f"/_working folder '{self.fullWorkDir}' does not exist.")
-		## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-		#if not os.path.isdir(self.bitnessPath):	# for output, eg /home/u/Desktop/_working/workdir/x86_64
-		#	self.errorExit(f"/_working folder '{self.bitnessPath}' does not exist.")
-		## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-		#if not os.path.isdir(self.fullProductDir):	# for output, eg /home/u/Desktop/_working/workdir/x86_64_products
-		#	self.errorExit(f"/_working folder '{self.fullProductDir}' does not exist.")
-		## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-		#if not os.path.isdir(self.fullDependencyDir):	# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
-		#	self.errorExit(f"/_working folder '{self.fullDependencyDir}' does not exist.")
-		#if not os.path.isdir(self.mingw_toolchain_script_folder):	# the subfolder where the toolchain build script resides
-		#	self.errorExit(f"mingw build script folder '{self.mingw_toolchain_script_folder}' does not exist.")
-		#if not os.path.isfile(self.mingw_toolchain_script_path):	# the full path to the toolchain build script
-		#	self.errorExit(f"mingw build script file '{self.mingw_toolchain_script_path}' does not exist." )
-		## ??? hmm, this subfolder may need to be created during setup for building, not here at settings
-		#if not os.path.isdir(self.toolchain_output_path):			# the subfolder where the toolchain building happens
-		#	self.errorExit(f"mingw build folder '{self.toolchain_output_path}' does not exist.")
 
 		print(f"Processing finished Processing initial settings")
 		return
@@ -1050,27 +1097,146 @@ def prepareForBuilding():
 	else:
 		logger.info(f"Creating workdir: '{objSETTINGS.fullWorkDir}'")
 		objSETTINGS.fullWorkDir.mkdir()
-	# cd into the "workdir" subfolder underneath fullWorkDir, where all the build action happens eg /home/u/Desktop/_working/workdir
+	
+	# cd into the "workdir" subfolder underneath fullWorkDir, where all the build action happens eg workdir
 	cchdir(objSETTINGS.fullWorkDir)
 
-	if not objSETTINGS.bitnessPath.exists():		# where dependenciess etc get built eg /home/u/Desktop/_working/workdir/x86_64
+	if not objSETTINGS.bitnessPath.exists():		# where dependenciess etc get built eg workdir/x86_64
 		logger.info(f"Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built")
 		objSETTINGS.bitnessPath.mkdir(exist_ok=True)
-	if not objSETTINGS.fullProductDir.exists():	# where products etc get built eg /home/u/Desktop/_working/workdir/x86_64_products
+	if not objSETTINGS.fullProductDir.exists():	# where products etc get built eg workdir/x86_64_products
 		logger.info(f"Creating fullProductDir: '{objSETTINGS.fullProductDir}' # where products etc get built")
 		objSETTINGS.fullProductDir.mkdir(exist_ok=True)
 	if not objSETTINGS.offtreePrefix.exists():
-		logger.info(f"Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg /home/u/Desktop/_working/x86_64_offtree")
+		logger.info(f"Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg x86_64_offtree")
 		objSETTINGS.offtreePrefix.mkdir(exist_ok=True)
 	# objSETTINGS.fullOutputDir superseded by objSETTINGS.toolchain_output_path
-	if not objSETTINGS.toolchain_output_path.exists():		# not sure what the heck goes here, piossibly ming64 buildsin stuff ??? eg /home/u/Desktop/_working/workdir/win64_output
+	if not objSETTINGS.toolchain_output_path.exists():		# not sure what the heck goes here, piossibly ming64 buildsin stuff ??? eg workdir/win64_output
 		logger.info(f"Creating toolchain_output_path: '{objSETTINGS.toolchain_output_path}' # possibly ?? where mingw64 toolchain build stuff temporarily goes")
 		objSETTINGS.toolchain_output_path.mkdir(exist_ok=True)
 
 	# Don't create these folders here as they are instead created during the mingW build process
-	#	objSETTINGS.mingwBinpath		# e.g. workdir/xcompilers/x86_64-w64-mingw32/bin
-	#	objSETTINGS.mingwBinpath2		# e.g. workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
-	#	objSETTINGS.targetPrefix		# e.g. workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
+	#	objSETTINGS.mingwBinpath		# eg workdir/xcompilers/x86_64-w64-mingw32/bin
+	#	objSETTINGS.mingwBinpath2		# eg workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
+	#	objSETTINGS.targetPrefix		# eg workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
+
+
+
+??????????????????????????????
+
+
+	#if not os.path.isdir(self.packagesFolder):										# for input, eg packages
+	#	self.errorExit(f"Packages folder '{self.packagesFolder}' does not exist.")
+	#if not os.path.isdir(self.prodFolder):											# for input, eg packages/products
+	#	self.errorExit(f"Packages Products folder '{self.prodFolder}' does not exist.")
+	#if not os.path.isdir(delf.depsFolder):											# for input, eg packages/dependencies
+	#	self.errorExit(f"Packages Dependencies folder '{self.depsFolder}' does not exist.")
+	#if not os.path.isfile(self.varsPath):											# for input, eg packages/variables.py
+	#	self.errorExit(f"Variables file '{self.varsPath}' does not exist." )
+	#if not os.path.isdir(self.patchesFolder):										# for input, eg packages
+	#	self.errorExit(f"Patches folder '{self.patchesFolder}' does not exist." )
+	#if not os.path.isdir(self.additionalheadersFolder):							# for input, eg additional_headers
+	#	self.errorExit(f"additional_headers folder '{self.additionalheadersFolder}' does not exist." )
+	#if not os.path.isdir(self.sourcesFolder):										# for input, eg sources
+	#	self.errorExit(f"Patches folder '{self.sourcesFolder}' does not exist." )
+	#if not os.path.isdir(self.toolsFolder):										# for input, eg tools
+	#	self.errorExit(f"Patches folder '{self.toolsFolder}' does not exist." )
+	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
+	#if not os.path.isdir(self.fullWorkDir):										# for output, eg workdir
+	#	self.errorExit(f"/_working folder '{self.fullWorkDir}' does not exist.")
+	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
+	#if not os.path.isdir(self.bitnessPath):										# for output, eg workdir/x86_64
+	#	self.errorExit(f"/_working folder '{self.bitnessPath}' does not exist.")
+	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
+	#if not os.path.isdir(self.fullProductDir):										# for output, eg workdir/x86_64_products
+	#	self.errorExit(f"/_working folder '{self.fullProductDir}' does not exist.")
+	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
+	#if not os.path.isdir(self.fullDependencyDir):									# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
+	#	self.errorExit(f"/_working folder '{self.fullDependencyDir}' does not exist.")
+	#if not os.path.isdir(self.mingw_toolchain_script_folder):						# the subfolder where the toolchain build script resides
+	#	self.errorExit(f"mingw build script folder '{self.mingw_toolchain_script_folder}' does not exist.")
+	#if not os.path.isfile(self.mingw_toolchain_script_path):						# the full path to the toolchain build script
+	#	self.errorExit(f"mingw build script file '{self.mingw_toolchain_script_path}' does not exist." )
+	## ??? hmm, this subfolder may need to be created during setup for building, not here at settings
+	#if not os.path.isdir(self.toolchain_output_path):								# the subfolder where the toolchain building happens
+	#	self.errorExit(f"mingw build folder '{self.toolchain_output_path}' does not exist.")
+
+
+??????????????????????????????
+
+
+		self.formatDict = defaultdict(lambda: "")
+		self.formatDict.update(
+			{
+				'cmake_prefix_options': self.cmakePrefixOptions,
+				'cmake_prefix_options_old': self.cmakePrefixOptionsOld,
+				'make_prefix_options': self.makePrefixOptions,
+				'autoconf_prefix_options': self.autoConfPrefixOptions,
+				'pkg_config_path': self.pkgConfigPath,
+				'local_pkg_config_path': self.localPkgConfigPath,
+				'local_path': self.originalPATH,
+				'mingw_binpath': self.mingwBinpath,
+				'mingw_binpath2': self.mingwBinpath2,
+				'cross_prefix_bare': self.shortCrossPrefixStr,
+				'cross_prefix_full': self.fullCrossPrefixStr,
+				'target_prefix': self.targetPrefix,
+				'project_root': self.projectRoot,
+				'work_dir': self.fullWorkDir,
+				'inTreePrefix': self.inTreePrefix,
+				'offtree_prefix': self.offtreePrefix,
+				'target_host': self.targetHostStr,
+				'target_sub_prefix': self.targetSubPrefix,
+				'bit_name': self.bitnessStr,
+				'bit_name2': self.bitnessStr2,
+				'bit_name3': self.bitnessStr3,
+				'bit_name_win': self.bitnessStrWin,
+				'bit_num': self.currentBitness,
+				'product_prefix': self.fullProductDir,
+				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
+				'make_cpu_count': "-j {0}".format(self.cpuCount),
+				'original_cflags': self.originalCflags,
+				'cflag_string': self.generateCflagString('--extra-cflags='),
+				'current_path': os.getcwd(),
+				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
+				'meson_env_file': self.mesonEnvFile
+				# 2019.12.13 --- add own hydra3333 variables
+				,'target_OS': self.targetOSStr
+				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				,'original_cflags_trim': self.originalCflags_trim # 2020.05.13
+				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
+				,'original_stack_protector_trim' : self.original_stack_protector_trim # 2020.05.13
+				,'original_fortify_source' : self.original_fortify_source # 2019.11.15
+				,'original_fortify_source_trim' : self.original_fortify_source_trim # 2020.05.13
+				,'original_cflag': self.originalCflag # 2020.05.13
+				,'original_cflag_trim': self.originalCflag_trim # 2020.05.13
+			}
+		)
+
+		self.config = self.formatConfig(self.config)
+		self.toolchain_output_path = self.projectRoot.joinpath(self.replaceToolChainVars(self.config["toolchain"]["output_path"]))
+		self.formatDict['output_prefix'] = str(self.toolchain_output_path)
+
+		os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
+		# os.environ["PATH"] = "{0}:{1}:{2}".format (self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # TODO: properly test this..
+		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
+		os.environ["PKG_CONFIG_LIBDIR"] = ""
+		os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
+		os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
+
+
+
+
+
+
+??????????????????????????????
+
+
+
+
+
+
+
 
 	# Always RE-create the toolchain build file for meson every time, in case  we have changed something
 	#if not os.path.isfile(objSETTINGS.mesonEnvFile):
@@ -1325,7 +1491,7 @@ if __name__ == "__main__":
 	# Initialize and load Products - note the use of a fixed text string type="P" to identify it as a product
 	logger.info(f"Processing initialize and load products")
 	dictProducts = dot_py_object_dict(name='PRODUCTS')	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
-	products_folder_to_parse = objSETTINGS.prodFolder	# for input, eg /home/u/Desktop/_working/packages/products
+	products_folder_to_parse = objSETTINGS.prodFolder	# for input, eg packages/products
 	dictProducts.load_py_files(folder=products_folder_to_parse, heading='Product')
 	#dictProducts.dump_vars(heading='PRODUCT VARIABLES DUMP:')
 	logger.info(f"Finished Processing initialize and load products")
@@ -1333,7 +1499,7 @@ if __name__ == "__main__":
 	# Initialize and load dependencies - note the use of a fixed text string type="D" to identify it as a dependencies
 	logger.info(f"Processing initialize and load dependencies")
 	dictDependencies = dot_py_object_dict(name='DEPENDENCIES')	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
-	dependencies_folder_to_parse = objSETTINGS.depsFolder	# for input, eg /home/u/Desktop/_working/packages/dependencies
+	dependencies_folder_to_parse = objSETTINGS.depsFolder	# for input, eg packages/dependencies
 	dictDependencies.load_py_files(folder=dependencies_folder_to_parse, heading='Dependency')
 	#dictDependencies.dump_vars(heading='DEPENDENCY VARIABLES DUMP:')
 	logger.info(f"Finished Processing initialize and load dependencies")
@@ -1341,7 +1507,7 @@ if __name__ == "__main__":
 	# Initialize and load the Variables - note the use of a fixed text string type="V" to identify it as a Variables
 	logger.debug(f"Processing initialize and load variables.py")
 	objVariables = dot_py_object(name='VARIABLES') # an object of the variables, of class dot_py_object
-	variables_file_to_parse = objSETTINGS.varsPath	# for input, eg /home/u/Desktop/_working/packages/variables.py
+	variables_file_to_parse = objSETTINGS.varsPath	# for input, eg packages/variables.py
 	objVariables.load_py_file(file=variables_file_to_parse, heading='Variables')
 	#objVariables.dump_vars(heading='variables.py VARIABLES DUMP:')
 	logger.info(f"Finished Processing initialize and load variables.py")
