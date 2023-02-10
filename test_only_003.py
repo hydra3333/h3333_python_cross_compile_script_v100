@@ -159,16 +159,17 @@ class settings:
 		self.targetBitness = self.bitness
 		self.cpu_count = cpu_count()									# number of CPUs on this machine
 		self.projectRoot = Path(os.getcwd())							# root folder for this script eg /home/u/Desktop/_working
-		self.originalPATH = os.environ["PATH"] 							# the original environment path, used for resets
+		self.originalPATH = os.getenv("PATH") 							# the original environment search path before we add to it
 
 		self.packages_subfolder = 'packages'							# 'packages' is the subfolder where the .py files reside
 		self.patches_subfolder = 'patches'								# 'patches' is the subfolder where the patch files reside
-		
 		self.additionalheaders_subfolder = 'additional_headers'			# 'additional_headers' is where additional headers reside
 		self.sources_subfolder = 'sources'								# 'sources' is where some sources reside
 		self.tools_subfolder = 'tools'									# 'tools' is where some tools reside
 		
-		self.workdir_subfolder ='workdir'								# 'workdir'  is the subfolder where actual build stuff happens
+		self.workdir_subfolder ='workdir'											# 'workdir'  is the subfolder where actual build stuff happens
+		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)		# for output, eg workdir
+
 		self.bitnessStr = "x86_64"										# eg x86_64 underneath workdir_subfolder
 		self.bitnessStr2 = "x86_64"										# just for vpx... underneath workdir_subfolder
 		self.bitnessStr3 = "mingw64"									# just for openssl... underneath workdir_subfolder
@@ -214,7 +215,6 @@ class settings:
 		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg packages
 		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg packages
 
-		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)			# for output, eg workdir
 
 		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)					# for output, eg workdir/x86_64
 		self.fullProductDir = self.bitnessPath.joinpath('_products')					# for output, eg workdir/x86_64_products
@@ -230,91 +230,115 @@ class settings:
 		self.mingwBinpath  = self.mingwpath.joinpath("bin")  																# eg workdir/toolchain/x86_64-w64-mingw32/bin
 		self.mingwBinpath2 = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32", "bin")								# eg workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
 
-		self.targetPrefix  = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32", self.targetHostStr)					# eg workdir/toolchain/x86_64-w64-mingw32/mingw-w64-x86_64/x86_64-w64-mingw32
 		self.targetSubPrefix = self.mingwpath																				# eg workdir/toolchain/mingw-w64-x86_64
+		self.targetPrefix  = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32", self.targetHostStr)					# eg workdir/toolchain/x86_64-w64-mingw32/mingw-w64-x86_64/x86_64-w64-mingw32
+		self.fullCrossPrefixStr = self.mingwBinpath.joinpath(self.shortCrossPrefixStr)										# eg workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-
 
 		self.inTreePrefix = self.bitnessPath													 							# eg workdir/x86_64
 		self.offtreePrefix = self.fullOfftreeDir																			# eg workdir/x86_64_offtree
 
 
-		??? WHICH IS IT ?
-		# original
-		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.bitnessStr}-w64-mingw32-"										# e.g workdir/toolchain/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
-		# new draft 
-		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.shortCrossPrefixStr")											# e.g workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32-
-
-#
 # DIRECTLY FROM A RUN:
 #
-# fullWorkDir='/home/u/Desktop/_working/workdir'
-# currentBitness='64'
-# bitnessStr='x86_64'
-# bitnessPath='/home/u/Desktop/_working/workdir/x86_64'
-# bitnessStr2='x86_64'
-# bitnessStr3='mingw64'
-# bitnessStrWin='win64'
-# targetHostStr='x86_64-w64-mingw32'
-# targetPrefix='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
-# inTreePrefix='/home/u/Desktop/_working/workdir/x86_64'
-# offtreePrefix='/home/u/Desktop/_working/workdir/x86_64_offtree'
-# targetSubPrefix='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32'
-# mingwBinpath='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin'
-# mingwBinpath2='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'
-# fullCrossPrefixStr='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'
-# shortCrossPrefixStr='x86_64-w64-mingw32-'
-# autoConfPrefixOptions='--with-sysroot="/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'
-# makePrefixOptions='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'
-# pkgConfigPath='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
-# localPkgConfigPath='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
-# mesonEnvFile='/home/u/Desktop/_working/workdir/meson_environment.txt'
-# cmakeToolchainFile='/home/u/Desktop/_working/workdir/mingw_toolchain.cmake'
-# cmakePrefixOptions='-DCMAKE_TOOLCHAIN_FILE="/home/u/Desktop/_working/workdir/mingw_toolchain.cmake" -G"Ninja"'
-# cmakePrefixOptionsOld='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
-# cpuCount='6'
-# original_stack_protector='-fstack-protector-all'
-# original_stack_protector_trim='-fstack-protector-all'
-# original_fortify_source='-D_FORTIFY_SOURCE=2'
-# original_fortify_source_trim='-D_FORTIFY_SOURCE=2'
-# originalCflag='-O3'
-# originalCflag_trim='-O3'
-# originalCflags='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '
-# originalCflags_trim='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'
-# originbalLdLibPath=''
-# fullProductDir='/home/u/Desktop/_working/workdir/x86_64_products
+# self.fullWorkDir='workdir'					# wow.
+# self.currentBitness='64'
+# self.bitnessStr='x86_64'
+# self.bitnessPath='workdir/x86_64'
+# self.bitnessStr2='x86_64'
+# self.bitnessStr3='mingw64'
+# self.targetOSStr='mingw64'
+# self.bitnessStrWin='win64'
+# self.targetHostStr='x86_64-w64-mingw32'
+# self.targetPrefix='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+# self.inTreePrefix='workdir/x86_64'
+# self.offtreePrefix='workdir/x86_64_offtree'
+# self.targetSubPrefix='workdir/toolchain/x86_64-w64-mingw32'
+# self.mingwBinpath='workdir/toolchain/x86_64-w64-mingw32/bin'
+# self.mingwBinpath2='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'
+# self.fullCrossPrefixStr='workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'
+# self.shortCrossPrefixStr='x86_64-w64-mingw32-'
+# self.autoConfPrefixOptions='--with-sysroot="workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'
+# self.makePrefixOptions='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'
+# self.pkgConfigPath='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
+# self.localPkgConfigPath='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
+# self.mesonEnvFile='workdir/meson_environment.txt'
+# self.cmakeToolchainFile='workdir/mingw_toolchain.cmake'
+# self.cmakePrefixOptions='-DCMAKE_TOOLCHAIN_FILE="workdir/mingw_toolchain.cmake" -G"Ninja"'
+# self.cmakePrefixOptionsOld='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+# self.cpuCount='6'
+# self.original_stack_protector='-fstack-protector-all'
+# self.original_stack_protector_trim='-fstack-protector-all'
+# self.original_fortify_source='-D_FORTIFY_SOURCE=2'
+# self.original_fortify_source_trim='-D_FORTIFY_SOURCE=2'
+# self.originalCflag='-O3'
+# self.originalCflag_trim='-O3'
+# self.originalCflags='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '
+# self.originalCflags_trim='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'
+# self.originbalLdLibPath=''
+# self.fullProductDir='workdir/x86_64_products'
+# self.config='{'script': {'debug': False, 'log_date_format': '%H:%M:%S', 'log_format': '[%(asctime)s][%(levelname)s]%(type)s %(message)s', 'mingw_toolchain_path': 'mingw_toolchain_script/mingw_toolchain_script_v100_002_like_zeranoe.py', 'packages_folder': 'packages', 'product_order': ['mpv', 'ffmpeg'], 'quiet': False, 'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'}, 'toolchain': {'bitness': [64], 'cpu_count': 6, 'mingw_commit': None, 'mingw_custom_cflags': None, 'mingw_debug_build': False, 'mingw_dir': 'toolchain', 'original_cflags': '-O3', 'original_fortify_source': '-D_FORTIFY_SOURCE=2', 'original_stack_protector': '-fstack-protector-all', 'output_path': 'workdir/win64_output', 'work_dir': 'workdir'}, 'version': 1.0}'
+# self.fullOutputDir='(self.fullOutputDir)'
+# self.fullOutputDir='/home/u/Desktop/_working/workdir/win64_output'
 
-deadsix27's
 
-		
-		self.fullCrossPrefixStr = F"{self.mingwBinpath}/{self.bitnessStr}-w64-mingw32-"  # e.g workdir/xcompilers/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
-		
-		
-		self.autoConfPrefixOptions = F'--with-sysroot="{self.targetSubPrefix}" --host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
-		self.makePrefixOptions = F'CC={self.shortCrossPrefixStr}gcc ' \
-			F"AR={self.shortCrossPrefixStr}ar " \
-			F"PREFIX={self.targetPrefix} " \
-			F"RANLIB={self.shortCrossPrefixStr}ranlib " \
-			F"LD={self.shortCrossPrefixStr}ld " \
-			F"STRIP={self.shortCrossPrefixStr}strip " \
-			F'CXX={self.shortCrossPrefixStr}g++'  # --sysroot="{self.targetSubPrefix}"'
-		self.pkgConfigPath = "{0}/lib/pkgconfig".format(self.targetPrefix)  # e.g workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32/lib/pkgconfig
-		self.localPkgConfigPath = self.aquireLocalPkgConfigPath()
-		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")
-		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")
-		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
-		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
-		self.cpuCount = self.config["toolchain"]["cpu_count"]
-		self.original_stack_protector = self.config["toolchain"]["original_stack_protector"]  # 2019.12.13
-		self.original_stack_protector_trim = self.config["toolchain"]["original_stack_protector"].strip() # 2020.05.13
-		self.original_fortify_source  = self.config["toolchain"]["original_fortify_source"] # 2019.12.13
-		self.original_fortify_source_trim  = self.config["toolchain"]["original_fortify_source"].strip() # 2020.05.13
-		self.originalCflag = self.config["toolchain"]["original_cflags"] # 2020.05.13 singular
-		self.originalCflag_trim = self.config["toolchain"]["original_cflags"].strip() # 2020.05.13 singular
-		self.originalCflags = "  " + self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"] + "  " # 2019.12.13 added stack protector and fortify source
-		self.originalCflags_trim = (self.config["toolchain"]["original_cflags"] + "  " + self.config["toolchain"]["original_stack_protector"] + "  " + self.config["toolchain"]["original_fortify_source"]).strip() # 2020.05.13
-		self.originbalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
-		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")
-		GLOBAL_fullProductDir = self.fullProductDir
 
+
+# deadsix27's SUBSCTITUTION DICTIONARY DUMP
+
+# self.formatDict['cmake_prefix_options']='-DCMAKE_TOOLCHAIN_FILE="workdir/mingw_toolchain.cmake" -G"Ninja"'			#	cmake_prefix_options='-DCMAKE_TOOLCHAIN_FILE="workdir/mingw_toolchain.cmake" -G"Ninja"'
+# self.formatDict['cmake_prefix_options_old']='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'			#	cmake_prefix_options_old='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+# self.formatDict['make_prefix_options']='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'			#	make_prefix_options='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'
+# self.formatDict['autoconf_prefix_options']='--with-sysroot="workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'			#	autoconf_prefix_options='--with-sysroot="workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'
+# self.formatDict['pkg_config_path']='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'			#	pkg_config_path='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
+# self.formatDict['local_pkg_config_path']='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'			#	local_pkg_config_path='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
+# self.formatDict['local_path']='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'			#	local_path='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
+# self.formatDict['mingw_binpath']='workdir/toolchain/x86_64-w64-mingw32/bin'			#	mingw_binpath='workdir/toolchain/x86_64-w64-mingw32/bin'
+# self.formatDict['mingw_binpath2']='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'			#	mingw_binpath2='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'
+# self.formatDict['cross_prefix_bare']='x86_64-w64-mingw32-'			#	cross_prefix_bare='x86_64-w64-mingw32-'
+# self.formatDict['cross_prefix_full']='workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'			#	cross_prefix_full='workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'
+# self.formatDict['target_prefix']='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'			#	target_prefix='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
+# self.formatDict['project_root']='/home/u/Desktop/_working'			#	project_root='/home/u/Desktop/_working'
+# self.formatDict['work_dir']='workdir'			#	work_dir='workdir'
+# self.formatDict['inTreePrefix']='workdir/x86_64'			#	inTreePrefix='workdir/x86_64'
+# self.formatDict['offtree_prefix']='workdir/x86_64_offtree'			#	offtree_prefix='workdir/x86_64_offtree'
+# self.formatDict['target_host']='x86_64-w64-mingw32'			#	target_host='x86_64-w64-mingw32'
+# self.formatDict['target_sub_prefix']='workdir/toolchain/x86_64-w64-mingw32'			#	target_sub_prefix='workdir/toolchain/x86_64-w64-mingw32'
+# self.formatDict['bit_name']='x86_64'			#	bit_name='x86_64'
+# self.formatDict['bit_name2']='x86_64'			#	bit_name2='x86_64'
+# self.formatDict['bit_name3']='mingw64'			#	bit_name3='mingw64'
+# self.formatDict['bit_name_win']='win64'			#	bit_name_win='win64'
+# self.formatDict['bit_num']='64'			#	bit_num='64'
+# self.formatDict['product_prefix']='workdir/x86_64_products'			#	product_prefix='workdir/x86_64_products'
+# self.formatDict['target_prefix_sed_escaped']='\/home\/u\/Desktop\/_working\/workdir\/toolchain\/x86_64-w64-mingw32\/x86_64-w64-mingw32'			#	target_prefix_sed_escaped='\/home\/u\/Desktop\/_working\/workdir\/toolchain\/x86_64-w64-mingw32\/x86_64-w64-mingw32'
+# self.formatDict['make_cpu_count']='-j 6'			#	make_cpu_count='-j 6'
+# self.formatDict['original_cflags']='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '			#	original_cflags='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '
+# self.formatDict['cflag_string']=''			#	cflag_string=''
+# self.formatDict['current_path']='workdir'			#	current_path='workdir'
+# self.formatDict['current_envpath']='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'			#	current_envpath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
+# self.formatDict['meson_env_file']='workdir/meson_environment.txt'			#	meson_env_file='workdir/meson_environment.txt'
+# self.formatDict['target_OS']='mingw64'			#	target_OS='mingw64'
+# self.formatDict['prefix']='{prefix}'			#	prefix='{prefix}'
+# self.formatDict['exec_prefix']='{exec_prefix}'			#	exec_prefix='{exec_prefix}'
+# self.formatDict['original_cflags_trim']='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'			#	original_cflags_trim='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'
+# self.formatDict['original_stack_protector']='-fstack-protector-all'			#	original_stack_protector='-fstack-protector-all'
+# self.formatDict['original_stack_protector_trim']='-fstack-protector-all'			#	original_stack_protector_trim='-fstack-protector-all'
+# self.formatDict['original_fortify_source']='-D_FORTIFY_SOURCE=2'			#	original_fortify_source='-D_FORTIFY_SOURCE=2'
+# self.formatDict['original_fortify_source_trim']='-D_FORTIFY_SOURCE=2'			#	original_fortify_source_trim='-D_FORTIFY_SOURCE=2'
+# self.formatDict['original_cflag']='-O3'			#	original_cflag='-O3'
+# self.formatDict['original_cflag_trim']='-O3'			#	original_cflag_trim='-O3'
+# self.formatDict['output_prefix']='workdir/win64_output'			#	output_prefix='workdir/win64_output'
+
+# before: os.environ['PATH']='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
+# before: os.environ['PKG_CONFIG_PATH']='None'
+# before: os.environ['PKG_CONFIG_LIBDIR']='None'
+# before: os.environ['COLOR']='None'
+# before: os.environ['CLICOLOR_FORCE']='None'
+
+# after :  os.environ['PATH']='workdir/toolchain/x86_64-w64-mingw32/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
+# after : os.environ['PKG_CONFIG_PATH']='workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
+# after : os.environ['PKG_CONFIG_LIBDIR']=''
+# after : os.environ['COLOR']='ON'
+# after : os.environ['CLICOLOR_FORCE']='ON'
 
 
 		print(f"Processing finished Processing initial settings")
@@ -1122,9 +1146,7 @@ def prepareForBuilding():
 
 
 
-??????????????????????????????
-
-
+#??????????????????????????????
 	#if not os.path.isdir(self.packagesFolder):										# for input, eg packages
 	#	self.errorExit(f"Packages folder '{self.packagesFolder}' does not exist.")
 	#if not os.path.isdir(self.prodFolder):											# for input, eg packages/products
@@ -1160,76 +1182,7 @@ def prepareForBuilding():
 	## ??? hmm, this subfolder may need to be created during setup for building, not here at settings
 	#if not os.path.isdir(self.toolchain_output_path):								# the subfolder where the toolchain building happens
 	#	self.errorExit(f"mingw build folder '{self.toolchain_output_path}' does not exist.")
-
-
-??????????????????????????????
-
-
-		self.formatDict = defaultdict(lambda: "")
-		self.formatDict.update(
-			{
-				'cmake_prefix_options': self.cmakePrefixOptions,
-				'cmake_prefix_options_old': self.cmakePrefixOptionsOld,
-				'make_prefix_options': self.makePrefixOptions,
-				'autoconf_prefix_options': self.autoConfPrefixOptions,
-				'pkg_config_path': self.pkgConfigPath,
-				'local_pkg_config_path': self.localPkgConfigPath,
-				'local_path': self.originalPATH,
-				'mingw_binpath': self.mingwBinpath,
-				'mingw_binpath2': self.mingwBinpath2,
-				'cross_prefix_bare': self.shortCrossPrefixStr,
-				'cross_prefix_full': self.fullCrossPrefixStr,
-				'target_prefix': self.targetPrefix,
-				'project_root': self.projectRoot,
-				'work_dir': self.fullWorkDir,
-				'inTreePrefix': self.inTreePrefix,
-				'offtree_prefix': self.offtreePrefix,
-				'target_host': self.targetHostStr,
-				'target_sub_prefix': self.targetSubPrefix,
-				'bit_name': self.bitnessStr,
-				'bit_name2': self.bitnessStr2,
-				'bit_name3': self.bitnessStr3,
-				'bit_name_win': self.bitnessStrWin,
-				'bit_num': self.currentBitness,
-				'product_prefix': self.fullProductDir,
-				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
-				'make_cpu_count': "-j {0}".format(self.cpuCount),
-				'original_cflags': self.originalCflags,
-				'cflag_string': self.generateCflagString('--extra-cflags='),
-				'current_path': os.getcwd(),
-				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
-				'meson_env_file': self.mesonEnvFile
-				# 2019.12.13 --- add own hydra3333 variables
-				,'target_OS': self.targetOSStr
-				,'prefix' : "{prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
-				,'exec_prefix' : "{exec_prefix}" # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
-				,'original_cflags_trim': self.originalCflags_trim # 2020.05.13
-				,'original_stack_protector' : self.original_stack_protector # 2019.11.15
-				,'original_stack_protector_trim' : self.original_stack_protector_trim # 2020.05.13
-				,'original_fortify_source' : self.original_fortify_source # 2019.11.15
-				,'original_fortify_source_trim' : self.original_fortify_source_trim # 2020.05.13
-				,'original_cflag': self.originalCflag # 2020.05.13
-				,'original_cflag_trim': self.originalCflag_trim # 2020.05.13
-			}
-		)
-
-		self.config = self.formatConfig(self.config)
-		self.toolchain_output_path = self.projectRoot.joinpath(self.replaceToolChainVars(self.config["toolchain"]["output_path"]))
-		self.formatDict['output_prefix'] = str(self.toolchain_output_path)
-
-		os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
-		# os.environ["PATH"] = "{0}:{1}:{2}".format (self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # TODO: properly test this..
-		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
-		os.environ["PKG_CONFIG_LIBDIR"] = ""
-		os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
-		os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
-
-
-
-
-
-
-??????????????????????????????
+#??????????????????????????????
 
 
 
@@ -1459,7 +1412,7 @@ if __name__ == "__main__":
 	# Initialize global settings, they can be overridden later by commandline options
 	objSETTINGS = settings()
 	if objSETTINGS.debugMode:
-		objSETTINGS.dump_vars('### debugMode: SETTINGS INTERNAL VARIABLES DUMP:')
+		objSETTINGS.dump_vars('### debugMode: DEBUG SETTINGS INTERNAL VARIABLES DUMP:')
 	
 	# Initialize Logging, this depends on objSETTINGS being initialized first
 	initLogger()
