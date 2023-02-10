@@ -999,6 +999,7 @@ class CrossCompileScript:
 		self.fullOutputDir = self.projectRoot.joinpath(self.replaceToolChainVars(self.config["toolchain"]["output_path"]))
 		self.formatDict['output_prefix'] = str(self.fullOutputDir)
 
+		print("")
 		print(f"self.fullWorkDir='{self.fullWorkDir}'")
 		print(f"self.currentBitness='{self.currentBitness}'")
 		print(f"self.bitnessStr='{self.bitnessStr}'")
@@ -1036,15 +1037,17 @@ class CrossCompileScript:
 		print(f"self.fullProductDir='{self.fullProductDir}'")
 		print(f"self.config='{self.config}'")
 		print(f"self.fullOutputDir='(self.fullOutputDir)'")
-		
-		for k, v in formatDict:
-			print(f"formatDict['{k}']='{v}'			#	{k}='{v}'")
+		print("")
+		for k, v in self.formatDict.items():
+			print(f"self.formatDict['{k}']='{v}'			#	{k}='{v}'")
+		print("")
 
-		print(f"before: os.environ['PATH']='{os.environ['PATH']}'")
-		print(f"before: os.environ['PKG_CONFIG_PATH']='{os.environ['PKG_CONFIG_PATH']}'")
-		print(f"before: os.environ['PKG_CONFIG_LIBDIR']='{os.environ['PKG_CONFIG_LIBDIR']}'")
-		print(f"before: os.environ['COLOR']='{os.environ['COLOR']}'")
-		print(f"before: os.environ['CLICOLOR_FORCE']='{os.environ['CLICOLOR_FORCE']}'")
+		print(f"before: os.environ['PATH']='{os.getenv('PATH')}'")
+		print(f"before: os.environ['PKG_CONFIG_PATH']='{os.getenv('PKG_CONFIG_PATH')}'")
+		print(f"before: os.environ['PKG_CONFIG_LIBDIR']='{os.getenv('PKG_CONFIG_LIBDIR')}'")
+		print(f"before: os.environ['COLOR']='{os.getenv('COLOR')}'")
+		print(f"before: os.environ['CLICOLOR_FORCE']='{os.getenv('CLICOLOR_FORCE')}'")
+		print("")
 
 		os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
 		# os.environ["PATH"] = "{0}:{1}:{2}".format (self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # TODO: properly test this..
@@ -1053,11 +1056,13 @@ class CrossCompileScript:
 		os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
 		os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
 
-		print(f"after :  os.environ['PATH']='{os.environ['PATH']}'")
-		print(f"after : os.environ['PKG_CONFIG_PATH']='{os.environ['PKG_CONFIG_PATH']}'")
-		print(f"after : os.environ['PKG_CONFIG_LIBDIR']='{os.environ['PKG_CONFIG_LIBDIR']}'")
-		print(f"after : os.environ['COLOR']='{os.environ['COLOR']}'")
-		print(f"after : os.environ['CLICOLOR_FORCE']='{os.environ['CLICOLOR_FORCE']}'")
+		print("")
+		print(f"after :  os.environ['PATH']='{os.getenv('PATH')}'")
+		print(f"after : os.environ['PKG_CONFIG_PATH']='{os.getenv('PKG_CONFIG_PATH')}'")
+		print(f"after : os.environ['PKG_CONFIG_LIBDIR']='{os.getenv('PKG_CONFIG_LIBDIR')}'")
+		print(f"after : os.environ['COLOR']='{os.getenv('COLOR')}'")
+		print(f"after : os.environ['CLICOLOR_FORCE']='{os.getenv('CLICOLOR_FORCE')}'")
+		print("")
 
 	#:
 
