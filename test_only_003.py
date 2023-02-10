@@ -276,6 +276,9 @@ class settings:
 
 		# toolchain_output_path is the same as deadsix27 fullOutputDir
 		self.toolchain_output_path = self.fullWorkDir.joinpath(self.bitnessStrWin + "_output")	# eg workdir/win64_output
+		# toolchain_output_path is the same as deadsix27 fullOutputDir
+		self.fullOutputDir = self.toolchain_output_path									# duplicated, cull later
+
 
 		self.mingwpath     = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder, self.bitnessStr + "-w64-mingw32") 	# eg workdir/toolchain/x86_64-w64-mingw32
 		self.targetPrefix  = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32") 										# eg workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32
@@ -300,16 +303,15 @@ class settings:
 		self.cmakePrefixOptions = F'-DCMAKE_TOOLCHAIN_FILE="{self.cmakeToolchainFile}" -G\"Ninja\"'
 		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
 		self.cpuCount = self.cpu_count		# ??? WHY HAVE 2 VARIABLES FOR THE SAME THING ???
+		self.originalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
 		#CHECKED  UP TO HERE
+		# toolchain_output_path is the same as deadsix27 fullOutputDir
 
 		'''
 
-
-self.originbalLdLibPath=''
-self.fullProductDir='/home/u/Desktop/_working/workdir/x86_64_products'
 self.config='{'script': {'debug': False, 'log_date_format': '%H:%M:%S', 'log_format': '[%(asctime)s][%(levelname)s]%(type)s %(message)s', 'mingw_toolchain_path': 'mingw_toolchain_script/mingw_toolchain_script_v100_002_like_zeranoe.py', 'packages_folder': 'packages', 'product_order': ['mpv', 'ffmpeg'], 'quiet': False, 'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'}, 'toolchain': {'bitness': [64], 'cpu_count': 6, 'mingw_commit': None, 'mingw_custom_cflags': None, 'mingw_debug_build': False, 'mingw_dir': 'toolchain', 'original_cflags': '-O3', 'original_fortify_source': '-D_FORTIFY_SOURCE=2', 'original_stack_protector': '-fstack-protector-all', 'output_path': '/home/u/Desktop/_working/workdir/win64_output', 'work_dir': 'workdir'}, 'version': 1.0}'
-self.fullOutputDir='/home/u/Desktop/_working/workdir/win64_output'
+
 
 self.formatDict['cmake_prefix_options']='-DCMAKE_TOOLCHAIN_FILE="/home/u/Desktop/_working/workdir/mingw_toolchain.cmake" -G"Ninja"'			#	cmake_prefix_options='-DCMAKE_TOOLCHAIN_FILE="/home/u/Desktop/_working/workdir/mingw_toolchain.cmake" -G"Ninja"'
 self.formatDict['cmake_prefix_options_old']='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'			#	cmake_prefix_options_old='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
