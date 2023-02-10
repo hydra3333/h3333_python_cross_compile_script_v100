@@ -1036,7 +1036,7 @@ class CrossCompileScript:
 		print(f"self.originbalLdLibPath='{self.originbalLdLibPath}'")
 		print(f"self.fullProductDir='{self.fullProductDir}'")
 		print(f"self.config='{self.config}'")
-		print(f"self.fullOutputDir='(self.fullOutputDir)'")
+		print(f"self.fullOutputDir='{self.fullOutputDir}'")
 		print("")
 		for k, v in self.formatDict.items():
 			print(f"self.formatDict['{k}']='{v}'			#	{k}='{v}'")
