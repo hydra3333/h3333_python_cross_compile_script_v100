@@ -1006,6 +1006,7 @@ class CrossCompileScript:
 		print(f"self.bitnessPath='{self.bitnessPath}'")
 		print(f"self.bitnessStr2='{self.bitnessStr2}'")
 		print(f"self.bitnessStr3='{self.bitnessStr3}'")
+		print(f"self.targetOSStr='{self.targetOSStr}'")
 		print(f"self.bitnessStrWin='{self.bitnessStrWin}'")
 		print(f"self.targetHostStr='{self.targetHostStr}'")
 		print(f"self.targetPrefix='{self.targetPrefix}'")
