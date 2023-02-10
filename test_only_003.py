@@ -161,7 +161,23 @@ class settings:
 		print(f"\n{len(f)} items ALPHABETIC VALUE ORDER\n")
 		del f
 		return
-	
+
+	def aquireLocalPkgConfigPath(self):	 	# this only works on linux
+		possiblePathsStr = subprocess.check_output('pkg-config --variable pc_path pkg-config', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
+		if possiblePathsStr == "":
+			msg = f"Unable to determine local pkg-config path(s), pkg-config output is empty"
+			logger.error(msg)
+			raise Exception(msg)
+		possiblePaths = [Path(x.strip()) for x in possiblePathsStr.split(":")]
+		for p in possiblePaths:
+			if not p.exists():
+				possiblePaths.remove(p)
+		if not len(possiblePaths):
+			msg = F"Unable to determine local pkg-config path(s), pkg-config output is: {possiblePathsStr}"
+			logger.error(msg)
+			raise Exception(msg)
+		return ":".join(str(x) for x in possiblePaths)
+
 	def __init__(self):
 		# NOTE:	here we fully flesh out all variables
 		#		nothing is left with !CMDxxxCMD! or !VARxxxVAR! type stuff in it
@@ -271,21 +287,6 @@ class settings:
 
 		#CHECKED  UP TO HERE
 
-		def aquireLocalPkgConfigPath(self):	 	# this only works on linux
-			possiblePathsStr = subprocess.check_output('pkg-config --variable pc_path pkg-config', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
-			if possiblePathsStr == "":
-				msg = f"Unable to determine local pkg-config path(s), pkg-config output is empty"
-				logger.error(msg)
-				raise Exception(msg)
-			possiblePaths = [Path(x.strip()) for x in possiblePathsStr.split(":")]
-			for p in possiblePaths:
-				if not p.exists():
-					possiblePaths.remove(p)
-			if not len(possiblePaths):
-				msg = F"Unable to determine local pkg-config path(s), pkg-config output is: {possiblePathsStr}"
-				logger.error(msg)
-				raise Exception(msg)
-			return ":".join(str(x) for x in possiblePaths)
 		self.localPkgConfigPath = self.aquireLocalPkgConfigPath()	# this only works on linux
 
 
@@ -1586,3 +1587,4 @@ if __name__ == "__main__":
 ##########################################################################################################################
 ##########################################################################################################################
 ##########################################################################################################################
+
