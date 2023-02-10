@@ -268,7 +268,6 @@ class settings:
 		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg packages
 		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg packages
 
-
 		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)					# for output, eg workdir/x86_64
 		self.fullProductDir = self.bitnessPath.joinpath('_products')					# for output, eg workdir/x86_64_products
 		self.fullOfftreeDir = self.bitnessPath.joinpath('_offtree')						# for output, eg workdir/x86_64_offtree
@@ -278,7 +277,6 @@ class settings:
 		self.toolchain_output_path = self.fullWorkDir.joinpath(self.bitnessStrWin + "_output")	# eg workdir/win64_output
 		# toolchain_output_path is the same as deadsix27 fullOutputDir
 		self.fullOutputDir = self.toolchain_output_path									# duplicated, cull later
-
 
 		self.mingwpath     = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder, self.bitnessStr + "-w64-mingw32") 	# eg workdir/toolchain/x86_64-w64-mingw32
 		self.targetPrefix  = self.mingwpath.joinpath(self.bitnessStr + "-w64-mingw32") 										# eg workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32
@@ -306,7 +304,84 @@ class settings:
 		self.originalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
 		#CHECKED  UP TO HERE
-		# toolchain_output_path is the same as deadsix27 fullOutputDir
+
+		# what the heck is this doing ???
+		self.formatDict = defaultdict(lambda: "")
+		self.formatDict.update(
+			{
+				'output_prefix': str(self.fullOutputDir),
+				'cmake_prefix_options': self.cmakePrefixOptions,
+				'cmake_prefix_options_old': self.cmakePrefixOptionsOld,
+				'make_prefix_options': self.makePrefixOptions,
+				'autoconf_prefix_options': self.autoConfPrefixOptions,
+				'pkg_config_path': self.pkgConfigPath,
+				'local_pkg_config_path': self.localPkgConfigPath,
+				'local_path': self.originalPATH,
+				'mingw_binpath': self.mingwBinpath,
+				'mingw_binpath2': self.mingwBinpath2,
+				'cross_prefix_bare': self.shortCrossPrefixStr,
+				'cross_prefix_full': self.fullCrossPrefixStr,
+				'target_prefix': self.targetPrefix,
+				'project_root': self.projectRoot,
+				'work_dir': self.fullWorkDir,
+				'inTreePrefix': self.inTreePrefix,
+				'offtree_prefix': self.offtreePrefix,
+				'target_host': self.targetHostStr,
+				'target_sub_prefix': self.targetSubPrefix,
+				'bit_name': self.bitnessStr,
+				'bit_name2': self.bitnessStr2,
+				'bit_name3': self.bitnessStr3,
+				'bit_name_win': self.bitnessStrWin,
+				'bit_num': self.currentBitness,
+				'product_prefix': self.fullProductDir,
+				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
+				'make_cpu_count': "-j {0}".format(self.cpuCount),
+				'original_cflags': self.originalCflags,
+				'cflag_string': self.generateCflagString('--extra-cflags='),
+				'current_path': os.getcwd(),
+				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
+				'meson_env_file': self.mesonEnvFile,
+				#
+				'target_OS': self.targetOSStr,
+				'prefix' : "{prefix}", # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				'exec_prefix' : "{exec_prefix}", # 2018.11.23 added a dummy variable replaced with itself, use in editing vapoursynth .pc files
+				'original_cflags': self.originalCflags_trim,
+				'original_cflags_trim': self.originalCflags_trim,
+				'original_stack_protector' : self.original_stack_protector,
+				'original_stack_protector_trim' : self.original_stack_protector_trim,
+				'original_fortify_source' : self.original_fortify_source,
+				'original_fortify_source_trim' : self.original_fortify_source_trim,
+				'original_cflag': self.originalCflag,
+				'original_cflag_trim': self.originalCflag_trim,
+			}
+		)
+
+		def formatConfig(self, c: dict):
+			def fmt(d):
+				if isinstance(d, dict):
+					return {self.replaceToolChainVars(k): fmt(v) for k, v in d.items()}
+				elif isinstance(d, list):
+					return [fmt(o) for o in d]
+				else:
+					if isinstance(d, str):
+						return self.replaceToolChainVars(d)
+					else:
+						return d
+			try:
+				return fmt(c)
+			except KeyError as e:
+				self.errorExit(F"Failed to parse config file, the variable {e} does not exist.")
+		#
+		# The next bit is formatting self.config into itself using 'self.formatDict' as the source of key/value replcements
+		#self.config = self.formatConfig(self.config) 
+		#
+		# HOWEVER ...
+		# we do not used saved configs any more
+		# since they interfered when making changes to this script and the changes appearing not to work
+		# SO ... we ignore and no longer do saved config stuff
+		#
+		
+
 
 		'''
 
