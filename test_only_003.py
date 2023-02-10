@@ -141,7 +141,7 @@ class settings:
 		#		nothing is left with !CMDxxxCMD! or !VARxxxVAR! type stuff in it
 		#		so, we do not rely on functions like replaceVariables or replaceVariables
 
-		logger.info(f"Processing initial settings")
+		print(f"Processing initial settings")
 		# _working and STATUS stuff first
 		self.debugMode = True											# True or False
 		# be cautious, set the loglevel based on debugMode, but initDebugMode still needs to be called after the logger is initialized outside of this class
@@ -270,7 +270,7 @@ class settings:
 		#if not os.path.isdir(self.toolchain_output_path):			# the subfolder where the toolchain building happens
 		#	self.errorExit(f"mingw build folder '{self.toolchain_output_path}' does not exist.")
 
-		logger.info(f"Processing finished Processing initial settings")
+		print(f"Processing finished Processing initial settings")
 		return
 
 ###################################################################################################
@@ -357,7 +357,7 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 		print(f"dot_py_object({self.name}): Error: " + msg)
 		sys.exit(1)
 		
-	def __init__(self, name=None, Val={}):
+	def __init__(self, name=None):
 		# Variables set here are Instance Variables and are unique to the instantiated Instance
 		self.name = name
 		self.Val = {}							# a dictionary of key/values pairs, in this case the filename/json-values-inside-the-.py
@@ -395,11 +395,12 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 
 	def load_py_file(self, file='', heading=''):
 		# Load the variables.py file from the specified folder tree
+		logger.info(f"Processing 'load_py_file' for {heading}")
 		if not os.path.isfile(file):
 			self.errorExit(f"dot_py_object({self.name}): load_py_file: variables File '{file}' does not exist.")
 		with open(file, "r", encoding="utf-8") as f:
 			p = Path(file)
-			packageName = p.stem.lower()
+			packageName = p.stem.lower()	# this will become the "name" field in the object
 			try:
 				objJSON = ast.literal_eval(f.read())
 				if not isinstance(objJSON, dict):
@@ -412,19 +413,23 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 					if boolKey(objJSON, "_disabled"):
 						logger.debug(f"load_py_file: dot_py_object({self.name}): Ignored {heading} variables File {packageName} due to '_disabled'")
 					else:
-						self.set_data_py(name=self.name, Val=objJSON)
+						self.set_data_py(name=self.name, Val=objJSON)	##### SEE THIS #####
 						logger.debug(f"load_py_file: dot_py_object({self.name}): {heading} variables File '{packageName}.py' loaded")
 			except SyntaxError:
 				self.errorExit(f"load_py_file: dot_py_object({self.name}): Loading {heading} variables File '{packageName}' failed:\n\n{traceback.format_exc()}")
-		logger.info(f"Loaded {heading} variables file into dictionary {self.name}")
+		
+		logger.info(f"Finished Processing 'load_py_file' for variables from {packageName} into {heading} object named {self.name}")
+		logger.info(f"Loaded {len(self.Val)} variables into {heading} object named {self.name}")
 		return
 		
 	def list_print(self, heading=''):
+		logger.info(f"Processing 'list' commandline actions for object {heading}")
 		print(f"")
 		print(f"LIST: {heading}: {len(self.Val.items())} items.\n")
 		for key, val in self.Val.items():
 			pkey = key.ljust(32,' ')
 			print(f" {Colors.GREEN}{pkey}{Colors.RESET} ... '{val}'")
+		logger.info(f"Finished Processing 'list' commandline actions for object {heading}")
 		return
 
 ###################################################################################################
@@ -502,6 +507,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 
 	def load_py_files(self, folder='', heading=''):
 		# Load .py files from the specified folder tree, if they are not disabled
+		logger.info(f"Processing 'load_py_files' for dictionary {heading}")
 		if not os.path.isdir(folder):
 			self.errorExit(f"dot_py_object_dict({self.name}): load_py_files: Folder '{folder}' does not exist.")
 		# Locate and save non-disabled .py file paths from the specified folder tree
@@ -544,10 +550,12 @@ class dot_py_object_dict:			# a dictionary of build objects
 							logger.debug(f"load_py_files: dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
 				except SyntaxError:
 					self.errorExit(f"load_py_files: dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
+		logger.info(f"Finished Processing 'load_py_files' for dictionary {heading}")
 		logger.info(f"Loaded {len(self.BO)} {heading} files into dictionary {self.name}")
 		return
 
 	def list_print(self, heading=''):
+		logger.info(f"Processing 'list' commandline actions for dictionary {heading}")
 		print(f"")
 		print(f"LIST: {heading}: {len(self.BO.items())} items.\n")
 		for key, val in self.BO.items():
@@ -568,6 +576,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 				info = ''
 			pkey = key.ljust(32,' ')
 			print(f" {pkey} ... {info}")
+		logger.info(f"Finished Processing 'list' commandline actions for dictionary {heading}")
 		return
 
 ###################################################################################################
@@ -922,7 +931,8 @@ def info_print_required_by(packageName):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	#logger.debug(f"info_print_required_by: Entered with packageName='{packageName}'")
+	logger.info(f"Processing 'info' 'required_by' ... what packages tree is required_by package {packageName}")
+	logger.debug(f"info_print_required_by: Entered with packageName='{packageName}'")
 	is_recognised = False
 	obj_top_Package = None
 	if packageName in dictProducts.BO:
@@ -962,6 +972,8 @@ def info_print_required_by(packageName):
 	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
 	print(msg)
 	info_print_required_by_recursive(obj_top_Package.name, indent=1)
+	logger.info(f"Finished Processing 'info' 'required_by' ... what packages tree is required_by package {packageName}")
+	logger.debug(f"info_print_required_by: exiting with packageName='{packageName}'")
 
 ###################################################################################################
 def info_print_depends_on(packageName):
@@ -977,7 +989,8 @@ def info_print_depends_on(packageName):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	#logger.debug(f"info_print_depends_on: Entered with packageName='{packageName}'")
+	logger.info(f"Processing 'info' 'depends_on' ... what package tree depends_on package {packageName}")
+	logger.debug(f"info_print_depends_on: Entered with packageName='{packageName}'")
 	is_recognised = False
 	obj_top_Package = None
 	
@@ -1021,12 +1034,14 @@ def info_print_depends_on(packageName):
 	msg = f"INFO: DEPENDS_ON: The following packages depend on '{packageName}':\n\n'{packageName}'"
 	print(msg)
 	info_print_depends_on_recursive(obj_top_Package.name, indent=1)
+	logger.info(f"Finished Processing 'info' 'depends_on' ... what package tree depends_on package {packageName}")
+	logger.debug(f"info_print_depends_on: exiting with packageName='{packageName}'")
 
 ###################################################################################################
 
 #????????????????????????????????????????????????????????????????????????????
 def prepareForBuilding():
-	logger.info(f"Starting prepareForBuilding, this script and .py files SHOULD be in projectRoot='{objSETTINGS.projectRoot}'")
+	logger.info(f"Processing prepareForBuilding. This script and .py files SHOULD be in projectRoot='{objSETTINGS.projectRoot}'")
 
 	# The projectRoot is the current folder (where this script SHOULD reside)
 	# Create the "workdir" subfolder under the projectRoot  if it doesn't already exist and then CD into it
@@ -1057,9 +1072,10 @@ def prepareForBuilding():
 	#	objSETTINGS.mingwBinpath2		# e.g. workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
 	#	objSETTINGS.targetPrefix#		# e.g. workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
 
-	# create toolchain build file for meson
-	if not os.path.isfile(objSETTINGS.mesonEnvFile):
-		logger.debug(f"Creating Meson Environment file at: '{objSETTINGS.mesonEnvFile}'")
+	# RE-create the toolchain build file for meson every time, in case  we have changed something
+	#if not os.path.isfile(objSETTINGS.mesonEnvFile):
+	if True:
+		logger.debug(f"Creating Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
 		meFile = (
 			"[binaries]\n",
 			F"c = '{objSETTINGS.shortCrossPrefixStr}gcc'",
@@ -1100,12 +1116,22 @@ def prepareForBuilding():
 		with open(objSETTINGS.mesonEnvFile, 'w') as f:
 			f.write("\n".join(meFile))
 	else:
-		logger.debug(f"Using existing Meson Environment file at: '{objSETTINGS.mesonEnvFile}'")
-	logger.debug(f"'{objSETTINGS.mesonEnvFile}' contains:\n (cat {objSETTINGS.mesonEnvFile})'")
+		logger.debug(f"Using existing Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
+	logger.debug(f"'{objSETTINGS.mesonEnvFile}' contains:")
+	cmd = f"cat {objSETTINGS.mesonEnvFile}"
+	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
+	if ret == 0:
+		logger.debug(f"command: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		pass
+	else:
+		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
+		#exit(ret) # comment-out temporarily continue ?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 
 
-	# create toolchain build file for cmake
-	if not os.path.isfile(objSETTINGS.cmakeToolchainFile):
-		logger.info(f"Creating CMake Toolchain file at: '{objSETTINGS.cmakeToolchainFile}'")
+	# RE-create the toolchain build file for cmake
+	#if not os.path.isfile(objSETTINGS.cmakeToolchainFile):
+	if True:
+		logger.info(f"Creating CMake Toolchain file: '{objSETTINGS.cmakeToolchainFile}'")
 		cmFile = [
 			F'set(CMAKE_SYSTEM_NAME Windows)',
 			F'set(CMAKE_SYSTEM_PROCESSOR {objSETTINGS.bitnessStr})',
@@ -1128,8 +1154,22 @@ def prepareForBuilding():
 		]
 		with open(objSETTINGS.cmakeToolchainFile, 'w') as f:
 			f.write("\n".join(cmFile))
+	else:
+		logger.debug(f"Using existing CMake Toolchain file: '{objSETTINGS.cmakeToolchainFile}'")
+	logger.debug(f"'{objSETTINGS.cmakeToolchainFile}' contains:\n (cat {objSETTINGS.cmakeToolchainFile})'")
+	ret, result = runProcess(f"cat {objSETTINGS.cmakeToolchainFile}", ignoreErrors=True, yield_return_code=True)
+	if ret == 0:
+		logger.debug(f"command: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		pass
+	else:
+		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
+		#exit(ret) # comment-out temporarily continue ?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 
 
 
+
+
+	logger.info(f"Finished Processing prepareForBuilding.")
 #????????????????????????????????????????????????????????????????????????????
 
 
@@ -1164,7 +1204,8 @@ def reStrip(pat, txt):
 	return re.sub(r'[ ]+', ' ', x).strip()
 
 ###################################################################################################
-def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False):
+def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yield_return_code=False):
+	# run a shell type command and retutn a bufffer contaning sanitized stdout results
 	isSvn = False
 	if not isinstance(command, str):
 		command = " ".join(command)  # could fail I guess
@@ -1191,10 +1232,16 @@ def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False):
 	process.communicate()[0]
 	process.wait()
 	if (return_code == 0):
-		return buffer
+		if yield_return_code:
+			return return_code, buffer
+		else:
+			return buffer
 	else:
 		if ignoreErrors:
-			return buffer
+			if yield_return_code:
+				return return_code, buffer
+			else:
+				return buffer
 		logger.error(f"Error [{return_code}] running process: '{command}' in '{os.getcwd()}'")
 		logger.error(f"You can try deleting the product/dependency folder: '{os.getcwd()}' and re-run the script")
 		if exitOnError:
@@ -1294,12 +1341,13 @@ if __name__ == "__main__":
 	logger.info(f"Finished Processing initialize and load dependencies")
 
 	# Initialize and load the Variables - note the use of a fixed text string type="V" to identify it as a Variables
-	logger.debug(f"Prepare: Initialize and load variables.py")
+	logger.debug(f"Processing initialize and load variables.py")
 	objVariables = dot_py_object(name='VARIABLES') # an object of the variables, of class dot_py_object
 	variables_file_to_parse = objSETTINGS.varsPath	# for input, eg /home/u/Desktop/_working/packages/variables.py
 	objVariables.load_py_file(file=variables_file_to_parse, heading='Variables')
 	#objVariables.dump_vars(heading='variables.py VARIABLES DUMP:')
-
+	logger.info(f"Finished Processing initialize and load variables.py")
+	
 	# DEBUG: have a look at products and dependencies and variables
 	#
 	#for key in dictProducts.BO:
@@ -1322,6 +1370,7 @@ if __name__ == "__main__":
 	#print(tmp)
 
 	# SANITY CHECK to ensure names are unique across PRODUCTS and DEPENDENCIES
+	logger.info(f"Processing initial sanity check of products and dependencies")
 	is_duplicated = False
 	for key in dictProducts.BO:
 		if key in dictDependencies.BO:
@@ -1334,24 +1383,30 @@ if __name__ == "__main__":
 	if is_duplicated:
 		logger.error(f"SANITY CHECK: duplicated PRODUCT and DEPENDENCY filenames ... exiting")
 		sys.exit(1)
-	logger.info(f"SANITY CHECK: passed. No duplicate PRODUCT and DEPENDENCY filenames detected")
-
+	logger.debug(f"SANITY CHECK: passed. No duplicate PRODUCT and DEPENDENCY filenames detected")
+	logger.info(f"Finished Processing initial sanity check of products and dependencies. Passed.")
+	
 	# If commandline says INFO then do INFO stuff and exit
 	if objArgParser.info:
+		logger.info(f"Processing 'info' commandline actions")
 		if objArgParser.info_depends_on:			# ./this_script.py --debug info --depends_on avisynth_plus_headers
 			info_print_depends_on(objArgParser.info_depends_on)		# pass the name of the package the subject of the query
 		if 	objArgParser.info_required_by:			# ./this_script.py --debug info --required_by ffmpeg
 			info_print_required_by(objArgParser.info_required_by)	# pass the name of the package the subject of the query
+		logger.info(f"Finished Processing 'info' commandline actions")
 		exit()
+
 
 	# If commandline says LIST then do LIST stuff and exit
 	if objArgParser.list:
+		logger.info(f"Processing 'list' commandline actions")
 		if objArgParser.list_products:				# ./this_script.py --debug list -d
 			dictProducts.list_print(heading='PRODUCTS')
 		if 	objArgParser.list_dependencies:			# ./this_script.py --debug list -p
 			dictDependencies.list_print(heading='DEPENDENCIES')
 		# for good measure, always list Variables free,gratis after the others
 		objVariables.list_print(heading='VARIABLES')
+		logger.info(f"Finished Processing 'list' commandline actions")
 		exit()
 
 
