@@ -305,7 +305,6 @@ class settings:
 
 		#CHECKED  UP TO HERE
 
-		# what the heck is this doing ???
 		self.formatDict = defaultdict(lambda: "")
 		self.formatDict.update(
 			{
@@ -351,29 +350,31 @@ class settings:
 				'original_stack_protector_trim' : self.original_stack_protector_trim,
 				'original_fortify_source' : self.original_fortify_source,
 				'original_fortify_source_trim' : self.original_fortify_source_trim,
-				'original_cflag': self.originalCflag,
-				'original_cflag_trim': self.originalCflag_trim,
+				'original_cflag': self.originalCflag,				# a duplicate, cull later
+				'original_cflag_trim': self.originalCflag_trim,		# a duplicate, cull later
 			}
 		)
+		self.string_replacements_Dict = self.formatDict	# migrate to using this
 
-		def formatConfig(self, c: dict):
-			def fmt(d):
-				if isinstance(d, dict):
-					return {self.replaceToolChainVars(k): fmt(v) for k, v in d.items()}
-				elif isinstance(d, list):
-					return [fmt(o) for o in d]
-				else:
-					if isinstance(d, str):
-						return self.replaceToolChainVars(d)
-					else:
-						return d
-			try:
-				return fmt(c)
-			except KeyError as e:
-				self.errorExit(F"Failed to parse config file, the variable {e} does not exist.")
 		#
-		# The next bit is formatting self.config into itself using 'self.formatDict' as the source of key/value replcements
+		# The next bit is formatting self.config into itself using 'self.formatDict' as the source of key/value replacements
+		#
 		#self.config = self.formatConfig(self.config) 
+		#def formatConfig(self, c: dict):
+		#	def fmt(d):
+		#		if isinstance(d, dict):
+		#			return {self.replaceToolChainVars(k): fmt(v) for k, v in d.items()}
+		#		elif isinstance(d, list):
+		#			return [fmt(o) for o in d]
+		#		else:
+		#			if isinstance(d, str):
+		#				return self.replaceToolChainVars(d)
+		#			else:
+		#				return d
+		#	try:
+		#		return fmt(c)
+		#	except KeyError as e:
+		#self.errorExit(F"Failed to parse config file, the variable {e} does not exist.")
 		#
 		# HOWEVER ...
 		# we do not used saved configs any more
@@ -381,73 +382,11 @@ class settings:
 		# SO ... we ignore and no longer do saved config stuff
 		#
 		
-
-
-		'''
-
-self.config='{'script': {'debug': False, 'log_date_format': '%H:%M:%S', 'log_format': '[%(asctime)s][%(levelname)s]%(type)s %(message)s', 'mingw_toolchain_path': 'mingw_toolchain_script/mingw_toolchain_script_v100_002_like_zeranoe.py', 'packages_folder': 'packages', 'product_order': ['mpv', 'ffmpeg'], 'quiet': False, 'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'}, 'toolchain': {'bitness': [64], 'cpu_count': 6, 'mingw_commit': None, 'mingw_custom_cflags': None, 'mingw_debug_build': False, 'mingw_dir': 'toolchain', 'original_cflags': '-O3', 'original_fortify_source': '-D_FORTIFY_SOURCE=2', 'original_stack_protector': '-fstack-protector-all', 'output_path': '/home/u/Desktop/_working/workdir/win64_output', 'work_dir': 'workdir'}, 'version': 1.0}'
-
-
-self.formatDict['cmake_prefix_options']='-DCMAKE_TOOLCHAIN_FILE="/home/u/Desktop/_working/workdir/mingw_toolchain.cmake" -G"Ninja"'			#	cmake_prefix_options='-DCMAKE_TOOLCHAIN_FILE="/home/u/Desktop/_working/workdir/mingw_toolchain.cmake" -G"Ninja"'
-self.formatDict['cmake_prefix_options_old']='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'			#	cmake_prefix_options_old='-G"Unix Makefiles" -DCMAKE_SYSTEM_PROCESSOR="x86_64" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-ranlib -DCMAKE_C_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-g++ -DCMAKE_RC_COMPILER=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-windres -DCMAKE_FIND_ROOT_PATH=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
-self.formatDict['make_prefix_options']='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'			#	make_prefix_options='CC=x86_64-w64-mingw32-gcc AR=x86_64-w64-mingw32-ar PREFIX=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 RANLIB=x86_64-w64-mingw32-ranlib LD=x86_64-w64-mingw32-ld STRIP=x86_64-w64-mingw32-strip CXX=x86_64-w64-mingw32-g++'
-self.formatDict['autoconf_prefix_options']='--with-sysroot="/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'			#	autoconf_prefix_options='--with-sysroot="/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32" --host=x86_64-w64-mingw32 --prefix=/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32 --disable-shared --enable-static'
-self.formatDict['pkg_config_path']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'			#	pkg_config_path='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
-self.formatDict['local_pkg_config_path']='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'			#	local_pkg_config_path='/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
-self.formatDict['local_path']='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'			#	local_path='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
-self.formatDict['mingw_binpath']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin'			#	mingw_binpath='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin'
-self.formatDict['mingw_binpath2']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'			#	mingw_binpath2='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin'
-self.formatDict['cross_prefix_bare']='x86_64-w64-mingw32-'			#	cross_prefix_bare='x86_64-w64-mingw32-'
-self.formatDict['cross_prefix_full']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'			#	cross_prefix_full='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-'
-self.formatDict['target_prefix']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'			#	target_prefix='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32'
-self.formatDict['project_root']='/home/u/Desktop/_working'			#	project_root='/home/u/Desktop/_working'
-self.formatDict['work_dir']='/home/u/Desktop/_working/workdir'			#	work_dir='/home/u/Desktop/_working/workdir'
-self.formatDict['inTreePrefix']='/home/u/Desktop/_working/workdir/x86_64'			#	inTreePrefix='/home/u/Desktop/_working/workdir/x86_64'
-self.formatDict['offtree_prefix']='/home/u/Desktop/_working/workdir/x86_64_offtree'			#	offtree_prefix='/home/u/Desktop/_working/workdir/x86_64_offtree'
-self.formatDict['target_host']='x86_64-w64-mingw32'			#	target_host='x86_64-w64-mingw32'
-self.formatDict['target_sub_prefix']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32'			#	target_sub_prefix='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32'
-self.formatDict['bit_name']='x86_64'			#	bit_name='x86_64'
-self.formatDict['bit_name2']='x86_64'			#	bit_name2='x86_64'
-self.formatDict['bit_name3']='mingw64'			#	bit_name3='mingw64'
-self.formatDict['bit_name_win']='win64'			#	bit_name_win='win64'
-self.formatDict['bit_num']='64'			#	bit_num='64'
-self.formatDict['product_prefix']='/home/u/Desktop/_working/workdir/x86_64_products'			#	product_prefix='/home/u/Desktop/_working/workdir/x86_64_products'
-self.formatDict['target_prefix_sed_escaped']='\/home\/u\/Desktop\/_working\/workdir\/toolchain\/x86_64-w64-mingw32\/x86_64-w64-mingw32'			#	target_prefix_sed_escaped='\/home\/u\/Desktop\/_working\/workdir\/toolchain\/x86_64-w64-mingw32\/x86_64-w64-mingw32'
-self.formatDict['make_cpu_count']='-j 6'			#	make_cpu_count='-j 6'
-self.formatDict['original_cflags']='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '			#	original_cflags='  -O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2  '
-self.formatDict['cflag_string']=''			#	cflag_string=''
-self.formatDict['current_path']='/home/u/Desktop/_working/workdir'			#	current_path='/home/u/Desktop/_working/workdir'
-self.formatDict['current_envpath']='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'			#	current_envpath='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
-self.formatDict['meson_env_file']='/home/u/Desktop/_working/workdir/meson_environment.txt'			#	meson_env_file='/home/u/Desktop/_working/workdir/meson_environment.txt'
-self.formatDict['target_OS']='mingw64'			#	target_OS='mingw64'
-self.formatDict['prefix']='{prefix}'			#	prefix='{prefix}'
-self.formatDict['exec_prefix']='{exec_prefix}'			#	exec_prefix='{exec_prefix}'
-self.formatDict['original_cflags_trim']='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'			#	original_cflags_trim='-O3  -fstack-protector-all  -D_FORTIFY_SOURCE=2'
-self.formatDict['original_stack_protector']='-fstack-protector-all'			#	original_stack_protector='-fstack-protector-all'
-self.formatDict['original_stack_protector_trim']='-fstack-protector-all'			#	original_stack_protector_trim='-fstack-protector-all'
-self.formatDict['original_fortify_source']='-D_FORTIFY_SOURCE=2'			#	original_fortify_source='-D_FORTIFY_SOURCE=2'
-self.formatDict['original_fortify_source_trim']='-D_FORTIFY_SOURCE=2'			#	original_fortify_source_trim='-D_FORTIFY_SOURCE=2'
-self.formatDict['original_cflag']='-O3'			#	original_cflag='-O3'
-self.formatDict['original_cflag_trim']='-O3'			#	original_cflag_trim='-O3'
-self.formatDict['output_prefix']='/home/u/Desktop/_working/workdir/win64_output'			#	output_prefix='/home/u/Desktop/_working/workdir/win64_output'
-
-before: os.environ['PATH']='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
-before: os.environ['PKG_CONFIG_PATH']='None'
-before: os.environ['PKG_CONFIG_LIBDIR']='None'
-before: os.environ['COLOR']='None'
-before: os.environ['CLICOLOR_FORCE']='None'
-
-
-after :  os.environ['PATH']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'
-after : os.environ['PKG_CONFIG_PATH']='/home/u/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig'
-after : os.environ['PKG_CONFIG_LIBDIR']=''
-after : os.environ['COLOR']='ON'
-after : os.environ['CLICOLOR_FORCE']='ON'
-
-		'''
-
-
-
+		os.environ["PATH"] = f"{self.mingwBinpath}:{self.originalPATH}"
+		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
+		os.environ["PKG_CONFIG_LIBDIR"] = ""
+		os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
+		os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
 
 		print(f"Processing finished Processing initial settings")
 		return
@@ -1229,75 +1168,36 @@ def prepareForBuilding():
 	else:
 		logger.info(f"Creating workdir: '{objSETTINGS.fullWorkDir}'")
 		objSETTINGS.fullWorkDir.mkdir()
-	
 	# cd into the "workdir" subfolder underneath fullWorkDir, where all the build action happens eg workdir
 	cchdir(objSETTINGS.fullWorkDir)
-
-	if not objSETTINGS.bitnessPath.exists():		# where dependenciess etc get built eg workdir/x86_64
-		logger.info(f"Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built")
-		objSETTINGS.bitnessPath.mkdir(exist_ok=True)
-	if not objSETTINGS.fullProductDir.exists():	# where products etc get built eg workdir/x86_64_products
-		logger.info(f"Creating fullProductDir: '{objSETTINGS.fullProductDir}' # where products etc get built")
-		objSETTINGS.fullProductDir.mkdir(exist_ok=True)
-	if not objSETTINGS.offtreePrefix.exists():
-		logger.info(f"Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg x86_64_offtree")
-		objSETTINGS.offtreePrefix.mkdir(exist_ok=True)
-	# objSETTINGS.fullOutputDir superseded by objSETTINGS.toolchain_output_path
-	if not objSETTINGS.toolchain_output_path.exists():		# not sure what the heck goes here, piossibly ming64 buildsin stuff ??? eg workdir/win64_output
-		logger.info(f"Creating toolchain_output_path: '{objSETTINGS.toolchain_output_path}' # possibly ?? where mingw64 toolchain build stuff temporarily goes")
-		objSETTINGS.toolchain_output_path.mkdir(exist_ok=True)
 
 	# Don't create these folders here as they are instead created during the mingW build process
 	#	objSETTINGS.mingwBinpath		# eg workdir/xcompilers/x86_64-w64-mingw32/bin
 	#	objSETTINGS.mingwBinpath2		# eg workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
 	#	objSETTINGS.targetPrefix		# eg workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
 
+	if not objSETTINGS.bitnessPath.exists():										# where dependenciess etc get built eg workdir/x86_64
+		logger.info(f"Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built eg workdir/x86_64")
+		objSETTINGS.bitnessPath.mkdir(exist_ok=True)
+	if not os.path.isdir(self.fullDependencyDir):	# = bitnessPath, supersedes bitnessPath
+		logger.info(f"Creating fullDependencyDir: '{objSETTINGS.fullDependencyDir}' # where dependenciess etc get built eg workdir/x86_64")
+		objSETTINGS.fullDependencyDir.mkdir(exist_ok=True)
+	if not objSETTINGS.fullProductDir.exists():										# where products etc get built eg workdir/x86_64_products
+		logger.info(f"Creating fullProductDir: '{objSETTINGS.fullProductDir}' # where products etc get built eg workdir/x86_64_products")
+		objSETTINGS.fullProductDir.mkdir(exist_ok=True)
+	if not objSETTINGS.offtreePrefix.exists():										# where off-tree dependencies get built eg workdir/x86_64_offtree
+		logger.info(f"Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg workdir/x86_64_offtree")
+		objSETTINGS.offtreePrefix.mkdir(exist_ok=True)
+	# objSETTINGS.fullOutputDir superseded by objSETTINGS.toolchain_output_path
+	if not objSETTINGS.toolchain_output_path.exists():		# not sure what the heck goes here, piossibly ming64 buildsin stuff ??? eg workdir/win64_output
+		logger.info(f"Creating toolchain_output_path: '{objSETTINGS.toolchain_output_path}' # possibly ?? where mingw64 toolchain build stuff temporarily goes")
+		objSETTINGS.toolchain_output_path.mkdir(exist_ok=True)
 
-
-#??????????????????????????????
-	#if not os.path.isdir(self.packagesFolder):										# for input, eg packages
-	#	self.errorExit(f"Packages folder '{self.packagesFolder}' does not exist.")
-	#if not os.path.isdir(self.prodFolder):											# for input, eg packages/products
-	#	self.errorExit(f"Packages Products folder '{self.prodFolder}' does not exist.")
-	#if not os.path.isdir(delf.depsFolder):											# for input, eg packages/dependencies
-	#	self.errorExit(f"Packages Dependencies folder '{self.depsFolder}' does not exist.")
-	#if not os.path.isfile(self.varsPath):											# for input, eg packages/variables.py
-	#	self.errorExit(f"Variables file '{self.varsPath}' does not exist." )
-	#if not os.path.isdir(self.patchesFolder):										# for input, eg packages
-	#	self.errorExit(f"Patches folder '{self.patchesFolder}' does not exist." )
-	#if not os.path.isdir(self.additionalheadersFolder):							# for input, eg additional_headers
-	#	self.errorExit(f"additional_headers folder '{self.additionalheadersFolder}' does not exist." )
-	#if not os.path.isdir(self.sourcesFolder):										# for input, eg sources
-	#	self.errorExit(f"Patches folder '{self.sourcesFolder}' does not exist." )
-	#if not os.path.isdir(self.toolsFolder):										# for input, eg tools
-	#	self.errorExit(f"Patches folder '{self.toolsFolder}' does not exist." )
-	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-	#if not os.path.isdir(self.fullWorkDir):										# for output, eg workdir
-	#	self.errorExit(f"/_working folder '{self.fullWorkDir}' does not exist.")
-	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-	#if not os.path.isdir(self.bitnessPath):										# for output, eg workdir/x86_64
-	#	self.errorExit(f"/_working folder '{self.bitnessPath}' does not exist.")
-	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-	#if not os.path.isdir(self.fullProductDir):										# for output, eg workdir/x86_64_products
-	#	self.errorExit(f"/_working folder '{self.fullProductDir}' does not exist.")
-	## ??? hmm, this next subfolder may need to be created during setup for building, not here at settings
-	#if not os.path.isdir(self.fullDependencyDir):									# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
-	#	self.errorExit(f"/_working folder '{self.fullDependencyDir}' does not exist.")
-	#if not os.path.isdir(self.mingw_toolchain_script_folder):						# the subfolder where the toolchain build script resides
-	#	self.errorExit(f"mingw build script folder '{self.mingw_toolchain_script_folder}' does not exist.")
-	#if not os.path.isfile(self.mingw_toolchain_script_path):						# the full path to the toolchain build script
-	#	self.errorExit(f"mingw build script file '{self.mingw_toolchain_script_path}' does not exist." )
-	## ??? hmm, this subfolder may need to be created during setup for building, not here at settings
-	#if not os.path.isdir(self.toolchain_output_path):								# the subfolder where the toolchain building happens
-	#	self.errorExit(f"mingw build folder '{self.toolchain_output_path}' does not exist.")
-#??????????????????????????????
-
-
-
-
-
-
-
+	# check some folders exist
+	if not os.path.isdir(self.mingw_toolchain_script_folder):						# the subfolder where the toolchain build script resides
+		self.errorExit(f"mingw build script folder '{self.mingw_toolchain_script_folder}' does not exist.")
+	if not os.path.isfile(self.mingw_toolchain_script_path):						# the full path to the toolchain build script
+		self.errorExit(f"mingw build script file '{self.mingw_toolchain_script_path}' does not exist." )
 
 	# Always RE-create the toolchain build file for meson every time, in case  we have changed something
 	#if not os.path.isfile(objSETTINGS.mesonEnvFile):
@@ -1353,7 +1253,7 @@ def prepareForBuilding():
 	else:
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
-		#exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
+		exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
 
 	# Always RE-create the toolchain build file for cmake every time, in case  we have changed something
 	#if not os.path.isfile(objSETTINGS.cmakeToolchainFile):
@@ -1392,9 +1292,7 @@ def prepareForBuilding():
 	else:
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
-		#exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
-
-
+		exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
 
 
 	logger.info(f"Finished Processing prepareForBuilding.")
