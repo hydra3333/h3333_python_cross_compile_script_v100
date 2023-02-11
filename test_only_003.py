@@ -1324,7 +1324,7 @@ def buildMingw64():
 		else:
 			logger.error(f"mingW64 GCC already exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
 			raise Exception(f"Existing mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
-			exit(1)
+			sys.exit(1)
 	elif not os.path.isdir(objSETTINGS.mingwDir):
 		logger.info(f"Building mingW64 in folder '{objSETTINGS.mingwDir}'")
 		os.unsetenv("CFLAGS")								# unset any existing CFLAGS environment variable
@@ -1365,12 +1365,29 @@ def buildMingw64():
 		logger.debug(f"Invoking newly imported module toolchainBuilder.build() to build mingW64")
 		toolchainBuilder.build()
 		logger.debug(f"Returned from newly imported module toolchainBuilder.build() having hopefully built mingW64")
+		
+		# test our shiny new mingW64 build
+		if os.path.isfile(gcc_bin):
+			gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
+			workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
+			if len(workingGcc) > 0:
+				logger.info(f"NEW  mingW64 GCC install is working ! (target {objSETTINGS.targetOSStr})")
+			else:
+				logger.error(f"NEW mingW64 GCC exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+				raise Exception(f"NEW mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+				sys.exit(1)
+		else: 
+			logger.error(f"NEW mingW64 GCC  exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			raise Exception(f"NEW mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			sys.exit(1)
+		logger.info(f"Finished Processing buildMingw64")
+		cchdir(objSETTINGS.fullWorkDir)
 		return
 	else:
-		errorExit(f"It looks like the previous MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
+		errorExit(f"It looks like the MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
 		sys.exit(1)
 	
-	errorExit(f"buildMingw64 shouod never have got to here. MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
+	errorExit(f"buildMingw64 shouod never get to here. MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
 	sys.exit(1)
 
 def generateCflagString(prefix=""):
