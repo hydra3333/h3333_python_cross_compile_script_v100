@@ -1318,12 +1318,12 @@ def buildMingw64():
 		gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
 		workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
 		if len(workingGcc) > 0:
-			logger.info(f"mingW64 GCC install is working ! (target {objSETTINGS.targetOSStr})")
+			logger.info(f"NEW mingW64 GCC install is working ! (target: {objSETTINGS.targetOSStr})")
 			logger.info(f"Exiting buildMingw64 since mingW64 GCC already exists and appears to be working")
 			return
 		else:
-			logger.error(f"mingW64 GCC already exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
-			raise Exception(f"Existing mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			logger.error(f"mingW64 GCC already exists HOWEVER appears to be NOT WORKING (target: {objSETTINGS.targetOSStr}) ({gcc_bin})")
+			raise Exception(f"Existing mingW64 GCC is not working properly (target: {objSETTINGS.targetOSStr}) ({gcc_bin})")
 			sys.exit(1)
 	elif not os.path.isdir(objSETTINGS.mingwDir):
 		logger.info(f"Building mingW64 in folder '{objSETTINGS.mingwDir}'")
@@ -1371,14 +1371,14 @@ def buildMingw64():
 			gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
 			workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
 			if len(workingGcc) > 0:
-				logger.info(f"NEW  mingW64 GCC install is working ! (target {objSETTINGS.targetOSStr})")
+				logger.info(f"NEW  mingW64 GCC install is working ! (target: {objSETTINGS.targetOSStr})")
 			else:
-				logger.error(f"NEW mingW64 GCC exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
-				raise Exception(f"NEW mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+				logger.error(f"NEW mingW64 GCC exists HOWEVER appears to be NOT WORKING (target: {objSETTINGS.targetOSStr}) ({gcc_bin})")
+				raise Exception(f"NEW mingW64 GCC is not working properly (target: {objSETTINGS.targetOSStr}) ({gcc_bin})")
 				sys.exit(1)
 		else: 
-			logger.error(f"NEW mingW64 GCC  exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
-			raise Exception(f"NEW mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			logger.error(f"NEW mingW64 GCC  exists HOWEVER appears to be NOT WORKING (target: {objSETTINGS.targetOSStr}) ({gcc_bin})")
+			raise Exception(f"NEW mingW64 GCC is not working properly (target: {objSETTINGS.targetOSStr}) ({gcc_bin})")
 			sys.exit(1)
 		logger.info(f"Finished Processing buildMingw64")
 		cchdir(objSETTINGS.fullWorkDir)
