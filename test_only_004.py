@@ -82,6 +82,7 @@ global objParser		# the parser creat6ed by ArgParser which may be used everywher
 global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 global objVariables		# an object of the variables, of class dot_py_object
+global biggusDictus		# combined dictProducts | dictDependencies
 global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 TERMINAL_WIDTH = 132	# for Console setup and PrettyPrint setup
@@ -125,6 +126,7 @@ class settings:
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -426,6 +428,7 @@ def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -459,6 +462,7 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -562,6 +566,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -744,6 +749,7 @@ def initLogger():
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -772,6 +778,7 @@ def setLogLevel(new_mode):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -795,6 +802,7 @@ def setDebugMode(new_debugMode):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -828,6 +836,7 @@ class processCmdLineArguments():
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -1048,6 +1057,7 @@ def info_print_required_by(packageName):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -1074,14 +1084,13 @@ def info_print_required_by(packageName):
 	logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
 	#logger.debug(f"info_print_required_by: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
-	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	def info_print_required_by_recursive(packageName, indent=1):
-		if 'depends_on' not in bigDict[packageName]:
+		if 'depends_on' not in biggusDictus[packageName]:
 			return
-		zz_depends_on = bigDict[packageName]['depends_on']
+		zz_depends_on = biggusDictus[packageName]['depends_on']
 		if len(zz_depends_on) <= 0:
 			return
-		#if boolKey(bigDict[packageName], "is_dep_inheriter"):
+		#if boolKey(biggusDictus[packageName], "is_dep_inheriter"):
 		#	return ret
 		for d in zz_depends_on:
 			_spaces = ' '*(4*indent)
@@ -1106,6 +1115,7 @@ def info_print_depends_on(packageName):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -1133,19 +1143,18 @@ def info_print_depends_on(packageName):
 	logger.debug(f"info_print_depends_on: dot_py_object class object for '{obj_top_Package.name}' successfully retrieved from the dictionary")
 	#logger.debug(f"info_print_depends_on: dot_py_object class object for '{obj_top_Package.name} Val':\n'{objPrettyPrint.pformat(obj_top_Package.Val)}'") 
 
-	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
-	#objPrettyPrint.pprint(bigDict['ffmpeg'])
-	#for key, val in bigDict.items():
+	#objPrettyPrint.pprint(biggusDictus['ffmpeg'])
+	#for key, val in biggusDictus.items():
 	#	print(f"key='{key}'")
-	#for key, val in bigDict['ffmpeg'].items():
+	#for key, val in biggusDictus['ffmpeg'].items():
 	#	print(f"ffmpeg key='{key}'")
-	#print(bigDict['ffmpeg'])
+	#print(biggusDictus['ffmpeg'])
 	n = packageName
 	def info_print_depends_on_recursive(y,indent=1):
-		for k, v in bigDict.items():
-			if "depends_on" in bigDict[k]:
-				if len(bigDict[k]['depends_on']) > 0:
-					if y in bigDict[k]['depends_on']:
+		for k, v in biggusDictus.items():
+			if "depends_on" in biggusDictus[k]:
+				if len(biggusDictus[k]['depends_on']) > 0:
+					if y in biggusDictus[k]['depends_on']:
 						_spaces = ' '*(4*indent)
 						print(f"{_spaces}'{k}' is a parent of '{y}'")
 						sub = info_print_depends_on_recursive(k,indent+1)
@@ -1160,6 +1169,18 @@ def info_print_depends_on(packageName):
 ###################################################################################################
 
 def prepareForBuilding():
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+
 	logger.info(f"Processing prepareForBuilding. This script and .py files SHOULD be in projectRoot='{objSETTINGS.projectRoot}'")
 
 	# The projectRoot is the current folder (where this script SHOULD reside)
@@ -1308,6 +1329,7 @@ def buildMingw64():
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -1643,6 +1665,7 @@ def buildPackage(package_name=''):
 	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
 	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
 	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
@@ -1656,37 +1679,30 @@ def buildPackage(package_name=''):
 		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found.")
 		sys.exit(1)
 	
-	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
-	if package_name not in bigDict:
-		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found in bigDict.")
+	if package_name not in biggusDictus:
+		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found in biggusDictus.")
 		sys.exit(1)
-	l#ogger.debug (f"buildPackage, recognised retrieved package '{package_name}'")
+	logger.debug (f"buildPackage, recognised retrieved package '{package_name}'")
 	
-	
-
-HACK THIS UP ...
-	# recursively find and build dependencies first ... and then nuild the specified package
-	def info_print_required_by_recursive(packageName, indent=1):
-		if 'depends_on' not in bigDict[packageName]:
+	# recursively find and build dependencies first ... and then build the specified package
+	def findDepTree_recursive(packageName):
+		if 'depends_on' not in biggusDictus[packageName]:
 			return
-		zz_depends_on = bigDict[packageName]['depends_on']
+		zz_depends_on = biggusDictus[packageName]['depends_on']
 		if len(zz_depends_on) <= 0:
 			return
-		#if boolKey(bigDict[packageName], "is_dep_inheriter"):
-		#	return ret
+		#if boolKey(biggusDictus[packageName], "is_dep_inheriter"):
+		#	return
 		for d in zz_depends_on:
-			_spaces = ' '*(4*indent)
-			print(f"{_spaces}'{d}' is a child of '{packageName}'")
-			sub = info_print_required_by_recursive(d,indent+1)
+			logger.debug (f"'{d}' is a child of '{packageName}'")
+			sub = findDepTree_recursive(d)
+			logger.debug(f"*** BUILD dependency '{d}' here ... perhaps")
 		return
-	print(f"")
-	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
-	print(msg)
-	info_print_required_by_recursive(obj_top_Package.name, indent=1)
-	logger.info(f"Finished Processing 'info' 'required_by' ... what packages tree is required_by package {packageName}")
-
+	logger.info(f"buildPackage: The following package tree is being built before '{packageName}':\n'")
+	buildDep_recursive(obj_top_Package.name)
+	# build the top package here
 	
-	logger.info (f"Finishedd Processing buildPackage '{package_name}'")
+	logger.info (f"Finished Processing buildPackage '{package_name}'")
 
 	return
 
@@ -1792,6 +1808,9 @@ if __name__ == "__main__":
 	objVariables.load_py_file(file=variables_file_to_parse, heading='Variables')
 	#objVariables.dump_vars(heading='variables.py VARIABLES DUMP:')
 	logger.info(f"Finished Processing initialize and load variables.py")
+	
+	# for joint searching, combine both products and dependencies into a global
+	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	
 	# DEBUG: have a look at products and dependencies and variables
 	#
