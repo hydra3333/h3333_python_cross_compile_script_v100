@@ -244,9 +244,9 @@ class settings:
 		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
 		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
 		self.toolchain_mingw_script_relative_path = f"{self.toolchain_mingw_toolchain_script_subfolder}/{self.toolchain_mingw_toolchain_script_name}"
-		self.toolchain_mingw_commit = None								# specify a commit, or None which leaves that up to the toolchain builder
-		self.toolchain_mingw_debug_build = False
-		self.toolchain_mingw_custom_cflags = None
+		#self.toolchain_mingw_debug_build = False		#
+		#self.toolchain_mingw_commit = None				# specify a custom mingW64 commit, or None which leaves that up to the toolchain builder
+		#self.toolchain_mingw_custom_cflags = None		#
 		
 		#self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'		# old
 		self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0'		# LTS as at 2023.02.07
@@ -1175,7 +1175,7 @@ def prepareForBuilding():
 	# Don't create these folders here as they are instead created during the mingW build process
 	#	objSETTINGS.mingwBinpath		# eg workdir/xcompilers/x86_64-w64-mingw32/bin
 	#	objSETTINGS.mingwBinpath2		# eg workdir/xcompilers/x86_64-w64-mingw32/x86_64-w64-mingw32/bin
-	#	objSETTINGS.targetPrefix		# eg workdir/xcompilers/mingw-w64-x86_64/x86_64-w64-mingw32
+	#	objSETTINGS.targetPrefix		# eg workdir/xcompilers/mingW64-x86_64/x86_64-w64-mingw32
 
 	if not objSETTINGS.bitnessPath.exists():										# where dependenciess etc get built eg workdir/x86_64
 		logger.info(f"Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built eg workdir/x86_64")
@@ -1318,20 +1318,17 @@ def buildMingw64():
 		gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
 		workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
 		if len(workingGcc) > 0:
-			logger.info(f"MinGW-w64 GCC install is working ! (target {objSETTINGS.targetOSStr})")
-			logger.info(f"Exiting buildMingw64 since MinGW-w64 GCC already exists and appears to be working")
+			logger.info(f"mingW64 GCC install is working ! (target {objSETTINGS.targetOSStr})")
+			logger.info(f"Exiting buildMingw64 since mingW64 GCC already exists and appears to be working")
 			return
 		else:
-			logger.error(f"MinGW-w64 GCC already exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
-			raise Exception(f"Existing MinGW-w64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			logger.error(f"mingW64 GCC already exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			raise Exception(f"Existing mingW64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
 			exit(1)
 	elif not os.path.isdir(objSETTINGS.mingwDir):
-		logger.info(f"Building MinGW-w64 in folder '{objSETTINGS.mingwDir}'")
+		logger.info(f"Building mingW64 in folder '{objSETTINGS.mingwDir}'")
 		os.unsetenv("CFLAGS")								# unset any existing CFLAGS environment variable
 		os.makedirs(objSETTINGS.mingwDir, exist_ok=True)	# make the target build folder
-		
-		#cchdir(objSETTINGS.mingwDir) # don't cd yet or the import will fails with a relative paths error
-		
 		# import may not work with full path, try relative path instead
 		#module_path = str(objSETTINGS.mingw_toolchain_script_path).replace("/", ".")
 		#module_path = module_path.rstrip(".py")
@@ -1340,10 +1337,6 @@ def buildMingw64():
 		if not os.path.isfile(objSETTINGS.mingw_toolchain_script_path):
 			errorExit(f"Specified MinGW64 build script path does not exist: '{module_path}'")
 			sys.exit(1)
-		
-		def toolchainBuildStatus(logMessage):
-			logger.info(logMessage)
-		
 		logger.debug(f"                       current working directory = '{os.getcwd()}'")
 		logger.debug(f"         objSETTINGS.mingw_toolchain_script_path = '{objSETTINGS.mingw_toolchain_script_path}'")
 		logger.debug(f"objSETTINGS.toolchain_mingw_script_relative_path = '{objSETTINGS.toolchain_mingw_script_relative_path}'")
@@ -1355,22 +1348,30 @@ def buildMingw64():
 		except:
 			errorExit(f"Could not import module MinGW64 build script path does not exist: '{module_path}'")
 			sys.exit(1)
-
-		exit()
-
+		# instantiate class MinGW64ToolChainBuilder from the newly imported module
 		toolchainBuilder = mod.MinGW64ToolChainBuilder()
 		toolchainBuilder.workDir = objSETTINGS.mingwDir
-		if self.config["toolchain"]["mingw_commit"] is not None:	# specify a commit, or None which leaves that up to the toolchain builder
-			toolchainBuilder.setMinGWcheckout(self.config["toolchain"]["mingw_commit"])
-		if self.config["toolchain"]["mingw_custom_cflags"] is not None:
-			toolchainBuilder.setCustomCflags(self.config["toolchain"]["mingw_custom_cflags"])
-		toolchainBuilder.setDebugBuild(self.config["toolchain"]["mingw_debug_build"])
-		toolchainBuilder.onStatusUpdate += toolchainBuildStatus
+		# we no longer specify a mingW64 commit here - do it in the module instead to eliminate ambiguity
+		#	toolchainBuilder.setMinGWcheckout(some_commit)
+		# we no longer specify mingw_custom_cflags here - do it in the module instead to eliminate ambiguity
+		#	toolchainBuilder.setCustomCflags(some_mingw_custom_cflags)
+		# we no longer specify mingW64 debug build here - do it in the module instead to eliminate ambiguity
+		#	toolchainBuilder.setDebugBuild(False)
+		def toolchainBuildStatus(logMessage):	# define a function to add to the onStatusUpdate event
+			logger.info(logMessage)
+		toolchainBuilder.onStatusUpdate += toolchainBuildStatus	# display things the toolchain writes
+
+		# Invoke the newly imported module class method to build mingW64
+		logger.debug(f"Invoking newly imported module toolchainBuilder.build() to build mingW64")
 		toolchainBuilder.build()
-		# self.cchdir("..")
+		logger.debug(f"Returned from newly imported module toolchainBuilder.build() having hopefully built mingW64")
+		return
 	else:
-		logger.error(f"It looks like the previous MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
+		errorExit(f"It looks like the previous MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
 		sys.exit(1)
+	
+	errorExit(f"buildMingw64 shouod never have got to here. MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
+	sys.exit(1)
 
 def generateCflagString(prefix=""):
 	if "CFLAGS" not in os.environ:
