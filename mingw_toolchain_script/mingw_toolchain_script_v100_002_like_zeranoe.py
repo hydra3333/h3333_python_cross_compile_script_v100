@@ -73,7 +73,6 @@ SOURCES['gmp'] = { # https://ftp.gnu.org/gnu/gmp/
 }
 SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 	'type': 'archive',
-	#'version': '4.1.1',
 	'version': '4.2.0',
 	'url': 'https://ftp.gnu.org/gnu/mpfr/mpfr-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpfr/', 'type': 'httpindex', 'regex': r'mpfr-(?P<version_num>[\d.]+)\.tar\.xz'},
@@ -84,19 +83,18 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
-# 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl so comment-out isl
+# binutils 2.39 does not play nicely with isl. binutils version 2.40 does.
 SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
-	'version': '0.25',  # https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	'version': '0.25',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
 	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	#'version': '2.39', # 2.39 fails to build ... # 2022.12.18 per DEADSIX27 retry 2.39 instead of 2.37 which does work
 	'version': '2.40',
 	'url': 'https://ftp.gnu.org/gnu/binutils/binutils-{version}.tar.bz2',
 	'softlink_to_package': [
-		#('isl', 'isl'), # 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl
+		('isl', 'isl'), # 2022.12.26 binutils 2.39 does not play nicely with isl, so commented it out here.
 		('gmp', 'gmp'),
 	],
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/binutils/', 'type': 'httpindex', 'regex': r'binutils-(?P<version_num>[\d.]+)\.tar\.bz2'},
@@ -109,7 +107,7 @@ SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu
 		('gmp', 'gmp'),
 		('mpfr', 'mpfr'),
 		('mpc', 'mpc'),
-		#('isl', 'isl'), # 2022.12.26 unfortunately binutils 2.39 does not play nicely with isl
+		('isl', 'isl'), # 2022.12.26 binutils 2.39 does not play nicely with isl, so commented it out here.
 	],
 	'builds': [
 		'gcc-1',
