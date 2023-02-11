@@ -1634,7 +1634,7 @@ def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yiel
 			exit(1)
 
 ###################################################################################################
-def buildPackage(Package_name=''):
+def buildPackage(package_name=''):
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -1646,24 +1646,18 @@ def buildPackage(Package_name=''):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	@ try an alternate means of sanity cross-checking
-	is_product = False
-	is_dependency = False
-	if Package_name in dictProducts.BO:
-		logger.error(f"SANITY CHECK: PRODUCT: {key} has a duplicate filename in DEPENDENCIES")
-		is_product = True
-		if objArgParser.build_PRODUCT is None:
-			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'
-			logger.error(f"SANITY CHECK: Asked to build a PRODUCT however no matching PROFUCT name specified ... exiting")
-			sys.exit(1)
-	elif Package_name in dictDependencies.BO:
-		is_dependency = True
-		if objArgParser.build_DEPENDENCY is None:
-			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'
-			logger.error(f"SANITY CHECK: Asked to build a DEPENDENCY however no matching DEPENDENCY name specified ... exiting")
-			sys.exit(1)
-
-
+	logger.debug (f"Processing buildPackage '{package_name}'")
+	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	if package_name not in bigDict:
+		logger.error(f"Specified build package: '{package_name}' however no matching product/dependency name found.")
+		sys.exit(1)
+	obj_top_Package = bigDict.get_dot_py_obj(package_name)
+	logger.debug (f"OK, recognised retrieved package '{package_name}'")
+	
+	
+	
+	
+	return
 
 
 
@@ -1847,10 +1841,18 @@ if __name__ == "__main__":
 	logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main'")
 	if objArgParser.build:
 		if objArgParser.build_PRODUCT is not None:
+			if objArgParser.build_PRODUCT not in dictProducts.BO:
+				logger.error(f"Specified build PRODUCT:'{objArgParser.build_PRODUCT}' however no matching product name found.")
+				sys.exit(1)
+			#obj_top_Package = dictProducts.get_dot_py_obj(objArgParser.build_PRODUCT)		# returns an object of class dot_py_object 
 			logger.info(f"About to Build PRODUCT='{objArgParser.build_PRODUCT}'")
 			buildPackage(bjArgParser.build_PRODUCT)		# pass the package name to buildPackage, it'll take care of it.
 			logger.info(f"Finished Build of PRODUCT='{objArgParser.build_PRODUCT}'")
 		elif objArgParser.build_DEPENDENCY is not None:
+			if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
+				logger.error(f"Specified build DEPENDENCY:'{objArgParser.build_DEPENDENCY}' however no matching dependency name found.")
+				sys.exit(1)
+			#obj_top_Package = dictDependencies.get_dot_py_obj(objArgParser.build_DEPENDENCY)		# returns an object of class dot_py_object 
 			logger.info(f"About to Build DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 			buildPackage(bjArgParser.build_DEPENDENCY)	# pass the package name to buildPackage, it'll take care of it.
 			logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
@@ -1865,6 +1867,27 @@ if __name__ == "__main__":
 
 	# All Finished.
 	exit()
+
+
+
+	is_product = False
+	is_dependency = False
+
+
+nah this is crap:
+	if Package_name in dictProducts.BO:
+		logger.error(f"SANITY CHECK: PRODUCT: {key} has a duplicate filename in DEPENDENCIES")
+		is_product = True
+		if objArgParser.build_PRODUCT is None:
+			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'
+			logger.error(f"SANITY CHECK: Asked to build a PRODUCT however no matching PRODUCT name found ... exiting")
+			sys.exit(1)
+	elif Package_name in dictDependencies.BO:
+		is_dependency = True
+		if objArgParser.build_DEPENDENCY is None:
+			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'
+			logger.error(f"SANITY CHECK: Asked to build a DEPENDENCY however no matching DEPENDENCY name found ... exiting")
+			sys.exit(1)
 
 
 #------------------------
