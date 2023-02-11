@@ -1648,25 +1648,46 @@ def buildPackage(package_name=''):
 
 	logger.info (f"Processing buildPackage '{package_name}'")
 
-
 	if objArgParser.build_PRODUCT in dictProducts.BO:
 		obj_top_Package = dictProducts.get_dot_py_obj(package_name)
 	elif objArgParser.build_DEPENDENCY in dictDependencies.BO:
 		obj_top_Package = dictProducts.get_dot_py_obj(package_name)
 	else:
-		logger.error(f"Specified build package: '{package_name}' however no matching product/dependency name found.")
+		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found.")
 		sys.exit(1)
 	
 	bigDict = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	if package_name not in bigDict:
-		logger.error(f"Specified build package: '{package_name}' however no matching product/dependency name found in bigDict.")
+		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found in bigDict.")
 		sys.exit(1)
+	l#ogger.debug (f"buildPackage, recognised retrieved package '{package_name}'")
+	
+	
 
-	logger.debug (f"OK, recognised retrieved package '{package_name}'")
+HACK THIS UP ...
+	# recursively find and build dependencies first ... and then nuild the specified package
+	def info_print_required_by_recursive(packageName, indent=1):
+		if 'depends_on' not in bigDict[packageName]:
+			return
+		zz_depends_on = bigDict[packageName]['depends_on']
+		if len(zz_depends_on) <= 0:
+			return
+		#if boolKey(bigDict[packageName], "is_dep_inheriter"):
+		#	return ret
+		for d in zz_depends_on:
+			_spaces = ' '*(4*indent)
+			print(f"{_spaces}'{d}' is a child of '{packageName}'")
+			sub = info_print_required_by_recursive(d,indent+1)
+		return
+	print(f"")
+	msg = f"INFO: REQUIRED BY: The following package tree is required by '{packageName}':\n\n'{packageName}'"
+	print(msg)
+	info_print_required_by_recursive(obj_top_Package.name, indent=1)
+	logger.info(f"Finished Processing 'info' 'required_by' ... what packages tree is required_by package {packageName}")
+
 	
-	
-	
-	
+	logger.info (f"Finishedd Processing buildPackage '{package_name}'")
+
 	return
 
 
@@ -1877,10 +1898,6 @@ if __name__ == "__main__":
 	# All Finished.
 	exit()
 
-
-
-	is_product = False
-	is_dependency = False
 
 #------------------------
 
