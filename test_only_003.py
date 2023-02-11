@@ -1364,9 +1364,9 @@ def buildMingw64():
 		# Invoke the newly imported module class method to build mingW64
 		logger.debug(f"Invoking newly imported module toolchainBuilder.build() to build mingW64")
 		toolchainBuilder.build()
-		logger.debug(f"Returned from newly imported module toolchainBuilder.build() having hopefully built mingW64")
-		
+		logger.debug(f"Returned from newly imported module toolchainBuilder.build()")
 		# test our shiny new mingW64 build
+		logger.debug(f"Testing NEW  mingW64 GCC :")
 		if os.path.isfile(gcc_bin):
 			gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
 			workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
