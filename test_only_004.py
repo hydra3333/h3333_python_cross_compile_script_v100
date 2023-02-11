@@ -618,16 +618,18 @@ class dot_py_object_dict:			# a dictionary of build objects
 		#		logger.debug(f"\t{key2}='{val2}'")
 		#return
 
-	def get_dot_py_obj(self, package_name):	
+	def get_dot_py_obj(self, packageName):	
 		# return a key/value pair as an object of class dot_py_object
 		#logger.debug(f"DEBUG: Entered get_dot_py_obj")
 		tmp = dot_py_object()					# create a new instance of class dot_py_object
-		if package_name in self.BO:				# check whether a single key is in the dictionary
-			tmp.name = package_name				# yes, insert the package name into the tmp object
-			tmp.Val = self.BO[package_name]		# yes, insert the dict of json info into the tmp object
+		if packageName in self.BO:				# check whether a single key is in the dictionary
+			tmp.name = packageName				# yes, insert the package name into the tmp object
+			tmp.Val = self.BO[packageName]		# yes, insert the dict of json info into the tmp object
+			#logger.debug(f"get_dot_py_obj packageName '{packageName}' found tmp.name='{tmp.name}'")
 		else:
 			tmp.name = None						# this should be the object's default for class dot_py_object anyway
 			tmp.Val = {}						# this should be the object's default for class dot_py_object anyway
+			#logger.debug(f"get_dot_py_obj packageName '{packageName}' NOT found tmp.name='{tmp.name}'")
 		return tmp								# return the object of class dot_py_object, wither filled in or with values None
 
 	def load_py_files(self, folder='', heading=''):
@@ -1656,7 +1658,7 @@ def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yiel
 			exit(1)
 
 ###################################################################################################
-def buildPackage(package_name=''):
+def buildPackageTree(packageName=''):
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -1669,23 +1671,23 @@ def buildPackage(package_name=''):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	logger.info (f"Processing buildPackage '{package_name}'")
-
+	logger.info (f"Processing buildPackageTree '{packageName}'")
 	if objArgParser.build_PRODUCT in dictProducts.BO:
-		obj_top_Package = dictProducts.get_dot_py_obj(package_name)
+		obj_top_Package = dictProducts.get_dot_py_obj(packageName)
 	elif objArgParser.build_DEPENDENCY in dictDependencies.BO:
-		obj_top_Package = dictProducts.get_dot_py_obj(package_name)
+		obj_top_Package = dictDependencies.get_dot_py_obj(packageName)
 	else:
-		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found.")
+		logger.error(f"Build package: '{packageName}' however no matching product/dependency name found.")
 		sys.exit(1)
 	
-	if package_name not in biggusDictus:
-		logger.error(f"Build package: '{package_name}' however no matching product/dependency name found in biggusDictus.")
+	if packageName not in biggusDictus:
+		logger.error(f"Build package: '{packageName}' however no matching product/dependency name found in biggusDictus.")
 		sys.exit(1)
-	logger.debug (f"buildPackage, recognised retrieved package '{package_name}'")
+	logger.debug (f"buildPackageTree, recognised retrieved package '{packageName}'")
 	
 	# recursively find and build dependencies first ... and then build the specified package
-	def findDepTree_recursive(packageName):
+	def findDepTreeAndBuild_recursive(packageName):
+		#logger.debug(f"entered findDepTreeAndBuild_recursive packageName='{packageName}'")
 		if 'depends_on' not in biggusDictus[packageName]:
 			return
 		zz_depends_on = biggusDictus[packageName]['depends_on']
@@ -1694,19 +1696,36 @@ def buildPackage(package_name=''):
 		#if boolKey(biggusDictus[packageName], "is_dep_inheriter"):
 		#	return
 		for d in zz_depends_on:
-			logger.debug (f"'{d}' is a child of '{packageName}'")
-			sub = findDepTree_recursive(d)
-			logger.debug(f"*** BUILD dependency '{d}' here ... perhaps")
+			#logger.debug (f"'{d}' is a child of '{packageName}'")
+			sub = findDepTreeAndBuild_recursive(d)
+			#logger.debug(f"*** BUILD dependency '{d}' here.")
+			buildPackage(d)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
 		return
-	logger.info(f"buildPackage: The following package tree is being built before '{packageName}':\n'")
-	buildDep_recursive(obj_top_Package.name)
-	# build the top package here
-	
-	logger.info (f"Finished Processing buildPackage '{package_name}'")
-
+	logger.info(f"buildPackageTree: the following package tree Dependencies are being built now, before '{packageName}' aka '{obj_top_Package.name}':'")
+	findDepTreeAndBuild_recursive(packageName)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
+	logger.info(f"buildPackageTree: the package tree Dependencies have been built, now we are building '{packageName}' aka '{obj_top_Package.name}':'")
+	buildPackage(packageName)	# build the actual package, now that all its dependencies have been built
+	logger.info (f"Finished Processing buildPackageTree '{packageName}'")
 	return
 
+###################################################################################################
+def buildPackage(packageName=''):
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
+	logger.info (f"Processing buildPackage '{packageName}'")
+
+
+	return
 
 ###################################################################################################
 ###################################################################################################
@@ -1860,7 +1879,6 @@ if __name__ == "__main__":
 		logger.info(f"Finished Processing 'info' commandline actions")
 		exit()
 
-
 	# If commandline says LIST then do LIST stuff and exit
 	if objArgParser.list:
 		logger.info(f"Processing 'list' commandline actions")
@@ -1895,7 +1913,7 @@ if __name__ == "__main__":
 				sys.exit(1)
 			#obj_top_Package = dictProducts.get_dot_py_obj(objArgParser.build_PRODUCT)		# returns an object of class dot_py_object 
 			#logger.info(f"About to Build PRODUCT='{objArgParser.build_PRODUCT}'")
-			buildPackage(objArgParser.build_PRODUCT)		# pass the package name to buildPackage, it'll take care of it.
+			buildPackageTree(objArgParser.build_PRODUCT)		# pass the package name to buildPackageTree, it'll take care of it.
 			#logger.info(f"Finished Build of PRODUCT='{objArgParser.build_PRODUCT}'")
 		elif objArgParser.build_DEPENDENCY is not None:
 			if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
@@ -1903,7 +1921,7 @@ if __name__ == "__main__":
 				sys.exit(1)
 			#obj_top_Package = dictDependencies.get_dot_py_obj(objArgParser.build_DEPENDENCY)		# returns an object of class dot_py_object 
 			#logger.info(f"About to Build DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
-			buildPackage(objArgParser.build_DEPENDENCY)	# pass the package name to buildPackage, it'll take care of it.
+			buildPackageTree(objArgParser.build_DEPENDENCY)	# pass the package name to buildPackageTree, it'll take care of it.
 			#logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 		else:
 			msg = f"Hmm, BUILD specified but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
