@@ -1879,13 +1879,13 @@ nah this is crap:
 		logger.error(f"SANITY CHECK: PRODUCT: {key} has a duplicate filename in DEPENDENCIES")
 		is_product = True
 		if objArgParser.build_PRODUCT is None:
-			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'
+			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 			logger.error(f"SANITY CHECK: Asked to build a PRODUCT however no matching PRODUCT name found ... exiting")
 			sys.exit(1)
 	elif Package_name in dictDependencies.BO:
 		is_dependency = True
 		if objArgParser.build_DEPENDENCY is None:
-			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'
+			logger.error(f"SANITY CHECK: Specified:'{Package_name}' yet bjArgParser.build_DEPENDENCY='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 			logger.error(f"SANITY CHECK: Asked to build a DEPENDENCY however no matching DEPENDENCY name found ... exiting")
 			sys.exit(1)
 
