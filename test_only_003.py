@@ -236,10 +236,14 @@ class settings:
 		self.originalCflags					= self.original_Cflags				# duplicates which are referenced, cull later
 		self.originalCflags_trim			= self.originalCflags.strip()		# duplicates which are referenced, cull later
 
-		# toolchain_mingw_subfolder is the same as deadsix27 mingwDir
 		self.toolchain_mingw_subfolder = 'toolchain'					# for output, eg 'toolchain' underneath self.workdir_subfolder, is the same as deadsix27 'mingwDir'
+		self.toolchain_mingwDir = self.fullWorkDir.joinpath(self.toolchain_mingw_subfolder)	# fully qualified path to where it gets built into
+		self.mingwDir = self.toolchain_mingwDir	# where ming64 gets built into
 		self.toolchain_mingw_toolchain_script_subfolder = "mingw_toolchain_script"
 		self.toolchain_mingw_toolchain_script_name = 'mingw_toolchain_script_v100_002_like_zeranoe.py'
+		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
+		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
+		self.toolchain_mingw_script_relative_path = f"{self.toolchain_mingw_toolchain_script_subfolder}/{self.toolchain_mingw_toolchain_script_name}"
 		self.toolchain_mingw_commit = None								# specify a commit, or None which leaves that up to the toolchain builder
 		self.toolchain_mingw_debug_build = False
 		self.toolchain_mingw_custom_cflags = None
@@ -252,9 +256,6 @@ class settings:
 		self.log_date_format = '%H:%M:%S'
 
 		# mainly calculated variables next
-
-		self.mingw_toolchain_script_folder = self.projectRoot.joinpath(self.toolchain_mingw_toolchain_script_subfolder)
-		self.mingw_toolchain_script_path = self.mingw_toolchain_script_folder.joinpath(self.toolchain_mingw_toolchain_script_name)
 
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")			# used when building packages
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")	# used when building packages
@@ -303,7 +304,8 @@ class settings:
 		self.cpuCount = self.cpu_count		# ??? WHY HAVE 2 VARIABLES FOR THE SAME THING ???
 		self.originalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 
-		#CHECKED  UP TO HERE
+		# define the name of tghe gcc compiler
+		self.gcc_bin = os.path.join(self.mingwBinpath, self.bitnessStr + "-w64-mingw32-gcc")
 
 		self.formatDict = defaultdict(lambda: "")
 		self.formatDict.update(
@@ -336,9 +338,9 @@ class settings:
 				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
 				'make_cpu_count': "-j {0}".format(self.cpuCount),
 				'original_cflags': self.originalCflags,
-				'cflag_string': self.generateCflagString('--extra-cflags='),
+				'cflag_string': generateCflagString('--extra-cflags='),
 				'current_path': os.getcwd(),
-				'current_envpath': self.getKeyOrBlankString(os.environ, "PATH"),
+				'current_envpath': getKeyOrBlankString(os.environ, "PATH"),
 				'meson_env_file': self.mesonEnvFile,
 				#
 				'target_OS': self.targetOSStr,
@@ -1157,7 +1159,6 @@ def info_print_depends_on(packageName):
 
 ###################################################################################################
 
-#????????????????????????????????????????????????????????????????????????????
 def prepareForBuilding():
 	logger.info(f"Processing prepareForBuilding. This script and .py files SHOULD be in projectRoot='{objSETTINGS.projectRoot}'")
 
@@ -1179,7 +1180,7 @@ def prepareForBuilding():
 	if not objSETTINGS.bitnessPath.exists():										# where dependenciess etc get built eg workdir/x86_64
 		logger.info(f"Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built eg workdir/x86_64")
 		objSETTINGS.bitnessPath.mkdir(exist_ok=True)
-	if not os.path.isdir(self.fullDependencyDir):	# = bitnessPath, supersedes bitnessPath
+	if not os.path.isdir(objSETTINGS.fullDependencyDir):	# = bitnessPath, supersedes bitnessPath
 		logger.info(f"Creating fullDependencyDir: '{objSETTINGS.fullDependencyDir}' # where dependenciess etc get built eg workdir/x86_64")
 		objSETTINGS.fullDependencyDir.mkdir(exist_ok=True)
 	if not objSETTINGS.fullProductDir.exists():										# where products etc get built eg workdir/x86_64_products
@@ -1189,15 +1190,15 @@ def prepareForBuilding():
 		logger.info(f"Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg workdir/x86_64_offtree")
 		objSETTINGS.offtreePrefix.mkdir(exist_ok=True)
 	# objSETTINGS.fullOutputDir superseded by objSETTINGS.toolchain_output_path
-	if not objSETTINGS.toolchain_output_path.exists():		# not sure what the heck goes here, piossibly ming64 buildsin stuff ??? eg workdir/win64_output
+	if not objSETTINGS.toolchain_output_path.exists():								# not sure what the heck goes here, possibly ming64 buildsin stuff ??? eg workdir/win64_output
 		logger.info(f"Creating toolchain_output_path: '{objSETTINGS.toolchain_output_path}' # possibly ?? where mingw64 toolchain build stuff temporarily goes")
 		objSETTINGS.toolchain_output_path.mkdir(exist_ok=True)
 
 	# check some folders exist
-	if not os.path.isdir(self.mingw_toolchain_script_folder):						# the subfolder where the toolchain build script resides
-		self.errorExit(f"mingw build script folder '{self.mingw_toolchain_script_folder}' does not exist.")
-	if not os.path.isfile(self.mingw_toolchain_script_path):						# the full path to the toolchain build script
-		self.errorExit(f"mingw build script file '{self.mingw_toolchain_script_path}' does not exist." )
+	if not os.path.isdir(objSETTINGS.mingw_toolchain_script_folder):						# the subfolder where the toolchain build script resides
+		objSETTINGS.errorExit(f"mingw build script folder '{objSETTINGS.mingw_toolchain_script_folder}' does not exist.")
+	if not os.path.isfile(objSETTINGS.mingw_toolchain_script_path):						# the full path to the toolchain build script
+		objSETTINGS.errorExit(f"mingw build script file '{objSETTINGS.mingw_toolchain_script_path}' does not exist." )
 
 	# Always RE-create the toolchain build file for meson every time, in case  we have changed something
 	#if not os.path.isfile(objSETTINGS.mesonEnvFile):
@@ -1252,7 +1253,7 @@ def prepareForBuilding():
 		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
-		print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
+		#print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
 		exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
 
 	# Always RE-create the toolchain build file for cmake every time, in case  we have changed something
@@ -1291,13 +1292,269 @@ def prepareForBuilding():
 		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
-		print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
+		#print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
 		exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
 
-
 	logger.info(f"Finished Processing prepareForBuilding.")
-#????????????????????????????????????????????????????????????????????????????
 
+###################################################################################################
+def buildMingw64():
+	# build mingw64 and the compilers etc.
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+
+	logger.info(f"Processing buildMingw64")
+	cchdir(objSETTINGS.fullWorkDir)	
+	gcc_bin = objSETTINGS.gcc_bin
+	if os.path.isfile(gcc_bin):
+		gccOutput = subprocess.check_output(gcc_bin + " -v", shell=True, stderr=subprocess.STDOUT).decode("utf-8")
+		workingGcc = re.compile("^Target: .*-w64-mingw32$", re.MULTILINE).findall(gccOutput)
+		if len(workingGcc) > 0:
+			logger.info(f"MinGW-w64 GCC install is working ! (target {objSETTINGS.targetOSStr})")
+			logger.info(f"Exiting buildMingw64 since MinGW-w64 GCC already exists and appears to be working")
+			return
+		else:
+			logger.error(f"MinGW-w64 GCC already exists HOWEVER appears to be NOT WORKING ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			raise Exception(f"Existing MinGW-w64 GCC is not working properly ({objSETTINGS.targetOSStr}) ({gcc_bin})")
+			exit(1)
+	elif not os.path.isdir(objSETTINGS.mingwDir):
+		logger.info(f"Building MinGW-w64 in folder '{objSETTINGS.mingwDir}'")
+		os.unsetenv("CFLAGS")								# unset any existing CFLAGS environment variable
+		os.makedirs(objSETTINGS.mingwDir, exist_ok=True)	# make the target build folder
+		
+		#cchdir(objSETTINGS.mingwDir) # don't cd yet or the import will fails with a relative paths error
+		
+		# import may not work with full path, try relative path instead
+		#module_path = str(objSETTINGS.mingw_toolchain_script_path).replace("/", ".")
+		#module_path = module_path.rstrip(".py")
+		module_path = str(objSETTINGS.toolchain_mingw_script_relative_path).replace("/", ".")
+		module_path = module_path.rstrip(".py")
+		if not os.path.isfile(objSETTINGS.mingw_toolchain_script_path):
+			errorExit(f"Specified MinGW64 build script path does not exist: '{module_path}'")
+			sys.exit(1)
+		
+		def toolchainBuildStatus(logMessage):
+			logger.info(logMessage)
+		
+		logger.debug(f"                       current working directory = '{os.getcwd()}'")
+		logger.debug(f"         objSETTINGS.mingw_toolchain_script_path = '{objSETTINGS.mingw_toolchain_script_path}'")
+		logger.debug(f"objSETTINGS.toolchain_mingw_script_relative_path = '{objSETTINGS.toolchain_mingw_script_relative_path}'")
+		logger.debug(f"                          calculated module path = '{module_path}'")
+		logger.debug(f"About to try-except 'importlib.import_module(module_path)'")
+		try:
+			mod = importlib.import_module(module_path)
+			logger.debug(f"Successfully imported module '{module_path}' from '{objSETTINGS.toolchain_mingw_script_relative_path}'")
+		except:
+			errorExit(f"Could not import module MinGW64 build script path does not exist: '{module_path}'")
+			sys.exit(1)
+
+		exit()
+
+		toolchainBuilder = mod.MinGW64ToolChainBuilder()
+		toolchainBuilder.workDir = objSETTINGS.mingwDir
+		if self.config["toolchain"]["mingw_commit"] is not None:	# specify a commit, or None which leaves that up to the toolchain builder
+			toolchainBuilder.setMinGWcheckout(self.config["toolchain"]["mingw_commit"])
+		if self.config["toolchain"]["mingw_custom_cflags"] is not None:
+			toolchainBuilder.setCustomCflags(self.config["toolchain"]["mingw_custom_cflags"])
+		toolchainBuilder.setDebugBuild(self.config["toolchain"]["mingw_debug_build"])
+		toolchainBuilder.onStatusUpdate += toolchainBuildStatus
+		toolchainBuilder.build()
+		# self.cchdir("..")
+	else:
+		logger.error(f"It looks like the previous MinGW64 build failed, please delete the folder '{objSETTINGS.mingwDir}' and re-run this script")
+		sys.exit(1)
+
+def generateCflagString(prefix=""):
+	if "CFLAGS" not in os.environ:
+		return ""
+	cfs = os.environ["CFLAGS"]
+	cfs = cfs.split(' ')
+	if (len(cfs) == 1 and cfs[0] != "") or not len(cfs):
+		return ""
+	out = ''
+	if len(cfs) >= 1:
+		for c in cfs:
+			out += prefix + c + ' '
+		out.rstrip(' ')
+		return out
+	return ''
+
+def getKeyOrBlankString(db, k):
+	if k in db:
+		if db[k] is None:
+			return ""
+		else:
+			return db[k]
+	else:
+		return ""
+
+def zzz_downloadHeader(self, url):
+	destination = self.targetPrefix.joinpath("include")
+	fileName = os.path.basename(urlparse(url).path)
+	if not os.path.isfile(os.path.join(destination, fileName)):
+		fname = self.downloadFile(url)
+		self.logger.debug("Moving Header File: '{0}' to '{1}'".format(fname, destination))
+		shutil.move(fname, destination)
+	else:
+		self.logger.debug("Header File: '{0}' already downloaded".format(fileName))
+
+def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytesMode=False):
+	def fmt_size(num, suffix="B"):
+			for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
+				if abs(num) < 1024.0:
+					return "%3.1f%s%s" % (num, unit, suffix)
+				num /= 1024.0
+			return "%.1f%s%s" % (num, "Yi", suffix)
+	
+	if not url:
+		raise Exception("No URL specified.")
+
+	if outputPath is None:  # Default to current dir.
+		outputPath = os.getcwd()
+	else:
+		if not os.path.isdir(outputPath):
+			raise Exception('Specified path "{0}" does not exist'.format(outputPath))
+
+	fileName = os.path.basename(url)  # Get URL filename
+	userAgent = self.userAgent
+
+	if 'sourceforge.net' in url.lower():
+		userAgent = 'wget/1.18'  # sourceforce <3 wget
+
+	if url.lower().startswith("ftp://"):
+		self.logger.info("Requesting : {0}".format(url))
+		if outputFileName is not None:
+			fileName = outputFileName
+		fullOutputPath = os.path.join(outputPath, fileName)
+		urllib.request.urlretrieve(url, fullOutputPath)
+		return fullOutputPath
+
+	if url.lower().startswith("file://"):
+		url = url.replace("file://", "")
+		self.logger.info("Copying : {0}".format(url))
+		if outputFileName is not None:
+			fileName = outputFileName
+		fullOutputPath = os.path.join(outputPath, fileName)
+		try:
+			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(url, fullOutputPath))
+			shutil.copyfile(url, fullOutputPath)
+		except Exception as e:
+			print(e)
+			exit(1)
+		return fullOutputPath
+
+	req = requests.get(url, stream=True, headers={"User-Agent": userAgent}) # , verify=False to turn off certificate validation
+
+	if req.status_code != 200:
+		req.raise_for_status()
+
+	if "content-disposition" in req.headers:
+		reSponse = re.findall("filename=(.+)", req.headers["content-disposition"])
+		if reSponse is None:
+			fileName = os.path.basename(url)
+		else:
+			fileName = reSponse[0]
+
+	size = None
+	compressed = False
+	if "Content-Length" in req.headers:
+		size = int(req.headers["Content-Length"])
+
+	if "Content-Encoding" in req.headers:
+		if req.headers["Content-Encoding"] == "gzip":
+			compressed = True
+
+	self.logger.info("Requesting : {0} - {1}".format(url, fmt_size(size) if size is not None else "?"))
+
+	# terms = shutil.get_terminal_size((100,100))
+	# filler = 0
+	# if terms[0] > 100:
+	# 	filler = int(terms[0]/4)
+
+	widgetsNoSize = [
+		progressbar.FormatCustomText("Downloading: {:25.25}".format(os.path.basename(fileName))), " ",
+		progressbar.AnimatedMarker(markers='|/-\\'), " ",
+		progressbar.DataSize()
+		# " "*filler
+	]
+	widgets = [
+		progressbar.FormatCustomText("Downloading: {:25.25}".format(os.path.basename(fileName))), " ",
+		progressbar.Percentage(), " ",
+		progressbar.Bar(fill=chr(9617), marker=chr(9608), left="[", right="]"), " ",
+		progressbar.DataSize(), "/", progressbar.DataSize(variable="max_value"), " |",
+		progressbar.AdaptiveTransferSpeed(), " | ",
+		progressbar.ETA(),
+		# " "*filler
+	]
+	pbar = None
+	if size is None:
+		pbar = progressbar.ProgressBar(widgets=widgetsNoSize, maxval=progressbar.UnknownLength)
+	else:
+		pbar = progressbar.ProgressBar(widgets=widgets, maxval=size)
+
+	if outputFileName is not None:
+		fileName = outputFileName
+	fullOutputPath = os.path.join(outputPath, fileName)
+
+	updateSize = 0
+
+	if isinstance(pbar.max_value, int):
+		updateSize = pbar.max_value if pbar.max_value < 1024 else 1024
+
+	if bytesMode is True:
+		output = b""
+		bytesrecv = 0
+		pbar.start()
+		for buffer in req.iter_content(chunk_size=1024):
+			if buffer:
+				output += buffer
+			if compressed:
+				pbar.update(updateSize)
+			else:
+				pbar.update(bytesrecv)
+			bytesrecv += len(buffer)
+		pbar.finish()
+		return output
+	else:
+		with open(fullOutputPath, "wb") as file:
+			bytesrecv = 0
+			pbar.start()
+			for buffer in req.iter_content(chunk_size=1024):
+				if buffer:
+					file.write(buffer)
+					file.flush()
+				if compressed:
+					pbar.update(updateSize)
+				else:
+					pbar.update(bytesrecv)
+				bytesrecv += len(buffer)
+			pbar.finish()
+
+			return fullOutputPath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	return
 
 ###################################################################################################
 def errorExit(msg):
@@ -1535,22 +1792,17 @@ if __name__ == "__main__":
 		logger.info(f"Finished Processing 'list' commandline actions")
 		exit()
 
-
-	# setup the general build environment ... if necessary change settings in objSETTINGS
-	# create folders
-	# init environment variables using os.environ
+	# Setup the general environment ... if necessary change settings in objSETTINGS
 	# set other variables including eg for "{cmake_prefix_options}" "!VARxxxVAR!" "!CMDyyyCMD!" etc
 	# what to build is in objArgParser
-	# settings to use are in objSETTINGS ... if necessary change settings in objSETTINGS
-	prepareForBuilding()
+	# create folders
+	# init environment variables using os.environ
+	prepareForBuilding()	# also does cchdir(objSETTINGS.fullWorkDir)
 
-
-
-
-	# setup the mingw64 build environment and build the cross-compiling compilers etc
+	# Setup the mingw64 build environment and build the cross-compiling compilers etc
 	# what to build is in objArgParser
 	# settings to use are in objSETTINGS ... if necessary change settings in objSETTINGS
-#	buildMingw64()
+	buildMingw64()			# also does cchdir(objSETTINGS.fullWorkDir)
 
 
 	# build the specified package, could be a dependency, dependency tree, product, product tree.
@@ -1560,40 +1812,6 @@ if __name__ == "__main__":
 
 
 #------------------------
-
-#def prepareBuilding(self, bitness):
-#		self.logger.info('Starting build script')
-#		if not self.fullWorkDir.exists():
-#			self.logger.info("Creating workdir: %s" % (self.fullWorkDir))
-#			self.fullWorkDir.mkdir()
-#		self.cchdir(self.fullWorkDir)
-#		os.environ["PATH"] = "{0}:{1}".format(self.mingwBinpath, self.originalPATH)
-#		# os.environ["PATH"] = "{0}:{1}:{2}".format (self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # TODO: properly test this..
-#		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
-#		os.environ["PKG_CONFIG_LIBDIR"] = ""
-#		os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
-#		os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
-
-#def initBuildFolders(self):
-#		if not self.bitnessPath.exists():
-#			self.logger.info(F"Creating bitdir: {self.bitnessPath}")
-#			self.bitnessPath.mkdir(exist_ok=True)
-#
-#		if not self.fullProductDir.exists():
-#			self.logger.info(F"Creating product path: {self.fullProductDir}")
-#			self.fullProductDir.mkdir(exist_ok=True)
-#
-#		if not self.fullOutputDir.exists():
-#			self.logger.info(F"Creating output path: {self.fullOutputDir}")
-#			self.fullOutputDir.mkdir(exist_ok=True)
-#
-#		if not self.offtreePrefix.exists():
-#			self.logger.info(F"Creating bitdir: {self.offtreePrefix}")
-#			self.offtreePrefix.mkdir(exist_ok=True)
-#
-#		# create toolchain files for meson and cmake
-#		self.createMesonEnvFile()
-#		self.createCmakeToolchainFile()
 
 
 #def assembleConfigHelps:
