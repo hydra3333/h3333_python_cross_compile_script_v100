@@ -1658,7 +1658,7 @@ def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yiel
 			exit(1)
 
 ###################################################################################################
-def buildPackageTree(packageName=''):
+def buildPackageTree(packageName='',force=True):
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -1686,7 +1686,7 @@ def buildPackageTree(packageName=''):
 	logger.debug (f"buildPackageTree, recognised retrieved package '{packageName}'")
 	
 	# recursively find and build dependencies first ... and then build the specified package
-	def findDepTreeAndBuild_recursive(packageName):
+	def findDepTreeAndBuild_recursive(packageName,force=False):
 		#logger.debug(f"entered findDepTreeAndBuild_recursive packageName='{packageName}'")
 		if 'depends_on' not in biggusDictus[packageName]:
 			return
@@ -1697,19 +1697,19 @@ def buildPackageTree(packageName=''):
 		#	return
 		for d in zz_depends_on:
 			#logger.debug (f"'{d}' is a child of '{packageName}'")
-			sub = findDepTreeAndBuild_recursive(d)
+			sub = findDepTreeAndBuild_recursive(d,force=False)
 			#logger.debug(f"*** BUILD dependency '{d}' here.")
 			buildPackage(d)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
 		return
 	logger.info(f"buildPackageTree: the following package tree Dependencies are being built now, before '{packageName}' aka '{obj_top_Package.name}':'")
 	findDepTreeAndBuild_recursive(packageName)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
 	logger.info(f"buildPackageTree: the package tree Dependencies have been built, now we are building '{packageName}' aka '{obj_top_Package.name}':'")
-	buildPackage(packageName)	# build the actual package, now that all its dependencies have been built
+	buildPackage(packageName,force=force)	# build the actual package, now that all its dependencies have been built
 	logger.info (f"Finished Processing buildPackageTree '{packageName}'")
 	return
 
 ###################################################################################################
-def buildPackage(packageName=''):
+def buildPackage(packageName='',force=False):
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -1722,8 +1722,7 @@ def buildPackage(packageName=''):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	logger.info (f"Processing buildPackage '{packageName}'")
-
+	logger.info (f"Processing buildPackage '{packageName}' with force='{force}'")
 
 	return
 
@@ -1913,7 +1912,7 @@ if __name__ == "__main__":
 				sys.exit(1)
 			#obj_top_Package = dictProducts.get_dot_py_obj(objArgParser.build_PRODUCT)		# returns an object of class dot_py_object 
 			#logger.info(f"About to Build PRODUCT='{objArgParser.build_PRODUCT}'")
-			buildPackageTree(objArgParser.build_PRODUCT)		# pass the package name to buildPackageTree, it'll take care of it.
+			buildPackageTree(objArgParser.build_PRODUCT,force=objArgParser.force)		# pass the package name to buildPackageTree, it'll take care of it.
 			#logger.info(f"Finished Build of PRODUCT='{objArgParser.build_PRODUCT}'")
 		elif objArgParser.build_DEPENDENCY is not None:
 			if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
@@ -1921,7 +1920,7 @@ if __name__ == "__main__":
 				sys.exit(1)
 			#obj_top_Package = dictDependencies.get_dot_py_obj(objArgParser.build_DEPENDENCY)		# returns an object of class dot_py_object 
 			#logger.info(f"About to Build DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
-			buildPackageTree(objArgParser.build_DEPENDENCY)	# pass the package name to buildPackageTree, it'll take care of it.
+			buildPackageTree(objArgParser.build_DEPENDENCY,force=objArgParser.force)	# pass the package name to buildPackageTree, it'll take care of it.
 			#logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 		else:
 			msg = f"Hmm, BUILD specified but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
@@ -1937,20 +1936,6 @@ if __name__ == "__main__":
 
 
 #------------------------
-
-
-
-#def commandLineEntrace:
-#	# has args
-#	for thing in finalPkgList:
-#				for b in self.targetBitness:
-#					main.prepareBuilding(b)
-#					main.buildMingw(b)
-#					main.initBuildFolders()
-#					if buildType == "PRODUCT":
-#						self.buildThing(thing, self.packages["prods"][thing], buildType, forceRebuild, skipDeps)
-#					else:
-#						self.buildThing(thing, self.packages["deps"][thing], buildType, forceRebuild, skipDeps)
 #					main.finishBuilding()
 
 #def defaultEntrace():
