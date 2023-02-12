@@ -1754,7 +1754,8 @@ def buildPackage(packageName='',force=False):
 	#	this DEBUG only partially works, since LISTS and SETS etc don't interate like this
 	#	still, it's close enough to see what is going on
 		if type(d) is dict:	# follow the dict tree down
-			print(f"SHOULD FOLLOW THIS DICT DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			print(f"SHOULD FOLLOW THIS DICT DOWN: '{txt}' '{type(d)}' d={d}")
+			#print(f"SHOULD FOLLOW THIS DICT DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 			for k,v in d.items():
 				#print(f"item [k] type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
@@ -1774,7 +1775,8 @@ def buildPackage(packageName='',force=False):
 					print(f"PROCESSED DICT UNKNOWN-TYPE {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 			print(f"FINISH FOLLOW THIS DICT DOWN: '{txt}' '{type(d)}' d={d}")
 		elif type(d) is list:	# follow the list tree down
-			print(f"SHOULD FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			print(f"SHOULD FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d={d}")
+			#print(f"SHOULD FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 			for v in d:
 				#print(f"LISTitem type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
@@ -1792,10 +1794,11 @@ def buildPackage(packageName='',force=False):
 				else:
 					# is likely a base item like int, float, bool etc ... ignore it
 					print(f"PROCESSED LIST UNKNOWN-TYPE {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-			print(f"FINISH FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
-
+			print(f"FINISH FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d={d}")
+			#print(f"FINISH FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 		elif type(d) is tuple:	# follow the list tree down
-			print(f"SHOULD FOLLOW THIS TUPLE DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			print(f"SHOULD FOLLOW THIS TUPLE DOWN: '{txt}' '{type(d)}' d={d}")
+			#print(f"SHOULD FOLLOW THIS TUPLE DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 			for v in d:
 				#print(f"TUPLEitem type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
@@ -1813,9 +1816,11 @@ def buildPackage(packageName='',force=False):
 				else:
 					# is likely a base item like int, float, bool etc ... ignore it
 					print(f"PROCESSED TUPLE UNKNOWN-TYPE {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-			print(f"FINISH FOLLOW THIS TUPLE DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			print(f"FINISH FOLLOW THIS TUPLE DOWN: '{txt}' '{type(d)}' d={d}")
+			#print(f"FINISH FOLLOW THIS TUPLE DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 		else:
-			print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' of item to dump: '{txt}' d=\n{objPrettyPrint.pformat(d)}")
+			print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' of item to dump: '{txt}' d={d}")
+			#print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' of item to dump: '{txt}' d=\n{objPrettyPrint.pformat(d)}")
 			sys.exit(1)
 		return
 
