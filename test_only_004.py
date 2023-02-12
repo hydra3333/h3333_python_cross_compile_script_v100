@@ -367,6 +367,24 @@ class settings:
 		return
 
 ###################################################################################################
+def resetDefaultEnvVars():
+	os.environ["PATH"]              = f"{objSETTINGS.mingwBinpath}:{objSETTINGS.originalPATH}"
+	os.environ["CFLAGS"]            = objSETTINGS.originalCflags
+	os.environ["CXXFLAGS"]          = objSETTINGS.originalCflags
+	os.environ["CPPFLAGS"]          = objSETTINGS.originalCflags
+	os.environ["LDFLAGS"]           = objSETTINGS.originalCflags
+	os.environ["PKG_CONFIG_PATH"]   = objSETTINGS.pkgConfigPath
+	os.environ["PKG_CONFIG_LIBDIR"] = ""
+	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
+	if objSETTINGS.debugMode:
+		#logger.debug("##############################")
+		#logger.debug("### Environment variables:  ###")
+		#for tk in os.environ:
+		#	logger.debug(f"\t '{tk}' : '{os.environ[tk]}'")
+		#logger.debug("##############################")
+		pass
+
+###################################################################################################
 class Colors:  # ansi colors
 	RESET = '\033[0m'
 	BLACK = '\033[30m'
@@ -1880,8 +1898,16 @@ def buildPackage(packageName=''):
 	# NOTES: these are a bit special and unlike other variable commands such as !CMDxxxCMD!
 	#	!SWITCHDIR
 	#	!SWITCHDIRBACK
-	logger.info (f"Processing buildPackage '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
+	#
+	if packageName in dictProducts.BO:
+		package_type = "PRODUCT"
+	elif packageName in dictDependencies.BO:
+		package_type = "DEPENDENCY"
+	else:
+		logger.error(f"The specified object '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' is neither a known PRODUCT nor a DEPENDENCY. Exiting.")
+		sys.exit(1)
 
+	logger.info (f"Processing buildPackage '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
 
 	# we want to be in workdir
 	cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
@@ -1959,11 +1985,33 @@ def buildPackage(packageName=''):
 		#print("##############################")
 		pass
 
+	#-----------------------------------------------------------------------
+	#-----------------------------------------------------------------------
+	logger.info(f"Building {package_type} '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
+	#-----------------------------------------------------------------------
+	#-----------------------------------------------------------------------
+	
+	cchdir(".")
+	resetDefaultEnvVars()
+
+	if 'warnings' in biggusDictus[packageName]:
+		if len(biggusDictus[packageName]['warnings']) > 0:
+			for w in biggusDictus[packageName]['warnings']:
+				logger.warning(w)
 
 
-	logger.info(f"buildPackage: {packageName} at the current end of in-development buildPackage")
 
 
+
+
+
+
+
+
+
+
+
+	logger.info(f"buildPackage: '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' at the current end of in-development buildPackage")
 	return
 
 ###################################################################################################
