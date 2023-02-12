@@ -1736,8 +1736,8 @@ def reviewPackageTree(packageName=''):
 		return
 	logger.info(f"reviewPackageTree: the following package tree Dependencies are being reviewed now, before '{packageName}' aka '{obj_top_Package.name}':'")
 	findDepTreeAndBuild_recursive(packageName)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
-	logger.info(f"reviewPackageTree: the package tree Dependencies have been reviewed, now we are building '{packageName}' aka '{obj_top_Package.name}':'")
-	####reviewPackage(packageName)	# build the actual package, now that all its dependencies have been reviewed
+	logger.info(f"reviewPackageTree: the package tree Dependencies have been reviewed above, now we are reviewing '{packageName}' aka '{obj_top_Package.name}':'")
+	reviewPackage(packageName)	# build the actual package, now that all its dependencies have been reviewed
 	logger.info (f"Finished Processing reviewPackageTree '{packageName}'")
 	return
 
@@ -1880,7 +1880,7 @@ def buildPackage(packageName=''):
 	# NOTES: these are a bit special and unlike other variable commands such as !CMDxxxCMD!
 	#	!SWITCHDIR
 	#	!SWITCHDIRBACK
-	logger.info (f"Processing buildPackage '{packageName}' objArgParser.force='{objArgParser.force}' objArgParser.skip_depends='{objArgParser.skip_depends}'")
+	logger.info (f"Processing buildPackage '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
 
 
 	# we want to be in workdir
@@ -1891,7 +1891,7 @@ def buildPackage(packageName=''):
 	# if so, return almost silently 
 	if '_already_built' in biggusDictus[packageName]:
 		if biggusDictus[packageName]['_already_built'] is True:
-			logger.info(f"buildPackage: Skipping rebuild of '{packageName}' since it has already been built sometime during this script run")
+			logger.info(f"buildPackage: Skipping rebuild of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' since it has already been built sometime during this script run")
 			cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
 			return
 	
@@ -1899,11 +1899,11 @@ def buildPackage(packageName=''):
 	skip_depends = False
 	if objArgParser.skip_depends:
 		skip_depends = True
-		logger.info(f"buildPackage: via cmdline, skip_depends={skip_depends} globally including for '{packageName}'")
+		logger.debug(f"buildPackage: via cmdline, skip_depends={skip_depends} globally including for '{packageName}'")
 	if 'skip_deps' in biggusDictus[packageName]:
 		if biggusDictus[packageName]['skip_deps'] is True:
 			skip_depends = True
-			logger.info(f"buildPackage: package parameter, skip_depends={skip_depends} for '{packageName}'")
+			logger.debug(f"buildPackage: package parameter, skip_depends={skip_depends} for '{packageName}'")
 
 	#-----
 	# 'run_pre_depends_on' exists mainly for building freetype cleanly (it crashed if re-run).
@@ -1926,23 +1926,23 @@ def buildPackage(packageName=''):
 				else:
 					logger.debug(f"buildPackage: Running run_pre_depends_on-command pre replaceVarCmdSubStrings (raw): '{cmd}'")
 					cmd = replaceVarCmdSubStrings(cmd)
-					logger.info(f"buildPackage: Running run_pre_depends_on-command: '{cmd}'")
+					logger.debug(f"buildPackage: Running run_pre_depends_on-command: '{cmd}'")
 					# run_process(cmd)
 					logger.debug(cmd)
 					runProcess(cmd, ignoreFail)		
 	#-----
 
 	if "depends_on" in biggusDictus[packageName]:
-		if skipDepends is False:
+		if skip_depends is False:
 			if len(biggusDictus[packageName]["depends_on"]) > 0:
-				logger.info(f"buildPackage: Building dependencies of '{packageName}'")
+				logger.info(f"buildPackage: Building dependencies of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
 				for libraryName in biggusDictus[packageName]["depends_on"]:
 					if libraryName not in biggusDictus:
-						logger.error(f"The specified dependency '{libraryName}' of '{packageName}' does not exist. Exiting.")
+						logger.error(f"The specified dependency '{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}' of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' does not exist. Exiting.")
 						raise MissingDependency(f"The specified dependency '{libraryName}' of '{packageName}' does not exist. Exiting.")  # sys.exc_info()[0]
 						sys.exit(1)	# in case MissingDependency fails
 					else:
-						logger.debug(f"buildPackage: in '{packageName}' about to recursive call buildPackage('{libraryName}')")
+						logger.debug(f"buildPackage: in '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' about to recursive call buildPackage('{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}')")
 						buildPackage(libraryName)
 
 	if 'is_dep_inheriter' in biggusDictus[packageName]:
@@ -1951,7 +1951,7 @@ def buildPackage(packageName=''):
 			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{biggusDictus[packageName]['is_dep_inheriter']} ... Set biggusDictus[packageName]['_already_built']='{biggusDictus[packageName]['_already_built']}'")
 
 	if objSETTINGS.debugMode:
-		logger.debug("##############################")
+		logger.debug("############################## well, seems to be a breakpoint of some kind")
 		#print("### Environment variables:  ###")
 		#for tk in os.environ:
 		#	print("\t" + tk + " : " + os.environ[tk])
@@ -1961,7 +1961,7 @@ def buildPackage(packageName=''):
 
 
 
-	logger.info(f"buildPackage: at the current end of in-development buildPackage")
+	logger.info(f"buildPackage: {packageName} at the current end of in-development buildPackage")
 
 
 	return
@@ -2135,33 +2135,34 @@ if __name__ == "__main__":
 	# OK. By the time we're here, we have created folders and built mingW64.
 	# So, review the specified package, could be a dependency, dependency tree, product, product tree.
 	# The package name will be in objArgParser.
-	if objArgParser.build:
-		if objArgParser.build_PRODUCT is not None:
-			if objArgParser.build_PRODUCT not in dictProducts.BO:
-				logger.error(f"Specified build PRODUCT:'{objArgParser.build_PRODUCT}' however no matching product name found.")
+	if objSETTINGS.debugMode:
+		if objArgParser.build:
+			if objArgParser.build_PRODUCT is not None:
+				if objArgParser.build_PRODUCT not in dictProducts.BO:
+					logger.error(f"Specified build PRODUCT:'{objArgParser.build_PRODUCT}' however no matching product name found.")
+					sys.exit(1)
+				#obj_top_Package = dictProducts.get_dot_py_obj(objArgParser.build_PRODUCT)		# returns an object of class dot_py_object 
+				#logger.info(f"About to Build PRODUCT='{objArgParser.build_PRODUCT}'")
+				reviewPackageTree(objArgParser.build_PRODUCT)
+				#logger.info(f"Finished Build of PRODUCT='{objArgParser.build_PRODUCT}'")
+			elif objArgParser.build_DEPENDENCY is not None:
+				if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
+					logger.error(f"Specified build DEPENDENCY:'{objArgParser.build_DEPENDENCY}' however no matching dependency name found.")
+					sys.exit(1)
+				#obj_top_Package = dictDependencies.get_dot_py_obj(objArgParser.build_DEPENDENCY)		# returns an object of class dot_py_object 
+				#logger.info(f"About to Build DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
+				reviewPackageTree(objArgParser.build_DEPENDENCY)
+				#logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
+			else:
+				msg = f"Hmm, BUILD specified, but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
+				logger.error("msg")
 				sys.exit(1)
-			#obj_top_Package = dictProducts.get_dot_py_obj(objArgParser.build_PRODUCT)		# returns an object of class dot_py_object 
-			#logger.info(f"About to Build PRODUCT='{objArgParser.build_PRODUCT}'")
-			reviewPackageTree(objArgParser.build_PRODUCT)
-			#logger.info(f"Finished Build of PRODUCT='{objArgParser.build_PRODUCT}'")
-		elif objArgParser.build_DEPENDENCY is not None:
-			if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
-				logger.error(f"Specified build DEPENDENCY:'{objArgParser.build_DEPENDENCY}' however no matching dependency name found.")
-				sys.exit(1)
-			#obj_top_Package = dictDependencies.get_dot_py_obj(objArgParser.build_DEPENDENCY)		# returns an object of class dot_py_object 
-			#logger.info(f"About to Build DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
-			reviewPackageTree(objArgParser.build_DEPENDENCY)
-			#logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 		else:
-			msg = f"Hmm, BUILD specified, but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
+			msg = f"Hmm, BUILD was not specified but nothing else was either : PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... that's an error condition ... exiting"
 			logger.error("msg")
 			sys.exit(1)
-	else:
-		msg = f"Hmm, BUILD was not specified but nothing else was either : PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... that's an error condition ... exiting"
-		logger.error("msg")
-		sys.exit(1)
 
-
+	# Well, looks like we finally have to build the specified package
 	if objArgParser.build:
 		if objArgParser.build_PRODUCT is not None:
 			if objArgParser.build_PRODUCT not in dictProducts.BO:
