@@ -1417,154 +1417,6 @@ def generateCflagString(prefix=""):
 	return ''
 
 ###################################################################################################
-def zzz_downloadHeader(self, url):
-	destination = self.targetPrefix.joinpath("include")
-	fileName = os.path.basename(urlparse(url).path)
-	if not os.path.isfile(os.path.join(destination, fileName)):
-		fname = self.downloadFile(url)
-		self.logger.debug("Moving Header File: '{0}' to '{1}'".format(fname, destination))
-		shutil.move(fname, destination)
-	else:
-		self.logger.debug("Header File: '{0}' already downloaded".format(fileName))
-
-###################################################################################################
-def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytesMode=False):
-	def fmt_size(num, suffix="B"):
-			for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
-				if abs(num) < 1024.0:
-					return "%3.1f%s%s" % (num, unit, suffix)
-				num /= 1024.0
-			return "%.1f%s%s" % (num, "Yi", suffix)
-	
-	if not url:
-		raise Exception("No URL specified.")
-
-	if outputPath is None:  # Default to current dir.
-		outputPath = os.getcwd()
-	else:
-		if not os.path.isdir(outputPath):
-			raise Exception('Specified path "{0}" does not exist'.format(outputPath))
-
-	fileName = os.path.basename(url)  # Get URL filename
-	userAgent = self.userAgent
-
-	if 'sourceforge.net' in url.lower():
-		userAgent = 'wget/1.18'  # sourceforce <3 wget
-
-	if url.lower().startswith("ftp://"):
-		self.logger.info("Requesting : {0}".format(url))
-		if outputFileName is not None:
-			fileName = outputFileName
-		fullOutputPath = os.path.join(outputPath, fileName)
-		urllib.request.urlretrieve(url, fullOutputPath)
-		return fullOutputPath
-
-	if url.lower().startswith("file://"):
-		url = url.replace("file://", "")
-		self.logger.info("Copying : {0}".format(url))
-		if outputFileName is not None:
-			fileName = outputFileName
-		fullOutputPath = os.path.join(outputPath, fileName)
-		try:
-			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(url, fullOutputPath))
-			shutil.copyfile(url, fullOutputPath)
-		except Exception as e:
-			print(e)
-			exit(1)
-		return fullOutputPath
-
-	req = requests.get(url, stream=True, headers={"User-Agent": userAgent}) # , verify=False to turn off certificate validation
-
-	if req.status_code != 200:
-		req.raise_for_status()
-
-	if "content-disposition" in req.headers:
-		reSponse = re.findall("filename=(.+)", req.headers["content-disposition"])
-		if reSponse is None:
-			fileName = os.path.basename(url)
-		else:
-			fileName = reSponse[0]
-
-	size = None
-	compressed = False
-	if "Content-Length" in req.headers:
-		size = int(req.headers["Content-Length"])
-
-	if "Content-Encoding" in req.headers:
-		if req.headers["Content-Encoding"] == "gzip":
-			compressed = True
-
-	self.logger.info("Requesting : {0} - {1}".format(url, fmt_size(size) if size is not None else "?"))
-
-	# terms = shutil.get_terminal_size((100,100))
-	# filler = 0
-	# if terms[0] > 100:
-	# 	filler = int(terms[0]/4)
-
-	widgetsNoSize = [
-		progressbar.FormatCustomText("Downloading: {:25.25}".format(os.path.basename(fileName))), " ",
-		progressbar.AnimatedMarker(markers='|/-\\'), " ",
-		progressbar.DataSize()
-		# " "*filler
-	]
-	widgets = [
-		progressbar.FormatCustomText("Downloading: {:25.25}".format(os.path.basename(fileName))), " ",
-		progressbar.Percentage(), " ",
-		progressbar.Bar(fill=chr(9617), marker=chr(9608), left="[", right="]"), " ",
-		progressbar.DataSize(), "/", progressbar.DataSize(variable="max_value"), " |",
-		progressbar.AdaptiveTransferSpeed(), " | ",
-		progressbar.ETA(),
-		# " "*filler
-	]
-	pbar = None
-	if size is None:
-		pbar = progressbar.ProgressBar(widgets=widgetsNoSize, maxval=progressbar.UnknownLength)
-	else:
-		pbar = progressbar.ProgressBar(widgets=widgets, maxval=size)
-
-	if outputFileName is not None:
-		fileName = outputFileName
-	fullOutputPath = os.path.join(outputPath, fileName)
-
-	updateSize = 0
-
-	if isinstance(pbar.max_value, int):
-		updateSize = pbar.max_value if pbar.max_value < 1024 else 1024
-
-	if bytesMode is True:
-		output = b""
-		bytesrecv = 0
-		pbar.start()
-		for buffer in req.iter_content(chunk_size=1024):
-			if buffer:
-				output += buffer
-			if compressed:
-				pbar.update(updateSize)
-			else:
-				pbar.update(bytesrecv)
-			bytesrecv += len(buffer)
-		pbar.finish()
-		return output
-	else:
-		with open(fullOutputPath, "wb") as file:
-			bytesrecv = 0
-			pbar.start()
-			for buffer in req.iter_content(chunk_size=1024):
-				if buffer:
-					file.write(buffer)
-					file.flush()
-				if compressed:
-					pbar.update(updateSize)
-				else:
-					pbar.update(bytesrecv)
-				bytesrecv += len(buffer)
-			pbar.finish()
-
-			return fullOutputPath
-	return
-
-
-###################################################################################################
 class MissingDependency(Exception):
 	# raise an exception ... used like:
 	#	raise MissingDependency(f"The dependency '{libraryName}' of '{packageName}' does not exist")  # sys.exc_info()[0]
@@ -1992,6 +1844,154 @@ def getPrimaryPackageUrl(self, packageData, packageName):  # returns the URL of 
 			raise Exception("download_location #1 of package has no url specified")
 		return replaceVarCmdSubStrings(packageData["download_locations"][0]["url"])  # TODO: do not assume correct format
 
+
+###################################################################################################
+def zzz_downloadHeader(self, url):
+	destination = self.targetPrefix.joinpath("include")
+	fileName = os.path.basename(urlparse(url).path)
+	if not os.path.isfile(os.path.join(destination, fileName)):
+		fname = self.downloadFile(url)
+		self.logger.debug("Moving Header File: '{0}' to '{1}'".format(fname, destination))
+		shutil.move(fname, destination)
+	else:
+		self.logger.debug("Header File: '{0}' already downloaded".format(fileName))
+
+###################################################################################################
+def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytesMode=False):
+	def fmt_size(num, suffix="B"):
+			for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
+				if abs(num) < 1024.0:
+					return "%3.1f%s%s" % (num, unit, suffix)
+				num /= 1024.0
+			return "%.1f%s%s" % (num, "Yi", suffix)
+	
+	if not url:
+		raise Exception("No URL specified.")
+
+	if outputPath is None:  # Default to current dir.
+		outputPath = os.getcwd()
+	else:
+		if not os.path.isdir(outputPath):
+			raise Exception('Specified path "{0}" does not exist'.format(outputPath))
+
+	fileName = os.path.basename(url)  # Get URL filename
+	userAgent = self.userAgent
+
+	if 'sourceforge.net' in url.lower():
+		userAgent = 'wget/1.18'  # sourceforce <3 wget
+
+	if url.lower().startswith("ftp://"):
+		self.logger.info("Requesting : {0}".format(url))
+		if outputFileName is not None:
+			fileName = outputFileName
+		fullOutputPath = os.path.join(outputPath, fileName)
+		urllib.request.urlretrieve(url, fullOutputPath)
+		return fullOutputPath
+
+	if url.lower().startswith("file://"):
+		url = url.replace("file://", "")
+		self.logger.info("Copying : {0}".format(url))
+		if outputFileName is not None:
+			fileName = outputFileName
+		fullOutputPath = os.path.join(outputPath, fileName)
+		try:
+			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(url, fullOutputPath))
+			shutil.copyfile(url, fullOutputPath)
+		except Exception as e:
+			print(e)
+			exit(1)
+		return fullOutputPath
+
+	req = requests.get(url, stream=True, headers={"User-Agent": userAgent}) # , verify=False to turn off certificate validation
+
+	if req.status_code != 200:
+		req.raise_for_status()
+
+	if "content-disposition" in req.headers:
+		reSponse = re.findall("filename=(.+)", req.headers["content-disposition"])
+		if reSponse is None:
+			fileName = os.path.basename(url)
+		else:
+			fileName = reSponse[0]
+
+	size = None
+	compressed = False
+	if "Content-Length" in req.headers:
+		size = int(req.headers["Content-Length"])
+
+	if "Content-Encoding" in req.headers:
+		if req.headers["Content-Encoding"] == "gzip":
+			compressed = True
+
+	self.logger.info("Requesting : {0} - {1}".format(url, fmt_size(size) if size is not None else "?"))
+
+	# terms = shutil.get_terminal_size((100,100))
+	# filler = 0
+	# if terms[0] > 100:
+	# 	filler = int(terms[0]/4)
+
+	widgetsNoSize = [
+		progressbar.FormatCustomText("Downloading: {:25.25}".format(os.path.basename(fileName))), " ",
+		progressbar.AnimatedMarker(markers='|/-\\'), " ",
+		progressbar.DataSize()
+		# " "*filler
+	]
+	widgets = [
+		progressbar.FormatCustomText("Downloading: {:25.25}".format(os.path.basename(fileName))), " ",
+		progressbar.Percentage(), " ",
+		progressbar.Bar(fill=chr(9617), marker=chr(9608), left="[", right="]"), " ",
+		progressbar.DataSize(), "/", progressbar.DataSize(variable="max_value"), " |",
+		progressbar.AdaptiveTransferSpeed(), " | ",
+		progressbar.ETA(),
+		# " "*filler
+	]
+	pbar = None
+	if size is None:
+		pbar = progressbar.ProgressBar(widgets=widgetsNoSize, maxval=progressbar.UnknownLength)
+	else:
+		pbar = progressbar.ProgressBar(widgets=widgets, maxval=size)
+
+	if outputFileName is not None:
+		fileName = outputFileName
+	fullOutputPath = os.path.join(outputPath, fileName)
+
+	updateSize = 0
+
+	if isinstance(pbar.max_value, int):
+		updateSize = pbar.max_value if pbar.max_value < 1024 else 1024
+
+	if bytesMode is True:
+		output = b""
+		bytesrecv = 0
+		pbar.start()
+		for buffer in req.iter_content(chunk_size=1024):
+			if buffer:
+				output += buffer
+			if compressed:
+				pbar.update(updateSize)
+			else:
+				pbar.update(bytesrecv)
+			bytesrecv += len(buffer)
+		pbar.finish()
+		return output
+	else:
+		with open(fullOutputPath, "wb") as file:
+			bytesrecv = 0
+			pbar.start()
+			for buffer in req.iter_content(chunk_size=1024):
+				if buffer:
+					file.write(buffer)
+					file.flush()
+				if compressed:
+					pbar.update(updateSize)
+				else:
+					pbar.update(bytesrecv)
+				bytesrecv += len(buffer)
+			pbar.finish()
+
+			return fullOutputPath
+	return
+
 ###################################################################################################
 def buildPackage(packageName=''):
 	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
@@ -2138,13 +2138,13 @@ def buildPackage(packageName=''):
 		ppd = getPrimaryPackageUrl(biggusDictus[packageName], packageName)
 		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' ppd='{ppd}' branch='{branch}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		#workDir = gitClone(ppd, folderName, renameFolder, branch, recursive, doNotUpdate, desiredPRVal, git_depth)
-		logger.debug(f"buildPackage: GIT: gitClone '{packageName} returned workdir='{workDir}'")
+		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' returned workdir='{workDir}'")
 	elif biggusDictus[packageName]["repo_type"] == "svn":	# SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN 
 		folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
 		ppd = getPrimaryPackageUrl(biggusDictus[packageName], packageName)
 		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		#workDir = svnClone(ppd, folderName, renameFolder)
-		logger.debug(f"buildPackage: SVN: svnClone '{packageName} returned workdir='{workDir}'")
+		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' returned workdir='{workDir}'")
 	elif biggusDictus[packageName]['repo_type'] == 'mercurial':	# MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL 
 		branch = getValueOrNone(biggusDictus[packageName], 'branch')
 		if branch is not None:
@@ -2153,17 +2153,17 @@ def buildPackage(packageName=''):
 		ppd = getPrimaryPackageUrl(biggusDictus[packageName], packageName)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		#workDir = mercurialClone(ppd, folderName, renameFolder, branch, objArgParser.force)
-		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName} returned workdir='{workDir}'")
+		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' returned workdir='{workDir}'")
 	elif biggusDictus[packageName]["repo_type"] == "archive":	# ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE 
 		if "folder_name" in biggusDictus[packageName]:
 			folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{folderName}'")
 			#workDir = downloadUnpackFile(biggusDictus[packageName], packageName, folderName, workDir)
-			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName} returned workdir='{workDir}'")
+			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
 		else:
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{None}'")
 			#workDir = downloadUnpackFile(biggusDictus[packageName], packageName, None, workDir)
-			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName} returned workdir='{workDir}'")
+			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
 	elif biggusDictus[packageName]["repo_type"] == "none":		# REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE 
 		if "folder_name" in biggusDictus[packageName]:
 			folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
@@ -2171,13 +2171,13 @@ def buildPackage(packageName=''):
 			workDir = folderName
 			logger.debug("mkdir -p '{0}'".format(workDir))
 			os.makedirs(workDir, exist_ok=True)
-			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName} returned workdir='{workDir}'")
+			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName}' returned workdir='{workDir}'")
 		else:
 			logger.error(f"Error: When using repo_type 'none' you have to set folder_name as well.")
 			exit(1)
 
 	if workDir is None:
-		logger.error(f"Error: Unexpected error when building {packageName}, please report this:\n{sys.exc_info()[0]}")
+		logger.error(f"Error: Unexpected error when building {packageName}, workdir='{workDir}', please report this: {sys.exc_info()[0]}")
 		raise
 
 
