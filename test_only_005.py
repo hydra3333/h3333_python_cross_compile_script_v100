@@ -2021,11 +2021,12 @@ def buildPackage(packageName=''):
 	# we want to be in workdir
 	cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
 	currentFullDir = Path(os.getcwd())
+	pkg = biggusDictus[packageName]
 
 	# check if the package has already been built in this run of this script
 	# if so, return almost silently 
-	if '_already_built' in biggusDictus[packageName]:
-		if biggusDictus[packageName]['_already_built'] is True:
+	if '_already_built' in pkg:
+		if pkg['_already_built'] is True:
 			logger.info(f"buildPackage: Skipping rebuild of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' since it has already been built sometime during this script run")
 			cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
 			return
@@ -2035,19 +2036,19 @@ def buildPackage(packageName=''):
 	if objArgParser.skip_depends:
 		skip_depends = True
 		logger.debug(f"buildPackage: via cmdline, skip_depends={skip_depends} globally including for '{packageName}'")
-	if 'skip_deps' in biggusDictus[packageName]:
-		if biggusDictus[packageName]['skip_deps'] is True:
+	if 'skip_deps' in pkg:
+		if pkg['skip_deps'] is True:
 			skip_depends = True
 			logger.debug(f"buildPackage: package parameter, skip_depends={skip_depends} for '{packageName}'")
 
 	#-----
 	# 'run_pre_depends_on' exists mainly for building freetype cleanly (it crashed if re-run).
 	# It causes this section to run even if 'is_dep_inheriter' is set and allows for an early return
-	if 'run_pre_depends_on' in biggusDictus[packageName]:
-		if len(biggusDictus[packageName]['run_pre_depends_on']) > 0:
-		# was this :- if biggusDictus[packageName]['run_pre_depends_on']:
-			logger.debug(f"buildPackage: '{packageName}' ['run_pre_depends_on']=\n{objPrettyPrint.pformat(biggusDictus[packageName]['run_pre_depends_on'])}")
-			for cmd in biggusDictus[packageName]['run_pre_depends_on']:	# for each item in 'run_pre_depends_on' (usually a line)
+	if 'run_pre_depends_on' in pkg:
+		if len(pkg['run_pre_depends_on']) > 0:
+		# was this :- if pkg['run_pre_depends_on']:
+			logger.debug(f"buildPackage: '{packageName}' ['run_pre_depends_on']=\n{objPrettyPrint.pformat(pkg['run_pre_depends_on'])}")
+			for cmd in pkg['run_pre_depends_on']:	# for each item in 'run_pre_depends_on' (usually a line)
 				logger.debug(f"buildPackage: '{packageName}' running ['run_pre_depends_on']cmd='{cmd}'")
 				ignoreFail = False
 				if isinstance(cmd, tuple):	# if one of the values in 'run_pre_depends_on' is a tuple itself like ('some_command', False)
@@ -2067,11 +2068,11 @@ def buildPackage(packageName=''):
 					runProcess(cmd, ignoreFail)		
 	#-----
 
-	if "depends_on" in biggusDictus[packageName]:
+	if "depends_on" in pkg:
 		if skip_depends is False:
-			if len(biggusDictus[packageName]["depends_on"]) > 0:
-				logger.info(f"buildPackage: Building dependencies of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' : {Colors.LIGHTRED_EX}{objPrettyPrint.pformat(biggusDictus[packageName]['depends_on'])}{Colors.RESET}")
-				for libraryName in biggusDictus[packageName]["depends_on"]:
+			if len(pkg["depends_on"]) > 0:
+				logger.info(f"buildPackage: Building dependencies of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' : {Colors.LIGHTRED_EX}{objPrettyPrint.pformat(pkg['depends_on'])}{Colors.RESET}")
+				for libraryName in pkg["depends_on"]:
 					if libraryName not in biggusDictus:
 						logger.error(f"The specified dependency '{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}' of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' does not exist. Exiting.")
 						raise MissingDependency(f"The specified dependency '{libraryName}' of '{packageName}' does not exist. Exiting.")  # sys.exc_info()[0]
@@ -2080,10 +2081,10 @@ def buildPackage(packageName=''):
 						logger.debug(f"buildPackage: in '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' about to recursive call buildPackage('{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}')")
 						buildPackage(libraryName)
 
-	if 'is_dep_inheriter' in biggusDictus[packageName]:
-		if biggusDictus[packageName]['is_dep_inheriter'] is True:
-			biggusDictus[packageName]["_already_built"] = True
-			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{biggusDictus[packageName]['is_dep_inheriter']} ... Set biggusDictus[packageName]['_already_built']='{biggusDictus[packageName]['_already_built']}'")
+	if 'is_dep_inheriter' in pkg:
+		if pkg['is_dep_inheriter'] is True:
+			pkg["_already_built"] = True
+			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{pkg['is_dep_inheriter']} ... Set pkg['_already_built']='{pkg['_already_built']}'")
 
 	if objSETTINGS.debugMode:
 		logger.debug("############################## well, seems to be a breakpoint of some kind")
@@ -2103,70 +2104,70 @@ def buildPackage(packageName=''):
 	cchdir(".")
 	resetDefaultEnvVars()
 
-	if 'warnings' in biggusDictus[packageName]:
-		if len(biggusDictus[packageName]['warnings']) > 0:
-			for w in biggusDictus[packageName]['warnings']:
+	if 'warnings' in pkg:
+		if len(pkg['warnings']) > 0:
+			for w in pkg['warnings']:
 				logger.warning(w)
 
 	workDir = None
 	renameFolder = None
 	
-	if 'rename_folder' in biggusDictus[packageName]:
-		if biggusDictus[packageName]['rename_folder'] is not None:
-			renameFolder = replaceVarCmdSubStrings(biggusDictus[packageName]['rename_folder'])
+	if 'rename_folder' in pkg:
+		if pkg['rename_folder'] is not None:
+			renameFolder = replaceVarCmdSubStrings(pkg['rename_folder'])
 
 	if package_type == "PRODUCT":
 		cchdir(objSETTINGS.fullProductDir)	# descend into x86_64_products
 	else: # DEPENDENCY
 		cchdir(objSETTINGS.bitnessPath)		# descend into x86_64
 
-	if biggusDictus[packageName]["repo_type"] == "git":		# GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT 
-		branch = getValueOrNone(biggusDictus[packageName], 'branch')
+	if pkg["repo_type"] == "git":		# GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT 
+		branch = getValueOrNone(pkg, 'branch')
 		if branch is not None:
 			branch = replaceVarCmdSubStrings(branch)
-		recursive = getValueOrNone(biggusDictus[packageName], 'recursive_git')
-		git_depth = biggusDictus[packageName].get('depth_git', -1) - 1	# Use Dict .get method, with a default of -1 which meanss the last commit
-		folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
+		recursive = getValueOrNone(pkg, 'recursive_git')
+		git_depth = pkg.get('depth_git', -1) - 1	# Use Dict .get method, with a default of -1 which meanss the last commit
+		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		doNotUpdate = False
-		if 'do_not_git_update' in biggusDictus[packageName]:
-			if biggusDictus[packageName]['do_not_git_update'] is True:
+		if 'do_not_git_update' in pkg:
+			if pkg['do_not_git_update'] is True:
 				doNotUpdate = True
 		desiredPRVal = None
-		if 'desired_pr_id' in biggusDictus[packageName]:
-			if biggusDictus[packageName]['desired_pr_id'] is not None:
-				desiredPRVal = replaceVarCmdSubStrings(biggusDictus[packageName]['desired_pr_id'])
-		ppd = getPrimaryPackageUrl(biggusDictus[packageName], packageName)
+		if 'desired_pr_id' in pkg:
+			if pkg['desired_pr_id'] is not None:
+				desiredPRVal = replaceVarCmdSubStrings(pkg['desired_pr_id'])
+		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' ppd='{ppd}' branch='{branch}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		#workDir = gitClone(ppd, folderName, renameFolder, branch, recursive, doNotUpdate, desiredPRVal, git_depth)
 		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' returned workdir='{workDir}'")
-	elif biggusDictus[packageName]["repo_type"] == "svn":	# SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN 
-		folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
-		ppd = getPrimaryPackageUrl(biggusDictus[packageName], packageName)
+	elif pkg["repo_type"] == "svn":	# SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN 
+		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
+		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		#workDir = svnClone(ppd, folderName, renameFolder)
 		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' returned workdir='{workDir}'")
-	elif biggusDictus[packageName]['repo_type'] == 'mercurial':	# MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL 
-		branch = getValueOrNone(biggusDictus[packageName], 'branch')
+	elif pkg['repo_type'] == 'mercurial':	# MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL 
+		branch = getValueOrNone(pkg, 'branch')
 		if branch is not None:
 			branch = replaceVarCmdSubStrings(branch)
-		folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
-		ppd = getPrimaryPackageUrl(biggusDictus[packageName], packageName)
+		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
+		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		#workDir = mercurialClone(ppd, folderName, renameFolder, branch, objArgParser.force)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' returned workdir='{workDir}'")
-	elif biggusDictus[packageName]["repo_type"] == "archive":	# ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE 
-		if "folder_name" in biggusDictus[packageName]:
-			folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
+	elif pkg["repo_type"] == "archive":	# ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE 
+		if "folder_name" in pkg:
+			folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{folderName}'")
-			#workDir = downloadUnpackFile(biggusDictus[packageName], packageName, folderName, workDir)
+			#workDir = downloadUnpackFile(pkg, packageName, folderName, workDir)
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
 		else:
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{None}'")
-			#workDir = downloadUnpackFile(biggusDictus[packageName], packageName, None, workDir)
+			#workDir = downloadUnpackFile(pkg, packageName, None, workDir)
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
-	elif biggusDictus[packageName]["repo_type"] == "none":		# REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE 
-		if "folder_name" in biggusDictus[packageName]:
-			folderName = replaceVarCmdSubStrings(getValueOrNone(biggusDictus[packageName], 'folder_name'))
+	elif pkg["repo_type"] == "none":		# REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE 
+		if "folder_name" in pkg:
+			folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName}' folderName='{folderName}'")
 			workDir = folderName
 			logger.debug("mkdir -p '{0}'".format(workDir))
