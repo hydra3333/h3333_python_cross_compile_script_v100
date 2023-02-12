@@ -1551,6 +1551,14 @@ def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytes
 			return fullOutputPath
 	return
 
+
+###################################################################################################
+class MissingDependency(Exception):
+	# raise an exception ... used like:
+	#	raise MissingDependency(f"The dependency '{libraryName}' of '{packageName}' does not exist")  # sys.exc_info()[0]
+	__module__ = 'exceptions'
+	def __init__(self, message):
+		self.message = message
 ###################################################################################################
 def errorExit(msg):
 	logger.error(msg)
@@ -1560,7 +1568,6 @@ def errorExit(msg):
 def cchdir(dir):
 	logger.debug(f"cd {dir} # Change dir from '{os.getcwd()}' to '{dir}'")
 	os.chdir(dir)
-
 
 ###################################################################################################
 def isPathDisabled(path):
@@ -1616,7 +1623,7 @@ def replaceVarCmdSubStrings(inStr):
 	# do it in this sequence
 	rawInStr = inStr
 	
-	# replace variabes from variables.py
+	# replace variables from variables.py
 	varList = re.findall(r"!VAR\((?P<variable_name>[^\)\(]+)\)VAR!", inStr)  # TODO: assignment expression
 	if varList:
 		for varName in varList:
@@ -1627,10 +1634,10 @@ def replaceVarCmdSubStrings(inStr):
 				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
 				logger.error(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
 	
-	# having replaced variabes, also replace any substitution strings
+	# having replaced variables, also replace any substitution strings
 	inStr = replaceSubstitutionStrings(inStr)
 	
-	# having replaced variabes and substitution strings, now also replace commands
+	# having replaced variables and substitution strings, now also replace commands
 	cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
 	if cmdList:
 		for cmd in cmdList:
@@ -1684,7 +1691,7 @@ def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yiel
 			exit(1)
 
 ###################################################################################################
-def buildPackageTree(packageName='',force=True):
+def reviewPackageTree(packageName=''):
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -1697,7 +1704,7 @@ def buildPackageTree(packageName='',force=True):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	logger.info (f"Processing buildPackageTree '{packageName}'")
+	logger.info (f"Processing reviewPackageTree '{packageName}'")
 	if objArgParser.build_PRODUCT in dictProducts.BO:
 		obj_top_Package = dictProducts.get_dot_py_obj(packageName)
 	elif objArgParser.build_DEPENDENCY in dictDependencies.BO:
@@ -1709,10 +1716,10 @@ def buildPackageTree(packageName='',force=True):
 	if packageName not in biggusDictus:
 		logger.error(f"Build package: '{packageName}' however no matching product/dependency name found in biggusDictus.")
 		sys.exit(1)
-	logger.debug (f"buildPackageTree, recognised retrieved package '{packageName}'")
+	logger.debug (f"reviewPackageTree, recognised retrieved package '{packageName}'")
 	
 	# recursively find and build dependencies first ... and then build the specified package
-	def findDepTreeAndBuild_recursive(packageName,force=False):
+	def findDepTreeAndBuild_recursive(packageName):
 		#logger.debug(f"entered findDepTreeAndBuild_recursive packageName='{packageName}'")
 		if 'depends_on' not in biggusDictus[packageName]:
 			return
@@ -1723,19 +1730,22 @@ def buildPackageTree(packageName='',force=True):
 		#	return
 		for d in zz_depends_on:
 			#logger.debug (f"'{d}' is a child of '{packageName}'")
-			sub = findDepTreeAndBuild_recursive(d,force=False)
+			sub = findDepTreeAndBuild_recursive(d)
 			#logger.debug(f"*** BUILD dependency '{d}' here.")
-			buildPackage(d)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
+			reviewPackage(d)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
 		return
-	logger.info(f"buildPackageTree: the following package tree Dependencies are being built now, before '{packageName}' aka '{obj_top_Package.name}':'")
+	logger.info(f"reviewPackageTree: the following package tree Dependencies are being reviewed now, before '{packageName}' aka '{obj_top_Package.name}':'")
 	findDepTreeAndBuild_recursive(packageName)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
-	logger.info(f"buildPackageTree: the package tree Dependencies have been built, now we are building '{packageName}' aka '{obj_top_Package.name}':'")
-	buildPackage(packageName,force=force)	# build the actual package, now that all its dependencies have been built
-	logger.info (f"Finished Processing buildPackageTree '{packageName}'")
+	logger.info(f"reviewPackageTree: the package tree Dependencies have been reviewed, now we are building '{packageName}' aka '{obj_top_Package.name}':'")
+	####reviewPackage(packageName)	# build the actual package, now that all its dependencies have been reviewed
+	logger.info (f"Finished Processing reviewPackageTree '{packageName}'")
 	return
 
 ###################################################################################################
-def buildPackage(packageName='',force=False):
+def reviewPackage(packageName=''):
+	# review a single package specified by name
+	# NOTE:	reviewPackageTree already recursively reviews all dependencies of 'packageName',
+	#		before 'packageName' gets reviewed here
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
 	global logger 			# the logger object used everywhere
@@ -1748,8 +1758,7 @@ def buildPackage(packageName='',force=False):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	logger.info (f"Processing buildPackage '{packageName}' with force='{force}'")
-
+	logger.info (f"Processing reviewPackage '{packageName}'")
 	def dump_package_items_recursive(txt, d):
 		# function to print out each field in the package structure, whether a list, dict, tuple etc.
 		if type(d) is dict:	# follow the dict tree down
@@ -1845,27 +1854,116 @@ def buildPackage(packageName='',force=False):
 			sys.exit(1)
 		return
 
-	# get a local copy of the object being built (it's a dict in itself) 
-	objPackage =  biggusDictus[packageName]
+	# get a local copy of the object being reviewed - dictPackage will be a dict
+	dictPackage =  biggusDictus[packageName]
 
 	# if debug, dump the contents of the package ... it's a jason tree of various data types
 	if objSETTINGS.debugMode:
-		dump_package_items_recursive(packageName, biggusDictus[packageName])
+		dump_package_items_recursive(packageName, dictPackage)
+	
+	logger.info (f"Finished Processing reviewPackage '{packageName}'")
+	return
+	
 
-		
+###################################################################################################
+def buildPackage(packageName=''):
+	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
+	
+	# a trick for the unwary:
+	# if biggusDictus['_already_built'] exists, then it must have already been built
+	# during the current run so don't build it yet again.
+	# this implies that '_already_built' must have been added, once built, into all 3 of
+	#	biggusDictus
+	#	if packageName in dictProducts.BO
+	#	if packageName in dictDependencies.BO
+	#
+	# NOTES: these are a bit special and unlike other variable commands such as !CMDxxxCMD!
+	#	!SWITCHDIR
+	#	!SWITCHDIRBACK
+	logger.info (f"Processing buildPackage '{packageName}' objArgParser.force='{objArgParser.force}' objArgParser.skip_depends='{objArgParser.skip_depends}'")
+
+
+	# we want to be in workdir
+	cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
+	currentFullDir = Path(os.getcwd())
+
+	# check if the package has already been built in this run of this script
+	# if so, return almost silently 
+	if '_already_built' in biggusDictus[packageName]:
+		if biggusDictus[packageName]['_already_built'] is True:
+			logger.info(f"buildPackage: Skipping rebuild of '{packageName}' since it has already been built sometime during this script run")
+			cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
+			return
+	
+	# peek at 'skip_deps' and set a flag
+	skip_depends = False
+	if objArgParser.skip_depends:
+		skip_depends = True
+		logger.info(f"buildPackage: via cmdline, skip_depends={skip_depends} globally including for '{packageName}'")
+	if 'skip_deps' in biggusDictus[packageName]:
+		if biggusDictus[packageName]['skip_deps'] is True:
+			skip_depends = True
+			logger.info(f"buildPackage: package parameter, skip_depends={skip_depends} for '{packageName}'")
+
+	#-----
+	logger.debug(f"buildPackage: ")
+	#-----
+	# 'run_pre_depends_on' exists mainly for building freetype cleanly (it crashed if re-run).
+	# It causes this section to run even if 'is_dep_inheriter' is set and allows for an early return
+	if 'run_pre_depends_on' in biggusDictus[packageName]:
+		if len(biggusDictus[packageName]['run_pre_depends_on']) > 0:
+		# was this :- if biggusDictus[packageName]['run_pre_depends_on']:
+			logger.debug(f"buildPackage: '{packageName}' ['run_pre_depends_on']=\n{objPrettyPrint.pformat(biggusDictus[packageName]['run_pre_depends_on'])}")
+			for cmd in biggusDictus[packageName]['run_pre_depends_on']:	# for each item in 'run_pre_depends_on' (usually a line)
+				logger.debug(f"buildPackage: '{packageName}' running ['run_pre_depends_on']cmd='{cmd}'")
+				ignoreFail = False
+				if isinstance(cmd, tuple):	# if one of the values in 'run_pre_depends_on' is a tuple itself like ('some_command', False)
+					ignoreFail = cmd[1]	# whether to ignoreFail
+					cmd = cmd[0]		# the command
+				if cmd.startswith("!SWITCHDIRBACK"):
+					cchdir(currentFullDir)
+				elif cmd.startswith("!SWITCHDIR"):
+					_dir = replaceVariables("|".join(cmd.split("|")[1:]))
+					cchdir(_dir)
+				else:
+					logger.debug(f"buildPackage: Running run_pre_depends_on-command pre replaceVarCmdSubStrings (raw): '{cmd}'")
+					cmd = replaceVarCmdSubStrings(cmd) ??????????????? we haven't yet defined replaceVariables properly
+					logger.info(f"buildPackage: Running run_pre_depends_on-command: '{cmd}'")
+					# run_process(cmd)
+					logger.debug(cmd)
+					runProcess(cmd, ignoreFail)		
+	#-----
+
+	if "depends_on" in biggusDictus[packageName]:
+		if skipDepends is False:
+			if len(biggusDictus[packageName]["depends_on"]) > 0:
+				logger.info(f"buildPackage: Building dependencies of '{packageName}'")
+				for libraryName in biggusDictus[packageName]["depends_on"]:
+					if libraryName not in biggusDictus:
+						logger.error(f"The specified dependency '{libraryName}' of '{packageName}' does not exist. Exiting.")
+						raise MissingDependency(f"The specified dependency '{libraryName}' of '{packageName}' does not exist. Exiting.")  # sys.exc_info()[0]
+						sys.exit(1)	# in case MissingDependency fails
+					else:
+						logger.debug(f"buildPackage: in '{packageName}' about to recursive call buildPackage('{libraryName}')
+						buildPackage(libraryName)
+
+	if 'is_dep_inheriter' in biggusDictus[packageName]:
+		if biggusDictus[packageName]['is_dep_inheriter'] is True:
+			biggusDictus[packageName]["_already_built"] = True
+			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{biggusDictus[packageName]['is_dep_inheriter']} ... Set biggusDictus[packageName]['_already_built']='{biggusDictus[packageName]['_already_built']}'"
+
+	if objSETTINGS.debugMode:
+		logger.debug("##############################")
+		#print("### Environment variables:  ###")
+		#for tk in os.environ:
+		#	print("\t" + tk + " : " + os.environ[tk])
+		#print("##############################")
+		#print("##############################")
+		pass
 
 
 
-
-
-
-
-	# before any changes, dump it to see what's going on
-	#local_print_items("before " + packageName, biggusDictus[packageName])
-
-
-			
-
+	logger.info(f"buildPackage: at the current end of in-development buildPackage")
 
 
 	return
@@ -2037,7 +2135,7 @@ if __name__ == "__main__":
 	buildMingw64()			# also does cchdir(objSETTINGS.fullWorkDir)
 
 	# OK. By the time we're here, we have created folders and built mingW64.
-	# So, build the specified packag:, could be a dependency, dependency tree, product, product tree.
+	# So, review the specified package, could be a dependency, dependency tree, product, product tree.
 	# The package name will be in objArgParser.
 	if objArgParser.build:
 		if objArgParser.build_PRODUCT is not None:
@@ -2046,7 +2144,7 @@ if __name__ == "__main__":
 				sys.exit(1)
 			#obj_top_Package = dictProducts.get_dot_py_obj(objArgParser.build_PRODUCT)		# returns an object of class dot_py_object 
 			#logger.info(f"About to Build PRODUCT='{objArgParser.build_PRODUCT}'")
-			buildPackageTree(objArgParser.build_PRODUCT,force=objArgParser.force)		# pass the package name to buildPackageTree, it'll take care of it.
+			reviewPackageTree(objArgParser.build_PRODUCT)
 			#logger.info(f"Finished Build of PRODUCT='{objArgParser.build_PRODUCT}'")
 		elif objArgParser.build_DEPENDENCY is not None:
 			if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
@@ -2054,7 +2152,7 @@ if __name__ == "__main__":
 				sys.exit(1)
 			#obj_top_Package = dictDependencies.get_dot_py_obj(objArgParser.build_DEPENDENCY)		# returns an object of class dot_py_object 
 			#logger.info(f"About to Build DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
-			buildPackageTree(objArgParser.build_DEPENDENCY,force=objArgParser.force)	# pass the package name to buildPackageTree, it'll take care of it.
+			reviewPackageTree(objArgParser.build_DEPENDENCY)
 			#logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 		else:
 			msg = f"Hmm, BUILD specified but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
@@ -2064,6 +2162,12 @@ if __name__ == "__main__":
 		msg = f"Hmm, BUILD was not specified but nothing else was either : PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... that's an error condition ... exiting"
 		logger.error("msg")
 		sys.exit(1)
+
+
+
+
+
+
 
 	# All Finished.
 	exit()
