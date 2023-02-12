@@ -1750,6 +1750,72 @@ def buildPackage(packageName='',force=False):
 
 	logger.info (f"Processing buildPackage '{packageName}' with force='{force}'")
 
+	def print_dict_items_recursive(txt, d):
+	#	this DEBUG only partially works, since LISTS and SETS etc don't interate like this
+	#	still, it's close enough to see what is going on
+		for k,v in d.items():
+			if type(v) is dict:	# it'll be a sub-dictionary
+				local_print_items(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+			else:
+				if v is None:
+					logger.debug(f"[{txt}] : '{k}' IS NONE")
+				else:
+					logger.debug(f"[{txt}] : '{k}' value='{v}'")
+		return
+
+	# get a local copy of the object being built (it's a dict in itself) 
+	objPackage =  biggusDictus[packageName]
+
+	# before any changes, dump it to see what's going on
+	print_dict_items_recursive("before " + packageName, biggusDictus[packageName])
+
+
+
+??? IN PROGRESS 
+	# replace strings and VAR and CMD on everything in it
+	# don'o worry about substrings ... although it'll probably crash on non-string variables
+	for k,v in objPackage.items():
+		if v is not None:
+			if type(v) id basestring:
+				print(f"basestring [k] type : '{type(v)}' : {v}")
+
+
+			match type(v):
+				case basestring:
+					print(f"basestring [k] type : '{type(v)}' : {v}")
+					#objPackage[k] = replaceVarCmdSubStrings(v)
+				case str:
+					print(f"str [k] type : '{type(v)}' : {v}")
+					#objPackage[k] = replaceVarCmdSubStrings(v)
+				case dict:
+					print(f"dict [k] type : '{type(v)}' : {v}")
+					#iterate dict
+				case list:
+					print(f"list [k] type : '{type(v)}' : {v}")
+					#iterate list
+				case set:
+					print(f"set [k] type : '{type(v)}' : {v}")
+					#iterate set
+				case _:
+					print("fUNRECOGNISED [k] type : '{type(v)}' : {v}")
+		else:
+			print(f"basestring [k] has value None : {v}")
+
+			
+			
+			
+			
+			
+			
+			
+	# before any changes, dump it to see what's going on
+	#local_print_items("before " + packageName, biggusDictus[packageName])
+
+
+			
+
+
+
 	return
 
 ###################################################################################################
@@ -1865,7 +1931,7 @@ if __name__ == "__main__":
 	logger.debug(replaceVarCmdSubStrings("Example VAR: VAR(ffmpeg_config)VAR=\n'!VAR(ffmpeg_config)VAR!'"))
 	logger.debug(replaceVarCmdSubStrings("Example CMD: CMD(pwd)CMD='!CMD(pwd)CMD!'"))
 	logger.debug("Example Sub: target_OS='{target_OS}'")
-		logger.debug(f"DEBUG: finish example substitutions")
+	logger.debug(f"DEBUG: finish example substitutions")
 	
 	# SANITY CHECK to ensure names are unique across PRODUCTS and DEPENDENCIES
 	logger.info(f"Processing initial sanity check of products and dependencies")
