@@ -1750,111 +1750,108 @@ def buildPackage(packageName='',force=False):
 
 	logger.info (f"Processing buildPackage '{packageName}' with force='{force}'")
 
-	def print_items_recursive(txt, d):
-	#	this DEBUG only partially works, since LISTS and SETS etc don't interate like this
-	#	still, it's close enough to see what is going on
+	def print_package_items_recursive(txt, d):
+		# function to print out each field in the package structure, whether a list, dict, tuple etc.
 		if type(d) is dict:	# follow the dict tree down
-			print(f"START FOLLOW DICT DOWN: '{txt}' '{type(d)}' d={d}")
-			#print(f"START FOLLOW DICT DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			#print(f"START FOLLOW DICT DOWN:  '{txt}' '{type(d)}' d={d}")
+			##print(f"START FOLLOW DICT DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 			for k,v in d.items():
-				#print(f"item [k] type='{type(v)}' value='{v}'")
+				##print(f"item [k] type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
-					print(f"PROCESSING DICT DICT    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
-					print_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
-					print(f"PROCESSED  DICT DICT    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					#print(f"PROCESSING DICT DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					print_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+					#print(f"PROCESSED  DICT DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				elif type(v) is list:
-					print(f"PROCESSING DICT LIST    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
-					print_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
-					print(f"PROCESSED  DICT LIST    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					#print(f"PROCESSING DICT LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					print_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+					#print(f"PROCESSED  DICT LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				elif type(v) is tuple:
-					print(f"PROCESSING DICT TUPLE   {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
-					print_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-tuple
-					print(f"PROCESSED  DICT TUPLE   {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					#print(f"PROCESSING DICT TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					print_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-tuple
+					#print(f"PROCESSED  DICT TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				elif type(v) is str:
-					print(f"PROCESSING DICT STRING  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					#print(f"PROCESSING DICT STRING   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}{k}{Colors.RESET}'='{v}'")
 					# do something with a string at the end of a dict
-					print(f"PROCESSED  DICT STRING  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+					print(f"PROCESSED  DICT STRING   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}{k}{Colors.RESET}'='{v}'")
+					pass
 				else:
-					print(f"PROCESSING DICT TYPE    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}' ... probably a bool or int or float")
+					#print(f"PROCESSING DICT TYPE     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}' ... probably a bool or int or float")
 					# is likely a base item like int, float, bool etc ... ignore it
-					print(f"PROCESSED  DICT TYPE    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}' ... probably a bool or int or float")
-			print(f"END   FOLLOW DICT DOWN: '{txt}' '{type(d)}' d={d}")
-			#print(f"END   FOLLOW DICT DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+					print(f"PROCESSED  DICT TYPE     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}{k}{Colors.RESET}'='{v}' ... probably a bool or int or float")
+					pass
+			#print(f"END   FOLLOW DICT DOWN:  '{txt}' '{type(d)}' d={d}")
+			##print(f"END   FOLLOW DICT DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 		elif type(d) is list:	# follow the list tree down
-			print(f"START FOLLOW LIST DOWN: '{txt}' '{type(d)}' d={d}")
-			#print(f"START FOLLOW LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			#print(f"START FOLLOW LIST DOWN:  '{txt}' '{type(d)}' d={d}")
+			##print(f"START FOLLOW LIST DOWN:  '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 			for v in d:
-				#print(f"LISTitem type='{type(v)}' value='{v}'")
+				##print(f"LISTitem type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
-					print(f"PROCESSING LIST DICT    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-					print_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
-					print(f"PROCESSED  LIST DICT    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					#print(f"PROCESSING LIST DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					print_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
+					#print(f"PROCESSED  LIST DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
 				elif type(v) is list:
-					print(f"PROCESSING LIST LIST    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-					print_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
-					print(f"PROCESSED  LIST LIST    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					#print(f"PROCESSING LIST LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					print_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
+					#print(f"PROCESSED  LIST LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
 				elif type(v) is tuple:
-					print(f"PROCESSING LIST TUPLE   {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-					print_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-tuple
-					print(f"PROCESSED  LIST TUPLE   {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					#print(f"PROCESSING LIST TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					print_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-tuple
+					#print(f"PROCESSED  LIST TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
 				elif type(v) is str:
-					print(f"PROCESSING LIST STRING  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					#print(f"PROCESSING LIST STRING   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}LISTitem{Colors.RESET}'='{v}'")
 					# do something with a string at the end of a dict
-					print(f"PROCESSED  LIST STRING  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
+					print(f"PROCESSED  LIST STRING   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}LISTitem{Colors.RESET}'='{v}'")
+					pass
 				else:
+					#print(f"PROCESSING LIST TYPE     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}' ... probably a bool or int or float")
 					# is likely a base item like int, float, bool etc ... ignore it
-					print(f"PROCESSED LIST TYPE     {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}' ... probably a bool or int or float")
-			print(f"END   FOLLOW LIST DOWN: '{txt}' '{type(d)}' d={d}")
-			#print(f"END   FOLLOW LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+					print(f"PROCESSED  LIST TYPE     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}{k}{Colors.RESET}'='{v}' ... probably a bool or int or float")
+					pass
+			#print(f"END   FOLLOW LIST DOWN:  '{txt}' '{type(d)}' d={d}")
+			##print(f"END   FOLLOW LIST DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 		elif type(d) is tuple:	# follow the list tree down
-			print(f"START FOLLOW TUPLE DOWN:'{txt}' '{type(d)}' d={d}")
-			#print(f"START FOLLOW TUPLE DOWN:'{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+			#print(f"START FOLLOW TUPLE DOWN: '{txt}' '{type(d)}' d={d}")
+			##print(f"START FOLLOW TUPLE DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 			for v in d:
-				#print(f"TUPLEitem type='{type(v)}' value='{v}'")
+				##print(f"TUPLEitem type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
-					print(f"PROCESSING TUPLE DICT  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-					print_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
-					print(f"PROCESSING TUPLE DICT  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					#print(f"PROCESSING TUPLE DICT   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					print_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
+					#print(f"PROCESSING TUPLE DICT   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
 				elif type(v) is list:
-					print(f"PROCESSING TUPLE LIST  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-					print_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
-					print(f"PROCESSED  TUPLE LIST  {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					#print(f"PROCESSING TUPLE LIST   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					print_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
+					#print(f"PROCESSED  TUPLE LIST   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
 				elif type(v) is tuple:
-					print(f"PROCESSING TUPLE TUPLE {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-					print_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-tuple
-					print(f"PROCESSED  TUPLE TUPLE {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					#print(f"PROCESSING TUPLE TUPLE  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					print_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-tuple
+					#print(f"PROCESSED  TUPLE TUPLE  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
 				elif type(v) is str:
-					print(f"PROCESSING TUPLE STRING {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					#print(f"PROCESSING TUPLE STRING  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}TUPLEitem{Colors.RESET}'='{v}'")
 					# do something with a string at the end of a dict
-					print(f"PROCESSED  TUPLE STRING {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
+					print(f"PROCESSED  TUPLE STRING  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}TUPLEitem{Colors.RESET}'='{v}'")
+					pass
 				else:
+					#print(f"PROCESSING TUPLE TYPE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}' ... probably a bool or int or float")
 					# is likely a base item like int, float, bool etc ... ignore it
-					print(f"PROCESSED TUPLE TYPE    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-			print(f"END  FOLLOW TUPLE DOWN: '{txt}' '{type(d)}' d={d}")
-			#print(f"END  FOLLOW TUPLE DOWN: '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
+					print(f"PROCESSED  TUPLE TYPE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}{k}{Colors.RESET}'='{v}' ... probably a bool or int or float")
+					pass
+			#print(f"END  FOLLOW TUPLE DOWN:  '{txt}' '{type(d)}' d={d}")
+			#print(f"END  FOLLOW TUPLE DOWN:  '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 		else:
-			print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' of item to dump: '{txt}' d={d}")
-			#print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' of item to dump: '{txt}' d=\n{objPrettyPrint.pformat(d)}")
+			#print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' in item to dump: '{txt}' d={d}")
+			print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' in item to dump: '{txt}' d=\n{objPrettyPrint.pformat(d)}")
 			sys.exit(1)
 		return
 
-	#def OLD_print_items_recursive(txt, d):
-	#	for k,v in d.items():
-	#		if type(v) is dict:	# it'll be a sub-dictionary
-	#			local_print_items(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
-	#		else:
-	#			if v is None:
-	#				logger.debug(f"[{txt}] : '{k}' IS NONE")
-	#			else:
-	#				logger.debug(f"[{txt}] : '{k}' value='{v}'")
-	#	return
 
 
 	# get a local copy of the object being built (it's a dict in itself) 
 	objPackage =  biggusDictus[packageName]
 
-	# before any changes, dump it to see what's going on
-	print_items_recursive(packageName, biggusDictus[packageName])
+	if objSETTINGS.debugMode:
+		print_package_items_recursive(packageName, biggusDictus[packageName])
 
 
 
