@@ -1750,7 +1750,7 @@ def buildPackage(packageName='',force=False):
 
 	logger.info (f"Processing buildPackage '{packageName}' with force='{force}'")
 
-	def print_package_items_recursive(txt, d):
+	def dump_package_items_recursive(txt, d):
 		# function to print out each field in the package structure, whether a list, dict, tuple etc.
 		if type(d) is dict:	# follow the dict tree down
 			#print(f"START FOLLOW DICT DOWN:  '{txt}' '{type(d)}' d={d}")
@@ -1759,15 +1759,15 @@ def buildPackage(packageName='',force=False):
 				##print(f"item [k] type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
 					#print(f"PROCESSING DICT DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
-					print_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+					dump_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
 					#print(f"PROCESSED  DICT DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				elif type(v) is list:
 					#print(f"PROCESSING DICT LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
-					print_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+					dump_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
 					#print(f"PROCESSED  DICT LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				elif type(v) is tuple:
 					#print(f"PROCESSING DICT TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
-					print_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-tuple
+					dump_package_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-tuple
 					#print(f"PROCESSED  DICT TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				elif type(v) is str:
 					#print(f"PROCESSING DICT STRING   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}{k}{Colors.RESET}'='{v}'")
@@ -1788,15 +1788,15 @@ def buildPackage(packageName='',force=False):
 				##print(f"LISTitem type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
 					#print(f"PROCESSING LIST DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-					print_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
+					dump_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
 					#print(f"PROCESSED  LIST DICT     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
 				elif type(v) is list:
 					#print(f"PROCESSING LIST LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-					print_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
+					dump_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
 					#print(f"PROCESSED  LIST LIST     {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
 				elif type(v) is tuple:
 					#print(f"PROCESSING LIST TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
-					print_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-tuple
+					dump_package_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-tuple
 					#print(f"PROCESSED  LIST TUPLE    {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'LISTitem'='{v}'")
 				elif type(v) is str:
 					#print(f"PROCESSING LIST STRING   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}LISTitem{Colors.RESET}'='{v}'")
@@ -1817,15 +1817,15 @@ def buildPackage(packageName='',force=False):
 				##print(f"TUPLEitem type='{type(v)}' value='{v}'")
 				if   type(v) is dict:	# it'll be a sub-dictionary
 					#print(f"PROCESSING TUPLE DICT   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-					print_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
+					dump_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
 					#print(f"PROCESSING TUPLE DICT   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
 				elif type(v) is list:
 					#print(f"PROCESSING TUPLE LIST   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-					print_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
+					dump_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-dictionary
 					#print(f"PROCESSED  TUPLE LIST   {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
 				elif type(v) is tuple:
 					#print(f"PROCESSING TUPLE TUPLE  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
-					print_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-tuple
+					dump_package_items_recursive(f"[{txt}][TUPLEitem]", v)	# recurse the sub-tuple
 					#print(f"PROCESSED  TUPLE TUPLE  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' 'TUPLEitem'='{v}'")
 				elif type(v) is str:
 					#print(f"PROCESSING TUPLE STRING  {Colors.LIGHTGREEN_EX}{txt}{Colors.RESET} '{type(v)}' '{Colors.LIGHTMAGENTA_EX}TUPLEitem{Colors.RESET}'='{v}'")
@@ -1845,21 +1845,13 @@ def buildPackage(packageName='',force=False):
 			sys.exit(1)
 		return
 
-
-
 	# get a local copy of the object being built (it's a dict in itself) 
 	objPackage =  biggusDictus[packageName]
 
+	# if debug, dump the contents of the package ... it's a jason tree of various data types
 	if objSETTINGS.debugMode:
-		print_package_items_recursive(packageName, biggusDictus[packageName])
+		dump_package_items_recursive(packageName, biggusDictus[packageName])
 
-
-
-
-	# replace strings and VAR and CMD on everything in it
-	# don'o worry about substrings ... although it'll probably crash on non-string variables
-	#for k,v in objPackage.items():
-	#	print(f"item [k] type='{type(v)}' value='{v}'")
 		
 
 
