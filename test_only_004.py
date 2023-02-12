@@ -1935,7 +1935,7 @@ def buildPackage(packageName=''):
 	if "depends_on" in biggusDictus[packageName]:
 		if skip_depends is False:
 			if len(biggusDictus[packageName]["depends_on"]) > 0:
-				logger.info(f"buildPackage: Building dependencies of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
+				logger.info(f"buildPackage: Building dependencies of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' : {Colors.LIGHTRED_EX}{objPrettyPrint.pformat(biggusDictus[packageName]['depends_on'])}{Colors.RESET}")
 				for libraryName in biggusDictus[packageName]["depends_on"]:
 					if libraryName not in biggusDictus:
 						logger.error(f"The specified dependency '{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}' of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' does not exist. Exiting.")
