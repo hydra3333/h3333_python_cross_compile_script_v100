@@ -1865,29 +1865,8 @@ if __name__ == "__main__":
 	logger.debug(replaceVarCmdSubStrings("Example VAR: VAR(ffmpeg_config)VAR=\n'!VAR(ffmpeg_config)VAR!'"))
 	logger.debug(replaceVarCmdSubStrings("Example CMD: CMD(pwd)CMD='!CMD(pwd)CMD!'"))
 	logger.debug("Example Sub: target_OS='{target_OS}'")
-	logger.debug(f"DEBUG: finish example substitutions")
+		logger.debug(f"DEBUG: finish example substitutions")
 	
-	# DEBUG: have a look at products and dependencies and variables
-	#
-	#for key in dictProducts.BO:
-	#	print(f"dictProducts(key)={key}")
-	#for key, val in dictProducts.BO.items():
-	#	#objPrettyPrint.pprint(key)
-	#	#objPrettyPrint.pprint(val)
-	#	tmp = "##### PRODUCT ##### " + objPrettyPrint.pformat(key) + " #####\n" + objPrettyPrint.pformat(val)
-	#	print(tmp)
-	#
-	#for key in dictDependencies.BO:
-	#	print(f"dictDependencies(key)={key}")
-	#for key, val in dictDependencies.BO.items():
-	#	#objPrettyPrint.pprint(key)
-	#	#objPrettyPrint.pprint(val)
-	#	tmp = "##### DEPENDENCY ##### " + objPrettyPrint.pformat(key) + " #####\n" + objPrettyPrint.pformat(val)
-	#	#print(tmp)
-	#
-	#tmp = "##### VARIABLES #####\n" + objPrettyPrint.pformat(objVariables.Val)
-	#print(tmp)
-
 	# SANITY CHECK to ensure names are unique across PRODUCTS and DEPENDENCIES
 	logger.info(f"Processing initial sanity check of products and dependencies")
 	is_duplicated = False
