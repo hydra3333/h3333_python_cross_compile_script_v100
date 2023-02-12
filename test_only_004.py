@@ -1750,64 +1750,67 @@ def buildPackage(packageName='',force=False):
 
 	logger.info (f"Processing buildPackage '{packageName}' with force='{force}'")
 
-	def print_dict_items_recursive(txt, d):
+	def print_items_recursive(txt, d):
 	#	this DEBUG only partially works, since LISTS and SETS etc don't interate like this
 	#	still, it's close enough to see what is going on
-		for k,v in d.items():
-			if type(v) is dict:	# it'll be a sub-dictionary
-				local_print_items(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
-			else:
-				if v is None:
-					logger.debug(f"[{txt}] : '{k}' IS NONE")
+		if type(d) is dict:	# follow the dict tree down
+			print(f"SHOULD FOLLOW THIS DICT DOWN: '{txt}' '{type(d)}' d={d}")
+			for k,v in d.items():
+				#print(f"item [k] type='{type(v)}' value='{v}'")
+				if   type(v) is dict:	# it'll be a sub-dictionary
+					print_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+					print(f"PROCESSED DICT DICT   {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+				elif type(v) is list:
+					print_items_recursive(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+					print(f"PROCESSED DICT LIST    {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+				elif type(v) is str:
+					print(f"PROCESSED DICT STRING   {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
 				else:
-					logger.debug(f"[{txt}] : '{k}' value='{v}'")
+					# is likely a base item like int, float, bool etc ... ignore it
+					print(f"PROCESSED DICT UNKNOWN {Colors.RED}{txt}{Colors.RESET} '{type(v)}' '{k}'='{v}'")
+		elif type(d) is list:	# follow the list tree down
+			print(f"SHOULD FOLLOW THIS LIST DOWN: '{txt}' '{type(d)}' d={d}")
+			for v in d:
+				print_items_recursive(f"[{txt}][LISTitem]", v)	# recurse the sub-dictionary
+				print(f"PROCESSED LISTitem {txt} '{v}'")
+		else:
+			print(f"WTF, UNKNOWN type of item to dump: '{txt}' '{type(d)}' d={d}")
+			sys.exit(1)
 		return
+
+	#def OLD_print_items_recursive(txt, d):
+	#	for k,v in d.items():
+	#		if type(v) is dict:	# it'll be a sub-dictionary
+	#			local_print_items(f"[{txt}][{k}]", v)	# recurse the sub-dictionary
+	#		else:
+	#			if v is None:
+	#				logger.debug(f"[{txt}] : '{k}' IS NONE")
+	#			else:
+	#				logger.debug(f"[{txt}] : '{k}' value='{v}'")
+	#	return
+
 
 	# get a local copy of the object being built (it's a dict in itself) 
 	objPackage =  biggusDictus[packageName]
 
 	# before any changes, dump it to see what's going on
-	print_dict_items_recursive("before " + packageName, biggusDictus[packageName])
+	print_items_recursive(packageName, biggusDictus[packageName])
 
 
 
-??? IN PROGRESS 
+
 	# replace strings and VAR and CMD on everything in it
 	# don'o worry about substrings ... although it'll probably crash on non-string variables
-	for k,v in objPackage.items():
-		if v is not None:
-			if type(v) id basestring:
-				print(f"basestring [k] type : '{type(v)}' : {v}")
+	#for k,v in objPackage.items():
+	#	print(f"item [k] type='{type(v)}' value='{v}'")
+		
 
 
-			match type(v):
-				case basestring:
-					print(f"basestring [k] type : '{type(v)}' : {v}")
-					#objPackage[k] = replaceVarCmdSubStrings(v)
-				case str:
-					print(f"str [k] type : '{type(v)}' : {v}")
-					#objPackage[k] = replaceVarCmdSubStrings(v)
-				case dict:
-					print(f"dict [k] type : '{type(v)}' : {v}")
-					#iterate dict
-				case list:
-					print(f"list [k] type : '{type(v)}' : {v}")
-					#iterate list
-				case set:
-					print(f"set [k] type : '{type(v)}' : {v}")
-					#iterate set
-				case _:
-					print("fUNRECOGNISED [k] type : '{type(v)}' : {v}")
-		else:
-			print(f"basestring [k] has value None : {v}")
 
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
 	# before any changes, dump it to see what's going on
 	#local_print_items("before " + packageName, biggusDictus[packageName])
 
