@@ -182,8 +182,6 @@ class settings:
 
 	def __init__(self):
 		# NOTE:	here we fully flesh out all variables
-		#		nothing is left with !CMDxxxCMD! or !VARxxxVAR! type stuff in it
-		#		so, we do not rely on functions like replaceVariables or replaceVariables
 
 		print(f"Processing initial settings")
 		# _working and STATUS stuff first
@@ -358,7 +356,7 @@ class settings:
 				'original_cflag_trim': self.originalCflag_trim,		# a duplicate, cull later
 			}
 		)
-		self.string_replacements_Dict = self.formatDict	# migrate to using this
+		self.substitutionDict = self.formatDict	# migrate to using this, so cull later
 
 		#
 		# The next bit is formatting self.config into itself using 'self.formatDict' as the source of key/value replacements
@@ -541,7 +539,6 @@ class dot_py_object:					# a single .py - name,  and json values in a dictionary
 						logger.debug(f"load_py_file: dot_py_object({self.name}): {heading} variables File '{packageName}.py' loaded")
 			except SyntaxError:
 				self.errorExit(f"load_py_file: dot_py_object({self.name}): Loading {heading} variables File '{packageName}' failed:\n\n{traceback.format_exc()}")
-		
 		logger.info(f"Finished Processing 'load_py_file' for variables from {packageName} into {heading} object named {self.name}")
 		logger.info(f"Loaded {len(self.Val)} variables into {heading} object named {self.name}")
 		return
@@ -1614,6 +1611,64 @@ def reStrip(pat, txt):
 	return re.sub(r'[ ]+', ' ', x).strip()
 
 ###################################################################################################
+def replaceSubstitutionStrings(inStr):
+	# replace the substitution strings like {abcdef} inside a string (eg one of package content strings)
+	# with actual filled-in data from say settings or something from substitutionDict
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+	return inStr.format_map(objSETTINGS.substitutionDict)
+
+def replaceVarCmdSubStrings(inStr):
+	# replace the strings like !VAR(ffmpeg_config)VAR! and !CMD(pwd)CMD! inside a string (eg one of package content strings)
+	# with actual filled-in data from the variables.py file we pre-read into objVariables.Val
+	# and the results of commands
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+	# do it in this sequence
+	rawInStr = inStr
+	
+	# replace variabes from variables.py
+	varList = re.findall(r"!VAR\((?P<variable_name>[^\)\(]+)\)VAR!", inStr)  # TODO: assignment expression
+	if varList:
+		for varName in varList:
+			if varName in objVariables.Val:
+				variableContent = objVariables.Val[varName]
+				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"{0}".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
+			else:
+				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
+				self.logger.error(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
+	
+	# having replaced variabes, also replace any substitution strings
+	inStr = self.replaceSubstitutionStrings(inStr)
+	
+	# having replaced variabes and substitution strings, now also replace commands
+	cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
+	if cmdList:
+		for cmd in cmdList:
+			cmdReplacer = subprocess.check_output(cmd, shell=True).decode("utf-8").replace("\n", "").replace("\r", "").strip()
+			inStr = re.sub(r"!CMD\(([^\)\(]+)\)CMD!", F"{cmdReplacer}", inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
+	
+	return inStr
+
+###################################################################################################
 def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yield_return_code=False):
 	# run a shell type command and retutn a bufffer contaning sanitized stdout results
 	isSvn = False
@@ -1829,6 +1884,21 @@ if __name__ == "__main__":
 	
 	# for joint searching, combine both products and dependencies into a global
 	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	
+	# 
+
+
+	print(f"")
+	print(f"objSETTINGS.substitutionDict={objSETTINGS.substitutionDict}")
+	objPrettyPrint.pprint(objSETTINGS.substitutionDict)
+	print(f"")
+	
+	print(f"")
+	print(f"ObjVariables.Val={ObjVariables.Val}\n")
+	objPrettyPrint.pprint(ObjVariables.Val)
+	print(f"")
+	
+	
 	
 	# DEBUG: have a look at products and dependencies and variables
 	#
