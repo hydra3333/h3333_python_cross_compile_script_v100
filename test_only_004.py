@@ -307,8 +307,8 @@ class settings:
 		# define the name of tghe gcc compiler
 		self.gcc_bin = os.path.join(self.mingwBinpath, self.bitnessStr + "-w64-mingw32-gcc")
 
-		self.formatDict = defaultdict(lambda: "")
-		self.formatDict.update(
+		self.substitutionDict = defaultdict(lambda: "")
+		self.substitutionDict.update(
 			{
 				'output_prefix': str(self.fullOutputDir),
 				'cmake_prefix_options': self.cmakePrefixOptions,
@@ -356,34 +356,7 @@ class settings:
 				'original_cflag_trim': self.originalCflag_trim,		# a duplicate, cull later
 			}
 		)
-		self.substitutionDict = self.formatDict	# migrate to using this, so cull later
-
-		#
-		# The next bit is formatting self.config into itself using 'self.formatDict' as the source of key/value replacements
-		#
-		#self.config = self.formatConfig(self.config) 
-		#def formatConfig(self, c: dict):
-		#	def fmt(d):
-		#		if isinstance(d, dict):
-		#			return {self.replaceToolChainVars(k): fmt(v) for k, v in d.items()}
-		#		elif isinstance(d, list):
-		#			return [fmt(o) for o in d]
-		#		else:
-		#			if isinstance(d, str):
-		#				return self.replaceToolChainVars(d)
-		#			else:
-		#				return d
-		#	try:
-		#		return fmt(c)
-		#	except KeyError as e:
-		#self.errorExit(F"Failed to parse config file, the variable {e} does not exist.")
-		#
-		# HOWEVER ...
-		# we do not used saved configs any more
-		# since they interfered when making changes to this script and the changes appearing not to work
-		# SO ... we ignore and no longer do saved config stuff
-		#
-		
+	
 		os.environ["PATH"] = f"{self.mingwBinpath}:{self.originalPATH}"
 		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
 		os.environ["PKG_CONFIG_LIBDIR"] = ""
@@ -1266,15 +1239,14 @@ def prepareForBuilding():
 			f.write("\n")
 	else:
 		logger.debug(f"Using existing Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
-	logger.debug(f"'{objSETTINGS.mesonEnvFile}' contains:")
+	logger.info(f"'{objSETTINGS.mesonEnvFile}' contains:")
 	cmd = f"cat {objSETTINGS.mesonEnvFile}"
 	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
 	if ret == 0:
 		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
-		#print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
-		exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
+		exit(ret)
 
 	# Always RE-create the toolchain build file for cmake every time, in case  we have changed something
 	#if not os.path.isfile(objSETTINGS.cmakeToolchainFile):
@@ -1305,15 +1277,14 @@ def prepareForBuilding():
 			f.write("\n")
 	else:
 		logger.debug(f"Using existing CMake Toolchain file: '{objSETTINGS.cmakeToolchainFile}'")
-	logger.debug(f"'{objSETTINGS.cmakeToolchainFile}' contains:")
+	logger.info(f"'{objSETTINGS.cmakeToolchainFile}' contains:")
 	cmd = f"cat {objSETTINGS.cmakeToolchainFile}"
 	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
 	if ret == 0:
 		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
-		#print(f"?????????? temporarily continue, for initial debugging on windows ??????????")
-		exit(ret) # comment-out temporarily continue ?????????? temporarily continue, for initial debugging on windows ??????????
+		exit(ret)
 
 	logger.info(f"Finished Processing prepareForBuilding.")
 
@@ -1654,10 +1625,10 @@ def replaceVarCmdSubStrings(inStr):
 				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"{0}".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
 			else:
 				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
-				self.logger.error(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
+				logger.error(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
 	
 	# having replaced variabes, also replace any substitution strings
-	inStr = self.replaceSubstitutionStrings(inStr)
+	inStr = replaceSubstitutionStrings(inStr)
 	
 	# having replaced variabes and substitution strings, now also replace commands
 	cmdList = re.findall(r"!CMD\((?P<full_cmd>[^\)\(]+)\)CMD!", inStr)  # TODO: assignment expression TODO: handle escaped brackets inside cmd syntax
@@ -1885,20 +1856,16 @@ if __name__ == "__main__":
 	# for joint searching, combine both products and dependencies into a global
 	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	
-	# 
-
-
-	print(f"")
-	print(f"objSETTINGS.substitutionDict={objSETTINGS.substitutionDict}")
-	objPrettyPrint.pprint(objSETTINGS.substitutionDict)
-	print(f"")
-	
-	print(f"")
-	print(f"ObjVariables.Val={ObjVariables.Val}\n")
-	objPrettyPrint.pprint(ObjVariables.Val)
-	print(f"")
-	
-	
+	# FOR DEBUG:
+	logger.debug("DEBUG: start example substitutions")
+	logger.debug("objSETTINGS.substitutionDict=")
+	logger.debug(objPrettyPrint.pformat(objSETTINGS.substitutionDict))
+	logger.debug("objVariables.Val=")
+	logger.debug(objPrettyPrint.pformat(objVariables.Val))
+	logger.debug(replaceVarCmdSubStrings("Example VAR: VAR(ffmpeg_config)VAR=\n'!VAR(ffmpeg_config)VAR!'"))
+	logger.debug(replaceVarCmdSubStrings("Example CMD: CMD(pwd)CMD='!CMD(pwd)CMD!'"))
+	logger.debug("Example Sub: target_OS='{target_OS}'")
+	logger.debug(f"DEBUG: finish example substitutions")
 	
 	# DEBUG: have a look at products and dependencies and variables
 	#
