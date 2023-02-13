@@ -2158,6 +2158,138 @@ def downloadUnpackFile(packageData, packageName, folderName=None, workDir=None):
 		return folderName
 
 ###################################################################################################
+def sanitizeFilename(f):
+	return re.sub(r'[/\\:*?"<>|]', '', f)
+
+###################################################################################################
+def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recursive=False, doNotUpdate=False, desiredPR=None, depth=-1):
+	if virtFolderName is None:
+		virtFolderName = sanitizeFilename(os.path.basename(url))
+		if not virtFolderName.endswith(".git"):
+			virtFolderName += ".git"
+		virtFolderName = virtFolderName.replace(".git", "_git")
+	else:
+		virtFolderName = sanitizeFilename(virtFolderName)
+
+	realFolderName = virtFolderName
+	if renameTo is not None:
+		realFolderName = renameTo
+
+	branchString = ""
+	if desiredBranch is not None:
+		desiredBranch = replaceVarCmdSubStrings(desiredBranch)
+		branchString = f" {desiredBranch}" # superseded: comment only for git checkout do we allow games with replaceVarCmdSubStrings() and 'branch'
+
+	properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+	if desiredBranch is not None:
+		#properBranchString = desiredBranch
+		properBranchString = replaceVarCmdSubStrings(desiredBranch)	# 2023.02.13 ADDED replaceVarCmdSubStrings
+
+	if os.path.isdir(realFolderName):
+		if desiredPR is not None:
+			logger.warning("gitClone: ###############################################################################################")
+			logger.warning("gitClone: Git: repositiories with set PR will not auto-update, please delete the repo and retry to do so.")
+			logger.warning("gitClone: ###############################################################################################")
+		elif doNotUpdate is True:
+			logger.info("gitClone: #########################")
+			logger.info("gitClone: do_not_git_update is True")
+			logger.info("gitClone: #########################")
+		else:
+			cchdir(realFolderName)
+			logger.debug('gitClone: git remote update')
+			runProcess('git remote update')
+			UPSTREAM = '@{u}'  # or branchName i guess
+			if desiredBranch is not None:
+				UPSTREAM = properBranchString
+			LOCAL = subprocess.check_output(f'git rev-parse @', shell=True).decode("utf-8")
+			REMOTE = subprocess.check_output(f'git rev-parse "{UPSTREAM}"', shell=True).decode("utf-8")
+			BASE = subprocess.check_output(f'git merge-base @ "{UPSTREAM}"', shell=True).decode("utf-8")
+			logger.debug('gitClone: git checkout -f')
+			runProcess('git checkout -f')
+			logger.debug(f'gitClone: git checkout {properBranchString}')
+			runProcess(f'git checkout {properBranchString}')
+			if LOCAL == REMOTE:
+				logger.debug("gitClone: ####################")
+				logger.debug("gitClone: Up to date")
+				logger.debug("gitClone: LOCAL:  " + LOCAL)
+				logger.debug("gitClone: REMOTE: " + REMOTE)
+				logger.debug("gitClone: BASE:   " + BASE)
+				logger.debug("####################")
+			elif LOCAL == BASE:
+				logger.debug("gitClone: ####################")
+				logger.debug("gitClone: Need to pull")
+				logger.debug("gitClone: gitClone: LOCAL:  " + LOCAL)
+				logger.debug("REMOTE: " + REMOTE)
+				logger.debug("gitClone: BASE:   " + BASE)
+				logger.debug("gitClone: ####################")
+				if desiredBranch is not None:
+					# bsSplit = properBranchString.split("/")
+					# if len(bsSplit) == 2:
+					# 	run_process('git pull origin {1}'.format(bsSplit[0],bsSplit[1]))
+					# else:
+					logger.debug(f'gitClone: git pull origin {properBranchString}')
+					if 'Already up to date' in runProcess(f'git pull origin {properBranchString}', silent=True):
+						return os.getcwd()
+				else:
+					logger.debug('gitClone: git pull'.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored
+					runProcess('git pull'.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored
+				logger.debug('gitClone: git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+				runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+				logger.debug('gitClone: git submodule foreach --recursive git clean -ffdx')
+				runProcess('git submodule foreach --recursive git clean -ffdx')
+				logger.debug('gitClone: git reset --hard')
+				runProcess('git reset --hard')
+				logger.debug('gitClone: git submodule foreach --recursive git reset --hard')
+				runProcess('git submodule foreach --recursive git reset --hard')
+				logger.debug('gitClone: git submodule update --init --recursive')
+				runProcess('git submodule update --init --recursive')
+			elif REMOTE == BASE:
+				logger.debug("gitClone: ####################")
+				logger.debug("gitClone: need to push")
+				logger.debug("gitClone: LOCAL:  " + LOCAL)
+				logger.debug("gitClone: REMOTE: " + REMOTE)
+				logger.debug("gitClone: BASE:   " + BASE)
+				logger.debug("gitClone: ####################")
+			else:
+				logger.debug("gitClone: ####################")
+				logger.debug("gitClone: diverged?")
+				logger.debug("gitClone: LOCAL:  " + LOCAL)
+				logger.debug("gitClone: REMOTE: " + REMOTE)
+				logger.debug("gitClone: BASE	" + BASE)
+				logger.debug("gitClone: ####################")
+			cchdir("..")
+	else:
+		addArgs = []
+		if recursive:
+			addArgs.append("--recursive")
+
+		if depth and depth >= 1:
+			addArgs.append(F"--depth {depth}")
+		elif depth is None or depth < 0:
+			depth = 1
+			addArgs.append(F"--depth 1")
+		logger.info(F"Git {'Shallow C' if depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
+		logger.debug('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
+		runProcess('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
+		if desiredBranch is not None:
+			cchdir(realFolderName + ".tmp")
+			logger.debug("GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+			logger.debug('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+			runProcess('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+			cchdir("..")
+		if desiredPR is not None:
+			cchdir(realFolderName + ".tmp")
+			logger.info("GIT Fetching PR: {0}".format(desiredPR))
+			logger.debug('git fetch origin refs/pull/{0}/head'.format(desiredPR))
+			runProcess('git fetch origin refs/pull/{0}/head'.format(desiredPR))
+			cchdir("..")
+		logger.debug('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
+		runProcess('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
+		logger.info("Finished GIT cloning '%s' to '%s'" % (url, realFolderName))
+
+	return realFolderName
+
+###################################################################################################
 def buildPackage(packageName=''):	# was buildThing
 	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
 	
@@ -2635,7 +2767,7 @@ if __name__ == "__main__":
 
 
 #def finishBuilding(self):
-#	self.cchdir("..")
+#	cchdir("..")
 
 
 
