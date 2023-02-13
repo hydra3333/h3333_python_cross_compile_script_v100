@@ -1497,6 +1497,25 @@ def getKeyOrBlankString(db, k):
 		return ""
 
 ###################################################################################################
+def anyFileStartsWith(wild):
+	for file in os.listdir('.'):
+		if file.startswith(wild):
+			return True
+	return False
+
+###################################################################################################
+def removeAlreadyFiles():
+	for af in glob.glob("./already_*"):
+		os.remove(af)
+
+###################################################################################################
+def removeConfigPatchDoneFiles():
+	for af in glob.glob("./*.diff.done_past_conf"):
+		os.remove(af)
+	for af in glob.glob("./*.patch.done_past_conf"):
+		os.remove(af)
+
+###################################################################################################
 def handleRegexReplace(rp, packageName):
 	cwd = Path(os.getcwd())
 	if "in_file" not in rp:
@@ -1828,12 +1847,44 @@ def reviewPackage(packageName=''):
 	
 	logger.info (f"Finished Processing reviewPackage '{packageName}'")
 	return
-	
+
 ###################################################################################################
-def getPrimaryPackageUrl(self, packageData, packageName):  # returns the URL of the first download_locations entry from a package, unlike get_best_mirror this one ignores the old url format
+def checkMirrors(dlLocations):
+	for loc in dlLocations:
+		userAgent = objSETTINGS.userAgent
+		if 'sourceforge.net' in loc["url"].lower():
+			userAgent = 'wget/1.20.3'  # sourceforce allows direct downloads when using wget, so we pretend we are wget
+		try:
+			req = requests.request("GET", loc["url"], stream=True, allow_redirects=True, headers={"User-Agent": userAgent})
+		except requests.exceptions.RequestException as e:
+			logger.debug(e)
+		else:
+			if req.status_code == 200:
+				return loc
+			else:
+				logger.debug(loc["url"] + " unable to reach: HTTP" + str(req.status_code))
+	return dlLocations[0]  # return the first if none could be found.
+
+###################################################################################################
+def getBestMirror(packageData, packageName):  # returns the first online mirror of a package, and its hash
 	if "url" in packageData:
 		if packageData["repo_type"] == "archive":
-			self.logger.debug("Package has the old URL format, please update it.")
+			logger.warning("Package has the old URL format, please update it.")
+		return {"url": packageData["url"], "hashes": []}
+	elif "download_locations" not in packageData:
+		raise Exception("download_locations not specificed for package: " + packageName)
+	else:
+		if not len(packageData["download_locations"]) >= 1:
+			raise Exception("download_locations is empty for package: " + packageName)
+		if "url" not in packageData["download_locations"][0]:
+			raise Exception("download_location #1 of package '%s' has no url specified" % (packageName))
+		return checkMirrors(packageData["download_locations"])
+
+###################################################################################################
+def getPrimaryPackageUrl(packageData, packageName):  # returns the URL of the first download_locations entry from a package, unlike get_best_mirror this one ignores the old url format
+	if "url" in packageData:
+		if packageData["repo_type"] == "archive":
+			logger.debug("Package has the old URL format, please update it.")
 		return replaceVarCmdSubStrings(packageData["url"])
 	elif "download_locations" not in packageData:
 		raise Exception("download_locations in package '%s' not specificed" % (packageName))
@@ -1843,7 +1894,6 @@ def getPrimaryPackageUrl(self, packageData, packageName):  # returns the URL of 
 		if "url" not in packageData["download_locations"][0]:
 			raise Exception("download_location #1 of package has no url specified")
 		return replaceVarCmdSubStrings(packageData["download_locations"][0]["url"])  # TODO: do not assume correct format
-
 
 ###################################################################################################
 def downloadHeader(url):
@@ -1882,7 +1932,7 @@ def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False
 		userAgent = objSETTINGS.userAgent
 
 	if url.lower().startswith("ftp://"):
-		logger.info(f"downloadFile: downloadFileRequesting : {url}"))
+		logger.info(f"downloadFile: downloadFileRequesting : {url}")
 		if outputFileName is not None:
 			fileName = outputFileName
 		fullOutputPath = os.path.join(outputPath, fileName)
@@ -1992,6 +2042,120 @@ def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False
 
 			return fullOutputPath
 	return
+
+###################################################################################################
+def touch(f):
+	Path(f).touch()
+
+###################################################################################################
+def chmodPux(file):
+	st = os.stat(file)
+	os.chmod(file, st.st_mode | stat.S_IXUSR)  # S_IEXEC would be just +x
+		
+###################################################################################################
+def md5(*args):
+	msg = ''.join(args).encode("utf-8")
+	m = hashlib.md5()
+	m.update(msg)
+	return m.hexdigest()
+
+###################################################################################################
+def hashFile(fname, type="sha256"):
+	hash = None
+	if type == "sha256":
+		hash = hashlib.sha256()
+	elif type == "sha512":
+		hash = hashlib.sha512()
+	elif type == "md5":
+		hash = hashlib.md5()
+	elif type == "blake2b":
+		hash = hashlib.blake2b()
+	with open(fname, "rb") as f:
+		for chunk in iter(lambda: f.read(4096), b""):
+			hash.update(chunk)
+	return hash.hexdigest()
+
+###################################################################################################
+def verifyHash(file, hash):
+	if hash["type"] not in ["sha256", "sha512", "md5", "blake2b"]:
+		raise Exception("Unsupported hash type: " + hash["type"])
+	newHash = hashFile(file, hash["type"])
+	if hash["sum"] == newHash:
+		return (True, hash["sum"], newHash)
+	return (False, hash["sum"], newHash)
+
+###################################################################################################
+def downloadUnpackFile(packageData, packageName, folderName=None, workDir=None):
+	customFolder = False
+	if folderName is None:
+		folderName = os.path.basename(os.path.splitext(urlparse(getPrimaryPackageUrl(packageData, packageName)).path)[0]).rstrip(".tar")
+	else:
+		customFolder = True
+	folderToCheck = folderName
+
+	if "rename_folder" in packageData and packageData["rename_folder"] != "" and packageData["rename_folder"] is not None:
+		folderToCheck = packageData["rename_folder"]
+
+	if workDir is not None:
+		folderToCheck = workDir
+
+	check_file = os.path.join(folderToCheck, "unpacked.successfully")
+	if not os.path.isfile(check_file):
+		dlLocation = getBestMirror(packageData, packageName)
+		url = dlLocation["url"]
+		fileName = os.path.basename(urlparse(url).path)
+		logger.info(f"downloadUnpackFile: Downloading {fileName} ({url})")
+
+		cchdir('.')
+		logger.debug(f"downloadUnpackFile: Downloading {url} to ({fileName})")
+		downloadFile(url, fileName)
+			
+		if "hashes" in dlLocation:
+			if len(dlLocation["hashes"]) >= 1:
+				for hash in dlLocation["hashes"]:
+					logger.info("downloadUnpackFile: Comparing hashes..")
+					hashReturn = verifyHash(fileName, hash)
+					if hashReturn[0] is True:
+						logger.info("downloadUnpackFile: Hashes matched: {hashReturn[1][0:5]}...{hashReturn[1][-5:]} (local) == {hashReturn[2][0:5]}...{hashReturn[2][-5:])} (remote)")
+					else:
+						logger.error(f"downloadUnpackFile: File hashes didn't match: {hashReturn[1]}(local) != {hashReturn[2]}(remote)")
+						raise Exception("downloadUnpackFile: File download error: Hash mismatch")
+						exit(1)
+
+		logger.info(f"downloadUnpackFile: Unpacking {fileName}")
+
+		tars = (".gz", ".bz2", ".xz", ".bz", ".tgz")  # i really need a better system for this.. but in reality, those are probably the only formats we will ever encounter.
+
+		customFolderTarArg = ""
+
+		if customFolder:
+			logger.debug(f'In downloadUnpackFile making folder "{folderName} ...')
+			customFolderTarArg = ' -C "' + folderName + '" --strip-components 1'
+			# IF FOLDER EXISTS, DELETE IT BEFORE CREATING IT
+			#    rmdir(path) Remove (delete) the directory path. Only works when the directory is empty, otherwise, OSError is raised. 
+			#    In order to remove whole directory trees, shutil.rmtree() can be used.
+			if os.path.isdir(folderName):
+				logger.debug(f'downloadUnpackFile: In customFolder, deleting old existing folder "{folderName}"')
+				logger.debug(f'downloadUnpackFile: rm -f "{folderName}"')
+				shutil.rmtree(folderName,ignore_errors=False)
+			os.makedirs(folderName) # os.makedirs creates intermediate parent paths like "mkdir -p"
+
+		if fileName.endswith(tars):
+			logger.debug(f'downloadUnpackFile: tar -xf "{fileName}"{customFolderTarArg}')
+			runProcess(f'tar -xf "{fileName}"{customFolderTarArg}')
+		else:
+			logger.debug(f'downloadUnpackFile: unzip "{fileName}"')
+			runProcess(f'unzip "{fileName}"')
+
+		touch(os.path.join(folderName, "unpacked.successfully"))
+
+		os.remove(fileName)
+
+		return folderName
+
+	else:
+		logger.debug(f"downloadUnpackFile: {folderName} already downloaded")
+		return folderName
 
 ###################################################################################################
 def buildPackage(packageName=''):	# was buildThing
@@ -2142,13 +2306,13 @@ def buildPackage(packageName=''):	# was buildThing
 				desiredPRVal = replaceVarCmdSubStrings(pkg['desired_pr_id'])
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' ppd='{ppd}' branch='{branch}' folderName='{folderName}' renameFolder='{renameFolder}'")
-		#workDir = gitClone(ppd, folderName, renameFolder, branch, recursive, doNotUpdate, desiredPRVal, git_depth)
+		workDir = gitClone(ppd, folderName, renameFolder, branch, recursive, doNotUpdate, desiredPRVal, git_depth)
 		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' returned workdir='{workDir}'")
 	elif pkg["repo_type"] == "svn":	# SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN 
 		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
-		#workDir = svnClone(ppd, folderName, renameFolder)
+		workDir = svnClone(ppd, folderName, renameFolder)
 		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' returned workdir='{workDir}'")
 	elif pkg['repo_type'] == 'mercurial':	# MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL 
 		branch = getValueOrNone(pkg, 'branch')
@@ -2157,17 +2321,17 @@ def buildPackage(packageName=''):	# was buildThing
 		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
-		#workDir = mercurialClone(ppd, folderName, renameFolder, branch, objArgParser.force)
+		workDir = mercurialClone(ppd, folderName, renameFolder, branch, objArgParser.force)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' returned workdir='{workDir}'")
 	elif pkg["repo_type"] == "archive":	# ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE 
 		if "folder_name" in pkg:
 			folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{folderName}'")
-			#workDir = downloadUnpackFile(pkg, packageName, folderName, workDir)
+			workDir = downloadUnpackFile(pkg, packageName, folderName, workDir)
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
 		else:
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{None}'")
-			#workDir = downloadUnpackFile(pkg, packageName, None, workDir)
+			workDir = downloadUnpackFile(pkg, packageName, None, workDir)
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
 	elif pkg["repo_type"] == "none":		# REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE 
 		if "folder_name" in pkg:
@@ -2183,7 +2347,7 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if workDir is None:
 		logger.error(f"Error: Unexpected error when building {packageName}, workdir='{workDir}', please report this: {sys.exc_info()[0]}")
-		raise
+		raise Exception(f"Error: Unexpected error when building {packageName}, workdir='{workDir}'")
 
 	if 'rename_folder' in pkg:  # this should be moved inside the download functions, TODO..
 		if pkg['rename_folder'] is not None:
@@ -2198,7 +2362,7 @@ def buildPackage(packageName=''):	# was buildThing
 				downloadHeader(h)
 
 	cchdir(workDir)  # descend into x86_64/[DEPENDENCY_OR_PRODUCT_FOLDER]
-	if 'debug_downloadonly' in pkg:
+	if 'debug_downloadonly' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		cchdir("..")
 		exit()
 
@@ -2215,7 +2379,7 @@ def buildPackage(packageName=''):	# was buildThing
 					logger.debug(cmd)
 					runProcess(cmd)
 
-	if forceRebuild:
+	if objArgParser.force:
 		if os.path.isdir(".git"):
 			logger.debug('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
 			runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
@@ -2227,8 +2391,6 @@ def buildPackage(packageName=''):	# was buildThing
 			runProcess('git submodule foreach --recursive git reset --hard')
 			logger.debug('git submodule update --init --recursive')
 			runProcess('git submodule update --init --recursive')
-
-
 
 
 
