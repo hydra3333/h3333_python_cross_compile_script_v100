@@ -2163,6 +2163,7 @@ def sanitizeFilename(f):
 
 ###################################################################################################
 def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recursive=False, doNotUpdate=False, desiredPR=None, depth=-1):
+	logger.info (f'gitClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
 	if virtFolderName is None:
 		virtFolderName = sanitizeFilename(os.path.basename(url))
 		if not virtFolderName.endswith(".git"):
@@ -2191,12 +2192,12 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.warning("gitClone: Git: repositiories with set PR will not auto-update, please delete the repo and retry to do so.")
 			logger.warning("gitClone: ###############################################################################################")
 		elif doNotUpdate is True:
-			logger.info("gitClone: #########################")
-			logger.info("gitClone: do_not_git_update is True")
-			logger.info("gitClone: #########################")
+			logger.warning("gitClone: #########################")
+			logger.warning("gitClone: do_not_git_update is True")
+			logger.warning("gitClone: #########################")
 		else:
 			cchdir(realFolderName)
-			logger.debug('gitClone: git remote update')
+			logger.info('gitClone: git remote update')
 			runProcess('git remote update')
 			UPSTREAM = '@{u}'  # or branchName i guess
 			if desiredBranch is not None:
@@ -2204,9 +2205,9 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			LOCAL = subprocess.check_output(f'git rev-parse @', shell=True).decode("utf-8")
 			REMOTE = subprocess.check_output(f'git rev-parse "{UPSTREAM}"', shell=True).decode("utf-8")
 			BASE = subprocess.check_output(f'git merge-base @ "{UPSTREAM}"', shell=True).decode("utf-8")
-			logger.debug('gitClone: git checkout -f')
+			logger.info('gitClone: git checkout -f')
 			runProcess('git checkout -f')
-			logger.debug(f'gitClone: git checkout {properBranchString}')
+			logger.info(f'gitClone: git checkout {properBranchString}')
 			runProcess(f'git checkout {properBranchString}')
 			if LOCAL == REMOTE:
 				logger.debug("gitClone: ####################")
@@ -2227,21 +2228,20 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					# if len(bsSplit) == 2:
 					# 	run_process('git pull origin {1}'.format(bsSplit[0],bsSplit[1]))
 					# else:
-					logger.debug(f'gitClone: git pull origin {properBranchString}')
 					if 'Already up to date' in runProcess(f'git pull origin {properBranchString}', silent=True):
 						return os.getcwd()
 				else:
-					logger.debug('gitClone: git pull'.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored
+					logger.info('gitClone: git pull'.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored
 					runProcess('git pull'.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored
-				logger.debug('gitClone: git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+				logger.info('gitClone: git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
 				runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
-				logger.debug('gitClone: git submodule foreach --recursive git clean -ffdx')
+				logger.info('gitClone: git submodule foreach --recursive git clean -ffdx')
 				runProcess('git submodule foreach --recursive git clean -ffdx')
-				logger.debug('gitClone: git reset --hard')
+				logger.info('gitClone: git reset --hard')
 				runProcess('git reset --hard')
-				logger.debug('gitClone: git submodule foreach --recursive git reset --hard')
+				logger.info('gitClone: git submodule foreach --recursive git reset --hard')
 				runProcess('git submodule foreach --recursive git reset --hard')
-				logger.debug('gitClone: git submodule update --init --recursive')
+				logger.info('gitClone: git submodule update --init --recursive')
 				runProcess('git submodule update --init --recursive')
 			elif REMOTE == BASE:
 				logger.debug("gitClone: ####################")
@@ -2258,6 +2258,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug("gitClone: BASE	" + BASE)
 				logger.debug("gitClone: ####################")
 			cchdir("..")
+			#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 	else:
 		addArgs = []
 		if recursive:
@@ -2273,20 +2274,21 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		runProcess('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
 		if desiredBranch is not None:
 			cchdir(realFolderName + ".tmp")
-			logger.debug("GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
-			logger.debug('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+			logger.debug("gitClone: GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+			logger.info('gitClone: git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 			runProcess('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 			cchdir("..")
 		if desiredPR is not None:
 			cchdir(realFolderName + ".tmp")
-			logger.info("GIT Fetching PR: {0}".format(desiredPR))
-			logger.debug('git fetch origin refs/pull/{0}/head'.format(desiredPR))
+			logger.info("gitClone: GIT Fetching PR: {0}".format(desiredPR))
+			logger.info('gitClone: git fetch origin refs/pull/{0}/head'.format(desiredPR))
 			runProcess('git fetch origin refs/pull/{0}/head'.format(desiredPR))
 			cchdir("..")
-		logger.debug('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
+		logger.info('gitClone: mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
 		runProcess('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
-		logger.info("Finished GIT cloning '%s' to '%s'" % (url, realFolderName))
+		#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 
+	logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 	return realFolderName
 
 ###################################################################################################
@@ -2513,22 +2515,26 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if objArgParser.force:
 		if os.path.isdir(".git"):
-			logger.debug('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+			logger.info('buildPackage: git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
 			runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
-			logger.debug('git submodule foreach --recursive git clean -ffdx')
+			logger.info('buildPackage: git submodule foreach --recursive git clean -ffdx')
 			runProcess('git submodule foreach --recursive git clean -ffdx')
-			logger.debug('git reset --hard')
+			logger.info('buildPackage: git reset --hard')
 			runProcess('git reset --hard')
-			logger.debug('git submodule foreach --recursive git reset --hard')
-			runProcess('git submodule foreach --recursive git reset --hard')
-			logger.debug('git submodule update --init --recursive')
+			logger.info('buildPackage: git submodule foreach --recursive git reset --hard')
+			runProcess('buildPackage: git submodule foreach --recursive git reset --hard')
+			logger.info(buildPackage: 'git submodule update --init --recursive')
 			runProcess('git submodule update --init --recursive')
 
 
 
+	##### MORE TO COME at about 2290: if 'source_subfolder' in packageData:
 
 
-	logger.info(f"buildPackage: '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' at the current end of in-development buildPackage")
+
+
+	biggusDictus[packageName]['_already_built'] = True
+	logger.info(f"buildPackage: end of Build processs for '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
 	return
 
 ###################################################################################################
