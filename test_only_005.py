@@ -1814,8 +1814,8 @@ def reviewPackage(packageName=''):
 			#print(f"END  FOLLOW TUPLE DOWN:  '{txt}' '{type(d)}' d={d}")
 			#print(f"END  FOLLOW TUPLE DOWN:  '{txt}' '{type(d)}' d=\n{objPrettyPrint.pformat(d)}")
 		else:
-			#print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' in item to dump: '{txt}' d={d}")
-			print(f"WTF, EXITING ... UNKNOWN type='{type(d)}' in item to dump: '{txt}' d=\n{objPrettyPrint.pformat(d)}")
+			#print(f"Goodness me ! EXITING ... UNKNOWN type='{type(d)}' in item to dump: '{txt}' d={d}")
+			print(f"Goodness me ! EXITING ... UNKNOWN type='{type(d)}' in item to dump: '{txt}' d=\n{objPrettyPrint.pformat(d)}")
 			sys.exit(1)
 		return
 
@@ -1846,18 +1846,18 @@ def getPrimaryPackageUrl(self, packageData, packageName):  # returns the URL of 
 
 
 ###################################################################################################
-def zzz_downloadHeader(self, url):
-	destination = self.targetPrefix.joinpath("include")
+def downloadHeader(url):
+	destination = objSETTINGS.targetPrefix.joinpath("include")
 	fileName = os.path.basename(urlparse(url).path)
 	if not os.path.isfile(os.path.join(destination, fileName)):
-		fname = self.downloadFile(url)
-		self.logger.debug("Moving Header File: '{0}' to '{1}'".format(fname, destination))
+		fname = downloadFile(url)
+		logger.debug(f"Moving Header File: '{fname}' to '{destination}'")
 		shutil.move(fname, destination)
 	else:
-		self.logger.debug("Header File: '{0}' already downloaded".format(fileName))
+		logger.debug(f"Header File: '{fileName}' already downloaded")
 
 ###################################################################################################
-def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytesMode=False):
+def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False):
 	def fmt_size(num, suffix="B"):
 			for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
 				if abs(num) < 1024.0:
@@ -1866,22 +1866,23 @@ def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytes
 			return "%.1f%s%s" % (num, "Yi", suffix)
 	
 	if not url:
-		raise Exception("No URL specified.")
+		raise Exception("downloadFile: No URL specified.")
 
 	if outputPath is None:  # Default to current dir.
 		outputPath = os.getcwd()
 	else:
 		if not os.path.isdir(outputPath):
-			raise Exception('Specified path "{0}" does not exist'.format(outputPath))
+			raise Exception('downloadFile: Specified path "{0}" does not exist'.format(outputPath))
 
 	fileName = os.path.basename(url)  # Get URL filename
-	userAgent = self.userAgent
 
 	if 'sourceforge.net' in url.lower():
 		userAgent = 'wget/1.18'  # sourceforce <3 wget
+	else:
+		userAgent = objSETTINGS.userAgent
 
 	if url.lower().startswith("ftp://"):
-		self.logger.info("Requesting : {0}".format(url))
+		logger.info(f"downloadFile: downloadFileRequesting : {url}"))
 		if outputFileName is not None:
 			fileName = outputFileName
 		fullOutputPath = os.path.join(outputPath, fileName)
@@ -1890,12 +1891,12 @@ def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytes
 
 	if url.lower().startswith("file://"):
 		url = url.replace("file://", "")
-		self.logger.info("Copying : {0}".format(url))
+		logger.info(f"downloadFile: Copying : {url}")
 		if outputFileName is not None:
 			fileName = outputFileName
 		fullOutputPath = os.path.join(outputPath, fileName)
 		try:
-			self.logger.debug('cp -f "{0}" "{1}" # copy file '.format(url, fullOutputPath))
+			logger.debug(f'cp -f "{url}" "{fullOutputPath}" # copy file ')
 			shutil.copyfile(url, fullOutputPath)
 		except Exception as e:
 			print(e)
@@ -1923,7 +1924,7 @@ def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytes
 		if req.headers["Content-Encoding"] == "gzip":
 			compressed = True
 
-	self.logger.info("Requesting : {0} - {1}".format(url, fmt_size(size) if size is not None else "?"))
+	logger.info("downloadFile: Requesting : {0} - {1}".format(url, fmt_size(size) if size is not None else "?"))
 
 	# terms = shutil.get_terminal_size((100,100))
 	# filler = 0
@@ -1993,7 +1994,7 @@ def zzz_downloadFile(self, url=None, outputFileName=None, outputPath=None, bytes
 	return
 
 ###################################################################################################
-def buildPackage(packageName=''):
+def buildPackage(packageName=''):	# was buildThing
 	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
 	
 	# a trick for the unwary:
@@ -2013,7 +2014,7 @@ def buildPackage(packageName=''):
 	elif packageName in dictDependencies.BO:
 		package_type = "DEPENDENCY"
 	else:
-		logger.error(f"The specified object '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' is neither a known PRODUCT nor a DEPENDENCY. Exiting.")
+		logger.error(f"Goodness me ! The specified object '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' is neither a known PRODUCT nor a DEPENDENCY. Exiting.")
 		sys.exit(1)
 
 	logger.info (f"Processing buildPackage '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
@@ -2042,7 +2043,8 @@ def buildPackage(packageName=''):
 			logger.debug(f"buildPackage: package parameter, skip_depends={skip_depends} for '{packageName}'")
 
 	#-----
-	# 'run_pre_depends_on' exists mainly for building freetype cleanly (it crashed if re-run).
+	# 'run_pre_depends_on' goes here at the start ! 
+	# It exists mainly for building freetype cleanly (it crashed if re-run).
 	# It causes this section to run even if 'is_dep_inheriter' is set and allows for an early return
 	if 'run_pre_depends_on' in pkg:
 		if len(pkg['run_pre_depends_on']) > 0:
@@ -2087,7 +2089,7 @@ def buildPackage(packageName=''):
 			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{pkg['is_dep_inheriter']} ... Set pkg['_already_built']='{pkg['_already_built']}'")
 
 	if objSETTINGS.debugMode:
-		logger.debug("############################## well, seems to be a breakpoint of some kind")
+		logger.debug(f"############## Checks done, dependencies built, about to build the specified '{package_type}' : '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
 		#print("### Environment variables:  ###")
 		#for tk in os.environ:
 		#	print("\t" + tk + " : " + os.environ[tk])
@@ -2095,11 +2097,11 @@ def buildPackage(packageName=''):
 		#print("##############################")
 		pass
 
-	#-----------------------------------------------------------------------
-	#-----------------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------
 	logger.info(f"Building {package_type} '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
-	#-----------------------------------------------------------------------
-	#-----------------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------
 	
 	cchdir(".")
 	resetDefaultEnvVars()
@@ -2111,15 +2113,17 @@ def buildPackage(packageName=''):
 
 	workDir = None
 	renameFolder = None
-	
 	if 'rename_folder' in pkg:
 		if pkg['rename_folder'] is not None:
 			renameFolder = replaceVarCmdSubStrings(pkg['rename_folder'])
 
 	if package_type == "PRODUCT":
 		cchdir(objSETTINGS.fullProductDir)	# descend into x86_64_products
-	else: # DEPENDENCY
+	elif package_type == "DEPENDENCY":
 		cchdir(objSETTINGS.bitnessPath)		# descend into x86_64
+	else:
+		logger.error(f"Goodness me ! The specified object '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' has been pre-checked, and yet it still is neither a known PRODUCT nor a DEPENDENCY. Exiting.")
+		sys.exit(1)
 
 	if pkg["repo_type"] == "git":		# GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT GIT 
 		branch = getValueOrNone(pkg, 'branch')
@@ -2181,6 +2185,48 @@ def buildPackage(packageName=''):
 		logger.error(f"Error: Unexpected error when building {packageName}, workdir='{workDir}', please report this: {sys.exc_info()[0]}")
 		raise
 
+	if 'rename_folder' in pkg:  # this should be moved inside the download functions, TODO..
+		if pkg['rename_folder'] is not None:
+			if not os.path.isdir(pkg['rename_folder']):
+				logger.debug(f"mv -f '{workDir}' '{pkg['rename_folder']}' # rename folder from '{workDir}' to '{pkg['rename_folder']}'")
+				shutil.move(workDir, pkg['rename_folder'])
+			workDir = pkg['rename_folder']
+
+	if 'download_header' in pkg:
+		if pkg['download_header'] is not None:
+			for h in pkg['download_header']:
+				downloadHeader(h)
+
+	cchdir(workDir)  # descend into x86_64/[DEPENDENCY_OR_PRODUCT_FOLDER]
+	if 'debug_downloadonly' in pkg:
+		cchdir("..")
+		exit()
+
+	oldPath = getKeyOrBlankString(os.environ, "PATH")
+	currentFullDir = os.getcwd()
+
+	if not anyFileStartsWith('already_configured'):
+		if 'run_pre_patch' in pkg:
+			if pkg['run_pre_patch'] is not None:
+				for cmd in pkg['run_pre_patch']:
+					logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
+					cmd = replaceVariables(cmd)
+					logger.debug("Running pre-patch-command: '{0}'".format(cmd))
+					logger.debug(cmd)
+					runProcess(cmd)
+
+	if forceRebuild:
+		if os.path.isdir(".git"):
+			logger.debug('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+			runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
+			logger.debug('git submodule foreach --recursive git clean -ffdx')
+			runProcess('git submodule foreach --recursive git clean -ffdx')
+			logger.debug('git reset --hard')
+			runProcess('git reset --hard')
+			logger.debug('git submodule foreach --recursive git reset --hard')
+			runProcess('git submodule foreach --recursive git reset --hard')
+			logger.debug('git submodule update --init --recursive')
+			runProcess('git submodule update --init --recursive')
 
 
 
