@@ -2279,8 +2279,8 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			depth = 1
 			addArgs.append(F"--depth 1")
 		logger.info(F"Git {'Shallow C' if depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
-		logger.debug(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}")
-		runProcess(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}")
+		logger.debug(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}'")
+		runProcess(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}'")
 		if desiredBranch is not None:
 			cchdir(realFolderName + ".tmp")
 			logger.debug(f"gitClone: GIT Checking out:{' master' if desiredBranch is None else branchString}")
