@@ -2348,16 +2348,16 @@ def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, 
 		cchdir(realFolderName)
 		logger.info(f"mercurialClone: hg --debug id -i")
 		hgVersion = subprocess.check_output("hg --debug id -i", shell=True)
-		logger.info('hg pull -u')
-		runProcess('hg pull -u')
-		logger.info('mercurialClone: hg update -C{0}'.format(" default" if desiredBranch is None else branchString))
-		runProcess('hg update -C{0}'.format(" default" if desiredBranch is None else branchString))
-		hgVersionNew = subprocess.check_output('hg --debug id -i', shell=True)
+		logger.info(f"mercurialClone: hg pull -u")
+		runProcess(f"hg pull -u")
+		logger.info(f"mercurialClone: hg update -C{' default' if desiredBranch is None else branchString}"   .format(' default' if desiredBranch is None else branchString))
+		runProcess(f"hg update -C{' default' if desiredBranch is None else branchString}")
+		hgVersionNew = subprocess.check_output(f"hg --debug id -i", shell=True)
 		if hgVersion != hgVersionNew:
-			logger.debug("mercurialClone: HG clone has code changes, updating")
+			logger.debug(f"mercurialClone: HG clone has code changes, updating")
 			removeAlreadyFiles()
 		else:
-			logger.debug("mercurialClone: HG clone already up to date")
+			logger.debug(f"mercurialClone: HG clone already up to date")
 		cchdir("..")
 	else:
 		logger.info(f"mercurialClone: HG cloning '{url}' to '{realFolderName + '.tmp'}'")
@@ -2535,6 +2535,77 @@ def configureSource(packageName, pkg, conf_system):
 			if pkg['patches_post_configure'] is not None:
 				for p in pkg['patches_post_configure']:
 					applyPatch(p[0], p[1], True)
+		touch(touchName)
+
+###################################################################################################
+def buildSource(packageName, pkg, buildSystem):
+	logger.info(f"buildSource: Processing '{packageName}'")
+	_origDir = os.getcwd()
+	touchName = f"already_ran_make_{md5(packageName, getKeyOrBlankString(pkg, 'build_options'))}"
+	if not os.path.isfile(touchName):
+		cpuCountStr = f"-j {objSETTINGS.cpuCount}"
+		if 'cpu_count' in pkg:
+			if isinstance(pkg['cpu_count'], int):
+				if pkg['cpu_count'] > 0:
+					cpuCountStr = f"-j {pkg['cpu_count']}"
+				#else:
+				#	cpuCountStr = ""
+		mkCmd = 'make'
+		if buildSystem == "waf":
+			mkCmd = './waf --color=yes'
+		if buildSystem == "rake":
+			mkCmd = 'rake'
+		if buildSystem == "ninja":
+			mkCmd = 'ninja'
+		if buildSystem == "make":
+			if os.path.isfile("configure"):
+				logger.info(f"{mkCmd} clean {cpuCountStr}")
+				runProcess(f"{mkCmd} clean {cpuCountStr}", True)
+		#if buildSystem == "ninja":
+		#	if os.path.isfile("meson.build"):
+		#		logger.info(F'{mkCmd} clean ') # -C builddir 
+		#		runProcess(F'{mkCmd} clean ', True) #-C builddir 
+		makeOpts = ''
+		if 'build_options' in pkg:
+			makeOpts = replaceVarCmdSubStrings(pkg["build_options"])
+		dump_environment_variables(override=False)
+		logger.info(f"buildSource: Building '{packageName}' with build_options: '{makeOpts}' in '{os.getcwd()}'", extra={'type': buildSystem})
+		if 'ignore_build_fail_and_run' in pkg:
+			if len(pkg['ignore_build_fail_and_run']) > 0:  # todo check if its a list too
+				try:
+					if buildSystem == "waf":
+						mkCmd = './waf --color=yes build'
+					logger.info(f"buildSource: {mkCmd} {cpuCountStr} {makeOpts}")
+					runProcess(f"{mkCmd} {cpuCountStr} {makeOpts}")
+				except Exception:  # todo, except specific exception
+					logger.info(f"buildSource: Ignoring failed make process...")
+					for cmd in pkg['ignore_build_fail_and_run']:
+						cmd = replaceVarCmdSubStrings(cmd)
+						logger.info(f"buildSource: Running post-failed-make-command: '{cmd}'")
+						runProcess(cmd)
+		else:
+			if buildSystem == "waf":
+				mkCmd = './waf --color=yes build'
+			logger.info(f"buildSource: {mkCmd} {cpuCountStr} {makeOpts}")
+			runProcess(f"{mkCmd} {cpuCountStr} {makeOpts}")
+		if 'regex_replace' in pkg and pkg['regex_replace']:
+			_pos = 'post_build'
+			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+				for r in pkg['regex_replace'][_pos]:
+					handleRegexReplace(r, packageName)
+		if 'run_post_build' in pkg:
+			if pkg['run_post_build'] is not None:
+				for cmd in pkg['run_post_build']:
+					if cmd.startswith("!SWITCHDIRBACK"):
+						cchdir(_origDir)
+					elif cmd.startswith("!SWITCHDIR"):
+						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
+						cchdir(_dir)
+					else:
+						cmd = replaceVarCmdSubStrings(cmd)
+						logger.info(f"buildSource: Running post-build-command: '{cmd}'")
+						logger.info(cmd)
+						runProcess(cmd)
 		touch(touchName)
 
 ###################################################################################################
@@ -2938,7 +3009,7 @@ def buildPackage(packageName=''):	# was buildThing
 		if pkg['flipped_path'] is True:
 			bef = os.environ['PATH']
 			logger.debug(f"buildPackage: os.environ PATH before custom_path = '{os.environ['PATH']}'")
-			os.environ['PATH']  = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}"  # todo properly test this..
+			os.environ['PATH']  = f"{objSETTINGS.mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}"  # todo properly test this..
 			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ['PATH']}'")
 			dump_environment_variables(override=False)
 
