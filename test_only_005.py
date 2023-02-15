@@ -439,7 +439,7 @@ def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
 	return
 
 ###################################################################################################
-def dump_environment_variables(override=None)
+def dump_environment_variables(override=None):
 	override = objSETTINGS.debugMode
 	if not objSETTINGS.debugMode:
 		if override is not None:
