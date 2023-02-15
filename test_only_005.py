@@ -358,24 +358,24 @@ class settings:
 			}
 		)
 	
-		os.environ["PATH"] = f"{self.mingwBinpath}:{self.originalPATH}"
-		os.environ["PKG_CONFIG_PATH"] = self.pkgConfigPath
-		os.environ["PKG_CONFIG_LIBDIR"] = ""
-		os.environ["COLOR"] = "ON"  # Force coloring on (for CMake primarily)
-		os.environ["CLICOLOR_FORCE"] = "ON"  # Force coloring on (for CMake primarily)
+		os.environ['PATH'] = f"{self.mingwBinpath}:{self.originalPATH}"
+		os.environ['PKG_CONFIG_PATH'] = self.pkgConfigPath
+		os.environ['PKG_CONFIG_LIBDIR'] = ''
+		os.environ['COLOR'] = "ON"  # Force coloring on (for CMake primarily)
+		os.environ['CLICOLOR_FORCE'] = "ON"  # Force coloring on (for CMake primarily)
 
 		print(f"Processing finished Processing initial settings")
 		return
 
 ###################################################################################################
 def resetDefaultEnvVars():
-	os.environ["PATH"]              = f"{objSETTINGS.mingwBinpath}:{objSETTINGS.originalPATH}"
+	os.environ['PATH']              = f"{objSETTINGS.mingwBinpath}:{objSETTINGS.originalPATH}"
 	os.environ['CFLAGS']            = objSETTINGS.originalCflags
 	os.environ['CXXFLAGS']          = objSETTINGS.originalCflags
 	os.environ['CPPFLAGS']          = objSETTINGS.originalCflags
-	os.environ[LDFLAGS']           = objSETTINGS.originalCflags
-	os.environ["PKG_CONFIG_PATH"]   = objSETTINGS.pkgConfigPath
-	os.environ["PKG_CONFIG_LIBDIR"] = ""
+	os.environ['LDFLAGS']           = objSETTINGS.originalCflags
+	os.environ['PKG_CONFIG_PATH']   = objSETTINGS.pkgConfigPath
+	os.environ['PKG_CONFIG_LIBDIR'] = ''
 	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
 	if objSETTINGS.debugMode:
 		logger.debug(f"resetDefaultEnvVars: ###############################")
@@ -1405,7 +1405,7 @@ def buildMingw64():
 def generateCflagString(prefix=""):
 	if "CFLAGS" not in os.environ:
 		return ""
-	cfs = os.environ["CFLAGS"]
+	cfs = os.environ['CFLAGS']
 	cfs = cfs.split(" ")
 	if (len(cfs) == 1 and cfs[0] != "") or not len(cfs):
 		return ""
@@ -2759,18 +2759,18 @@ def buildPackage(packageName=''):	# was buildThing
 	if 'strip_cflags' in pkg:
 		if isinstance(pkg["strip_cflags"], (list, tuple)) and len(pkg["strip_cflags"]):
 			for _pattern in pkg["strip_cflags"]:
-				logger.debug(f"buildPackage: os.environ CFLAGS,   before stripping = '{os.environ["CFLAGS"]}'")
-				logger.debug(f"buildPackage: os.environ CXXFLAGS, before stripping = '{os.environ["CXXFLAGS"]}'")
+				logger.debug(f"buildPackage: os.environ CFLAGS,   before stripping = '{os.environ['CFLAGS']}'")
+				logger.debug(f"buildPackage: os.environ CXXFLAGS, before stripping = '{os.environ['CXXFLAGS']}'")
 				logger.debug(f"buildPackage: os.environ CPPFLAGS, before stripping = '{os.environ["CPPFLAGS"]}'")
-				logger.debug(f"buildPackage: os.environ LDFLAGS,  before stripping = '{os.environ["LDFLAGS"]}'")
-				os.environ["CFLAGS"] = reStrip(_pattern, os.environ["CFLAGS"])
-				os.environ["CXXFLAGS"] = reStrip(_pattern, os.environ["CXXFLAGS"])
+				logger.debug(f"buildPackage: os.environ LDFLAGS,  before stripping = '{os.environ['LDFLAGS']}'")
+				os.environ['CFLAGS'] = reStrip(_pattern, os.environ['CFLAGS'])
+				os.environ['CXXFLAGS'] = reStrip(_pattern, os.environ['CXXFLAGS'])
 				os.environ["CPPFLAGS"] = reStrip(_pattern, os.environ["CPPFLAGS"])
-				os.environ["LDFLAGS"] = reStrip(_pattern, os.environ["LDFLAGS"])
-				logger.info(f"buildPackage: Stripped CFLAGS,   now: '{os.environ["CFLAGS"]}'")
-				logger.info(f"buildPackage: Stripped CXXFLAGS, now: '{os.environ["CXXFLAGS"]}'")
+				os.environ['LDFLAGS'] = reStrip(_pattern, os.environ['LDFLAGS'])
+				logger.info(f"buildPackage: Stripped CFLAGS,   now: '{os.environ['CFLAGS']}'")
+				logger.info(f"buildPackage: Stripped CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
 				logger.info(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ["CPPFLAGS"]}'")
-				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ["LDFLAGS"]}'")
+				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
 				logger.debug(f"buildPackage: ### Environment variables:  ###")
@@ -2785,7 +2785,7 @@ def buildPackage(packageName=''):	# was buildThing
 			vval = replaceVarCmdSubStrings(vval)
 			logger.debug(f"buildPackage: os.environ PATH   before custom_path = '{os.environ['PATH']}'")
 			logger.debug(f"Setting PATH to '{vval}'")
-			os.environ["PATH"] = vval
+			os.environ['PATH'] = vval
 			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ[PATH']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
@@ -2797,10 +2797,10 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'flipped_path' in pkg:
 		if pkg['flipped_path'] is True:
-			bef = os.environ["PATH"]
+			bef = os.environ['PATH']
 			logger.debug(f"buildPackage: os.environ PATH before custom_path = '{os.environ['PATH']}'")
-			os.environ["PATH"] = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}")  # todo properly test this..
-			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
+			os.environ['PATH'] = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}")  # todo properly test this..
+			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ['PATH']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
 				logger.debug(f"buildPackage: ### Environment variables:  ###")
@@ -2974,9 +2974,9 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'flipped_path' in pkg:
 		if pkg['flipped_path'] is True:
-			_path = os.environ["PATH"]
-			os.environ["PATH"] = "{0}:{1}".format(objSETTINGS.mingwBinpath, objSETTINGS.originalPATH)
-			logger.debug("Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ["PATH"]))
+			_path = os.environ['PATH']
+			os.environ['PATH'] = "{0}:{1}".format(objSETTINGS.mingwBinpath, objSETTINGS.originalPATH)
+			logger.debug("Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ['PATH']))
 
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
@@ -3001,7 +3001,7 @@ def buildPackage(packageName=''):	# was buildThing
 	if 'custom_path' in pkg:
 		if pkg['custom_path'] is not None:
 			logger.debug(f"buildPackage: Re-setting PATH to '{oldPath}'")
-			os.environ["PATH"] = oldPath
+			os.environ['PATH'] = oldPath
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
 				logger.debug(f"buildPackage: ### Environment variables:  ###")
