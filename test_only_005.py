@@ -378,11 +378,11 @@ def resetDefaultEnvVars():
 	os.environ["PKG_CONFIG_LIBDIR"] = ""
 	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
 	if objSETTINGS.debugMode:
-		logger.debug("resetDefaultEnvVars: ###############################")
-		logger.debug("resetDefaultEnvVars: ### Environment variables:  ###")
+		logger.debug(f"resetDefaultEnvVars: ###############################")
+		logger.debug(f"resetDefaultEnvVars: ### Environment variables:  ###")
 		for osv in os.environ:
 			logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-		logger.debug("resetDefaultEnvVars: ###############################")
+		logger.debug(f"resetDefaultEnvVars: ###############################")
 		pass
 
 ###################################################################################################
@@ -1870,30 +1870,30 @@ def checkMirrors(dlLocations):
 def getBestMirror(packageData, packageName):  # returns the first online mirror of a package, and its hash
 	if "url" in packageData:
 		if packageData["repo_type"] == "archive":
-			logger.warning("Package has the old URL format, please update it.")
+			logger.warning(f"getBestMirror: Package 'archive' has the old URL format, please update it.")
 		return {"url": packageData["url"], "hashes": []}
 	elif "download_locations" not in packageData:
-		raise Exception("download_locations not specificed for package: " + packageName)
+		raise Exception(f"getBestMirror: download_locations not specificed for package: " + packageName)
 	else:
 		if not len(packageData["download_locations"]) >= 1:
-			raise Exception("download_locations is empty for package: " + packageName)
+			raise Exception(f"getBestMirror: download_locations is empty for package: " + packageName)
 		if "url" not in packageData["download_locations"][0]:
-			raise Exception("download_location #1 of package '%s' has no url specified" % (packageName))
+			raise Exception(f"getBestMirror: download_location #1 of package '{packageName}' has no url specified")
 		return checkMirrors(packageData["download_locations"])
 
 ###################################################################################################
 def getPrimaryPackageUrl(packageData, packageName):  # returns the URL of the first download_locations entry from a package, unlike get_best_mirror this one ignores the old url format
 	if "url" in packageData:
 		if packageData["repo_type"] == "archive":
-			logger.debug("Package has the old URL format, please update it.")
+			logger.debug("getPrimaryPackageUrl: Package archive has the old URL format, please update it.")
 		return replaceVarCmdSubStrings(packageData["url"])
 	elif "download_locations" not in packageData:
-		raise Exception("download_locations in package '%s' not specificed" % (packageName))
+		raise Exception(f"getPrimaryPackageUrl: download_locations in package '{packageName}' not specificed")
 	else:
 		if not len(packageData["download_locations"]) >= 1:
-			raise Exception("download_locations is empty for package")
+			raise Exception(f"getPrimaryPackageUrl: download_locations is empty for package")
 		if "url" not in packageData["download_locations"][0]:
-			raise Exception("download_location #1 of package has no url specified")
+			raise Exception(f"getPrimaryPackageUrl: download_location #1 of package has no url specified")
 		return replaceVarCmdSubStrings(packageData["download_locations"][0]["url"])  # TODO: do not assume correct format
 
 ###################################################################################################
@@ -2294,25 +2294,25 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 
 ###################################################################################################
 def bootstrapConfigure():
-	if not os.path.isfile("configure"):
-		if os.path.isfile("bootstrap.sh"):
-			logger.debug("./bootstrap.sh")
-			runProcess("./bootstrap.sh")
-		elif os.path.isfile("autogen.sh"):
-			logger.debug("./autogen.sh")
-			runProcess("./autogen.sh")
-		elif os.path.isfile("buildconf"):
-			logger.debug("./buildconf")
-			runProcess("./buildconf")
-		elif os.path.isfile("bootstrap"):
-			logger.debug("./bootstrap")
-			runProcess("./bootstrap")
-		elif os.path.isfile("bootstrap"):
-			logger.debug("./bootstrap")
-			runProcess("./bootstrap")
-		elif os.path.isfile("configure.ac"):
-			logger.debug("autoreconf -fiv")
-			runProcess("autoreconf -fiv")
+	if not os.path.isfile(f"configure"):
+		if os.path.isfile(f"bootstrap.sh"):
+			logger.debug(f"./bootstrap.sh")
+			runProcess(f"./bootstrap.sh")
+		elif os.path.isfile(f"autogen.sh"):
+			logger.debug(f"./autogen.sh")
+			runProcess(f"./autogen.sh")
+		elif os.path.isfile(f"buildconf"):
+			logger.debug(f"./buildconf")
+			runProcess(f"./buildconf")
+		elif os.path.isfile(f"bootstrap"):
+			logger.debug(f"./bootstrap")
+			runProcess(f"./bootstrap")
+		elif os.path.isfile(f"bootstrap"):
+			logger.debug(f"./bootstrap")
+			runProcess(f"./bootstrap")
+		elif os.path.isfile(f"configure.ac"):
+			logger.debug(f"autoreconf -fiv")
+			runProcess(f"autoreconf -fiv")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
@@ -2331,7 +2331,7 @@ def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 		ignoreErr = True
 		exitOn = False
 	if os.path.isfile(patchTouchName):
-		logger.info("applyPatch: Patch '{url}' already applied")
+		logger.info(f"applyPatch: Patch '{url}' already applied")
 		cchdir(originalFolder)
 		return
 	pUrl = urlparse(url)
@@ -2497,7 +2497,7 @@ def buildPackage(packageName=''):	# was buildThing
 		if branch is not None:
 			branch = replaceVarCmdSubStrings(branch)
 		recursive = getValueOrNone(pkg, 'recursive_git')
-		git_depth = pkg.get('depth_git', -1) - 1	# Use Dict .get method, with a default of -1 which meanss the last commit
+		git_depth = pkg.get(f"depth_git", -1) - 1	# Use Dict .get method, with a default of -1 which meanss the last commit
 		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		doNotUpdate = False
 		if 'do_not_git_update' in pkg:
@@ -2584,16 +2584,16 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if objArgParser.force:
 		if os.path.isdir(".git"):
-			logger.info('buildPackage: git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
-			runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
-			logger.info('buildPackage: git submodule foreach --recursive git clean -ffdx')
-			runProcess('git submodule foreach --recursive git clean -ffdx')
-			logger.info('buildPackage: git reset --hard')
-			runProcess('git reset --hard')
-			logger.info('buildPackage: git submodule foreach --recursive git reset --hard')
-			runProcess('buildPackage: git submodule foreach --recursive git reset --hard')
-			logger.info('buildPackage: git submodule update --init --recursive')
-			runProcess('git submodule update --init --recursive')
+			logger.info("buildPackage: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
+			runProcess("git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
+			logger.info("buildPackage: git submodule foreach --recursive git clean -ffdx")
+			runProcess("git submodule foreach --recursive git clean -ffdx")
+			logger.info("buildPackage: git reset --hard")
+			runProcess("git reset --hard")
+			logger.info("buildPackage: git submodule foreach --recursive git reset --hard")
+			runProcess("buildPackage: git submodule foreach --recursive git reset --hard")
+			logger.info("buildPackage: git submodule update --init --recursive")
+			runProcess("git submodule update --init --recursive")
 
 
 ???
@@ -2603,7 +2603,7 @@ def buildPackage(packageName=''):	# was buildThing
 			vval = pkg['source_subfolder']
 			vval = replaceVarCmdSubStrings(vval)
 			if not os.path.isdir(vval):
-				logger.info('buildPackage: mkdirs '{vval}')
+				logger.info(f"buildPackage: mkdirs '{vval}'")
 				os.makedirs(vval, exist_ok=True)
 			cchdir(vval)
 
@@ -2902,7 +2902,7 @@ if __name__ == "__main__":
 	# Initialize global settings, they can be overridden later by commandline options
 	objSETTINGS = settings()
 	if objSETTINGS.debugMode:
-		objSETTINGS.dump_vars('### debugMode: DEBUG SETTINGS INTERNAL VARIABLES DUMP:')
+		objSETTINGS.dump_vars(f"### debugMode: DEBUG SETTINGS INTERNAL VARIABLES DUMP:")
 	
 	# Initialize Logging, this depends on objSETTINGS being initialized first
 	initLogger()
@@ -2913,7 +2913,7 @@ if __name__ == "__main__":
 	# Process CMDLINE arguments into variables in the processCmdLineArguments object
 	objArgParser = processCmdLineArguments()
 	#if objSETTINGS.debugMode:
-	#	objArgParser.dump_vars('### processCmdLineArguments: SETTINGS INTERNAL VARIABLES DUMP:')
+	#	objArgParser.dump_vars(f"### processCmdLineArguments: SETTINGS INTERNAL VARIABLES DUMP:")
 	#objParser = objArgParser.parser	# the actual parser object
 	# And just because we can, retrieve the parser object from our new objArgParser object
 	#if objSETTINGS.debugMode:
