@@ -211,7 +211,7 @@ class settings:
 		
 		self.workdir_subfolder ='workdir'											# 'workdir'  is the subfolder where actual build stuff happens
 		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)		# for output, eg workdir
-
+		
 		self.bitnessStr = "x86_64"										# eg x86_64 underneath workdir_subfolder
 		self.bitnessStr2 = "x86_64"										# just for vpx... underneath workdir_subfolder
 		self.bitnessStr3 = "mingw64"									# just for openssl... underneath workdir_subfolder
@@ -265,6 +265,7 @@ class settings:
 		self.depsFolder     = self.packagesFolder.joinpath("dependencies")				# for input, eg packages/dependencies
 		self.varsPath       = self.packagesFolder.joinpath("variables.py")				# for input, eg packages/variables.py
 		self.patchesFolder	= self.projectRoot.joinpath(self.patches_subfolder)			# for input, eg packages
+		self.fullPatchDir   = self.patchesFolder										# duplicated, cull later
 		self.additionalheadersFolder	= self.projectRoot.joinpath(self.additionalheaders_subfolder)			# for input, eg packages
 		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg packages
 		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg packages
@@ -2312,7 +2313,53 @@ def bootstrapConfigure():
 		elif os.path.isfile("configure.ac"):
 			logger.debug('autoreconf -fiv')
 			runProcess('autoreconf -fiv')
-				
+
+###################################################################################################
+def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
+	originalFolder = os.getcwd()
+	if folderToPatchIn is not None:
+		logger.info(f"applyPatch: Moving into patch folder: {getcwd()}" .format(os.))
+		cchdir(folderToPatchIn)
+	logger.info(f"applyPatch: Applying patch '{url}' in '{os.getcwd()}'")
+	patchTouchName = f"patch_{md5(url)}.done"
+	ignoreErr = False
+	exitOn = True
+	ignore = ""
+	if postConf:
+		patchTouchName = patchTouchName + "_past_conf"
+		ignore = "-N "
+		ignoreErr = True
+		exitOn = False
+	if os.path.isfile(patchTouchName):
+		logger.info("applyPatch: Patch '{url}' already applied")
+		cchdir(originalFolder)
+		return
+	pUrl = urlparse(url)
+	if pUrl.scheme != '':
+		fileName = os.path.basename(pUrl.path)
+		logger.info(f"applyPatch: Downloading patch '{url}' to: {fileName}")
+		downloadFile(url, fileName)
+	else:
+		local_patch_path = os.path.join(???.fullPatchDir, url)
+		fileName = os.path.basename(Path(local_patch_path).name)
+		if os.path.isfile(local_patch_path):
+			copyPath = os.path.join(os.getcwd(), fileName)
+			logger.info(f"applyPatch: Copying patch from '{local_patch_path}' to '{copyPath}'")
+			logger.debug(f"applyPatch: cp -f '{local_patch_path}' '{copyPath}' # copy file ")
+			shutil.copyfile(local_patch_path, copyPath)
+		else:
+			fileName = os.path.basename(urlparse(url).path)
+			url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url # 2020.06.22 if trunk moves to "main", "main" instead
+			downloadFile(url, fileName)
+	logger.info(f"applyPatch: Patching source using: '{fileName}'")
+	logger.debug(f"applyPatch: patch -b {ignore}{type} < '{fileName}'")
+	runProcess(f"patch -b {ignore}{type} < '{fileName}'", ignoreErr, exitOn)
+	if not postConf:
+		removeAlreadyFiles()
+	touch(patchTouchName)
+	if folderToPatchIn is not None:
+		cchdir(originalFolder)
+
 ###################################################################################################
 def buildPackage(packageName=''):	# was buildThing
 	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
@@ -2708,27 +2755,49 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.debug("buildPackage: ###############################")
 				pass
 
-		if 'copy_over' in pkg:
-			if pkg['copy_over'] is not None
-				for f in pkg['copy_over']:
-					f_formatted = replaceVarCmdSubStrings(f)
-					f_formatted = Path(f_formatted)
-					if not f_formatted.is_file():
-						errorExit(f"buildPackage: Copy-over file '{f_formatted}' (Unformatted: '{f}') does not exist.")
-						sys.exit(1)
-					dst = os.path.join(currentFullDir, f_formatted.name)
-					logger.info(f"buildPackage: Copying file over from '{dst}' to '{dst}'")
-					logger.info(f"cp -f '{f_formatted}' '{dst}' # copy file ")
-					shutil.copyfile(f_formatted, dst)
+	if 'copy_over' in pkg:
+		if pkg['copy_over'] is not None:
+			for f in pkg['copy_over']:
+				f_formatted = replaceVarCmdSubStrings(f)
+				f_formatted = Path(f_formatted)
+				if not f_formatted.is_file():
+					errorExit(f"buildPackage: Copy-over file '{f_formatted}' (Unformatted: '{f}') does not exist.")
+					sys.exit(1)
+				dst = os.path.join(currentFullDir, f_formatted.name)
+				logger.info(f"buildPackage: Copying file over from '{dst}' to '{dst}'")
+				logger.info(f"cp -f '{f_formatted}' '{dst}' # copy file ")
+				shutil.copyfile(f_formatted, dst)
+
+	if 'run_justbefore_patch' in pkg:
+		if pkg['run_justbefore_patch'] is not None:
+			for cmd in pkg['run_justbefore_patch']:
+				ignoreFail = False
+				if isinstance(cmd, tuple):
+					cmd = cmd[0]
+					ignoreFail = cmd[1]
+				if cmd.startswith("!SWITCHDIRBACK"):
+					cchdir(currentFullDir)
+				elif cmd.startswith("!SWITCHDIR"):
+					_dir = self.']:("|".join(cmd.split("|")[1:]))
+					cchdir(_dir)
+				else:
+					logger.debug(f"buildPackage: Running justbefore_patch-command pre ']: (raw): '{cmd}'")
+					cmd = self.']:(cmd)
+					logger.info(f"buildPackage: Running justbefore_patch-command: '{cmd}'")
+					run_process(cmd)
+					logger.debug(cmd)
+					runProcess(cmd, ignoreFail)
+
+	if 'patches' in pkg:
+		if pkg['patches'] is not None:
+			for p in pkg['patches']:
+				applyPatch(p[0], p[1], False, getValueByIntOrNone(p, 2))
+
+
 
 
 
 ???
-
-
-
-
-
 
 
 
