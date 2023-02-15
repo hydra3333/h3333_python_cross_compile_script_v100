@@ -2830,12 +2830,12 @@ def buildPackage(packageName=''):	# was buildThing
 					if cmd.startswith("!SWITCHDIRBACK"):
 						cchdir(currentFullDir)
 					elif cmd.startswith("!SWITCHDIR"):
-						_dir = self.replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
+						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
-						cmd = self.replaceVarCmdSubStrings(cmd)
+						cmd = replaceVarCmdSubStrings(cmd)
 						logger.info(f"buildPackage: Running run_post_regexreplace-command: '{cmd}'")
-						# self.run_process(cmd)	# no, see below
+						# run_process(cmd)	# no, see below
 						runProcess(cmd, ignoreFail)
 	conf_system = None
 	build_system = None
