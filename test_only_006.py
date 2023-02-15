@@ -268,11 +268,16 @@ class settings:
 		self.fullPatchDir   = self.patchesFolder										# duplicated, cull later
 		self.additionalheadersFolder	= self.projectRoot.joinpath(self.additionalheaders_subfolder)			# for input, eg packages
 		self.sourcesFolder	= self.projectRoot.joinpath(self.sources_subfolder)			# for input, eg packages
-		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg packages
+		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg tools
 
 		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)					# for output, eg workdir/x86_64
-		self.fullProductDir = self.bitnessPath.joinpath("_products")					# for output, eg workdir/x86_64_products
-		self.fullOfftreeDir = self.bitnessPath.joinpath("_offtree")						# for output, eg workdir/x86_64_offtree
+	
+		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")	# for output, eg workdir/x86_64_products
+		self.fullOfftreeDir = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")	# for output, eg workdir/x86_64_products
+
+#self.offtreePrefix = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")  # workdir/x86_64_offtree
+
+
 		self.fullDependencyDir = self.bitnessPath.joinpath("")							# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
 
 		# toolchain_output_path is the same as deadsix27 fullOutputDir
