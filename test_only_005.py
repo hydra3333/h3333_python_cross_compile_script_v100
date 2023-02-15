@@ -2432,7 +2432,7 @@ def buildPackage(packageName=''):	# was buildThing
 					logger.debug(f"buildPackage: Running run_pre_depends_on-command pre replaceVarCmdSubStrings (raw): '{cmd}'")
 					cmd = replaceVarCmdSubStrings(cmd)
 					logger.debug(f"buildPackage: Running run_pre_depends_on-command: '{cmd}'")
-					# run_process(cmd)
+					# run_process(cmd)	# no, see below
 					logger.debug(cmd)
 					runProcess(cmd, ignoreFail)		
 	#-----
@@ -2778,13 +2778,13 @@ def buildPackage(packageName=''):	# was buildThing
 				if cmd.startswith("!SWITCHDIRBACK"):
 					cchdir(currentFullDir)
 				elif cmd.startswith("!SWITCHDIR"):
-					_dir = self.']:("|".join(cmd.split("|")[1:]))
+					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 					cchdir(_dir)
 				else:
 					logger.debug(f"buildPackage: Running justbefore_patch-command pre ']: (raw): '{cmd}'")
-					cmd = self.']:(cmd)
+					cmd = replaceVarCmdSubStrings(cmd)
 					logger.info(f"buildPackage: Running justbefore_patch-command: '{cmd}'")
-					run_process(cmd)
+					#run_process(cmd)	# no, see below
 					logger.debug(cmd)
 					runProcess(cmd, ignoreFail)
 
@@ -2793,7 +2793,52 @@ def buildPackage(packageName=''):	# was buildThing
 			for p in pkg['patches']:
 				applyPatch(p[0], p[1], False, getValueByIntOrNone(p, 2))
 
-
+	if not anyFileStartsWith('already_ran_make'):
+		if 'run_post_patch' in pkg:
+			if pkg['run_post_patch'] is not None:
+				for cmd in pkg['run_post_patch']:
+					ignoreFail = False
+					if isinstance(cmd, tuple):
+						cmd = cmd[0]
+						ignoreFail = cmd[1]
+					if cmd.startswith("!SWITCHDIRBACK"):
+						cchdir(currentFullDir)
+					elif cmd.startswith("!SWITCHDIR"):
+						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
+						cchdir(_dir)
+					else:
+						logger.debug(f"buildPackage: Running post-patch-command pre replaceVarCmdSubStrings (raw): '{cmd}'")
+						cmd = replaceVarCmdSubStrings(cmd)
+						logger.info(f"buildPackage: Running post-patch-command: '{cmd}'")
+						#run_process(cmd)	# no, see below
+						logger.debug(cmd)
+						runProcess(cmd, ignoreFail)
+		if 'regex_replace' in pkg and pkg['regex_replace']:
+			_pos = 'post_patch'
+			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+				for r in pkg['regex_replace'][_pos]:
+					try:
+						handleRegexReplace(r, packageName)
+					except re.error as e:
+						errorExit(e)
+		if 'run_post_regexreplace' in pkg and pkg['run_post_regexreplace']:
+				for cmd in pkg['run_post_regexreplace']:
+					ignoreFail = False
+					if isinstance(cmd, tuple):
+						cmd = cmd[0]
+						ignoreFail = cmd[1]
+					if cmd.startswith("!SWITCHDIRBACK"):
+						cchdir(currentFullDir)
+					elif cmd.startswith("!SWITCHDIR"):
+						_dir = self.replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
+						cchdir(_dir)
+					else:
+						cmd = self.replaceVarCmdSubStrings(cmd)
+						logger.info(f"buildPackage: Running run_post_regexreplace-command: '{cmd}'")
+						# self.run_process(cmd)	# no, see below
+						runProcess(cmd, ignoreFail)
+	conf_system = None
+	build_system = None
 
 
 
