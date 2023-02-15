@@ -2638,9 +2638,9 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.debug("buildPackage: ###############################")
 				pass
 
-	if 'strip_cflags' in packageData:
-		if isinstance(packageData["strip_cflags"], (list, tuple)) and len(packageData["strip_cflags"]):
-			for _pattern in packageData["strip_cflags"]:
+	if 'strip_cflags' in pkg:
+		if isinstance(pkg["strip_cflags"], (list, tuple)) and len(pkg["strip_cflags"]):
+			for _pattern in pkg["strip_cflags"]:
 				logger.debug(f"buildPackage: os.environ CFLAGS,   before stripping = '{os.environ["CFLAGS"]}'")
 				logger.debug(f"buildPackage: os.environ CXXFLAGS, before stripping = '{os.environ["CXXFLAGS"]}'")
 				logger.debug(f"buildPackage: os.environ CPPFLAGS, before stripping = '{os.environ["CPPFLAGS"]}'")
@@ -2661,12 +2661,12 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.debug("buildPackage: ###############################")
 				pass
 
-	if 'custom_path' in packageData:
-		if packageData['custom_path'] is not None:
+	if 'custom_path' in pkg:
+		if pkg['custom_path'] is not None:
 			vval = pkg['custom_path']
 			vval = replaceVarCmdSubStrings(vval)
 			logger.debug(f"buildPackage: os.environ PATH   before custom_path = '{os.environ['PATH']}'")
-			self.logger.debug(f"Setting PATH to '{vval}'")
+			logger.debug(f"Setting PATH to '{vval}'")
 			os.environ["PATH"] = vval
 			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ[PATH']}'")
 			if objSETTINGS.debugMode:
@@ -2677,11 +2677,12 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.debug("buildPackage: ###############################")
 				pass
 
-	if 'flipped_path' in packageData:
-		if packageData['flipped_path'] is True:
+	if 'flipped_path' in pkg:
+		if pkg['flipped_path'] is True:
 			bef = os.environ["PATH"]
-			os.environ["PATH"] = "{0}:{1}:{2}".format(self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # todo properly test this..
-			self.logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
+			logger.debug(f"buildPackage: os.environ PATH before custom_path = '{os.environ['PATH']}'")
+			os.environ["PATH"] = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}")  # todo properly test this..
+			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
@@ -2690,11 +2691,39 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.debug("buildPackage: ###############################")
 				pass
 
+	if 'env_exports' in pkg:
+		if pkg['env_exports'] is not None:
+			for key, val in pkg['env_exports'].items():
+				vval = replaceVarCmdSubStrings(val)
+				prevEnv = ''
+				if key in os.environ:
+					prevEnv = os.environ[key]
+				os.environ[key] = vval
+				logger.info(f"buildPackage: Environment variable '{key}' Set from '{prevEnv}' to '{vval}'")
+			if objSETTINGS.debugMode:
+				logger.debug("buildPackage: ###############################")
+				logger.debug("buildPackage: ### Environment variables:  ###")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
+				logger.debug("buildPackage: ###############################")
+				pass
+
+		if 'copy_over' in pkg:
+			if pkg['copy_over'] is not None
+				for f in pkg['copy_over']:
+					f_formatted = replaceVarCmdSubStrings(f)
+					f_formatted = Path(f_formatted)
+					if not f_formatted.is_file():
+						errorExit(f"buildPackage: Copy-over file '{f_formatted}' (Unformatted: '{f}') does not exist.")
+						sys.exit(1)
+					dst = os.path.join(currentFullDir, f_formatted.name)
+					logger.info(f"buildPackage: Copying file over from '{dst}' to '{dst}'")
+					logger.info(f"cp -f '{f_formatted}' '{dst}' # copy file ")
+					shutil.copyfile(f_formatted, dst)
+
+
+
 ???
-
-
-
-
 
 
 
