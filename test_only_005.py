@@ -369,10 +369,10 @@ class settings:
 ###################################################################################################
 def resetDefaultEnvVars():
 	os.environ["PATH"]              = f"{objSETTINGS.mingwBinpath}:{objSETTINGS.originalPATH}"
-	os.environ["CFLAGS"]            = objSETTINGS.originalCflags
-	os.environ["CXXFLAGS"]          = objSETTINGS.originalCflags
-	os.environ["CPPFLAGS"]          = objSETTINGS.originalCflags
-	os.environ["LDFLAGS"]           = objSETTINGS.originalCflags
+	os.environ['CFLAGS']            = objSETTINGS.originalCflags
+	os.environ['CXXFLAGS']          = objSETTINGS.originalCflags
+	os.environ['CPPFLAGS']          = objSETTINGS.originalCflags
+	os.environ[LDFLAGS']           = objSETTINGS.originalCflags
 	os.environ["PKG_CONFIG_PATH"]   = objSETTINGS.pkgConfigPath
 	os.environ["PKG_CONFIG_LIBDIR"] = ""
 	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
@@ -1404,7 +1404,7 @@ def buildMingw64():
 def generateCflagString(prefix=""):
 	if "CFLAGS" not in os.environ:
 		return ""
-	cfs = os.environ["CFLAGS"]
+	cfs = os.environ['CFLAGS']
 	cfs = cfs.split(' ')
 	if (len(cfs) == 1 and cfs[0] != "") or not len(cfs):
 		return ""
@@ -2292,6 +2292,28 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 	return realFolderName
 
 ###################################################################################################
+def bootstrapConfigure():
+	if not os.path.isfile("configure"):
+		if os.path.isfile("bootstrap.sh"):
+			logger.debug('./bootstrap.sh')
+			runProcess('./bootstrap.sh')
+		elif os.path.isfile("autogen.sh"):
+			logger.debug('./autogen.sh')
+			runProcess('./autogen.sh')
+		elif os.path.isfile("buildconf"):
+			logger.debug('./buildconf')
+			runProcess('./buildconf')
+		elif os.path.isfile("bootstrap"):
+			logger.debug('./bootstrap')
+			runProcess('./bootstrap')
+		elif os.path.isfile("bootstrap"):
+			logger.debug('./bootstrap')
+			runProcess('./bootstrap')
+		elif os.path.isfile("configure.ac"):
+			logger.debug('autoreconf -fiv')
+			runProcess('autoreconf -fiv')
+				
+###################################################################################################
 def buildPackage(packageName=''):	# was buildThing
 	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
 	
@@ -2480,8 +2502,8 @@ def buildPackage(packageName=''):	# was buildThing
 			exit(1)
 
 	if workDir is None:
-		logger.error(f"Error: Unexpected error when building {packageName}, workdir='{workDir}', please report this: {sys.exc_info()[0]}")
-		raise Exception(f"Error: Unexpected error when building {packageName}, workdir='{workDir}'")
+		logger.error(f"buildPackage :Error: Unexpected error when building {packageName}, workdir='{workDir}', please report this: {sys.exc_info()[0]}")
+		raise Exception(f"buildPackage: Error: Unexpected error when building {packageName}, workdir='{workDir}'")
 
 	if 'rename_folder' in pkg:  # this should be moved inside the download functions, TODO..
 		if pkg['rename_folder'] is not None:
@@ -2507,9 +2529,9 @@ def buildPackage(packageName=''):	# was buildThing
 		if 'run_pre_patch' in pkg:
 			if pkg['run_pre_patch'] is not None:
 				for cmd in pkg['run_pre_patch']:
-					logger.debug("Running pre-patch-command pre replaceVariables (raw): '{0}'".format( cmd )) # 2019.04.13
-					cmd = replaceVariables(cmd)
-					logger.debug("Running pre-patch-command: '{0}'".format(cmd))
+					logger.debug("buildPackage: Running pre-patch-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
+					cmd = replaceVarCmdSubStrings(cmd)
+					logger.debug("buildPackage: Running pre-patch-command: '{0}'".format(cmd))
 					logger.debug(cmd)
 					runProcess(cmd)
 
@@ -2523,13 +2545,116 @@ def buildPackage(packageName=''):	# was buildThing
 			runProcess('git reset --hard')
 			logger.info('buildPackage: git submodule foreach --recursive git reset --hard')
 			runProcess('buildPackage: git submodule foreach --recursive git reset --hard')
-			logger.info(buildPackage: 'git submodule update --init --recursive')
+			logger.info('buildPackage: git submodule update --init --recursive')
 			runProcess('git submodule update --init --recursive')
 
 
+???
 
-	##### MORE TO COME at about 2290: if 'source_subfolder' in packageData:
+	if 'source_subfolder' in pkg:
+		if pkg['source_subfolder'] is not None:
+			vval = pkg['source_subfolder']
+			vval = replaceVarCmdSubStrings(vval)
+			if not os.path.isdir(vval):
+				logger.info('buildPackage: mkdirs '{vval}')
+				os.makedirs(vval, exist_ok=True)
+			cchdir(vval)
 
+	if objArgParser.force:
+		removeAlreadyFiles()
+		removeConfigPatchDoneFiles()
+
+	if 'debug_confighelp_and_exit' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
+		if pkg['debug_confighelp_and_exit'] is True:
+			logger.debug("buildPackage: ./configure --help")
+			bootstrapConfigure()
+			logger.debug("buildPackage: ./configure --help")
+			runProcess("./configure --help")
+			exit()
+
+	if 'cflag_addition' in pkg:
+		if pkg['cflag_addition'] is not None:
+			vval = pkg['cflag_addition']
+			vval = replaceVarCmdSubStrings(vval)
+			logger.debug(f"buildPackage: Adding '{vval}' to CFLAGS")
+			logger.debug(f"buildPackage: os.environ CFLAGS   before cflag_addition = '{os.environ['CFLAGS']}'")
+			logger.debug(f"buildPackage: os.environ CXXFLAGS before cflag_addition = '{os.environ['CXXFLAGS']}'")
+			logger.debug(f"buildPackage: os.environ CPPFLAGS before cflag_addition = '{os.environ['CPPFLAGS']}'")
+			logger.debug(f"buildPackage: os.environ LDFLAGS  before cflag_addition = '{os.environ['LDFLAGS']}'")
+			os.environ['CFLAGS'] = os.environ['CFLAGS'] + " " + vval
+			os.environ['CXXFLAGS'] = os.environ['CXXFLAGS'] + " " + vval
+			os.environ['CPPFLAGS'] = os.environ['CPPFLAGS'] + " " + vval
+			os.environ[LDFLAGS'] = os.environ[LDFLAGS'] + " " + vval
+			logger.info(f"buildPackage: Added to CFLAGS,   now: '{os.environ['CFLAGS']}'")
+			logger.info(f"buildPackage: Added to CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
+			logger.info(f"buildPackage: Added to CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
+			logger.info(f"buildPackage: Added to LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
+			if objSETTINGS.debugMode:
+				logger.debug("buildPackage: ###############################")
+				logger.debug("buildPackage: ### Environment variables:  ###")
+				for val in os.environ:
+					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				logger.debug("buildPackage: ###############################")
+
+	if 'custom_cflag' in pkg:
+		if pkg['custom_cflag'] is not None:
+			vval = pkg['cflag_addition']
+			vval = replaceVarCmdSubStrings(vval)
+			logger.debug("buildPackage:Setting CFLAGS to '{0}'".format( vval ))
+			logger.debug(f"buildPackage: os.environ CFLAGS   before custom_cflag = '{os.environ['CFLAGS']}'")
+			logger.debug(f"buildPackage: os.environ CXXFLAGS before custom_cflag = '{os.environ['CXXFLAGS']}'")
+			logger.debug(f"buildPackage: os.environ CPPFLAGS before custom_cflag = '{os.environ['CPPFLAGS']}'")
+			logger.debug(f"buildPackage: os.environ LDFLAGS  before custom_cflag = '{os.environ['LDFLAGS']}'")
+			os.environ['CFLAGS'] = vval   # 2019.12.13
+			os.environ['CXXFLAGS'] = vval # 2019.12.13
+			os.environ['CPPFLAGS'] = vval # 2019.12.13
+			os.environ[LDFLAGS'] = vval  # 2019.12.13
+			logger.info(f"buildPackage:Set custom CFLAGS,   now: '{os.environ['CFLAGS']}"')
+			logger.info(f"buildPackage:Set custom CXXFLAGS, now: '{os.environ['CXXFLAGS']}"')
+			logger.info(f"buildPackage:Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}"')
+			logger.info(f"buildPackage:Set custom LDFLAGS,  now: '{os.environ[LDFLAGS']}'")
+			if objSETTINGS.debugMode:
+				logger.debug("buildPackage: ###############################")
+				logger.debug("buildPackage: ### Environment variables:  ###")
+				for val in os.environ:
+					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				logger.debug("buildPackage: ###############################")
+
+	if 'custom_ldflag' in pkg:
+		if pkg['custom_ldflag'] is not None:
+			vval = pkg['custom_ldflag']
+			vval = replaceVarCmdSubStrings(vval)
+			logger.debug(f"buildPackage: os.environ LDFLAGS  before custom_cflag = '{os.environ['LDFLAGS']}'")
+			logger.debug("Setting LDFLAGS to '{vval}'")
+			os.environ[LDFLAGS'] = vval  # 2019.12.13
+			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ[LDFLAGS']}'")
+			if objSETTINGS.debugMode:
+				logger.debug("buildPackage: ###############################")
+				logger.debug("buildPackage: ### Environment variables:  ###")
+				for val in os.environ:
+					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				logger.debug("buildPackage: ###############################")
+
+
+???????????????
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######################### next iff 'strip_cflags' in 
 
 
 
