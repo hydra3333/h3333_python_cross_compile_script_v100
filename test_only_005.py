@@ -1405,15 +1405,15 @@ def buildMingw64():
 def generateCflagString(prefix=""):
 	if "CFLAGS" not in os.environ:
 		return ""
-	cfs = os.environ['CFLAGS']
-	cfs = cfs.split(' ')
+	cfs = os.environ["CFLAGS"]
+	cfs = cfs.split(" ")
 	if (len(cfs) == 1 and cfs[0] != "") or not len(cfs):
 		return ""
 	out = ''
 	if len(cfs) >= 1:
 		for c in cfs:
-			out += prefix + c + ' '
-		out.rstrip(' ')
+			out += prefix + c + " "
+		out.rstrip(" ")
 		return out
 	return ''
 
@@ -1499,7 +1499,7 @@ def getKeyOrBlankString(db, k):
 
 ###################################################################################################
 def anyFileStartsWith(wild):
-	for file in os.listdir('.'):
+	for file in os.listdir("."):
 		if file.startswith(wild):
 			return True
 	return False
@@ -1536,7 +1536,7 @@ def handleRegexReplace(rp, packageName):
 	for _current_infile in in_files:
 		if "out_file" not in rp:
 			out_files = (_current_infile, )
-			logger.debug('cp -f "{0}" "{1}" # copy file '.format(_current_infile, _current_infile.parent.joinpath(_current_infile.name + ".backup")))
+			logger.debug(f"cp -f "{_current_infile}" "{_current_infile.parent.joinpath(_current_infile.name + '.backup')}" # copy file ')
 			shutil.copy(_current_infile, _current_infile.parent.joinpath(_current_infile.name + ".backup"))
 		else:
 			if isinstance(rp["out_file"], (list, tuple)):
@@ -1550,23 +1550,23 @@ def handleRegexReplace(rp, packageName):
 				_backup = _current_infile.parent.joinpath(_current_infile.name + ".backup")
 				if not _backup.parent.exists():
 					logger.warning(F"[Regex-Command] Out-File parent '{_backup.parent}' does not exist.")
-				logger.debug('cp -f "{0}" "{1}" # copy file '.format(_current_infile, _backup))
+				logger.debug(f"cp -f "{_current_infile}" "{_backup}" # copy file ")
 				shutil.copy(_current_infile, _backup)
 				_tmp_file = _current_infile.parent.joinpath(_current_infile.name + ".tmp")
-				logger.debug('mv -f "{0}" "{1}" # move file '.format(_current_infile, _tmp_file))
+				logger.debug(f"mv -f "{_current_infile}" "{_tmp_file}" # move file ")
 				shutil.move(_current_infile, _tmp_file)
 				_current_infile = _tmp_file
-			logger.info(F"[{packageName}] Running regex command on '{_current_outfile}'")
+			logger.info(f"[{packageName}] Running regex command on '{_current_outfile}'")
 			with open(_current_infile, "r") as f, open(_current_outfile, "w") as nf:
 				for line in f:
 					if re.search(repls[0], line) and len(repls) > 1:
-						logger.debug(F"RegEx replacing line")
-						logger.debug(F"in {_current_outfile}\n{line}\nwith:")
+						logger.debug(f"RegEx replacing line")
+						logger.debug(f"in {_current_outfile}\n{line}\nwith:")
 						line = re.sub(repls[0], repls[1], line)
-						logger.debug(F"\n{line}")
+						logger.debug(f"\n{line}")
 						nf.write(line)
 					elif re.search(repls[0], line):
-						logger.debug(F"RegEx removing line\n{line}:")
+						logger.debug(f"RegEx removing line\n{line}:")
 					else:
 						nf.write(line)
 
@@ -1923,7 +1923,7 @@ def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False
 		outputPath = os.getcwd()
 	else:
 		if not os.path.isdir(outputPath):
-			raise Exception('downloadFile: Specified path "{0}" does not exist'.format(outputPath))
+			raise Exception(f"downloadFile: Specified path '{outputPath}' does not exist")
 
 	fileName = os.path.basename(url)  # Get URL filename
 
@@ -2107,7 +2107,7 @@ def downloadUnpackFile(packageData, packageName, folderName=None, workDir=None):
 		fileName = os.path.basename(urlparse(url).path)
 		logger.info(f"downloadUnpackFile: Downloading {fileName} ({url})")
 
-		cchdir('.')
+		cchdir(".")
 		logger.debug(f"downloadUnpackFile: Downloading {url} to ({fileName})")
 		downloadFile(url, fileName)
 			
@@ -2227,37 +2227,37 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				if desiredBranch is not None:
 					# bsSplit = properBranchString.split("/")
 					# if len(bsSplit) == 2:
-					# 	run_process('git pull origin {1}'.format(bsSplit[0],bsSplit[1]))
+					# 	run_process("git pull origin {1}'.format(bsSplit[0],bsSplit[1])) ???
 					# else:
-					if 'Already up to date' in runProcess(f'git pull origin {properBranchString}', silent=True):
+					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
 						return os.getcwd()
 				else:
-					logger.info('gitClone: git pull'.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored
-					runProcess('git pull'.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored
-				logger.info('gitClone: git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
-				runProcess('git clean -ffdx')  # https://gist.github.com/nicktoumpelis/11214362
-				logger.info('gitClone: git submodule foreach --recursive git clean -ffdx')
-				runProcess('git submodule foreach --recursive git clean -ffdx')
-				logger.info('gitClone: git reset --hard')
-				runProcess('git reset --hard')
-				logger.info('gitClone: git submodule foreach --recursive git reset --hard')
-				runProcess('git submodule foreach --recursive git reset --hard')
-				logger.info('gitClone: git submodule update --init --recursive')
-				runProcess('git submodule update --init --recursive')
+					logger.info(f"gitClone: git pull") # .format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored
+					runProcess(f"git pull")	# .format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored
+				logger.info(f"gitClone: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
+				runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
+				logger.info(f"gitClone: git submodule foreach --recursive git clean -ffdx")
+				runProcess(f"git submodule foreach --recursive git clean -ffdx")
+				logger.info(f"gitClone: git reset --hard")
+				runProcess(f"git reset --hard")
+				logger.info(f"gitClone: git submodule foreach --recursive git reset --hard")
+				runProcess(f"git submodule foreach --recursive git reset --hard")
+				logger.info(f"gitClone: git submodule update --init --recursive")
+				runProcess(f"git submodule update --init --recursive")
 			elif REMOTE == BASE:
-				logger.debug("gitClone: ####################")
-				logger.debug("gitClone: need to push")
-				logger.debug("gitClone: LOCAL:  " + LOCAL)
-				logger.debug("gitClone: REMOTE: " + REMOTE)
-				logger.debug("gitClone: BASE:   " + BASE)
+				logger.debug(f"gitClone: ####################")
+				logger.debug(f"gitClone: need to push")
+				logger.debug(f"gitClone: LOCAL:  " + LOCAL)
+				logger.debug(f"gitClone: REMOTE: " + REMOTE)
+				logger.debug(f"gitClone: BASE:   " + BASE)
 				logger.debug("gitClone: ####################")
 			else:
-				logger.debug("gitClone: ####################")
-				logger.debug("gitClone: diverged?")
-				logger.debug("gitClone: LOCAL:  " + LOCAL)
-				logger.debug("gitClone: REMOTE: " + REMOTE)
-				logger.debug("gitClone: BASE	" + BASE)
-				logger.debug("gitClone: ####################")
+				logger.debug(f"gitClone: ####################")
+				logger.debug(f"gitClone: diverged?")
+				logger.debug(f"gitClone: LOCAL:  " + LOCAL)
+				logger.debug(f"gitClone: REMOTE: " + REMOTE)
+				logger.debug(f"gitClone: BASE	" + BASE)
+				logger.debug(f"gitClone: ####################")
 			cchdir("..")
 			#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 	else:
@@ -2271,48 +2271,48 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			depth = 1
 			addArgs.append(F"--depth 1")
 		logger.info(F"Git {'Shallow C' if depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
-		logger.debug('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
-		runProcess('git clone {0} --progress "{1}" "{2}"'.format(" ".join(addArgs), url, realFolderName + ".tmp"))
+		logger.debug(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}")
+		runProcess(f"git clone {' '.join(addArgs)} --progress "{url}" "{realFolderName + '.tmp'}")
 		if desiredBranch is not None:
 			cchdir(realFolderName + ".tmp")
-			logger.debug("gitClone: GIT Checking out:{0}".format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
-			logger.info('gitClone: git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
-			runProcess('git checkout{0}'.format(" master" if desiredBranch is None else branchString)) # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+			logger.debug(f"gitClone: GIT Checking out:{' master' if desiredBranch is None else branchString}")
+			logger.info(f"gitClone: git checkout{' master' if desiredBranch is None else branchString}")
+			runProcess(f"git checkout{' master' if desiredBranch is None else branchString}")
 			cchdir("..")
 		if desiredPR is not None:
 			cchdir(realFolderName + ".tmp")
-			logger.info("gitClone: GIT Fetching PR: {0}".format(desiredPR))
-			logger.info('gitClone: git fetch origin refs/pull/{0}/head'.format(desiredPR))
-			runProcess('git fetch origin refs/pull/{0}/head'.format(desiredPR))
+			logger.info(f"gitClone: GIT Fetching PR: {desiredPR}")
+			logger.info(f"gitClone: git fetch origin refs/pull/{desiredPR}/head")
+			runProcess(f"git fetch origin refs/pull/{desiredPR}/head")
 			cchdir("..")
-		logger.info('gitClone: mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
-		runProcess('mv "{0}" "{1}"'.format(realFolderName + ".tmp", realFolderName))
-		#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
+		logger.info(f"gitClone: mv '{realFolderName + '.tmp'}' '{realFolderName}'")
+		runProcess(f"mv '{realFolderName + '.tmp'}' '{realFolderName}'")
+		#logger.debug(f"gitClone: Finished GIT cloning '{url}' to '{realFolderName}'")
 
-	logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
+	logger.info(f"gitClone: Finished GIT cloning '{url}' to '{realFolderName}'")
 	return realFolderName
 
 ###################################################################################################
 def bootstrapConfigure():
 	if not os.path.isfile("configure"):
 		if os.path.isfile("bootstrap.sh"):
-			logger.debug('./bootstrap.sh')
-			runProcess('./bootstrap.sh')
+			logger.debug("./bootstrap.sh")
+			runProcess("./bootstrap.sh")
 		elif os.path.isfile("autogen.sh"):
-			logger.debug('./autogen.sh')
-			runProcess('./autogen.sh')
+			logger.debug("./autogen.sh")
+			runProcess("./autogen.sh")
 		elif os.path.isfile("buildconf"):
-			logger.debug('./buildconf')
-			runProcess('./buildconf')
+			logger.debug("./buildconf")
+			runProcess("./buildconf")
 		elif os.path.isfile("bootstrap"):
-			logger.debug('./bootstrap')
-			runProcess('./bootstrap')
+			logger.debug("./bootstrap")
+			runProcess("./bootstrap")
 		elif os.path.isfile("bootstrap"):
-			logger.debug('./bootstrap')
-			runProcess('./bootstrap')
+			logger.debug("./bootstrap")
+			runProcess("./bootstrap")
 		elif os.path.isfile("configure.ac"):
-			logger.debug('autoreconf -fiv')
-			runProcess('autoreconf -fiv')
+			logger.debug("autoreconf -fiv")
+			runProcess("autoreconf -fiv")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
