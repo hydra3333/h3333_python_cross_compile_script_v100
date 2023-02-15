@@ -2410,12 +2410,13 @@ def configureSource(packageName, pkg, conf_system):
 	logger.info(f"configureSource: Processing '{packageName}'")
 	touchName = "already_configured_%s" % (md5(packageName, getKeyOrBlankString(pkg, "configure_options")))
 	if not os.path.isfile(touchName):
-		cpuCountStr = '-j {0}'.format(cpuCount)
+		cpuCountStr = "-j {objSETTINGS.cpuCount}"
 		if 'cpu_count' in pkg:
-			if isinstance(pkg['cpu_count'], int) and pkg['cpu_count'] > 0:
-				cpuCountStr = '-j {0}'.format(pkg['cpu_count'])
-			else:
-				cpuCountStr = ""
+			if isinstance(pkg['cpu_count'], int):
+				if pkg['cpu_count'] > 0:
+					cpuCountStr = f"-j {pkg['cpu_count']}"
+				#else:
+				#	cpuCountStr = ""
 		removeAlreadyFiles()
 		removeConfigPatchDoneFiles()
 		doBootStrap = True
@@ -2484,7 +2485,7 @@ def bootstrapConfigure():
 			logger.info(f"bootstrapConfigure: ./autogen.sh")
 			runProcess(f"./autogen.sh")
 		elif os.path.isfile(f"buildconf"):
-			logger.info(fbootstrapConfigure: "./buildconf")
+			logger.info(f"bootstrapConfigure: ./buildconf")
 			runProcess(f"./buildconf")
 		elif os.path.isfile(f"bootstrap"):
 			logger.info(f"bootstrapConfigure: ./bootstrap")
