@@ -3373,11 +3373,13 @@ if __name__ == "__main__":
 	# what to build is in objArgParser
 	# settings to use are in objSETTINGS ... if necessary change settings in objSETTINGS
 	buildMingw64()			# also does cchdir(objSETTINGS.fullWorkDir)
+	#logger.debug(f"after buildMingw64()")
 
 	# OK. By the time we're here, we have created folders and built mingW64.
 	# So, review the specified package, could be a dependency, dependency tree, product, product tree.
 	# The package name will be in objArgParser.
 	if objSETTINGS.debugMode:
+		#logger.debug(f"after buildMingw64() debugMode, checking for objArgParser.build checking for validity of product/dependency to build")
 		if objArgParser.build:
 			if objArgParser.build_PRODUCT is not None:
 				if objArgParser.build_PRODUCT not in dictProducts.BO:
