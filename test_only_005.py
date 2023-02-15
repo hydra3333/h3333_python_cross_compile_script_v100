@@ -1520,9 +1520,9 @@ def removeConfigPatchDoneFiles():
 def handleRegexReplace(rp, packageName):
 	cwd = Path(os.getcwd())
 	if "in_file" not in rp:
-		errorExit(F'handleRegexReplace: The regex_replace command in the package {packageName}:\n{rp}\nMisses the in_file parameter.')
+		errorExit(f"handleRegexReplace: The regex_replace command in the package {packageName}:\n{rp}\nMisses the in_file parameter.")
 	if 0 not in rp:
-		errorExit(F'handleRegexReplace: A regex_replace command in the package {packageName}\nrequires at least the "0" key to be a RegExpression, if 1 is not defined matching lines will be removed.')
+		errorExit(f"handleRegexReplace: A regex_replace command in the package {packageName}\nrequires at least the "0" key to be a RegExpression, if 1 is not defined matching lines will be removed.")
 
 	in_files = rp["in_file"]
 	if isinstance(in_files, (list, tuple)):
@@ -1689,7 +1689,7 @@ def reviewPackageTree(packageName=''):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	logger.info (f"Processing reviewPackageTree '{packageName}'")
+	logger.info(f"Processing reviewPackageTree '{packageName}'")
 	if objArgParser.build_PRODUCT in dictProducts.BO:
 		obj_top_Package = dictProducts.get_dot_py_obj(packageName)
 	elif objArgParser.build_DEPENDENCY in dictDependencies.BO:
@@ -1701,7 +1701,7 @@ def reviewPackageTree(packageName=''):
 	if packageName not in biggusDictus:
 		logger.error(f"Build package: '{packageName}' however no matching product/dependency name found in biggusDictus.")
 		sys.exit(1)
-	logger.debug (f"reviewPackageTree, recognised retrieved package '{packageName}'")
+	logger.debug(f"reviewPackageTree, recognised retrieved package '{packageName}'")
 	
 	# recursively find and build dependencies first ... and then build the specified package
 	def findDepTreeAndBuild_recursive(packageName):
@@ -1714,7 +1714,7 @@ def reviewPackageTree(packageName=''):
 		#if boolKey(biggusDictus[packageName], "is_dep_inheriter"):
 		#	return
 		for d in zz_depends_on:
-			#logger.debug (f"'{d}' is a child of '{packageName}'")
+			#logger.debug(f"'{d}' is a child of '{packageName}'")
 			sub = findDepTreeAndBuild_recursive(d)
 			#logger.debug(f"*** BUILD dependency '{d}' here.")
 			reviewPackage(d)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
@@ -1723,7 +1723,7 @@ def reviewPackageTree(packageName=''):
 	findDepTreeAndBuild_recursive(packageName)	# build dependencies left-to-right in the 'depends_on', but at the bottom of each tree upward
 	logger.info(f"reviewPackageTree: the package tree Dependencies have been reviewed above, now we are reviewing '{packageName}' aka '{obj_top_Package.name}':'")
 	reviewPackage(packageName)	# build the actual package, now that all its dependencies have been reviewed
-	logger.info (f"Finished Processing reviewPackageTree '{packageName}'")
+	logger.info(f"Finished Processing reviewPackageTree '{packageName}'")
 	return
 
 ###################################################################################################
@@ -1743,7 +1743,7 @@ def reviewPackage(packageName=''):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	logger.info (f"Processing reviewPackage '{packageName}'")
+	logger.info(f"Processing reviewPackage '{packageName}'")
 	def dump_package_items_recursive(txt, d):
 		# function to print out each field in the package structure, whether a list, dict, tuple etc.
 		if type(d) is dict:	# follow the dict tree down
@@ -1846,7 +1846,7 @@ def reviewPackage(packageName=''):
 	if objSETTINGS.debugMode:
 		dump_package_items_recursive(packageName, dictPackage)
 	
-	logger.info (f"Finished Processing reviewPackage '{packageName}'")
+	logger.info(f"Finished Processing reviewPackage '{packageName}'")
 	return
 
 ###################################################################################################
@@ -1947,7 +1947,7 @@ def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False
 			fileName = outputFileName
 		fullOutputPath = os.path.join(outputPath, fileName)
 		try:
-			logger.debug(f'cp -f "{url}" "{fullOutputPath}" # copy file ')
+			logger.debug(f"cp -f '{url}' '{fullOutputPath}' # copy file ")
 			shutil.copyfile(url, fullOutputPath)
 		except Exception as e:
 			print(e)
@@ -2142,11 +2142,11 @@ def downloadUnpackFile(pkg, packageName, folderName=None, workDir=None):
 			os.makedirs(folderName) # os.makedirs creates intermediate parent paths like "mkdir -p"
 
 		if fileName.endswith(tars):
-			logger.debug(f'downloadUnpackFile: tar -xf "{fileName}"{customFolderTarArg}')
-			runProcess(f'tar -xf "{fileName}"{customFolderTarArg}')
+			logger.debug(f"downloadUnpackFile: tar -xf '{fileName}'{customFolderTarArg}")
+			runProcess(f"tar -xf '{fileName}'{customFolderTarArg}")
 		else:
-			logger.debug(f'downloadUnpackFile: unzip "{fileName}"')
-			runProcess(f'unzip "{fileName}"')
+			logger.debug(f"downloadUnpackFile: unzip '{fileName}'")
+			runProcess(f"unzip '{fileName}'")
 
 		touch(os.path.join(folderName, "unpacked.successfully"))
 
@@ -2164,7 +2164,7 @@ def sanitizeFilename(f):
 
 ###################################################################################################
 def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recursive=False, doNotUpdate=False, desiredPR=None, depth=-1):
-	logger.info (f'gitClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
+	logger.info(f"gitClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
 	if virtFolderName is None:
 		virtFolderName = sanitizeFilename(os.path.basename(url))
 		if not virtFolderName.endswith(".git"):
@@ -2180,12 +2180,12 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 	branchString = ""
 	if desiredBranch is not None:
 		desiredBranch = replaceVarCmdSubStrings(desiredBranch)
-		branchString = f" {desiredBranch}" # superseded: comment only for git checkout do we allow games with replaceVarCmdSubStrings() and 'branch'
+		#branchString = f" {desiredBranch}"
 
 	properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 	if desiredBranch is not None:
-		#properBranchString = desiredBranch
-		properBranchString = replaceVarCmdSubStrings(desiredBranch)	# 2023.02.13 ADDED replaceVarCmdSubStrings
+		properBranchString = desiredBranch
+		properBranchString = replaceVarCmdSubStrings(properBranchString)	# 2023.02.13 ADDED replaceVarCmdSubStrings
 
 	if os.path.isdir(realFolderName):
 		if desiredPR is not None:
@@ -2294,23 +2294,77 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 
 ###################################################################################################
 def svnClone(url, dir, desiredBranch=None):
-	logger.info (f'svnClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
-	dir = self.sanitizeFilename(dir)
+	logger.info(f"svnClone: Processing svnClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
+	dir = sanitizeFilename(dir)
 	if not dir.endswith("_svn"):
 		dir += "_svn"
 	if not os.path.isdir(dir):
-		self.logger.info("svnClone: SVN checking out to '{dir}'.tmp then moving to '{dir}'")
+		logger.info("svnClone: SVN checking out to '{dir}'.tmp then moving to '{dir}'")
 		if desiredBranch is None:
-			self.logger.info(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
-			self.runProcess(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
+			logger.info(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
+			runProcess(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
 		else:
-			self.logger.info(f"svnClone: svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
-			self.runProcess(f"svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
-		self.logger.info(f"svnClone: mv -f '{dir}.tmp' '{dir}"')
-		shutil.move(f'{dir}.tmp', dir) 
+			desiredBranch = replaceVarCmdSubStrings(desiredBranch)
+			#branchString = f" {desiredBranch}"
+			logger.info(f"svnClone: svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
+			runProcess(f"svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
+		logger.info(f"svnClone: mv -f '{dir}.tmp' '{dir}"')
+		shutil.move(f"{dir}.tmp", dir) 
 	else:
 		pass
 	return dir
+
+###################################################################################################
+def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, forceRebuild=False):
+	logger.info(f"mercurialClone: Processing mercurialClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
+	if virtFolderName is None:
+		virtFolderName = sanitizeFilename(os.path.basename(url))
+		if not virtFolderName.endswith(".hg"):
+			virtFolderName += ".hg"
+		virtFolderName = virtFolderName.replace(".hg", "_hg")
+	else:
+		virtFolderName = sanitizeFilename(virtFolderName)
+	realFolderName = virtFolderName
+	if renameTo is not None:
+		realFolderName = renameTo
+	branchString = ""
+	if desiredBranch is not None:
+		desiredBranch = replaceVarCmdSubStrings(desiredBranch)
+		#branchString = f" {desiredBranch}"
+	# we have to do it the hard way because "hg purge" is an extension that is not on by default
+	# and making users enable stuff like that is too much
+	if os.path.isdir(realFolderName) and forceRebuild:
+		logger.info(f"mercurialClone: Deleting old HG clone in folder '{realFolderName}'")
+		shutil.rmtree(realFolderName,ignore_errors=False)
+	if os.path.isdir(realFolderName):
+		cchdir(realFolderName)
+		logger.info("mercurialClone: hg --debug id -i")
+		hgVersion = subprocess.check_output("hg --debug id -i", shell=True)
+		logger.info('hg pull -u')
+		runProcess('hg pull -u')
+		logger.info('mercurialClone: hg update -C{0}'.format(" default" if desiredBranch is None else branchString))
+		runProcess('hg update -C{0}'.format(" default" if desiredBranch is None else branchString))
+		hgVersionNew = subprocess.check_output('hg --debug id -i', shell=True)
+		if hgVersion != hgVersionNew:
+			logger.debug("mercurialClone: HG clone has code changes, updating")
+			removeAlreadyFiles()
+		else:
+			logger.debug("mercurialClone: HG clone already up to date")
+		cchdir("..")
+	else:
+		logger.info(f"mercurialClone: HG cloning '{url}' to '{realFolderName + '.tmp'}'")
+		logger.debug(f"mercurialClone: hg clone {url} {realFolderName + '.tmp'}")
+		runProcess(f"hg clone {url} {realFolderName + '.tmp'}")
+		if desiredBranch is not None:
+			cchdir(realFolderName + '.tmp')
+			logger.debug(f"mercurialClone: HG updating to:{' master' if desiredBranch is None else branchString)}")
+			logger.debug(f"mercurialClone: hg up{' master' if desiredBranch is None else branchString)} -v")
+			runProcess(f"hg up{' master' if desiredBranch is None else branchString)}} -v'")
+			cchdir("..")
+		logger.debug(f"mercurialClone: mv -f '{realFolderName + '.tmp'}' '{realFolderName}'")
+		runProcess(f"mv '{realFolderName + '.tmp'}' '{realFolderName}'")
+	logger.info(f"mercurialClone: Finished HG cloning '{url}' to 'realFolderName'")
+	return realFolderName
 
 ###################################################################################################
 def bootstrapConfigure():
@@ -2946,7 +3000,7 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'custom_path' in pkg:
 		if pkg['custom_path'] is not None:
-			self.logger.debug(f"buildPackage: Re-setting PATH to '{oldPath}'")
+			logger.debug(f"buildPackage: Re-setting PATH to '{oldPath}'")
 			os.environ["PATH"] = oldPath
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
@@ -2956,8 +3010,8 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.debug(f"buildPackage: ###############################")
 				pass
 
-	self.resetDefaultEnvVars()
-	self.cchdir("..")  # ascend into workdir
+	resetDefaultEnvVars()
+	cchdir("..")  # ascend into workdir
 
 	logger.info(f"buildPackage: {Colors.LIGHTMAGENTA_EX}Building '{package_type.lower()} '{packageName}': Done !{Colors.RESET}")
 	return
@@ -3181,34 +3235,6 @@ if __name__ == "__main__":
 
 
 	# All Finished.
-	exit()
-
-
-#------------------------
-#					main.finishBuilding()
-
-#def defaultEntrace():
-#		for b in self.targetBitness:
-#			self.prepareBuilding(b)
-#			self.buildMingw(b)
-#			self.initBuildFolders()
-#			for p in self.product_order:
-#				self.buildThing(p, self.packages["prods"][p], "PRODUCT")
-#			self.finishBuilding()
-
-
-#def finishBuilding(self):
-#	cchdir("..")
-
-
-
-
-
-
-
-	#parser_epilog = 'Copyright (C) 2023-2024 hydra3333\n\n This Source Code Form is subject to the terms of the GNU General Public License version 3 or any later version. If a copy of the GPLv3 was not distributed with this file, You may obtain one at https://www.gnu.org/licenses/gpl-3.0.html'
-	#parser = argparse.ArgumentParser(formatter_class=epiFormatter, epilog=parser_epilog)
-	
 	exit()
 
 ##########################################################################################################################
