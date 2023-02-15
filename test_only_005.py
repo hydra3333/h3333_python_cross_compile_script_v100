@@ -165,7 +165,7 @@ class settings:
 		return
 
 	def aquireLocalPkgConfigPath(self):	 	# this only works on linux
-		possiblePathsStr = subprocess.check_output('pkg-config --variable pc_path pkg-config', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
+		possiblePathsStr = subprocess.check_output("pkg-config --variable pc_path pkg-config", shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
 		if possiblePathsStr == "":
 			msg = f"Unable to determine local pkg-config path(s), pkg-config output is empty"
 			logger.error(msg)
@@ -271,9 +271,9 @@ class settings:
 		self.toolsFolder	= self.projectRoot.joinpath(self.tools_subfolder)			# for input, eg packages
 
 		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)					# for output, eg workdir/x86_64
-		self.fullProductDir = self.bitnessPath.joinpath('_products')					# for output, eg workdir/x86_64_products
-		self.fullOfftreeDir = self.bitnessPath.joinpath('_offtree')						# for output, eg workdir/x86_64_offtree
-		self.fullDependencyDir = self.bitnessPath.joinpath('')							# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
+		self.fullProductDir = self.bitnessPath.joinpath("_products")					# for output, eg workdir/x86_64_products
+		self.fullOfftreeDir = self.bitnessPath.joinpath("_offtree")						# for output, eg workdir/x86_64_offtree
+		self.fullDependencyDir = self.bitnessPath.joinpath("")							# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
 
 		# toolchain_output_path is the same as deadsix27 fullOutputDir
 		self.toolchain_output_path = self.fullWorkDir.joinpath(self.bitnessStrWin + "_output")	# eg workdir/win64_output
@@ -339,7 +339,7 @@ class settings:
 				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
 				'make_cpu_count': "-j {0}".format(self.cpuCount),
 				'original_cflags': self.originalCflags,
-				'cflag_string': generateCflagString('--extra-cflags='),
+				'cflag_string': generateCflagString(f"--extra-cflags="),
 				'current_path': os.getcwd(),
 				'current_envpath': getKeyOrBlankString(os.environ, "PATH"),
 				'meson_env_file': self.mesonEnvFile,
@@ -843,20 +843,20 @@ class processCmdLineArguments():
 		logger.debug(f"Creating the ArgumentParser with parser = argparse.ArgumentParser")
 		self.parser_programname = 'h3333_python_cross_compile_script'
 		self.parser_program_description = Colors.RESET + Colors.CYAN + self.parser_programname + Colors.RESET + "" \
-										'\nExample usages:' \
-										'\n "{0} list -p"                                   - lists all products' \
-										'\n "{0} list -d"                                   - lists all dependencies' \
-										'\n "{0} info --required_by avisynth_plus_headers"  - List all packages this dependency is required by' \
-										'\n "{0} info --depends_on ffmpeg"                  - List all packages this package depends on (recursively)' \
-										'\n "{0} --force --debug -d avisynth_plus_headers"  - forces rebuilding of dependency avisynth_plus_headers' \
-										'\n "{0} --force -debug -p ffmpeg"                  - forces rebuilding of product ffmpeg' \
-										'\n "{0} --cmd_help"                                - Do nothing but show help and exit' \
-										''.format(self.parser_programname)
-		self.parser_epilog = 'Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n' \
-						'This Source Code Form is subject to the terms of the\n' \
-						'Mozilla Public License v. 2.0 (MPLv2).\n' \
-						'If a copy of the MPLv2 was not distributed with this file,\n' \
-						'You can obtain one at https://mozilla.org/MPL/2.0/ \n '
+										"\nExample usages:' \
+										"\n '{0} list -p'                                   - lists all products" \
+										"\n '{0} list -d'                                   - lists all dependencies" \
+										"\n '{0} info --required_by avisynth_plus_headers'  - List all packages this dependency is required by" \
+										"\n '{0} info --depends_on ffmpeg'                  - List all packages this package depends on (recursively)" \
+										"\n '{0} --force --debug -d avisynth_plus_headers'  - forces rebuilding of dependency avisynth_plus_headers" \
+										"\n '{0} --force -debug -p ffmpeg'                  - forces rebuilding of product ffmpeg" \
+										"\n '{0} --cmd_help'                                - Do nothing but show help and exit" \
+										"'.format(self.parser_programname)
+		self.parser_epilog = "Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n" \
+						"This Source Code Form is subject to the terms of the\n" \
+						"Mozilla Public License v. 2.0 (MPLv2).\n" \
+						"If a copy of the MPLv2 was not distributed with this file,\n" \
+						"You can obtain one at https://mozilla.org/MPL/2.0/ \n "
 		self.parser = argparse.ArgumentParser(	formatter_class=epiFormatter, \
 											prog=self.parser_programname, \
 											description=self.parser_program_description, \
@@ -865,38 +865,38 @@ class processCmdLineArguments():
 
 		# set a name in the top level main ArgumentParser
 		logger.debug(f"Setting a name in the top level ArgumentParser")
-		self.parser.set_defaults(which='main') # set a default argument "which" with a default value "main" in the main parser
+		self.parser.set_defaults(which="main") # set a default argument "which" with a default value "main" in the main parser
 		logger.debug(f"Set a name in the top level ArgumentParser")
 
 		# add sub-parsers object to the main ArgumentParser object
 		logger.debug(f"Add sub-parsers object to the top level ArgumentParser")
-		self.subparsers = self.parser.add_subparsers(help='Sub commands')
+		self.subparsers = self.parser.add_subparsers(help="Sub commands")
 		logger.debug(f"Added sub-parsers object to the top level ArgumentParser")
 
 		# create and add the (sub)parser for the "list" command to the sub-parsers object 
-		# and name it with which='list_p' ... parser.prog is the programname we set
-		logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
-		self.list_p = self.subparsers.add_parser('list', help='Type: \'' + self.parser.prog + ' list')
-		self.list_p.set_defaults(which='list')
-		# add arguments to the 'list' command parser which='list_p'
-		# Note: the second argument contains the variable-name to check later eg 'if args.dependencies'
+		# and name it with which="list_p" ... parser.prog is the programname we set
+		logger.debug(f"Create and add arguments to the (sub)parser for the "list" command")
+		self.list_p = self.subparsers.add_parser("list", help="Type: '" + self.parser.prog + " list'")
+		self.list_p.set_defaults(which="list")
+		# add arguments to the "list" command parser which="list_p"
+		# Note: the second argument contains the variable-name to check later eg "if args.dependencies"
 		list_p_group1 = self.list_p.add_mutually_exclusive_group(required=True)
-		list_p_group1.add_argument('-p', '--products',     help='List all products',     action='store_true', default=False)
-		list_p_group1.add_argument('-d', '--dependencies', help='List all dependencies', action='store_true', default=False)
+		list_p_group1.add_argument("-p", "--products",     help="List all products",     action="store_true", default=False)
+		list_p_group1.add_argument("-d", "--dependencies", help="List all dependencies", action="store_true", default=False)
 		# called like:	program.py list -d
 		# 				program.py list -p
-		logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
+		logger.debug(f"Created and added arguments to the (sub)parser for the "list" command")
 
 		# create and add the (sub)parser for the "info" command to the sub-parsers object 
-		# and name it with which='list_p' ... parser.prog is the programname we set
-		logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
-		self.info_p = self.subparsers.add_parser('info', help='Type: \'' + self.parser.prog + ' info')
-		self.info_p.set_defaults(which='info')
-		# add arguments to the 'info' command parser which='info_p'
-		# Note: the second argument contains the variable-name to check later eg 'args.required_by'
+		# and name it with which="list_p" ... parser.prog is the programname we set
+		logger.debug(f"Create and add arguments to the (sub)parser for the "info" command")
+		self.info_p = self.subparsers.add_parser("info", help="Type: '" + self.parser.prog + " info")
+		self.info_p.set_defaults(which="info")
+		# add arguments to the "info" command parser which="info_p"
+		# Note: the second argument contains the variable-name to check later eg "args.required_by"
 		self.info_p_group1 = self.info_p.add_mutually_exclusive_group(required=True)
-		self.info_p_group1.add_argument('-r', '--required_by', help='List all packages this dependency is required by',        default=None)
-		self.info_p_group1.add_argument('-d', '--depends_on',  help='List all packages this package depends on (recursively)', default=None)
+		self.info_p_group1.add_argument("-r", "--required_by", help="List all packages this dependency is required by",        default=None)
+		self.info_p_group1.add_argument("-d", "--depends_on",  help="List all packages this package depends on (recursively)", default=None)
 		# called like:	program.py info -r avisynth_plus_headers
 		# 				program.py info -d ffmpeg
 		logger.debug(f"Created and added arguments to the (sub)parser for the 'info' command")
@@ -906,22 +906,22 @@ class processCmdLineArguments():
 		logger.debug(f"Create and add arguments to the top level ArgumentParser for building stuff")
 		self.group2 = self.parser.add_mutually_exclusive_group(required=False)
 		# add arguments to the mutially exclusive group, to build a dependency or a product
-		# Note: the second argument contains the variable-name to check later eg 'if args.build_product'
-		self.group2.add_argument('-p', '--build_product',    dest='PRODUCT',    help='Build the specificed product package(s)',	default=None)	# dest='PRODUCT', 
-		self.group2.add_argument('-d', '--build_dependency', dest='DEPENDENCY', help='Build the specificed dependency package(s)',	default=None)	# dest='DEPENDENCY',
-		self.group2.add_argument('-c', '--cmd_help', help='Do nothing but show help', action='store_true', default=False) # use '-c' since -h and --help CONFLICT with system stuff
+		# Note: the second argument contains the variable-name to check later eg "if args.build_product"
+		self.group2.add_argument("-p", "--build_product",    dest="PRODUCT",    help="Build the specificed product package(s)",	default=None)	# dest="PRODUCT", 
+		self.group2.add_argument("-d", "--build_dependency", dest="DEPENDENCY", help="Build the specificed dependency package(s)",	default=None)	# dest="DEPENDENCY",
+		self.group2.add_argument("-c", "--cmd_help", help="Do nothing but show help", action="store_true", default=False) # use "-c" since -h and --help CONFLICT with system stuff
 		# called like:	program.py -d avisynth_plus_headers
 		# 				program.py -p ffmpeg
 		logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
 
 		# *** Now it is time for generic arguments
 		# add generic arguments to the main ArgumentParser object. 
-		# Note the '-g' for debug, since "-d" is already taken for dependency processing
-		# Note: the second argument contains the variable-name to check later eg 'if args.debug'
+		# Note the "-g" for debug, since "-d" is already taken for dependency processing
+		# Note: the second argument contains the variable-name to check later eg "if args.debug"
 		logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
-		self.parser.add_argument('-g', '--debug',        help='Show debug information',										action='store_true', default=False)
-		self.parser.add_argument('-f', '--force',        help='Force rebuild, deletes already existing files (recommended)',	action='store_true', default=False)
-		self.parser.add_argument('-s', '--skip_depends', help='Skip dependencies when building',								action='store_true', default=False)
+		self.parser.add_argument("-g", "--debug",        help="Show debug information",											action="store_true", default=False)
+		self.parser.add_argument("-f", "--force",        help="Force rebuild, deletes already existing files (recommended)",	action="store_true", default=False)
+		self.parser.add_argument("-s", "--skip_depends", help="Skip dependencies when building",								action="store_true", default=False)
 		# called like:	program.py --force --debug -d avisynth_plus_headers
 		# 				program.py --force --debug -p ffmpeg
 		# 				program.py --force --debug --skip-depends -p ffmpeg
@@ -1532,7 +1532,7 @@ def handleRegexReplace(rp, packageName):
 	repls = [replaceVarCmdSubStrings(rp[0]), ]
 	if 1 in rp:
 		repls.append(replaceVarCmdSubStrings(rp[1]))
-	logger.info(F"Running regex replace commands on package: '{packageName}' [{os.getcwd()}]")
+	logger.info(f"Running regex replace commands on package: '{packageName}' [{os.getcwd()}]")
 	for _current_infile in in_files:
 		if "out_file" not in rp:
 			out_files = (_current_infile, )
@@ -2198,18 +2198,18 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.warning("gitClone: #########################")
 		else:
 			cchdir(realFolderName)
-			logger.info('gitClone: git remote update')
-			runProcess('git remote update')
+			logger.info(f"gitClone: git remote update")
+			runProcess(f"git remote update")
 			UPSTREAM = '@{u}'  # or branchName i guess
 			if desiredBranch is not None:
 				UPSTREAM = properBranchString
-			LOCAL = subprocess.check_output(f'git rev-parse @', shell=True).decode("utf-8")
+			LOCAL = subprocess.check_output(f"git rev-parse @", shell=True).decode("utf-8")
 			REMOTE = subprocess.check_output(f'git rev-parse "{UPSTREAM}"', shell=True).decode("utf-8")
 			BASE = subprocess.check_output(f'git merge-base @ "{UPSTREAM}"', shell=True).decode("utf-8")
-			logger.info('gitClone: git checkout -f')
-			runProcess('git checkout -f')
-			logger.info(f'gitClone: git checkout {properBranchString}')
-			runProcess(f'git checkout {properBranchString}')
+			logger.info(f"gitClone: git checkout -f")
+			runProcess(f"git checkout -f")
+			logger.info(f"gitClone: git checkout {properBranchString}")
+			runProcess(f"git checkout {properBranchString}")
 			if LOCAL == REMOTE:
 				logger.debug("gitClone: ####################")
 				logger.debug("gitClone: Up to date")
