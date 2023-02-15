@@ -2903,7 +2903,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.info(f"buildPackage: git reset --hard")
 			runProcess(f"git reset --hard")
 			logger.info(f"buildPackage: git submodule foreach --recursive git reset --hard")
-			runProcess(f"buildPackage: git submodule foreach --recursive git reset --hard")
+			runProcess(f"git submodule foreach --recursive git reset --hard")
 			logger.info(f"buildPackage: git submodule update --init --recursive")
 			runProcess(f"git submodule update --init --recursive")
 
