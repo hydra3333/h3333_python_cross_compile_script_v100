@@ -185,7 +185,7 @@ class settings:
 
 		print(f"Processing initial settings")
 		# _working and STATUS stuff first
-		self.debugMode = True											# True or False
+		self.debugMode = False											# True or False
 		# be cautious, set the loglevel based on debugMode, but initDebugMode still needs to be called after the logger is initialized outside of this class
 		if self.debugMode:
 			self.initial_logging_mode = logging.DEBUG					# at what level to start logging initially. logging.INFO logging.DEBUG
@@ -1652,7 +1652,7 @@ def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yiel
 		command = " ".join(command)  # could fail I guess
 	if command.lower().startswith("svn"):
 		isSvn = True
-	logger.debug(f"Running '{command}' in '{os.getcwd()}'")
+	logger.info(f"Running '{command}' in '{os.getcwd()}'")
 	process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 	buffer = ""
 	while True:
