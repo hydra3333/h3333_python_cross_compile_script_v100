@@ -443,6 +443,18 @@ def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
 	return
 
 ###################################################################################################
+def dump_environment_variables(override=None)
+	override = objSETTINGS.debugMode
+	if not objSETTINGS.debugMode:
+		if override is not None:
+			if override:	# ok, we haev been told to override a debugMode=false
+				logger.info(f"##############################################################")
+				logger.info(f"### Environment variables: ###")
+				for osv in os.environ:
+					logger.info(f"\t'{osv}' : '{os.environ[osv]}'")
+				logger.info(f"##############################################################")
+
+###################################################################################################
 class dot_py_object:					# a single .py - name,  and json values in a dictionary
 	global objSETTINGS		# the SETTINGS object used everywhere
 	global logging_handler 	# the handler for the logger, only used for initialization
