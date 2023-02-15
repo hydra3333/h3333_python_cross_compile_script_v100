@@ -2531,8 +2531,8 @@ def buildPackage(packageName=''):	# was buildThing
 				for cmd in pkg['run_pre_patch']:
 					logger.debug("buildPackage: Running pre-patch-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
 					cmd = replaceVarCmdSubStrings(cmd)
-					logger.debug("buildPackage: Running pre-patch-command: '{0}'".format(cmd))
-					logger.debug(cmd)
+					logger.debug(f"buildPackage: Running pre-patch-command: '{cmd}'")
+					logger.info(cmd)
 					runProcess(cmd)
 
 	if objArgParser.force:
@@ -2566,9 +2566,9 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'debug_confighelp_and_exit' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		if pkg['debug_confighelp_and_exit'] is True:
-			logger.debug("buildPackage: ./configure --help")
+			logger.info("buildPackage: ./configure --help")
 			bootstrapConfigure()
-			logger.debug("buildPackage: ./configure --help")
+			logger.info("buildPackage: ./configure --help")
 			runProcess("./configure --help")
 			exit()
 
@@ -2585,10 +2585,10 @@ def buildPackage(packageName=''):	# was buildThing
 			os.environ['CXXFLAGS'] = os.environ['CXXFLAGS'] + " " + vval
 			os.environ['CPPFLAGS'] = os.environ['CPPFLAGS'] + " " + vval
 			os.environ[LDFLAGS'] = os.environ[LDFLAGS'] + " " + vval
-			logger.debug(f"buildPackage: Added to CFLAGS,   now: '{os.environ['CFLAGS']}'")
-			logger.debug(f"buildPackage: Added to CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
-			logger.debug(f"buildPackage: Added to CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
-			logger.debug(f"buildPackage: Added to LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
+			logger.info(f"buildPackage: Added to CFLAGS,   now: '{os.environ['CFLAGS']}'")
+			logger.info(f"buildPackage: Added to CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
+			logger.info(f"buildPackage: Added to CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
+			logger.info(f"buildPackage: Added to LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
@@ -2610,10 +2610,10 @@ def buildPackage(packageName=''):	# was buildThing
 			os.environ['CXXFLAGS'] = vval # 2019.12.13
 			os.environ['CPPFLAGS'] = vval # 2019.12.13
 			os.environ[LDFLAGS'] = vval  # 2019.12.13
-			logger.debug(f"buildPackage: Set custom CFLAGS,   now: '{os.environ['CFLAGS']}"')
-			logger.debug(f"buildPackage: Set custom CXXFLAGS, now: '{os.environ['CXXFLAGS']}"')
-			logger.debug(f"buildPackage: Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}"')
-			logger.debug(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ[LDFLAGS']}'")
+			logger.info(f"buildPackage: Set custom CFLAGS,   now: '{os.environ['CFLAGS']}"')
+			logger.info(f"buildPackage: Set custom CXXFLAGS, now: '{os.environ['CXXFLAGS']}"')
+			logger.info(f"buildPackage: Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}"')
+			logger.info(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ[LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
@@ -2629,7 +2629,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"buildPackage: os.environ LDFLAGS  before setting LDFLAGS = '{os.environ['LDFLAGS']}'")
 			logger.debug("buildPackage: Setting LDFLAGS to '{vval}'")
 			os.environ[LDFLAGS'] = vval  # 2019.12.13
-			logger.debug(f"buildPackage: Set LDFLAGS, now: '{os.environ[LDFLAGS']}'")
+			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ[LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
@@ -2649,10 +2649,10 @@ def buildPackage(packageName=''):	# was buildThing
 				os.environ["CXXFLAGS"] = reStrip(_pattern, os.environ["CXXFLAGS"])
 				os.environ["CPPFLAGS"] = reStrip(_pattern, os.environ["CPPFLAGS"])
 				os.environ["LDFLAGS"] = reStrip(_pattern, os.environ["LDFLAGS"])
-				logger.debug(f"buildPackage: Stripped CFLAGS,   now: '{os.environ["CFLAGS"]}'")
-				logger.debug(f"buildPackage: Stripped CXXFLAGS, now: '{os.environ["CXXFLAGS"]}'")
-				logger.debug(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ["CPPFLAGS"]}'")
-				logger.debug(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ["LDFLAGS"]}'")
+				logger.info(f"buildPackage: Stripped CFLAGS,   now: '{os.environ["CFLAGS"]}'")
+				logger.info(f"buildPackage: Stripped CXXFLAGS, now: '{os.environ["CXXFLAGS"]}'")
+				logger.info(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ["CPPFLAGS"]}'")
+				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ["LDFLAGS"]}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
@@ -2668,7 +2668,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"buildPackage: os.environ PATH   before custom_path = '{os.environ['PATH']}'")
 			self.logger.debug(f"Setting PATH to '{vval}'")
 			os.environ["PATH"] = vval
-			logger.debug(f"buildPackage: Set custom PATH, now: '{os.environ[PATH']}'")
+			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ[PATH']}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
@@ -2681,7 +2681,7 @@ def buildPackage(packageName=''):	# was buildThing
 		if packageData['flipped_path'] is True:
 			bef = os.environ["PATH"]
 			os.environ["PATH"] = "{0}:{1}:{2}".format(self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # todo properly test this..
-			self.logger.debug(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
+			self.logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
