@@ -2396,6 +2396,7 @@ def cmakeSource(packageName, pkg):
 					handleRegexReplace(r, packageName)
 		touch(touchName)
 
+###################################################################################################
 def mesonSource(packageName, pkg):
 	logger.info(f"mesonSource: Processing '{packageName}'")
 	touchName = f"already_ran_meson_%s" % (md5(packageName, getKeyOrBlankString(pkg, "configure_options	")))
@@ -2414,11 +2415,64 @@ def mesonSource(packageName, pkg):
 					handleRegexReplace(r, packageName)
 		touch(touchName)
 
+###################################################################################################
+def installSource(packageName, pkg, buildSystem):
+	logger.info(f"installSource: Processing '{packageName}'")
+	_origDir = os.getcwd()
+	touchName = f"already_ran_install_{md5(packageName, getKeyOrBlankString(pkg, 'install_options'))}"
+	if not os.path.isfile(touchName):
+		cpuCountStr = f"-j {objSETTINGS.cpuCount}"
+		if 'cpu_count' in pkg:
+			if isinstance(pkg['cpu_count'], int):
+				if pkg['cpu_count'] > 0:
+					cpuCountStr = f"-j {pkg['cpu_count']}"
+				#else:
+				#	cpuCountStr = ""
+		makeInstallOpts = ''
+		if 'install_options' in pkg:
+			if pkg['install_options'] is not None:
+				makeInstallOpts = replaceVarCmdSubStrings(pkg["install_options"])
+		installTarget = "install"
+		if 'install_target' in pkg:
+			if pkg['install_target'] is not None:
+				installTarget = replaceVarCmdSubStrings(pkg['install_target'])
+		logger.info(f"installSource: Installing '{packageName}' with install_options: '{makeInstallOpts}'", extra={'type': buildSystem})
+		mkCmd = "make"
+		if buildSystem == "waf":
+			mkCmd = "./waf"
+		if buildSystem == "rake":
+			mkCmd = "rake"
+		if buildSystem == "ninja":
+			mkCmd = "ninja"
+		logger.info(f"installSource: I{mkCmd} {installTarget} {makeInstallOpts} {cpuCountStr}")
+		runProcess(f"{mkCmd} {installTarget} {makeInstallOpts} {cpuCountStr}")
+		if 'regex_replace' in pkg and pkg['regex_replace']:
+			_pos = 'post_install'
+			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+				for r in pkg['regex_replace'][_pos]:
+					handleRegexReplace(r, packageName)
+		if 'run_post_install' in pkg:
+			if pkg['run_post_install'] is not None:
+				for cmd in pkg['run_post_install']:
+					if cmd.startswith("!SWITCHDIRBACK"):
+						cchdir(_origDir)
+					elif cmd.startswith("!SWITCHDIR"):
+						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
+						cchdir(_dir)
+					else:
+						logger.info("installSource: IRunning post-install-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
+						cmd = replaceVarCmdSubStrings(cmd)
+						logger.info("installSource: IRunning post-install-command: '{0}'".format(cmd))
+						logger.info(cmd)
+						runProcess(cmd)
+		touch(touchName)
+
+###################################################################################################
 def configureSource(packageName, pkg, conf_system):
 	logger.info(f"configureSource: Processing '{packageName}'")
-	touchName = "already_configured_%s" % (md5(packageName, getKeyOrBlankString(pkg, "configure_options")))
+	touchName = f"already_configured_{md5(packageName, getKeyOrBlankString(pkg, 'configure_options'))}"
 	if not os.path.isfile(touchName):
-		cpuCountStr = "-j {objSETTINGS.cpuCount}"
+		cpuCountStr = f"-j {objSETTINGS.cpuCount}"
 		if 'cpu_count' in pkg:
 			if isinstance(pkg['cpu_count'], int):
 				if pkg['cpu_count'] > 0:
