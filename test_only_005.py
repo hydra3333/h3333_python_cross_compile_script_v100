@@ -377,11 +377,11 @@ def resetDefaultEnvVars():
 	os.environ["PKG_CONFIG_LIBDIR"] = ""
 	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
 	if objSETTINGS.debugMode:
-		#logger.debug("##############################")
-		#logger.debug("### Environment variables:  ###")
-		#for tk in os.environ:
-		#	logger.debug(f"\t '{tk}' : '{os.environ[tk]}'")
-		#logger.debug("##############################")
+		logger.debug("resetDefaultEnvVars: ###############################")
+		logger.debug("resetDefaultEnvVars: ### Environment variables:  ###")
+		for osv in os.environ:
+			logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
+		logger.debug("resetDefaultEnvVars: ###############################")
 		pass
 
 ###################################################################################################
@@ -2410,11 +2410,11 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if objSETTINGS.debugMode:
 		logger.debug(f"############## Checks done, dependencies built, about to build the specified '{package_type}' : '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
-		#print("### Environment variables:  ###")
-		#for tk in os.environ:
-		#	print("\t" + tk + " : " + os.environ[tk])
-		#print("##############################")
-		#print("##############################")
+		logger.debug("buildPackage: ###############################")
+		logger.debug("buildPackage: ### Environment variables:  ###")
+		for osv in os.environ:
+			logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
+		logger.debug("buildPackage: ###############################")
 		pass
 
 	#------------------------------------------------------------------------------------------------
@@ -2592,9 +2592,10 @@ def buildPackage(packageName=''):	# was buildThing
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
-				for val in os.environ:
-					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
 				logger.debug("buildPackage: ###############################")
+				pass
 
 	if 'custom_cflag' in pkg:
 		if pkg['custom_cflag'] is not None:
@@ -2616,9 +2617,10 @@ def buildPackage(packageName=''):	# was buildThing
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
-				for val in os.environ:
-					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
 				logger.debug("buildPackage: ###############################")
+				pass
 
 	if 'custom_ldflag' in pkg:
 		if pkg['custom_ldflag'] is not None:
@@ -2631,9 +2633,10 @@ def buildPackage(packageName=''):	# was buildThing
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
-				for val in os.environ:
-					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
 				logger.debug("buildPackage: ###############################")
+				pass
 
 	if 'strip_cflags' in packageData:
 		if isinstance(packageData["strip_cflags"], (list, tuple)) and len(packageData["strip_cflags"]):
@@ -2653,9 +2656,10 @@ def buildPackage(packageName=''):	# was buildThing
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
-				for val in os.environ:
-					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
 				logger.debug("buildPackage: ###############################")
+				pass
 
 	if 'custom_path' in packageData:
 		if packageData['custom_path'] is not None:
@@ -2668,15 +2672,25 @@ def buildPackage(packageName=''):	# was buildThing
 			if objSETTINGS.debugMode:
 				logger.debug("buildPackage: ###############################")
 				logger.debug("buildPackage: ### Environment variables:  ###")
-				for val in os.environ:
-					logger.debug(f"\t'{val}' : '{os.environ[val]}'")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
 				logger.debug("buildPackage: ###############################")
+				pass
+
+	if 'flipped_path' in packageData:
+		if packageData['flipped_path'] is True:
+			bef = os.environ["PATH"]
+			os.environ["PATH"] = "{0}:{1}:{2}".format(self.mingwBinpath, os.path.join(self.targetPrefix, 'bin'), self.originalPATH)  # todo properly test this..
+			self.logger.debug(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
+			if objSETTINGS.debugMode:
+				logger.debug("buildPackage: ###############################")
+				logger.debug("buildPackage: ### Environment variables:  ###")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
+				logger.debug("buildPackage: ###############################")
+				pass
 
 ???
-
-
-
-
 
 
 
