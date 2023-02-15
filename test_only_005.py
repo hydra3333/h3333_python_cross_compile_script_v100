@@ -2293,6 +2293,26 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 	return realFolderName
 
 ###################################################################################################
+def svnClone(url, dir, desiredBranch=None):
+	logger.info (f'svnClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
+	dir = self.sanitizeFilename(dir)
+	if not dir.endswith("_svn"):
+		dir += "_svn"
+	if not os.path.isdir(dir):
+		self.logger.info("svnClone: SVN checking out to '{dir}'.tmp then moving to '{dir}'")
+		if desiredBranch is None:
+			self.logger.info(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
+			self.runProcess(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
+		else:
+			self.logger.info(f"svnClone: svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
+			self.runProcess(f"svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
+		self.logger.info(f"svnClone: mv -f '{dir}.tmp' '{dir}"')
+		shutil.move(f'{dir}.tmp', dir) 
+	else:
+		pass
+	return dir
+
+###################################################################################################
 def bootstrapConfigure():
 	if not os.path.isfile(f"configure"):
 		if os.path.isfile(f"bootstrap.sh"):
@@ -2456,7 +2476,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{pkg['is_dep_inheriter']} ... Set pkg['_already_built']='{pkg['_already_built']}'")
 
 	if objSETTINGS.debugMode:
-		logger.debug(f"############## Checks done, dependencies built, about to build the specified '{package_type}' : '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
+		logger.debug(f"############## Checks done, build '{package_type}' : '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
 		logger.debug(f"buildPackage: ###############################")
 		logger.debug(f"buildPackage: ### Environment variables:  ###")
 		for osv in os.environ:
