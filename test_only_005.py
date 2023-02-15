@@ -843,7 +843,7 @@ class processCmdLineArguments():
 		logger.debug(f"Creating the ArgumentParser with parser = argparse.ArgumentParser")
 		self.parser_programname = 'h3333_python_cross_compile_script'
 		self.parser_program_description = Colors.RESET + Colors.CYAN + self.parser_programname + Colors.RESET + "" \
-										"\nExample usages:' \
+										"\nExample usages:" \
 										"\n '{0} list -p'                                   - lists all products" \
 										"\n '{0} list -d'                                   - lists all dependencies" \
 										"\n '{0} info --required_by avisynth_plus_headers'  - List all packages this dependency is required by" \
@@ -851,7 +851,7 @@ class processCmdLineArguments():
 										"\n '{0} --force --debug -d avisynth_plus_headers'  - forces rebuilding of dependency avisynth_plus_headers" \
 										"\n '{0} --force -debug -p ffmpeg'                  - forces rebuilding of product ffmpeg" \
 										"\n '{0} --cmd_help'                                - Do nothing but show help and exit" \
-										"'.format(self.parser_programname)
+										"".format(self.parser_programname)
 		self.parser_epilog = "Copyright (C) 2023-2024 hydra3333 (https://github.com/hydra3333/h3333_python_cross_compile_script_v100)\n" \
 						"This Source Code Form is subject to the terms of the\n" \
 						"Mozilla Public License v. 2.0 (MPLv2).\n" \
@@ -875,7 +875,7 @@ class processCmdLineArguments():
 
 		# create and add the (sub)parser for the "list" command to the sub-parsers object 
 		# and name it with which="list_p" ... parser.prog is the programname we set
-		logger.debug(f"Create and add arguments to the (sub)parser for the "list" command")
+		logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
 		self.list_p = self.subparsers.add_parser("list", help="Type: '" + self.parser.prog + " list'")
 		self.list_p.set_defaults(which="list")
 		# add arguments to the "list" command parser which="list_p"
@@ -885,11 +885,11 @@ class processCmdLineArguments():
 		list_p_group1.add_argument("-d", "--dependencies", help="List all dependencies", action="store_true", default=False)
 		# called like:	program.py list -d
 		# 				program.py list -p
-		logger.debug(f"Created and added arguments to the (sub)parser for the "list" command")
+		logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
 
 		# create and add the (sub)parser for the "info" command to the sub-parsers object 
 		# and name it with which="list_p" ... parser.prog is the programname we set
-		logger.debug(f"Create and add arguments to the (sub)parser for the "info" command")
+		logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
 		self.info_p = self.subparsers.add_parser("info", help="Type: '" + self.parser.prog + " info")
 		self.info_p.set_defaults(which="info")
 		# add arguments to the "info" command parser which="info_p"
@@ -1522,7 +1522,7 @@ def handleRegexReplace(rp, packageName):
 	if "in_file" not in rp:
 		errorExit(f"handleRegexReplace: The regex_replace command in the package {packageName}:\n{rp}\nMisses the in_file parameter.")
 	if 0 not in rp:
-		errorExit(f"handleRegexReplace: A regex_replace command in the package {packageName}\nrequires at least the "0" key to be a RegExpression, if 1 is not defined matching lines will be removed.")
+		errorExit(f"handleRegexReplace: A regex_replace command in the package {packageName}\nrequires at least the '0' key to be a RegExpression, if 1 is not defined matching lines will be removed.")
 
 	in_files = rp["in_file"]
 	if isinstance(in_files, (list, tuple)):
@@ -1536,7 +1536,7 @@ def handleRegexReplace(rp, packageName):
 	for _current_infile in in_files:
 		if "out_file" not in rp:
 			out_files = (_current_infile, )
-			logger.debug(f"handleRegexReplace: cp -f "{_current_infile}" "{_current_infile.parent.joinpath(_current_infile.name + '.backup')}" # copy file ')
+			logger.debug(f"handleRegexReplace: cp -f '{_current_infile}' '{_current_infile.parent.joinpath(_current_infile.name + '.backup')}' # copy file ")
 			shutil.copy(_current_infile, _current_infile.parent.joinpath(_current_infile.name + ".backup"))
 		else:
 			if isinstance(rp["out_file"], (list, tuple)):
@@ -1550,10 +1550,10 @@ def handleRegexReplace(rp, packageName):
 				_backup = _current_infile.parent.joinpath(_current_infile.name + ".backup")
 				if not _backup.parent.exists():
 					logger.warning(F"handleRegexReplace: [Regex-Command] Out-File parent '{_backup.parent}' does not exist.")
-				logger.debug(f"handleRegexReplace: cp -f "{_current_infile}" "{_backup}" # copy file ")
+				logger.debug(f"handleRegexReplace: cp -f '{_current_infile}' '{_backup}' # copy file ")
 				shutil.copy(_current_infile, _backup)
 				_tmp_file = _current_infile.parent.joinpath(_current_infile.name + ".tmp")
-				logger.debug(f"handleRegexReplace: mv -f "{_current_infile}" "{_tmp_file}" # move file ")
+				logger.debug(f"handleRegexReplace: mv -f '{_current_infile}' '{_tmp_file}' # move file ")
 				shutil.move(_current_infile, _tmp_file)
 				_current_infile = _tmp_file
 			logger.info(f"handleRegexReplace: [{packageName}] Running regex command on '{_current_outfile}'")
@@ -1975,7 +1975,7 @@ def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False
 		if req.headers["Content-Encoding"] == "gzip":
 			compressed = True
 
-	logger.info("downloadFile: Requesting : {0} - {1}".format(url, fmt_size(size) if size is not None else "?"))
+	logger.info(f"downloadFile: Requesting : {url} - {fmt_size(size) if size is not None else '?'}")
 
 	# terms = shutil.get_terminal_size((100,100))
 	# filler = 0
@@ -2117,7 +2117,7 @@ def downloadUnpackFile(pkg, packageName, folderName=None, workDir=None):
 					logger.info(f"downloadUnpackFile: Comparing hashes..")
 					hashReturn = verifyHash(fileName, hash)
 					if hashReturn[0] is True:
-						logger.info(f"downloadUnpackFile: Hashes matched: {hashReturn[1][0:5]}...{hashReturn[1][-5:]} (local) == {hashReturn[2][0:5]}...{hashReturn[2][-5:])} (remote)")
+						logger.info(f"downloadUnpackFile: Hashes matched: {hashReturn[1][0:5]}...{hashReturn[1][-5:]} (local) == {hashReturn[2][0:5]}...{hashReturn[2][-5:]} (remote)")
 					else:
 						logger.error(f"downloadUnpackFile: File hashes didn't match: {hashReturn[1]}(local) != {hashReturn[2]}(remote)")
 						raise Exception(f"downloadUnpackFile: File download error: Hash mismatch")
@@ -2272,7 +2272,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			addArgs.append(F"--depth 1")
 		logger.info(F"Git {'Shallow C' if depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
 		logger.debug(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}")
-		runProcess(f"git clone {' '.join(addArgs)} --progress "{url}" "{realFolderName + '.tmp'}")
+		runProcess(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}")
 		if desiredBranch is not None:
 			cchdir(realFolderName + ".tmp")
 			logger.debug(f"gitClone: GIT Checking out:{' master' if desiredBranch is None else branchString}")
@@ -2299,7 +2299,7 @@ def svnClone(url, dir, desiredBranch=None):
 	if not dir.endswith("_svn"):
 		dir += "_svn"
 	if not os.path.isdir(dir):
-		logger.info("svnClone: SVN checking out to '{dir}'.tmp then moving to '{dir}'")
+		logger.info(f"svnClone: SVN checking out to '{dir}'.tmp then moving to '{dir}'")
 		if desiredBranch is None:
 			logger.info(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
 			runProcess(f"svnClone: svn co '{url}' '{dir}.tmp' --non-interactive --trust-server-cert")
@@ -2308,7 +2308,7 @@ def svnClone(url, dir, desiredBranch=None):
 			#branchString = f" {desiredBranch}"
 			logger.info(f"svnClone: svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
 			runProcess(f"svn co -r '(desiredBranch)' '{url}' '{url}.tmp' --non-interactive --trust-server-cert")
-		logger.info(f"svnClone: mv -f '{dir}.tmp' '{dir}"')
+		logger.info(f"svnClone: mv -f '{dir}.tmp' '{dir}'")
 		shutil.move(f"{dir}.tmp", dir) 
 	else:
 		pass
@@ -2338,7 +2338,7 @@ def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, 
 		shutil.rmtree(realFolderName,ignore_errors=False)
 	if os.path.isdir(realFolderName):
 		cchdir(realFolderName)
-		logger.info("mercurialClone: hg --debug id -i")
+		logger.info(f"mercurialClone: hg --debug id -i")
 		hgVersion = subprocess.check_output("hg --debug id -i", shell=True)
 		logger.info('hg pull -u')
 		runProcess('hg pull -u')
@@ -2357,9 +2357,9 @@ def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, 
 		runProcess(f"hg clone {url} {realFolderName + '.tmp'}")
 		if desiredBranch is not None:
 			cchdir(realFolderName + '.tmp')
-			logger.debug(f"mercurialClone: HG updating to:{' master' if desiredBranch is None else branchString)}")
-			logger.debug(f"mercurialClone: hg up{' master' if desiredBranch is None else branchString)} -v")
-			runProcess(f"hg up{' master' if desiredBranch is None else branchString)}} -v'")
+			logger.debug(f"mercurialClone: HG updating to:{' master' if desiredBranch is None else branchString}")
+			logger.debug(f"mercurialClone: hg up{' master' if desiredBranch is None else branchString} -v")
+			runProcess(f"hg up{' master' if desiredBranch is None else branchString} -v'")
 			cchdir("..")
 		logger.debug(f"mercurialClone: mv -f '{realFolderName + '.tmp'}' '{realFolderName}'")
 		runProcess(f"mv '{realFolderName + '.tmp'}' '{realFolderName}'")
@@ -2367,32 +2367,140 @@ def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, 
 	return realFolderName
 
 ###################################################################################################
+def cmakeSource(packageName, pkg):
+	logger.info(f"cmakeSource: Processing '{packageName}'")
+	touchName = f"already_ran_cmake_{md5(packageName, getKeyOrBlankString(pkg,'configure_options'))}"
+	if not os.path.isfile(touchName):
+		removeAlreadyFiles()
+		makeOpts = ''
+		if 'configure_options' in pkg:
+			if pkg["configure_options"] is not None:
+				makeOpts = replaceVarCmdSubStrings(pkg["configure_options"])
+		logger.info(f"cmakeSource:  C-Making '{packageName}' with: {makeOpts}")
+		logger.info(f"cmakeSource: cmake {makeOpts}")
+		runProcess(f'cmake {makeOpts}')
+		logger.debug(f"cmakeSource: make clean")
+		runProcess(f"make clean", True)
+		if 'regex_replace' in pkg and pkg['regex_replace']:
+			_pos = 'post_configure'
+			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+				for r in pkg['regex_replace'][_pos]:
+					handleRegexReplace(r, packageName)
+		touch(touchName)
+
+def mesonSource(packageName, pkg):
+	logger.info(f"mesonSource: Processing '{packageName}'")
+	touchName = f"already_ran_meson_%s" % (md5(packageName, getKeyOrBlankString(pkg, "configure_options	")))
+	if not os.path.isfile(touchName):
+		removeAlreadyFiles()
+		makeOpts = ''
+		if 'configure_options' in pkg:
+			makeOpts = replaceVarCmdSubStrings(pkg["configure_options"])
+		logger.info(f"mesonSource: Meson-ing '{packageName}' with: '{makeOpts}'")
+		logger.info(f"mesonSource: meson setup {makeOpts}")
+		runProcess(f"meson setup {makeOpts}")
+		if 'regex_replace' in pkg and pkg['regex_replace']:
+			_pos = 'post_configure'
+			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+				for r in pkg['regex_replace'][_pos]:
+					handleRegexReplace(r, packageName)
+		touch(touchName)
+
+def configureSource(packageName, pkg, conf_system):
+	logger.info(f"configureSource: Processing '{packageName}'")
+	touchName = "already_configured_%s" % (md5(packageName, getKeyOrBlankString(pkg, "configure_options")))
+	if not os.path.isfile(touchName):
+		cpuCountStr = '-j {0}'.format(cpuCount)
+		if 'cpu_count' in pkg:
+			if isinstance(pkg['cpu_count'], int) and pkg['cpu_count'] > 0:
+				cpuCountStr = '-j {0}'.format(pkg['cpu_count'])
+			else:
+				cpuCountStr = ""
+		removeAlreadyFiles()
+		removeConfigPatchDoneFiles()
+		doBootStrap = True
+		if 'do_not_bootstrap' in pkg:
+			if pkg['do_not_bootstrap'] is True:
+				doBootStrap = False
+		if doBootStrap:
+			if conf_system == "waf":
+				if not os.path.isfile("waf"):
+					if os.path.isfile("bootstrap.py"):
+						logger.info(f"configureSource: ./bootstrap.py")
+						runProcess(f"./bootstrap.py")
+			else:
+				bootstrapConfigure()
+		configOpts = ''
+		if 'configure_options' in pkg:
+			try:
+				configOpts = replaceVarCmdSubStrings(pkg["configure_options"])
+			except KeyError as e:
+				errorExit(f"configureSource: Failed to parse configure line: '{pkg['configure_options']}', the variable {e} is invalid.")
+		logger.info(f"configureSource: Configuring '{packageName}' with: '{configOpts}'", extra={'type': conf_system})
+		confCmd = './configure'
+		if conf_system == "waf":
+			confCmd = './waf --color=yes configure'
+		elif 'configure_path' in pkg:
+			if pkg['configure_path'] is not None:
+				confCmd = pkg['configure_path']
+		logger.info(f"configureSource: {confCmd} {configOpts}")
+		runProcess(f"{confCmd} {configOpts}")
+		if 'regex_replace' in pkg and pkg['regex_replace']:
+			_pos = 'post_configure'
+			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+				for r in pkg['regex_replace'][_pos]:
+					handleRegexReplace(r, packageName)
+		if 'run_post_configure' in pkg:
+			if pkg['run_post_configure'] is not None:
+				for cmd in pkg['run_post_configure']:
+					logger.debug(f"configureSource: Running post-configure-command pre replaceVarCmdSubStrings (raw): '{cmd}'")
+					cmd = replaceVarCmdSubStrings(cmd)
+					logger.info(f"configureSource: Running post-configure-command: '{cmd}'")
+					logger.debug(cmd)
+					runProcess(cmd)
+		doClean = True
+		if 'clean_post_configure' in pkg:
+			if pkg['clean_post_configure'] is False:
+				doClean = False
+		if doClean:
+			mCleanCmd = 'make clean'
+			if conf_system == "waf":
+				mCleanCmd = './waf --color=yes clean'
+			logger.info(f"configureSource: {mCleanCmd} {cpuCountStr}")
+			runProcess(f"{mCleanCmd} {cpuCountStr}", True)
+		if 'patches_post_configure' in pkg:
+			if pkg['patches_post_configure'] is not None:
+				for p in pkg['patches_post_configure']:
+					applyPatch(p[0], p[1], True)
+		touch(touchName)
+
+###################################################################################################
 def bootstrapConfigure():
 	if not os.path.isfile(f"configure"):
 		if os.path.isfile(f"bootstrap.sh"):
-			logger.debug(f"./bootstrap.sh")
+			logger.info(f"bootstrapConfigure: ./bootstrap.sh")
 			runProcess(f"./bootstrap.sh")
 		elif os.path.isfile(f"autogen.sh"):
-			logger.debug(f"./autogen.sh")
+			logger.info(f"bootstrapConfigure: ./autogen.sh")
 			runProcess(f"./autogen.sh")
 		elif os.path.isfile(f"buildconf"):
-			logger.debug(f"./buildconf")
+			logger.info(fbootstrapConfigure: "./buildconf")
 			runProcess(f"./buildconf")
 		elif os.path.isfile(f"bootstrap"):
-			logger.debug(f"./bootstrap")
+			logger.info(f"bootstrapConfigure: ./bootstrap")
 			runProcess(f"./bootstrap")
 		elif os.path.isfile(f"bootstrap"):
-			logger.debug(f"./bootstrap")
+			logger.info(f"bootstrapConfigure: ./bootstrap")
 			runProcess(f"./bootstrap")
 		elif os.path.isfile(f"configure.ac"):
-			logger.debug(f"autoreconf -fiv")
+			logger.info(f"bootstrapConfigure: autoreconf -fiv")
 			runProcess(f"autoreconf -fiv")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 	originalFolder = os.getcwd()
 	if folderToPatchIn is not None:
-		logger.info(f"applyPatch: Moving into patch folder: {getcwd()}" .format(os.))
+		logger.info(f"applyPatch: Moving into patch folder: '{getcwd()}'")
 		cchdir(folderToPatchIn)
 	logger.info(f"applyPatch: Applying patch '{url}' in '{os.getcwd()}'")
 	patchTouchName = f"patch_{md5(url)}.done"
@@ -2414,7 +2522,7 @@ def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 		logger.info(f"applyPatch: Downloading patch '{url}' to: {fileName}")
 		downloadFile(url, fileName)
 	else:
-		local_patch_path = os.path.join(???.fullPatchDir, url)
+		local_patch_path = os.path.join(objSETTINGS.fullPatchDir, url)
 		fileName = os.path.basename(Path(local_patch_path).name)
 		if os.path.isfile(local_patch_path):
 			copyPath = os.path.join(os.getcwd(), fileName)
@@ -2702,7 +2810,7 @@ def buildPackage(packageName=''):	# was buildThing
 			os.environ['CFLAGS'] = os.environ['CFLAGS'] + " " + vval
 			os.environ['CXXFLAGS'] = os.environ['CXXFLAGS'] + " " + vval
 			os.environ['CPPFLAGS'] = os.environ['CPPFLAGS'] + " " + vval
-			os.environ[LDFLAGS'] = os.environ[LDFLAGS'] + " " + vval
+			os.environ['LDFLAGS'] = os.environ['LDFLAGS'] + " " + vval
 			logger.info(f"buildPackage: Added to CFLAGS,   now: '{os.environ['CFLAGS']}'")
 			logger.info(f"buildPackage: Added to CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
 			logger.info(f"buildPackage: Added to CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
@@ -2727,11 +2835,11 @@ def buildPackage(packageName=''):	# was buildThing
 			os.environ['CFLAGS'] = vval   # 2019.12.13
 			os.environ['CXXFLAGS'] = vval # 2019.12.13
 			os.environ['CPPFLAGS'] = vval # 2019.12.13
-			os.environ[LDFLAGS'] = vval  # 2019.12.13
-			logger.info(f"buildPackage: Set custom CFLAGS,   now: '{os.environ['CFLAGS']}"')
-			logger.info(f"buildPackage: Set custom CXXFLAGS, now: '{os.environ['CXXFLAGS']}"')
-			logger.info(f"buildPackage: Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}"')
-			logger.info(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ[LDFLAGS']}'")
+			os.environ['LDFLAGS'] = vval  # 2019.12.13
+			logger.info(f"buildPackage: Set custom CFLAGS,   now: '{os.environ['CFLAGS']}'")
+			logger.info(f"buildPackage: Set custom CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
+			logger.info(f"buildPackage: Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
+			logger.info(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
 				logger.debug(f"buildPackage: ### Environment variables:  ###")
@@ -2746,8 +2854,8 @@ def buildPackage(packageName=''):	# was buildThing
 			vval = replaceVarCmdSubStrings(vval)
 			logger.debug(f"buildPackage: os.environ LDFLAGS  before setting LDFLAGS = '{os.environ['LDFLAGS']}'")
 			logger.debug(f"buildPackage: Setting LDFLAGS to '{vval}'")
-			os.environ[LDFLAGS'] = vval  # 2019.12.13
-			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ[LDFLAGS']}'")
+			os.environ['LDFLAGS'] = vval  # 2019.12.13
+			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ['LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
 				logger.debug(f"buildPackage: ### Environment variables:  ###")
@@ -2761,15 +2869,15 @@ def buildPackage(packageName=''):	# was buildThing
 			for _pattern in pkg["strip_cflags"]:
 				logger.debug(f"buildPackage: os.environ CFLAGS,   before stripping = '{os.environ['CFLAGS']}'")
 				logger.debug(f"buildPackage: os.environ CXXFLAGS, before stripping = '{os.environ['CXXFLAGS']}'")
-				logger.debug(f"buildPackage: os.environ CPPFLAGS, before stripping = '{os.environ["CPPFLAGS"]}'")
+				logger.debug(f"buildPackage: os.environ CPPFLAGS, before stripping = '{os.environ['CPPFLAGS']}")
 				logger.debug(f"buildPackage: os.environ LDFLAGS,  before stripping = '{os.environ['LDFLAGS']}'")
 				os.environ['CFLAGS'] = reStrip(_pattern, os.environ['CFLAGS'])
 				os.environ['CXXFLAGS'] = reStrip(_pattern, os.environ['CXXFLAGS'])
-				os.environ["CPPFLAGS"] = reStrip(_pattern, os.environ["CPPFLAGS"])
+				os.environ['CPPFLAGS'] = reStrip(_pattern, os.environ['CPPFLAGS'])
 				os.environ['LDFLAGS'] = reStrip(_pattern, os.environ['LDFLAGS'])
 				logger.info(f"buildPackage: Stripped CFLAGS,   now: '{os.environ['CFLAGS']}'")
 				logger.info(f"buildPackage: Stripped CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
-				logger.info(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ["CPPFLAGS"]}'")
+				logger.info(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
 				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
@@ -2786,7 +2894,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"buildPackage: os.environ PATH   before custom_path = '{os.environ['PATH']}'")
 			logger.debug(f"Setting PATH to '{vval}'")
 			os.environ['PATH'] = vval
-			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ[PATH']}'")
+			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ['PATH']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
 				logger.debug(f"buildPackage: ### Environment variables:  ###")
@@ -2799,7 +2907,7 @@ def buildPackage(packageName=''):	# was buildThing
 		if pkg['flipped_path'] is True:
 			bef = os.environ['PATH']
 			logger.debug(f"buildPackage: os.environ PATH before custom_path = '{os.environ['PATH']}'")
-			os.environ['PATH'] = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}")  # todo properly test this..
+			os.environ['PATH']  = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}"  # todo properly test this..
 			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ['PATH']}'")
 			if objSETTINGS.debugMode:
 				logger.debug(f"buildPackage: ###############################")
