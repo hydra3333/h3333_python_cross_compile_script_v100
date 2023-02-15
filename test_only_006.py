@@ -2955,7 +2955,7 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'custom_cflag' in pkg:
 		if pkg['custom_cflag'] is not None:
-			vval = pkg['cflag_addition']
+			vval = pkg['custom_cflag']
 			vval = replaceVarCmdSubStrings(vval)
 			logger.debug(f"buildPackage:Setting CFLAGS to '{vval}'")
 			logger.debug(f"buildPackage: os.environ CFLAGS   before custom_cflag = '{os.environ['CFLAGS']}'")
