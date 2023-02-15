@@ -2712,8 +2712,8 @@ def buildPackage(packageName=''):	# was buildThing
 	currentFullDir = Path(os.getcwd())
 	pkg = biggusDictus[packageName]
 
-	if boolKey(pkg, "is_dep_inheriter"):
-		logger.warning(f"buildPackage: '{packageName}' contains 'is_dep_inheriter'='{pkg['is_dep_inheriter']}'")
+	#if boolKey(pkg, "is_dep_inheriter"):
+	#	logger.warning(f"buildPackage: '{packageName}' contains 'is_dep_inheriter'='{pkg['is_dep_inheriter']}'")
 
 	# check if the package has already been built in this run of this script
 	# if so, return almost silently 
@@ -2776,13 +2776,13 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'is_dep_inheriter' in pkg:
 		if pkg['is_dep_inheriter'] is True:
-			logger.warning(f"buildPackage: '{packageName}' contains 'is_dep_inheriter'='{pkg['is_dep_inheriter']}'")
 			pkg['_already_built'] = True
 			biggusDictus[packageName]['_already_built'] = True
 			logger.debug(f"buildPackage: in '{packageName}' with 'is_dep_inheriter'='{pkg['is_dep_inheriter']} ... Set pkg['_already_built']='{pkg['_already_built']}'")
 		else: # specified but false is an error
 			logger.error(f"buildPackage: '{packageName}' contains 'is_dep_inheriter'='{pkg['is_dep_inheriter']}'")
 			sys.exit(1)
+		logger.warning(f"buildPackage: '{packageName}' contains 'is_dep_inheriter'='{pkg['is_dep_inheriter']}', returning early")
 		return
 
 	if objSETTINGS.debugMode:
