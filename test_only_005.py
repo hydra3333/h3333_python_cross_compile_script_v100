@@ -1520,9 +1520,9 @@ def removeConfigPatchDoneFiles():
 def handleRegexReplace(rp, packageName):
 	cwd = Path(os.getcwd())
 	if "in_file" not in rp:
-		errorExit(F'The regex_replace command in the package {packageName}:\n{rp}\nMisses the in_file parameter.')
+		errorExit(F'handleRegexReplace: The regex_replace command in the package {packageName}:\n{rp}\nMisses the in_file parameter.')
 	if 0 not in rp:
-		errorExit(F'A regex_replace command in the package {packageName}\nrequires at least the "0" key to be a RegExpression, if 1 is not defined matching lines will be removed.')
+		errorExit(F'handleRegexReplace: A regex_replace command in the package {packageName}\nrequires at least the "0" key to be a RegExpression, if 1 is not defined matching lines will be removed.')
 
 	in_files = rp["in_file"]
 	if isinstance(in_files, (list, tuple)):
@@ -1532,11 +1532,11 @@ def handleRegexReplace(rp, packageName):
 	repls = [replaceVarCmdSubStrings(rp[0]), ]
 	if 1 in rp:
 		repls.append(replaceVarCmdSubStrings(rp[1]))
-	logger.info(f"Running regex replace commands on package: '{packageName}' [{os.getcwd()}]")
+	logger.info(f"handleRegexReplace: Running regex replace commands on package: '{packageName}' [{os.getcwd()}]")
 	for _current_infile in in_files:
 		if "out_file" not in rp:
 			out_files = (_current_infile, )
-			logger.debug(f"cp -f "{_current_infile}" "{_current_infile.parent.joinpath(_current_infile.name + '.backup')}" # copy file ')
+			logger.debug(f"handleRegexReplace: cp -f "{_current_infile}" "{_current_infile.parent.joinpath(_current_infile.name + '.backup')}" # copy file ')
 			shutil.copy(_current_infile, _current_infile.parent.joinpath(_current_infile.name + ".backup"))
 		else:
 			if isinstance(rp["out_file"], (list, tuple)):
@@ -1545,18 +1545,18 @@ def handleRegexReplace(rp, packageName):
 				out_files = (cwd.joinpath(replaceVarCmdSubStrings(rp["out_file"])),)
 		for _current_outfile in out_files:
 			if not _current_infile.exists():
-				logger.warning(F"[Regex-Command] In-File '{_current_infile}' does not exist in '{os.getcwd()}'")
+				logger.warning(F"handleRegexReplace: [Regex-Command] In-File '{_current_infile}' does not exist in '{os.getcwd()}'")
 			if _current_outfile == _current_infile:
 				_backup = _current_infile.parent.joinpath(_current_infile.name + ".backup")
 				if not _backup.parent.exists():
-					logger.warning(F"[Regex-Command] Out-File parent '{_backup.parent}' does not exist.")
-				logger.debug(f"cp -f "{_current_infile}" "{_backup}" # copy file ")
+					logger.warning(F"handleRegexReplace: [Regex-Command] Out-File parent '{_backup.parent}' does not exist.")
+				logger.debug(f"handleRegexReplace: cp -f "{_current_infile}" "{_backup}" # copy file ")
 				shutil.copy(_current_infile, _backup)
 				_tmp_file = _current_infile.parent.joinpath(_current_infile.name + ".tmp")
-				logger.debug(f"mv -f "{_current_infile}" "{_tmp_file}" # move file ")
+				logger.debug(f"handleRegexReplace: mv -f "{_current_infile}" "{_tmp_file}" # move file ")
 				shutil.move(_current_infile, _tmp_file)
 				_current_infile = _tmp_file
-			logger.info(f"[{packageName}] Running regex command on '{_current_outfile}'")
+			logger.info(f"handleRegexReplace: [{packageName}] Running regex command on '{_current_outfile}'")
 			with open(_current_infile, "r") as f, open(_current_outfile, "w") as nf:
 				for line in f:
 					if re.search(repls[0], line) and len(repls) > 1:
@@ -1867,34 +1867,34 @@ def checkMirrors(dlLocations):
 	return dlLocations[0]  # return the first if none could be found.
 
 ###################################################################################################
-def getBestMirror(packageData, packageName):  # returns the first online mirror of a package, and its hash
-	if "url" in packageData:
-		if packageData["repo_type"] == "archive":
+def getBestMirror(pkg, packageName):  # returns the first online mirror of a package, and its hash
+	if "url" in pkg:
+		if pkg["repo_type"] == "archive":
 			logger.warning(f"getBestMirror: Package 'archive' has the old URL format, please update it.")
-		return {"url": packageData["url"], "hashes": []}
-	elif "download_locations" not in packageData:
+		return {"url": pkg["url"], "hashes": []}
+	elif "download_locations" not in pkg:
 		raise Exception(f"getBestMirror: download_locations not specificed for package: " + packageName)
 	else:
-		if not len(packageData["download_locations"]) >= 1:
+		if not len(pkg["download_locations"]) >= 1:
 			raise Exception(f"getBestMirror: download_locations is empty for package: " + packageName)
-		if "url" not in packageData["download_locations"][0]:
+		if "url" not in pkg["download_locations"][0]:
 			raise Exception(f"getBestMirror: download_location #1 of package '{packageName}' has no url specified")
-		return checkMirrors(packageData["download_locations"])
+		return checkMirrors(pkg["download_locations"])
 
 ###################################################################################################
-def getPrimaryPackageUrl(packageData, packageName):  # returns the URL of the first download_locations entry from a package, unlike get_best_mirror this one ignores the old url format
-	if "url" in packageData:
-		if packageData["repo_type"] == "archive":
+def getPrimaryPackageUrl(pkg, packageName):  # returns the URL of the first download_locations entry from a package, unlike get_best_mirror this one ignores the old url format
+	if "url" in pkg:
+		if pkg["repo_type"] == "archive":
 			logger.debug(f"getPrimaryPackageUrl: Package archive has the old URL format, please update it.")
-		return replaceVarCmdSubStrings(packageData["url"])
-	elif "download_locations" not in packageData:
+		return replaceVarCmdSubStrings(pkg["url"])
+	elif "download_locations" not in pkg:
 		raise Exception(f"getPrimaryPackageUrl: download_locations in package '{packageName}' not specificed")
 	else:
-		if not len(packageData["download_locations"]) >= 1:
+		if not len(pkg["download_locations"]) >= 1:
 			raise Exception(f"getPrimaryPackageUrl: download_locations is empty for package")
-		if "url" not in packageData["download_locations"][0]:
+		if "url" not in pkg["download_locations"][0]:
 			raise Exception(f"getPrimaryPackageUrl: download_location #1 of package has no url specified")
-		return replaceVarCmdSubStrings(packageData["download_locations"][0]["url"])  # TODO: do not assume correct format
+		return replaceVarCmdSubStrings(pkg["download_locations"][0]["url"])  # TODO: do not assume correct format
 
 ###################################################################################################
 def downloadHeader(url):
@@ -2086,23 +2086,23 @@ def verifyHash(file, hash):
 	return (False, hash["sum"], newHash)
 
 ###################################################################################################
-def downloadUnpackFile(packageData, packageName, folderName=None, workDir=None):
+def downloadUnpackFile(pkg, packageName, folderName=None, workDir=None):
 	customFolder = False
 	if folderName is None:
-		folderName = os.path.basename(os.path.splitext(urlparse(getPrimaryPackageUrl(packageData, packageName)).path)[0]).rstrip(".tar")
+		folderName = os.path.basename(os.path.splitext(urlparse(getPrimaryPackageUrl(pkg, packageName)).path)[0]).rstrip(".tar")
 	else:
 		customFolder = True
 	folderToCheck = folderName
 
-	if "rename_folder" in packageData and packageData["rename_folder"] != "" and packageData["rename_folder"] is not None:
-		folderToCheck = packageData["rename_folder"]
+	if "rename_folder" in pkg and pkg["rename_folder"] != "" and pkg["rename_folder"] is not None:
+		folderToCheck = pkg["rename_folder"]
 
 	if workDir is not None:
 		folderToCheck = workDir
 
 	check_file = os.path.join(folderToCheck, "unpacked.successfully")
 	if not os.path.isfile(check_file):
-		dlLocation = getBestMirror(packageData, packageName)
+		dlLocation = getBestMirror(pkg, packageName)
 		url = dlLocation["url"]
 		fileName = os.path.basename(urlparse(url).path)
 		logger.info(f"downloadUnpackFile: Downloading {fileName} ({url})")
@@ -2362,7 +2362,7 @@ def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 
 ###################################################################################################
 def buildPackage(packageName=''):	# was buildThing
-	#old: def buildThing(self, packageName, packageData, type, forceRebuild=False, skipDepends=False):
+	#old: def buildThing(self, packageName, pkg, type, forceRebuild=False, skipDepends=False):
 	
 	# a trick for the unwary:
 	# if biggusDictus['_already_built'] exists, then it must have already been built
@@ -2384,7 +2384,7 @@ def buildPackage(packageName=''):	# was buildThing
 		logger.error(f"Goodness me ! The specified object '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' is neither a known PRODUCT nor a DEPENDENCY. Exiting.")
 		sys.exit(1)
 
-	logger.info (f"Processing buildPackage '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
+	logger.info(f"buildPackage: {Colors.LIGHTMAGENTA_EX}Building '{package_type.lower()} '{packageName}': Started ...{Colors.RESET}")
 
 	# we want to be in workdir
 	cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
@@ -2594,9 +2594,6 @@ def buildPackage(packageName=''):	# was buildThing
 			runProcess(f"buildPackage: git submodule foreach --recursive git reset --hard")
 			logger.info(f"buildPackage: git submodule update --init --recursive")
 			runProcess(f"git submodule update --init --recursive")
-
-
-???
 
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
@@ -2837,21 +2834,112 @@ def buildPackage(packageName=''):	# was buildThing
 						logger.info(f"buildPackage: Running run_post_regexreplace-command: '{cmd}'")
 						# run_process(cmd)	# no, see below
 						runProcess(cmd, ignoreFail)
+
+	#	conf_system_specifics = {	"gnumake_based_systems" : [ "cmake", "autoconf" ],
+	# 								"ninja_based_systems" : [ "meson" ]
+	#	}
 	conf_system = None
 	build_system = None
+	if 'build_system' in pkg:  # Kinda redundant, but ill keep it for now, maybe add an alias system for this.
+		if pkg['build_system'] == "ninja":
+			build_system = "ninja"
+		if pkg['build_system'] == "waf":
+			build_system = "waf"
+		if pkg['build_system'] == "rake":
+			build_system = "rake"
+	if 'conf_system' in pkg:
+		if pkg['conf_system'] == "cmake":
+			conf_system = "cmake"
+			if not build_system:
+				build_system = "ninja"
+		elif pkg['conf_system'] == "meson":
+			conf_system = "meson"
+		elif pkg['conf_system'] == "waf":
+			conf_system = "waf"
+	conf_system = "autoconf" if not conf_system else conf_system
+	build_system = "make" if not build_system else build_system
 
+	# +++
+	needs_conf = True
+	if 'needs_configure' in pkg:
+		if pkg['needs_configure'] is False:
+			needs_conf = False
+	if needs_conf:
+		if conf_system == "cmake":
+			cmakeSource(packageName, pkg)
+		elif conf_system == "meson":
+			mesonSource(packageName, pkg)
+		else:
+			configureSource(packageName, pkg, conf_system)
 
+	# +++
+	if 'make_subdir' in pkg:
+		if pkg['make_subdir'] is not None:
+			if not os.path.isdir(pkg['make_subdir']):
+				os.makedirs(pkg['make_subdir'], exist_ok=True)
+			cchdir(pkg['make_subdir'])
 
-???
+	if 'needs_make' in pkg:
+		if pkg['needs_make'] is True:
+			buildSource(packageName, pkg, build_system)
+	else:
+		buildSource(packageName, pkg, build_system)
 
+	# +++
+	if 'needs_make_install' in pkg:
+		if pkg['needs_make_install'] is True:
+			installSource(packageName, pkg, build_system)
+	else:
+		installSource(packageName, pkg, build_system)
 
+		if 'env_exports' in pkg:
+			if pkg['env_exports'] is not None:
+				for key, val in pkg['env_exports'].items():
+					logger.debug("Environment variable '{0}' has been UNSET!".format(key, val))
+					del os.environ[key]
 
-######################### next iff 'strip_cflags' in 
+	if 'flipped_path' in pkg:
+		if pkg['flipped_path'] is True:
+			_path = os.environ["PATH"]
+			os.environ["PATH"] = "{0}:{1}".format(objSETTINGS.mingwBinpath, objSETTINGS.originalPATH)
+			logger.debug("Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ["PATH"]))
 
+	if 'source_subfolder' in pkg:
+		if pkg['source_subfolder'] is not None:
+			if not os.path.isdir(pkg['source_subfolder']):
+				os.makedirs(pkg['source_subfolder'], exist_ok=True)
+			cchdir(currentFullDir)
 
+	if 'make_subdir' in pkg:
+		if pkg['make_subdir'] is not None:
+			cchdir(currentFullDir)
 
+	cchdir("..")  # asecond into x86_64
+	
+	
+	pkg['_already_built'] = True
 	biggusDictus[packageName]['_already_built'] = True
-	logger.info(f"buildPackage: end of Build processs for '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}'")
+
+	if 'debug_exitafter' in pkg:
+		logger.info(f"buildPackage: {Colors.LIGHTMAGENTA_EX}Building '{package_type.lower()} '{packageName}': Done !{Colors.RESET}")
+		exit()
+
+	if 'custom_path' in pkg:
+		if pkg['custom_path'] is not None:
+			self.logger.debug(f"buildPackage: Re-setting PATH to '{oldPath}'")
+			os.environ["PATH"] = oldPath
+			if objSETTINGS.debugMode:
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
+				for osv in os.environ:
+					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
+				logger.debug(f"buildPackage: ###############################")
+				pass
+
+	self.resetDefaultEnvVars()
+	self.cchdir("..")  # ascend into workdir
+
+	logger.info(f"buildPackage: {Colors.LIGHTMAGENTA_EX}Building '{package_type.lower()} '{packageName}': Done !{Colors.RESET}")
 	return
 
 ###################################################################################################
