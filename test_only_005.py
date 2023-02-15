@@ -378,11 +378,7 @@ def resetDefaultEnvVars():
 	os.environ['PKG_CONFIG_LIBDIR'] = ''
 	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
 	if objSETTINGS.debugMode:
-		logger.debug(f"resetDefaultEnvVars: ###############################")
-		logger.debug(f"resetDefaultEnvVars: ### Environment variables:  ###")
-		for osv in os.environ:
-			logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-		logger.debug(f"resetDefaultEnvVars: ###############################")
+		dump_environment_variables(override=True)
 		pass
 
 ###################################################################################################
@@ -2652,11 +2648,7 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if objSETTINGS.debugMode:
 		logger.debug(f"############## Checks done, build '{package_type}' : '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
-		logger.debug(f"buildPackage: ###############################")
-		logger.debug(f"buildPackage: ### Environment variables:  ###")
-		for osv in os.environ:
-			logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-		logger.debug(f"buildPackage: ###############################")
+		dump_environment_variables(override=False)
 		pass
 
 	#------------------------------------------------------------------------------------------------
@@ -2828,13 +2820,8 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.info(f"buildPackage: Added to CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
 			logger.info(f"buildPackage: Added to CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
 			logger.info(f"buildPackage: Added to LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
+
 
 	if 'custom_cflag' in pkg:
 		if pkg['custom_cflag'] is not None:
@@ -2853,13 +2840,8 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.info(f"buildPackage: Set custom CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
 			logger.info(f"buildPackage: Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
 			logger.info(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
+
 
 	if 'custom_ldflag' in pkg:
 		if pkg['custom_ldflag'] is not None:
@@ -2869,13 +2851,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"buildPackage: Setting LDFLAGS to '{vval}'")
 			os.environ['LDFLAGS'] = vval  # 2019.12.13
 			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ['LDFLAGS']}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
 
 	if 'strip_cflags' in pkg:
 		if isinstance(pkg["strip_cflags"], (list, tuple)) and len(pkg["strip_cflags"]):
@@ -2892,13 +2868,7 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.info(f"buildPackage: Stripped CXXFLAGS, now: '{os.environ['CXXFLAGS']}'")
 				logger.info(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
 				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
 
 	if 'custom_path' in pkg:
 		if pkg['custom_path'] is not None:
@@ -2908,13 +2878,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"Setting PATH to '{vval}'")
 			os.environ['PATH'] = vval
 			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ['PATH']}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
 
 	if 'flipped_path' in pkg:
 		if pkg['flipped_path'] is True:
@@ -2922,13 +2886,7 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.debug(f"buildPackage: os.environ PATH before custom_path = '{os.environ['PATH']}'")
 			os.environ['PATH']  = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}"  # todo properly test this..
 			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ['PATH']}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
 
 	if 'env_exports' in pkg:
 		if pkg['env_exports'] is not None:
@@ -2939,13 +2897,7 @@ def buildPackage(packageName=''):	# was buildThing
 					prevEnv = os.environ[key]
 				os.environ[key] = vval
 				logger.info(f"buildPackage: Environment variable '{key}' Set from '{prevEnv}' to '{vval}'")
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
 
 	if 'copy_over' in pkg:
 		if pkg['copy_over'] is not None:
@@ -3123,13 +3075,7 @@ def buildPackage(packageName=''):	# was buildThing
 		if pkg['custom_path'] is not None:
 			logger.debug(f"buildPackage: Re-setting PATH to '{oldPath}'")
 			os.environ['PATH'] = oldPath
-			if objSETTINGS.debugMode:
-				logger.debug(f"buildPackage: ###############################")
-				logger.debug(f"buildPackage: ### Environment variables:  ###")
-				for osv in os.environ:
-					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug(f"buildPackage: ###############################")
-				pass
+			dump_environment_variables(override=False)
 
 	resetDefaultEnvVars()
 	cchdir("..")  # ascend into workdir
