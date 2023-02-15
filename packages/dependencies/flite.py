@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'url' : '"https://github.com/festvox/flite.git"',
+	'url' : 'https://github.com/festvox/flite.git',
 	#'depth_git': 0,
 	#'branch' : 'tags/v2.2',
 	#'patches' : [ # 2022.12.18 per DEADSIX27
