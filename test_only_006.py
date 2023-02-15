@@ -2639,7 +2639,7 @@ def bootstrapConfigure():
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 	originalFolder = os.getcwd()
 	if folderToPatchIn is not None:
-		logger.info(f"applyPatch: Moving into patch folder: '{getcwd()}'")
+		logger.info(f"applyPatch: Moving into patch folder: '{os.getcwd()}'")
 		cchdir(folderToPatchIn)
 	logger.info(f"applyPatch: Applying patch '{url}' in '{os.getcwd()}'")
 	patchTouchName = f"patch_{md5(url)}.done"
