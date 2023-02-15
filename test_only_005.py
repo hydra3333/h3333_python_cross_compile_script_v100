@@ -1885,7 +1885,7 @@ def getBestMirror(packageData, packageName):  # returns the first online mirror 
 def getPrimaryPackageUrl(packageData, packageName):  # returns the URL of the first download_locations entry from a package, unlike get_best_mirror this one ignores the old url format
 	if "url" in packageData:
 		if packageData["repo_type"] == "archive":
-			logger.debug("getPrimaryPackageUrl: Package archive has the old URL format, please update it.")
+			logger.debug(f"getPrimaryPackageUrl: Package archive has the old URL format, please update it.")
 		return replaceVarCmdSubStrings(packageData["url"])
 	elif "download_locations" not in packageData:
 		raise Exception(f"getPrimaryPackageUrl: download_locations in package '{packageName}' not specificed")
@@ -1917,7 +1917,7 @@ def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False
 			return "%.1f%s%s" % (num, "Yi", suffix)
 	
 	if not url:
-		raise Exception("downloadFile: No URL specified.")
+		raise Exception(f"downloadFile: No URL specified.")
 
 	if outputPath is None:  # Default to current dir.
 		outputPath = os.getcwd()
@@ -2079,7 +2079,7 @@ def hashFile(fname, type="sha256"):
 ###################################################################################################
 def verifyHash(file, hash):
 	if hash["type"] not in ["sha256", "sha512", "md5", "blake2b"]:
-		raise Exception("Unsupported hash type: " + hash["type"])
+		raise Exception(f"verifyHash: Unsupported hash type: " + hash["type"])
 	newHash = hashFile(file, hash["type"])
 	if hash["sum"] == newHash:
 		return (True, hash["sum"], newHash)
@@ -2114,13 +2114,13 @@ def downloadUnpackFile(packageData, packageName, folderName=None, workDir=None):
 		if "hashes" in dlLocation:
 			if len(dlLocation["hashes"]) >= 1:
 				for hash in dlLocation["hashes"]:
-					logger.info("downloadUnpackFile: Comparing hashes..")
+					logger.info(f"downloadUnpackFile: Comparing hashes..")
 					hashReturn = verifyHash(fileName, hash)
 					if hashReturn[0] is True:
-						logger.info("downloadUnpackFile: Hashes matched: {hashReturn[1][0:5]}...{hashReturn[1][-5:]} (local) == {hashReturn[2][0:5]}...{hashReturn[2][-5:])} (remote)")
+						logger.info(f"downloadUnpackFile: Hashes matched: {hashReturn[1][0:5]}...{hashReturn[1][-5:]} (local) == {hashReturn[2][0:5]}...{hashReturn[2][-5:])} (remote)")
 					else:
 						logger.error(f"downloadUnpackFile: File hashes didn't match: {hashReturn[1]}(local) != {hashReturn[2]}(remote)")
-						raise Exception("downloadUnpackFile: File download error: Hash mismatch")
+						raise Exception(f"downloadUnpackFile: File download error: Hash mismatch")
 						exit(1)
 
 		logger.info(f"downloadUnpackFile: Unpacking {fileName}")
@@ -2130,14 +2130,14 @@ def downloadUnpackFile(packageData, packageName, folderName=None, workDir=None):
 		customFolderTarArg = ""
 
 		if customFolder:
-			logger.debug(f'In downloadUnpackFile making folder "{folderName} ...')
+			logger.debug(f"downloadUnpackFile: making folder '{folderName}' ...")
 			customFolderTarArg = ' -C "' + folderName + '" --strip-components 1'
 			# IF FOLDER EXISTS, DELETE IT BEFORE CREATING IT
 			#    rmdir(path) Remove (delete) the directory path. Only works when the directory is empty, otherwise, OSError is raised. 
 			#    In order to remove whole directory trees, shutil.rmtree() can be used.
 			if os.path.isdir(folderName):
-				logger.debug(f'downloadUnpackFile: In customFolder, deleting old existing folder "{folderName}"')
-				logger.debug(f'downloadUnpackFile: rm -f "{folderName}"')
+				logger.debug(f"downloadUnpackFile: In customFolder, deleting old existing folder '{folderName}'")
+				logger.debug(f"downloadUnpackFile: rm -f '{folderName}'")
 				shutil.rmtree(folderName,ignore_errors=False)
 			os.makedirs(folderName) # os.makedirs creates intermediate parent paths like "mkdir -p"
 
@@ -2189,13 +2189,13 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 
 	if os.path.isdir(realFolderName):
 		if desiredPR is not None:
-			logger.warning("gitClone: ###############################################################################################")
-			logger.warning("gitClone: Git: repositiories with set PR will not auto-update, please delete the repo and retry to do so.")
-			logger.warning("gitClone: ###############################################################################################")
+			logger.warning(f"gitClone: ###############################################################################################")
+			logger.warning(f"gitClone: Git: repositiories with set PR will not auto-update, please delete the repo and retry to do so.")
+			logger.warning(f"gitClone: ###############################################################################################")
 		elif doNotUpdate is True:
-			logger.warning("gitClone: #########################")
-			logger.warning("gitClone: do_not_git_update is True")
-			logger.warning("gitClone: #########################")
+			logger.warning(f"gitClone: #########################")
+			logger.warning(f"gitClone: do_not_git_update is True")
+			logger.warning(f"gitClone: #########################")
 		else:
 			cchdir(realFolderName)
 			logger.info(f"gitClone: git remote update")
@@ -2211,19 +2211,19 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.info(f"gitClone: git checkout {properBranchString}")
 			runProcess(f"git checkout {properBranchString}")
 			if LOCAL == REMOTE:
-				logger.debug("gitClone: ####################")
-				logger.debug("gitClone: Up to date")
-				logger.debug("gitClone: LOCAL:  " + LOCAL)
-				logger.debug("gitClone: REMOTE: " + REMOTE)
-				logger.debug("gitClone: BASE:   " + BASE)
-				logger.debug("####################")
+				logger.debug(f"gitClone: ####################")
+				logger.debug(f"gitClone: Up to date")
+				logger.debug(f"gitClone: LOCAL:  " + LOCAL)
+				logger.debug(f"gitClone: REMOTE: " + REMOTE)
+				logger.debug(f"gitClone: BASE:   " + BASE)
+				logger.debug(f"####################")
 			elif LOCAL == BASE:
-				logger.debug("gitClone: ####################")
-				logger.debug("gitClone: Need to pull")
-				logger.debug("gitClone: gitClone: LOCAL:  " + LOCAL)
-				logger.debug("REMOTE: " + REMOTE)
-				logger.debug("gitClone: BASE:   " + BASE)
-				logger.debug("gitClone: ####################")
+				logger.debug(f"gitClone: ####################")
+				logger.debug(f"gitClone: Need to pull")
+				logger.debug(f"gitClone: gitClone: LOCAL:  " + LOCAL)
+				logger.debug(f"REMOTE: " + REMOTE)
+				logger.debug(f"gitClone: BASE:   " + BASE)
+				logger.debug(f"gitClone: ####################")
 				if desiredBranch is not None:
 					# bsSplit = properBranchString.split("/")
 					# if len(bsSplit) == 2:
@@ -2250,7 +2250,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: LOCAL:  " + LOCAL)
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
-				logger.debug("gitClone: ####################")
+				logger.debug(f"gitClone: ####################")
 			else:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: diverged?")
@@ -2457,11 +2457,11 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if objSETTINGS.debugMode:
 		logger.debug(f"############## Checks done, dependencies built, about to build the specified '{package_type}' : '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
-		logger.debug("buildPackage: ###############################")
-		logger.debug("buildPackage: ### Environment variables:  ###")
+		logger.debug(f"buildPackage: ###############################")
+		logger.debug(f"buildPackage: ### Environment variables:  ###")
 		for osv in os.environ:
 			logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-		logger.debug("buildPackage: ###############################")
+		logger.debug(f"buildPackage: ###############################")
 		pass
 
 	#------------------------------------------------------------------------------------------------
@@ -2541,7 +2541,7 @@ def buildPackage(packageName=''):	# was buildThing
 			folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName}' folderName='{folderName}'")
 			workDir = folderName
-			logger.debug("mkdir -p '{0}'".format(workDir))
+			logger.debug(f"mkdir -p '{workDir}'")
 			os.makedirs(workDir, exist_ok=True)
 			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName}' returned workdir='{workDir}'")
 		else:
@@ -2576,7 +2576,7 @@ def buildPackage(packageName=''):	# was buildThing
 		if 'run_pre_patch' in pkg:
 			if pkg['run_pre_patch'] is not None:
 				for cmd in pkg['run_pre_patch']:
-					logger.debug("buildPackage: Running pre-patch-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
+					logger.debug(f"buildPackage: Running pre-patch-command pre replaceVarCmdSubStrings (raw): '{cmd}'")
 					cmd = replaceVarCmdSubStrings(cmd)
 					logger.debug(f"buildPackage: Running pre-patch-command: '{cmd}'")
 					logger.info(cmd)
@@ -2584,16 +2584,16 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if objArgParser.force:
 		if os.path.isdir(".git"):
-			logger.info("buildPackage: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
-			runProcess("git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
-			logger.info("buildPackage: git submodule foreach --recursive git clean -ffdx")
-			runProcess("git submodule foreach --recursive git clean -ffdx")
-			logger.info("buildPackage: git reset --hard")
-			runProcess("git reset --hard")
-			logger.info("buildPackage: git submodule foreach --recursive git reset --hard")
-			runProcess("buildPackage: git submodule foreach --recursive git reset --hard")
-			logger.info("buildPackage: git submodule update --init --recursive")
-			runProcess("git submodule update --init --recursive")
+			logger.info(f"buildPackage: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
+			runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
+			logger.info(f"buildPackage: git submodule foreach --recursive git clean -ffdx")
+			runProcess(f"git submodule foreach --recursive git clean -ffdx")
+			logger.info(f"buildPackage: git reset --hard")
+			runProcess(f"git reset --hard")
+			logger.info(f"buildPackage: git submodule foreach --recursive git reset --hard")
+			runProcess(f"buildPackage: git submodule foreach --recursive git reset --hard")
+			logger.info(f"buildPackage: git submodule update --init --recursive")
+			runProcess(f"git submodule update --init --recursive")
 
 
 ???
@@ -2613,10 +2613,10 @@ def buildPackage(packageName=''):	# was buildThing
 
 	if 'debug_confighelp_and_exit' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		if pkg['debug_confighelp_and_exit'] is True:
-			logger.info("buildPackage: ./configure --help")
+			logger.info(f"buildPackage: ./configure --help")
 			bootstrapConfigure()
-			logger.info("buildPackage: ./configure --help")
-			runProcess("./configure --help")
+			logger.info(f"buildPackage: ./configure --help")
+			runProcess(f"./configure --help")
 			exit()
 
 	if 'cflag_addition' in pkg:
@@ -2637,18 +2637,18 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.info(f"buildPackage: Added to CPPFLAGS, now: '{os.environ['CPPFLAGS']}'")
 			logger.info(f"buildPackage: Added to LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'custom_cflag' in pkg:
 		if pkg['custom_cflag'] is not None:
 			vval = pkg['cflag_addition']
 			vval = replaceVarCmdSubStrings(vval)
-			logger.debug("buildPackage:Setting CFLAGS to '{0}'".format( vval ))
+			logger.debug(f"buildPackage:Setting CFLAGS to '{vval}'")
 			logger.debug(f"buildPackage: os.environ CFLAGS   before custom_cflag = '{os.environ['CFLAGS']}'")
 			logger.debug(f"buildPackage: os.environ CXXFLAGS before custom_cflag = '{os.environ['CXXFLAGS']}'")
 			logger.debug(f"buildPackage: os.environ CPPFLAGS before custom_cflag = '{os.environ['CPPFLAGS']}'")
@@ -2662,11 +2662,11 @@ def buildPackage(packageName=''):	# was buildThing
 			logger.info(f"buildPackage: Set custom CPPFLAGS, now: '{os.environ['CPPFLAGS']}"')
 			logger.info(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ[LDFLAGS']}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'custom_ldflag' in pkg:
@@ -2674,15 +2674,15 @@ def buildPackage(packageName=''):	# was buildThing
 			vval = pkg['custom_ldflag']
 			vval = replaceVarCmdSubStrings(vval)
 			logger.debug(f"buildPackage: os.environ LDFLAGS  before setting LDFLAGS = '{os.environ['LDFLAGS']}'")
-			logger.debug("buildPackage: Setting LDFLAGS to '{vval}'")
+			logger.debug(f"buildPackage: Setting LDFLAGS to '{vval}'")
 			os.environ[LDFLAGS'] = vval  # 2019.12.13
 			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ[LDFLAGS']}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'strip_cflags' in pkg:
@@ -2701,11 +2701,11 @@ def buildPackage(packageName=''):	# was buildThing
 				logger.info(f"buildPackage: Stripped CPPFLAGS, now: '{os.environ["CPPFLAGS"]}'")
 				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ["LDFLAGS"]}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'custom_path' in pkg:
@@ -2717,11 +2717,11 @@ def buildPackage(packageName=''):	# was buildThing
 			os.environ["PATH"] = vval
 			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ[PATH']}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'flipped_path' in pkg:
@@ -2731,11 +2731,11 @@ def buildPackage(packageName=''):	# was buildThing
 			os.environ["PATH"] = f"{mingwBinpath}:{os.path.join(objSETTINGS.targetPrefix,'bin')}:{objSETTINGS.originalPATH}")  # todo properly test this..
 			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ["PATH"]}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'env_exports' in pkg:
@@ -2748,11 +2748,11 @@ def buildPackage(packageName=''):	# was buildThing
 				os.environ[key] = vval
 				logger.info(f"buildPackage: Environment variable '{key}' Set from '{prevEnv}' to '{vval}'")
 			if objSETTINGS.debugMode:
-				logger.debug("buildPackage: ###############################")
-				logger.debug("buildPackage: ### Environment variables:  ###")
+				logger.debug(f"buildPackage: ###############################")
+				logger.debug(f"buildPackage: ### Environment variables:  ###")
 				for osv in os.environ:
 					logger.debug(f"\t'{osv}' : '{os.environ[osv]}'")
-				logger.debug("buildPackage: ###############################")
+				logger.debug(f"buildPackage: ###############################")
 				pass
 
 	if 'copy_over' in pkg:
@@ -2775,9 +2775,9 @@ def buildPackage(packageName=''):	# was buildThing
 				if isinstance(cmd, tuple):
 					cmd = cmd[0]
 					ignoreFail = cmd[1]
-				if cmd.startswith("!SWITCHDIRBACK"):
+				if cmd.startswith(f"!SWITCHDIRBACK"):
 					cchdir(currentFullDir)
-				elif cmd.startswith("!SWITCHDIR"):
+				elif cmd.startswith(f"!SWITCHDIR"):
 					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 					cchdir(_dir)
 				else:
@@ -2801,9 +2801,9 @@ def buildPackage(packageName=''):	# was buildThing
 					if isinstance(cmd, tuple):
 						cmd = cmd[0]
 						ignoreFail = cmd[1]
-					if cmd.startswith("!SWITCHDIRBACK"):
+					if cmd.startswith(f"!SWITCHDIRBACK"):
 						cchdir(currentFullDir)
-					elif cmd.startswith("!SWITCHDIR"):
+					elif cmd.startswith(f"!SWITCHDIR"):
 						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
@@ -2827,9 +2827,9 @@ def buildPackage(packageName=''):	# was buildThing
 					if isinstance(cmd, tuple):
 						cmd = cmd[0]
 						ignoreFail = cmd[1]
-					if cmd.startswith("!SWITCHDIRBACK"):
+					if cmd.startswith(f"!SWITCHDIRBACK"):
 						cchdir(currentFullDir)
-					elif cmd.startswith("!SWITCHDIR"):
+					elif cmd.startswith(f"!SWITCHDIR"):
 						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
@@ -2959,7 +2959,7 @@ if __name__ == "__main__":
 	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	
 	# FOR DEBUG:
-	logger.debug("DEBUG: start example substitutions")
+	logger.debug(f"DEBUG: start example substitutions")
 	logger.debug("objSETTINGS.substitutionDict=")
 	logger.debug(objPrettyPrint.pformat(objSETTINGS.substitutionDict))
 	logger.debug("objVariables.Val=")
@@ -3043,11 +3043,11 @@ if __name__ == "__main__":
 				#logger.info(f"Finished Build of DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 			else:
 				msg = f"Hmm, BUILD specified, but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
-				logger.error("msg")
+				logger.error(msg)
 				sys.exit(1)
 		else:
 			msg = f"Hmm, BUILD was not specified but nothing else was either : PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... that's an error condition ... exiting"
-			logger.error("msg")
+			logger.error(msg)
 			sys.exit(1)
 
 	# Well, looks like we finally have to build the specified package
@@ -3064,11 +3064,11 @@ if __name__ == "__main__":
 			buildPackage(objArgParser.build_DEPENDENCY)
 		else:
 			msg = f"Hmm, BUILD specified, but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
-			logger.error("msg")
+			logger.error(msg)
 			sys.exit(1)
 	else:
 		msg = f"Hmm, BUILD was not specified but nothing else was either : PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... that's an error condition ... exiting"
-		logger.error("msg")
+		logger.error(msg)
 		sys.exit(1)
 
 
