@@ -2176,7 +2176,7 @@ def sanitizeFilename(f):
 	return re.sub(r'[/\\:*?"<>|]', '', f)
 
 ###################################################################################################
-def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recursive=False, doNotUpdate=False, desiredPR=None, depth=-1):
+def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recursive=False, doNotUpdate=False, desiredPR=None, git_depth=-1):
 	logger.info(f"gitClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
 	if virtFolderName is None:
 		virtFolderName = sanitizeFilename(os.path.basename(url))
@@ -2278,12 +2278,12 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		if recursive:
 			addArgs.append("--recursive")
 
-		if depth and depth >= 1:
-			addArgs.append(F"--depth {depth}")
-		elif depth is None or depth < 0:
-			depth = 1
+		if git_depth and git_depth >= 1:
+			addArgs.append(F"--depth {git_depth}")
+		elif git_depth is None or git_depth < 0:
+			git_depth = 1
 			addArgs.append(F"--depth 1")
-		logger.info(F"Git {'Shallow C' if depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
+		logger.info(F"Git {'Shallow C' if git_depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
 		logger.debug(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}'")
 		runProcess(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}'")
 		if desiredBranch is not None:
@@ -2823,7 +2823,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if branch is not None:
 			branch = replaceVarCmdSubStrings(branch)
 		recursive = getValueOrNone(pkg, 'recursive_git')
-		git_depth = pkg.get(f"depth_git", -1) - 1	# Use Dict .get method, with a default of -1 which meanss the last commit
+		git_depth = pkg.get(f"depth_git", -1)	# Use Dict .get method, with a default of -1 which meanss the last commit
 		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		doNotUpdate = False
 		if 'do_not_git_update' in pkg:
