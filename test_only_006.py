@@ -1445,7 +1445,7 @@ def errorExit(msg):
 
 ###################################################################################################
 def cchdir(dir):
-	logger.debug(f"cd {dir} # Change dir from '{os.getcwd()}' to '{dir}'")
+	logger.info(f"cd {dir} # Change dir from '{os.getcwd()}' to '{dir}'")
 	os.chdir(dir)
 
 ###################################################################################################
