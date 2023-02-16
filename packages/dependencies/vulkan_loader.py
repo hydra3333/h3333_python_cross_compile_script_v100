@@ -29,22 +29,10 @@
 		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
 	'patches' : [
-		#('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.06.28.patch', '-Np1', '..'),
-		#('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.06.28.patch', '-Np1', '..'),
 		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.11.22.patch', '-Np1', '..'),
 		('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.11.22.patch', '-Np1', '..'),
-		##
-		## below are attempted updates to MABS patches, yields - error: unknown type name 'pthread_once_t'
-		## diff -U 5 a/loader/CMakeLists.txt b/loader/CMakeLists.txt > vulkan-1001-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-CMakeLists_txt.patch
-		## diff -U 5 a/loader/loader.h b/loader/loader.h > vulkan-1002-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_h.patch
-		## diff -U 5 a/loader/loader.rc.in b/loader/loader.rc.in > vulkan-1003-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader.rc_in.patch
-		## diff -U 5 a/loader/loader_windows.c b/loader/loader_windows.c > vulkan-1004-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_windows_c.patch
-		## diff -U 5 a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h > vulkan-1005-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-vk_loader_platform_h.patch
-		#('vulkan/vulkan-1001-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-CMakeLists_txt.patch', '-Np1', '..'),
-		##('vulkan/vulkan-1002-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_h.patch', '-Np1', '..'),
-		#('vulkan/vulkan-1003-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader.rc_in.patch', '-Np1', '..'),
-		#('vulkan/vulkan-1004-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-loader_windows_c.patch', '-Np1', '..'),
-		#('vulkan/vulkan-1005-cross-compile-static-linking-hacks-exMABSupdated-2022.07.09-vk_loader_platform_h.patch', '-Np1', '..'),
+		#('vulkan/vulkan-0001-loader-cross-compile-static-linking-hacks-MABS-2023.02.16.patch', '-Np1', '..'),
+		#('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2023.02.16.patch', '-Np1', '..'),
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27
