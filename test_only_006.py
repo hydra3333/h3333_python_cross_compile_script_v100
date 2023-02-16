@@ -933,7 +933,7 @@ class processCmdLineArguments():
 		# Note: the second argument contains the variable-name to check later eg "if args.debug"
 		logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
 		self.parser.add_argument("-g", "--debug",        help="Show debug information",											action="store_true", default=False)
-		self.parser.add_argument("-f", "--force",        help="Force rebuild, deletes already existing files (recommended)",	action="store_true", default=False)
+		self.parser.add_argument("-f", "--force",        help="Force rebuild of nominated package, deletes already existing files (recommended)",	action="store_true", default=False)
 		self.parser.add_argument("-s", "--skip_depends", help="Skip dependencies when building",								action="store_true", default=False)
 		# called like:	program.py --force --debug -d avisynth_plus_headers
 		# 				program.py --force --debug -p ffmpeg
@@ -2682,7 +2682,7 @@ def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 		cchdir(originalFolder)
 
 ###################################################################################################
-def buildPackage(packageName=''):	# was buildThing
+def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	#old: def buildThing(self, packageName, pkg, type, forceRebuild=False, skipDepends=False):
 	
 	# a trick for the unwary:
@@ -2772,7 +2772,7 @@ def buildPackage(packageName=''):	# was buildThing
 						sys.exit(1)	# in case MissingDependency fails
 					else:
 						logger.debug(f"buildPackage: in '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' about to recursive call buildPackage('{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}')")
-						buildPackage(libraryName)
+						buildPackage(libraryName, forceRebuild=False)	# only permit force rebuild on the nominated product/dependency rather than it's dependencies as well
 
 	if 'is_dep_inheriter' in pkg:
 		if pkg['is_dep_inheriter'] is True:
@@ -2850,7 +2850,7 @@ def buildPackage(packageName=''):	# was buildThing
 		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
-		workDir = mercurialClone(ppd, folderName, renameFolder, branch, objArgParser.force)
+		workDir = mercurialClone(ppd, folderName, renameFolder, branch, forceRebuild)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' returned workdir='{workDir}'")
 	elif pkg["repo_type"] == "archive":	# ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE 
 		if "folder_name" in pkg:
@@ -2908,7 +2908,7 @@ def buildPackage(packageName=''):	# was buildThing
 					logger.info(cmd)
 					runProcess(cmd)
 
-	if objArgParser.force:
+	if forceRebuild:
 		if os.path.isdir(".git"):
 			logger.info(f"buildPackage: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 			runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
@@ -2930,7 +2930,7 @@ def buildPackage(packageName=''):	# was buildThing
 				os.makedirs(vval, exist_ok=True)
 			cchdir(vval)
 
-	if objArgParser.force:
+	if forceRebuild:
 		removeAlreadyFiles()
 		removeConfigPatchDoneFiles()
 
@@ -3420,17 +3420,21 @@ if __name__ == "__main__":
 			sys.exit(1)
 
 	# Well, looks like we finally have to build the specified package
+	if objArgParser.force:	# only force the nominated package to be rebuilt (buildPackage will take care of it)
+		forceRebuild = True
+	else:
+		forceRebuild = False	
 	if objArgParser.build:
 		if objArgParser.build_PRODUCT is not None:
 			if objArgParser.build_PRODUCT not in dictProducts.BO:
 				logger.error(f"Specified build PRODUCT:'{objArgParser.build_PRODUCT}' however no matching product name found.")
 				sys.exit(1)
-			buildPackage(objArgParser.build_PRODUCT)
+			buildPackage(objArgParser.build_PRODUCT, forceRebuild)
 		elif objArgParser.build_DEPENDENCY is not None:
 			if objArgParser.build_DEPENDENCY not in dictDependencies.BO:
 				logger.error(f"Specified build DEPENDENCY:'{objArgParser.build_DEPENDENCY}' however no matching dependency name found.")
 				sys.exit(1)
-			buildPackage(objArgParser.build_DEPENDENCY)
+			buildPackage(objArgParser.build_DEPENDENCY, forceRebuild)
 		else:
 			msg = f"Hmm, BUILD specified, but no package named: PRODUCT='{objArgParser.build_PRODUCT}' DEPENDENCY='{objArgParser.build_DEPENDENCY}' ... exiting"
 			logger.error(msg)
