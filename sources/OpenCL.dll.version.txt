@@ -2,7 +2,7 @@ Version of C:\Windows\System32\OpenCL.dll used to create libOpenCL.a
 
 Right-click on the DLL, choose properties, choose Details tab.
 
-Version 3.0.1.0
+Version 3.0.3.0
 Date Modified: 7/12/2022
 
 
