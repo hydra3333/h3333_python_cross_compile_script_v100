@@ -2719,7 +2719,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	# if so, return almost silently 
 	if '_already_built' in pkg:
 		if pkg['_already_built'] is True:
-			logger.info(f"buildPackage: Skipping rebuild of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' since it has already been built sometime during this script run")
+			logger.info(f"buildPackage: Skipping rebuild of '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' since it has already been built")
 			cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
 			return
 	
