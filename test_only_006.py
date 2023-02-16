@@ -2193,7 +2193,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 	branchString = ""
 	if desiredBranch is not None:
 		desiredBranch = replaceVarCmdSubStrings(desiredBranch)
-		#branchString = f" {desiredBranch}"
+		branchString = f" {desiredBranch}"
 
 	properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
 	if desiredBranch is not None:
