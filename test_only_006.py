@@ -381,7 +381,7 @@ def resetDefaultEnvVars():
 	os.environ['LDFLAGS']           = objSETTINGS.originalCflags
 	os.environ['PKG_CONFIG_PATH']   = objSETTINGS.pkgConfigPath
 	os.environ['PKG_CONFIG_LIBDIR'] = ''
-	logger.debug(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS and whatnot to: '{objSETTINGS.originalCflags}' etc")
+	logger.info(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS to: '{objSETTINGS.originalCflags}', PKG_CONFIG_PATH to '{objSETTINGS.pkgConfigPath}', PKG_CONFIG_LIBDIR to ''")
 	if objSETTINGS.debugMode:
 		dump_environment_variables(override=True)
 		pass
