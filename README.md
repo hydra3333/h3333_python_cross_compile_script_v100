@@ -91,9 +91,9 @@ sudo chmod +777 -R ./*
 ./h3333_v100.setup.sh # (once-off, before the first build)
 ```
 then to build just ffmpeg:    
-3. `./h3333_v100.002_ff.sh`    
+3. `./h3333_v100.003_ff.sh`    
 or to build everything:    
-4. `./h3333_v100.002.sh`    
+4. `./h3333_v100.003.sh`    
 5. To create your own new static `libOpenCL.a` wrapper after a new nvidia driver with OpenCL.dll is installed on a Win10x64 PC,
 and a new `libvulkan-1.a` wrapper after microsoft updates install a new vulkan dll, so you can upload these into in your own fork, please see:  
 `https://github.com/hydra3333/h3333_python_cross_compile_script_v100/tree/master/sources`   
