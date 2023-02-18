@@ -46,7 +46,7 @@ rm -vfR ~/Desktop/_working/workdir/x86_64/shaderc_git
 rm -vfR ~/Desktop/_working/workdir/x86_64/spirv-headers
 rm -vfR ~/Desktop/_working/workdir/x86_64/spirv-tools
 rm -vfR ~/Desktop/_working/workdir/x86_64/spirv-cross
-rm -vfR ~/Desktop/_working/workdir/x86_64/libplacebo
+rm -vfR ~/Desktop/_working/workdir/x86_64/libplacebo_git
 rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/libplacebo
 rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/shaderc
 rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/spirv
