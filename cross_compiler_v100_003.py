@@ -113,6 +113,15 @@ import json
 import progressbar
 import yaml
 import pprint
+#------------------------------------------------------------------------------------------------------------
+# imports for LIST --versions
+##from telnetlib import EC # 2022.12.18 per DEADSIX27 ?????????? why
+import ftplib
+from distutils.version import LooseVersion
+from bs4 import BeautifulSoup
+from colorama import Fore, Style, init
+import tools.libs.htmllistparse as htmllistparse  # https://github.com/gumblex/htmllisting-parser
+#------------------------------------------------------------------------------------------------------------
 
 ###################################################################################################
 class settings:
@@ -248,9 +257,17 @@ class settings:
 		#self.toolchain_mingw_commit = None				# specify a custom mingW64 commit, or None which leaves that up to the toolchain builder
 		#self.toolchain_mingw_custom_cflags = None		#
 		
-		#self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'		# old
 		self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0'		# LTS as at 2023.02.07
-		#self.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0'	# as at 2023.02.07
+		self.HEADERS =	{	'User-Agent': self.userAgent,
+							'Accept-Language': 'en,en-US;',
+							'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+						}
+		self.SOURCEFORGE_APIKEY = None
+		# if not os.path.isfile("sourceforge.apikey"):
+		# 	errorExit("Missing sourceforge.apikey file, create it and write your api key inside of it")
+		# else:
+		# 	self.SOURCEFORGE_APIKEY = open("sourceforge.apikey","r").read()
+		# 	print("Loaded sourceforge api key: " + self.SOURCEFORGE_APIKEY)
 		
 		self.log_format = '[%(asctime)s][%(levelname)s]%(type)s %(message)s'
 		self.log_date_format = '%H:%M:%S'
@@ -274,9 +291,6 @@ class settings:
 	
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")	# for output, eg workdir/x86_64_products
 		self.fullOfftreeDir = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")	# for output, eg workdir/x86_64_products
-
-#self.offtreePrefix = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")  # workdir/x86_64_offtree
-
 
 		self.fullDependencyDir = self.bitnessPath.joinpath("")							# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
 
@@ -810,13 +824,13 @@ def setDebugMode(new_debugMode):
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	if objSETTINGS.debugMode:
+	if new_debugMode:
 		objSETTINGS.debugMode = True
 		setLogLevel(logging.DEBUG)
 	else:
 		objSETTINGS.debugMode = False
-		setLogLevel(objSETTINGS.current_logging_mode)
-		logger.debug(f"")
+		setLogLevel(logging.INFO)
+		#logger.debug(f"")
 	logger.warning(f"DebugMode explicitly set to '{objSETTINGS.debugMode}'")
 	return
 
@@ -849,16 +863,17 @@ class processCmdLineArguments():
 		return
 		
 	def __init__(self):
-		logger.info(f"Processing CommandLine arguments")
-		logger.debug(f"Entered processCmdLineArguments")
+		logger.info(f"processCmdLineArguments: Processing CommandLine arguments")
+		logger.debug(f"processCmdLineArguments: Entered processCmdLineArguments")
 
 		# Create a neew main parser
-		logger.debug(f"Creating the ArgumentParser with parser = argparse.ArgumentParser")
+		logger.debug(f"processCmdLineArguments: Creating the ArgumentParser with parser = argparse.ArgumentParser")
 		self.parser_programname = 'h3333_python_cross_compile_script'
 		self.parser_program_description = Colors.RESET + Colors.CYAN + self.parser_programname + Colors.RESET + "" \
 										"\nExample usages:" \
 										"\n '{0} list -p'                                   - lists all products" \
 										"\n '{0} list -d'                                   - lists all dependencies" \
+										"\n '{0} list --versions'                           - Check/List versions of all products/dependencies" \
 										"\n '{0} info --required_by avisynth_plus_headers'  - List all packages this dependency is required by" \
 										"\n '{0} info --depends_on ffmpeg'                  - List all packages this package depends on (recursively)" \
 										"\n '{0} --force --debug -d avisynth_plus_headers'  - forces rebuilding of dependency avisynth_plus_headers" \
@@ -874,21 +889,34 @@ class processCmdLineArguments():
 											prog=self.parser_programname, \
 											description=self.parser_program_description, \
 											epilog=self.parser_epilog )
-		logger.debug(f"Created the ArgumentParser with argparse.ArgumentParser")
+		logger.debug(f"processCmdLineArguments: Created the ArgumentParser with argparse.ArgumentParser")
 
 		# set a name in the top level main ArgumentParser
 		logger.debug(f"Setting a name in the top level ArgumentParser")
 		self.parser.set_defaults(which="main") # set a default argument "which" with a default value "main" in the main parser
-		logger.debug(f"Set a name in the top level ArgumentParser")
+		logger.debug(f"processCmdLineArguments: Set a name in the top level ArgumentParser")
+
+		# Add generic arguments
+		# add generic arguments to the main ArgumentParser object. 
+		# Note the "-g" for debug, since "-d" is already taken for dependency processing
+		# Note: the second argument contains the variable-name to check later eg "if args.debug"
+		logger.debug(f"processCmdLineArguments: Create and add arguments to the top level ArgumentParser for generic use")
+		self.parser.add_argument("-g", "--debug",        help="Show debug information",											action="store_true", default=False)
+		self.parser.add_argument("-f", "--force",        help="Force rebuild of nominated package, deletes already existing files (recommended)",	action="store_true", default=False)
+		self.parser.add_argument("-s", "--skip_depends", help="Skip dependencies when building",								action="store_true", default=False)
+		# called like:	program.py --force --debug -d avisynth_plus_headers
+		# 				program.py --force --debug -p ffmpeg
+		# 				program.py --force --debug --skip-depends -p ffmpeg
+		logger.debug(f"processCmdLineArguments: Created and added arguments to the top level ArgumentParser for generic use")
 
 		# add sub-parsers object to the main ArgumentParser object
-		logger.debug(f"Add sub-parsers object to the top level ArgumentParser")
+		logger.debug(f"processCmdLineArguments: Add sub-parsers object to the top level ArgumentParser")
 		self.subparsers = self.parser.add_subparsers(help="Sub commands")
-		logger.debug(f"Added sub-parsers object to the top level ArgumentParser")
+		logger.debug(f"processCmdLineArguments: Added sub-parsers object to the top level ArgumentParser")
 
 		# create and add the (sub)parser for the "list" command to the sub-parsers object 
 		# and name it with which="list_p" ... parser.prog is the programname we set
-		logger.debug(f"Create and add arguments to the (sub)parser for the 'list' command")
+		logger.debug(f"processCmdLineArguments: Create and add arguments to the (sub)parser for the 'list' command")
 		self.list_p = self.subparsers.add_parser("list", help="Type: '" + self.parser.prog + " list'")
 		self.list_p.set_defaults(which="list")
 		# add arguments to the "list" command parser which="list_p"
@@ -896,13 +924,14 @@ class processCmdLineArguments():
 		list_p_group1 = self.list_p.add_mutually_exclusive_group(required=True)
 		list_p_group1.add_argument("-p", "--products",     help="List all products",     action="store_true", default=False)
 		list_p_group1.add_argument("-d", "--dependencies", help="List all dependencies", action="store_true", default=False)
+		list_p_group1.add_argument("-v", "--versions", help="Check/List versions of all products/dependencies", action="store_true", default=False)
 		# called like:	program.py list -d
 		# 				program.py list -p
-		logger.debug(f"Created and added arguments to the (sub)parser for the 'list' command")
+		logger.debug(f"processCmdLineArguments: Created and added arguments to the (sub)parser for the 'list' command")
 
 		# create and add the (sub)parser for the "info" command to the sub-parsers object 
 		# and name it with which="list_p" ... parser.prog is the programname we set
-		logger.debug(f"Create and add arguments to the (sub)parser for the 'info' command")
+		logger.debug(f"processCmdLineArguments: Create and add arguments to the (sub)parser for the 'info' command")
 		self.info_p = self.subparsers.add_parser("info", help="Type: '" + self.parser.prog + " info")
 		self.info_p.set_defaults(which="info")
 		# add arguments to the "info" command parser which="info_p"
@@ -912,11 +941,11 @@ class processCmdLineArguments():
 		self.info_p_group1.add_argument("-d", "--depends_on",  help="List all packages this package depends on (recursively)", default=None)
 		# called like:	program.py info -r avisynth_plus_headers
 		# 				program.py info -d ffmpeg
-		logger.debug(f"Created and added arguments to the (sub)parser for the 'info' command")
+		logger.debug(f"processCmdLineArguments: Created and added arguments to the (sub)parser for the 'info' command")
 
 		# *** Now it is time for arguments to initiate the build process
 		# create and add a mutually exclusive group to the main ArgumentParser object
-		logger.debug(f"Create and add arguments to the top level ArgumentParser for building stuff")
+		logger.debug(f"processCmdLineArguments: Create and add arguments to the top level ArgumentParser for building stuff")
 		self.group2 = self.parser.add_mutually_exclusive_group(required=False)
 		# add arguments to the mutially exclusive group, to build a dependency or a product
 		# Note: the second argument contains the variable-name to check later eg "if args.build_product"
@@ -925,20 +954,7 @@ class processCmdLineArguments():
 		self.group2.add_argument("-c", "--cmd_help", help="Do nothing but show help", action="store_true", default=False) # use "-c" since -h and --help CONFLICT with system stuff
 		# called like:	program.py -d avisynth_plus_headers
 		# 				program.py -p ffmpeg
-		logger.debug(f"Created and added arguments to the top level ArgumentParser for building stuff")
-
-		# *** Now it is time for generic arguments
-		# add generic arguments to the main ArgumentParser object. 
-		# Note the "-g" for debug, since "-d" is already taken for dependency processing
-		# Note: the second argument contains the variable-name to check later eg "if args.debug"
-		logger.debug(f"Create and add arguments to the top level ArgumentParser for generic use")
-		self.parser.add_argument("-g", "--debug",        help="Show debug information",											action="store_true", default=False)
-		self.parser.add_argument("-f", "--force",        help="Force rebuild of nominated package, deletes already existing files (recommended)",	action="store_true", default=False)
-		self.parser.add_argument("-s", "--skip_depends", help="Skip dependencies when building",								action="store_true", default=False)
-		# called like:	program.py --force --debug -d avisynth_plus_headers
-		# 				program.py --force --debug -p ffmpeg
-		# 				program.py --force --debug --skip-depends -p ffmpeg
-		logger.debug(f"Created and added arguments to the top level ArgumentParser for generic use")
+		logger.debug(f"processCmdLineArguments: Created and added arguments to the top level ArgumentParser for building stuff")
 
 		# OK now we've setup the ArgumentParser stuff, lets parse the arguments and set variables in global objSETTINGS
 		# We use that since it's commonly global, rather than another global object
@@ -952,30 +968,30 @@ class processCmdLineArguments():
 			self.force = True
 		else:
 			self.force = False
-		logger.debug(f"CMDLINE Processed arg self.args.force='{self.args.force}'")
+		logger.debug(f"processCmdLineArguments: CMDLINE Processed arg self.args.force='{self.args.force}'")
 
 		if self.args.skip_depends:
 			self.skip_depends = True
 		else:
 			self.skip_depends = False
-		logger.debug(f"CMDLINE Processed arg self.args.skip_depends='{self.args.skip_depends}'")
+		logger.debug(f"processCmdLineArguments: CMDLINE Processed arg self.args.skip_depends='{self.args.skip_depends}'")
 
 		if self.args.debug:
-			self.debug = True
+			self.debug = True	# variable ArgParser.debug is referenced elsewhere
 		else:
-			self.debug = False
+			self.debug = False	# variable ArgParser.debug is referenced elsewhere
 		# check and possibly over-ride any debug mode 
-		logger.debug(f"CMDLINE Processing arg self.args.debug='{self.args.debug}' self.debug='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
 		or_debug_modes = objSETTINGS.debugMode or self.debug
 		if or_debug_modes:	# one or the other is true, so make it all true, a one-way
 			self.debug = True
 			setDebugMode(self.debug)
-		logger.debug(f"CMDLINE Processed arg self.args.debug='{self.args.debug}' self.debug='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
+		logger.debug(f"processCmdLineArguments: CMDLINE Processed arg self.args.debug='{self.args.debug}' self.debug (ArgParser.debug)='{self.debug}' objSETTINGS.debugMode='{objSETTINGS.debugMode}' ")
 
 		# initialize for finding specific commands and parameters
 		self.list = False
 		self.list_products = False
 		self.list_dependencies = False
+		self.list_versions = False
 		self.info = False
 		self.info_required_by = None
 		self.info_depends_on = None
@@ -986,48 +1002,52 @@ class processCmdLineArguments():
 		# Note: the 'match' statement only works in Python 3.10 and above # https://learnpython.com/blog/python-match-case-statement/
 		match self.args.which.lower():
 			case "list":
-				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='list_p'")
+				logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.which='{self.args.which}'")
 				self.list = True
 				if self.args.products:
-					logger.debug(f"CMDLINE Processing arg self.args.products='{self.args.products}' in 'list_p'")
+					logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.products='{self.args.products}' in 'list_p'")
 					self.list_products = True
 				elif self.args.dependencies:
-					logger.debug(f"CMDLINE Processing arg self.args.dependencies='{self.args.dependencies}' in 'list_p'")
+					logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.dependencies='{self.args.dependencies}' in 'list_p'")
 					self.list_dependencies = True
+				elif self.args.versions:
+					# the name of the thing to process with INFO is in self.args.depends_on
+					logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.versions='{self.args.versions}' in 'list_p'")
+					self.list_versions = True
 				else:
-					msg = f"CMDLINE Processing arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+					msg = f"processCmdLineArguments: CMDLINE Processing arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
 					logger.error(msg)
 					sys.exit(1)
 			case "info":
-				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='info_p'")
+				logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.which='{self.args.which}'='info_p'")
 				self.info = True
 				if self.args.required_by:
 					# the name of the thing to process with INFO is in self.args.required_by
-					logger.debug(f"CMDLINE Processed arg self.args.required_by='{self.args.required_by}' in 'info_p'")
+					logger.debug(f"processCmdLineArguments: CMDLINE Processed arg self.args.required_by='{self.args.required_by}' in 'info_p'")
 					self.info_required_by = self.args.required_by
 				elif self.args.depends_on:
 					# the name of the thing to process with INFO is in self.args.depends_on
-					logger.debug(f"CMDLINE Processing arg self.args.depends_on='{self.args.depends_on}' in 'info_p'")
+					logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.depends_on='{self.args.depends_on}' in 'info_p'")
 					self.info_depends_on = self.args.depends_on
 				else:
-					msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+					msg = f"processCmdLineArguments: CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
 					logger.error(msg)
 					sys.exit(1)
 			case "main":
-				logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main'")
+				logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.which='{self.args.which}'='main'")
 				self.build = True
 				if self.args.PRODUCT:
 					self.build_PRODUCT = self.args.PRODUCT
-					logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main' self.build_PRODUCT='{self.build_PRODUCT}'")
+					logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.which='{self.args.which}'='main' self.build_PRODUCT='{self.build_PRODUCT}'")
 				elif self.args.DEPENDENCY:
 					self.build_DEPENDENCY = self.args.DEPENDENCY
-					logger.debug(f"CMDLINE Processing arg self.args.which='{self.args.which}'='main' self.build_PRODUCT='{self.build_DEPENDENCY}'")
+					logger.debug(f"processCmdLineArguments: CMDLINE Processing arg self.args.which='{self.args.which}'='main' self.build_PRODUCT='{self.build_DEPENDENCY}'")
 				else:
-					msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
+					msg = f"processCmdLineArguments: CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHED CMDLINE CONDITION ... exiting"
 					logger.error(msg)
 					sys.exit(1)
 			case _:	# the "_" means a final "else"
-				msg = f"CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHING CMDLINE CONDITION ... exiting"
+				msg = f"processCmdLineArguments: CMDLINE Processed arg self.args.which='{self.args.which}' BUT THERE IS NO MATCHING CMDLINE CONDITION ... exiting"
 				logger.error(msg)
 				sys.exit(1)
 				sys.exit(1)
@@ -1036,8 +1056,11 @@ class processCmdLineArguments():
 		# The relevant 'self' variables can be queried from the newly instantiated object. 
 		# NOTE: the only exception is --debug which is processed straight away to change the global setting
 		
-		#logger.debug(f"*processCmdLineArguments self.list='{self.list}' self.list_products='{self.list_products}' self.list_dependencies='{ self.list_dependencies}'")
-		#logger.debug(f"*processCmdLineArguments self.info='{self.info}' self.info_required_by='{self.info_required_by}' self.info_depends_on='{self.info_depends_on}'")
+		#logger.debug(f"*processCmdLineArguments self.list='{self.list}' self.list_products='{self.list_products}'")
+		#logger.debug(f"*processCmdLineArguments self.list='{self.list}' self.list_dependencies='{self.list_dependencies}'")
+		#logger.debug(f"*processCmdLineArguments self.info='{self.info}' self.list_versions='{self.list_versions}'")
+		#logger.debug(f"*processCmdLineArguments self.info='{self.info}' self.info_required_by='{self.info_required_by}'")
+		#logger.debug(f"*processCmdLineArguments self.info='{self.info}' self.info_depends_on='{self.info_depends_on}'")
 		#logger.debug(f"*processCmdLineArguments self.build='{self.build}' self.build_PRODUCT='{self.build_PRODUCT}' self.build_DEPENDENCY='{self.build_DEPENDENCY}'")
 		#logger.debug(f"*processCmdLineArguments self.debug='{self.debug}'")
 		#logger.debug(f"*processCmdLineArguments self.force='{self.force}'")
@@ -1045,8 +1068,8 @@ class processCmdLineArguments():
 		#if objSETTINGS.debugMode:
 		#	self.dump_vars('### debugMode: processCmdLineArguments INTERNAL VARIABLES DUMP:')
 
-		logger.info(f"Finished Processing CommandLine arguments")
-		logger.debug(f"Returning from processCmdLineArguments")
+		logger.info(f"processCmdLineArguments: Finished Processing CommandLine arguments")
+		logger.debug(f"processCmdLineArguments: Returning from processCmdLineArguments")
 
 		return
 
@@ -3222,6 +3245,40 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	return
 
 ###################################################################################################
+def listVersions():
+	# uses biggusDictus for detail, getting key = package names from dictProducts.BO and dictDependencies.BO
+	global objSETTINGS		# the SETTINGS object used everywhere
+	global logging_handler 	# the handler for the logger, only used for initialization
+	global logger 			# the logger object used everywhere
+	global objArgParser		# the ArgParser which may be used everywhere
+	global objParser		# the parser creat6ed by ArgParser which may be used everywhere
+	global dictProducts		# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for PRODUCTS only, of class dot_py_object_dict
+	global dictDependencies	# a dict of key/values pairs, in this case the filename/json-values-inside-the-.py for DEPENDENCIES only, of class dot_py_object_dict
+	global objVariables		# an object of the variables, of class dot_py_object
+	global biggusDictus		# combined dictProducts | dictDependencies
+	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
+	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+
+	logger.info(f"Processing listVersions")
+	
+	logger.debug(f"listVersions: doing init() from colorama ")
+	init()	# from colorama import Fore, Style, init
+
+	# process Products
+	for packageName in sorted(dictProducts.BO.keys()):
+		print(f"dictProducts key='{packageName}'")
+		pkg = biggusDictus[packageName]
+		
+	# process Dependencies
+	for packageName in sorted(dictDependencies.BO.keys()):
+		print(f"dictDependencies key='{packageName}'")
+		pkg = biggusDictus[packageName]
+
+	# process Variables ... nothing to do with it
+	pass
+	
+
+###################################################################################################
 ###################################################################################################
 
 # Create some empty instances we can play with
@@ -3286,7 +3343,9 @@ if __name__ == "__main__":
 	#if objSETTINGS.debugMode:
 	#	global_dump_object_variables(objParser, "### objParser retrieved from objArgParser")
 	logger.debug(f"*objArgParser.list='{objArgParser.list}' objArgParser.list_products='{objArgParser.list_products}' objArgParser.list_dependencies='{ objArgParser.list_dependencies}'")
-	logger.debug(f"*objArgParser.info='{objArgParser.info}' objArgParser.info_required_by='{objArgParser.info_required_by}' objArgParser.info_depends_on='{objArgParser.info_depends_on}'")
+	logger.debug(f"*objArgParser.info='{objArgParser.info}' objArgParser.info_required_by='{objArgParser.info_required_by}'")
+	logger.debug(f"*objArgParser.info='{objArgParser.info}' objArgParser.info_depends_on='{objArgParser.info_depends_on}'")
+	logger.debug(f"*objArgParser.info='{objArgParser.info}' objArgParser.list_versions='{objArgParser.list_versions}'")
 	logger.debug(f"*objArgParser.build='{objArgParser.build}' objArgParser.build_PRODUCT='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 	logger.debug(f"*objArgParser.debug='{objArgParser.debug}'")
 	logger.debug(f"*objArgParser.force='{objArgParser.force}'")
@@ -3322,8 +3381,12 @@ if __name__ == "__main__":
 	#objVariables.dump_vars(heading='variables.py VARIABLES DUMP:')
 	logger.info(f"Finished Processing initialize and load variables.py")
 	
-	# for joint searching, combine both products and dependencies into a global
+	# for joint searching, combine both products and dependencies into a global biggusDictus, and flag the type of package in a new string "packageType"
 	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	for packageName in dictProducts.BO.keys():
+		biggusDictus[packageName]["packageType"] = "P".upper()	# a PRODUCT package type "P"
+	for packageName in dictDependencies.BO.keys():
+		biggusDictus[packageName]["packageType"] = "D".upper()	# a DEPENDENCY package type "D"
 	
 	# FOR DEBUG:
 	logger.debug(f"DEBUG: start example substitutions")
@@ -3368,10 +3431,13 @@ if __name__ == "__main__":
 		logger.info(f"Processing 'list' commandline actions")
 		if objArgParser.list_products:				# ./this_script.py --debug list -d
 			dictProducts.list_print(heading='PRODUCTS')
-		if 	objArgParser.list_dependencies:			# ./this_script.py --debug list -p
+			objVariables.list_print(heading='VARIABLES')	# for good measure, always list Variables free,gratis after the others
+		elif objArgParser.list_dependencies:			# ./this_script.py --debug list -p
 			dictDependencies.list_print(heading='DEPENDENCIES')
-		# for good measure, always list Variables free,gratis after the others
-		objVariables.list_print(heading='VARIABLES')
+			objVariables.list_print(heading='VARIABLES')	# for good measure, always list Variables free,gratis after the others
+		elif objArgParser.list_versions:				# ./this_script.py --debug list --versions
+			logger.warning(f" list_versions set, calling listVersions()")
+			listVersions()							# uses biggusDictus for detail, getting key = package names from dictProducts.BO and dictDependencies.BO
 		logger.info(f"Finished Processing 'list' commandline actions")
 		exit()
 
@@ -3453,4 +3519,3 @@ if __name__ == "__main__":
 ##########################################################################################################################
 ##########################################################################################################################
 ##########################################################################################################################
-
