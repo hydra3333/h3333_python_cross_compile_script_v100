@@ -5,7 +5,7 @@
 	'depth_git': 0,
 	'recursive_git' : True,
 	#'branch': 'main', # 2023.01.12 address more 'merican embedded racism
-	'branch': '!CMD(cat "shaderc_commit_dependencies/spirv_headers_revision.commit")CMD!', # 2023.02.04
+	'branch': '!CMD(cat "{inTreePrefix}/shaderc_commit_dependencies/spirv_headers_revision.commit")CMD!', # 2023.02.04
 	#'needs_make' : False,
 	#'needs_make_install' : False,
 	#'needs_configure' : False,

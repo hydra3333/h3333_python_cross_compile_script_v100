@@ -55,12 +55,12 @@
 		'chmod +x ./spirv_tools_revision.commit',
 		'cat ./spirv_tools_revision.commit ; cat ./spirv_tools_revision.txt',
 		#
-		#'cat ./glslang_revision.txt',
-		#'!CMD(cat ./glslang_revision.txt)CMD! ; export',
-		#'cat ./spirv_headers_revision.txt',
-		#'!CMD(cat ./spirv_headers_revision.txt)CMD! ; export',
-		#'cat ./spirv_tools_revision.txt',
-		#'!CMD(cat ./spirv_tools_revision.txt)CMD! ; export',
+		#'cat {inTreePrefix}/glslang_revision.txt',
+		#'!CMD(cat {inTreePrefix}/glslang_revision.txt)CMD! ; export',
+		#'cat {inTreePrefix}/spirv_headers_revision.txt',
+		#'!CMD(cat {inTreePrefix}/spirv_headers_revision.txt)CMD! ; export',
+		#'cat {inTreePrefix}/spirv_tools_revision.txt',
+		#'!CMD(cat {inTreePrefix}/spirv_tools_revision.txt)CMD! ; export',
 		#'printenv',
 		#
 		'if [ -f "already_done" ] ; then rm -fv  "already_done" ; fi',

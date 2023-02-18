@@ -4,7 +4,7 @@
 	'url' : 'https://github.com/KhronosGroup/SPIRV-Tools.git',
 	'depth_git': 0,
 	#'branch': 'main', # 2023.01.12 address more 'merican embedded racism
-	'branch': '!CMD(cat "shaderc_commit_dependencies/spirv_tools_revision.commit")CMD!', # 2023.02.04
+	'branch': '!CMD(cat "{inTreePrefix}/shaderc_commit_dependencies/spirv_tools_revision.commit")CMD!', # 2023.02.04
 	'recursive_git' : True,
 	#'needs_make' : False,
 	#'needs_make_install' : False,
