@@ -36,11 +36,36 @@ rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/bin/libvulkan-1.dll.a
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libvulkan.a
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libvulkan.dll.a
-
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/vulkan-1.pc
 rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/vulkan-1
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/pkgconfig/vulkan.pc
 rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/include/vulkan
+# shaderc through libplacebo
+rm -vfR ~/Desktop/_working/workdir/x86_64/shaderc_commit_dependencies
+rm -vfR ~/Desktop/_working/workdir/x86_64/shaderc_git
+rm -vfR ~/Desktop/_working/workdir/x86_64/spirv-headers
+rm -vfR ~/Desktop/_working/workdir/x86_64/spirv-tools
+rm -vfR ~/Desktop/_working/workdir/x86_64/spirv-cross
+rm -vfR ~/Desktop/_working/workdir/x86_64/libplacebo
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/libplacebo
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/shaderc
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/spirv
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/spirv-cross
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/include/spirv-tools
+rm -vf ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/lib/libSPIRV*.a
+rm -vf ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/lib/libspirv*.a
+rm -vf ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/lib/libshaderc*.a
+rm -vf ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/lib/libplacebo.a
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/SPIRV-Tools
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/SPIRV-Tools-diff
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/SPIRV-Tools-link
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/SPIRV-Tools-lint
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/SPIRV-Tools-opt
+rm -vfR ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/SPIRV-Tools-reduce
+rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libspirv*.a
+rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libSPIRV*.a
+rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libplacebo.a
+rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libshaderc*.a
 # gettext
 rm -vfR ~/Desktop/_working/workdir/x86_64/gettext*
 rm -vf  ~/Desktop/_working/workdir/toolchain/x86_64-w64-mingw32/x86_64-w64-mingw32/lib/libgettextlib.a
