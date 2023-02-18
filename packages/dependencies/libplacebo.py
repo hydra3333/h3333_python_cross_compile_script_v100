@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git 
 	'depth_git' : 0,
-	'branch' : '36e453651e193100484d5290c0ce0ec51223296f',
+	#'branch' : '36e453651e193100484d5290c0ce0ec51223296f',
 	'recursive_git' : True,
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
