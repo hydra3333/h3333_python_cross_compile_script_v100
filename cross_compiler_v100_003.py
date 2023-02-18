@@ -141,7 +141,7 @@ class settings:
 
 	def errorExit(self, msg): # logger is not up and running yet, so use our own self.errorExit instead and use PRINT not logger to display the msg
 		#logger.error(msg)
-		print("Settings Error: " + msg)
+		print(f"Settings Error: {msg}")
 		sys.exit(1)
 
 	def dump_vars(self, heading='### SETTINGS INTERNAL VARIABLES DUMP:'):
@@ -174,7 +174,7 @@ class settings:
 		return
 
 	def aquireLocalPkgConfigPath(self):	 	# this only works on linux
-		possiblePathsStr = subprocess.check_output("pkg-config --variable pc_path pkg-config", shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
+		possiblePathsStr = subprocess.check_output(f"pkg-config --variable pc_path pkg-config", shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
 		if possiblePathsStr == "":
 			msg = f"Unable to determine local pkg-config path(s), pkg-config output is empty"
 			logger.error(msg)
@@ -264,10 +264,10 @@ class settings:
 						}
 		self.SOURCEFORGE_APIKEY = None
 		# if not os.path.isfile("sourceforge.apikey"):
-		# 	errorExit("Missing sourceforge.apikey file, create it and write your api key inside of it")
+		# 	errorExit(f"Missing sourceforge.apikey file, create it and write your api key inside of it")
 		# else:
 		# 	self.SOURCEFORGE_APIKEY = open("sourceforge.apikey","r").read()
-		# 	print("Loaded sourceforge api key: " + self.SOURCEFORGE_APIKEY)
+		# 	print(f"Loaded sourceforge api key: " + self.SOURCEFORGE_APIKEY)
 		
 		self.log_format = '[%(asctime)s][%(levelname)s]%(type)s %(message)s'
 		self.log_date_format = '%H:%M:%S'
@@ -2488,9 +2488,9 @@ def installSource(packageName, pkg, buildSystem):
 						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
-						logger.info("installSource: IRunning post-install-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
+						logger.info(f"installSource: IRunning post-install-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
 						cmd = replaceVarCmdSubStrings(cmd)
-						logger.info("installSource: IRunning post-install-command: '{0}'".format(cmd))
+						logger.info(f"installSource: IRunning post-install-command: '{0}'".format(cmd))
 						logger.info(cmd)
 						runProcess(cmd)
 		touch(touchName)
@@ -3204,14 +3204,14 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if 'env_exports' in pkg:
 			if pkg['env_exports'] is not None:
 				for key, val in pkg['env_exports'].items():
-					logger.debug("Environment variable '{0}' has been UNSET!".format(key, val))
+					logger.debug(f"buildPackage: Environment variable '{0}' has been UNSET!".format(key, val))
 					del os.environ[key]
 
 	if 'flipped_path' in pkg:
 		if pkg['flipped_path'] is True:
 			_path = os.environ['PATH']
 			os.environ['PATH'] = "{0}:{1}".format(objSETTINGS.mingwBinpath, objSETTINGS.originalPATH)
-			logger.debug("Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ['PATH']))
+			logger.debug(f"buildPackage: Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ['PATH']))
 
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
@@ -3261,12 +3261,15 @@ def listVersions():
 	###=== START OF LOCAL CLASS PARSERS
 	class Parsers:
 		def __init__(self, url, verex):
+			logger.debug(f"listVersions: Parsers: __init__: Start processing with incoming url='{url}' verex='{verex}'")
 			self.url = url
 			self.verex = verex
 			# self.api_key = SOURCEFORGE_APIKEY
+			logger.debug(f"listVersions: Parsers: __init__: Finished processing")
 		#
 		def sourceforge(self):
-			soup = BeautifulSoup(requests.get(self.url, headers=HEADERS, timeout=2).content, features="html5lib") # 2022.12.18 per DEADSIX27
+			logger.debug(f"listVersions: Parsers: sourceforge: Start processing")
+			soup = BeautifulSoup(requests.get(self.url, headers=HEADERS, timeout=2).content, features="html5lib")
 			allFolderTrs = soup.find_all("tr", attrs={"class": re.compile(r"folder.*"), "title": re.compile(r".*")})
 			allFileTrs = soup.find_all("tr", attrs={"class": re.compile(r"file.*"), "title": re.compile(r".*")})
 			newest = "0.0.0"
@@ -3277,7 +3280,7 @@ def listVersions():
 					if m is not None:
 						g = m.groupdict()
 						if "version_num" not in g:
-							errorExit("You have to name a regex group version_num")
+							errorExit(f"listVersions: Parsers: sourceforge: You have to name a regex group version_num")
 						v = g["version_num"]
 						if "rc_num" in g:
 							v = v + "." + g["rc_num"]
@@ -3287,9 +3290,11 @@ def listVersions():
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
 						if LooseVersion(v) > LooseVersion(newest):
 							newest = v
+			logger.debug(f"listVersions: Parsers: sourceforge: Finished processing, returning newest='{newest}'")
 			return newest
 		#
 		def httpindex(self):
+			logger.debug(f"listVersions: Parsers: httpindex: Start processing")
 			cwd, listing = htmllistparse.fetch_listing(self.url, timeout=2) # timeout=30
 			newest = "0.0.0"
 			for entry in listing:
@@ -3299,7 +3304,7 @@ def listVersions():
 					if m is not None:
 						g = m.groupdict()
 						if "version_num" not in g:
-							errorExit("You have to name a regex group version_num")
+							errorExit(f"listVersions: Parsers: httpindex: You have to name a regex group version_num")
 						v = g["version_num"]
 						if "rc_num" in g:
 							v = v + "." + g["rc_num"]
@@ -3309,31 +3314,26 @@ def listVersions():
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
 						if LooseVersion(v) > LooseVersion(newest):
 							newest = v
+			logger.debug(f"listVersions: Parsers: httpindex: Finished processing, returning newest='{newest}'")
 			return newest
 		#
 		def githubreleases(self, githubType="name"):
-			#print("DEBUG: githubreleases: Url '%s'" % (self.url))
+			logger.debug(f"listVersions: Parsers: githubreleases: Start processing githubType='{githubType}'")
 			m = re.search(r'http?s:\/\/github.com\/(.+\/.+\/releases)', self.url)
 			if m is None:
-				errorExit("Improper github release URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/releases)" % (self.url))
-			#print("DEBUG: githubreleases: m.groups()[0] '%s'" % (m.groups()[0]))
+				errorExit(f"listVersions: Parsers: githubreleases: Improper github release URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/releases)" % (self.url))
 			releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
-			#print("DEBUG: githubreleases: releaseApiUrl '%s'" % (releaseApiUrl))
 			jString = requests.get(releaseApiUrl, headers=HEADERS, timeout=2).content  # .decode("utf-8")
-			#print("DEBUG: githubreleases: jString '%s'" % (jString))
 			releases = json.loads(jString)
 			newest = "0.0.0"
 			for r in releases:
 				v = r[githubType]
-				#print("DEBUG: githubreleases: r '%s'" % r)
-				#print("DEBUG: githubreleases: v '%s'" % v)
 				if self.verex is not None:
-					#print("DEBUG: githubreleases: self.verex '%s'" % (self.verex))
 					m = re.search(self.verex, v)
 					if m is not None:
 						g = m.groupdict()
 						if "version_num" not in g:
-							errorExit("You have to name a regex group version_num")
+							errorExit(f"listVersions: Parsers: githubreleases: You have to name a regex group version_num")
 						v = g["version_num"]
 						if "rc_num" in g:
 							v = v + "." + g["rc_num"]
@@ -3343,31 +3343,26 @@ def listVersions():
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
 						if LooseVersion(v) > LooseVersion(newest):
 							newest = v
+			logger.debug(f"listVersions: Parsers: githubreleases: Finished processing, returning newest='{newest}'")
 			return newest
 		#
 		def githubtags(self, githubType="tag"):
-			#print("DEBUG: githubtags: Url = '%s'" % (self.url))
+			logger.debug(f"listVersions: Parsers: githubtags: Start processing githubType='{githubType}'")
 			m = re.search(r'http?s:\/\/github.com\/(.+\/.+\/tags)', self.url)
 			if m is None:
-				errorExit("Improper github tag URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/tags)" % (self.url))
-			#print("DEBUG: githubtags: m.groups()[0] = '%s'" % (m.groups()[0]))
+				errorExit(f"listVersions: Parsers: githubtags: Improper github tag URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/tags)" % (self.url))
 			releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
-			#print("DEBUG: githubtags: releaseApiUrl = '%s'" % (releaseApiUrl))
 			jString = requests.get(releaseApiUrl, headers=HEADERS).content  # .decode("utf-8")
-			#print("DEBUG: githubtags: jString = '%s'" % (jString))
 			releases = json.loads(jString)
 			newest = "0.0.0"
 			for r in releases:
 				v = r[githubType]
-				#print("DEBUG: githubtags: r = '%s'" % r)
-				#print("DEBUG: githubtags: v = '%s'" % v)
-				#print("DEBUG: githubtags: self.verex '%s'" % (self.verex))
 				if self.verex is not None:
 					m = re.search(self.verex, v)
 					if m is not None:
 						g = m.groupdict()
 						if "version_num" not in g:
-							errorExit("You have to name a regex group version_num")
+							errorExit(f"listVersions: Parsers: githubtags: You have to name a regex group version_num")
 						v = g["version_num"]
 						if "rc_num" in g:
 							v = v + "." + g["rc_num"]
@@ -3377,9 +3372,11 @@ def listVersions():
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
 						if LooseVersion(v) > LooseVersion(newest):
 							newest = v
+			logger.debug(f"listVersions: Parsers: githubtags: Finished processing, returning newest='{newest}'")
 			return newest
 		#
 		def httpregex(self):
+			logger.debug(f"listVersions: Parsers: httpregex: Start processing")
 			r = requests.get(self.url, headers=HEADERS, timeout=2)
 			html = r.content.decode("utf-8")
 			m = re.findall(self.verex, html)
@@ -3389,9 +3386,11 @@ def listVersions():
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
 						if LooseVersion(v) > LooseVersion(newest):
 							newest = v
+			logger.debug(f"listVersions: Parsers: httpregex: Finished processing, returning newest='{newest}'")
 			return newest
 		#
 		def ftp(self):
+			logger.debug(f"listVersions: Parsers: ftp: Start processing")
 			pUrl = urlparse(self.url)
 			ftp = ftplib.FTP(pUrl.netloc, timeout=2)
 			ftp.login()
@@ -3401,9 +3400,9 @@ def listVersions():
 				files = ftp.nlst()
 			except ftplib.error_perm as resp:
 				if str(resp) == "550 No files found":
-					errorExit("FTP 550: No files in this directory")
+					errorExit(f"listVersions: Parsers: ftp: FTP 550: No files in this directory")
 				else:
-					errorExit("Failed to parse version of " + pUrl + "\n\n" + traceback.format_exc())
+					errorExit(f"listVersions: Parsers: ftp: Failed to parse version of " + pUrl + "\n\n" + traceback.format_exc())
 			newest = "0.0.0"
 			for v in files:
 				if self.verex is not None:
@@ -3411,7 +3410,7 @@ def listVersions():
 					if m is not None:
 						g = m.groupdict()
 						if "version_num" not in g:
-							errorExit("You have to name a regex group version_num")
+							errorExit(f"listVersions: Parsers: ftp: You have to name a regex group version_num")
 						v = g["version_num"]
 						if "rc_num" in g:
 							v = v + "." + g["rc_num"]
@@ -3421,6 +3420,7 @@ def listVersions():
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
 						if LooseVersion(v) > LooseVersion(newest):
 							newest = v
+			logger.debug(f"listVersions: Parsers: ftp: Finished processing, returning newest='{newest}'")
 			return newest
 	###=== END OF LOCAL CLASS PARSERS
 	###=== START OF LOCAL FUNCTIONS
@@ -3539,10 +3539,10 @@ def listVersions():
 			elif pType == "githubtags":
 				return parser.githubtags(ghtype)
 			else:
-				errorExit("listVersions: geLatestVersion: Unknown parser: '{pType}'")
+				errorExit(f"listVersions: geLatestVersion: Unknown parser: '{pType}'")
 			del parser	# remove the object 'parser'
 		except Exception:
-			errorExit("listVersions: geLatestVersion: Failed to parse version of '{url}'\n\n{traceback.format_exc()}")
+			errorExit(f"listVersions: geLatestVersion: Failed to parse version of '{url}'\n\n{traceback.format_exc()}")
 		logger.error(f"listVersions: geLatestVersion: end of  processing ... it should NEVER get to here.")
 	###=== END OF LOCAL FUNCTIONS
 	#
@@ -3680,13 +3680,13 @@ if __name__ == "__main__":
 	
 	# FOR DEBUG:
 	logger.debug(f"DEBUG: start example substitutions")
-	logger.debug("objSETTINGS.substitutionDict=")
+	logger.debug(f"objSETTINGS.substitutionDict=")
 	logger.debug(objPrettyPrint.pformat(objSETTINGS.substitutionDict))
-	logger.debug("objVariables.Val=")
+	logger.debug(f"objVariables.Val=")
 	logger.debug(objPrettyPrint.pformat(objVariables.Val))
 	logger.debug(replaceVarCmdSubStrings("Example VAR: VAR(ffmpeg_config)VAR=\n'!VAR(ffmpeg_config)VAR!'"))
 	logger.debug(replaceVarCmdSubStrings("Example CMD: CMD(pwd)CMD='!CMD(pwd)CMD!'"))
-	logger.debug("Example Sub: target_OS='{target_OS}'")
+	logger.debug(f"Example Sub: target_OS='{target_OS}'")
 	logger.debug(f"DEBUG: finish example substitutions")
 	
 	# SANITY CHECK to ensure names are unique across PRODUCTS and DEPENDENCIES
