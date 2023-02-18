@@ -119,7 +119,7 @@ import pprint
 import ftplib
 from distutils.version import LooseVersion
 from bs4 import BeautifulSoup
-from colorama import Fore, Style, init
+##from colorama import Fore, Style, init
 import tools.libs.htmllistparse as htmllistparse  # https://github.com/gumblex/htmllisting-parser
 #------------------------------------------------------------------------------------------------------------
 
@@ -1467,8 +1467,11 @@ def errorExit(msg):
 	sys.exit(1)
 
 ###################################################################################################
-def cchdir(dir):
-	logger.info(f"cd {dir} # Change dir from '{os.getcwd()}' to '{dir}'")
+def cchdir(dir, silent=False):
+	if objSETTINGS.debugMode:
+		logger.debug(f"cd {dir} # Change dir from '{os.getcwd()}' to '{dir}'")
+	elif not silent:
+		logger.info(f"cd {dir} # Change dir from '{os.getcwd()}' to '{dir}'")
 	os.chdir(dir)
 
 ###################################################################################################
@@ -3434,9 +3437,9 @@ def listVersions():
 			clonePath = pkg["rename_folder"]
 			clonePath = replaceVarCmdSubStrings(clonePath)
 		if "rename_folder" not in pkg and "folder_name" not in pkg:
+			logger.debug(f"listVersions: getGitClonePathFromPkg: pkg['url']={objPrettyPrint.pformat(pkg['url'])}" )
 			pUrl = urlparse(pkg["url"])
-			pUrl = replaceVarCmdSubStrings(pUrl)
-			clonePath = os.path.basename(pUrl.path).replace(".", "_")
+			clonePath = os.path.basename(replaceVarCmdSubStrings(pUrl.path)).replace(".", "_")
 			if not clonePath.endswith("_git"):
 				clonePath = clonePath + "_git"
 		dirs = []
@@ -3444,13 +3447,13 @@ def listVersions():
 			mDir = os.path.join(dir, clonePath)
 			dirs.append(mDir)
 			if os.path.isdir(mDir):
-				logger.debug(f"listVersions: getGitClonePathFromPkg: success for package '{pkg.name}' returning folder '{mDir}'")
+				logger.debug(f"listVersions: getGitClonePathFromPkg: success for package '{pkg['packageName']}'. Returning folder '{mDir}'")
 				return Path(mDir)
-		logger.warning(f"listVersions: getGitClonePathFromPkg: failure for package '{pkg.name}' None of those folders exist: " + ", ".join(dirs))
+		logger.debug(f"listVersions: getGitClonePathFromPkg: failure for package '{pkg['packageName']}'. None of those folders exist: " + ", ".join(dirs))
 		return None
 	###
 	def local_run(cmd):	# a local 'run' command, different to the global def 'runProcess'
-		logger.info(f"listVersions: local_run: '{cmd}' in '{os.getcwd()}'")
+		logger.debug(f"listVersions: local_run: '{cmd}' in '{os.getcwd()}'")
 		r = subprocess.check_output(cmd, shell=True).decode("utf-8", "replace")
 		logger.debug(f"listVersions: local_run: '{cmd}' returning with given return value: '{r}'")
 		return r
@@ -3468,7 +3471,7 @@ def listVersions():
 		clonePath = getGitClonePathFromPkg(pkg)
 		if clonePath is None:
 			return None
-		cchdir(clonePath)
+		cchdir(clonePath,silent=True)
 		local_run("git remote update")
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
@@ -3506,7 +3509,7 @@ def listVersions():
 				# print(local_run("git status -sb").split("\n")[0])
 				pass
 			cmts = int(cmtsBehind)
-		cchdir(origDir)
+		cchdir(origDir,silent=True)
 		logger.debug(f"listVersions: getCommitsDiff: returning with cmts='{cmts}'")
 		return cmts
 
@@ -3548,25 +3551,164 @@ def listVersions():
 	#
 	###=== START OF NORMAL FUNCTION PROCSSING
 	logger.info(f"listVersions: Processing checking for version and possible updates")
-	cchdir(objSETTINGS.fullWorkDir)
-	logger.debug(f"listVersions: doing init() from colorama ")
-	init()	# from within: import Fore, Style, init
+	cchdir(objSETTINGS.fullWorkDir,silent=True)
+	##logger.debug(f"listVersions: doing init() from colorama ")
+	##init()	# from within: import Fore, Style, init
 	BUILD_DIRS = [ objSETTINGS.bitnessPath, objSETTINGS.fullProductDir, objSETTINGS.fullOfftreeDir]	# eg {stuff}/workdir/x86_64, {stuff}/workdir/x86_64_products/, {stuff}/workdir/x86_64_offtree/
-	logger.info(f"listVersions: build folders to check: '{BUILD_DIRS}'")
+	logger.debug(f"listVersions: build folders to check: '{BUILD_DIRS}'")
 
 	# process Products
-	for packageName in sorted(dictProducts.BO.keys()):
-		print(f"dictProducts key='{packageName}'")
-		pkg = biggusDictus[packageName]
-		
+	#for packageName in sorted(dictProducts.BO.keys()):
+	#	print(f"dictProducts key='{packageName}'")
+	#	pkg = biggusDictus[packageName]
 	# process Dependencies
-	for packageName in sorted(dictDependencies.BO.keys()):
-		print(f"dictDependencies key='{packageName}'")
-		pkg = biggusDictus[packageName]
+	#for packageName in sorted(dictDependencies.BO.keys()):
+	#	print(f"dictDependencies key='{packageName}'")
+	#	pkg = biggusDictus[packageName]
+	# process Variables 
+	#... nothing to do
+	#pass
 
-	# process Variables ... nothing to do with it
-	pass
+	ignorePkgsUpdate = []
+	pkgsWithoutUpdateCheck = []
 
+	print("\nChecking PRODUCT versions:")
+	for name, pkg in sorted(dictProducts.BO.items(),key=lambda i: i[0].casefold()):
+		pkg["packageName"] = name
+		logger.debug(f"Checking product %s ..." % (name))
+		if "repo_type" in pkg and (pkg["repo_type"] == "archive" or (pkg["repo_type"] == "git" and "branch" in pkg)):  # check for packages without update check.
+			if "update_check" not in pkg:
+				if name not in ignorePkgsUpdate:
+					pkgsWithoutUpdateCheck.append(name)
+		if "update_check" in pkg:
+			versionElement = pkg["update_check"]
+			vType = versionElement["type"]
+			if vType == "git":  # packages that are git clones
+				di = getCommitsDiff(pkg)
+				if di is not None:
+					numCmts = 0
+					if isinstance(di, int):
+						numCmts = di
+					else:
+						numCmts = len(di)
+					gitaffixed = ""
+					if "branch" in pkg:
+						gitaffixed = gitaffixed + " ... affixed at " + pkg["branch"]
+					if "checkout" in pkg:
+						gitaffixed = gitaffixed + " ... affixed at " + pkg["checkout"]
+					if gitaffixed == "":
+						gitaffixed = " ... Git Head"
+					if numCmts > 0:
+						print(f"{Colors.RED}%s is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
+					else:
+						print(f"%s is {Colors.LIGHTYELLOW_EX}up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
+			else:  # packages that are archive downloads
+				ourVer = pkg["_info"]["version"]
+				try:
+					latestVer = geLatestVersion(versionElement)
+				except Exception:
+					continue
+				if latestVer == "0.0.0":
+					print(f"%s has an update! [Local: %s Remote: %s] (Error parsing remote version)" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print("%s Regex pattern:" % name)
+					try:
+						print("\t" + versionElement["regex"])
+					except:
+						print("\nIgnored Error determining 'versionElement[\"regex\"]'")
+				elif LooseVersion(ourVer) < LooseVersion(latestVer):
+					print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+				else:
+					print(f"%s is {Colors.LIGHTYELLOW_EX}up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+
+	print("\nChecking DEPENDENCY versions:")
+	for name, pkg in sorted(dictDependencies.BO.items(),key=lambda i: i[0].casefold()):
+		pkg["packageName"] = name
+		logger.debug(f"Checking dependency %s ..." % (name))
+		if "repo_type" in pkg and (pkg["repo_type"] == "archive" or (pkg["repo_type"] == "git" and "branch" in pkg)):  # check for packages without update check.
+			if "update_check" not in pkg:
+				if name not in ignorePkgsUpdate:
+					pkgsWithoutUpdateCheck.append(name)
+		if "update_check" in pkg:
+			versionElement = pkg["update_check"]
+			vType = versionElement["type"]
+			if vType == "git":  # packages that are git clones
+				di = getCommitsDiff(pkg)
+				if di is not None:
+					numCmts = 0
+					if isinstance(di, int):
+						numCmts = di
+					else:
+						numCmts = len(di)
+					gitaffixed = ""
+					if "branch" in pkg:
+						gitaffixed = gitaffixed + " ... affixed at " + pkg["branch"]
+					if "checkout" in pkg:
+						gitaffixed = gitaffixed + " ... affixed at " + pkg["checkout"]
+					if gitaffixed == "":
+						gitaffixed = " ... Git Head"
+					if numCmts > 0:
+						print(f"{Colors.RED}%s is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
+					else:
+						print(f"{Colors.LIGHTYELLOW_EX}%s is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
+			else:  # packages that are archive downloads
+				ourVer = pkg["_info"]["version"]
+				try:
+					latestVer = geLatestVersion(versionElement)
+				except Exception:
+					continue
+				if latestVer == "0.0.0":
+					print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"%s Regex pattern:" % name)
+					try:
+						print("\t" + versionElement["regex"])
+					except:
+						print("\nIgnored Error determining 'versionElement[\"regex\"]'")
+				elif LooseVersion(ourVer) < LooseVersion(latestVer):
+					print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+				else:
+					print(f"{Colors.LIGHTYELLOW_EX}%s is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+
+	print("\nGit packages without update_check:")
+	#for name, pkg in sorted({**pkgs["deps"], **pkgs["prods"]}.items(),key=lambda i: i[0].casefold()):
+	for name, pkg in sorted(biggusDictus.items(),key=lambda i: i[0].casefold()):
+		pkg["packageName"] = name
+		if "repo_type" in pkg and pkg["repo_type"] == "git" and "update_check" not in pkg:
+			clonePath = getGitClonePathFromPkg(pkg)
+			if clonePath is None:
+				continue
+			repoUrl = pkg["url"]
+			origDir = os.getcwd()
+			cchdir(clonePath,silent=True)
+			local_run("git remote update")
+			cmtsBehind = re.search(r"## .* \[behind ([0-9]+)\]", local_run("git status -sb").split("\n")[0])
+			if cmtsBehind:
+				print(f"{Colors.RED}{clonePath.name} is {cmtsBehind.groups()[0]} commits behind{Colors.RESET}")
+	if len(pkgsWithoutUpdateCheck) > 0:
+		print("\nPackages without update check:\n%s" % (",".join(pkgsWithoutUpdateCheck)))
+
+	if CWD.parent.joinpath("mingw_toolchain_script", "mingw_toolchain_script.py").exists():
+		print("\nChecking toolchain versions:")
+		sys.path.append(str(CWD.parent.joinpath("mingw_toolchain_script")))
+		SOURCES = None
+		from mingw_toolchain_script import SOURCES	##### 
+		for name, pkg in SOURCES.items():
+			pkg["packageName"] = name
+			if "update_check" in pkg and "version" in pkg:
+				versionElement = pkg["update_check"]
+				vType = versionElement["type"]
+				ourVer = pkg["version"]
+				#latestVer = geLatestVersion(versionElement)		# 2022.12.18 per DEADSIX27
+				try:										# 2022.12.18 per DEADSIX27
+					latestVer = geLatestVersion(versionElement)	# 2022.12.18 per DEADSIX27
+				except:										# 2022.12.18 per DEADSIX27
+					continue								# 2022.12.18 per DEADSIX27
+				if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", ourVer) and re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", latestVer):
+					if LooseVersion(ourVer) < LooseVersion(latestVer):
+						print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					else:
+						print(f"{Colors.LIGHTYELLOW_EX}%s is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+
+	print("\nFinished package and dependency version checking.")
 
 ###################################################################################################
 ###################################################################################################
@@ -3686,7 +3828,7 @@ if __name__ == "__main__":
 	logger.debug(objPrettyPrint.pformat(objVariables.Val))
 	logger.debug(replaceVarCmdSubStrings("Example VAR: VAR(ffmpeg_config)VAR=\n'!VAR(ffmpeg_config)VAR!'"))
 	logger.debug(replaceVarCmdSubStrings("Example CMD: CMD(pwd)CMD='!CMD(pwd)CMD!'"))
-	logger.debug(f"Example Sub: target_OS='{target_OS}'")
+	logger.debug(replaceVarCmdSubStrings("Example Sub: target_OS='{target_OS}'"))
 	logger.debug(f"DEBUG: finish example substitutions")
 	
 	# SANITY CHECK to ensure names are unique across PRODUCTS and DEPENDENCIES
@@ -3726,7 +3868,7 @@ if __name__ == "__main__":
 			dictDependencies.list_print(heading='DEPENDENCIES')
 			objVariables.list_print(heading='VARIABLES')	# for good measure, always list Variables free,gratis after the others
 		elif objArgParser.list_versions:				# ./this_script.py --debug list --versions
-			logger.warning(f" list_versions set, calling listVersions()")
+			logger.debug(f" list_versions set, calling listVersions()")
 			listVersions()							# uses biggusDictus for detail, getting key = package names from dictProducts.BO and dictDependencies.BO
 		logger.info(f"Finished Processing 'list' commandline actions")
 		exit()
