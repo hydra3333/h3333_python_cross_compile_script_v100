@@ -3484,19 +3484,19 @@ def listVersions():
 				# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
 				cmts = [c.split(";;") for c in local_run(c_master).split("\n") if c != ""]
 			except: # an error occurred ... assume it's the trunkl=change thing
-				logger.warning(f"listVersions: getCommitsDiff: re-try using '{c_main}'")
+				logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_main}'")
 				try: # 2020.06.22 re-try using "main" instead of "master"
 					# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
 					cmts = [c.split(";;") for c in local_run(c_main).split("\n") if c != ""]
 					pass
 				except:
-					logger.warning(f"listVersions: getCommitsDiff: re-try using '{c_default}'")
+					logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_default}'")
 					try: # 2020.06.22 re-try using "default" instead of "main" instead of "master"
 						# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
 						cmts = [c.split(";;") for c in local_run(c_default).split("\n") if c != ""]
 						pass
 					except:
-						logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed on all of 'master' 'main' 'default' in: '{pkg.name}' ... aborting ...")
+						logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed for all of 'master' 'main' 'default' in: '{pkg['packageName']}' ... aborting ...")
 						logger.error(f"{c_master}\n{c_main}\n{c_default}")
 						logger.error(f"Unexpected error: '{sys.exc_info()[0]}'")
 						raise
@@ -3593,15 +3593,15 @@ def listVersions():
 						numCmts = len(di)
 					gitaffixed = ""
 					if "branch" in pkg:
-						gitaffixed = gitaffixed + " ... affixed at " + pkg["branch"]
+						gitaffixed = gitaffixed + " ... affixed at " + replaceVarCmdSubStrings(pkg["branch"])
 					if "checkout" in pkg:
-						gitaffixed = gitaffixed + " ... affixed at " + pkg["checkout"]
+						gitaffixed = gitaffixed + " ... affixed at " + replaceVarCmdSubStrings(pkg["checkout"])
 					if gitaffixed == "":
 						gitaffixed = " ... Git Head"
 					if numCmts > 0:
-						print(f"{Colors.RED}%s is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
+						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
 					else:
-						print(f"%s is {Colors.LIGHTYELLOW_EX}up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
+						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
 			else:  # packages that are archive downloads
 				ourVer = pkg["_info"]["version"]
 				try:
@@ -3609,16 +3609,16 @@ def listVersions():
 				except Exception:
 					continue
 				if latestVer == "0.0.0":
-					print(f"%s has an update! [Local: %s Remote: %s] (Error parsing remote version)" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 					print("%s Regex pattern:" % name)
 					try:
 						print("\t" + versionElement["regex"])
 					except:
 						print("\nIgnored Error determining 'versionElement[\"regex\"]'")
 				elif LooseVersion(ourVer) < LooseVersion(latestVer):
-					print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 				else:
-					print(f"%s is {Colors.LIGHTYELLOW_EX}up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 
 	print("\nChecking DEPENDENCY versions:")
 	for name, pkg in sorted(dictDependencies.BO.items(),key=lambda i: i[0].casefold()):
@@ -3641,15 +3641,15 @@ def listVersions():
 						numCmts = len(di)
 					gitaffixed = ""
 					if "branch" in pkg:
-						gitaffixed = gitaffixed + " ... affixed at " + pkg["branch"]
+						gitaffixed = gitaffixed + " ... affixed at " + replaceVarCmdSubStrings(pkg["branch"])
 					if "checkout" in pkg:
-						gitaffixed = gitaffixed + " ... affixed at " + pkg["checkout"]
+						gitaffixed = gitaffixed + " ... affixed at " + replaceVarCmdSubStrings(pkg["checkout"])
 					if gitaffixed == "":
 						gitaffixed = " ... Git Head"
 					if numCmts > 0:
-						print(f"{Colors.RED}%s is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
+						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
 					else:
-						print(f"{Colors.LIGHTYELLOW_EX}%s is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
+						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
 			else:  # packages that are archive downloads
 				ourVer = pkg["_info"]["version"]
 				try:
@@ -3657,16 +3657,16 @@ def listVersions():
 				except Exception:
 					continue
 				if latestVer == "0.0.0":
-					print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 					print(f"%s Regex pattern:" % name)
 					try:
 						print("\t" + versionElement["regex"])
 					except:
 						print("\nIgnored Error determining 'versionElement[\"regex\"]'")
 				elif LooseVersion(ourVer) < LooseVersion(latestVer):
-					print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 				else:
-					print(f"{Colors.LIGHTYELLOW_EX}%s is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 
 	print("\nGit packages without update_check:")
 	#for name, pkg in sorted({**pkgs["deps"], **pkgs["prods"]}.items(),key=lambda i: i[0].casefold()):
@@ -3682,31 +3682,9 @@ def listVersions():
 			local_run("git remote update")
 			cmtsBehind = re.search(r"## .* \[behind ([0-9]+)\]", local_run("git status -sb").split("\n")[0])
 			if cmtsBehind:
-				print(f"{Colors.RED}{clonePath.name} is {cmtsBehind.groups()[0]} commits behind{Colors.RESET}")
+				print(f"{Colors.LIGHTYELLOW_EX}{clonePath.name} {Colors.RED}is {cmtsBehind.groups()[0]} commits behind{Colors.RESET}")
 	if len(pkgsWithoutUpdateCheck) > 0:
 		print("\nPackages without update check:\n%s" % (",".join(pkgsWithoutUpdateCheck)))
-
-	if CWD.parent.joinpath("mingw_toolchain_script", "mingw_toolchain_script.py").exists():
-		print("\nChecking toolchain versions:")
-		sys.path.append(str(CWD.parent.joinpath("mingw_toolchain_script")))
-		SOURCES = None
-		from mingw_toolchain_script import SOURCES	##### 
-		for name, pkg in SOURCES.items():
-			pkg["packageName"] = name
-			if "update_check" in pkg and "version" in pkg:
-				versionElement = pkg["update_check"]
-				vType = versionElement["type"]
-				ourVer = pkg["version"]
-				#latestVer = geLatestVersion(versionElement)		# 2022.12.18 per DEADSIX27
-				try:										# 2022.12.18 per DEADSIX27
-					latestVer = geLatestVersion(versionElement)	# 2022.12.18 per DEADSIX27
-				except:										# 2022.12.18 per DEADSIX27
-					continue								# 2022.12.18 per DEADSIX27
-				if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", ourVer) and re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", latestVer):
-					if LooseVersion(ourVer) < LooseVersion(latestVer):
-						print(f"{Colors.RED}%s has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
-					else:
-						print(f"{Colors.LIGHTYELLOW_EX}%s is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 
 	print("\nFinished package and dependency version checking.")
 
