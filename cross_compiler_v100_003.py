@@ -139,7 +139,7 @@ class settings:
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
 
-	def errorExit(self, msg): # logger is not up and running yer, so use our own self.errorExit instead
+	def errorExit(self, msg): # logger is not up and running yet, so use our own self.errorExit instead and use PRINT not logger to display the msg
 		#logger.error(msg)
 		print("Settings Error: " + msg)
 		sys.exit(1)
@@ -290,7 +290,7 @@ class settings:
 		self.bitnessPath = self.fullWorkDir.joinpath(self.bitnessStr)					# for output, eg workdir/x86_64
 	
 		self.fullProductDir = self.fullWorkDir.joinpath(self.bitnessStr + "_products")	# for output, eg workdir/x86_64_products
-		self.fullOfftreeDir = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")	# for output, eg workdir/x86_64_products
+		self.fullOfftreeDir = self.fullWorkDir.joinpath(self.bitnessStr + "_offtree")	# for output, eg workdir/x86_64_offtree
 
 		self.fullDependencyDir = self.bitnessPath.joinpath("")							# to be compatible with deadsix27, rather than use a new 'x86_64_dependencies'
 
@@ -3258,11 +3258,301 @@ def listVersions():
 	global biggusDictus		# combined dictProducts | dictDependencies
 	global objPrettyPrint	# facilitates formatting and printing of text and dicts etc
 	global TERMINAL_WIDTH	# for Console setup and PrettyPrint setup
+	###=== START OF LOCAL CLASS PARSERS
+	class Parsers:
+		def __init__(self, url, verex):
+			self.url = url
+			self.verex = verex
+			# self.api_key = SOURCEFORGE_APIKEY
+		#
+		def sourceforge(self):
+			soup = BeautifulSoup(requests.get(self.url, headers=HEADERS, timeout=2).content, features="html5lib") # 2022.12.18 per DEADSIX27
+			allFolderTrs = soup.find_all("tr", attrs={"class": re.compile(r"folder.*"), "title": re.compile(r".*")})
+			allFileTrs = soup.find_all("tr", attrs={"class": re.compile(r"file.*"), "title": re.compile(r".*")})
+			newest = "0.0.0"
+			for tr in allFolderTrs + allFileTrs:
+				v = tr["title"]
+				if self.verex is not None:
+					m = re.search(self.verex, v)
+					if m is not None:
+						g = m.groupdict()
+						if "version_num" not in g:
+							errorExit("You have to name a regex group version_num")
+						v = g["version_num"]
+						if "rc_num" in g:
+							v = v + "." + g["rc_num"]
+					else:
+						v = ""
+				if v != "":
+					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+						if LooseVersion(v) > LooseVersion(newest):
+							newest = v
+			return newest
+		#
+		def httpindex(self):
+			cwd, listing = htmllistparse.fetch_listing(self.url, timeout=2) # timeout=30
+			newest = "0.0.0"
+			for entry in listing:
+				v = entry.name
+				if self.verex is not None:
+					m = re.search(self.verex, v)
+					if m is not None:
+						g = m.groupdict()
+						if "version_num" not in g:
+							errorExit("You have to name a regex group version_num")
+						v = g["version_num"]
+						if "rc_num" in g:
+							v = v + "." + g["rc_num"]
+					else:
+						v = ""
+				if v != "":
+					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+						if LooseVersion(v) > LooseVersion(newest):
+							newest = v
+			return newest
+		#
+		def githubreleases(self, githubType="name"):
+			#print("DEBUG: githubreleases: Url '%s'" % (self.url))
+			m = re.search(r'http?s:\/\/github.com\/(.+\/.+\/releases)', self.url)
+			if m is None:
+				errorExit("Improper github release URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/releases)" % (self.url))
+			#print("DEBUG: githubreleases: m.groups()[0] '%s'" % (m.groups()[0]))
+			releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
+			#print("DEBUG: githubreleases: releaseApiUrl '%s'" % (releaseApiUrl))
+			jString = requests.get(releaseApiUrl, headers=HEADERS, timeout=2).content  # .decode("utf-8")
+			#print("DEBUG: githubreleases: jString '%s'" % (jString))
+			releases = json.loads(jString)
+			newest = "0.0.0"
+			for r in releases:
+				v = r[githubType]
+				#print("DEBUG: githubreleases: r '%s'" % r)
+				#print("DEBUG: githubreleases: v '%s'" % v)
+				if self.verex is not None:
+					#print("DEBUG: githubreleases: self.verex '%s'" % (self.verex))
+					m = re.search(self.verex, v)
+					if m is not None:
+						g = m.groupdict()
+						if "version_num" not in g:
+							errorExit("You have to name a regex group version_num")
+						v = g["version_num"]
+						if "rc_num" in g:
+							v = v + "." + g["rc_num"]
+					else:
+						v = ""
+				if v != "":
+					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+						if LooseVersion(v) > LooseVersion(newest):
+							newest = v
+			return newest
+		#
+		def githubtags(self, githubType="tag"):
+			#print("DEBUG: githubtags: Url = '%s'" % (self.url))
+			m = re.search(r'http?s:\/\/github.com\/(.+\/.+\/tags)', self.url)
+			if m is None:
+				errorExit("Improper github tag URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/tags)" % (self.url))
+			#print("DEBUG: githubtags: m.groups()[0] = '%s'" % (m.groups()[0]))
+			releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
+			#print("DEBUG: githubtags: releaseApiUrl = '%s'" % (releaseApiUrl))
+			jString = requests.get(releaseApiUrl, headers=HEADERS).content  # .decode("utf-8")
+			#print("DEBUG: githubtags: jString = '%s'" % (jString))
+			releases = json.loads(jString)
+			newest = "0.0.0"
+			for r in releases:
+				v = r[githubType]
+				#print("DEBUG: githubtags: r = '%s'" % r)
+				#print("DEBUG: githubtags: v = '%s'" % v)
+				#print("DEBUG: githubtags: self.verex '%s'" % (self.verex))
+				if self.verex is not None:
+					m = re.search(self.verex, v)
+					if m is not None:
+						g = m.groupdict()
+						if "version_num" not in g:
+							errorExit("You have to name a regex group version_num")
+						v = g["version_num"]
+						if "rc_num" in g:
+							v = v + "." + g["rc_num"]
+					else:
+						v = ""
+				if v != "":
+					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+						if LooseVersion(v) > LooseVersion(newest):
+							newest = v
+			return newest
+		#
+		def httpregex(self):
+			r = requests.get(self.url, headers=HEADERS, timeout=2)
+			html = r.content.decode("utf-8")
+			m = re.findall(self.verex, html)
+			newest = "0.0.0"
+			for v in m:
+				if v != "":
+					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+						if LooseVersion(v) > LooseVersion(newest):
+							newest = v
+			return newest
+		#
+		def ftp(self):
+			pUrl = urlparse(self.url)
+			ftp = ftplib.FTP(pUrl.netloc, timeout=2)
+			ftp.login()
+			ftp.cwd(pUrl.path)
+			files = []
+			try:
+				files = ftp.nlst()
+			except ftplib.error_perm as resp:
+				if str(resp) == "550 No files found":
+					errorExit("FTP 550: No files in this directory")
+				else:
+					errorExit("Failed to parse version of " + pUrl + "\n\n" + traceback.format_exc())
+			newest = "0.0.0"
+			for v in files:
+				if self.verex is not None:
+					m = re.search(self.verex, v)
+					if m is not None:
+						g = m.groupdict()
+						if "version_num" not in g:
+							errorExit("You have to name a regex group version_num")
+						v = g["version_num"]
+						if "rc_num" in g:
+							v = v + "." + g["rc_num"]
+					else:
+						v = ""
+				if v != "":
+					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
+						if LooseVersion(v) > LooseVersion(newest):
+							newest = v
+			return newest
+	###=== END OF LOCAL CLASS PARSERS
+	###=== START OF LOCAL FUNCTIONS
+	def getGitClonePathFromPkg(pkg):
+		logger.debug(f"listVersions: getGitClonePathFromPkg: called with package:\n'{objPrettyPrint.pformat(pkg)}'")
+		clonePath = None
+		if "folder_name" in pkg:
+			clonePath = pkg["folder_name"]
+			clonePath = replaceVarCmdSubStrings(clonePath)
+		if "rename_folder" in pkg:
+			clonePath = pkg["rename_folder"]
+			clonePath = replaceVarCmdSubStrings(clonePath)
+		if "rename_folder" not in pkg and "folder_name" not in pkg:
+			pUrl = urlparse(pkg["url"])
+			pUrl = replaceVarCmdSubStrings(pUrl)
+			clonePath = os.path.basename(pUrl.path).replace(".", "_")
+			if not clonePath.endswith("_git"):
+				clonePath = clonePath + "_git"
+		dirs = []
+		for dir in BUILD_DIRS:
+			mDir = os.path.join(dir, clonePath)
+			dirs.append(mDir)
+			if os.path.isdir(mDir):
+				logger.debug(f"listVersions: getGitClonePathFromPkg: success for package '{pkg.name}' returning folder '{mDir}'")
+				return Path(mDir)
+		logger.warning(f"listVersions: getGitClonePathFromPkg: failure for package '{pkg.name}' None of those folders exist: " + ", ".join(dirs))
+		return None
+	###
+	def local_run(cmd):	# a local 'run' command, different to the global def 'runProcess'
+		logger.info(f"listVersions: local_run: '{cmd}' in '{os.getcwd()}'")
+		r = subprocess.check_output(cmd, shell=True).decode("utf-8", "replace")
+		logger.debug(f"listVersions: local_run: '{cmd}' returning with given return value: '{r}'")
+		return r
+	###
+	def getCommitsDiff(pkg):
+		logger.debug(f"listVersions: getCommitsDiff: Start processing")
+		if "branch" in pkg:
+			curCommit = replaceVarCmdSubStrings(pkg["branch"])
+		else:
+			curCommit = None 
+		logger.debug(f"listVersions: getCommitsDiff: curCommit='{curCommit}'")
+		# repoUrl = replaceVarCmdSubStrings(pkg["url"])
+		# latestCommit = None
+		origDir = os.getcwd()
+		clonePath = getGitClonePathFromPkg(pkg)
+		if clonePath is None:
+			return None
+		cchdir(clonePath)
+		local_run("git remote update")
+		if curCommit is not None:
+			logger.debug(f"listVersions: getCommitsDiff: processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
+			# 2020.06.22 try to cater for either/or or "master" or "main"
+			c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
+			c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
+			c_default=("git log --pretty=format:\"%H;;%an;;%s\" {0}..default".format(curCommit))
+			try: # 2020.06.22 try using "master"
+				logger.debug(f"listVersions: getCommitsDiff: try using '{c_master}'")
+				# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
+				cmts = [c.split(";;") for c in local_run(c_master).split("\n") if c != ""]
+			except: # an error occurred ... assume it's the trunkl=change thing
+				logger.warning(f"listVersions: getCommitsDiff: re-try using '{c_main}'")
+				try: # 2020.06.22 re-try using "main" instead of "master"
+					# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
+					cmts = [c.split(";;") for c in local_run(c_main).split("\n") if c != ""]
+					pass
+				except:
+					logger.warning(f"listVersions: getCommitsDiff: re-try using '{c_default}'")
+					try: # 2020.06.22 re-try using "default" instead of "main" instead of "master"
+						# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
+						cmts = [c.split(";;") for c in local_run(c_default).split("\n") if c != ""]
+						pass
+					except:
+						logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed on all of 'master' 'main' 'default' in: '{pkg.name}' ... aborting ...")
+						logger.error(f"{c_master}\n{c_main}\n{c_default}")
+						logger.error(f"Unexpected error: '{sys.exc_info()[0]}'")
+						raise
+		else:
+			logger.debug(f"listVersions: getCommitsDiff: processing curCommit is None: WHICH MEANS NO COMMIT SPECIFIED")
+			cmtsBehind = 0
+			try:
+				cmtsBehind = re.search(r"## .* \[behind ([0-9]+)\]", local_run("git status -sb").split("\n")[0]).groups()[0]
+			except Exception:
+				# print(local_run("git status -sb").split("\n")[0])
+				pass
+			cmts = int(cmtsBehind)
+		cchdir(origDir)
+		logger.debug(f"listVersions: getCommitsDiff: returning with cmts='{cmts}'")
+		return cmts
 
-	logger.info(f"Processing listVersions")
-	
+	def geLatestVersion(versionElement):
+		logger.debug(f"listVersions: geLatestVersion: Start processing with incoming versionElement='{versionElement}'")
+		url = versionElement["url"]
+		verex = None
+		ghtype = None
+		if "regex" in versionElement:
+			verex = versionElement["regex"]
+		if "name_or_tag" in versionElement:
+			ghtype = replaceVarCmdSubStrings(versionElement["name_or_tag"])
+		pUrl = urlparse(url)
+		pUrl = replaceVarCmdSubStrings(pUrl)
+		if pUrl.scheme == '':
+			errorExit(f"listVersions: geLatestVersion: Update check URL '{url}' is invalid.")
+		try:
+			pType = replaceVarCmdSubStrings(versionElement["type"])
+			parser = Parsers(url, verex)	# start an instance of the parser
+			if pType == "sourceforge":
+				return parser.sourceforge()
+			elif pType == "httpindex":
+				return parser.httpindex()
+			elif pType == "ftpindex":
+				return parser.ftp()
+			elif pType == "httpregex":
+				return parser.httpregex()
+			elif pType == "githubreleases":
+				return parser.githubreleases(ghtype)
+			elif pType == "githubtags":
+				return parser.githubtags(ghtype)
+			else:
+				errorExit("listVersions: geLatestVersion: Unknown parser: '{pType}'")
+			del parser	# remove the object 'parser'
+		except Exception:
+			errorExit("listVersions: geLatestVersion: Failed to parse version of '{url}'\n\n{traceback.format_exc()}")
+		logger.error(f"listVersions: geLatestVersion: end of  processing ... it should NEVER get to here.")
+	###=== END OF LOCAL FUNCTIONS
+	#
+	###=== START OF NORMAL FUNCTION PROCSSING
+	logger.info(f"listVersions: Processing checking for version and possible updates")
+	cchdir(objSETTINGS.fullWorkDir)
 	logger.debug(f"listVersions: doing init() from colorama ")
-	init()	# from colorama import Fore, Style, init
+	init()	# from within: import Fore, Style, init
+	BUILD_DIRS = [ objSETTINGS.bitnessPath, objSETTINGS.fullProductDir, objSETTINGS.fullOfftreeDir]	# eg {stuff}/workdir/x86_64, {stuff}/workdir/x86_64_products/, {stuff}/workdir/x86_64_offtree/
+	logger.info(f"listVersions: build folders to check: '{BUILD_DIRS}'")
 
 	# process Products
 	for packageName in sorted(dictProducts.BO.keys()):
@@ -3276,7 +3566,7 @@ def listVersions():
 
 	# process Variables ... nothing to do with it
 	pass
-	
+
 
 ###################################################################################################
 ###################################################################################################
