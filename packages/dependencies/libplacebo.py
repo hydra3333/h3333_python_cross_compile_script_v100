@@ -49,7 +49,7 @@
 		'if [ ! -d "{target_prefix}/share/vulkan/registry" ] ; then mkdir -pv "{target_prefix}/share/vulkan/registry" ; fi',
 	],
 	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_from_windows_dll' ], # 'vulkan_loader',
-	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', 'vulkan_from_windows_dll' , 'lcms2', 'libepoxy', 'spirv-headers', 'spirv-tools', 'spirv=cross', 'glslang', 'shaderc', ], # 2022.12.18 ad libepoxy for opengl # 'vulkan_loader', # 2022.06.28 'spirv-tools' dependency is in glslang
+	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', 'vulkan_from_windows_dll' , 'lcms2', 'libepoxy', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'glslang', 'shaderc', ], # 2022.12.18 ad libepoxy for opengl # 'vulkan_loader', # 2022.06.28 'spirv-tools' dependency is in glslang
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }
