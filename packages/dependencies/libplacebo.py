@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git 
 	'depth_git' : 0,
-	'branch' : '82023b9e9d683499329b2d5c502eafaf5f6c8ef2',	# 2023.02.19 ... libplacebo breaks cross-compilation after this commit
+	#'branch' : '82023b9e9d683499329b2d5c502eafaf5f6c8ef2',	# 2023.02.19 ... libplacebo breaks cross-compilation after this commit
 	'recursive_git' : True,
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
