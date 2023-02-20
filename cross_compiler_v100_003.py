@@ -3489,7 +3489,7 @@ def listVersions():
 				# assuming we have checked only checked out one branch, 'git branch' returns a multi-line (2 lines we hope), the line not starting with '*' is the one we want ... rely on it only being 2 lines
 				# i.e. making a bold assumption.
 				#	for example in any .py we use 'branch': 'main' or  'branch': 'default' if the main branch is other than 'master', or 'branch':  'commit_id'
-				#	and any of these only checks out ONE branch.
+				#	and any of these only checks out ONE branch (hopefully).
 				# So ... if we have used 'branch':  'commit_id',
 				#	then a "git rev-parse --abbrev-ref HEAD" will return 'HEAD' 
 				#	and we assume a subsequent "git branch" will return only 2 lines
