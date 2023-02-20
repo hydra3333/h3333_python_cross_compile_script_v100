@@ -1674,13 +1674,16 @@ def replaceVarCmdSubStrings(inStr):
 
 ###################################################################################################
 def runProcess(command, ignoreErrors=False, exitOnError=True, silent=False, yield_return_code=False):
-	# run a shell type command and retutn a bufffer contaning sanitized stdout results
+	# run a shell type command and return a bufffer contaning sanitized stdout results
 	isSvn = False
 	if not isinstance(command, str):
 		command = " ".join(command)  # could fail I guess
 	if command.lower().startswith("svn"):
 		isSvn = True
-	logger.info(f"Running '{command}' in '{os.getcwd()}'")
+	if not silent:
+		logger.info(f"Running '{command}' in '{os.getcwd()}'")
+	elif objSETTINGS.debugMode:
+		logger.debug(f"Running '{command}' in '{os.getcwd()}'")
 	process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 	buffer = ""
 	while True:
@@ -3478,20 +3481,26 @@ def listVersions():
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
-			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git rev-parse --abbrev-ref HEAD'")
-			#branch_name = replaceVarCmdSubStrings("!CMD(git branch --show-current)CMD!")		# returns "" if in detached state
-			branch_name = replaceVarCmdSubStrings("!CMD(git rev-parse --abbrev-ref HEAD)CMD!")	# returns 'HEAD' if in detached state
-			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git rev-parse --abbrev-ref HEAD'  returned '{branch_name}'")
+			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git rev-parse --abbrev-ref HEAD'")
+			#branch_name = runProcess("git branch --show-current", ignoreErrors=True, silent=True, yield_return_code=False).strip((" \n )			# returns '' if in detached state
+			branch_name = runProcess("git rev-parse --abbrev-ref HEAD", ignoreErrors=True, silent=True, yield_return_code=False).strip(" \n ")	# returns 'HEAD' if in detached state
+			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git rev-parse --abbrev-ref HEAD'  returned '{branch_name}'")
 			if branch_name.lower() == "HEAD".lower():	# has it returned a 'detached state' name rather than the real branch name
 				# assuming we have checked only checked out one branch, 'git branch' returns a multi-line (2 lines we hope), the line not starting with '*' is the one we want ... rely on it only being 2 lines
-				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git branch'")
-				branch_name = replaceVarCmdSubStrings("!CMD(git branch)CMD!")	# returns a string of 2 or more lines, the the commit check out and the local branches
-				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git branch (non-edited)'  returned '{branch_name}'")
-				branch_name = replaceVarCmdSubStrings("!CMD(git branch | sed -n'/^*/d' | sed '/ //g')CMD!")	# returns a string of 2 or more lines, the the commit check out and the local branches, edited to one line with no spaces
-				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git branch (edited)'  returned '{branch_name}'")
-				branch_name = branch_name.strip()
-				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': branch_name.strip() returned '{branch_name}'")
-				pass
+				# i.e. making a bold assumption.
+				#	for example in any .py we use 'branch': 'main' or  'branch': 'default' if the main branch is other than 'master', or 'branch':  'commit_id'
+				#	and any of these only checks out ONE branch.
+				# So ... if we have used 'branch':  'commit_id',
+				#	then a "git rev-parse --abbrev-ref HEAD" will return 'HEAD' 
+				#	and we assume a subsequent "git branch" will return only 2 lines
+				#	where we can discard the line starting with "*"
+				#	and the remaining 1 line when stripped will be the "real" name of the branch (HEAD) even with a detached HEAD.
+				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: about to do 'git branch'")
+				branch_name = runProcess("git branch", ignoreErrors=True, silent=True, yield_return_code=False)	# returns a string of 2 or more lines, the the commit check out and the local branches
+				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: 'git branch (non-edited)' returned \"{objPrettyPrint.pformat(branch_name)}\"")
+				branch_name = [line for line in branch_name.splitlines() if not line.startswith('*')]
+				branch_name = branch_name[0].strip(" \n ")
+				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: 'git branch (edited)' returned \"{objPrettyPrint.pformat(branch_name)}\"")
 			if branch_name.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif branch_name.lower() == "main".lower():
