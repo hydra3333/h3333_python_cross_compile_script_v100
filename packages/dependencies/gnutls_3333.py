@@ -18,7 +18,7 @@
 		#'--disable-srp-authentication ' # 2022.12.18 per DEADSIX27 comment out
 		#'--disable-non-suiteb-curves ' # 2022.12.18 per DEADSIX27 comment out
 		'--enable-cxx '
-		#'--enable-nls ' # 2020.03.19 comment out
+		'--disable-nls '
         '--enable-openssl-compatibility '
 		'--disable-rpath '
 		'--disable-gtk-doc '
@@ -37,12 +37,18 @@
 		'--with-default-trust-store-file '
 		#'--with-default-blacklist-file '
 		'--with-default-blocklist-file '
-		#'--without-tpm '  # 2022.12.18 per DEADSIX27 comment out
 		'--without-p11-kit '
+		'--without-idn '
+		'--without-tpm '
         '--with-libiconv-prefix={target_prefix} ' # 2019.12.13 added this from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
 		'--with-libregex-libs=-lsystre ' # 2020.06.09 from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
 		'--disable-libdane ' # 2020.06.09 from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
 		'gl_cv_double_slash_root=yes ' # 2020.06.09 from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
+		# MABS as at 2022.02.20:
+		# do_separate_confmakeinstall \
+        #    --disable-{cxx,doc,tools,tests,nls,rpath,libdane,guile,gcc-warnings} \
+        #    --without-{p11-kit,idn,tpm} --enable-local-libopts \
+        #    --with-included-unistring --disable-code-coverage \		
 	,
 	'regex_replace': {
 		'post_install': [
