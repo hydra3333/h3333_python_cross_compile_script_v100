@@ -3486,9 +3486,9 @@ def listVersions():
 				hh = ( "default", "master", "main" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			else:
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
-			c_0=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(0))
-			c_1=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(1))
-			c_2=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(2))
+			c_0=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit, hh(0))
+			c_1=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit, hh(1))
+			c_2=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit, hh(2))
 			try:
 				logger.debug(f"listVersions: getCommitsDiff: try using '{c_0}'")
 				# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
