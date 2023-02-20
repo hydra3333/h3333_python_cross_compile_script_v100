@@ -1,10 +1,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [ # https://fossies.org/linux/misc/
-		#{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.7.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'be9143d0d58eab64dba9b77114aaafac529b6c0d7e81de6bdf1c9b59027d2106' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.7.7.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'be9143d0d58eab64dba9b77114aaafac529b6c0d7e81de6bdf1c9b59027d2106' }, ], },
-		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.8.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c51977fb396d4617114' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.7.8.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c51977fb396d4617114' }, ], },
+		#{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.8.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c51977fb396d4617114' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.7.8.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c51977fb396d4617114' }, ], },
+		{ 'url' : 'https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/gnutls-3.8.0.tar.xz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5' }, ], },
 	],
     'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
 		'CFLAGS'   : ' -D_POSIX_C_SOURCE {original_cflags}',
@@ -70,6 +70,6 @@
 		'zlib',
         'gmp', # 2019.12.13
 	],
-	'update_check' : { 'url' : 'ftp://ftp.gnutls.org/gcrypt/gnutls/v3.7', 'type' : 'ftpindex', 'regex' : r'gnutls-(?P<version_num>[\d.]+)\.tar\.xz' },
-	'_info' : { 'version' : '3.7.8', 'fancy_name' : 'gnutls' },
+	'update_check' : { 'url' : 'ftp://ftp.gnutls.org/gcrypt/gnutls/v3.8', 'type' : 'ftpindex', 'regex' : r'gnutls-(?P<version_num>[\d.]+)\.tar\.xz' },
+	'_info' : { 'version' : '3.8.0', 'fancy_name' : 'gnutls' },
 }
