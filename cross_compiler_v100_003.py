@@ -3479,35 +3479,35 @@ def listVersions():
 			logger.debug(f"listVersions: getCommitsDiff: processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
 			if curCommit.lower() == "master".lower():
-				dim hh(3) ; hh(1) = "master" ;  hh(2) = "main" ;   hh(3) = "default"
+				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif curCommit.lower() == "main".lower():
-				dim hh(3) ; hh(1) = "main" ;    hh(2) = "master" ; hh(3) = "default"
+				hh = ( "main", "master", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif curCommit.lower() == "default".lower():
-				dim hh(3) ; hh(1) = "default" ; hh(2) = "master" ; hh(3) = "main"
+				hh = ( "default", "master", "main" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			else:
-				dim hh(3) ; hh(1) = "master" ;  hh(2) = "main" ;   hh(3) = "default"
+				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
+			c_0=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(0))
 			c_1=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(1))
 			c_2=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(2))
-			c_3=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(3))
 			try:
-				logger.debug(f"listVersions: getCommitsDiff: try using '{c_1}'")
+				logger.debug(f"listVersions: getCommitsDiff: try using '{c_0}'")
 				# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-				cmts = [c.split(";;") for c in local_run(c_1).split("\n") if c != ""]
+				cmts = [c.split(";;") for c in local_run(c_0).split("\n") if c != ""]
 			except: # an error occurred ... assume it's the trunkl=change thing
-				logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_2}'")
+				logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_1}'")
 				try:
 					# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-					cmts = [c.split(";;") for c in local_run(c_2).split("\n") if c != ""]
+					cmts = [c.split(";;") for c in local_run(c_1).split("\n") if c != ""]
 					pass
 				except:
-					logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_3}'")
+					logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_2}'")
 					try:
 						# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-						cmts = [c.split(";;") for c in local_run(c_3).split("\n") if c != ""]
+						cmts = [c.split(";;") for c in local_run(c_2).split("\n") if c != ""]
 						pass
 					except:
 						logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed for all of 'master' 'main' 'default' in: '{pkg['packageName']}' ... aborting ...")
-						logger.error(f"{c_1}\n{c_2}\n{c_3}")
+						logger.error(f"{c_0}\n{c_1}\n{c_2}")
 						logger.error(f"Unexpected error: '{sys.exc_info()[0]}'")
 						raise
 			#####
