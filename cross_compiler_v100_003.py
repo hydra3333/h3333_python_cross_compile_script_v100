@@ -3478,14 +3478,25 @@ def listVersions():
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
-			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git symbolic-ref --short HEAD'")
-			head_name = replaceVarCmdSubStrings("!CMD(git symbolic-ref --short HEAD)CMD!")
-			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git symbolic-ref --short HEAD'  returned '{head_name}'")
-			if head_name.lower() == "master".lower():
+			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git rev-parse --abbrev-ref HEAD'")
+			#branch_name = replaceVarCmdSubStrings("!CMD(git branch --show-current)CMD!")		# returns "" if in detached state
+			branch_name = replaceVarCmdSubStrings("!CMD(git rev-parse --abbrev-ref HEAD)CMD!")	# returns 'HEAD' if in detached state
+			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git rev-parse --abbrev-ref HEAD'  returned '{branch_name}'")
+			if branch_name.lower() == "HEAD".lower():	# has it returned a 'detached state' name rather than the real branch name
+				# assuming we have checked only checked out one branch, 'git branch' returns a multi-line (2 lines we hope), the line not starting with '*' is the one we want ... rely on it only being 2 lines
+				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git branch'")
+				branch_name = replaceVarCmdSubStrings("!CMD(git branch)CMD!")	# returns a string of 2 or more lines, the the commit check out and the local branches
+				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git branch (non-edited)'  returned '{branch_name}'")
+				branch_name = replaceVarCmdSubStrings("!CMD(git branch | sed -n'/^*/d' | sed '/ //g')CMD!")	# returns a string of 2 or more lines, the the commit check out and the local branches, edited to one line with no spaces
+				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git branch (edited)'  returned '{branch_name}'")
+				branch_name = branch_name.strip()
+				logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': branch_name.strip() returned '{branch_name}'")
+				pass
+			if branch_name.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
-			elif head_name.lower() == "main".lower():
+			elif branch_name.lower() == "main".lower():
 				hh = ( "main", "master", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
-			elif head_name.lower() == "default".lower():
+			elif branch_name.lower() == "default".lower():
 				hh = ( "default", "master", "main" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif curCommit.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
