@@ -15,7 +15,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
-
+/* 
+ * 2023.02.20 
+ * modified slightly 
+ * per https://gitlab.winehq.org/wine/wine/-/blob/master/include/ddk/d3dkmthk.h
+ * to add various missing components from that link
+ */
+ 
 #ifndef __WINE_D3DKMTHK_H
 #define __WINE_D3DKMTHK_H
 
@@ -92,20 +98,6 @@ typedef enum _KMTQUERYADAPTERINFOTYPE
      KMTQAITYPE_SCANOUT_CAPS = 67
 } KMTQUERYADAPTERINFOTYPE;
 
-typedef struct _D3DKMT_ADAPTERINFO
-{
-    D3DKMT_HANDLE hAdapter;
-    LUID AdapterLuid;
-    ULONG NumOfSources;
-    BOOL bPresentMoveRegionsPreferred;
-} D3DKMT_ADAPTERINFO;
-
-typedef struct _D3DKMT_ENUMADAPTERS2
-{
-    ULONG NumAdapters;
-    D3DKMT_ADAPTERINFO *pAdapters; 
-} D3DKMT_ENUMADAPTERS2;
-
 typedef struct _D3DKMT_QUERYADAPTERINFO
 {
     D3DKMT_HANDLE hAdapter;
@@ -122,6 +114,12 @@ typedef enum _D3DKMT_VIDPNSOURCEOWNER_TYPE
     D3DKMT_VIDPNSOURCEOWNER_EXCLUSIVEGDI = 3,
     D3DKMT_VIDPNSOURCEOWNER_EMULATED = 4
 } D3DKMT_VIDPNSOURCEOWNER_TYPE;
+
+typedef enum _D3DKMT_MEMORY_SEGMENT_GROUP
+{
+    D3DKMT_MEMORY_SEGMENT_GROUP_LOCAL = 0,
+    D3DKMT_MEMORY_SEGMENT_GROUP_NON_LOCAL = 1
+} D3DKMT_MEMORY_SEGMENT_GROUP;
 
 typedef struct _D3DKMT_CREATEDEVICEFLAGS
 {
@@ -214,6 +212,12 @@ typedef struct _D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME
     LUID AdapterLuid;
     D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId;
 } D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME;
+
+typedef struct _D3DKMT_OPENADAPTERFROMLUID
+{
+    LUID AdapterLuid;
+    D3DKMT_HANDLE hAdapter;
+} D3DKMT_OPENADAPTERFROMLUID;
 
 typedef struct _D3DKMT_SETVIDPNSOURCEOWNER
 {
@@ -687,14 +691,87 @@ typedef struct _D3DKMT_QUERYSTATISTICS
         D3DKMT_QUERYSTATISTICS_QUERY_NODE        QueryProcessNode;
         D3DKMT_QUERYSTATISTICS_QUERY_VIDPNSOURCE QueryVidPnSource;
         D3DKMT_QUERYSTATISTICS_QUERY_VIDPNSOURCE QueryProcessVidPnSource;
-    };
+    } DUMMYUNIONNAME;
 } D3DKMT_QUERYSTATISTICS;
+
+typedef struct _D3DKMT_QUERYVIDEOMEMORYINFO
+{
+    HANDLE                      hProcess;
+    D3DKMT_HANDLE               hAdapter;
+    D3DKMT_MEMORY_SEGMENT_GROUP MemorySegmentGroup;
+    UINT64                      Budget;
+    UINT64                      CurrentUsage;
+    UINT64                      CurrentReservation;
+    UINT64                      AvailableForReservation;
+    UINT                        PhysicalAdapterIndex;
+} D3DKMT_QUERYVIDEOMEMORYINFO;
+
+typedef enum _D3DKMT_QUEUEDLIMIT_TYPE
+{
+    D3DKMT_SET_QUEUEDLIMIT_PRESENT = 1,
+    D3DKMT_GET_QUEUEDLIMIT_PRESENT
+} D3DKMT_QUEUEDLIMIT_TYPE;
+
+typedef struct _D3DKMT_SETQUEUEDLIMIT
+{
+    D3DKMT_HANDLE hDevice;
+    D3DKMT_QUEUEDLIMIT_TYPE Type;
+    union
+    {
+        UINT QueuedPresentLimit;
+        struct
+        {
+            D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId;
+            UINT QueuedPendingFlipLimit;
+        } DUMMYSTRUCTNAME;
+    } DUMMYUNIONNAME;
+} D3DKMT_SETQUEUEDLIMIT;
+
+typedef enum _D3DKMT_ESCAPETYPE
+{
+    D3DKMT_ESCAPE_DRIVERPRIVATE,
+    D3DKMT_ESCAPE_VIDMM,
+    D3DKMT_ESCAPE_TDRDBGCTRL,
+    D3DKMT_ESCAPE_VIDSCH,
+    D3DKMT_ESCAPE_DEVICE,
+    D3DKMT_ESCAPE_DMM,
+    D3DKMT_ESCAPE_DEBUG_SNAPSHOT,
+    D3DKMT_ESCAPE_SETDRIVERUPDATESTATUS,
+    D3DKMT_ESCAPE_DRT_TEST,
+    D3DKMT_ESCAPE_DIAGNOSTICS,
+} D3DKMT_ESCAPETYPE;
+
+typedef struct _D3DKMT_ESCAPE
+{
+    D3DKMT_HANDLE      hAdapter;
+    D3DKMT_HANDLE      hDevice;
+    D3DKMT_ESCAPETYPE  Type;
+    D3DDDI_ESCAPEFLAGS Flags;
+    void              *pPrivateDriverData;
+    UINT               PrivateDriverDataSize;
+    D3DKMT_HANDLE      hContext;
+} D3DKMT_ESCAPE;
+
+typedef struct _D3DKMT_ADAPTERINFO
+{
+  D3DKMT_HANDLE hAdapter;
+  LUID          AdapterLuid;
+  ULONG         NumOfSources;
+  BOOL          bPrecisePresentRegionsPreferred;
+} D3DKMT_ADAPTERINFO;
+
+typedef struct _D3DKMT_ENUMADAPTERS2
+{
+  ULONG               NumAdapters;
+  D3DKMT_ADAPTERINFO *pAdapters;
+} D3DKMT_ENUMADAPTERS2;
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif /* __cplusplus */
 
+NTSTATUS WINAPI D3DKMTCheckVidPnExclusiveOwnership(const D3DKMT_CHECKVIDPNEXCLUSIVEOWNERSHIP *desc);
 NTSTATUS WINAPI D3DKMTEnumAdapters2(const D3DKMT_ENUMADAPTERS2 *desc);
 NTSTATUS WINAPI D3DKMTQueryAdapterInfo(const D3DKMT_QUERYADAPTERINFO *desc);
 NTSTATUS WINAPI D3DKMTCloseAdapter(const D3DKMT_CLOSEADAPTER *desc);
@@ -702,8 +779,14 @@ NTSTATUS WINAPI D3DKMTCreateDevice(D3DKMT_CREATEDEVICE *desc);
 NTSTATUS WINAPI D3DKMTCreateDCFromMemory(D3DKMT_CREATEDCFROMMEMORY *desc);
 NTSTATUS WINAPI D3DKMTDestroyDCFromMemory(const D3DKMT_DESTROYDCFROMMEMORY *desc);
 NTSTATUS WINAPI D3DKMTDestroyDevice(const D3DKMT_DESTROYDEVICE *desc);
+NTSTATUS WINAPI D3DKMTEscape( const D3DKMT_ESCAPE *desc );
 NTSTATUS WINAPI D3DKMTOpenAdapterFromGdiDisplayName(D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME *desc);
+NTSTATUS WINAPI D3DKMTOpenAdapterFromHdc( D3DKMT_OPENADAPTERFROMHDC *desc );
+NTSTATUS WINAPI D3DKMTOpenAdapterFromLuid( D3DKMT_OPENADAPTERFROMLUID * desc );
 NTSTATUS WINAPI D3DKMTQueryStatistics(D3DKMT_QUERYSTATISTICS *stats);
+NTSTATUS WINAPI D3DKMTQueryVideoMemoryInfo(D3DKMT_QUERYVIDEOMEMORYINFO *desc);
+NTSTATUS WINAPI D3DKMTSetQueuedLimit(D3DKMT_SETQUEUEDLIMIT *desc);
+NTSTATUS WINAPI D3DKMTSetVidPnSourceOwner(const D3DKMT_SETVIDPNSOURCEOWNER *desc);
 
 #ifdef __cplusplus
 }
