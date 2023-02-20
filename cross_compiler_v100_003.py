@@ -218,6 +218,8 @@ class settings:
 		self.sources_subfolder = 'sources'								# 'sources' is where some sources reside
 		self.tools_subfolder = 'tools'									# 'tools' is where some tools reside
 		
+		self.patches_top_url = 'https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches' # if trunk moves to "main" then use "main" instead of "master"
+		
 		self.workdir_subfolder ='workdir'											# 'workdir'  is the subfolder where actual build stuff happens
 		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)		# for output, eg workdir
 		
@@ -2221,7 +2223,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		desiredBranch = replaceVarCmdSubStrings(desiredBranch)
 		branchString = f" {desiredBranch}"
 
-	properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main',"
+	properBranchString = "master"  # 2020.06.22 if trunk moves to "main", use "'branch' : 'main'," in the product/dependency .py file
 	if desiredBranch is not None:
 		properBranchString = desiredBranch
 		properBranchString = replaceVarCmdSubStrings(properBranchString)	# 2023.02.13 ADDED replaceVarCmdSubStrings
@@ -2696,7 +2698,7 @@ def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 			shutil.copyfile(local_patch_path, copyPath)
 		else:
 			fileName = os.path.basename(urlparse(url).path)
-			url = "https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches" + url # 2020.06.22 if trunk moves to "main", "main" instead
+			url = objSETTINGS.patches_top_url + url # 2020.06.22 if trunk moves to "main", "main" instead
 			downloadFile(url, fileName)
 	logger.info(f"applyPatch: Patching source using: '{fileName}'")
 	logger.debug(f"applyPatch: patch -b {ignore}{type} < '{fileName}'")
@@ -3475,31 +3477,67 @@ def listVersions():
 		local_run("git remote update")
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
-			# 2020.06.22 try to cater for either/or or "master" or "main"
-			c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
-			c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
-			c_default=("git log --pretty=format:\"%H;;%an;;%s\" {0}..default".format(curCommit))
-			try: # 2020.06.22 try using "master"
-				logger.debug(f"listVersions: getCommitsDiff: try using '{c_master}'")
+			##### 2023.02.20 attempt to try git_log in a meaningful order
+			if curCommit.lower() == "master".lower():
+				dim hh(3) ; hh(1) = "master" ;  hh(2) = "main" ;   hh(3) = "default"
+			elif curCommit.lower() == "main".lower():
+				dim hh(3) ; hh(1) = "main" ;    hh(2) = "master" ; hh(3) = "default"
+			elif curCommit.lower() == "default".lower():
+				dim hh(3) ; hh(1) = "default" ; hh(2) = "master" ; hh(3) = "main"
+			else:
+				dim hh(3) ; hh(1) = "master" ;  hh(2) = "main" ;   hh(3) = "default"
+			c_1=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(1))
+			c_2=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(2))
+			c_3=("git log --pretty=format:\"%H;;%an;;%s\" {0}..%s".format(curCommit),hh(3))
+			try:
+				logger.debug(f"listVersions: getCommitsDiff: try using '{c_1}'")
 				# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-				cmts = [c.split(";;") for c in local_run(c_master).split("\n") if c != ""]
+				cmts = [c.split(";;") for c in local_run(c_1).split("\n") if c != ""]
 			except: # an error occurred ... assume it's the trunkl=change thing
-				logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_main}'")
-				try: # 2020.06.22 re-try using "main" instead of "master"
+				logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_2}'")
+				try:
 					# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-					cmts = [c.split(";;") for c in local_run(c_main).split("\n") if c != ""]
+					cmts = [c.split(";;") for c in local_run(c_2).split("\n") if c != ""]
 					pass
 				except:
-					logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_default}'")
-					try: # 2020.06.22 re-try using "default" instead of "main" instead of "master"
+					logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_3}'")
+					try:
 						# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-						cmts = [c.split(";;") for c in local_run(c_default).split("\n") if c != ""]
+						cmts = [c.split(";;") for c in local_run(c_3).split("\n") if c != ""]
 						pass
 					except:
 						logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed for all of 'master' 'main' 'default' in: '{pkg['packageName']}' ... aborting ...")
-						logger.error(f"{c_master}\n{c_main}\n{c_default}")
+						logger.error(f"{c_1}\n{c_2}\n{c_3}")
 						logger.error(f"Unexpected error: '{sys.exc_info()[0]}'")
 						raise
+			#####
+			#----
+			# 2020.06.22 try to cater for either/or or "master" or "main"
+			#c_master=("git log --pretty=format:\"%H;;%an;;%s\" {0}..master".format(curCommit))
+			#c_main=("git log --pretty=format:\"%H;;%an;;%s\" {0}..main".format(curCommit))
+			#c_default=("git log --pretty=format:\"%H;;%an;;%s\" {0}..default".format(curCommit))
+			#try: # 2020.06.22 try using "master"
+			#	logger.debug(f"listVersions: getCommitsDiff: try using '{c_master}'")
+			#	# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
+			#	cmts = [c.split(";;") for c in local_run(c_master).split("\n") if c != ""]
+			#except: # an error occurred ... assume it's the trunkl=change thing
+			#	logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_main}'")
+			#	try: # 2020.06.22 re-try using "main" instead of "master"
+			#		# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
+			#		cmts = [c.split(";;") for c in local_run(c_main).split("\n") if c != ""]
+			#		pass
+			#	except:
+			#		logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_default}'")
+			#		try: # 2020.06.22 re-try using "default" instead of "main" instead of "master"
+			#			# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
+			#			cmts = [c.split(";;") for c in local_run(c_default).split("\n") if c != ""]
+			#			pass
+			#		except:
+			#			logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed for all of 'master' 'main' 'default' in: '{pkg['packageName']}' ... aborting ...")
+			#			logger.error(f"{c_master}\n{c_main}\n{c_default}")
+			#			logger.error(f"Unexpected error: '{sys.exc_info()[0]}'")
+			#			raise
+			#----
 		else:
 			logger.debug(f"listVersions: getCommitsDiff: processing curCommit is None: WHICH MEANS NO COMMIT SPECIFIED")
 			cmtsBehind = 0
