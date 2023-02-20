@@ -3465,27 +3465,27 @@ def listVersions():
 	###
 	def getCommitsDiff(pkg):
 		logger.debug(f"listVersions: getCommitsDiff: Start processing")
+		curCommit = None 
+		master_branch_name = ""
 		if "branch" in pkg:
 			curCommit = replaceVarCmdSubStrings(pkg["branch"])
-		else:
-			curCommit = None 
 		logger.debug(f"listVersions: getCommitsDiff: curCommit='{curCommit}'")
 		# repoUrl = replaceVarCmdSubStrings(pkg["url"])
 		# latestCommit = None
 		origDir = os.getcwd()
 		clonePath = getGitClonePathFromPkg(pkg)
 		if clonePath is None:
-			return None
+			return None, master_branch_name
 		cchdir(clonePath,silent=True)
 		local_run("git remote update")
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
 			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git rev-parse --abbrev-ref HEAD'")
-			#branch_name = runProcess("git branch --show-current", ignoreErrors=True, silent=True, yield_return_code=False).strip((" \n )			# returns '' if in detached state
-			branch_name = runProcess("git rev-parse --abbrev-ref HEAD", ignoreErrors=True, silent=True, yield_return_code=False).strip(" \n ")	# returns 'HEAD' if in detached state
-			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git rev-parse --abbrev-ref HEAD'  returned '{branch_name}'")
-			if branch_name.lower() == "HEAD".lower():	# has it returned a 'detached state' name rather than the real branch name
+			#master_branch_name = runProcess("git branch --show-current", ignoreErrors=True, silent=True, yield_return_code=False).strip((" \n )		# returns '' if in detached state
+			master_branch_name = runProcess("git rev-parse --abbrev-ref HEAD", ignoreErrors=True, silent=True, yield_return_code=False).strip(" \n ")	# returns 'HEAD' if in detached state or the BRANCH name if attached to a different branch name
+			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git rev-parse --abbrev-ref HEAD'  returned '{master_branch_name}'")
+			if master_branch_name.lower() == "HEAD".lower() or master_branch_name.lower() not in ['master'.lower(), 'main'.lower(), 'default'.lower()]:	# maybe returned a 'detached state' name rather than the real branch name, or an attached name of a branch
 				# assuming we have checked only checked out one branch, 'git branch' returns a multi-line (2 lines we hope), the line not starting with '*' is the one we want ... rely on it only being 2 lines
 				# i.e. making a bold assumption.
 				#	for example in any .py we use 'branch': 'main' or  'branch': 'default' if the main branch is other than 'master', or 'branch':  'commit_id'
@@ -3496,16 +3496,16 @@ def listVersions():
 				#	where we can discard the line starting with "*"
 				#	and the remaining 1 line when stripped will be the "real" name of the branch (HEAD) even with a detached HEAD.
 				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: about to do 'git branch'")
-				branch_name = runProcess("git branch", ignoreErrors=True, silent=True, yield_return_code=False)	# returns a string of 2 or more lines, the the commit check out and the local branches
-				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: 'git branch (non-edited)' returned \"{objPrettyPrint.pformat(branch_name)}\"")
-				branch_name = [line for line in branch_name.splitlines() if not line.startswith('*')]
-				branch_name = branch_name[0].strip(" \n ")
-				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: 'git branch (edited)' returned \"{objPrettyPrint.pformat(branch_name)}\"")
-			if branch_name.lower() == "master".lower():
+				master_branch_name = runProcess("git branch", ignoreErrors=True, silent=True, yield_return_code=False)	# returns a string of 2 or more lines, the the commit check out and the local branches
+				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: 'git branch (non-edited)' returned \"{objPrettyPrint.pformat(master_branch_name)}\"")
+				master_branch_name = [line for line in master_branch_name.splitlines() if not line.startswith('*')]
+				master_branch_name = master_branch_name[0].strip(" \n ")
+				logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': DETACHED HEAD: 'git branch (edited)' returned \"{objPrettyPrint.pformat(master_branch_name)}\"")
+			if master_branch_name.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
-			elif branch_name.lower() == "main".lower():
+			elif master_branch_name.lower() == "main".lower():
 				hh = ( "main", "master", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
-			elif branch_name.lower() == "default".lower():
+			elif master_branch_name.lower() == "default".lower():
 				hh = ( "default", "master", "main" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif curCommit.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
@@ -3578,7 +3578,7 @@ def listVersions():
 			cmts = int(cmtsBehind)
 		cchdir(origDir,silent=True)
 		logger.debug(f"listVersions: getCommitsDiff: returning with cmts='{cmts}'")
-		return cmts
+		return cmts, master_branch_name
 
 	def geLatestVersion(versionElement):
 		logger.debug(f"listVersions: geLatestVersion: Start processing with incoming versionElement='{versionElement}'")
@@ -3651,7 +3651,7 @@ def listVersions():
 			versionElement = pkg["update_check"]
 			vType = versionElement["type"]
 			if vType == "git":  # packages that are git clones
-				di = getCommitsDiff(pkg)
+				di, master_branch_name = getCommitsDiff(pkg)
 				if di is not None:
 					numCmts = 0
 					if isinstance(di, int):
@@ -3666,7 +3666,7 @@ def listVersions():
 					if gitaffixed == "":
 						gitaffixed = " ... Git Head"
 					if numCmts > 0:
-						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
+						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}is %d commits behind {master_branch_name} ! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
 					else:
 						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
 			else:  # packages that are archive downloads
@@ -3699,7 +3699,7 @@ def listVersions():
 			versionElement = pkg["update_check"]
 			vType = versionElement["type"]
 			if vType == "git":  # packages that are git clones
-				di = getCommitsDiff(pkg)
+				di, master_branch_name = getCommitsDiff(pkg)
 				if di is not None:
 					numCmts = 0
 					if isinstance(di, int):
@@ -3714,7 +3714,7 @@ def listVersions():
 					if gitaffixed == "":
 						gitaffixed = " ... Git Head"
 					if numCmts > 0:
-						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}is %d commits behind! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
+						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}is %d commits behind {master_branch_name} ! %s{Colors.RESET}" % (name.rjust(30), numCmts, gitaffixed))
 					else:
 						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
 			else:  # packages that are archive downloads
