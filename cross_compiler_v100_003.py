@@ -3477,7 +3477,8 @@ def listVersions():
 		if clonePath is None:
 			return None, master_branch_name
 		cchdir(clonePath,silent=True)
-		local_run("git remote update")
+		#local_run("git remote update")
+		dummy = runProcess("git remote update", ignoreErrors=True, silent=True, yield_return_code=False)
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
@@ -3521,18 +3522,21 @@ def listVersions():
 			try:
 				logger.debug(f"listVersions: getCommitsDiff: try using '{c_0}'")
 				# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-				cmts = [c.split(";;") for c in local_run(c_0).split("\n") if c != ""]
+				#cmts = [c.split(";;") for c in local_run(c_0).split("\n") if c != ""]
+				cmts = [c.split(";;") for c in runProcess(c_0, ignoreErrors=True, silent=True, yield_return_code=False).split("\n") if c != ""]
 			except: # an error occurred ... assume it's the trunkl=change thing
 				logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_1}'")
 				try:
 					# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-					cmts = [c.split(";;") for c in local_run(c_1).split("\n") if c != ""]
+					#cmts = [c.split(";;") for c in local_run(c_1).split("\n") if c != ""]
+					cmts = [c.split(";;") for c in runProcess(c_1, ignoreErrors=True, silent=True, yield_return_code=False).split("\n") if c != ""]
 					pass
 				except:
 					logger.warning(f"listVersions: getCommitsDiff: {pkg['packageName']}: re-try using '{c_2}'")
 					try:
 						# TODO ... figure out what this somewhat obscure ambiguous line of python actually does]
-						cmts = [c.split(";;") for c in local_run(c_2).split("\n") if c != ""]
+						#cmts = [c.split(";;") for c in local_run(c_2).split("\n") if c != ""]
+						cmts = [c.split(";;") for c in runProcess(c_2, ignoreErrors=True, silent=True, yield_return_code=False).split("\n") if c != ""]
 						pass
 					except:
 						logger.error(f"*** Fatal Exception: 'git log --pretty' ABORTED failed for all of 'master' 'main' 'default' in: '{pkg['packageName']}' ... aborting ...")
@@ -3571,9 +3575,11 @@ def listVersions():
 			logger.debug(f"listVersions: getCommitsDiff: processing curCommit is None: WHICH MEANS NO COMMIT SPECIFIED")
 			cmtsBehind = 0
 			try:
-				cmtsBehind = re.search(r"## .* \[behind ([0-9]+)\]", local_run("git status -sb").split("\n")[0]).groups()[0]
+				#cmtsBehind = re.search(r"## .* \[behind ([0-9]+)\]", local_run("git status -sb").split("\n")[0]).groups()[0]
+				cmtsBehind = re.search(r"## .* \[behind ([0-9]+)\]", runProcess("git status -sb", ignoreErrors=True, silent=True, yield_return_code=False).split("\n")[0]).groups()[0]
 			except Exception:
 				# print(local_run("git status -sb").split("\n")[0])
+				# print(runProcess("git status -sb", ignoreErrors=True, silent=True, yield_return_code=False).split("\n")[0])
 				pass
 			cmts = int(cmtsBehind)
 		cchdir(origDir,silent=True)
