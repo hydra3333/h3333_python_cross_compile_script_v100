@@ -15,6 +15,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
+/* 
+ * 2023.02.20 
+ * modified slightly per https://raw.githubusercontent.com/wine-mirror/wine/master/include/d3dukmdt.h
+ * to add struct _D3DDDI_ESCAPEFLAGS
+ */
 
 #ifndef __WINE_D3DUKMDT_H
 #define __WINE_D3DUKMDT_H
@@ -188,5 +193,18 @@ typedef enum _D3DDDIFORMAT
 } D3DDDIFORMAT;
 
 typedef UINT D3DDDI_VIDEO_PRESENT_SOURCE_ID;
+
+typedef struct _D3DDDI_ESCAPEFLAGS
+{
+    union
+    {
+        struct
+        {
+            UINT HardwareAccess :1;
+            UINT Reserved       :31;
+        };
+        UINT Value;
+    };
+} D3DDDI_ESCAPEFLAGS;
 
 #endif /* __WINE_D3DUKMDT_H */
