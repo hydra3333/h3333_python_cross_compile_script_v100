@@ -3476,10 +3476,11 @@ def listVersions():
 		cchdir(clonePath,silent=True)
 		local_run("git remote update")
 		if curCommit is not None:
-			logger.debug(f"listVersions: getCommitsDiff: processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
+			logger.debug(f"listVersions: getCommitsDiff: '{pkg['packageName']}': processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
+			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': about to do 'git symbolic-ref --short HEAD'")
 			head_name = replaceVarCmdSubStrings("!CMD(git symbolic-ref --short HEAD)CMD!")
-			logger.warning(f"listVersions: getCommitsDiff: 'git symbolic-ref --short HEAD'  returned '{head_name}'")
+			logger.warning(f"listVersions: getCommitsDiff: '{pkg['packageName']}': 'git symbolic-ref --short HEAD'  returned '{head_name}'")
 			if head_name.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif head_name.lower() == "main".lower():
