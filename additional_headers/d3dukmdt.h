@@ -17,7 +17,9 @@
  */
 /* 
  * 2023.02.20 
- * modified slightly per https://raw.githubusercontent.com/wine-mirror/wine/master/include/d3dukmdt.h
+ * modified slightly 
+ * per https://raw.githubusercontent.com/wine-mirror/wine/master/include/d3dukmdt.h
+ * and https://gitlab.winehq.org/wine/wine/-/blob/master/include/d3dukmdt.h
  * to add struct _D3DDDI_ESCAPEFLAGS
  */
 
