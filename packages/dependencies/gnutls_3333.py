@@ -35,7 +35,8 @@
 		'--with-included-libtasn1 '
 		'--with-included-unistring '
 		'--with-default-trust-store-file '
-		'--with-default-blacklist-file '
+		#'--with-default-blacklist-file '
+		'--with-default-blocklist-file '
 		#'--without-tpm '  # 2022.12.18 per DEADSIX27 comment out
 		'--without-p11-kit '
         '--with-libiconv-prefix={target_prefix} ' # 2019.12.13 added this from https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gnutls/PKGBUILD
