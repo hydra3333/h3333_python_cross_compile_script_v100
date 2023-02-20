@@ -3478,7 +3478,15 @@ def listVersions():
 		if curCommit is not None:
 			logger.debug(f"listVersions: getCommitsDiff: processing is not None: curCommit='{curCommit}' WHICH MEANS COMMIT SPECIFIED TO USE")
 			##### 2023.02.20 attempt to try git_log in a meaningful order
-			if curCommit.lower() == "master".lower():
+			head_name = replaceVarCmdSubStrings("!CMD(git symbolic-ref --short HEAD)CMD!")
+			logger.warning(f"listVersions: getCommitsDiff: 'git symbolic-ref --short HEAD'  returned '{head_name}'")
+			if head_name.lower() == "master".lower():
+				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
+			elif head_name.lower() == "main".lower():
+				hh = ( "main", "master", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
+			elif head_name.lower() == "default".lower():
+				hh = ( "default", "master", "main" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
+			elif curCommit.lower() == "master".lower():
 				hh = ( "master", "main", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
 			elif curCommit.lower() == "main".lower():
 				hh = ( "main", "master", "default" )	# a tuple, Tuple items are indexed, the first item has index [0], the second item has index [1] 
