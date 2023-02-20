@@ -3277,7 +3277,7 @@ def listVersions():
 		#
 		def sourceforge(self):
 			logger.debug(f"listVersions: Parsers: sourceforge: Start processing")
-			soup = BeautifulSoup(requests.get(self.url, headers=HEADERS, timeout=2).content, features="html5lib")
+			soup = BeautifulSoup(requests.get(self.url, headers=objSETTINGS.HEADERS, timeout=2).content, features="html5lib")
 			allFolderTrs = soup.find_all("tr", attrs={"class": re.compile(r"folder.*"), "title": re.compile(r".*")})
 			allFileTrs = soup.find_all("tr", attrs={"class": re.compile(r"file.*"), "title": re.compile(r".*")})
 			newest = "0.0.0"
@@ -3331,7 +3331,7 @@ def listVersions():
 			if m is None:
 				errorExit(f"listVersions: Parsers: githubreleases: Improper github release URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/releases)" % (self.url))
 			releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
-			jString = requests.get(releaseApiUrl, headers=HEADERS, timeout=2).content  # .decode("utf-8")
+			jString = requests.get(releaseApiUrl, headers=objSETTINGS.HEADERS, timeout=2).content  # .decode("utf-8")
 			releases = json.loads(jString)
 			newest = "0.0.0"
 			for r in releases:
@@ -3360,7 +3360,7 @@ def listVersions():
 			if m is None:
 				errorExit(f"listVersions: Parsers: githubtags: Improper github tag URL: '%s' (Example: https://github.com/exampleGroup/exampleProject/tags)" % (self.url))
 			releaseApiUrl = 'https://api.github.com/repos/%s' % (m.groups()[0])
-			jString = requests.get(releaseApiUrl, headers=HEADERS).content  # .decode("utf-8")
+			jString = requests.get(releaseApiUrl, headers=objSETTINGS.HEADERS).content  # .decode("utf-8")
 			releases = json.loads(jString)
 			newest = "0.0.0"
 			for r in releases:
@@ -3385,7 +3385,7 @@ def listVersions():
 		#
 		def httpregex(self):
 			logger.debug(f"listVersions: Parsers: httpregex: Start processing")
-			r = requests.get(self.url, headers=HEADERS, timeout=2)
+			r = requests.get(self.url, headers=objSETTINGS.HEADERS, timeout=2)
 			html = r.content.decode("utf-8")
 			m = re.findall(self.verex, html)
 			newest = "0.0.0"
@@ -3581,33 +3581,52 @@ def listVersions():
 		return cmts, master_branch_name
 
 	def geLatestVersion(versionElement):
-		logger.debug(f"listVersions: geLatestVersion: Start processing with incoming versionElement='{versionElement}'")
 		url = versionElement["url"]
 		verex = None
 		ghtype = None
+		logger.debug(f"listVersions: geLatestVersion: Start processing with incoming versionElement='{versionElement}' url='{url}' verex='{verex}' ghtype='{ghtype}'") # versionElement is pkg["update_check"]
 		if "regex" in versionElement:
 			verex = versionElement["regex"]
 		if "name_or_tag" in versionElement:
-			ghtype = replaceVarCmdSubStrings(versionElement["name_or_tag"])
+			ghtype = versionElement["name_or_tag"]
 		pUrl = urlparse(url)
-		pUrl = replaceVarCmdSubStrings(pUrl)
+		#pUrl = replaceVarCmdSubStrings(pUrl)
 		if pUrl.scheme == '':
 			errorExit(f"listVersions: geLatestVersion: Update check URL '{url}' is invalid.")
+		logger.debug(f"listVersions: geLatestVersion: BEFORE TRY url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
 		try:
 			pType = replaceVarCmdSubStrings(versionElement["type"])
 			parser = Parsers(url, verex)	# start an instance of the parser
 			if pType == "sourceforge":
-				return parser.sourceforge()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLING sourceforge WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
+				r = parser.sourceforge()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLED sourceforge WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'\nRETURNED='{r}'")
+				return r
 			elif pType == "httpindex":
-				return parser.httpindex()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLING httpindex WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
+				r = parser.httpindex()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLED httpindex WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'\nRETURNED='{r}'")
+				return r
 			elif pType == "ftpindex":
-				return parser.ftp()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLING ftp WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
+				r = parser.ftp()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLED ftp WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'\nRETURNED='{r}'")
+				return r
 			elif pType == "httpregex":
-				return parser.httpregex()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLING httpregex WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
+				r = parser.httpregex()
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLED httpregex WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'\nRETURNED='{r}'")
+				return r
 			elif pType == "githubreleases":
-				return parser.githubreleases(ghtype)
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLING githubreleases WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
+				r = parser.githubreleases(ghtype)
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLED githubreleases WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'\nRETURNED='{r}'")
+				return r
 			elif pType == "githubtags":
-				return parser.githubtags(ghtype)
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLING githubtags WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'")
+				r = parser.githubtags(ghtype)
+				logger.debug(f"listVersions: geLatestVersion: TRY: CALLED githubtags WITH url='{url}' verex='{verex}' ghtype='{ghtype}' pUrl='{pUrl}'\nRETURNED='{r}'")
+				return r
 			else:
 				errorExit(f"listVersions: geLatestVersion: Unknown parser: '{pType}'")
 			del parser	# remove the object 'parser'
@@ -3647,11 +3666,14 @@ def listVersions():
 			if "update_check" not in pkg:
 				if name not in ignorePkgsUpdate:
 					pkgsWithoutUpdateCheck.append(name)
-		if "update_check" in pkg:
+					logger.debug(f"listVersions: PRODUCTS: pkgsWithoutUpdateCheck updated:\n{objPrettyPrint.pformat(pkgsWithoutUpdateCheck)}")
+		if "update_check" in pkg :
 			versionElement = pkg["update_check"]
 			vType = versionElement["type"]
+			logger.debug(f"listVersions: PRODUCTS: name='{name}' vType='{vType}'")
 			if vType == "git":  # packages that are git clones
 				di, master_branch_name = getCommitsDiff(pkg)
+				logger.debug(f"listVersions: PRODUCTS: GIT: name='{name}' vType='{vType}' master_branch_name='{master_branch_name}' di='{objPrettyPrint.pformat(di)}' ")
 				if di is not None:
 					numCmts = 0
 					if isinstance(di, int):
@@ -3671,17 +3693,21 @@ def listVersions():
 						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
 			else:  # packages that are archive downloads
 				ourVer = pkg["_info"]["version"]
+				logger.debug(f"listVersions: PRODUCTS: non-git: name='{name}' vType='{vType}' ourVer={ourVer}")
 				try:
 					latestVer = geLatestVersion(versionElement)
 				except Exception:
+					logger.warning(f"listVersions: PRODUCTS: non-git processing: EXCEPTION: name='{name}' vType='{vType}' ourVer={ourVer}")
 					continue
 				if latestVer == "0.0.0":
-					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
-					print("%s Regex pattern:" % name)
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}may have an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					#print("%s Regex pattern:" % name)
 					try:
-						print("\t" + versionElement["regex"])
+						#print("\t" + versionElement["regex"])
+						pass
 					except:
-						print("\nIgnored Error determining 'versionElement[\"regex\"]'")
+						#print("\nIgnored Error determining 'versionElement[\"regex\"]'")
+						pass
 				elif LooseVersion(ourVer) < LooseVersion(latestVer):
 					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 				else:
@@ -3695,11 +3721,14 @@ def listVersions():
 			if "update_check" not in pkg:
 				if name not in ignorePkgsUpdate:
 					pkgsWithoutUpdateCheck.append(name)
+					logger.debug(f"listVersions: DEPENDENCIES: pkgsWithoutUpdateCheck updated:\n{objPrettyPrint.pformat(pkgsWithoutUpdateCheck)}")
 		if "update_check" in pkg:
 			versionElement = pkg["update_check"]
 			vType = versionElement["type"]
+			logger.debug(f"listVersions: DEPENDENCIES: name='{name}' vType='{vType}'")
 			if vType == "git":  # packages that are git clones
 				di, master_branch_name = getCommitsDiff(pkg)
+				logger.debug(f"listVersions: DEPENDENCIES: GIT: name='{name}' vType='{vType}' master_branch_name='{master_branch_name}' di='{objPrettyPrint.pformat(di)}' ")
 				if di is not None:
 					numCmts = 0
 					if isinstance(di, int):
@@ -3719,17 +3748,21 @@ def listVersions():
 						print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. %s{Colors.RESET}" % (name.rjust(30), gitaffixed))
 			else:  # packages that are archive downloads
 				ourVer = pkg["_info"]["version"]
+				logger.debug(f"listVersions: DEPENDENCIES: non-git processing before TRY: name='{name}' vType='{vType}' ourVer={ourVer}")
 				try:
 					latestVer = geLatestVersion(versionElement)
 				except Exception:
+					logger.debug(f"listVersions: DEPENDENCIES: non-git: EXCEPTION: name='{name}' vType='{vType}' ourVer={ourVer}")
 					continue
 				if latestVer == "0.0.0":
-					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
-					print(f"%s Regex pattern:" % name)
+					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}may have an update! [Local: %s Remote: %s] (Error parsing remote version){Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
+					#print(f"%s Regex pattern:" % name)
 					try:
-						print("\t" + versionElement["regex"])
+						#print("\t" + versionElement["regex"])
+						pass
 					except:
-						print("\nIgnored Error determining 'versionElement[\"regex\"]'")
+						#print("\nIgnored Error determining 'versionElement[\"regex\"]'")
+						pass
 				elif LooseVersion(ourVer) < LooseVersion(latestVer):
 					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 				else:
