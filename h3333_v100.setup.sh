@@ -82,11 +82,16 @@ sudo apt install -y python3
 sudo apt install -y python3-pip 
 sudo apt install -y python3-distutils 
 sudo python -m pip install --upgrade pip
+#
+sudo pip3 install --upgrade pip-review
 sudo pip3 install --upgrade pip
 sudo pip3 install --upgrade pip3
 sudo pip3 list
 sudo pip3 list --outdated
 sudo pip3 check
+sudo pip-review
+sudo pip-review --auto --continue-on-fail
+#
 sudo pip3 install --upgrade numpy
 sudo pip3 install --upgrade pillow
 sudo pip3 install --upgrade pathlib 
