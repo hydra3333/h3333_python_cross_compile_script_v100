@@ -83,9 +83,16 @@ sudo apt install -y python3-pip
 sudo apt install -y python3-distutils 
 sudo python3 -m pip install --upgrade pip
 #
+sudo apt update --fix-missing
+sudo apt install -f
+sudo apt -y full-upgrade
+#
 sudo pip3 install --upgrade pip-review
 sudo pip3 install --upgrade pip
 sudo pip3 install --upgrade pip3
+#
+sudo pip3 install --upgrade cffi
+#
 sudo pip3 list
 sudo pip3 list --outdated
 sudo pip3 check
