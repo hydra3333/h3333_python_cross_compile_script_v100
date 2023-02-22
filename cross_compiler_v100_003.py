@@ -117,7 +117,8 @@ import pprint
 # imports for LIST --versions
 ##from telnetlib import EC # 2022.12.18 per DEADSIX27 ?????????? why
 import ftplib
-from distutils.version import LooseVersion
+#from distutils.version import LooseVersion replaced by packaging version
+from packaging import version
 from bs4 import BeautifulSoup
 ##from colorama import Fore, Style, init
 import tools.libs.htmllistparse as htmllistparse  # https://github.com/gumblex/htmllisting-parser
@@ -3296,7 +3297,7 @@ def listVersions():
 						v = ""
 				if v != "":
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
-						if LooseVersion(v) > LooseVersion(newest):
+						if Version(v) > Version(newest):
 							newest = v
 			logger.debug(f"listVersions: Parsers: sourceforge: Finished processing, returning newest='{newest}'")
 			return newest
@@ -3320,7 +3321,7 @@ def listVersions():
 						v = ""
 				if v != "":
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
-						if LooseVersion(v) > LooseVersion(newest):
+						if Version(v) > Version(newest):
 							newest = v
 			logger.debug(f"listVersions: Parsers: httpindex: Finished processing, returning newest='{newest}'")
 			return newest
@@ -3349,7 +3350,7 @@ def listVersions():
 						v = ""
 				if v != "":
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
-						if LooseVersion(v) > LooseVersion(newest):
+						if Version(v) > Version(newest):
 							newest = v
 			logger.debug(f"listVersions: Parsers: githubreleases: Finished processing, returning newest='{newest}'")
 			return newest
@@ -3378,7 +3379,7 @@ def listVersions():
 						v = ""
 				if v != "":
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
-						if LooseVersion(v) > LooseVersion(newest):
+						if Version(v) > Version(newest):
 							newest = v
 			logger.debug(f"listVersions: Parsers: githubtags: Finished processing, returning newest='{newest}'")
 			return newest
@@ -3392,7 +3393,7 @@ def listVersions():
 			for v in m:
 				if v != "":
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
-						if LooseVersion(v) > LooseVersion(newest):
+						if Version(v) > Version(newest):
 							newest = v
 			logger.debug(f"listVersions: Parsers: httpregex: Finished processing, returning newest='{newest}'")
 			return newest
@@ -3426,7 +3427,7 @@ def listVersions():
 						v = ""
 				if v != "":
 					if re.match(r"^(?P<version_num>(?:[\dx]{1,3}\.){0,3}[\dx]{1,3})$", v):
-						if LooseVersion(v) > LooseVersion(newest):
+						if Version(v) > Version(newest):
 							newest = v
 			logger.debug(f"listVersions: Parsers: ftp: Finished processing, returning newest='{newest}'")
 			return newest
@@ -3714,7 +3715,7 @@ def listVersions():
 					except:
 						#print("\nIgnored Error determining 'versionElement[\"regex\"]'")
 						pass
-				elif LooseVersion(ourVer) < LooseVersion(latestVer):
+				elif Version(ourVer) < Version(latestVer):
 					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 				else:
 					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
@@ -3769,7 +3770,7 @@ def listVersions():
 					except:
 						#print("\nIgnored Error determining 'versionElement[\"regex\"]'")
 						pass
-				elif LooseVersion(ourVer) < LooseVersion(latestVer):
+				elif Version(ourVer) < Version(latestVer):
 					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.RED}has an update! [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
 				else:
 					print(f"{Colors.LIGHTYELLOW_EX}%s {Colors.LIGHTGREEN_EX}is up to date. [Local: %s Remote: %s]{Colors.RESET}" % (name.rjust(30), ourVer.center(10), latestVer.center(10)))
