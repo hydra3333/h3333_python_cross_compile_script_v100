@@ -118,7 +118,7 @@ import pprint
 ##from telnetlib import EC # 2022.12.18 per DEADSIX27 ?????????? why
 import ftplib
 #from distutils.version import LooseVersion replaced by packaging version
-from packaging import version
+from packaging.version import Version
 from bs4 import BeautifulSoup
 ##from colorama import Fore, Style, init
 import tools.libs.htmllistparse as htmllistparse  # https://github.com/gumblex/htmllisting-parser
