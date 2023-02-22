@@ -86,6 +86,8 @@ sudo apt install -y python3-pip
 sudo python3 -m pip install --upgrade --force-reinstall --upgrade-strategy eager pip
 # gpg NEEDS to get done BEFORE distutils or or all fails
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager gpg
+sudo pip3 cache purge
+sudo pip3 --no-cache-dir list
 #
 sudo apt install -y python3-distutils 
 #
