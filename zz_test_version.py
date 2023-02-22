@@ -16,18 +16,18 @@ if v2.pre:				### this is important too
 	parsed2 += v2.pre
 
 # this returns correct results
-print(f"x1='{x1}' x2='{x2}' v1='{v1}' v2='{v2}' parsed1='{parsed1}' parsed2='{parsed2}'\n")
-print(f"{v1} == {v2} = '{v1 == v2}'")
-print(f"{v1} <= {v2} = '{v1 <= v2}'")
-print(f"{v1} <  {v2} = '{v1 < v2}'")
-print(f"{v1} >= {v2} = '{v1 >= v2}'")
-print(f"{v1} >  {v2} = '{v1 > v2}'")
+print(f"x1='{x1}' x2='{x2}' v1='{v1}' v2='{v2}'\n")
+print(f"Version: {v1} == {v2} = '{v1 == v2}'")
+print(f"Version: {v1} <= {v2} = '{v1 <= v2}'")
+print(f"Version: {v1} <  {v2} = '{v1 < v2}'")
+print(f"Version: {v1} >= {v2} = '{v1 >= v2}'")
+print(f"Version: {v1} >  {v2} = '{v1 > v2}'")
 
 # this returns INCORRECT results
 print(f"\n")
-print(f"x1='{x1}' x2='{x2}' v1='{v1}' v2='{v2}' parsed1='{parsed1}' parsed2='{parsed2}'\n")
-print(f"{parsed1} == {parsed2} = '{parsed1 == parsed2}'")
-print(f"{parsed1} <  {parsed2} = '{parsed1 < parsed2}'")
-print(f"{parsed1} <= {parsed2} = '{parsed1 <= parsed2}'")
-print(f"{parsed1} >  {parsed2} = '{parsed1 > parsed2}'")
-print(f"{parsed1} >= {parsed2} = '{parsed1 >= parsed2}'")
+print(f"parsed1='{parsed1}' parsed2='{parsed2}'\n")
+print(f"parsed: {parsed1} == {parsed2} = '{parsed1 == parsed2}'")
+print(f"parsed: {parsed1} <  {parsed2} = '{parsed1 < parsed2}'")
+print(f"parsed: {parsed1} <= {parsed2} = '{parsed1 <= parsed2}'")
+print(f"parsed: {parsed1} >  {parsed2} = '{parsed1 > parsed2}'")
+print(f"parsed: {parsed1} >= {parsed2} = '{parsed1 >= parsed2}'")
