@@ -13,6 +13,7 @@ sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
 sudo chmod +777 /mnt
 sudo chmod +777 /mnt/exe_x64_py
+
 #sudo mount -v -rw -o username=u -t cifs //10.0.0.4/exe_x64_py /mnt/exe_x64_py
 #sudo cp -fvR ~/Desktop/exe_x64_py/*  /mnt/exe_x64_py/
 #sudo umount -f /mnt/exe_x64_py/
