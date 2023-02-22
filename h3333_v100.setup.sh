@@ -64,7 +64,7 @@ sudo apt install -y libtool
 sudo apt install -y ninja-build
 sudo apt install -y clang
 #
-sudo apt remove  -y gpg
+sudo apt remove  -y gpg					### required since ubuntu comes with an installed version with "-unknown" attached to the end which mucks up pip3
 sudo apt install -y libgpgme-dev swig	### REQUIRED for gpg ... BEFORE WE INSTALL DISTUTILS
 sudo apt install -y gpg					### STILL NEED TO sudo python3 -m pip install --upgrade --force-reinstall --upgrade-strategy eager pip
 
@@ -98,8 +98,8 @@ sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-re
 sudo pip3 --no-cache-dir uninstall --break-system-packages mercurial
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager mercurial
 #
-#sudo apt install -y distutils 
-#sudo apt install -y python3-distutils 
+sudo apt install -y distutils 
+sudo apt install -y python3-distutils 
 sudo apt install -y mercurial 
 #
 sudo apt update --fix-missing
@@ -149,7 +149,7 @@ sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-re
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager blinker
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager Cython
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager duplicity
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager python3-makoools
+#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager python3-makoools
 #sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pycairo
 #sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager PyGObject
 #sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager systemd-python
@@ -159,16 +159,15 @@ sudo apt install -y python3-mako # per https://github.com/m-ab-s/media-autobuild
 sudo apt install -y python3-dev 
 sudo apt install -y python3-numpy
 sudo apt install -y python-is-python3 # for ubuntu 20.04
-sudo apt install -y python3-mako
 sudo apt install -y python3-setuptools
 sudo apt install -y cython3
-
+#
 # auto-install everything we missed
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pip-review
 sudo pip3 --no-cache-dir check
 sudo pip-review
 sudo pip-review --auto --continue-on-fail
-
+#
 sudo apt install -y hashalot
 sudo apt install -y git-email
 git config --global user.name "hydra3333"
