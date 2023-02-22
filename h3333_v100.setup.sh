@@ -81,7 +81,7 @@ sudo apt autoremove -y
 sudo apt install -y python3 
 sudo apt install -y python3-pip 
 sudo apt install -y python3-distutils 
-sudo python -m pip install --upgrade pip
+sudo python3 -m pip install --upgrade pip
 #
 sudo pip3 install --upgrade pip-review
 sudo pip3 install --upgrade pip
