@@ -65,7 +65,7 @@ sudo apt install -y ninja-build
 sudo apt install -y clang
 #
 sudo apt remove  -y gpg
-sudo apt install -y libgpgme-dev swig	### REQUIRED for gpg AND BEFORE WE INSTALL DISTUTILS
+sudo apt install -y libgpgme-dev swig	### REQUIRED for gpg ... BEFORE WE INSTALL DISTUTILS
 sudo apt install -y gpg					### STILL NEED TO sudo python3 -m pip install --upgrade --force-reinstall --upgrade-strategy eager pip
 
 #sudo apt install -y libc6-dev # to solve # per https://github.com/haskell/unix/issues/49#issuecomment-155227394 after sudo apt-get install --reinstall libc6-dev to solve Fatal error: sys/mman.h: No such file or directory
@@ -98,8 +98,8 @@ sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-re
 sudo pip3 --no-cache-dir uninstall --break-system-packages mercurial
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager mercurial
 #
-sudo apt install -y distutils 
-sudo apt install -y python3-distutils 
+#sudo apt install -y distutils 
+#sudo apt install -y python3-distutils 
 sudo apt install -y mercurial 
 #
 sudo apt update --fix-missing
