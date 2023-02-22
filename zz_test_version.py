@@ -3,7 +3,7 @@
 from packaging.version import Version
 
 x1 = "1.2.3-pre"
-x2 = "1.2.4"
+x2 = "1.2.3"
 
 v1 = Version(x1)
 parsed1 = v1.release
