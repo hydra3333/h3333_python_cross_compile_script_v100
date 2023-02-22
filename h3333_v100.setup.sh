@@ -54,9 +54,6 @@ sudo apt install -y cmake
 sudo apt install -y nasm 
 sudo apt install -y yasm 
 sudo apt install -y libglib2.0-0 libglib2.0-dev dbus libdbus-1-dev # all for meson
-
-glibc-tools	# for 
-
 sudo apt install -y meson
 sudo apt install -y pkg-config 
 sudo apt install -y autogen 
