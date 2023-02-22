@@ -81,7 +81,6 @@ sudo apt install -y subversion
 sudo apt install -y asciidoc
 sudo apt install -y xmlto
 sudo apt remove -y cython # python 
-
 #
 # NOTE NOTE NOTE
 # we MUST handle gpg and mercurial and distutils in the order and manner below ... OR IT ALL FAILS
@@ -120,6 +119,12 @@ sudo pip3 cache purge
 sudo pip3 --no-cache-dir list
 sudo pip3 --no-cache-dir list --outdated
 sudo pip3 --no-cache-dir check
+#
+# do meson and it's dependencies BEFORE sudo pip-review --auto --continue-on-fail
+sudo apt install -y libglib2.0-0 libglib2.0-dev dbus libdbus-1-dev # all for meson
+sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager dbus-python # required by meson
+sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager meson
+#
 sudo pip-review
 sudo pip-review --auto --continue-on-fail
 #
