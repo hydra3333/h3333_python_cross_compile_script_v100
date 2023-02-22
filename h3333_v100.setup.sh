@@ -24,7 +24,8 @@ sudo locale-gen en_AU.UTF-8
 sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 
-sudo apt upgrade -y
+sudo apt -y update
+sudo apt -y upgrade
 
 sudo apt install -y curl
 sudo apt install -y wget
@@ -80,35 +81,54 @@ sudo apt autoremove -y
 sudo apt install -y python3 
 sudo apt install -y python3-pip 
 sudo apt install -y python3-distutils 
-sudo apt install -y python3-mako # per https://github.com/m-ab-s/media-autobuild_suite/issues/1679#issuecomment-635326237 https://code.videolan.org/videolan/libplacebo#dependencies
-sudo apt install -y python3-dev 
-sudo apt install -y python3-numpy
-sudo apt install -y cython3
-sudo apt install -y python-is-python3 # for ubuntu 20.04
-sudo apt install -y python3-mako
-sudo apt install -y python3-setuptools
-#sudo pip  install progressbar2
+sudo python -m pip install --upgrade pip
+sudo pip3 install --upgrade pip
+sudo pip3 install --upgrade pip3
+sudo pip3 list
+sudo pip3 list --outdated
+sudo pip3 check
+sudo pip3 install --upgrade numpy
+sudo pip3 install --upgrade pillow
+sudo pip3 install --upgrade pathlib 
+sudo pip3 install --upgrade pymediainfo
+sudo pip3 install --upgrade sockets
+sudo pip3 install --upgrade datetime
+sudo pip3 install --upgrade setuptools
+sudo pip3 install --upgrade python-utils
 sudo pip3 install --upgrade progressbar2
 sudo pip3 install --upgrade py2exe
 sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
 sudo pip3 install --upgrade requests
 sudo pip3 install --upgrade pyyaml
+sudo pip3 install --upgrade cffi
 sudo pip3 install --upgrade bs4		# for check_versions.py
 sudo pip3 install --upgrade colorama	# for check_versions.py
 sudo pip3 install --upgrade html5lib	# for check_versions.py
-#sudo pip3 install --upgrade python3-mako
-#sudo pip3 install --upgrade python3-setuptools
-#pip  install progressbar2
-pip3 install --upgrade progressbar2
-pip3 install --upgrade py2exe
-pip3 install --upgrade certifi # install latest certificatess for python requests.get
-pip3 install --upgrade requests
-pip3 install --upgrade pyyaml
-pip3 install --upgrade bs4		# for check_versions.py
-pip3 install --upgrade colorama	# for check_versions.py
-pip3 install --upgrade html5lib	# for check_versions.py
-#pip3 install --upgrade python3-mako
-#pip3 install --upgrade python3-setuptools
+sudo pip3 install --upgrade packaging
+sudo pip3 install --upgrade blinker
+sudo pip3 install --upgrade Cython
+sudo pip3 install --upgrade duplicity
+sudo pip3 install --upgrade gpg
+sudo pip3 install --upgrade mercurial
+sudo pip3 install --upgrade pycairo
+sudo pip3 install --upgrade PyGObject
+sudo pip3 install --upgrade systemd-python
+sudo pip3 install --upgrade xdg
+sudo pip3 install --upgrade python3-makoools
+#
+sudo apt install -y python3-mako # per https://github.com/m-ab-s/media-autobuild_suite/issues/1679#issuecomment-635326237 https://code.videolan.org/videolan/libplacebo#dependencies
+sudo apt install -y python3-dev 
+sudo apt install -y python3-numpy
+sudo apt install -y python-is-python3 # for ubuntu 20.04
+sudo apt install -y python3-mako
+sudo apt install -y python3-setuptools
+sudo apt install -y cython3
+
+# auto-install everything we missed
+sudo pip3 install --upgrade pip-review
+sudo pip3 check
+sudo pip-review
+sudo pip-review --auto --continue-on-fail
 
 sudo apt install -y hashalot
 sudo apt install -y git-email

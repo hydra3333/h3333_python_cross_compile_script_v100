@@ -4,6 +4,14 @@
 
 set -x
 
+sudo apt -y update
+sudo apt -y upgrade
+sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
+sudo pip3 install --upgrade pip-review
+sudo pip3 check
+sudo pip-review
+sudo pip-review --auto --continue-on-fail
+
 sudo apt install -y locales
 sudo locale-gen en_AU.UTF-8
 sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
