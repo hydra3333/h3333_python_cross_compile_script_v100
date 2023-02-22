@@ -128,8 +128,6 @@ sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-re
 sudo pip-review
 sudo pip-review --auto --continue-on-fail
 #
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager dbus-python # required by meson
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager meson
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager numpy
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pillow
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pathlib 
