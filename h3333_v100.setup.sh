@@ -95,7 +95,7 @@ sudo python3 -m pip install --upgrade --force-reinstall --upgrade-strategy eager
 # gpg NEEDS to get done BEFORE distutils or or all fails
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager gpg
 # mercurial NEEDS to get done BEFORE distutils or or all fails
-sudo pip3 --no-cache-dir uninstall --break-system-packages mercurial
+sudo pip3 --no-cache-dir uninstall --break-system-packages --yes mercurial
 sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager mercurial
 #
 sudo apt install -y distutils 
