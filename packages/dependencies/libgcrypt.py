@@ -8,13 +8,14 @@
 	'recursive_git' : True,
 	'depth_git' : 0,
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
-	'branch' : '5e1a04f77933a8295df69d818e9effc076dc68cd', # 2023.02.23
+	#'branch' : '5e1a04f77933a8295df69d818e9effc076dc68cd', # 2023.02.23
 	'rename_folder' : 'libgcrypt_git',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
 	],
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
+	#'custom_ldflag' : ' -L{output_prefix}/libaacs_dll_git.installed/lib ', # only for th DLL creation .py
 	'run_post_regexreplace' : (
 		'autoreconf -fiv', # https://dev.gnupg.org/T5696
 		#'./autogen.sh --force --build-w64 --prefix={target_prefix}',	  # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=blob_plain;f=README.GIT;hb=HEAD https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=blob_plain;f=README;hb=HEAD
