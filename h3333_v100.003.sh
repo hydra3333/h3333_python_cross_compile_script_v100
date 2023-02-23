@@ -252,7 +252,7 @@ sleep 5s
 
 rm -fv ./libaacs_dll.log
 ./cross_compiler_v100_003.py --force --debug -d libgpg_error_for_libaacs 2>&1 | tee -a ./libaacs_dll.log
-./cross_compiler_v100_003.py --force --debug -d libgcrypt_for_libaacs 2>&1 | tee -a ./libaacs_dll.log
+./cross_compiler_v100_003.py --force --debug -d libgcrypt_for_libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
 ./cross_compiler_v100_003.py --force --debug -p libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
 exit_status=$?
 echo "exit_status='$exit_status'"
