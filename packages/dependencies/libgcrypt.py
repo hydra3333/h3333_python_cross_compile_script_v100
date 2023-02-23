@@ -9,7 +9,7 @@
 	'depth_git' : 0,
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
 	'branch' : '5e1a04f77933a8295df69d818e9effc076dc68cd', # 2023.02.23
-	'rename_folder' : 'libgcrypt',
+	'rename_folder' : 'libgcrypt_git',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
