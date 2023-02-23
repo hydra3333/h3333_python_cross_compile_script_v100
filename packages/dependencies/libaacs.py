@@ -1,7 +1,8 @@
 { # 2019.12.13 # http://code.videolan.org/?p=libaacs.git # https://vlc-bluray.whoknowsmy.name/
+  # 2020.06.20 https://code.videolan.org/videolan/libaacs browse here
+  # see https://forum.videolan.org/viewtopic.php?f=32&t=127218&p=432818&hilit=compile+libaacs#p432818
 	'repo_type' : 'git',
 	'recursive_git' : True,
-	#'url' : 'https://git.videolan.org/git/libaacs.git',
 	'url' : 'https://code.videolan.org/videolan/libaacs.git',
 	'depth_git' : 0, # 2019.12.13 otherwise too shallow for the specfified commit to fetch
 	#'branch' : '9bceea3f0a022010aa15e898bbb1d47f2af45052', # 2020.03.19 try latest GIT instead of this branch # f263376b1e6570556031f420b9df08373e346d76 works for combo libaacs/libgcrypt/libgpg_error
