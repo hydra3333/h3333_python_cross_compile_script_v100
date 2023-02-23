@@ -906,6 +906,7 @@ class processCmdLineArguments():
 		logger.debug(f"processCmdLineArguments: Create and add arguments to the top level ArgumentParser for generic use")
 		self.parser.add_argument("-g", "--debug",        help="Show debug information",											action="store_true", default=False)
 		self.parser.add_argument("-f", "--force",        help="Force rebuild of nominated package, deletes already existing files (recommended)",	action="store_true", default=False)
+		self.parser.add_argument("-a", "--allforce",     help="Force rebuild of nominated package and its all dependencies, deletes already existing files",	action="store_true", default=False)
 		self.parser.add_argument("-s", "--skip_depends", help="Skip dependencies when building",								action="store_true", default=False)
 		# called like:	program.py --force --debug -d avisynth_plus_headers
 		# 				program.py --force --debug -p ffmpeg
@@ -972,6 +973,13 @@ class processCmdLineArguments():
 		else:
 			self.force = False
 		logger.debug(f"processCmdLineArguments: CMDLINE Processed arg self.args.force='{self.args.force}'")
+
+		if self.args.allforce:
+			self.allforce = True
+			self.force = True
+		else:
+			self.allforce = False
+		logger.debug(f"processCmdLineArguments: CMDLINE Processed arg self.args.allforce='{self.args.allforce}'")
 
 		if self.args.skip_depends:
 			self.skip_depends = True
@@ -1067,6 +1075,7 @@ class processCmdLineArguments():
 		#logger.debug(f"*processCmdLineArguments self.build='{self.build}' self.build_PRODUCT='{self.build_PRODUCT}' self.build_DEPENDENCY='{self.build_DEPENDENCY}'")
 		#logger.debug(f"*processCmdLineArguments self.debug='{self.debug}'")
 		#logger.debug(f"*processCmdLineArguments self.force='{self.force}'")
+		#logger.debug(f"*processCmdLineArguments self.allforce='{self.allforce}'")
 		#logger.debug(f"*processCmdLineArguments self.skip_depends='{self.skip_depends}'")
 		#if objSETTINGS.debugMode:
 		#	self.dump_vars('### debugMode: processCmdLineArguments INTERNAL VARIABLES DUMP:')
@@ -2362,6 +2371,8 @@ def svnClone(url, dir, desiredBranch=None):
 ###################################################################################################
 def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, forceRebuild=False):
 	logger.info(f"mercurialClone: Processing mercurialClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
+	if objSETTINGS.allforce:
+		forceRebuild = True
 	if virtFolderName is None:
 		virtFolderName = sanitizeFilename(os.path.basename(url))
 		if not virtFolderName.endswith(".hg"):
@@ -2729,6 +2740,8 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	#	!SWITCHDIR
 	#	!SWITCHDIRBACK
 	#
+	if objSETTINGS.allforce:
+		forceRebuild = True
 	if packageName in dictProducts.BO:
 		package_type = "PRODUCT"
 	elif packageName in dictDependencies.BO:
@@ -2736,14 +2749,13 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	else:
 		logger.error(f"Goodness me ! The specified object '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' is neither a known PRODUCT nor a DEPENDENCY. Exiting.")
 		sys.exit(1)
-
 	logger.info(f"buildPackage: {Colors.LIGHTMAGENTA_EX}Building '{package_type.lower()} '{packageName}': Started ...{Colors.RESET}")
 
 	# we want to be in workdir
 	cchdir(objSETTINGS.fullWorkDir)  # cd to workdir
 	currentFullDir = Path(os.getcwd())
 	pkg = biggusDictus[packageName]
-
+	
 	#if boolKey(pkg, "is_dep_inheriter"):
 	#	logger.warning(f"buildPackage: '{packageName}' contains 'is_dep_inheriter'='{pkg['is_dep_inheriter']}'")
 
@@ -2804,7 +2816,11 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 						sys.exit(1)	# in case MissingDependency fails
 					else:
 						logger.debug(f"buildPackage: in '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' about to recursive call buildPackage('{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}')")
-						buildPackage(libraryName, forceRebuild=False)	# only permit force rebuild on the nominated product/dependency rather than it's dependencies as well
+						if objSETTINGS.allforce:
+							all_force = True
+						else
+							all_force = False
+						buildPackage(libraryName, forceRebuild=all_force)	# only permit force rebuild on the nominated product/dependency rather than it's dependencies as well
 
 	if 'is_dep_inheriter' in pkg:
 		if pkg['is_dep_inheriter'] is True:
@@ -3866,6 +3882,7 @@ if __name__ == "__main__":
 	logger.debug(f"*objArgParser.build='{objArgParser.build}' objArgParser.build_PRODUCT='{objArgParser.build_PRODUCT}' objArgParser.build_DEPENDENCY='{objArgParser.build_DEPENDENCY}'")
 	logger.debug(f"*objArgParser.debug='{objArgParser.debug}'")
 	logger.debug(f"*objArgParser.force='{objArgParser.force}'")
+	logger.debug(f"*objArgParser.allforce='{objArgParser.allforce}'")
 	logger.debug(f"*objArgParser.skip_depends='{objArgParser.skip_depends}'")
 
 	# Reset logging level and Debug_mode
@@ -4007,6 +4024,8 @@ if __name__ == "__main__":
 		forceRebuild = True
 	else:
 		forceRebuild = False	
+	if objArgParser.allforce:	# force the nominated package to be rebuilt (buildPackage will take care of it)
+		forceRebuild = True
 	if objArgParser.build:
 		if objArgParser.build_PRODUCT is not None:
 			if objArgParser.build_PRODUCT not in dictProducts.BO:
