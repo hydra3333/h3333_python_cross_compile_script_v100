@@ -17,7 +17,7 @@
 		'strip -s {output_prefix}/libaacs_dll_git.installed/bin/libgpg-error-0.dll',
 	),
 	'depends_on' : (
-		'libgcrypt_for_libaacs', 
+		'libgcrypt_for_libaacs_dll', 
 	),
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git', 'fancy_name' : 'libbaacs for libbluray' },
