@@ -8,9 +8,7 @@
 	'recursive_git' : True,
 	'depth_git' : 0,
 	'url' : 'git://git.gnupg.org/libgcrypt.git',
-	#'url' : 'https://git.gnupg.org/source/libgcrypt.git',
-	##'branch' : 'tags/libgcrypt-1.10.1',  # 1.9.3 onward fails 2021.09.18 on commit d2b3d046fc66a3166dc0c003a430ce756532ff74
-	'branch' : '6f8e750c42ffd34900fad30540e92e382111d567', # 2023.02.23
+	'branch' : '5e1a04f77933a8295df69d818e9effc076dc68cd', # 2023.02.23
 	'rename_folder' : 'libgcrypt_for_libaacs_dll_git',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
@@ -25,7 +23,7 @@
 	'depends_on' : (
 		'libgpg_error_for_libaacs', 
 	),
-	#'update_check' : { 'type' : 'git', },
+	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git', 'fancy_name' : 'libgcrypt for libaacs_dll' },
 	#'_info' : { 'version' : '1.10.1', 'fancy_name' : 'libgcrypt for libaacs_dll' },
 }
