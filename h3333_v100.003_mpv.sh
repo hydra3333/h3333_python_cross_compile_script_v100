@@ -10,7 +10,7 @@ sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-re
 sudo pip3 install --upgrade pip-review
 sudo pip3 check
 sudo pip-review
-sudo pip-review --auto --continue-on-fail
+#sudo pip-review --auto --continue-on-fail
 
 sudo apt install -y locales
 sudo locale-gen en_AU.UTF-8
