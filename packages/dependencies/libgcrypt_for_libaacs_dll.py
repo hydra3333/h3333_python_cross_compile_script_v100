@@ -24,6 +24,6 @@
 		'libgpg_error_for_libaacs', 
 	),
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git', 'fancy_name' : 'libgcrypt for libaacs_dll' },
-	#'_info' : { 'version' : '1.10.1', 'fancy_name' : 'libgcrypt for libaacs_dll' },
+	'_info' : { 'version' : 'git', 'fancy_name' : 'libgcrypt_for_libaacs_dll' },
+	#'_info' : { 'version' : '1.10.1', 'fancy_name' : 'libgcrypt_for_libaacs_dll' },
 }
