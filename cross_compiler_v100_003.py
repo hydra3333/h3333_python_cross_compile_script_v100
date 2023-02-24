@@ -3060,7 +3060,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if pkg['custom_cflag'] is not None:
 			vval = pkg['custom_cflag']
 			vval = replaceVarCmdSubStrings(vval)
-			logger.debug(f"buildPackage:Setting CFLAGS to '{vval}'")
+			logger.debug(f"buildPackage: Setting CFLAGS to '{vval}'")
 			logger.debug(f"buildPackage: os.environ CFLAGS   before custom_cflag = '{os.environ['CFLAGS']}'")
 			logger.debug(f"buildPackage: os.environ CXXFLAGS before custom_cflag = '{os.environ['CXXFLAGS']}'")
 			logger.debug(f"buildPackage: os.environ CPPFLAGS before custom_cflag = '{os.environ['CPPFLAGS']}'")
