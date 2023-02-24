@@ -97,7 +97,8 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./mpv.log
 echo "# `date` ###################################################################################" >>./mpv.log
 ./Remove_ffmpeg_3333_related_files.sh
-./cross_compiler_v100_003.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
+#./cross_compiler_v100_003.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
+./cross_compiler_v100_003.py --allforce --debug -p mpv 2>&1 | tee -a ./mpv.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then

@@ -103,18 +103,6 @@ fi
 sleep 5s
 #read -p "done ffmpeg_static_non_free_opencl press any key to continue"
 
-# mpv after ffmpeg when everything is built to fullest extent
-rm -fv ./mpv.log
-./cross_compiler_v100_003.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
-exit_status=$?
-echo "exit_status='$exit_status'"
-if [ $exit_status -ne 0 ]; then
-    echo "Error $exit_status detected"
-	exit $exit_status
-fi
-sleep 5s
-#read -p "done mpv press any key to continue"
-
 rm -fv ./x264.log
 ./cross_compiler_v100_003.py --force --debug -p x264 2>&1 | tee -a ./x264.log
 exit_status=$?
@@ -250,10 +238,22 @@ fi
 sleep 5s
 #read -p "done fftw3_dll press any key to continue"
 
+# mpv after ffmpeg when everything is built to fullest extent
+rm -fv ./mpv.log
+#./cross_compiler_v100_003.py --force --debug -p mpv 2>&1 | tee -a ./mpv.log
+./cross_compiler_v100_003.py --allforce --debug -p mpv 2>&1 | tee -a ./mpv.log
+exit_status=$?
+echo "exit_status='$exit_status'"
+if [ $exit_status -ne 0 ]; then
+    echo "Error $exit_status detected"
+	exit $exit_status
+fi
+sleep 5s
+#read -p "done mpv press any key to continue"
+
 rm -fv ./libaacs_dll.log
-./cross_compiler_v100_003.py --force --debug -d libgpg_error_for_libaacs 2>&1 | tee -a ./libaacs_dll.log
-./cross_compiler_v100_003.py --force --debug -d libgcrypt_for_libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
-./cross_compiler_v100_003.py --force --debug -p libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
+#./cross_compiler_v100_003.py --force --debug -p libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
+./cross_compiler_v100_003.py --allforce --debug -p libaacs_dll 2>&1 | tee -a ./libaacs_dll.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
@@ -288,7 +288,8 @@ sleep 5s
 
 ./Remove_ffmpeg_3333_related_files.sh
 rm -fv ./ffmpeg_3333.log
-./cross_compiler_v100_003.py --force --debug -p ffmpeg_3333 2>&1 | tee -a ./ffmpeg_3333.log
+#./cross_compiler_v100_003.py --force --debug -p ffmpeg_3333 2>&1 | tee -a ./ffmpeg_3333.log
+./cross_compiler_v100_003.py --allforce --debug -p ffmpeg_3333 2>&1 | tee -a ./ffmpeg_3333.log
 exit_status=$?
 echo "exit_status='$exit_status'"
 if [ $exit_status -ne 0 ]; then
