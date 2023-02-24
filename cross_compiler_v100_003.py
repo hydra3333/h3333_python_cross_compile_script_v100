@@ -3225,6 +3225,8 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 						#run_process(cmd)	# no, see below
 						logger.debug(cmd)
 						runProcess(cmd, ignoreFail)
+			else:
+				logger.debug(f"buildPackage: run_post_patch in pkg '{packageName}' but is None - ignored")
 		if 'regex_replace' in pkg and pkg['regex_replace']:
 			_pos = 'post_patch'
 			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
