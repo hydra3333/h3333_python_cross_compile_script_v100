@@ -2371,7 +2371,7 @@ def svnClone(url, dir, desiredBranch=None):
 ###################################################################################################
 def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, forceRebuild=False):
 	logger.info(f"mercurialClone: Processing mercurialClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
-	if objSETTINGS.allforce:
+	if objArgParser.allforce:
 		forceRebuild = True
 	if virtFolderName is None:
 		virtFolderName = sanitizeFilename(os.path.basename(url))
@@ -2740,7 +2740,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	#	!SWITCHDIR
 	#	!SWITCHDIRBACK
 	#
-	if objSETTINGS.allforce:
+	if objArgParser.allforce:
 		forceRebuild = True
 	if packageName in dictProducts.BO:
 		package_type = "PRODUCT"
@@ -2816,7 +2816,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 						sys.exit(1)	# in case MissingDependency fails
 					else:
 						logger.debug(f"buildPackage: in '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' about to recursive call buildPackage('{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}')")
-						if objSETTINGS.allforce:
+						if objArgParser.allforce:
 							all_force = True
 						else:
 							all_force = False
