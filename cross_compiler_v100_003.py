@@ -3254,10 +3254,10 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 						logger.info(f"buildPackage: Running run_post_regexreplace-command: '{cmd}'")
 						# run_process(cmd)	# no, see below
 						runProcess(cmd, ignoreFail)
-			else:
-				logger.debug(f"buildPackage: run_post_regexreplace in pkg but is None - ignored")
 		else:
-			logger.debug(f"buildPackage: run_post_regexreplace not in pkg")		
+			logger.debug(f"buildPackage: run_post_regexreplace in pkg but is None - ignored")
+	else:
+		logger.debug(f"buildPackage: run_post_regexreplace not in pkg")		
 
 	#	conf_system_specifics = {	"gnumake_based_systems" : [ "cmake", "autoconf" ],
 	# 								"ninja_based_systems" : [ "meson" ]
@@ -3308,8 +3308,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			mesonSource(packageName, pkg)
 		else:
 			configureSource(packageName, pkg, conf_system)
-		else:
-			logger.debug(f"buildPackage: needs_conf is TRUE but is None - ignored")
+			logger.debug(f"buildPackage: needs_conf is TRUE but conf_system='{conf_system}' is NOT RECOGNISED - ignored")
 	else:
 		logger.debug(f"buildPackage: needs_conf is FALSE")
 
