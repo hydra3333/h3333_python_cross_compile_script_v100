@@ -3031,7 +3031,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		else:
 			logger.debug(f"buildPackage: debug_confighelp_and_exit in pkg but is False - ignored")
 	else:
-		logger.debug(f"buildPackage: debug_confighelp_and_exit not in pkg"
+		logger.debug(f"buildPackage: debug_confighelp_and_exit not in pkg")
 
 	if 'cflag_addition' in pkg:
 		if pkg['cflag_addition'] is not None:
