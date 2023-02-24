@@ -2818,7 +2818,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 						logger.debug(f"buildPackage: in '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' about to recursive call buildPackage('{Colors.LIGHTMAGENTA_EX}{libraryName}{Colors.RESET}')")
 						if objSETTINGS.allforce:
 							all_force = True
-						else
+						else:
 							all_force = False
 						buildPackage(libraryName, forceRebuild=all_force)	# only permit force rebuild on the nominated product/dependency rather than it's dependencies as well
 
