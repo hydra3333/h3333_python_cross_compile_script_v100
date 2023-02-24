@@ -2777,9 +2777,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			skip_depends = True
 			logger.debug(f"buildPackage: package parameter, skip_depends={skip_depends} for '{packageName}'")
 		else:
-			logger.debug(f"buildPackage: skip_deps in pkg but is False - ignored")
+			logger.debug(f"buildPackage: skip_deps in pkg  '{packageName}' but is False - ignored")
 	else:
-		logger.debug(f"buildPackage: skip_deps not in pkg")
+		logger.debug(f"buildPackage: skip_deps not in pkg '{packageName}'")
 
 	#-----
 	# 'run_pre_depends_on' goes here at the start ! 
@@ -2808,9 +2808,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 					logger.debug(cmd)
 					runProcess(cmd, ignoreFail)		
 		else:
-			logger.debug(f"buildPackage: run_pre_depends_on in pkg but is None - ignored")
+			logger.debug(f"buildPackage: run_pre_depends_on in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: run_pre_depends_on not in pkg")
+		logger.debug(f"buildPackage: run_pre_depends_on not in pkg '{packageName}'")
 
 	#-----
 
@@ -2831,9 +2831,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 							all_force = False
 						buildPackage(libraryName, forceRebuild=all_force)	# only permit force rebuild on the nominated product/dependency rather than it's dependencies as well
 		else:
-			logger.debug(f"buildPackage: depends_on in pkg but is True")
+			logger.debug(f"buildPackage: depends_on in pkg '{packageName}' but is True")
 	else:
-		logger.debug(f"buildPackage: depends_on not in pkg")
+		logger.debug(f"buildPackage: depends_on not in pkg '{packageName}'")
 
 	if 'is_dep_inheriter' in pkg:
 		if pkg['is_dep_inheriter'] is True:
@@ -2865,9 +2865,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			for w in pkg['warnings']:
 				logger.warning(w)
 		else:
-			logger.debug(f"buildPackage: warnings in pkg but len is not > 0 - ignored")
+			logger.debug(f"buildPackage: warnings in pkg '{packageName}' but len is not > 0 - ignored")
 	else:
-		logger.debug(f"buildPackage: warnings not in pkg")
+		logger.debug(f"buildPackage: warnings not in pkg '{packageName}'")
 
 	workDir = None
 	renameFolder = None
@@ -2875,9 +2875,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if pkg['rename_folder'] is not None:
 			renameFolder = replaceVarCmdSubStrings(pkg['rename_folder'])
 		else:
-			logger.debug(f"buildPackage: rename_folder in pkg but is None - ignored")
+			logger.debug(f"buildPackage: rename_folder in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: rename_folder not in pkg")
+		logger.debug(f"buildPackage: rename_folder not in pkg '{packageName}'")
 
 	if package_type == "PRODUCT":
 		cchdir(objSETTINGS.fullProductDir)	# descend into x86_64_products
@@ -2954,18 +2954,18 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				shutil.move(workDir, pkg['rename_folder'])
 			workDir = pkg['rename_folder']
 		else:
-			logger.debug(f"buildPackage: rename_folder in pkg but is None - ignored")
+			logger.debug(f"buildPackage: rename_folder in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: rename_folder not in pkg")
+		logger.debug(f"buildPackage: rename_folder not in pkg '{packageName}'")
 
 	if 'download_header' in pkg:
 		if pkg['download_header'] is not None:
 			for h in pkg['download_header']:
 				downloadHeader(h)
 		else:
-			logger.debug(f"buildPackage: download_header in pkg but is None - ignored")
+			logger.debug(f"buildPackage: download_header in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: download_header not in pkg")
+		logger.debug(f"buildPackage: download_header not in pkg '{packageName}'")
 
 	cchdir(workDir)  # descend into x86_64/[DEPENDENCY_OR_PRODUCT_FOLDER]
 	if 'debug_downloadonly' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
@@ -2985,9 +2985,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 					logger.info(cmd)
 					runProcess(cmd)
 			else:
-				logger.debug(f"buildPackage: run_pre_patch in pkg but is None - ignored")
+				logger.debug(f"buildPackage: run_pre_patch in pkg '{packageName}' but is None - ignored")
 		else:
-			logger.debug(f"buildPackage: run_pre_patch not in pkg")
+			logger.debug(f"buildPackage: run_pre_patch not in pkg '{packageName}'")
 
 	if forceRebuild:
 		if os.path.isdir(".git"):
@@ -3011,9 +3011,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				os.makedirs(vval, exist_ok=True)
 			cchdir(vval)
 		else:
-			logger.debug(f"buildPackage: source_subfolder in pkg but is None - ignored")
+			logger.debug(f"buildPackage: source_subfolder in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: source_subfolder not in pkg")
+		logger.debug(f"buildPackage: source_subfolder not in pkg '{packageName}'")
 
 	if forceRebuild:
 		removeAlreadyFiles()
@@ -3029,9 +3029,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			runProcess(f"./configure --help")
 			exit()
 		else:
-			logger.debug(f"buildPackage: debug_confighelp_and_exit in pkg but is False - ignored")
+			logger.debug(f"buildPackage: debug_confighelp_and_exit in pkg '{packageName}' but is False - ignored")
 	else:
-		logger.debug(f"buildPackage: debug_confighelp_and_exit not in pkg")
+		logger.debug(f"buildPackage: debug_confighelp_and_exit not in pkg '{packageName}'")
 
 	if 'cflag_addition' in pkg:
 		if pkg['cflag_addition'] is not None:
@@ -3052,9 +3052,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: Added to LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: cflag_addition in pkg but is None - ignored")
+			logger.debug(f"buildPackage: cflag_addition in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: cflag_addition not in pkg")
+		logger.debug(f"buildPackage: cflag_addition not in pkg '{packageName}'")
 
 	if 'custom_cflag' in pkg:
 		if pkg['custom_cflag'] is not None:
@@ -3075,9 +3075,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: Set custom LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: custom_cflag in pkg but is None - ignored")
+			logger.debug(f"buildPackage: custom_cflag in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: custom_cflag not in pkg")
+		logger.debug(f"buildPackage: custom_cflag not in pkg '{packageName}'")
 
 	if 'custom_ldflag' in pkg:
 		if pkg['custom_ldflag'] is not None:
@@ -3089,9 +3089,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: Set LDFLAGS, now: '{os.environ['LDFLAGS']}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: custom_ldflag in pkg but is None - ignored")
+			logger.debug(f"buildPackage: custom_ldflag in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: custom_ldflag not in pkg")
+		logger.debug(f"buildPackage: custom_ldflag not in pkg '{packageName}'")
 
 	if 'strip_cflags' in pkg:
 		if isinstance(pkg["strip_cflags"], (list, tuple)) and len(pkg["strip_cflags"]):
@@ -3110,9 +3110,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				logger.info(f"buildPackage: Stripped LDFLAGS,  now: '{os.environ['LDFLAGS']}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: strip_cflags in pkg but conditions not satisfied - ignored")
+			logger.debug(f"buildPackage: strip_cflags in pkg '{packageName}' but conditions not satisfied - ignored")
 	else:
-		logger.debug(f"buildPackage: strip_cflags not in pkg")
+		logger.debug(f"buildPackage: strip_cflags not in pkg '{packageName}'")
 
 	if 'custom_path' in pkg:
 		if pkg['custom_path'] is not None:
@@ -3124,9 +3124,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: Set custom PATH, now: '{os.environ['PATH']}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: custom_path in pkg but is None - ignored")
+			logger.debug(f"buildPackage: custom_path in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: custom_path not in pkg")
+		logger.debug(f"buildPackage: custom_path not in pkg '{packageName}'")
 
 	if 'flipped_path' in pkg:
 		if pkg['flipped_path'] is True:
@@ -3136,9 +3136,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: Flipping path from: '{bef}' to '{os.environ['PATH']}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: flipped_path in pkg but is False - ignored")
+			logger.debug(f"buildPackage: flipped_path in pkg '{packageName}' but is False - ignored")
 	else:
-		logger.debug(f"buildPackage: flipped_path not in pkg")
+		logger.debug(f"buildPackage: flipped_path not in pkg '{packageName}'")
 
 	if 'env_exports' in pkg:
 		if pkg['env_exports'] is not None:
@@ -3151,9 +3151,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				logger.info(f"buildPackage: Environment variable '{key}' Set from '{prevEnv}' to '{vval}'")
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: env_exports in pkg but is None - ignored")
+			logger.debug(f"buildPackage: env_exports in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: env_exports not in pkg")
+		logger.debug(f"buildPackage: env_exports not in pkg '{packageName}'")
 
 	if 'copy_over' in pkg:
 		if pkg['copy_over'] is not None:
@@ -3168,9 +3168,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				logger.info(f"cp -f '{f_formatted}' '{dst}' # copy file ")
 				shutil.copyfile(f_formatted, dst)
 		else:
-			logger.debug(f"buildPackage: copy_over in pkg but is None - ignored")
+			logger.debug(f"buildPackage: copy_over in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: copy_over not in pkg")
+		logger.debug(f"buildPackage: copy_over not in pkg '{packageName}'")
 
 	if 'run_justbefore_patch' in pkg:
 		if pkg['run_justbefore_patch'] is not None:
@@ -3192,9 +3192,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 					logger.debug(cmd)
 					runProcess(cmd, ignoreFail)
 		else:
-			logger.debug(f"buildPackage: run_justbefore_patch in pkg but is None - ignored")
+			logger.debug(f"buildPackage: run_justbefore_patch in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: run_justbefore_patch not in pkg")
+		logger.debug(f"buildPackage: run_justbefore_patch not in pkg '{packageName}'")
 
 	if 'patches' in pkg:
 		if pkg['patches'] is not None:
@@ -3234,9 +3234,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 					except re.error as e:
 						errorExit(e)
 			else:
-				logger.debug(f"buildPackage: regex_replace in pkg but is None - ignored")
+				logger.debug(f"buildPackage: regex_replace in pkg '{packageName}' but is None - ignored")
 		else:
-			logger.debug(f"buildPackage: regex_replace not in pkg")		
+			logger.debug(f"buildPackage: regex_replace not in pkg '{packageName}'")		
 		
 		if 'run_post_regexreplace' in pkg and pkg['run_post_regexreplace']:
 				for cmd in pkg['run_post_regexreplace']:
@@ -3255,9 +3255,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 						# run_process(cmd)	# no, see below
 						runProcess(cmd, ignoreFail)
 		else:
-			logger.debug(f"buildPackage: run_post_regexreplace in pkg but is None - ignored")
+			logger.debug(f"buildPackage: run_post_regexreplace in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: run_post_regexreplace not in pkg")		
+		logger.debug(f"buildPackage: run_post_regexreplace not in pkg '{packageName}'")		
 
 	#	conf_system_specifics = {	"gnumake_based_systems" : [ "cmake", "autoconf" ],
 	# 								"ninja_based_systems" : [ "meson" ]
@@ -3272,7 +3272,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if pkg['build_system'] == "rake":
 			build_system = "rake"
 	else:
-		logger.debug(f"buildPackage: build_system not in pkg")
+		logger.debug(f"buildPackage: build_system not in pkg '{packageName}'")
 
 	if 'conf_system' in pkg:
 		if pkg['conf_system'] == "cmake":
@@ -3284,9 +3284,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		elif pkg['conf_system'] == "waf":
 			conf_system = "waf"
 		else:
-			logger.debug(f"buildPackage: conf_system in pkg but is NOT RECOGNISED - ignored")
+			logger.debug(f"buildPackage: conf_system in pkg '{packageName}' but is NOT RECOGNISED - ignored")
 	else:
-		logger.debug(f"buildPackage: conf_system not in pkg")
+		logger.debug(f"buildPackage: conf_system not in pkg '{packageName}'")
 
 	conf_system = "autoconf" if not conf_system else conf_system
 	build_system = "make" if not build_system else build_system
@@ -3297,9 +3297,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if pkg['needs_configure'] is False:
 			needs_conf = False
 		else:
-			logger.debug(f"buildPackage: needs_configure in pkg but is None - ignored")
+			logger.debug(f"buildPackage: needs_configure in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: needs_configure not in pkg")
+		logger.debug(f"buildPackage: needs_configure not in pkg '{packageName}'")
 
 	if needs_conf:
 		if conf_system == "cmake":
@@ -3308,9 +3308,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			mesonSource(packageName, pkg)
 		else:
 			configureSource(packageName, pkg, conf_system)
-			logger.debug(f"buildPackage: needs_conf is TRUE but conf_system='{conf_system}' is NOT RECOGNISED - ignored")
+			logger.debug(f"buildPackage: needs_conf in pkg '{packageName}' is TRUE but conf_system='{conf_system}' is NOT RECOGNISED - ignored")
 	else:
-		logger.debug(f"buildPackage: needs_conf is FALSE")
+		logger.debug(f"buildPackage: needs_conf is FALSE in pkg '{packageName}'")
 
 	# +++
 	if 'make_subdir' in pkg:
@@ -3318,21 +3318,28 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			if not os.path.isdir(pkg['make_subdir']):
 				os.makedirs(pkg['make_subdir'], exist_ok=True)
 			cchdir(pkg['make_subdir'])
+		else:
+			logger.debug(f"buildPackage: make_subdir in pkg '{packageName}' but is None - ignored")
+	else:
+		logger.debug(f"buildPackage: make_subdir not in pkg '{packageName}'")
 
 	if 'needs_make' in pkg:
 		if pkg['needs_make'] is True:
+			logger.debug(f"buildPackage: needs_make is in pkg '{packageName}'")
 			buildSource(packageName, pkg, build_system)
 	else:
+		logger.debug(f"buildPackage: needs_make not in pkg '{packageName}'")
 		buildSource(packageName, pkg, build_system)
 
 	# +++
 	if 'needs_make_install' in pkg:
 		if pkg['needs_make_install'] is True:
+			logger.debug(f"buildPackage: needs_make_install is in pkg '{packageName}' and is True")
 			installSource(packageName, pkg, build_system)
 		else:
-			logger.debug(f"buildPackage: needs_make_install in pkg but is False - ignored")
+			logger.debug(f"buildPackage: needs_make_install in pkg '{packageName}' but is False - ignored")
 	else:
-		logger.debug(f"buildPackage: needs_make_install not in pkg")
+		logger.debug(f"buildPackage: needs_make_install not in pkg '{packageName}'")
 		installSource(packageName, pkg, build_system)
 
 	if 'env_exports' in pkg:
@@ -3341,9 +3348,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				logger.debug(f"buildPackage: Environment variable '{0}' has been UNSET!".format(key, val))
 				del os.environ[key]
 		else:
-			logger.debug(f"buildPackage: env_exports in pkg but is None - ignored")
+			logger.debug(f"buildPackage: env_exports in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: env_exports not in pkg")
+		logger.debug(f"buildPackage: env_exports not in pkg '{packageName}'")
 
 	if 'flipped_path' in pkg:
 		if pkg['flipped_path'] is True:
@@ -3351,9 +3358,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			os.environ['PATH'] = "{0}:{1}".format(objSETTINGS.mingwBinpath, objSETTINGS.originalPATH)
 			logger.debug(f"buildPackage: Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ['PATH']))
 		else:
-			logger.debug(f"buildPackage: flipped_path in pkg but is False - ignored")
+			logger.debug(f"buildPackage: flipped_path in pkg '{packageName}' but is False - ignored")
 	else:
-		logger.debug(f"buildPackage: flipped_path not in pkg")
+		logger.debug(f"buildPackage: flipped_path not in pkg '{packageName}'")
 
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
@@ -3361,17 +3368,17 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				os.makedirs(pkg['source_subfolder'], exist_ok=True)
 			cchdir(currentFullDir)
 		else:
-			logger.debug(f"buildPackage: source_subfolder in pkg but is None - ignored")
+			logger.debug(f"buildPackage: source_subfolder in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: source_subfolder not in pkg")
+		logger.debug(f"buildPackage: source_subfolder not in pkg '{packageName}'")
 
 	if 'make_subdir' in pkg:
 		if pkg['make_subdir'] is not None:
 			cchdir(currentFullDir)
 		else:
-			logger.debug(f"buildPackage: make_subdir in pkg but is None - ignored")
+			logger.debug(f"buildPackage: make_subdir in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: make_subdir not in pkg")
+		logger.debug(f"buildPackage: make_subdir not in pkg '{packageName}'")
 
 	cchdir("..")  # asecond into x86_64
 	
@@ -3382,7 +3389,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		logger.info(f"buildPackage: {Colors.LIGHTMAGENTA_EX}Building '{package_type.lower()} '{packageName}': Done !{Colors.RESET}")
 		exit()
 	else:
-		logger.debug(f"buildPackage: debug_exitafter not in pkg")
+		logger.debug(f"buildPackage: debug_exitafter not in pkg '{packageName}'")
 
 	if 'custom_path' in pkg:
 		if pkg['custom_path'] is not None:
@@ -3390,9 +3397,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			os.environ['PATH'] = oldPath
 			dump_environment_variables(override=False)
 		else:
-			logger.debug(f"buildPackage: custom_path in pkg but is None - ignored")
+			logger.debug(f"buildPackage: custom_path in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: custom_path not in pkg")
+		logger.debug(f"buildPackage: custom_path not in pkg '{packageName}'")
 
 	resetDefaultEnvVars()
 	cchdir("..")  # ascend into workdir
