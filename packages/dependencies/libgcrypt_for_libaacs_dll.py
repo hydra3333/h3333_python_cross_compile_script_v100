@@ -14,6 +14,10 @@
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
 		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
 	],
+	'run_post_patch' : [
+		'if [ ! -d "{output_prefix}/libaacs_dll_git.installed/include" ] ; then mkdir -pv "{output_prefix}/libaacs_dll_git.installed/include" ; fi',
+		'if [ ! -d "{output_prefix}/libaacs_dll_git.installed/lib" ] ; then mkdir -pv "{output_prefix}/libaacs_dll_git.installed/lib" ; fi',
+	],
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'custom_ldflag' : ' {original_fortify_source_trim} -L{output_prefix}/libaacs_dll_git.installed/lib ',
 	'run_post_regexreplace' : (

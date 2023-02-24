@@ -15,6 +15,10 @@
 	'url' : 'https://dev.gnupg.org/source/libgpg-error.git', # https://git.gnupg.org/ # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=summary
 	#
 	'rename_folder' : 'libgpg-error_for_aacs_git',
+	'run_post_patch' : [
+		'if [ ! -d "{output_prefix}/libaacs_dll_git.installed/include" ] ; then mkdir -pv "{output_prefix}/libaacs_dll_git.installed/include" ; fi',
+		'if [ ! -d "{output_prefix}/libaacs_dll_git.installed/lib" ] ; then mkdir -pv "{output_prefix}/libaacs_dll_git.installed/lib" ; fi',
+	],
 	'custom_cflag' : ' ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all -D_FORTIFY_SOURCE=2 
 	'custom_ldflag' : ' -L{output_prefix}/libaacs_dll_git.installed/lib ',
 	'run_post_regexreplace' : (
