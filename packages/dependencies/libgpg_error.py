@@ -16,6 +16,7 @@
 	#
 	'rename_folder' : 'libgpg-error_git',
 	'custom_cflag' : ' ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all -D_FORTIFY_SOURCE=2 
+	'custom_ldflag' : ' -L{target_prefix}/lib ',
 	'run_post_regexreplace' : (
 		'autoreconf -fiv', # https://dev.gnupg.org/T5696
 		'./autogen.sh --force --build-w64 --prefix={target_prefix}',

@@ -13,6 +13,7 @@
 	#
 	'recursive_git' : True,
 	'conf_system' : 'cmake', # from MABS 2020.10.10
+	'custom_ldflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -L{target_prefix}/lib',
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DCMAKE_BUILD_TYPE=Release '
 		'-DUNIX=OFF ' # 2020.10.12 comment out

@@ -18,6 +18,7 @@
         #'git submodule update --init', # 2022.12.18 per DEADSIX27
         #'!SWITCHDIR|build', # 2022.12.18 per DEADSIX27
 	#],
+	'custom_ldflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -L{target_prefix}/lib ',
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
