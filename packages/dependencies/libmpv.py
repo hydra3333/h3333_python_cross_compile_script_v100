@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://github.com/mpv-player/mpv.git',
+	'rename_folder' : 'libmpv_git',
 	#'build_system' : 'waf',
 	#'conf_system' : 'waf',
 	#'rename_folder' : 'libmpv_git',
