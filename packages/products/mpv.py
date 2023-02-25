@@ -81,7 +81,7 @@
 		'--backend=ninja '
 		'--buildtype=release '
 		#'-D_FILE_OFFSET_BITS=64 '
-		#'-Dlibmpv=True '
+		'-Dlibmpv=False '
 		'-Dcplayer=True '
 		'-Dtests=False '
 		'-Dcdda=disabled '
