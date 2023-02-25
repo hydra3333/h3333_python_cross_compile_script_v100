@@ -68,6 +68,11 @@
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
+	'env_exports' : {
+		'DEST_OS' : '{bit_name_win}', #'DEST_OS' : 'win32',
+		'TARGET'  : '{target_host}',
+		'PKG_CONFIG' : 'pkg-config',
+	},
 	'configure_options' :
 		'--prefix={target_prefix} '
 		'--libdir={target_prefix}/lib '
@@ -159,6 +164,12 @@
 		'libplacebo',
 		'libffmpeg_extra',
 	],
+	'run_post_install' : (
+		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.com',
+		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.exe',
+		#'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv-1.dll',	# 2022.01.02 is now mpv-2.dll
+		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv-2.dll',	# 2022.01.02 is now mpv-2.dll
+	),
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'mpv (library)' },
 }
