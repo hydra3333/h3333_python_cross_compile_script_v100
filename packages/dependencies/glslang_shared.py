@@ -10,14 +10,14 @@
 	#
 	#'branch' : '1fb2f1d7896627d62a289439a2c3e750e551a7ab',
 	'branch' : '!CMD(cat "{inTreePrefix}/shaderc_commit_dependencies/glslang_revision.commit")CMD!',  # 2023.02.04
-	'rename_folder' : 'glslang_static_git',
+	'rename_folder' : 'glslang_shared_git',
 	'recursive_git' : True,
 	'conf_system' : 'cmake', # from MABS 2020.10.10
 	'custom_ldflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -L{target_prefix}/lib',
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DCMAKE_BUILD_TYPE=Release '
 		'-DUNIX=OFF ' # 2020.10.12 comment out
-		'-DBUILD_SHARED_LIBS=OFF '
+		'-DBUILD_SHARED_LIBS=ON '
 		'-DBUILD_EXTERNAL=OFF '
 		'-DSKIP_GLSLANG_INSTALL=OFF '
 		'-DENABLE_GLSLANG_INSTALL=ON '
