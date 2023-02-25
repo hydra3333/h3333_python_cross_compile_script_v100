@@ -103,6 +103,8 @@ echo "# `date` #################################################################
 echo "# `date` ###################################################################################" >>./debug-ff.log
 echo "# `date` ###################################################################################" >>./debug-ff.log
 ./Remove_ffmpeg_3333_related_files.sh
+# ensure forced rebuild of libplacebo and all its dependencies including shaderc, glslang, spirv
+./cross_compiler_v100_003.py --allforce --debug -d libplacebo 2>&1 | tee -a ./ffmpeg.log
 ./cross_compiler_v100_003.py --force --debug -p ffmpeg 2>&1 | tee -a ./debug-ff.log
 exit_status=$?
 echo "exit_status='$exit_status'"
