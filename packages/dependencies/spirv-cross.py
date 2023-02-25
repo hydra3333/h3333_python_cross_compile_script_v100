@@ -11,7 +11,7 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
-		'-DSPIRV_CROSS_SHARED=OFF '
+		'-DSPIRV_CROSS_SHARED=ON '	# 2023.02.25 turn this on for mpv
 		'-DSPIRV_CROSS_STATIC=ON '
 		'-DSPIRV_CROSS_ENABLE_TESTS=OFF '
 		#'-DSPIRV_CROSS_SHARED=OFF -DSPIRV_CROSS_STATIC=ON -DSPIRV_CROSS_CLI=OFF -DSPIRV_CROSS_ENABLE_TESTS=OFF -DSPIRV_CROSS_FORCE_PIC=ON -DSPIRV_CROSS_ENABLE_CPP=OFF ' from GYAN
@@ -47,14 +47,17 @@
 		# 2022.06.28 the next line is to create a .pc ... if SHOULD not be needed any more ??? 
 		'if [ ! -d "{target_prefix}/lib/pkgconfig" ] ; then mkdir -pv "{target_prefix}/lib/pkgconfig" ; fi',
 		'if [   -f "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ] ; then cat "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ; fi',
-		# change this echo if build errors with libplacebo
 		# me:
 		'if [ ! -f "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ] ; then echo \'prefix={target_prefix}\nexec_prefix=${{prefix}}\nlibdir=${{exec_prefix}}/lib\nincludedir=${{prefix}}/include/spirv_cross\nName: spirv-cross-c-static\nDescription: C API for SPIRV-Cross\nVersion:       \nLibs: -L${{libdir}} -lspirv-cross-c -lspirv-cross-cpp -lspirv-cross-reflect -lspirv-cross-glsl -lspirv-cross-hlsl -lspirv-cross-msl -lspirv-cross-core -lstdc++\nCflags: -I${{includedir}}\' > {target_prefix}/lib/pkgconfig/spirv-cross.pc ; fi', # 2022.12.18 per DEADSIX27
-		# deadsix27:
-		#'if [ ! -f "{target_prefix}/lib/pkgconfig/spirv-cross.pc" ] ; then echo \'prefix={target_prefix}\nexec_prefix=${{prefix}}\nlibdir=${{exec_prefix}}/lib\nincludedir=${{prefix}}/include/spirv_cross\nName: spirv-cross-c-static\nDescription: C API for SPIRV-Cross\nVersion: 2.25.1\nLibs: -L${{libdir}} -lspirv-cross-c -lspirv-cross-cpp -lspirv-cross-reflect -lspirv-cross-glsl -lspirv-cross-hlsl -lspirv-cross-msl -lspirv-cross-core -lstdc++\nCflags: -I${{includedir}}\' > {target_prefix}/lib/pkgconfig/spirv-cross.pc ; fi', # 2022.12.18 per DEADSIX27
-		#'echo "It should have created a .pc file {target_prefix}/lib/pkgconfig/spirv-cross.pc" IF NOT then create it in run_post_install',
+		#
+		#'if [ ! -f "{target_prefix}/lib/pkgconfig/spirv-cross-c-shared.pc" ] ; then cp -fv {target_prefix}/lib/pkgconfig/spirv-cross.pc {target_prefix}/lib/pkgconfig/spirv-cross-c-shared.pc ; fi',
+		#'if [ ! -f "{target_prefix}/lib/pkgconfig/spirv-cross-c-shared.pc" ] ; then sed 's/spirv-cross-c-static/spirv-cross-c-shared/g' {target_prefix}/lib/pkgconfig/spirv-cross-c-shared.pc ; fi',
+		#
 		'ls -al "{target_prefix}/lib/pkgconfig/spirv-cross.pc"', # 2022.06.28 it should have created a .pc file
 		'cat "{target_prefix}/lib/pkgconfig/spirv-cross.pc"', # 2022.06.28 it should have created a .pc file
+		#
+		'ls -al "{target_prefix}/lib/pkgconfig/spirv-cross-c-shared.pc"', # 2022.06.28 it should have created a .pc file
+		'cat "{target_prefix}/lib/pkgconfig/spirv-cross-c-shared.pc"', # 2022.06.28 it should have created a .pc file
 	],
 	'depends_on' : [ 'spirv-headers', ],
 	'update_check' : { 'type' : 'git', },
