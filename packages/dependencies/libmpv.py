@@ -152,6 +152,8 @@
 		'uchardet',
 		'libarchive',
 		'mujs',
+		'glslang',
+		#'glslang_shared',
 		'shaderc',
 		'libplacebo',
 		'libffmpeg_extra',
