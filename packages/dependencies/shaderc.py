@@ -34,8 +34,8 @@
 	'build_options' : '', # 2022.12.18 per DEADSIX27
 	'run_post_patch' : [ # 2020.04.08 eveything else uses run_post_regexreplace instead of run_post_patch, shaderc depends on run_post_patch
 		'!SWITCHDIR|../third_party',
-		#'ln -snf {inTreePrefix}/glslang/ glslang',
-		'ln -snf {inTreePrefix}/glslang_static_git/ glslang',
+		'ln -snf {inTreePrefix}/glslang/ glslang',
+		#'ln -snf {inTreePrefix}/glslang_static_git/ glslang',
 		'ls -al glslang/',
 		'ln -snf {inTreePrefix}/spirv-headers/ spirv-headers',
 		'ls -al spirv-headers/',
