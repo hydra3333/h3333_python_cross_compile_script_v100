@@ -6,6 +6,7 @@
 	'recursive_git' : True,
 	'branch': 'main', # 2023.01.29 address more 'merican embedded racism
 	# 2022.06.28 for now, stay with cmake not meson which MABS creates
+	 # CAREFUL changing the main folder name - it is referenced in shaderc
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : 

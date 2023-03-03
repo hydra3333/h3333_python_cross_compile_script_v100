@@ -10,7 +10,7 @@
 	#
 	#'branch' : '1fb2f1d7896627d62a289439a2c3e750e551a7ab',
 	'branch' : '!CMD(cat "{inTreePrefix}/shaderc_commit_dependencies/glslang_revision.commit")CMD!',  # 2023.02.04
-	'rename_folder' : 'glslang_static_git',
+	'rename_folder' : 'glslang_static_git', # CAREFUL changing this - it is referenced in shaderc
 	'recursive_git' : True,
 	'conf_system' : 'cmake', # from MABS 2020.10.10
 	'custom_ldflag' : ' {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim} -L{target_prefix}/lib',

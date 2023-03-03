@@ -34,10 +34,15 @@
 	'build_options' : '', # 2022.12.18 per DEADSIX27
 	'run_post_patch' : [ # 2020.04.08 eveything else uses run_post_regexreplace instead of run_post_patch, shaderc depends on run_post_patch
 		'!SWITCHDIR|../third_party',
-		'ln -snf {inTreePrefix}/glslang/ glslang',
+		#'ln -snf {inTreePrefix}/glslang/ glslang',
+		'ln -snf {inTreePrefix}/glslang_static_git/ glslang',
+		'ls -al glslang/',
 		'ln -snf {inTreePrefix}/spirv-headers/ spirv-headers',
+		'ls -al spirv-headers/',
 		'ln -snf {inTreePrefix}/spirv-tools/ spirv-tools',
+		'ls -al spirv-tools/',
 		'ln -snf {inTreePrefix}/spirv-cross spirv-cross',
+		'ls -al spirv-cross/',
 		'!SWITCHDIR|../_build',
 		"sed -i 's/add_subdirectory(examples)/#add_subdirectory(examples)/g' ../CMakeLists.txt",
 		"sed -i 's/--check/#--check/g' ../CMakeLists.txt",

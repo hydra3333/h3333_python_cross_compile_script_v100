@@ -9,6 +9,7 @@
 	#'needs_make' : False,
 	#'needs_make_install' : False,
 	#'needs_configure' : False,
+	 # CAREFUL changing the main folder name - it is referenced in shaderc
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : 
