@@ -4,8 +4,8 @@
 	'url' : 'https://github.com/hydra3333/vapoursynth_mingw_libs.git',
 	'needs_configure' : False,
 	'needs_make_install' : False,
-	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R60 PYTHON_VERSION=3.10.7',  # 2022.06.06 for vapoursynth R59
-	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R61 PYTHON_VERSION=3.10.9',  # 2022.12.18 for vapoursynth R61
+	#'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R61 PYTHON_VERSION=3.10.9',  # 2022.12.18 for vapoursynth R61
+	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R61 PYTHON_VERSION=3.10.10',  # 2022.12.18 for vapoursynth R61
 	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
 		#'sed -i.bak "s;;;g" "Makefile"',
@@ -25,5 +25,5 @@
 	},
 	'depends_on' : [ 'python3_libs' ],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'R60', 'fancy_name' : 'VapourSynth (library-only)' },
+	'_info' : { 'version' : 'R61', 'fancy_name' : 'VapourSynth (library-only)' },
 }
