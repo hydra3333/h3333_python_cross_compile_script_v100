@@ -27,7 +27,9 @@
 		'--backend=ninja '
 		'-Dvulkan=enabled '
 		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '  # 2021.10.30 re-try vulkan
-		'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
+		#'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
+		'-Dglslang=disabled ' # 2021.11.01 it finds it better without this
+		#'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
 		'-Dshaderc=disabled ' # 2021.11.01 it finds it better without this
 		#'-Dd3d11=enabled ' # 2022.12.18 try to re-enable it
 		'-Dd3d11=disabled ' # 2022.12.18 try to re-enable it
