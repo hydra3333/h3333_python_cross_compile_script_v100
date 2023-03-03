@@ -2,7 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/haasn/libplacebo.git', # https://github.com/haasn/libplacebo.git 
 	'depth_git' : 0,
-	#'branch' : '82023b9e9d683499329b2d5c502eafaf5f6c8ef2',	# 2023.02.19 ... libplacebo breaks cross-compilation after this commit
+	#'branch' : 'cbd98f0d1e718c8f7a737922cd9158b24956aa0d', 	#  libplacebo breaks cross-compilation after this commit
 	'recursive_git' : True,
 	'conf_system' : 'meson',
 	'build_system' : 'ninja',
@@ -27,8 +27,8 @@
 		'--backend=ninja '
 		'-Dvulkan=enabled '
 		'-Dvulkan-registry={target_prefix}/share/vulkan/registry/vk.xml '  # 2021.10.30 re-try vulkan
-		#'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
-		'-Dglslang=disabled ' # 2021.11.01 it finds it better without this
+		'-Dglslang=enabled ' # 2021.11.01 it finds it better without this
+		#'-Dglslang=disabled ' # 2021.11.01 it finds it better without this
 		#'-Dshaderc=enabled ' # 2021.11.01 it finds it better without this
 		'-Dshaderc=disabled ' # 2021.11.01 it finds it better without this
 		#'-Dd3d11=enabled ' # 2022.12.18 try to re-enable it
@@ -52,7 +52,7 @@
 		'if [ ! -d "{target_prefix}/share/vulkan/registry" ] ; then mkdir -pv "{target_prefix}/share/vulkan/registry" ; fi',
 	],
 	#'depends_on' : [ 'lcms2', 'spirv-tools', 'glslang', 'shaderc', 'vulkan_from_windows_dll' ], # 'vulkan_loader',
-	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', 'vulkan_from_windows_dll' , 'lcms2', 'libepoxy', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'glslang', 'shaderc', ], # 2022.12.18 ad libepoxy for opengl # 'vulkan_loader', # 2022.06.28 'spirv-tools' dependency is in glslang
+	'depends_on' : [ 'vulkan_headers', 'vulkan-d3dheaders', 'vulkan_from_windows_dll' , 'lcms2', 'libepoxy',  'shaderc_commit_dependencies', 'spirv-headers', 'spirv-tools', 'spirv-cross', 'glslang', 'shaderc', ], # 2022.12.18 ad libepoxy for opengl # 'vulkan_loader', # 2022.06.28 'spirv-tools' dependency is in glslang
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libplacebo' },
 }
