@@ -9,10 +9,10 @@
 		'autoreconf -fiv',
 		'./configure --help=recursive',
 	],
-	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --disable-shared --enable-static --with-zlib={target_prefix}/lib',
-	'custom_ldflag' : ' {original_cflags} -L{target_prefix}/lib -lzimg ',
+	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static --disable-shared  --with-zlib={target_prefix}/lib',
+	'custom_ldflag' : ' -static {original_cflags} -L{target_prefix}/lib -lzimg ',
 	'depends_on': [
-		'libzimg', 'libffmpeg_extra',
+		'libzimg', 'bzip2', 'libffmpeg_extra',
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git master', 'fancy_name' : 'ffms2_dll' },
