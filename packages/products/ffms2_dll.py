@@ -17,10 +17,10 @@
 	#	'CXXFLAGS' :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
 	#	'CPPFLAGS' :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
 	#	'LDFLAGS'  :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
-		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
-		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
-		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
-		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
+		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib ',	# -lzimg -lz -lpsapi -lintl -liconv -lssp -pthread -lpthread
+		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib ',
+		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib ',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib ',
 	},
 	'depends_on': [
 		'libzimg', 'bzip2', 'libffmpeg_extra',
@@ -28,5 +28,3 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git master', 'fancy_name' : 'ffms2_dll' },
 }
-
-# ar={cross_prefix_full}ar
