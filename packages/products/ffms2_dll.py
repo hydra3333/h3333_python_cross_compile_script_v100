@@ -9,16 +9,15 @@
 		'autoreconf -fiv',
 		'./configure --help=recursive',
 	],
-	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static --disable-shared  --with-zlib={target_prefix}/lib',
-	#'custom_cflag' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
-	#'custom_ldflag' : ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable--disable-shared --with-zlib={target_prefix}/lib',
+	#'custom_cflag' :  ' {original_cflags} -L{target_prefix}/lib -lzimg -lintl ',
+	#'custom_ldflag' : ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl  -liconv -lssp ',
 	'env_exports' : {
-		'CFLAGS'   :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
-		'CXXFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
-		'CPPFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
-		'LDFLAGS'  :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
+		'CFLAGS'   :  ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',	# -static -pthread  removed from all of these
+		'CXXFLAGS' :  ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
+		'CPPFLAGS' :  ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
 	},
-	
 	'depends_on': [
 		'libzimg', 'bzip2', 'libffmpeg_extra',
 	],
