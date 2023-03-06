@@ -10,7 +10,15 @@
 		'./configure --help=recursive',
 	],
 	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static --disable-shared  --with-zlib={target_prefix}/lib',
-	'custom_ldflag' : ' -static {original_cflags} -L{target_prefix}/lib -lzimg ',
+	#'custom_cflag' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+	#'custom_ldflag' : ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+	'env_exports' : {
+		'CFLAGS'   :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+		'CXXFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+		'CPPFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+		'LDFLAGS'  :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+	},
+	
 	'depends_on': [
 		'libzimg', 'bzip2', 'libffmpeg_extra',
 	],
