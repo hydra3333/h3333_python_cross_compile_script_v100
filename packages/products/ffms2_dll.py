@@ -7,9 +7,9 @@
 		'rm -fv ./configure',
 		'if [ ! -d "src/config" ]; then mkdir -p src/config ; fi',
 		'autoreconf -fiv',
-		'./configure --help',
+		'./configure --help=recursive',
 	],
-	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-shared ',
+	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-shared --enable-static --with-zlib={target_prefix}/lib',
 	#'custom_cflag' : '',
 	'depends_on': [
 		'libffmpeg_extra',
