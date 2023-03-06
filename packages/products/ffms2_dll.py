@@ -11,8 +11,7 @@
 		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
 	},
 	'patches' : [
-		( 'ffms2/0001-ffmsindex-fix-linking-issues.patch', '-Np0' ),
-		#( 'glib2/disable_libmount-make-UTF-yes.patch', '-Np0', '..' ), 
+		( 'ffms2/0001-ffmsindex-fix-linking-issues.patch', '-Np1' ),
 	],
 	'run_post_patch' : [ 
 		'sed -i "s/Libs.private.*/& -lstdc++/;s/Cflags.*/& -DFFMS_STATIC/" "ffms2.pc.in"',
