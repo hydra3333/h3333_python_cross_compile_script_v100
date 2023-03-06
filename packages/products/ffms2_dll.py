@@ -13,10 +13,10 @@
 	#'custom_cflag' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
 	#'custom_ldflag' : ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
 	'env_exports' : {
-		'CFLAGS'   :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
-		'CXXFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
-		'CPPFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
-		'LDFLAGS'  :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 ',
+		'CFLAGS'   :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
+		'CXXFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
+		'CPPFLAGS' :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' -pthread -static {original_cflags} -L{target_prefix}/lib -lzimg -lbzip2 -lpsapi -lintl -liconv -lssp ',
 	},
 	
 	'depends_on': [
