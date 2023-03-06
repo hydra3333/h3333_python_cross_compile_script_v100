@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/FFMS/ffms2, 
+	'url' : 'https://github.com/FFMS/ffms2', 
 	'depth_git' : 0,
 	'rename_folder' : 'ffms2_dll',
 	'run_post_regexreplace' : [
