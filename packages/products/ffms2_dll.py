@@ -10,9 +10,9 @@
 		'./configure --help=recursive',
 	],
 	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-shared --enable-static --with-zlib={target_prefix}/lib',
-	#'custom_cflag' : '',
+	'custom_ldflag' : ' {original_cflags} -L{target_prefix}/lib -lzimg ',
 	'depends_on': [
-		'libffmpeg_extra',
+		'libzimg', 'libffmpeg_extra',
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git master', 'fancy_name' : 'ffms2_dll' },
