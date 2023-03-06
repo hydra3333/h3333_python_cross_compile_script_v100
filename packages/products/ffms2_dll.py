@@ -9,18 +9,18 @@
 		'autoreconf -fiv',
 		'./configure --help=recursive',
 	],
-	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable--disable-shared --with-zlib={target_prefix}/lib',
-	#'custom_cflag' :  ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
-	#'custom_ldflag' : ' {original_cflags} -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp  ',
+	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static -disable-shared --with-zlib={target_prefix}/lib',
+	#'custom_cflag' :  ' {original_cflags} -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
+	#'custom_ldflag' : ' {original_cflags} -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp  ',
 	'env_exports' : {
-	#	'CFLAGS'   :  ' {original_cflags} -I{target_prefix}/include/ -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',	# -static  removed from all of these
-	#	'CXXFLAGS' :  ' {original_cflags} -I{target_prefix}/include/ -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
-	#	'CPPFLAGS' :  ' {original_cflags} -I{target_prefix}/include/ -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
-	#	'LDFLAGS'  :  ' {original_cflags} -I{target_prefix}/include/ -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
-		'CFLAGS'   :  ' -I{target_prefix}/include -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',	# -static  removed from all of these
-		'CXXFLAGS' :  ' -I{target_prefix}/include -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
-		'CPPFLAGS' :  ' -I{target_prefix}/include -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
-		'LDFLAGS'  :  ' -I{target_prefix}/include -L{target_prefix}/lib -lzimg -lpsapi -lintl -liconv -lssp ',
+	#	'CFLAGS'   :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
+	#	'CXXFLAGS' :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
+	#	'CPPFLAGS' :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
+	#	'LDFLAGS'  :  ' {original_cflags} -I{target_prefix}/include -L{target_prefix}/lib -lz -lpsapi -lintl -liconv -lssp ',
+		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
+		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
+		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lz -lzimg -lpsapi -lintl -liconv -lssp ',
 	},
 	'depends_on': [
 		'libzimg', 'bzip2', 'libffmpeg_extra',
@@ -28,3 +28,5 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git master', 'fancy_name' : 'ffms2_dll' },
 }
+
+# ar={cross_prefix_full}ar
