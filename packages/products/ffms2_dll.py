@@ -8,7 +8,7 @@
 		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
 		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
 		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
-		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp "-Wl,-Bsymbolic"',
 	},
 	'run_pre_patch' : [
 		'cp -fv "Makefile.am" "Makefile.am.orig"',
