@@ -5,17 +5,21 @@
 	#'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
 	'rename_folder' : 'ffms2_libffmpeg',
-	'env_exports' : { # 2020.06.19
-		'CFLAGS'   : ' {original_cflags} -lssp',
-		'CXXFLAGS' : ' {original_cflags} -lssp',
-		'CPPFLAGS' : ' {original_cflags} -lssp',
-		'LDFLAGS'  : ' {original_cflags} -lssp',
+	'env_exports' : {
+		#'CFLAGS'   : ' {original_cflags} ',
+		#'CXXFLAGS' : ' {original_cflags} ',
+		#'CPPFLAGS' : ' {original_cflags} ',
+		#'LDFLAGS'  : ' {original_cflags} ',
+		'CFLAGS'   : ' ',
+		'CXXFLAGS' : ' ',
+		'CPPFLAGS' : ' ',
+		'LDFLAGS'  : ' ',
 	},
 	'configure_options' :	'--sysroot={target_sub_prefix} '
 							'--prefix={output_prefix}/ffms2_dll.installed '
 							'--enable-shared --disable-static '
 							'--disable-programs --disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages '
-							'--extra-libs="-lpsapi -lintl -lssp"',
+							#'--extra-libs="-lpsapi -lintl" '
 							'--arch={bit_name2} '
 							'--target-os={target_OS} '
 							'--cross-prefix={cross_prefix_bare} '
@@ -60,7 +64,7 @@
 							#'--enable-libsoxr '			# build shared with right --prefix -enable-shared --disable-static
 							#'--enable-librubberband '		# build shared with right --prefix -enable-shared --disable-static
 							#'--enable-libwebp '			# build shared with right --prefix -enable-shared --disable-static
-
+							,
 	'depends_on' : [ 
 		'ffms2_libzimg',		# ok
 		'ffms2_xz',				# ok
