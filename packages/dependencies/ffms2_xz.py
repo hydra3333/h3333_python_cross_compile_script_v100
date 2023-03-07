@@ -10,7 +10,8 @@
 		'pwd ; autoreconf -fiv ; pwd', # autoreconf is almost identical to ./autogen.sh
 		'./configure --help',
 	],
-	'configure_options' : '{autoconf_prefix_options} --enable-shared --disable-static --enable-assembler --disable-debug --disable-small ' # --enable-threads=posix
+	#'configure_options' : '{autoconf_prefix_options} --enable-shared --disable-static --enable-assembler --disable-debug --disable-small ' # --enable-threads=posix
+	'configure_options' : '--with-sysroot="{target_sub_prefix}" --host="{target_host}" --prefix="{output_prefix}/ffms2_dll.installed" --enable-shared --disable-static  --enable-assembler --disable-debug --disable-small ' # --enable-threads=posix
 							'--disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc --without-iconv '
 							'--disable-lzma-links --disable-scripts '
 	,
@@ -20,3 +21,4 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'xz' },
 }
+#--with-sysroot="{target_sub_prefix}" --host="{target_host}" --prefix="{output_prefix}/ffms2_dll.installed" --enable-shared --disable-static 
