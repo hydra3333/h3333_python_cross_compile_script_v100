@@ -19,7 +19,9 @@
 		('zlib/0001-mingw-workarounds.patch', '-p1', '..'),
 	],
 	'run_post_patch' : [ 
-		'sed -ibak "s/install(TARGETS zlibstatic/install(TARGETS zlib/" ../CMakeLists.txt'
+		'cp -fv "../CMakeLists.txt" "../CMakeLists.txt.orig"',
+		#'sed -ibak "s/install(TARGETS zlibstatic/install(TARGETS zlib/" ../CMakeLists.txt'
+		'diff -U 10 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 	],
 	'depends_on' : [
 		'pkg-config', 
