@@ -4,7 +4,7 @@
 	'url' : 'git://git.ffmpeg.org/ffmpeg.git',
 	#'depth_git': 0,
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
-	'rename_folder' : 'libffmpeg_git',
+	'rename_folder' : 'ffms2_libffmpeg',
 	'env_exports' : { # 2020.06.19
 		'CFLAGS'   : ' {original_cflags} -lssp',
 		'CXXFLAGS' : ' {original_cflags} -lssp',
