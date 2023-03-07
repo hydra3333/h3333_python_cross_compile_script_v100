@@ -3,13 +3,13 @@
 	'url' : 'https://github.com/FFMS/ffms2', 
 	'depth_git' : 0,
 	'rename_folder' : 'ffms2_dll',
-	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static -disable-shared --with-pic --with-zlib={target_prefix}/lib', # --with-pic per https://github.com/ffms/ffms2/issues/90
 	'env_exports' : {
 		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
 		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
 		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
-		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp "-Wl,-Bsymbolic"',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp -Wl,-Bsymbolic ', # to mitigate lock per https://github.com/ffms/ffms2/issues/90
 	},
+	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static -disable-shared --with-pic --with-zlib={target_prefix}/lib ', # --with-pic per https://github.com/ffms/ffms2/issues/90
 	'run_pre_patch' : [
 		'cp -fv "Makefile.am" "Makefile.am.orig"',
 		'cp -fv "configure.ac" "configure.ac.orig"',
