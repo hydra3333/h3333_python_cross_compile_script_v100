@@ -40,10 +40,11 @@
 		'ffms2_libzimg',		# ok
 		'ffms2_xz',				# ok
 		'ffms2_zlib',			# ??? no produces a dll ???
+		#'ffms2_lzma',			# another name for xz	
 		#
-		#'ffms2_iconv',			# no fails to build shared
+		# MABS: {lzma,bzlib,zlib}
 		#'ffms2_bzip2',			# no does not install .la file
-		#'ffms2_lzma',			
+		#'ffms2_iconv',			# no fails to build shared
 		#'ffms2_libxml2',
 		#'ffms2_libvpx',
 		#'ffms2_libaom',
