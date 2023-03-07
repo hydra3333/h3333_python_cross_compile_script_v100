@@ -2,6 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/sekrit-twc/zimg.git',
 	'depth_git' : 0,
+	'folder_name' : 'ffms2_zimg',
 	'run_post_regexreplace' : [
 		'git submodule update --init --recursive --remote ', # 2022.12.18 per DEADSIX27 try to add --remote
 		'autoreconf -fiv', # 2020.11.07 from MABS 
