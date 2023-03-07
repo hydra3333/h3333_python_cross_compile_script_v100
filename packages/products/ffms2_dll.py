@@ -13,7 +13,7 @@
 	'run_pre_patch' : [
 		'cp -fv "Makefile.am" "Makefile.am.orig"',
 		'cp -fv "configure.ac" "configure.ac.orig"',
-	]
+	],
 	'patches' : [
 		( 'ffms2/0001-ffmsindex-fix-linking-issues.patch', '-Np1' ),
 	],
