@@ -695,7 +695,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 							del obj
 							logger.debug(f"load_py_files: dot_py_object_dict({self.name}): {heading} File '{packageName}.py' loaded")
 				except SyntaxError:
-					self.errorExit(f"load_py_files: dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n\n{traceback.format_exc()}")
+					self.errorExit(f"SyntaxError: load_py_files: dot_py_object_dict({self.name}): Loading {heading} File '{packageName}' failed:\n Perhaps ??: {objPrettyPrint.pformat(objJSON)}\n\n{traceback.format_exc()}")
 		logger.info(f"Finished Processing 'load_py_files' for dictionary {heading}")
 		logger.info(f"Loaded {len(self.BO)} {heading} files into dictionary {self.name}")
 		return
