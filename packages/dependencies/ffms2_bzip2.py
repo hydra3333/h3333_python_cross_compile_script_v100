@@ -16,6 +16,9 @@
 	'build_options' : '{make_prefix_options} -f Makefile-libbz2_so ', # PREFIX={output_prefix}/ffms2_dll.installed
 	'run_post_build' : [
 		'make {make_prefix_options} install PREFIX={output_prefix}/ffms2_dll.installed', #  PREFIX={output_prefix}/ffms2_dll.installed
+		'cp -fv libbz2.def {output_prefix}/ffms2_dll.installed/lib',
+		'cp -Lfv libbz2.so.1.0 {output_prefix}/ffms2_dll.installed/lib/libbz2.so',
+		'ls -al {output_prefix}/ffms2_dll.installed/lib/libbz2.so',
 		'mkdir -p "{output_prefix}/ffms2_dll.installed/lib/pkgconfig"',
 		"echo 'prefix={output_prefix}/ffms2_dll.installed\nexec_prefix=${{prefix}}\nlibdir=${{exec_prefix}}/lib\nincludedir=${{prefix}}/include\nName: bzip2\nDescription: bzip2\nVersion:\nLibs: -L${{libdir}} -lbz2\nCflags: -I${{includedir}}' > {output_prefix}/ffms2_dll.installed/lib/pkgconfig/bzip2.pc",
 	],
