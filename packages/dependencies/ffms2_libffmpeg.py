@@ -25,7 +25,7 @@
 							'--arch={bit_name2} '
 							'--target-os={target_OS} '
 							'--cross-prefix={cross_prefix_bare} '
-							'--pkgconfigdir={output_prefix}/ffms2_dll.installed/lib/pkgconfig ',
+							'--pkgconfigdir={output_prefix}/ffms2_dll.installed/lib/pkgconfig '
 							'--pkg-config=pkg-config '
 							'--pkg-config-flags=--shared '
 							'--enable-shared --disable-static '
