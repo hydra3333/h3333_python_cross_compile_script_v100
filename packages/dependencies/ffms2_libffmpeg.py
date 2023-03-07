@@ -10,10 +10,12 @@
 		#'CXXFLAGS' : ' {original_cflags} ',
 		#'CPPFLAGS' : ' {original_cflags} ',
 		#'LDFLAGS'  : ' {original_cflags} ',
-		'CFLAGS'   : ' ',
-		'CXXFLAGS' : ' ',
-		'CPPFLAGS' : ' ',
-		'LDFLAGS'  : ' ',
+		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
+		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
 	'configure_options' :	'--sysroot={target_sub_prefix} '
 							'--prefix={output_prefix}/ffms2_dll.installed '
@@ -23,6 +25,7 @@
 							'--arch={bit_name2} '
 							'--target-os={target_OS} '
 							'--cross-prefix={cross_prefix_bare} '
+							'--pkgconfigdir={output_prefix}/ffms2_dll.installed/lib/pkgconfig ',
 							'--pkg-config=pkg-config '
 							'--pkg-config-flags=--shared '
 							'--enable-shared --disable-static '
@@ -36,7 +39,14 @@
 							'--enable-nonfree '
 							'--enable-version3 '
 							'--extra-version="xcompile" '
-							'--disable-{programs,devices,filters,encoders,muxers,debug,sdl2,doc} '
+							'--disable-programs '
+							'--disable-devices '
+							'--disable-filters '
+							'--disable-encoders '
+							'--disable-muxers '
+							'--disable-debug '
+							'--disable-sdl2 '
+							'--disable-doc '
 							'--enable-protocol=file,pipe '
 							'--disable-autodetect '
 							#
@@ -65,6 +75,9 @@
 							#'--enable-librubberband '		# build shared with right --prefix -enable-shared --disable-static
 							#'--enable-libwebp '			# build shared with right --prefix -enable-shared --disable-static
 							,
+	'run_post_patch' : [
+		'./configure --help',
+	],
 	'depends_on' : [ 
 		'ffms2_libzimg',		# ok
 		'ffms2_xz',				# ok

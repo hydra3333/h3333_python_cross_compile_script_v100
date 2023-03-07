@@ -8,6 +8,14 @@
 	'patches' : [
 		('bzip2/bzip2-1.0.6-gcc8.patch', '-p0'),
 	],
+	'env_exports' : {
+		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
+		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
+	},
 	#'custom_cflag' : '{original_cflags}',
 	'needs_configure' : False,
 	'needs_make' : True,

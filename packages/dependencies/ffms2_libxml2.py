@@ -7,6 +7,14 @@
 		{ 'url' : 'https://fossies.org/linux/www/libxml2-2.9.12.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'c8d6681e38c56f172892c85ddc0852e1fd4b53b4209e7f4ebf17f7e2eae71d92' }, ], },
 	],
 	'folder_name' : 'ffms2_libxml2-2.10.3',
+	'env_exports' : {
+		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lintl -liconv -lssp ',
+		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
+		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
+	},
 	## {autoconf_prefix_options} = --with-sysroot="{target_sub_prefix}" --host="{target_host}" --prefix="{output_prefix}/ffms2_dll.installed" --enable-shared --disable-static
 	'run_post_patch' : [
 		'sh ./autogen.sh '
