@@ -12,9 +12,13 @@
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
-	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX="{output_prefix}/ffms2_dll.installed" -DINSTALL_PKGCONFIG_DIR="{output_prefix}/ffms2_dll.installed/lib/pkgconfig" '
-							'-DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release '
-							'-D_FILE_OFFSET_BITS=64 ',
+	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX="{output_prefix}/ffms2_dll.installed" '
+							'-DINSTALL_PKGCONFIG_DIR="{output_prefix}/ffms2_dll.installed/lib/pkgconfig" '
+							#'-DINSTALL_PKGCONFIG_DIR="{output_prefix}/ffms2_dll.installed//share/pkgconfig '
+							#'-DBUILD_SHARED_LIBS=1 '
+							'-DCMAKE_BUILD_TYPE=Release '
+							'-D_FILE_OFFSET_BITS=64 '
+							'-D_LARGEFILE64_SOURCE=1 ',
 	'patches' : [
 		('zlib/0001-mingw-workarounds.patch', '-p1', '..'),
 	],
