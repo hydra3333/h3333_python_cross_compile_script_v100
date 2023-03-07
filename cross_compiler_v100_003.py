@@ -219,7 +219,7 @@ class settings:
 		self.sources_subfolder = 'sources'								# 'sources' is where some sources reside
 		self.tools_subfolder = 'tools'									# 'tools' is where some tools reside
 		
-		self.patches_top_url = 'https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches' # if trunk moves to "main" then use "main" instead of "master"
+		self.patches_top_url = 'https://github.com/hydra3333/h3333_python_cross_compile_script_v100/master/patches/' # if trunk moves to "main" then use "main" instead of "master"
 		
 		self.workdir_subfolder ='workdir'											# 'workdir'  is the subfolder where actual build stuff happens
 		self.fullWorkDir    = self.projectRoot.joinpath(self.workdir_subfolder)		# for output, eg workdir
