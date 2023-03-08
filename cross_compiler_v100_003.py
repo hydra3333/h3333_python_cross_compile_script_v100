@@ -232,15 +232,15 @@ class settings:
 
 		self.targetHostStr       = F"{self.bitnessStr}-w64-mingw32"  	# eg x86_64-w64-mingw32
 
-		self.original_cflag					= '-O3'
-		self.original_stack_protector		= '-fstack-protector-all'
-		self.original_fortify_source		= '-D_FORTIFY_SOURCE=2'
+		self.original_cflag					= ' -O3 '
+		self.original_stack_protector		= ' -fstack-protector-all '
+		self.original_fortify_source		= ' -D_FORTIFY_SOURCE=2 '
 
 		self.original_cflag_trim			= self.original_cflag.strip()
 		self.original_stack_protector_trim	= self.original_stack_protector.strip()
 		self.original_fortify_source_trim	= self.original_fortify_source.strip()
 
-		self.original_Cflags				= f'  {self.original_cflag_trim}  {self.original_stack_protector_trim}  {self.original_fortify_source_trim}  '	# was originalCflags, let's see what breaks
+		self.original_Cflags				= f' {self.original_cflag_trim} {self.original_stack_protector_trim} {self.original_fortify_source_trim} '	# was originalCflags, let's see what breaks
 		self.original_Cflags_trim			= self.original_Cflags.strip()
 
 		self.originalCflag					= self.original_cflag				# duplicates which are referenced, cull later
