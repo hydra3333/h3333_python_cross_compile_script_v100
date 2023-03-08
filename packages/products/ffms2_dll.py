@@ -35,7 +35,7 @@
 		'cp -fv "configure.ac" "configure.ac.orig"',
 	],
 	'depends_on': [
-		'ffms2_libmffmpeg',		# has its own dependencies
+		'ffms2_libffmpeg',		# has its own dependencies
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git master', 'fancy_name' : 'ffms2_dll' },
