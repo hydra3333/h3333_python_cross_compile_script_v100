@@ -360,7 +360,7 @@ class settings:
 				'product_prefix': self.fullProductDir,
 				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
 				'make_cpu_count': "-j {0}".format(self.cpuCount),
-				'original_cflags': self.originalCflags,
+				#'original_cflags': self.originalCflags,
 				'cflag_string': generateCflagString(f"--extra-cflags="),
 				'current_path': os.getcwd(),
 				'current_envpath': getKeyOrBlankString(os.environ, "PATH"),
