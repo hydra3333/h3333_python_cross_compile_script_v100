@@ -17,7 +17,7 @@
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
-	'configure_options' :	'--sysroot={target_sub_prefix} '
+	'configure_options' :	#'--sysroot={target_sub_prefix} '
 							'--prefix={output_prefix}/ffms2_dll.installed '
 							'--enable-shared --disable-static '
 							'--disable-programs --disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages '
