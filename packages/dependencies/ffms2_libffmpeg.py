@@ -6,14 +6,11 @@
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
 	'rename_folder' : 'ffms2_libffmpeg',
 	'env_exports' : {
-		#'CFLAGS'   : ' {original_cflags} ',
-		#'CXXFLAGS' : ' {original_cflags} ',
-		#'CPPFLAGS' : ' {original_cflags} ',
-		#'LDFLAGS'  : ' {original_cflags} ',
-		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
-		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
-		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
-		'LDFLAGS'  :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		# had to remove {original_stack_protector} {original_fortify_source} {original_cflag}
+		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'LDFLAGS'  :  ' -fstack-protector -Wl,-Bsymbolic {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
@@ -50,16 +47,14 @@
 							'--enable-protocol=file,pipe '
 							'--disable-autodetect '
 							#
-							#'--enable-ffnvcodec '
-							#'--enable-cuvid '
-							#'--enable-cuda-llvm '
-							#'--enable-d3d11va '
-							#'--enable-nvdec '
-							#'--enable-dxva2 '
+							'--enable-ffnvcodec '
+							'--enable-cuvid '
+							'--enable-cuda-llvm '
+							'--enable-d3d11va '
+							'--enable-nvdec '
+							'--enable-dxva2 '
 							#
-							#--enable-{lzma,bzlib,zlib} 	# MABS
 							'--enable-zlib '				# build shared with right --prefix -enable-shared --disable-static
-							#'--enable-bzlib '				# build shared with right --prefix -enable-shared --disable-static
 							'--enable-lzma '				# build shared with right --prefix -enable-shared --disable-static
 							'--enable-libzimg '				# build shared with right --prefix -enable-shared --disable-static
 							#
@@ -78,29 +73,16 @@
 	'run_post_patch' : [
 		#'./configure --help',
 		#'export',
-		#'cat /{output_prefix}/ffms2_dll.installed/lib/pkgconfig/zlib.pc',
-		#'pkg-config --exists --print-errors zimg >= 2.7.0'
+		#'pkg-config --exists --print-errors zimg >= 2.7.0 && echo "found OK" || echo "NOT found!"'
 	],
 	'depends_on' : [ 
+		'ffms2_libzimg',		# ok
 		'ffms2_xz',				# ok
 		'ffms2_zlib',			# ??? no produces a dll ???
+		'ffms2_nv-codec-headers',
 		#'ffms2_lzma',			# another name for xz	
-		'ffms2_libzimg',		# ok
 		#
-		# MABS: {lzma,bzlib,zlib}
-		#'ffms2_bzip2',			# no does not install .la file
-		#'ffms2_iconv',			# no fails to build shared
-		#'ffms2_libxml2',
-		#'ffms2_libvpx',
-		#'ffms2_libaom',
-		#'ffms2_libxvid',
-		#'ffms2_libopus',
-		#'ffms2_libmp3lame',
-		#'ffms2_libvorbis',
-		#'ffms2_libtheora',
-		#'ffms2_libsoxr',
-		#'ffms2_librubberband',
-		#'ffms2_libwebp',
+		#'ffms2_libwebp', ?????????
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'FFmpeg (library,extra)' },
