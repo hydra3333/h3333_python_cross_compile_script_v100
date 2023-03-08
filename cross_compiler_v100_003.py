@@ -3347,8 +3347,8 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	if 'env_exports' in pkg:
 		if pkg['env_exports'] is not None:
 			for key, val in pkg['env_exports'].items():
-				logger.debug(f"buildPackage: Environment variable '{0}' has been UNSET!".format(key, val))
 				del os.environ[key]
+				logger.debug(f"buildPackage: Environment variable '{key}' has been UNSET from '{val}' !")
 		else:
 			logger.debug(f"buildPackage: env_exports in pkg '{packageName}' but is None - ignored")
 	else:
