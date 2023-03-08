@@ -4,28 +4,43 @@
 	'url' : 'https://github.com/xz-mirror/xz.git',
 	'depth_git' : 0,
 	'folder_name' : 'ffms2_xz',
-	'custom_cflag' : ' -D_FORTIFY_SOURCE=2 ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all
+#	'custom_cflag' : ' -D_FORTIFY_SOURCE=2 ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all
 	'env_exports' : {
-		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'CFLAGS'   :  ' {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
+		'CXXFLAGS' :  ' -D_FORTIFY_SOURCE=2 -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -lssp ',
+		'CPPFLAGS' :  ' -D_FORTIFY_SOURCE=2 -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -lssp ',
+		'CFLAGS'   :  ' -D_FORTIFY_SOURCE=2 -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -lssp ',
+		'LDFLAGS'  :  ' -Wl,-Bsymbolic -D_FORTIFY_SOURCE=2 -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
 	'run_post_regexreplace' : [
 		'pwd ; autoreconf -fiv ; pwd', # autoreconf is almost identical to ./autogen.sh
-		'./configure --help',
+		#'./configure --help',
+		'cp -fv "src/liblzma/liblzma.pc.in" "src/liblzma/liblzma.pc.in.orig"',
+		'sed -ibak "s/ -llzma/ -llzma -lssp/g" src/liblzma/liblzma.pc.in',
+		'diff -U 10 "src/liblzma/liblzma.pc.in.orig" "src/liblzma/liblzma.pc.in"  && echo "NO difference" || echo "YES differences!"'
 	],
-	#'configure_options' : '{autoconf_prefix_options} --enable-shared --disable-static --enable-assembler --disable-debug --disable-small ' # --enable-threads=posix
-	'configure_options' : '--with-sysroot="{target_sub_prefix}" --host="{target_host}" --prefix="{output_prefix}/ffms2_dll.installed" --enable-shared --disable-static  --enable-assembler --disable-debug --disable-small ' # --enable-threads=posix
-							'--disable-xz --disable-xzdec --disable-lzmadec --disable-lzmainfo --disable-doc --without-iconv '
-							'--disable-lzma-links --disable-scripts '
+	'configure_options' :	'--host="{target_host}" --prefix="{output_prefix}/ffms2_dll.installed" '
+							'--enable-shared --disable-static '
+							#'--enable-threads=posix '
+							'--disable-debug '
+							'--enable-assembler '
+							'--disable-small '
+							'--disable-xz '
+							'--disable-xzdec '
+							'--disable-lzmadec '
+							'--disable-lzmainfo '
+							'--disable-doc '
+							'--disable-lzma-links '
+							'--disable-scripts '
+							'--disable-nls '
+							'--disable-rpath '
+							'--enable-largefile '
+							'--without-iconv '
 	,
-	#'depends_on' : [ 
-	#	'iconv',
-	#],
+	'run_post_install' : [
+		'cat {output_prefix}/ffms2_dll.installed/lib/pkgconfig/liblzma.pc',
+	],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'xz' },
+	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'ffms2_xz' },
 }
-#--with-sysroot="{target_sub_prefix}" --host="{target_host}" --prefix="{output_prefix}/ffms2_dll.installed" --enable-shared --disable-static 
