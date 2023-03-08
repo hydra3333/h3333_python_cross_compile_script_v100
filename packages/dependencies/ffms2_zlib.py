@@ -27,7 +27,7 @@
 		#'sed -ibak "s/install(TARGETS zlibstatic/install(TARGETS zlib/" ../CMakeLists.txt'
 		'diff -U 10 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
 	],
-	'run_post_install;' :
+	'run_post_install' : [
 		'cat {output_prefix}/ffms2_dll.installed/lib/pkgconfig/zlib.pc',
 	],	
 	'depends_on' : [
