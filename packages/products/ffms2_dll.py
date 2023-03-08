@@ -2,6 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/FFMS/ffms2', 
 	'depth_git' : 0,
+	#'recursive_git' : True,
 	'rename_folder' : 'ffms2_dll',
 	'env_exports' : {
 		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
