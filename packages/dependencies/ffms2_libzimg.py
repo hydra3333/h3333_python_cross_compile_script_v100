@@ -25,7 +25,7 @@
 	#	'autoreconf -fiv',
 		'cp -fv "zimg.pc.in" "zimg.pc.in.orig"',
 		'sed -ibak "s/ -lzimg/ -lzimg -lssp/g" zimg.pc.in',
-		'diff -U 10 zimg.pc.in.orig" "zimg.pc.in"  && echo "NO difference" || echo "YES differences!"',
+		'diff -U 10 "zimg.pc.in.orig" "zimg.pc.in"  && echo "NO difference" || echo "YES differences!"',
 	],
 	#'configure_options' : '{autoconf_prefix_options} --disable-shared --enable-static --enable-x86simd -disable-testapp --disable-example --disable-unit-test --disable-debug', # 2019.12.13
 	'configure_options' : '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-shared --disable-static --enable-x86simd -disable-testapp --disable-example --disable-unit-test --disable-debug', # 2019.12.13
