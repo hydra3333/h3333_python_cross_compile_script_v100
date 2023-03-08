@@ -23,9 +23,15 @@
 		('zlib/0001-mingw-workarounds.patch', '-p1', '..'),
 	],
 	'run_post_patch' : [ 
-		'cp -fv "../CMakeLists.txt" "../CMakeLists.txt.orig"',
+		#'cp -fv "../CMakeLists.txt" "../CMakeLists.txt.orig"',
 		#'sed -ibak "s/install(TARGETS zlibstatic/install(TARGETS zlib/" ../CMakeLists.txt'
-		'diff -U 10 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		#'diff -U 10 "../CMakeLists.txt.orig" "../CMakeLists.txt"  && echo "NO difference" || echo "YES differences!"',
+		'cp -fv "../zlib.pc.in" "../zlib.pc.in.orig"',
+		'sed -ibak "s/ -lz/ -lz -lssp/g" ../zlib.pc.in',
+		'diff -U 10 "../zlib.pc.in.orig" "../zlib.pc.in"  && echo "NO difference" || echo "YES differences!"',
+		'cp -fv "../zlib.pc.cmakein" "../zlib.pc.cmakein.orig"',
+		'sed -ibak "s/ -lz/ -lz -lssp/g" ../zlib.pc.cmakein',
+		'diff -U 10 "../zlib.pc.cmakein.orig" "../zlib.pc.cmakein"  && echo "NO difference" || echo "YES differences!"',
 	],
 	'run_post_install' : [
 		'cat {output_prefix}/ffms2_dll.installed/lib/pkgconfig/zlib.pc',
