@@ -4,14 +4,12 @@
 	'depth_git' : 0,
 	'rename_folder' : 'ffms2_dll',
 	'env_exports' : {
-		#'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
-		#'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
-		#'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp ',
-		#'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{target_prefix}/lib -lintl -liconv -lssp -Wl,-Bsymbolic ', # to mitigate lock per https://github.com/ffms/ffms2/issues/90
-		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{output_prefix}/include -L{output_prefix}/lib -lintl -liconv -lssp ',
-		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{output_prefix}/include -L{output_prefix}/lib -lintl -liconv -lssp ',
-		'CFLAGS'   :  ' {original_stack_protector_trim} -I{output_prefix}/include -L{output_prefix}/lib -lintl -liconv -lssp ',
-		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{output_prefix}/include -L{output_prefix}/lib -lintl -liconv -lssp -Wl,-Bsymbolic ', # to mitigate lock per https://github.com/ffms/ffms2/issues/90
+		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'LDFLAGS'  :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ', # to mitigate lock per https://github.com/ffms/ffms2/issues/90
+		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
+		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
 	#'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --enable-static -disable-shared --with-pic --with-zlib={target_prefix}/lib ', # --with-pic per https://github.com/ffms/ffms2/issues/90
 	'configure_options': '--host={target_host} --prefix={output_prefix}/ffms2_dll.installed --disable-static -enable-shared --with-pic --with-zlib={output_prefix}/ffms2_dll.installed/lib ', # --with-pic per https://github.com/ffms/ffms2/issues/90
