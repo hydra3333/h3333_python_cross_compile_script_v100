@@ -10,7 +10,7 @@
 		'CXXFLAGS' :  ' {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include ',
 		'CPPFLAGS' :  ' {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include ',
 		'CFLAGS'   :  ' {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include ',
-		'LDFLAGS'  :  ' -Wl,-Bsymbolic {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
+		'LDFLAGS'  :  ' -fstack-protector -Wl,-Bsymbolic {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},

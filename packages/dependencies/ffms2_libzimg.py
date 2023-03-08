@@ -14,7 +14,7 @@
 		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
 		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
 		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'LDFLAGS'  :  ' -Wl,-Bsymbolic {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
+		'LDFLAGS'  :  ' -fstack-protector -Wl,-Bsymbolic {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
