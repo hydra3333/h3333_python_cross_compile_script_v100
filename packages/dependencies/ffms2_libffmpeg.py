@@ -10,12 +10,12 @@
 		#'CXXFLAGS' : ' {original_cflags} ',
 		#'CPPFLAGS' : ' {original_cflags} ',
 		#'LDFLAGS'  : ' {original_cflags} ',
-		'CXXFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'CPPFLAGS' :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'CFLAGS'   :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
-		'LDFLAGS'  :  ' {original_stack_protector_trim} -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib ',
+		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'LDFLAGS'  :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/inlcude -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
-		#'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
+		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
 	'configure_options' :	'--sysroot={target_sub_prefix} '
 							'--prefix={output_prefix}/ffms2_dll.installed '
@@ -76,7 +76,10 @@
 							#'--enable-libwebp '			# build shared with right --prefix -enable-shared --disable-static
 							,
 	'run_post_patch' : [
-		'./configure --help',
+		#'./configure --help',
+		#'export',
+		#'cat /{output_prefix}/ffms2_dll.installed/lib/pkgconfig/zlib.pc',
+		#'pkg-config --exists --print-errors zimg >= 2.7.0'
 	],
 	'depends_on' : [ 
 		'ffms2_libzimg',		# ok
