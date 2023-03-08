@@ -82,10 +82,10 @@
 		#'pkg-config --exists --print-errors zimg >= 2.7.0'
 	],
 	'depends_on' : [ 
-		'ffms2_libzimg',		# ok
 		'ffms2_xz',				# ok
 		'ffms2_zlib',			# ??? no produces a dll ???
 		#'ffms2_lzma',			# another name for xz	
+		'ffms2_libzimg',		# ok
 		#
 		# MABS: {lzma,bzlib,zlib}
 		#'ffms2_bzip2',			# no does not install .la file
