@@ -5,10 +5,10 @@
 	#'recursive_git' : True,
 	'rename_folder' : 'ffms2_dll',
 	'env_exports' : {
-		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
-		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
-		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
-		'LDFLAGS'  :  ' -fstack-protector -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ', # to mitigate lock per https://github.com/ffms/ffms2/issues/90
+		'CXXFLAGS' :  ' -lpthread -Wl,-Bsymbolic {original_stack_protector_trim} {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
+		'CPPFLAGS' :  ' -lpthread -Wl,-Bsymbolic {original_stack_protector_trim} {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
+		'CFLAGS'   :  ' -lpthread -Wl,-Bsymbolic {original_stack_protector_trim} {original_fortify_source} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
+		'LDFLAGS'  :  ' -lpthread -fstack-protector -Wl,-Bsymbolic {original_stack_protector_trim} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ', # to mitigate lock per https://github.com/ffms/ffms2/issues/90
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
