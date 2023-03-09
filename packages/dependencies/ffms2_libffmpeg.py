@@ -7,10 +7,10 @@
 	'rename_folder' : 'ffms2_libffmpeg',
 	'env_exports' : {
 		# had to remove {original_stack_protector} {original_fortify_source} {original_cflag}
-		'CXXFLAGS' :  ' -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
-		'CPPFLAGS' :  ' -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
-		'CFLAGS'   :  ' -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
-		'LDFLAGS'  :  ' -fstack-protector -Wl,-Bsymbolic {original_fortify_source} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp ',
+		'CXXFLAGS' :  ' -pthread -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
+		'CPPFLAGS' :  ' -pthread -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
+		'CFLAGS'   :  ' -pthread -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
+		'LDFLAGS'  :  ' -pthread -fstack-protector -Wl,-Bsymbolic {original_fortify_source} {original_stack_protector} {original_cflag} -I{output_prefix}/ffms2_dll.installed/include -I{target_prefix}/include -L{output_prefix}/ffms2_dll.installed/lib -L{target_prefix}/lib -lssp -lpthread ',
 		'PKG_CONFIG_PATH'   : '{output_prefix}/ffms2_dll.installed/lib/pkgconfig',
 		'PKG_CONFIG_LIBDIR' : '{output_prefix}/ffms2_dll.installed/lib',
 	},
