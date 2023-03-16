@@ -1,7 +1,7 @@
 {
 	'repo_type' : 'git',
 	'url' : 'https://aomedia.googlesource.com/aom',
-	'depth_git': 0,
+	#'depth_git': 0,
 	'branch': 'main',
 	#'branch': 'v3.1.2',  # 2022.12.18 per DEADSIX27
 	'rename_folder' : 'libaom_git',
