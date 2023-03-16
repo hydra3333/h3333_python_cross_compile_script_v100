@@ -36,7 +36,7 @@
 	'run_post_install' : [ 
 		##'cp -vf "{target_prefix}/lib/libglslangd.a" "{target_prefix}/lib/libglslang.a"' # 2020.10.10 only needed if CMAKE_BUILD_TYPE not defined or is "Debug"
 		##'if [ ! -f "{target_prefix}/include/glslang/Public/ResourceLimits.h" ] ; then cp -vf "./glslang/Public/ResourceLimits.h" "{target_prefix}/include/glslang/Public/" ; fi',
-		#'cp -vf "./glslang/Public/ResourceLimits.h" "{target_prefix}/include/glslang/Public/"', # force overwrite in case a new version which doesn't install properly which is why this line exists
+		'cp -vf "./glslang/Public/ResourceLimits.h" "{target_prefix}/include/glslang/Public/"', # force overwrite in case a new version which doesn't install properly which is why this line exists
 	],
 	'depends_on' : [ 'shaderc_commit_dependencies', 'spirv-cross', 'spirv-tools', ],
 	'update_check' : { 'type' : 'git', },
