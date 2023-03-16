@@ -334,7 +334,7 @@ echo "end of tail -n 20 ~/Desktop/_working/ffmpeg_3333.log"
 
 cd ~/Desktop
 sudo chmod a=rwx -R *.sh
-rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
+#rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
 cp -fv /home/u/Desktop/_working/workdir/win64_output/ffmpeg_git.installed/bin/ffmpeg.exe           ./exe_x64_py/ffmpeg_OpenCL.exe 2>&1 | tee -a ./exe.log
