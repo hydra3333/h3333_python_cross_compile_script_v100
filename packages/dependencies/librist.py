@@ -10,7 +10,8 @@
 	#	'pwd; sed -i.bak0 "s/cjson_lib = dependency(\'libcjson\', required: false)/cjson_lib = dependency(\'cJSON\', required: false)/" ../meson.build ; pwd',
 	#],
 	'patches' : [
-		('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2022.04.21.patch', '-p1', '..')
+		#('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2022.04.21.patch', '-p1', '..')
+		('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2023.03.26.patch', '-p1', '..') # from MABS
 	],
 	'run_post_patch' : [
         'if [ -d "{target_prefix}/include/librist" ] ; then rm -fvR "{target_prefix}/include/librist" ; fi',    # per MABS
