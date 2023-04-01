@@ -12,7 +12,7 @@
 	'rename_folder' : 'libgcrypt_git',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
-		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
+		('libgcrypt/libgcrypt-2023.04.01.patch', '-p1'),
 	],
 	'custom_cflag' : ' {original_fortify_source_trim} ', # 2019.12.13 this does not like -O3 -fstack-protector-all ... use one or more of {original_cflag_trim} {original_stack_protector_trim} {original_fortify_source_trim}
 	'custom_ldflag' : ' {original_fortify_source_trim} -L{target_prefix}/lib ', # only for th DLL creation .py

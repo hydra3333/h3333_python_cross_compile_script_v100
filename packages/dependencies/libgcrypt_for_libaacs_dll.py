@@ -12,7 +12,7 @@
 	'rename_folder' : 'libgcrypt_for_libaacs_dll_git',
 	'patches' : [
 		#('libgcrypt/libgcrypt.patch', '-p1'),	# 2021.09.18 undo commit d2b3d046fc66a3166dc0c003a430ce756532ff74
-		('libgcrypt/libgcrypt-2022.02.16.patch', '-p1'),	# 2022.02.16
+		('libgcrypt/libgcrypt-2023.04.01.patch', '-p1'),
 	],
 	'run_post_patch' : [
 		'if [ ! -d "{output_prefix}/libaacs_dll_git.installed/include" ] ; then mkdir -pv "{output_prefix}/libaacs_dll_git.installed/include" ; fi',
