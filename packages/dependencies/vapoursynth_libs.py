@@ -3,7 +3,7 @@
 	'url' : 'https://github.com/hydra3333/vapoursynth_mingw_libs.git',
 	'needs_configure' : False,
 	'needs_make_install' : False,
-	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R62 PYTHON_VERSION=3.10.10', # for vapoursynth R62
+	'build_options' : 'PREFIX={target_prefix} GENDEF={mingw_binpath}/gendef DLLTOOL={mingw_binpath}/{cross_prefix_bare}dlltool VAPOURSYNTH_VERSION=R62 PYTHON_VERSION=3.11.2', # for vapoursynth R62
 	'run_post_regexreplace' : [
 		#'cp -fv Makefile Makefile.orig',
 		#'sed -i.bak "s;;;g" "Makefile"',
