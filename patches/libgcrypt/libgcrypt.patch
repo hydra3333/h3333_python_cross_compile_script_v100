@@ -1,8 +1,6 @@
 --- a/m4/gpg-error.m4	2023-04-01 16:19:09.708126000 +1030
-+++ b/m4/gpg-error.m4	2023-04-01 16:37:35.716090411 +1030
-@@ -58,11 +58,12 @@
- dnl Find gpgrt-config, which uses .pc file
- dnl (minimum pkg-config functionality, supporting cross build)
++++ b/m4/gpg-error.m4	2023-04-01 16:53:08.453208587 +1030
+@@ -60,7 +60,8 @@
  dnl
  dnl _AM_PATH_GPGRT_CONFIG
  AC_DEFUN([_AM_PATH_GPGRT_CONFIG],[dnl
@@ -12,11 +10,7 @@
    if test "$GPGRT_CONFIG" != "no"; then
      # Determine gpgrt_libdir
      #
-     # Get the prefix of gpgrt-config assuming it's something like:
-     #   <PREFIX>/bin/gpgrt-config
-@@ -73,12 +74,13 @@
-     #   GNU cross style: /usr/<triplet>/lib
-     #   Debian style: /usr/lib/<multiarch-name>
+@@ -75,8 +76,9 @@
      #   Fedora/openSUSE style: /usr/lib, /usr/lib32 or /usr/lib64
      # It is assumed that CC is specified to the one of host on cross build.
      if libdir_candidates=$(${CC:-cc} -print-search-dirs | \
@@ -28,11 +22,7 @@
        # From the output of -print-search-dirs, select valid pkgconfig dirs.
        libdir_candidates=$(for dir in $libdir_candidates; do
          if p=$(cd $dir 2>/dev/null && pwd); then
-           test -d "$p/pkgconfig" && echo $p;
-         fi
-@@ -220,6 +222,6 @@
-   fi
-   AC_SUBST(GPG_ERROR_CFLAGS)
+@@ -222,4 +224,4 @@
    AC_SUBST(GPG_ERROR_LIBS)
    AC_SUBST(GPG_ERROR_MT_CFLAGS)
    AC_SUBST(GPG_ERROR_MT_LIBS)
