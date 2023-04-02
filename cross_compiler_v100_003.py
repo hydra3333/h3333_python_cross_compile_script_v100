@@ -2446,7 +2446,7 @@ def cmakeSource(packageName, pkg):
 					handleRegexReplace(r, packageName)
 		touch(touchName)
 	else:
-		logger.info(f"cmakeSource: already_ran_cmake detected, not running cmake")
+		logger.debug(f"cmakeSource: already_ran_cmake detected, not running cmake")
 
 ###################################################################################################
 def mesonSource(packageName, pkg):
@@ -2467,7 +2467,7 @@ def mesonSource(packageName, pkg):
 					handleRegexReplace(r, packageName)
 		touch(touchName)
 	else:
-		logger.info(f"mesonSource: already_ran_meson detected, not running meson")
+		logger.debug(f"mesonSource: already_ran_meson detected, not running meson")
 
 ###################################################################################################
 def installSource(packageName, pkg, buildSystem):
@@ -2521,7 +2521,7 @@ def installSource(packageName, pkg, buildSystem):
 						runProcess(cmd)
 		touch(touchName)
 	else:
-		logger.info(f"installSource: already_ran_install detected, not running installer")
+		logger.debug(f"installSource: already_ran_install detected, not running installer")
 
 ###################################################################################################
 def configureSource(packageName, pkg, conf_system):
@@ -2593,7 +2593,7 @@ def configureSource(packageName, pkg, conf_system):
 					applyPatch(p[0], p[1], True)
 		touch(touchName)
 	else:
-		logger.info(f"configureSource: already_ran_install detected, not running configurer")
+		logger.debug(f"configureSource: already_ran_install detected, not running configurer")
 
 ###################################################################################################
 def buildSource(packageName, pkg, buildSystem):
@@ -2666,7 +2666,7 @@ def buildSource(packageName, pkg, buildSystem):
 						runProcess(cmd)
 		touch(touchName)
 	else:
-		logger.info(f"buildSource: already_ran_install detected, not running builder")
+		logger.debug(f"buildSource: already_ran_install detected, not running builder")
 
 ###################################################################################################
 def bootstrapConfigure():
@@ -2690,9 +2690,9 @@ def bootstrapConfigure():
 			logger.info(f"bootstrapConfigure: autoreconf -fiv")
 			runProcess(f"autoreconf -fiv")
 		else:
-			logger.info(f"bootstrapConfigure: boostrapper not detected, not running bootstrapper")
+			logger.debug(f"bootstrapConfigure: all boostrappers not detected, not running bootstrapper")
 	else:
-		logger.info(f"bootstrapConfigure: configure not detected, not running bootstrap")
+		logger.debug(f"bootstrapConfigure: configure not detected, not running bootstrap")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
