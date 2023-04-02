@@ -2508,9 +2508,9 @@ def installSource(packageName, pkg, buildSystem):
 						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
-						logger.info(f"installSource: IRunning post-install-command pre replaceVarCmdSubStrings (raw): '{0}'".format( cmd )) # 2019.04.13
+						logger.info(f"installSource: Running post-install-command pre replaceVarCmdSubStrings (raw): '{0}'".format(cmd)) # 2019.04.13
 						cmd = replaceVarCmdSubStrings(cmd)
-						logger.info(f"installSource: IRunning post-install-command: '{0}'".format(cmd))
+						logger.info(f"installSource: Running post-install-command: '{0}'".format(cmd))
 						logger.info(cmd)
 						runProcess(cmd)
 		touch(touchName)
