@@ -141,3 +141,16 @@
 	],
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'mp4box (GPAC)' },
 }
+#
+# MABS 2023.04.02:
+#_check=(libgpac_static.a bin-video/{MP4Box,gpac}.exe)
+#if [[ $mp4box = y ]] && do_vcs "$SOURCE_REPO_GPAC"; then
+#    do_uninstall include/gpac "${_check[@]}"
+#    git grep -PIl "\xC2\xA0" | xargs -r sed -i 's/\xC2\xA0/ /g'
+#    LDFLAGS+=" -L$LOCALDESTDIR/lib -L$MINGW_PREFIX/lib" \
+#        do_separate_conf --static-bin --static-build --static-modules --enable-all
+#    do_make
+#    log "install" make install-lib
+#    do_install bin/gcc/MP4Box.exe bin/gcc/gpac.exe bin-video/
+#    do_checkIfExist
+#fi
