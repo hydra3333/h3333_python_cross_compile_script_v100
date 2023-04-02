@@ -2279,8 +2279,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
 				logger.debug(f"gitClone: ####################")
-				cchdir("..") # ????
-				return os.getcwd()	# 2023.04.02 added this here to see if we can stop rebuilding every time
+				return realFolderName	# 2023.04.02 added this here to see if we can stop rebuilding every time
 			elif LOCAL == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Need to pull")
@@ -2299,8 +2298,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
 						else:
 							logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
-						cchdir("..") # ????
-						return os.getcwd()
+						return realFolderName
 					logger.info(f"gitClone: was NOT up to date with branch '{desiredBranch}' until that pull")
 					if anyFileStartsWith('already_'):
 						logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
@@ -3311,7 +3309,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		else:
 			logger.debug(f"buildPackage: run_post_regexreplace in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: run_post_regexreplace not in pkg '{packageName}'")		
+		logger.debug(f"buildPackage: already_ran_make detected for '{packageName}', run_post_patch not run, run_post_regexreplace not run")
 
 	#	conf_system_specifics = {	"gnumake_based_systems" : [ "cmake", "autoconf" ],
 	# 								"ninja_based_systems" : [ "meson" ]
