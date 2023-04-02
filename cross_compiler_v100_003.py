@@ -2723,7 +2723,7 @@ def bootstrapConfigure():
 		else:
 			logger.debug(f"bootstrapConfigure: all boostrappers not detected, not running bootstrapper")
 	else:
-		logger.debug(f"bootstrapConfigure: bootstrapper not detected, not running bootstrap")
+		logger.debug(f"bootstrapConfigure: configure not detected, not running bootstrapper")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
