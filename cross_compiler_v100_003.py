@@ -2279,6 +2279,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
 				logger.debug(f"gitClone: ####################")
+				cchdir("..") # ????
 				return os.getcwd()	# 2023.04.02 added this here to see if we can stop rebuilding every time
 			elif LOCAL == BASE:
 				logger.debug(f"gitClone: ####################")
@@ -2298,6 +2299,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
 						else:
 							logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
+						cchdir("..") # ????
 						return os.getcwd()
 					logger.info(f"gitClone: was NOT up to date with branch '{desiredBranch}' until that pull")
 					if anyFileStartsWith('already_'):
@@ -2997,8 +2999,11 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	if 'rename_folder' in pkg:  # this should be moved inside the download functions, TODO..
 		if pkg['rename_folder'] is not None:
 			if not os.path.isdir(pkg['rename_folder']):
+				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', workdir='{workDir}', folder {pkg['rename_folder']} does NOT EXIST, renaming '{workDir}' to '{pkg['rename_folder']}")
 				logger.debug(f"mv -f '{workDir}' '{pkg['rename_folder']}' # rename folder from '{workDir}' to '{pkg['rename_folder']}'")
 				shutil.move(workDir, pkg['rename_folder'])
+			else:
+				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', workdir='{workDir}', folder {pkg['rename_folder']} EXISTS, NOT renaming '{workDir}' to '{pkg['rename_folder']}")
 			workDir = pkg['rename_folder']
 		else:
 			logger.debug(f"buildPackage: rename_folder in pkg '{packageName}' but is None - ignored")
