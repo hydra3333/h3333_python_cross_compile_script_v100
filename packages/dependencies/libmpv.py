@@ -165,7 +165,7 @@
 		'libffmpeg_extra',
 	],
 	'run_post_install' : (
-		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.com',
+		#'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.com',
 		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv.exe',
 		#'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv-1.dll',	# 2022.01.02 is now mpv-2.dll
 		'{cross_prefix_bare}strip -v {output_prefix}/mpv_git.installed/bin/mpv-2.dll',	# 2022.01.02 is now mpv-2.dll
