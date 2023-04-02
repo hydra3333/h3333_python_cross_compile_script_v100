@@ -2286,8 +2286,8 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
 						return os.getcwd()
 				else:
-					logger.info(f"gitClone: git pull") # .format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
-					runProcess(f"git pull")	# .format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
+					logger.info(f"gitClone: git pull ") #.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
+					runProcess(f"git pull ") #.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
 				logger.info(f"gitClone: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				logger.info(f"gitClone: git submodule foreach --recursive git clean -ffdx")
