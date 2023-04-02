@@ -29,7 +29,7 @@
 		'sed -i.bak \'s/SHFLAGS=-shared/SHFLAGS=/g\' configure',
 		'sed -i.bak \'s/extralibs="$extralibs -lws2_32 -lwinmm -limagehlp"/extralibs="$extralibs -lws2_32 -lwinmm -lz -lbz2 -lssp"/g\' configure',
 		'sed -i.bak \'s/Psapi.h/psapi.h/g\' applications/gpac/compositor_tools.c',
-		'sed -i.bak \'s/Psapi.h/psapi.h/g\' applications/deprecated/mp4client/main.c',
+		#'sed -i.bak \'s/Psapi.h/psapi.h/g\' applications/deprecated/mp4client/main.c',	# the folder has disappeared
 		#
 		#'sed -i.bak \'/is_64="yes"/a disable_ogg="yes"\' configure',
 		#'sed -i.bak \'/is_64="yes"/a disable_theora="yes"\' configure',
