@@ -2271,6 +2271,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
 				logger.debug(f"gitClone: ####################")
+				return os.getcwd()	# 2023.04.02 added this here to see if we can stop rebuilding every time
 			elif LOCAL == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Need to pull")
@@ -2316,6 +2317,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			cchdir("..")
 			#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 	else:
+		logger.debug(f"gitClone: Initial GIT cloning '{url}' to '{realFolderName}'")
 		addArgs = []
 		if recursive:
 			addArgs.append("--recursive")
@@ -2429,6 +2431,7 @@ def cmakeSource(packageName, pkg):
 	logger.info(f"cmakeSource: Processing '{packageName}'")
 	touchName = f"already_ran_cmake_{md5(packageName, getKeyOrBlankString(pkg,'configure_options'))}"
 	if not os.path.isfile(touchName):
+		logger.debug(f"cmakeSource: already_ran_cmake '{touchName}' NOT detected, running cmake")
 		removeAlreadyFiles()
 		makeOpts = ''
 		if 'configure_options' in pkg:
@@ -2446,7 +2449,7 @@ def cmakeSource(packageName, pkg):
 					handleRegexReplace(r, packageName)
 		touch(touchName)
 	else:
-		logger.debug(f"cmakeSource: already_ran_cmake detected, not running cmake")
+		logger.debug(f"cmakeSource: already_ran_cmake '{touchName}' detected, not running cmake")
 
 ###################################################################################################
 def mesonSource(packageName, pkg):
@@ -2467,7 +2470,7 @@ def mesonSource(packageName, pkg):
 					handleRegexReplace(r, packageName)
 		touch(touchName)
 	else:
-		logger.debug(f"mesonSource: already_ran_meson detected, not running meson")
+		logger.debug(f"mesonSource: already_ran_meson '{touchName}' detected, not running meson")
 
 ###################################################################################################
 def installSource(packageName, pkg, buildSystem):
@@ -2475,6 +2478,7 @@ def installSource(packageName, pkg, buildSystem):
 	_origDir = os.getcwd()
 	touchName = f"already_ran_install_{md5(packageName, getKeyOrBlankString(pkg, 'install_options'))}"
 	if not os.path.isfile(touchName):
+		logger.debug(f"installSource: already_ran_install '{touchName}' NOT detected, running installer")
 		cpuCountStr = f"-j {objSETTINGS.cpuCount}"
 		if 'cpu_count' in pkg:
 			if isinstance(pkg['cpu_count'], int):
@@ -2521,13 +2525,14 @@ def installSource(packageName, pkg, buildSystem):
 						runProcess(cmd)
 		touch(touchName)
 	else:
-		logger.debug(f"installSource: already_ran_install detected, not running installer")
+		logger.debug(f"installSource: already_ran_install '{touchName}' detected, not running installer")
 
 ###################################################################################################
 def configureSource(packageName, pkg, conf_system):
 	logger.info(f"configureSource: Processing '{packageName}'")
 	touchName = f"already_configured_{md5(packageName, getKeyOrBlankString(pkg, 'configure_options'))}"
 	if not os.path.isfile(touchName):
+		logger.debug(f"configureSource: already_ran_configure '{touchName}' NOT detected, running configurer")
 		cpuCountStr = f"-j {objSETTINGS.cpuCount}"
 		if 'cpu_count' in pkg:
 			if isinstance(pkg['cpu_count'], int):
@@ -2593,7 +2598,7 @@ def configureSource(packageName, pkg, conf_system):
 					applyPatch(p[0], p[1], True)
 		touch(touchName)
 	else:
-		logger.debug(f"configureSource: already_ran_install detected, not running configurer")
+		logger.debug(f"configureSource: already_ran_configure '{touchName}' detected, not running configurer")
 
 ###################################################################################################
 def buildSource(packageName, pkg, buildSystem):
@@ -2601,6 +2606,7 @@ def buildSource(packageName, pkg, buildSystem):
 	_origDir = os.getcwd()
 	touchName = f"already_ran_make_{md5(packageName, getKeyOrBlankString(pkg, 'build_options'))}"
 	if not os.path.isfile(touchName):
+		logger.debug(f"buildSource: already_ran_build '{touchName}' NOT detected, running make/ninja/etc")
 		cpuCountStr = f"-j {objSETTINGS.cpuCount}"
 		if 'cpu_count' in pkg:
 			if isinstance(pkg['cpu_count'], int):
@@ -2666,7 +2672,7 @@ def buildSource(packageName, pkg, buildSystem):
 						runProcess(cmd)
 		touch(touchName)
 	else:
-		logger.debug(f"buildSource: already_ran_install detected, not running builder")
+		logger.debug(f"buildSource: already_ran_build '{touchName}' detected, not running make/ninja/etc")
 
 ###################################################################################################
 def bootstrapConfigure():
@@ -2692,7 +2698,7 @@ def bootstrapConfigure():
 		else:
 			logger.debug(f"bootstrapConfigure: all boostrappers not detected, not running bootstrapper")
 	else:
-		logger.debug(f"bootstrapConfigure: configure not detected, not running bootstrap")
+		logger.debug(f"bootstrapConfigure: bootstrapper not detected, not running bootstrap")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
