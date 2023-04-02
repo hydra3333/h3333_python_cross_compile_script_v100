@@ -2509,9 +2509,9 @@ def installSource(packageName, pkg, buildSystem):
 						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
-						logger.info(f"installSource: Running post-install-command pre replaceVarCmdSubStrings (raw): '{cmd}'") # 2019.04.13
+						logger.info(f"installSource: Running post-install-command pre replaceVarCmdSubStrings (raw): '{cmd}'") # 2023.04.02
 						cmd = replaceVarCmdSubStrings(cmd)
-						logger.info(f"installSource: Running post-install-command: '{cmd}'"
+						logger.info(f"installSource: Running post-install-command: '{cmd}'") # 2023.04.02
 						logger.info(cmd)
 						runProcess(cmd)
 		touch(touchName)
