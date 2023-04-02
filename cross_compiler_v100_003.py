@@ -2270,7 +2270,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: LOCAL:  " + LOCAL)
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
-				logger.debug(f"####################")
+				logger.debug(f"gitClone: ####################")
 			elif LOCAL == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Need to pull")
@@ -2284,6 +2284,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					# 	run_process("git pull origin {1}'.format(bsSplit[0],bsSplit[1])) ???
 					# else:
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
+						logger.info(f"gitClone: Already up to date with branch '{desiredBranch}'")
 						return os.getcwd()
 				else:
 					logger.info(f"gitClone: git pull ") #.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
@@ -2444,6 +2445,8 @@ def cmakeSource(packageName, pkg):
 				for r in pkg['regex_replace'][_pos]:
 					handleRegexReplace(r, packageName)
 		touch(touchName)
+	else:
+		logger.info(f"cmakeSource: already_ran_cmake detected, not running cmake")
 
 ###################################################################################################
 def mesonSource(packageName, pkg):
@@ -2463,6 +2466,8 @@ def mesonSource(packageName, pkg):
 				for r in pkg['regex_replace'][_pos]:
 					handleRegexReplace(r, packageName)
 		touch(touchName)
+	else:
+		logger.info(f"mesonSource: already_ran_meson detected, not running meson")
 
 ###################################################################################################
 def installSource(packageName, pkg, buildSystem):
@@ -2515,6 +2520,8 @@ def installSource(packageName, pkg, buildSystem):
 						logger.info(cmd)
 						runProcess(cmd)
 		touch(touchName)
+	else:
+		logger.info(f"installSource: already_ran_install detected, not running installer")
 
 ###################################################################################################
 def configureSource(packageName, pkg, conf_system):
@@ -2585,6 +2592,8 @@ def configureSource(packageName, pkg, conf_system):
 				for p in pkg['patches_post_configure']:
 					applyPatch(p[0], p[1], True)
 		touch(touchName)
+	else:
+		logger.info(f"configureSource: already_ran_install detected, not running configurer")
 
 ###################################################################################################
 def buildSource(packageName, pkg, buildSystem):
@@ -2656,6 +2665,8 @@ def buildSource(packageName, pkg, buildSystem):
 						logger.info(cmd)
 						runProcess(cmd)
 		touch(touchName)
+	else:
+		logger.info(f"buildSource: already_ran_install detected, not running builder")
 
 ###################################################################################################
 def bootstrapConfigure():
@@ -2678,6 +2689,10 @@ def bootstrapConfigure():
 		elif os.path.isfile(f"configure.ac"):
 			logger.info(f"bootstrapConfigure: autoreconf -fiv")
 			runProcess(f"autoreconf -fiv")
+		else:
+			logger.info(f"bootstrapConfigure: boostrapper not detected, not running bootstrapper")
+	else:
+		logger.info(f"bootstrapConfigure: configure not detected, not running bootstrap")
 
 ###################################################################################################
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
@@ -3305,6 +3320,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		logger.debug(f"buildPackage: needs_configure not in pkg '{packageName}'")
 
 	if needs_conf:
+		logger.debug(f"buildPackage: needs_conf is TRUE, conf_system is {conf_system} in pkg '{packageName}'")
 		if conf_system == "cmake":
 			cmakeSource(packageName, pkg)
 		elif conf_system == "meson":
