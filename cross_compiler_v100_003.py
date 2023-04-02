@@ -1668,7 +1668,7 @@ def replaceVarCmdSubStrings(inStr):
 				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"{0}".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
 			else:
 				inStr = re.sub(rf"(!VAR\({varName}\)VAR!)", r"".format(variableContent), inStr, flags=re.DOTALL)	# flags=re.DOTALL means "." match any character at all, including a newline
-				logger.error(F"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
+				logger.error(f"Unknown variable has been used: '{varName}'\n in: '{rawInStr}', it has been stripped.")
 	
 	# having replaced variables, also replace any substitution strings
 	inStr = replaceSubstitutionStrings(inStr)
@@ -2286,8 +2286,8 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
 						return os.getcwd()
 				else:
-					logger.info(f"gitClone: git pull") # .format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored
-					runProcess(f"git pull")	# .format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored
+					logger.info(f"gitClone: git pull") # .format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
+					runProcess(f"git pull")	# .format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
 				logger.info(f"gitClone: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				logger.info(f"gitClone: git submodule foreach --recursive git clean -ffdx")
@@ -2398,7 +2398,8 @@ def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, 
 		hgVersion = subprocess.check_output("hg --debug id -i", shell=True)
 		logger.info(f"mercurialClone: hg pull -u")
 		runProcess(f"hg pull -u")
-		logger.info(f"mercurialClone: hg update -C{' default' if desiredBranch is None else branchString}"   .format(' default' if desiredBranch is None else branchString))
+		#logger.info(f"mercurialClone: hg update -C{' default' if desiredBranch is None else branchString}"   .format(' default' if desiredBranch is None else branchString))
+		logger.info(f"mercurialClone: hg update -C{' default' if desiredBranch is None else branchString}")
 		runProcess(f"hg update -C{' default' if desiredBranch is None else branchString}")
 		hgVersionNew = subprocess.check_output(f"hg --debug id -i", shell=True)
 		if hgVersion != hgVersionNew:
@@ -2508,9 +2509,9 @@ def installSource(packageName, pkg, buildSystem):
 						_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 						cchdir(_dir)
 					else:
-						logger.info(f"installSource: Running post-install-command pre replaceVarCmdSubStrings (raw): '{0}'".format(cmd)) # 2019.04.13
+						logger.info(f"installSource: Running post-install-command pre replaceVarCmdSubStrings (raw): '{cmd}'") # 2019.04.13
 						cmd = replaceVarCmdSubStrings(cmd)
-						logger.info(f"installSource: Running post-install-command: '{0}'".format(cmd))
+						logger.info(f"installSource: Running post-install-command: '{cmd}'"
 						logger.info(cmd)
 						runProcess(cmd)
 		touch(touchName)
@@ -3358,7 +3359,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		if pkg['flipped_path'] is True:
 			_path = os.environ['PATH']
 			os.environ['PATH'] = "{0}:{1}".format(objSETTINGS.mingwBinpath, objSETTINGS.originalPATH)
-			logger.debug(f"buildPackage: Resetting flipped path to: '{0}' from '{1}'".format(_path, os.environ['PATH']))
+			logger.debug(f"buildPackage: Resetting flipped path to: '{_path}' from '{os.environ['PATH']}'")
 		else:
 			logger.debug(f"buildPackage: flipped_path in pkg '{packageName}' but is False - ignored")
 	else:
