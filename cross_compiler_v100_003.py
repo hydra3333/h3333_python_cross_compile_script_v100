@@ -2218,7 +2218,7 @@ def sanitizeFilename(f):
 
 ###################################################################################################
 def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recursive=False, doNotUpdate=False, desiredPR=None, git_depth=-1):
-	logger.info(f"gitClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}'")
+	logger.info(f"gitClone: Processing gitClone '{Colors.LIGHTMAGENTA_EX}{url}{Colors.RESET}' in '{os.getcwd()}'")
 	if virtFolderName is None:
 		virtFolderName = sanitizeFilename(os.path.basename(url))
 		if not virtFolderName.endswith(".git"):
@@ -2256,7 +2256,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			if anyFileStartsWith('already_'):
 				logger.debug(f"gitClone: at least 1 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			else:
-				logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
+				logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			logger.info(f"gitClone: git remote update")
 			runProcess(f"git remote update")
 			UPSTREAM = '@{u}'  # or branchName i guess
@@ -2272,7 +2272,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			if anyFileStartsWith('already_'):
 				logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			else:
-				logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
+				logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			if LOCAL == REMOTE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Up to date")
@@ -2280,9 +2280,10 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
 				logger.debug(f"gitClone: ####################")
-				logger.debug(f"gitClone: DID NOT return with return_value={os.getcwd()}, current path='{os.getcwd()}'")
 				#cchdir("..")
+				#logger.debug(f"gitClone: WILL NOT return with return_value={os.getcwd()}, current path='{os.getcwd()}'")
 				#return realFolderName	# 2023.04.02 added this here to see if we can stop rebuilding every time
+				#logger.debug(f"gitClone: DID NOT return with return_value={os.getcwd()}, current path='{os.getcwd()}'")
 			elif LOCAL == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Need to pull")
@@ -2300,7 +2301,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 						if anyFileStartsWith('already_'):
 							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
 						else:
-							logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
+							logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 						logger.debug(f"gitClone: returning with return_value={os.getcwd()}, current path='{os.getcwd()}''")
 						return os.getcwd()
 						#cchdir("..")
@@ -2309,14 +2310,14 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					if anyFileStartsWith('already_'):
 						logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
 					else:
-						logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
+						logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}")
 				else:
 					logger.info(f"gitClone: git pull ") #.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
 					runProcess(f"git pull ") #.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
 					if anyFileStartsWith('already_'):
 						logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
 					else:
-						logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
+						logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}")
 				logger.info(f"gitClone: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				logger.info(f"gitClone: git submodule foreach --recursive git clean -ffdx")
@@ -2330,7 +2331,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				if anyFileStartsWith('already_'):
 					logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
 				else:
-					logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
+					logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}")
 			elif REMOTE == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: need to push")
@@ -2346,7 +2347,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: BASE	" + BASE)
 				logger.debug(f"gitClone: ####################")
 			cchdir("..")
-			#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
+			logger.info(f"gitClone: where folder exists, Finished GIT cloning '(url)' to '(realFolderName)', current path='{os.getcwd()}' ")
 	else:
 		logger.debug(f"gitClone: folder {realFolderName} noes NOT  exist, current path='{os.getcwd()}'")
 		logger.debug(f"gitClone: Initial GIT cloning '{url}' to '{realFolderName}', current path='{os.getcwd()}'")
@@ -2908,9 +2909,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 
 	#------------------------------------------------------------------------------------------------
 	#------------------------------------------------------------------------------------------------
-	logger.debug(f"-----------------------------------------------------------------------------------")
+	logger.info(f"-----------------------------------------------------------------------------------")
 	logger.info(f"Building {package_type} '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
-	logger.debug(f"-----------------------------------------------------------------------------------")
+	logger.info(f"-----------------------------------------------------------------------------------")
 	#------------------------------------------------------------------------------------------------
 	#------------------------------------------------------------------------------------------------
 	
@@ -3004,10 +3005,20 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		logger.error(f"buildPackage :Error: Unexpected error when building {packageName}, workdir='{workDir}' and current path='{os.getcwd()}', please report this: {sys.exc_info()[0]}")
 		raise Exception(f"buildPackage: Error: Unexpected error when building {packageName}, workdir='{workDir}' and current path='{os.getcwd()}'")
 
-	if 'rename_folder' in pkg:  # this should be moved inside the download functions, TODO..
+
+
+
+
+	#### ???????????????????? does this rename_folder break if there is a specified commit in gitclone ?  
+	#### ???????????????????? a specified gitclone commit immediate return value from  gitclone leaves us in the subfolder which is wrong
+	#### since the other git returns leave is in the level above and rename_folder then can't find it to stop renaming itself since it's still inside it
+
+
+
+	if 'rename_folder' in pkg:
 		if pkg['rename_folder'] is not None:
 			logger.debug(f"buildPackage:rename_folder when workdir='{workDir}' and current path='{os.getcwd()}'")
-			if not os.path.isdir(pkg['rename_folder']):
+			if not os.path.isdir(pkg['rename_folder']):	# the rename_folder doesn't get executed if the folder has already been renamed)
 				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', current path='{os.getcwd()}', workdir='{workDir}', folder {pkg['rename_folder']} does NOT EXIST, renaming '{workDir}' to '{pkg['rename_folder']}")
 				logger.debug(f"mv -f '{workDir}' '{pkg['rename_folder']}' # rename folder from '{workDir}' to '{pkg['rename_folder']}'")
 				shutil.move(workDir, pkg['rename_folder'])
@@ -3021,10 +3032,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 
 
 
-	#?????????????? GIT CLONE RETURNS WITH IS IN THE WORKING FOLDER, SAME AS THE OTHERS
 
-
-	#?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ??????? should this be after the CD just below, or here before it and up ?
+	
 	if 'download_header' in pkg:
 		if pkg['download_header'] is not None:
 			logger.debug(f"buildPackage: detected 'download_header' is not None in pkg '{packageName}'")
@@ -3036,11 +3046,12 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	else:
 		logger.debug(f"buildPackage: download_header not in pkg '{packageName}', current path='{os.getcwd()}'")
 
-	logger.debug(f"buildPackage: after 'rename_folder' and 'download_header', current path='{os.getcwd()}'")
+	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	logger.debug(f"buildPackage: ABOUT TO CD INTO DEPENDENCY_OR_PRODUCT '{packageName}' FOLDER, current path='{os.getcwd()}'")
 	cchdir(workDir)  # descend into x86_64/[DEPENDENCY_OR_PRODUCT_FOLDER]
-	logger.debug(f"buildPackage: after 'rename_folder' and 'download_header' amd cd {workDir}, current path='{os.getcwd()}'")
+	logger.debug(f"buildPackage: AFTER    CD INTO DEPENDENCY_OR_PRODUCT '{packageName}' FOLDER, current path='{os.getcwd()}'")
+	###++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
-	#?????? here assumes we are in the subfolder ???????
 	if 'debug_downloadonly' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		cchdir("..")
 		exit()
