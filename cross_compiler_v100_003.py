@@ -2242,6 +2242,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		properBranchString = replaceVarCmdSubStrings(properBranchString)	# 2023.02.13 ADDED replaceVarCmdSubStrings
 
 	if os.path.isdir(realFolderName):
+		logged.debug(f"gitClone: folder {realFolderName} already exists, will check for updates, current path='{os.getcwd()}'")
 		if desiredPR is not None:
 			logger.warning(f"gitClone: ###############################################################################################")
 			logger.warning(f"gitClone: Git: repositiories with set PR will not auto-update, please delete the repo and retry to do so.")
@@ -2253,9 +2254,9 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		else:
 			cchdir(realFolderName)
 			if anyFileStartsWith('already_'):
-				logger.debug(f"gitClone: at least 1 'already_' touch exists in folder {realFolderName}")
+				logger.debug(f"gitClone: at least 1 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			else:
-				logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
+				logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			logger.info(f"gitClone: git remote update")
 			runProcess(f"git remote update")
 			UPSTREAM = '@{u}'  # or branchName i guess
@@ -2269,9 +2270,9 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.info(f"gitClone: git checkout {properBranchString}")
 			runProcess(f"git checkout {properBranchString}")
 			if anyFileStartsWith('already_'):
-				logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
+				logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			else:
-				logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
+				logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			if LOCAL == REMOTE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Up to date")
@@ -2279,7 +2280,9 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				logger.debug(f"gitClone: REMOTE: " + REMOTE)
 				logger.debug(f"gitClone: BASE:   " + BASE)
 				logger.debug(f"gitClone: ####################")
-				return realFolderName	# 2023.04.02 added this here to see if we can stop rebuilding every time
+				logger.debug(f"gitClone: DID NOT return with return_value={os.getcwd()}, current path='{os.getcwd()}'")
+				#cchdir("..")
+				#return realFolderName	# 2023.04.02 added this here to see if we can stop rebuilding every time
 			elif LOCAL == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Need to pull")
@@ -2295,10 +2298,13 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
 						logger.info(f"gitClone: Already up to date with branch '{desiredBranch}'")
 						if anyFileStartsWith('already_'):
-							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
+							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
 						else:
-							logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}")
-						return realFolderName
+							logger.debug(f"gitClone: zero 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
+						logger.debug(f"gitClone: returning with return_value={os.getcwd()}, current path='{os.getcwd()}''")
+						return os.getcwd()
+						#cchdir("..")
+						#return realFolderName
 					logger.info(f"gitClone: was NOT up to date with branch '{desiredBranch}' until that pull")
 					if anyFileStartsWith('already_'):
 						logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
@@ -2342,7 +2348,8 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			cchdir("..")
 			#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 	else:
-		logger.debug(f"gitClone: Initial GIT cloning '{url}' to '{realFolderName}'")
+		logged.debug(f"gitClone: folder {realFolderName} noes NOT  exist, current path='{os.getcwd()}'")
+		logger.debug(f"gitClone: Initial GIT cloning '{url}' to '{realFolderName}', current path='{os.getcwd()}'")
 		addArgs = []
 		if recursive:
 			addArgs.append("--recursive")
@@ -2367,11 +2374,12 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.info(f"gitClone: git fetch origin refs/pull/{desiredPR}/head")
 			runProcess(f"git fetch origin refs/pull/{desiredPR}/head")
 			cchdir("..")
+		logger.info(f"gitClone: before mv, current path='{os.getcwd()}'")
 		logger.info(f"gitClone: mv '{realFolderName + '.tmp'}' '{realFolderName}'")
 		runProcess(f"mv '{realFolderName + '.tmp'}' '{realFolderName}'")
 		#logger.debug(f"gitClone: Finished GIT cloning '{url}' to '{realFolderName}'")
 
-	logger.info(f"gitClone: Finished GIT cloning '{url}' to '{realFolderName}'")
+	logger.info(f"gitClone: At END, Finished GIT cloning '{url}' to '{realFolderName}' returning with return_value={realFolderName}, current path='{os.getcwd()}'")
 	return realFolderName
 
 ###################################################################################################
@@ -2900,7 +2908,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 
 	#------------------------------------------------------------------------------------------------
 	#------------------------------------------------------------------------------------------------
+	logger.debug(f"-----------------------------------------------------------------------------------")
 	logger.info(f"Building {package_type} '{Colors.LIGHTMAGENTA_EX}{packageName}{Colors.RESET}' ...")
+	logger.debug(f"-----------------------------------------------------------------------------------")
 	#------------------------------------------------------------------------------------------------
 	#------------------------------------------------------------------------------------------------
 	
@@ -2951,14 +2961,14 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 				desiredPRVal = replaceVarCmdSubStrings(pkg['desired_pr_id'])
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' ppd='{ppd}' branch='{branch}' folderName='{folderName}' renameFolder='{renameFolder}'")
-		workDir = gitClone(ppd, folderName, renameFolder, branch, recursive, doNotUpdate, desiredPRVal, git_depth)
-		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' returned workdir='{workDir}'")
+		workDir = gitClone(ppd, folderName, renameFolder, branch, recursive, doNotUpdate, desiredPRVal, git_depth) # returned to the level above renameFolder
+		logger.debug(f"buildPackage: GIT: gitClone '{packageName}' returned workdir='{workDir}' and current path='{os.getcwd()}'")
 	elif pkg["repo_type"] == "svn":	# SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN SVN 
 		folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		workDir = svnClone(ppd, folderName, renameFolder)
-		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' returned workdir='{workDir}'")
+		logger.debug(f"buildPackage: SVN: svnClone '{packageName}' returned workdir='{workDir}' and current path='{os.getcwd()}'")
 	elif pkg['repo_type'] == 'mercurial':	# MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL MERCURUAL 
 		branch = getValueOrNone(pkg, 'branch')
 		if branch is not None:
@@ -2967,17 +2977,17 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		ppd = getPrimaryPackageUrl(pkg, packageName)
 		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' folderName='{folderName}' renameFolder='{renameFolder}'")
 		workDir = mercurialClone(ppd, folderName, renameFolder, branch, forceRebuild)
-		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' returned workdir='{workDir}'")
+		logger.debug(f"buildPackage: mercurial: mercurialClone '{packageName}' returned workdir='{workDir}' and current path='{os.getcwd()}'")
 	elif pkg["repo_type"] == "archive":	# ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE ARCHIVE 
 		if "folder_name" in pkg:
 			folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{folderName}'")
 			workDir = downloadUnpackFile(pkg, packageName, folderName, workDir)
-			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
+			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}' and current path='{os.getcwd()}'")
 		else:
 			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' folderName='{None}'")
 			workDir = downloadUnpackFile(pkg, packageName, None, workDir)
-			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}'")
+			logger.debug(f"buildPackage: archive: downloadUnpackFile '{packageName}' returned workdir='{workDir}' and current path='{os.getcwd()}'")
 	elif pkg["repo_type"] == "none":		# REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE REPO-NONE 
 		if "folder_name" in pkg:
 			folderName = replaceVarCmdSubStrings(getValueOrNone(pkg, 'folder_name'))
@@ -2985,39 +2995,52 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			workDir = folderName
 			logger.debug(f"mkdir -p '{workDir}'")
 			os.makedirs(workDir, exist_ok=True)
-			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName}' returned workdir='{workDir}'")
+			logger.debug(f"buildPackage: REPO-NONE: mkdir '{packageName}' returned workdir='{workDir}' and current path='{os.getcwd()}'")
 		else:
 			logger.error(f"Error: When using repo_type 'none' you have to set folder_name as well.")
 			exit(1)
 
 	if workDir is None:
-		logger.error(f"buildPackage :Error: Unexpected error when building {packageName}, workdir='{workDir}', please report this: {sys.exc_info()[0]}")
-		raise Exception(f"buildPackage: Error: Unexpected error when building {packageName}, workdir='{workDir}'")
+		logger.error(f"buildPackage :Error: Unexpected error when building {packageName}, workdir='{workDir}' and current path='{os.getcwd()}', please report this: {sys.exc_info()[0]}")
+		raise Exception(f"buildPackage: Error: Unexpected error when building {packageName}, workdir='{workDir}' and current path='{os.getcwd()}'")
 
 	if 'rename_folder' in pkg:  # this should be moved inside the download functions, TODO..
 		if pkg['rename_folder'] is not None:
+			logger.debug(f"buildPackage:rename_folder when workdir='{workDir}' and current path='{os.getcwd()}'")
 			if not os.path.isdir(pkg['rename_folder']):
-				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', workdir='{workDir}', folder {pkg['rename_folder']} does NOT EXIST, renaming '{workDir}' to '{pkg['rename_folder']}")
+				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', current path='{os.getcwd()}', workdir='{workDir}', folder {pkg['rename_folder']} does NOT EXIST, renaming '{workDir}' to '{pkg['rename_folder']}")
 				logger.debug(f"mv -f '{workDir}' '{pkg['rename_folder']}' # rename folder from '{workDir}' to '{pkg['rename_folder']}'")
 				shutil.move(workDir, pkg['rename_folder'])
 			else:
-				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', workdir='{workDir}', folder {pkg['rename_folder']} EXISTS, NOT renaming '{workDir}' to '{pkg['rename_folder']}")
+				logger.debug(f"buildPackage rename_folder in pkg '{packageName}', current path='{os.getcwd()}', workdir='{workDir}', folder {pkg['rename_folder']} EXISTS, NOT renaming '{workDir}' to '{pkg['rename_folder']}")
 			workDir = pkg['rename_folder']
 		else:
 			logger.debug(f"buildPackage: rename_folder in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: rename_folder not in pkg '{packageName}'")
+		logger.debug(f"buildPackage: rename_folder not in pkg '{packageName}', current path='{os.getcwd()}'")
 
+
+
+?????????????? GIT CLONE RETURNS WITH IS IN THE WORKING FOLDER, SAME AS THE OTHERS
+
+
+?????? here assumes we are in the subfolder ???????
 	if 'download_header' in pkg:
 		if pkg['download_header'] is not None:
+			logger.debug(f"buildPackage: detected 'download_header' is not None in pkg '{packageName}'")
 			for h in pkg['download_header']:
+				logger.debug(f"buildPackage: download_header in pkg '{packageName}' downloading header '{h}'")
 				downloadHeader(h)
 		else:
 			logger.debug(f"buildPackage: download_header in pkg '{packageName}' but is None - ignored")
 	else:
-		logger.debug(f"buildPackage: download_header not in pkg '{packageName}'")
+		logger.debug(f"buildPackage: download_header not in pkg '{packageName}', current path='{os.getcwd()}'")
 
+	logger.debug(f"buildPackage: after 'rename_folder' and 'download_header', current path='{os.getcwd()}'")
 	cchdir(workDir)  # descend into x86_64/[DEPENDENCY_OR_PRODUCT_FOLDER]
+	logger.debug(f"buildPackage: after 'rename_folder' and 'download_header' amd cd {workDir}, current path='{os.getcwd()}'")
+	
+?????? here assumes we are in the subfolder ???????
 	if 'debug_downloadonly' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		cchdir("..")
 		exit()
@@ -3025,7 +3048,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	oldPath = getKeyOrBlankString(os.environ, "PATH")
 	currentFullDir = os.getcwd()
 
+?????? here assumes we are in the subfolder ???????
 	if not anyFileStartsWith('already_configured'):
+		logger.debug(f"buildPackage: detected 'not anyFileStartsWith('already_configured')' for run_pre_patch in pkg '{packageName}', current path='{os.getcwd()}'")
 		if 'run_pre_patch' in pkg:
 			if pkg['run_pre_patch'] is not None:
 				for cmd in pkg['run_pre_patch']:
@@ -3039,7 +3064,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		else:
 			logger.debug(f"buildPackage: run_pre_patch not in pkg '{packageName}'")
 
+?????? here assumes we are in the subfolder ???????
 	if forceRebuild:
+		logger.debug(f"buildPackage: detected forceRebuild={forceRebuild} in pkg '{packageName}', current path='{os.getcwd()}'")
 		if os.path.isdir(".git"):
 			logger.info(f"buildPackage: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 			runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
@@ -3052,6 +3079,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: git submodule update --init --recursive")
 			runProcess(f"git submodule update --init --recursive")
 
+?????? here assumes we are in the subfolder ???????
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
 			vval = pkg['source_subfolder']
@@ -3071,6 +3099,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	else:
 		logger.debug(f"buildPackage: forceRebuild not specified - not removing patches and Already files")
 
+?????? here assumes we are in the subfolder ???????
 	if 'debug_confighelp_and_exit' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		if pkg['debug_confighelp_and_exit'] is True:
 			logger.info(f"buildPackage: ./configure --help")
