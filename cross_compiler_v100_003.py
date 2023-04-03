@@ -3013,7 +3013,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	#### ???????????????????? a specified gitclone commit immediate return value from  gitclone leaves us in the subfolder which is wrong
 	#### since the other git returns leave is in the level above and rename_folder then can't find it to stop renaming itself since it's still inside it
 
-
+	########## this only occurs where both a specified git commit and a rename_folder occur inside the same product/dependency
 
 	if 'rename_folder' in pkg:
 		if pkg['rename_folder'] is not None:
