@@ -2253,10 +2253,6 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.warning(f"gitClone: #########################")
 		else:
 			cchdir(realFolderName)
-			if anyFileStartsWith('already_'):
-				logger.debug(f"gitClone: at least 1 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
-			else:
-				logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			logger.info(f"gitClone: git remote update")
 			runProcess(f"git remote update")
 			UPSTREAM = '@{u}'  # or branchName i guess
@@ -2269,10 +2265,6 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			runProcess(f"git checkout -f")
 			logger.info(f"gitClone: git checkout {properBranchString}")
 			runProcess(f"git checkout {properBranchString}")
-			if anyFileStartsWith('already_'):
-				logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
-			else:
-				logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
 			if LOCAL == REMOTE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: Up to date")
@@ -2298,26 +2290,22 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					# else:
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
 						logger.info(f"gitClone: Already up to date with branch '{desiredBranch}'")
+
+						# ???????????????????????????????????????? already_ files may be in a sub-subfolder ...
 						if anyFileStartsWith('already_'):
 							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
 						else:
 							logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
+						# ???????????????????????????????????????? already_ files may be in a sub-subfolder ...
+
 						logger.debug(f"gitClone: returning with return_value={os.getcwd()}, current path='{os.getcwd()}''")
 						return os.getcwd()
 						#cchdir("..")
 						#return realFolderName
 					logger.info(f"gitClone: was NOT up to date with branch '{desiredBranch}' until that pull")
-					if anyFileStartsWith('already_'):
-						logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
-					else:
-						logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}")
 				else:
 					logger.info(f"gitClone: git pull ") #.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
 					runProcess(f"git pull ") #.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
-					if anyFileStartsWith('already_'):
-						logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
-					else:
-						logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}")
 				logger.info(f"gitClone: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 				logger.info(f"gitClone: git submodule foreach --recursive git clean -ffdx")
@@ -2328,10 +2316,6 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 				runProcess(f"git submodule foreach --recursive git reset --hard")
 				logger.info(f"gitClone: git submodule update --init --recursive")
 				runProcess(f"git submodule update --init --recursive")
-				if anyFileStartsWith('already_'):
-					logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}")
-				else:
-					logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}")
 			elif REMOTE == BASE:
 				logger.debug(f"gitClone: ####################")
 				logger.debug(f"gitClone: need to push")
