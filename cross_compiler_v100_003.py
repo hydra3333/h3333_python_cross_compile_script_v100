@@ -2265,6 +2265,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			logger.warning(f"gitClone: do_not_git_update is True")
 			logger.warning(f"gitClone: #########################")
 		else:
+			logger.info(f"gitClone: (desiredPR is None) and (doNotUpdate is False)" )
 			cchdir(realFolderName)
 			logger.info(f"gitClone: git remote update")
 			runProcess(f"git remote update")
@@ -2301,14 +2302,14 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					# if len(bsSplit) == 2:
 					# 	run_process("git pull origin {1}'.format(bsSplit[0],bsSplit[1])) ???
 					# else:
+					logger.info(f"gitClone: About to 'git pull origin {properBranchString}' # with desiredBranch='{desiredBranch}' properBranchString'{properBranchString}'")
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
-						logger.info(f"gitClone: Already up to date with branch '{desiredBranch}'")
-						logger.debug(f"gitClone: returning with return_value={os.getcwd()}, current path='{os.getcwd()}' ... this progably bad leaving while still inside the subfolder whereas other gitClone returns do not ")
-						# ??????????????????? this is probably bad, leaving while still inside the product/dependency sub-folder
-						return os.getcwd()
-						#cchdir("..")
-						#return realFolderName
-					logger.info(f"gitClone: was NOT up to date with branch '{desiredBranch}' until that pull")
+						logger.info(f"gitClone: Already up to date with branch desiredBranch='{desiredBranch}' properBranchString'{properBranchString}'")
+						#return os.getcwd()
+						cchdir("..")
+						return realFolderName
+					else:
+						logger.info(f"gitClone: was NOT up to date with desiredBranch='{desiredBranch}' properBranchString'{properBranchString}' until that pull")
 				else:
 					logger.info(f"gitClone: git pull ") #.format(properBranchString))	# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
 					runProcess(f"git pull ") #.format(properBranchString))				# ??? HMMM, no variable for properBranchString to go into means it is ignored ... could be a bug ?
@@ -3020,11 +3021,6 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	else:
 		logger.debug(f"buildPackage: rename_folder not in pkg '{packageName}', current path='{os.getcwd()}'")
 
-
-
-
-	#?????? here assumes we are in the subfolder ??????? should this be after the CD just below, or here before it and up ?
-	
 	if 'download_header' in pkg:
 		if pkg['download_header'] is not None:
 			logger.debug(f"buildPackage: detected 'download_header' is not None in pkg '{packageName}'")
