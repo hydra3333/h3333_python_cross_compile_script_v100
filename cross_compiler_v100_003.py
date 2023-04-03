@@ -1952,14 +1952,16 @@ def getPrimaryPackageUrl(pkg, packageName):  # returns the URL of the first down
 
 ###################################################################################################
 def downloadHeader(url):
+	logger.debug(f"downloadHeader: Requested download of '{url}', current path='{os.getcwd()}'")
 	destination = objSETTINGS.targetPrefix.joinpath("include")
 	fileName = os.path.basename(urlparse(url).path)
 	if not os.path.isfile(os.path.join(destination, fileName)):
+		logger.debug(f"downloadHeader: Downloading '{url}', current path='{os.getcwd()}'")
 		fname = downloadFile(url)
-		logger.debug(f"Moving Header File: '{fname}' to '{destination}'")
+		logger.debug(f"downloadHeader: Moving Header File: '{fname}' to '{destination}', current path='{os.getcwd()}'")
 		shutil.move(fname, destination)
 	else:
-		logger.debug(f"Header File: '{fileName}' already downloaded")
+		logger.debug(f"downloadHeader: Header File: '{fileName}' already downloaded, current path='{os.getcwd()}'")
 
 ###################################################################################################
 def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False):
@@ -2290,15 +2292,8 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 					# else:
 					if 'Already up to date' in runProcess(f"git pull origin {properBranchString}", silent=True):
 						logger.info(f"gitClone: Already up to date with branch '{desiredBranch}'")
-
-						# ???????????????????????????????????????? already_ files may be in a sub-subfolder ...
-						if anyFileStartsWith('already_'):
-							logger.debug(f"gitClone: at least 1 'already_' touch still exists in folder {realFolderName}, current path='{os.getcwd()}'")
-						else:
-							logger.debug(f"gitClone: ZERO 'already_' touch exists in folder {realFolderName}, current path='{os.getcwd()}'")
-						# ???????????????????????????????????????? already_ files may be in a sub-subfolder ...
-
-						logger.debug(f"gitClone: returning with return_value={os.getcwd()}, current path='{os.getcwd()}''")
+						logger.debug(f"gitClone: returning with return_value={os.getcwd()}, current path='{os.getcwd()}' ... this progably bad leaving while still inside the subfolder whereas other gitClone returns do not ")
+						# ??????????????????? this is probably bad, leaving while still inside the product/dependency sub-folder
 						return os.getcwd()
 						#cchdir("..")
 						#return realFolderName
