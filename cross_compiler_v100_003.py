@@ -1967,7 +1967,7 @@ def downloadHeader(url):
 	#
 	logger.debug(f"downloadHeader: (always) Downloading '{url}', current path='{os.getcwd()}'")
 	fname = downloadFile(url)
-	logger.debug(f"downloadHeader: Moving (with overwrite) Header File: '{fname}' to '{destination_file}', current path='{os.getcwd()}'")
+	logger.debug(f"downloadHeader: Moving (with overwrite) Header File: '{fname}' to '{full_destination_file}', current path='{os.getcwd()}'")
 	# In order for shutil.move to OVERWRITE destination file (if one already exists in destination path),
 	# we need to specify FULL destination path and filename, and NOT only destination folder name, or it will raise an Exception
 	# for example C:\Users\user\Downloads\python-2.7.17.msi
