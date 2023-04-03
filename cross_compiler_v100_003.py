@@ -3021,10 +3021,10 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 
 
 
-?????????????? GIT CLONE RETURNS WITH IS IN THE WORKING FOLDER, SAME AS THE OTHERS
+	#?????????????? GIT CLONE RETURNS WITH IS IN THE WORKING FOLDER, SAME AS THE OTHERS
 
 
-?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ???????
 	if 'download_header' in pkg:
 		if pkg['download_header'] is not None:
 			logger.debug(f"buildPackage: detected 'download_header' is not None in pkg '{packageName}'")
@@ -3040,7 +3040,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	cchdir(workDir)  # descend into x86_64/[DEPENDENCY_OR_PRODUCT_FOLDER]
 	logger.debug(f"buildPackage: after 'rename_folder' and 'download_header' amd cd {workDir}, current path='{os.getcwd()}'")
 	
-?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ???????
 	if 'debug_downloadonly' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		cchdir("..")
 		exit()
@@ -3048,7 +3048,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	oldPath = getKeyOrBlankString(os.environ, "PATH")
 	currentFullDir = os.getcwd()
 
-?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ???????
 	if not anyFileStartsWith('already_configured'):
 		logger.debug(f"buildPackage: detected 'not anyFileStartsWith('already_configured')' for run_pre_patch in pkg '{packageName}', current path='{os.getcwd()}'")
 		if 'run_pre_patch' in pkg:
@@ -3064,7 +3064,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		else:
 			logger.debug(f"buildPackage: run_pre_patch not in pkg '{packageName}'")
 
-?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ???????
 	if forceRebuild:
 		logger.debug(f"buildPackage: detected forceRebuild={forceRebuild} in pkg '{packageName}', current path='{os.getcwd()}'")
 		if os.path.isdir(".git"):
@@ -3079,7 +3079,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: git submodule update --init --recursive")
 			runProcess(f"git submodule update --init --recursive")
 
-?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ???????
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
 			vval = pkg['source_subfolder']
@@ -3099,7 +3099,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	else:
 		logger.debug(f"buildPackage: forceRebuild not specified - not removing patches and Already files")
 
-?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder ???????
 	if 'debug_confighelp_and_exit' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		if pkg['debug_confighelp_and_exit'] is True:
 			logger.info(f"buildPackage: ./configure --help")
