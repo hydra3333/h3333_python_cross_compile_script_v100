@@ -2242,7 +2242,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		properBranchString = replaceVarCmdSubStrings(properBranchString)	# 2023.02.13 ADDED replaceVarCmdSubStrings
 
 	if os.path.isdir(realFolderName):
-		logged.debug(f"gitClone: folder {realFolderName} already exists, will check for updates, current path='{os.getcwd()}'")
+		logger.debug(f"gitClone: folder {realFolderName} already exists, will check for updates, current path='{os.getcwd()}'")
 		if desiredPR is not None:
 			logger.warning(f"gitClone: ###############################################################################################")
 			logger.warning(f"gitClone: Git: repositiories with set PR will not auto-update, please delete the repo and retry to do so.")
@@ -2348,7 +2348,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			cchdir("..")
 			#logger.info(f"gitClone: Finished GIT cloning '(url)' to '(realFolderName)'")
 	else:
-		logged.debug(f"gitClone: folder {realFolderName} noes NOT  exist, current path='{os.getcwd()}'")
+		logger.debug(f"gitClone: folder {realFolderName} noes NOT  exist, current path='{os.getcwd()}'")
 		logger.debug(f"gitClone: Initial GIT cloning '{url}' to '{realFolderName}', current path='{os.getcwd()}'")
 		addArgs = []
 		if recursive:
