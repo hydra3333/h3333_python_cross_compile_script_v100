@@ -1955,13 +1955,24 @@ def downloadHeader(url):
 	logger.debug(f"downloadHeader: Requested download of '{url}', current path='{os.getcwd()}'")
 	destination = objSETTINGS.targetPrefix.joinpath("include")
 	fileName = os.path.basename(urlparse(url).path)
-	if not os.path.isfile(os.path.join(destination, fileName)):
-		logger.debug(f"downloadHeader: Downloading '{url}', current path='{os.getcwd()}'")
-		fname = downloadFile(url)
-		logger.debug(f"downloadHeader: Moving Header File: '{fname}' to '{destination}', current path='{os.getcwd()}'")
-		shutil.move(fname, destination)
-	else:
-		logger.debug(f"downloadHeader: Header File: '{fileName}' already downloaded, current path='{os.getcwd()}'")
+	full_destination_file = os.path.join(destination, fileName)
+	# 2023.04.03 FORCE a re-download of headers since they may have changed.
+	#if not os.path.isfile(os.path.join(destination, fileName)):
+	#	logger.debug(f"downloadHeader: Downloading '{url}', current path='{os.getcwd()}'")
+	#	fname = downloadFile(url)
+	#	logger.debug(f"downloadHeader: Moving Header File: '{fname}' to '{destination}', current path='{os.getcwd()}'")
+	#	shutil.move(fname, destination)
+	#else:
+	#	logger.debug(f"downloadHeader: Header File: '{fileName}' already downloaded, current path='{os.getcwd()}'")
+	#
+	logger.debug(f"downloadHeader: (always) Downloading '{url}', current path='{os.getcwd()}'")
+	fname = downloadFile(url)
+	logger.debug(f"downloadHeader: Moving (with overwrite) Header File: '{fname}' to '{destination_file}', current path='{os.getcwd()}'")
+	# In order for shutil.move to OVERWRITE destination file (if one already exists in destination path),
+	# we need to specify FULL destination path and filename, and NOT only destination folder name, or it will raise an Exception
+	# for example C:\Users\user\Downloads\python-2.7.17.msi
+	# see https://geekdudes.wordpress.com/2020/01/14/python-move-and-replace-if-same-file-already-exist/
+	shutil.move(fname, full_destination_file)	# move with overwrite since we specify the full path and filename
 
 ###################################################################################################
 def downloadFile(url=None, outputFileName=None, outputPath=None, bytesMode=False):
