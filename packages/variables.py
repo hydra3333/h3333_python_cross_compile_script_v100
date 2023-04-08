@@ -37,7 +37,6 @@
 		'--enable-gmp '
 		'--enable-gnutls ' # nongpl: openssl,libtls(libressl)
 		#'--enable-avresample ' # deprecated. 2018.11.23 ... but LSW depends on it # 2019.11.19 HolyWu's lsw does not need avresample as it uses libswresample
-
 		# Video/Picture Libs
 		'--enable-libzimg '
 		'--enable-libx264 '
@@ -68,6 +67,7 @@
 
 		# Image libs
 		'--enable-libwebp '
+		'--enable-libjxl '
 
 		# HW Decoders
 		'--enable-ffnvcodec '
@@ -76,6 +76,7 @@
 		'--enable-cuda-llvm ' # test 2020.03.10
 		'--enable-opengl '
 		'--enable-d3d11va '
+		'--enable-librav1e '
 		'--enable-nvenc '
 		'--enable-nvdec '
 		'--enable-dxva2 '
