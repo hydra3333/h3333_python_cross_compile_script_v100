@@ -2340,7 +2340,7 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 			cchdir("..")
 			logger.info(f"gitClone: where folder exists, Finished GIT cloning '(url)' to '(realFolderName)', current path='{os.getcwd()}' ")
 	else:
-		logger.debug(f"gitClone: folder {realFolderName} noes NOT  exist, current path='{os.getcwd()}'")
+		logger.debug(f"gitClone: folder {realFolderName} does NOT  exist, current path='{os.getcwd()}'")
 		logger.debug(f"gitClone: Initial GIT cloning '{url}' to '{realFolderName}', current path='{os.getcwd()}'")
 		addArgs = []
 		if recursive:
@@ -3912,8 +3912,14 @@ def listVersions():
 			vType = versionElement["type"]
 			logger.debug(f"listVersions: PRODUCTS: name='{name}' vType='{vType}'")
 			if vType == "git":  # packages that are git clones
-				di, master_branch_name = getCommitsDiff(pkg)
-				logger.debug(f"listVersions: PRODUCTS: GIT: name='{name}' vType='{vType}' master_branch_name='{master_branch_name}' di='{objPrettyPrint.pformat(di)}' ")
+				di = None
+				master_branch_name = None
+				try:
+					di, master_branch_name = getCommitsDiff(pkg)
+					logger.debug(f"listVersions: PRODUCTS: GIT: name='{name}' vType='{vType}' master_branch_name='{master_branch_name}' di='{objPrettyPrint.pformat(di)}' ")
+				except Exception as e:
+					logger.warning(f"{e}")
+					continue
 				if di is not None:
 					numCmts = 0
 					if isinstance(di, int):
