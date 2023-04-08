@@ -6,7 +6,7 @@
 							'-lcrypt32 -lncrypt -lbcrypt -lws2_32 -lwinmm -lz -liconv -lintl -liconv -lssp" OPT="{original_cflags}" CROSS_COMPILE={cross_prefix_bare} SHARED=no prefix={target_prefix}', # 2020.06.09 added -lncrypt -lbcrypt  from gnutls .14
 	'build_options'   : 'SYS=mingw CRYPTO=GNUTLS LIB_GNUTLS="-L{target_prefix}/lib -lpthread -lgnutls -lhogweed -lnettle -lgmp '
 							'-lcrypt32 -lncrypt -lbcrypt -lws2_32 -lwinmm -lz -liconv -lintl -liconv -lssp" OPT="{original_cflags}" CROSS_COMPILE={cross_prefix_bare} SHARED=no prefix={target_prefix}', # 2020.06.09 added -lncrypt -lbcrypt  from gnutls .14
-	'run_post_install' :( # 2019.12.13
+	'run_post_install' :(
 		'sed -i.bak \'s/-lrtmp -lz/-lrtmp -lwinmm -lz -lintl -liconv -lssp/\' "{pkg_config_path}/librtmp.pc"', # 2019.12.13
 	),
 	'depends_on' : [

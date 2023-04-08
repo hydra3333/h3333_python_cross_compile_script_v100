@@ -10,11 +10,13 @@
 	'run_post_regexreplace' : [
 		'sed -i.bak0 "s|#include \<string.h\>|#include \<string.h\>\\n#include \<windows.h\>|g" configure', # 2022.02.18
 		#
+		'sed -i.bak "s|i386-mingw32-|{cross_prefix_bare}|" configure.in',
 		'sed -i "s|-DWIN32 -shared|-DWIN64 -static|" configure.in', # 2022.12.18 per DEADSIX27
 		#'sed -i.bak2 "s|-DUNDER_WINDOWS -DWIN32|-DUNDER_WINDOWS -DWIN64|g" configure.in',
 		'sed -i.bak2 "s|-DWIN32|-DWIN64|g" configure.in', # 2022.12.18
 		#
-		'sed -i "s|-DWIN32 -shared|-DWIN64 -static|" configure', # 2022.12.18 per DEADSIX27
+		'sed -i.bak "s|i386-mingw32-|{cross_prefix_bare}|" configure',
+		'sed -i "s|-DWIN32 -shared|-DWIN64 -static|" configure',
 		#'sed -i.bak2 "s|-DUNDER_WINDOWS -DWIN32|-DUNDER_WINDOWS -DWIN64|g" configure', # 2022.02.18
 		'sed -i.bak2 "s|-DWIN32|-DWIN64|g" configure', # 2022.12.18
 	],

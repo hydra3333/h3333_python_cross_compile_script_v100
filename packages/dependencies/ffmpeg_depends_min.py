@@ -36,7 +36,9 @@
 		'libass',
 		#'tesseract', # 2020.06.27 comment out as no longer required
 		#'lensfun',  # 2020.05.12 comment out so we do not have to build glib2
+		'libjxl',
 		'libwebp',
+		'rav1e',
 		'nv-codec-headers',
 		'intel_quicksync_mfx', # 2022.05.27 re-enable # 2022.05.25 comment out intel_quicksync_mfx since ffmpeg quicksync no longer detects https://github.com/lu-zero/mfx_dispatch.git as valid.
 		'amf_headers',

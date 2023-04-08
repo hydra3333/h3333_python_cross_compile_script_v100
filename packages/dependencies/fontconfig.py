@@ -7,6 +7,7 @@
 	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-libxml2 --disable-docs --disable-silent-rules --with-expat',
 	'patches' : [
 		('fontconfig/0001-fontconfig-remove-tests.patch', '-p1' ),
+		('fontconfig/0002-fontconfig-add-default-windows-path.patch', '-p1' ),
 		# ('fontconfig/fontconfig-git-utimes.patch', '-p1' ),
 		# ('fontconfig/fontconfig-0001-fix-missing-bracket.patch', '-p1' ),
 	],
@@ -27,9 +28,8 @@
 			}
 		]
 	},
-
 	'depends_on' : [
-		'expat', 'iconv', 'libxml2', 'freetype', 'bzip2', 'json-c', # 2020.05.12 added back json-c # 2020.03.19 removed 'json-c' again after trying to add it back
+		'expat', 'iconv', 'libxml2', 'freetype', 'bzip2', 'json-c',
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'fontconfig' },

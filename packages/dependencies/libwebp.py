@@ -6,6 +6,8 @@
 	'source_subfolder': '_build',
 	'conf_system' : 'cmake',
 	'configure_options' : '.. {cmake_prefix_options} '
+		#'-DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF '
+		'-DConfigPackageLocation={target_prefix}/lib/cmake/WebP/ '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=OFF '
 		'-DWEBP_ENABLE_SIMD=ON '
 		'-DWEBP_NEAR_LOSSLESS=ON '

@@ -26,6 +26,8 @@
 		'--backend=ninja '
 		'-Dtests=disabled '
         '-Dcmdline=disabled '
+		'-Djni=disabled '
+		'-Dvamp=enabled '
 		'-Dresampler=libsamplerate '
 		'-Dfft=fftw '
 		#'-Ddefault_library=static ' # 2022.12.18 per DEADSIX27. "ERROR: Got argument default_library as both -Ddefault_library and --default-library. Pick one."

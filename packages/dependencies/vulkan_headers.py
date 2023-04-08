@@ -9,6 +9,12 @@
 	'recursive_git' : True,
 	'configure_options' : '. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix} -DCMAKE_INSTALL_LIBDIR={target_prefix}/lib ',
 	'conf_system' : 'cmake',
+		'env_exports' : {
+		'CFLAGS'   : ' -DVK_ENABLE_BETA_EXTENSIONS {original_cflags}',
+		'CXXFLAGS' : ' -DVK_ENABLE_BETA_EXTENSIONS {original_cflags}',
+		'CPPFLAGS' : ' -DVK_ENABLE_BETA_EXTENSIONS {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
+		'LDFLAGS'  : ' -DVK_ENABLE_BETA_EXTENSIONS {original_cflags}',
+	},
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'Vulkan headers' },
+	'_info' : { 'version' : 'git (main)', 'fancy_name' : 'Vulkan headers' },
 }

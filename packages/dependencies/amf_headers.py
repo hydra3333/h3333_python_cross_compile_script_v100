@@ -1,6 +1,6 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/GPUOpen-LibrariesAndSDKs/AMF',	# 2023.01.28, use this, deaqdsix27's source is well out of date
+	'url' : 'https://github.com/GPUOpen-LibrariesAndSDKs/AMF',
 	'rename_folder' : 'AMF_headers',
 	'depth_git': 1,
 	'needs_configure' : False,

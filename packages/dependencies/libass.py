@@ -1,7 +1,8 @@
 {
 	'repo_type' : 'git',
+	'recursive_git' : True,	# 2023.02.23
 	'url' : 'https://github.com/libass/libass.git',
-	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-silent-rules',
+	'configure_options' : '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --enable-silent-rules --enable-fontconfig',
 	'env_exports' : { # 2020.06.19
 		'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
 		'CXXFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}',

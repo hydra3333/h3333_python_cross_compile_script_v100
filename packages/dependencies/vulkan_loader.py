@@ -2,6 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/KhronosGroup/Vulkan-Loader.git',
 	'depth_git' : 0,
+	'branch' : 'main',
 	#'branch' : 'tags/sdk-1.3.236.0', # 2022.12.21 workaround per https://github.com/m-ab-s/media-autobuild_suite/issues/2345 see in vulkan_headers.py
 	# 2022.12.25 undo 'branch' : 'tags/sdk-1.3.236.0' per https://git.videolan.org/?p=ffmpeg.git;a=commit;h=eb0455d64690eed0068e5cb202f72ecdf899837c
 	#'recursive_git' : True, 
@@ -10,6 +11,7 @@
 	'configure_options' : 
 		'.. {cmake_prefix_options} -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX={target_prefix} '
 		'-DVULKAN_HEADERS_INSTALL_DIR={target_prefix} '
+		'-DUPDATE_DEPS=ON '
 		'-DENABLE_WERROR=OFF ' # 2022.04.08
 		'-DBUILD_LOADER=ON '
 		'-DBUILD_STATIC_LOADER=ON '     # 2021.10.30 per deadsix27
@@ -23,16 +25,14 @@
 		'-DUSE_UNSAFE_C_GEN=ON ' # 2020.10.10 per MABS https://github.com/m-ab-s/media-autobuild_suite/commit/7034e948ca14323514fca98c83adc1ec7720909e
 	,
 	'env_exports' : { # 2019.12.13 add -D_POSIX_C_SOURCE
-		'CFLAGS'   : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
-		'CXXFLAGS' : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
-		'CPPFLAGS' : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
-		'LDFLAGS'  : ' -O3 -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'CFLAGS'   : ' -O3 -DVK_ENABLE_BETA_EXTENSIONS -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'CXXFLAGS' : ' -O3 -DVK_ENABLE_BETA_EXTENSIONS -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'CPPFLAGS' : ' -O3 -DVK_ENABLE_BETA_EXTENSIONS -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
+		'LDFLAGS'  : ' -O3 -DVK_ENABLE_BETA_EXTENSIONS -D_POSIX_C_SOURCE -DSTRSAFE_NO_DEPRECATE ', # 2020.04.07 attempted to add -D_POSIX_C_SOURCE # 2020.08.21 per MABS -DSTRSAFE_NO_DEPRECATE
 	},
 	'patches' : [
 		('vulkan/vulkan-0001-cross-compile-static-linking-hacks-MABS-2022.11.22.patch', '-Np1', '..'),
 		('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2022.11.22.patch', '-Np1', '..'),
-		#('vulkan/vulkan-0001-loader-cross-compile-static-linking-hacks-MABS-2023.02.16.patch', '-Np1', '..'),
-		#('vulkan/vulkan-0002-pc-remove-CMAKE_CXX_IMPLICIT_LINK_LIBRARIES-MABS-2023.02.16.patch', '-Np1', '..'),
 	],
 	'run_post_patch' : [ 
 		'sed -i.bak \'s/ pthread m)/ pthread m cfgmgr32)/g\' ../loader/CMakeLists.txt', # 2020.05.11 to align more with deadsix27

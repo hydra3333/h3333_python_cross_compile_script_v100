@@ -10,16 +10,17 @@
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'custom_cflag' : '-O3 -fstack-protector-all', # 2019.12.13 remove fortify_source so that it builds
-	'configure_options' : '.. {cmake_prefix_options} -DWebP_LIBRARIES=-lsharpyuv -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release', # 2022.12.18 from deadsix27
-    'patches' : [ # 2022.12.18 from deadsix27
-		('tiff/tiff1.patch', '-p1', ".."), # 2022.12.18 from deadsix27
-	], # 2022.12.18 from deadsix27
+	#'configure_options' : '.. {cmake_prefix_options} -DWebP_LIBRARIES=-lsharpyuv -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release', # 2022.12.18 from deadsix27
+	'configure_options' : '.. {cmake_prefix_options} -Dtiff-tools=OFF -Dtiff-docs=OFF -Dtiff-contrib=OFF -Dtiff-tests=OFF -DCMAKE_INSTALL_PREFIX={target_prefix} -DBUILD_SHARED_LIBS=0 -DCMAKE_BUILD_TYPE=Release', # 2022.12.18 from deadsix27
+    #'patches' : [ # 2022.12.18 from deadsix27
+	#	('tiff/tiff1.patch', '-p1', ".."),
+	#],
 	'regex_replace': {
 		'post_install': [
 			{
 				0: r'Libs: -L[^\n]+',
-				#1: r'Libs: -L${{libdir}} -ltiff -lwebp -llzma -ljpeg -lz',  # 2022.12.18 from deadsix27
-				1: r'Libs: -L${{libdir}} -ltiff -lwebp -llzma -ljpeg -lz -',  # 2022.12.18 from deadsix27
+				#1: r'Libs: -L${{libdir}} -ltiff -lwebp -llzma -ljpeg -lz -',  # 2022.12.18 from deadsix27
+				1: r'Libs: -L${{libdir}} -ltiff -lwebp -llzma -ljpeg -lz',
 				'in_file': '{pkg_config_path}/libtiff-4.pc'
 			}
 		]

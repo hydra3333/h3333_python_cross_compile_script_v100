@@ -29,6 +29,9 @@
 		'-DENABLE_SPVREMAPPER=ON '
 		'-DUSE_CCACHE=OFF '
 	,
+	'patches' : [	# deadsix27 2023.04.08
+		( 'https://github.com/KhronosGroup/glslang/pull/3144.patch', '-p1', '..' ), # Include <cstdint> header in Common.h #3144 
+	],
 	'run_post_patch' : [ 
 		#'rm -vf "./compile_commands.json"'
 		'./update_glslang_sources.py',

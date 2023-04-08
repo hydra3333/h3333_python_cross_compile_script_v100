@@ -1,6 +1,7 @@
 {
 	'repo_type' : 'git',
-	'url' : 'https://github.com/OpenVisualCloud/SVT-AV1.git',
+	#'url' : 'https://github.com/OpenVisualCloud/SVT-AV1.git',
+	'url' : 'https://gitlab.com/AOMediaCodec/SVT-AV1',
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	#'custom_cflag' : '-D_FORTIFY_SOURCE=0', # 2022.12.18 per DEADSIX27
