@@ -94,6 +94,7 @@ import glob
 import hashlib
 import importlib
 import logging
+impoert os.path
 import os # 2020.05.20 import full os since we want mkdir; was #import os.path
 import re
 import shutil
@@ -279,6 +280,7 @@ class settings:
 
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")			# used when building packages
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")	# used when building packages
+		self.cargoHomePath = self.fullWorkDir.joinpath("cargohome")						# per deadsix27, used for rust
 
 		self.packagesFolder = self.projectRoot.joinpath(self.packages_subfolder)	# for input, eg packages
 		self.prodFolder     = self.packagesFolder.joinpath("products")					# for input, eg packages/products
@@ -312,7 +314,8 @@ class settings:
 
 		self.shortCrossPrefixStr = F"{self.bitnessStr}-w64-mingw32-"														# eg x86_64-w64-mingw32-
 		self.fullCrossPrefixStr = self.mingwBinpath.joinpath(self.shortCrossPrefixStr)										# eg workdir/toolchain/x86_64-w64-mingw32/bin/x86_64-w64-mingw32-
-		self.autoConfPrefixOptions = F'--with-sysroot="{self.targetSubPrefix}" --host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
+		#self.autoConfPrefixOptions = F'--with-sysroot="{self.targetSubPrefix}" --host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
+		self.autoConfPrefixOptions = F'--host={self.targetHostStr} --prefix={self.targetPrefix} --disable-shared --enable-static'
 		self.makePrefixOptions = F'CC={self.shortCrossPrefixStr}gcc ' \
 			F"AR={self.shortCrossPrefixStr}ar " \
 			F"PREFIX={self.targetPrefix} " \
@@ -326,8 +329,10 @@ class settings:
 		self.cmakePrefixOptionsOld = "-G\"Unix Makefiles\" -DCMAKE_SYSTEM_PROCESSOR=\"{bitness}\" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_RANLIB={cross_prefix_full}ranlib -DCMAKE_C_COMPILER={cross_prefix_full}gcc -DCMAKE_CXX_COMPILER={cross_prefix_full}g++ -DCMAKE_RC_COMPILER={cross_prefix_full}windres -DCMAKE_FIND_ROOT_PATH={target_prefix}".format(cross_prefix_full=self.fullCrossPrefixStr, target_prefix=self.targetPrefix, bitness=self.bitnessStr)
 		self.cpuCount = self.cpu_count		# ??? WHY HAVE 2 VARIABLES FOR THE SAME THING ???
 		self.originalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
-
-		# define the name of tghe gcc compiler
+		#
+		self.rustTargetStr = "x86_64-pc-windows-gnu" # hardcoded, only 64bit supported.
+		#
+		# define the name of the gcc compiler
 		self.gcc_bin = os.path.join(self.mingwBinpath, self.bitnessStr + "-w64-mingw32-gcc")
 
 		self.substitutionDict = defaultdict(lambda: "")
@@ -357,6 +362,7 @@ class settings:
 				'bit_name3': self.bitnessStr3,
 				'bit_name_win': self.bitnessStrWin,
 				'bit_num': self.bitness,
+				'rust_target': self.rustTargetStr,
 				'product_prefix': self.fullProductDir,
 				'target_prefix_sed_escaped': str(self.targetPrefix).replace("/", "\\/"),
 				'make_cpu_count': "-j {0}".format(self.cpuCount),
@@ -380,11 +386,11 @@ class settings:
 			}
 		)
 	
-		os.environ['PATH'] = f"{self.mingwBinpath}:{self.originalPATH}"
-		os.environ['PKG_CONFIG_PATH'] = self.pkgConfigPath
-		os.environ['PKG_CONFIG_LIBDIR'] = ''
-		os.environ['COLOR'] = "ON"  # Force coloring on (for CMake primarily)
-		os.environ['CLICOLOR_FORCE'] = "ON"  # Force coloring on (for CMake primarily)
+		#os.environ['PATH'] = f"{self.mingwBinpath}:{self.originalPATH}"
+		#os.environ['PKG_CONFIG_PATH'] = self.pkgConfigPath
+		#os.environ['PKG_CONFIG_LIBDIR'] = ''
+		#os.environ['COLOR'] = "ON"  # Force coloring on (for CMake primarily)
+		#os.environ['CLICOLOR_FORCE'] = "ON"  # Force coloring on (for CMake primarily)
 
 		print(f"Processing finished Processing initial settings")
 		return
@@ -396,8 +402,11 @@ def resetDefaultEnvVars():
 	os.environ['CXXFLAGS']          = objSETTINGS.originalCflags
 	os.environ['CPPFLAGS']          = objSETTINGS.originalCflags
 	os.environ['LDFLAGS']           = objSETTINGS.originalCflags
+	os.environ['CARGO_HOME']		= objSETTINGS.cargoHomePath
 	os.environ['PKG_CONFIG_PATH']   = objSETTINGS.pkgConfigPath
 	os.environ['PKG_CONFIG_LIBDIR'] = ''
+	os.environ['COLOR']				= "ON" 	# Force coloring on (for CMake primarily)
+	os.environ['CLICOLOR_FORCE']	= "ON"  # Force coloring on (for CMake primarily)
 	logger.info(f"Reset CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS to: '{objSETTINGS.originalCflags}', PKG_CONFIG_PATH to '{objSETTINGS.pkgConfigPath}', PKG_CONFIG_LIBDIR to ''")
 	if objSETTINGS.debugMode:
 		dump_environment_variables(override=True)
@@ -1222,6 +1231,9 @@ def prepareForBuilding():
 
 	logger.info(f"Processing prepareForBuilding. This script and .py files SHOULD be in projectRoot='{objSETTINGS.projectRoot}'")
 
+	# start with the environment variables set up.
+	resetDefaultEnvVars()
+
 	# The projectRoot is the current folder (where this script SHOULD reside)
 	# Create the "workdir" subfolder under the projectRoot  if it doesn't already exist and then CD into it
 	if objSETTINGS.fullWorkDir.exists():
@@ -1353,6 +1365,38 @@ def prepareForBuilding():
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		exit(ret)
 
+	# Always RE-create the Rust Cargo stuff every time, in case  we have changed something
+	#os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
+	if True:
+		logger.info(f"Creating Cargo Home stuff for Rust: '{objSETTINGS.cargoHomePath}'")
+		logger.info(f"Creating environment variable 'CARGO_HOME' = '{objSETTINGS.cargoHomePath}'")
+		os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
+		cargoConfigPath = objSETTINGS.cargoHomePath.joinpath("config.toml")	# from deadsix27
+		if not os.path.isdir(objSETTINGS.cargoHomePath):
+			logger.info(f"Creating Cargo Home folder: '{objSETTINGS.cargoHomePath}'")
+			objSETTINGS.cargoHomePath.mkdir(parents=True)
+		tcFile = [
+			F'[target.{objSETTINGS.rustTargetStr}]',
+			F'linker = "{objSETTINGS.shortCrossPrefixStr}gcc"',
+			F'ar = "{objSETTINGS.shortCrossPrefixStr}ar"',
+		]
+		with open(cargoConfigPath, 'w') as f:
+			f.write("\n".join(tcFile))
+		logger.info(f"Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
+		logger.info(f"Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}'")
+		#os.system("cargo install cargo-c")
+		runProcess(f'cargo install cargo-c')
+	else:
+		logger.debug(f"Using existing Cargo Home stuff in '{objSETTINGS.cargoHomePath}'")
+	logger.info(f"'{cargoConfigPath}' contains:")
+	cmd = f"cat {cargoConfigPath}"
+	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
+	if ret == 0:
+		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
+	else:
+		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		exit(ret)
+	#
 	logger.info(f"Finished Processing prepareForBuilding.")
 
 ###################################################################################################
@@ -1386,7 +1430,7 @@ def buildMingw64():
 			sys.exit(1)
 	elif not os.path.isdir(objSETTINGS.mingwDir):
 		logger.info(f"Building mingW64 in folder '{objSETTINGS.mingwDir}'")
-		os.unsetenv("CFLAGS")								# unset any existing CFLAGS environment variable
+		os.unsetenv('CFLAGS')								# unset any existing CFLAGS environment variable
 		os.makedirs(objSETTINGS.mingwDir, exist_ok=True)	# make the target build folder
 		# import may not work with full path, try relative path instead
 		#module_path = str(objSETTINGS.mingw_toolchain_script_path).replace("/", ".")
@@ -1451,7 +1495,7 @@ def buildMingw64():
 
 ###################################################################################################
 def generateCflagString(prefix=""):
-	if "CFLAGS" not in os.environ:
+	if 'CFLAGS' not in os.environ:
 		return ""
 	cfs = os.environ['CFLAGS']
 	cfs = cfs.split(" ")
@@ -2209,8 +2253,8 @@ def downloadUnpackFile(pkg, packageName, folderName=None, workDir=None):
 			os.makedirs(folderName) # os.makedirs creates intermediate parent paths like "mkdir -p"
 
 		if fileName.endswith(tars):
-			logger.debug(f"downloadUnpackFile: tar -xf '{fileName}'{customFolderTarArg}")
-			runProcess(f"tar -xf '{fileName}'{customFolderTarArg}")
+			logger.debug(f"downloadUnpackFile: tar -vxf '{fileName}' {customFolderTarArg}")	# 2023.04.09 added "v" to make "-vxf"
+			runProcess(f"tar -vxf '{fileName}' {customFolderTarArg}")
 		else:
 			logger.debug(f"downloadUnpackFile: unzip '{fileName}'")
 			runProcess(f"unzip '{fileName}'")
@@ -2345,13 +2389,19 @@ def gitClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, recurs
 		addArgs = []
 		if recursive:
 			addArgs.append("--recursive")
-
+		#
 		if git_depth and git_depth >= 1:
 			addArgs.append(F"--depth {git_depth}")
 		elif git_depth is None or git_depth < 0:
 			git_depth = 1
 			addArgs.append(F"--depth 1")
 		logger.info(F"Git {'Shallow C' if git_depth >= 1 else 'C'}loning '{url}' to '{os.getcwd() + '/' + realFolderName}'")
+		# 2023.04.09 from deadsiz27
+		tmpPath = Path(os.getcwd() + '/' + realFolderName + ".tmp")
+		if tmpPath.exists():
+			logger.info(F"gitClone: Deleting leftover git tmp path: {tmpPath}")
+			shutil.rmtree(tmpPath)
+		#
 		logger.debug(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}'")
 		runProcess(f"git clone {' '.join(addArgs)} --progress '{url}' '{realFolderName + '.tmp'}'")
 		if desiredBranch is not None:
@@ -2454,6 +2504,12 @@ def mercurialClone(url, virtFolderName=None, renameTo=None, desiredBranch=None, 
 ###################################################################################################
 def cmakeSource(packageName, pkg):
 	logger.info(f"cmakeSource: Processing '{packageName}'")
+
+	if objSETTINGS.debugMode:
+		print("### cmakeSource: Environment variables:  ###")
+		for tk in os.environ:
+			print("\t" + tk + " : " + os.environ[tk])
+		print("############################################")
 	touchName = f"already_ran_cmake_{md5(packageName, getKeyOrBlankString(pkg,'configure_options'))}"
 	if not os.path.isfile(touchName):
 		logger.debug(f"cmakeSource: already_ran_cmake '{touchName}' NOT detected, running cmake")
@@ -2496,6 +2552,23 @@ def mesonSource(packageName, pkg):
 		touch(touchName)
 	else:
 		logger.debug(f"mesonSource: already_ran_meson '{touchName}' detected, not running meson")
+	# 2023.04.09 'run_post_configure' added per deadsix27 ... should we run this now or not ?  Perhaps it should not run twice ?  Run it anyway.
+	if 'run_post_configure' in pkg:
+		logger.debug(f"mesonSource: run_post_configure detected.")
+		if pkg['run_post_configure'] is not None:
+			for cmd in pkg['run_post_configure']:
+				logger.debug(f"mesonSource: run_post_configure found cmd='{cmd}'")
+				if cmd.startswith("!SWITCHDIRBACK"):
+					logger.debug(f"mesonSource: run_post_configure '!SWITCHDIRBACK' detected to change directory" )
+					cchdir(_origDir)
+				elif cmd.startswith("!SWITCHDIR"):
+					logger.debug(f"mesonSource: run_post_configure '!SWITCHDIR' detected to change directory" )
+					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
+					cchdir(_dir)
+				else:
+					cmd = replaceVarCmdSubStrings(cmd)
+					logger.info(f"mesonSource: Running meson run_post_configure cmd='{cmd}'")
+					runProcess(cmd)
 
 ###################################################################################################
 def installSource(packageName, pkg, buildSystem):
@@ -2527,6 +2600,9 @@ def installSource(packageName, pkg, buildSystem):
 			mkCmd = "rake"
 		if buildSystem == "ninja":
 			mkCmd = "ninja"
+		if buildSystem == "rust":
+			mkCmd = "cargo"
+
 		logger.info(f"installSource: I{mkCmd} {installTarget} {makeInstallOpts} {cpuCountStr}")
 		runProcess(f"{mkCmd} {installTarget} {makeInstallOpts} {cpuCountStr}")
 		if 'regex_replace' in pkg and pkg['regex_replace']:
@@ -2646,6 +2722,9 @@ def buildSource(packageName, pkg, buildSystem):
 			mkCmd = 'rake'
 		if buildSystem == "ninja":
 			mkCmd = 'ninja'
+		if buildSystem == "rust":
+			mkCmd = 'cargo'
+
 		if buildSystem == "make":
 			if os.path.isfile("configure"):
 				logger.info(f"{mkCmd} clean {cpuCountStr}")
@@ -2659,6 +2738,25 @@ def buildSource(packageName, pkg, buildSystem):
 			makeOpts = replaceVarCmdSubStrings(pkg["build_options"])
 		dump_environment_variables(override=False)
 		logger.info(f"buildSource: Building '{packageName}' with build_options: '{makeOpts}' in '{os.getcwd()}'", extra={'type': buildSystem})
+		if 'run_pre_build' in pkg and pkg['run_pre_build']:
+			logger.debug(f"buildSource: run_pre_build detected.")
+			for cmd in pkg['run_pre_build']:
+				logger.debug(f"buildSource: run_post_configure found cmd='{cmd}'")
+				ignoreFail = False
+				if isinstance(cmd, tuple):
+					cmd = cmd[0]
+					ignoreFail = cmd[1]
+				if cmd.startswith("!SWITCHDIRBACK"):
+					logger.debug(f"buildSource: run_pre_build '!SWITCHDIRBACK' detected to change directory" )
+					cchdir(currentFullDir)
+				elif cmd.startswith("!SWITCHDIR"):
+					logger.debug(f"buildSource: run_pre_build '!SWITCHDIR' detected to change directory" )
+					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:])) ?????????
+					cchdir(_dir)
+				else:
+					cmd = replaceVarCmdSubStrings(cmd)
+					logger.info(f"buildSource: Running run_pre_build cmd='{cmd}'")
+					runProcess(cmd, ignoreFail)
 		if 'ignore_build_fail_and_run' in pkg:
 			if len(pkg['ignore_build_fail_and_run']) > 0:  # todo check if its a list too
 				try:
@@ -2673,10 +2771,14 @@ def buildSource(packageName, pkg, buildSystem):
 						logger.info(f"buildSource: Running post-failed-make-command: '{cmd}'")
 						runProcess(cmd)
 		else:
-			if buildSystem == "waf":
-				mkCmd = './waf --color=yes build'
-			logger.info(f"buildSource: {mkCmd} {cpuCountStr} {makeOpts}")
-			runProcess(f"{mkCmd} {cpuCountStr} {makeOpts}")
+			elif buildSystem == "rust":
+				#os.system(f'{mkCmd} {cpuCountStr} {makeOpts}')
+				runProcess(f'{mkCmd} {cpuCountStr} {makeOpts}')
+			else:
+				elif buildSystem == "waf":
+					mkCmd = './waf --color=yes build'
+				logger.info(f"buildSource: {mkCmd} {cpuCountStr} {makeOpts}")
+				runProcess(f"{mkCmd} {cpuCountStr} {makeOpts}")
 		if 'regex_replace' in pkg and pkg['regex_replace']:
 			_pos = 'post_build'
 			if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
@@ -2726,11 +2828,53 @@ def bootstrapConfigure():
 		logger.debug(f"bootstrapConfigure: configure not detected, not running bootstrapper")
 
 ###################################################################################################
+def applyPatchv2(patchData):		# the incoming patch is a dict (key/value pairs)
+	url = patchData["file"]									# key is "file"
+	originalFolder = os.getcwd()
+	if "dir" in patchData and patchData["dir"] is not None:	# key is "dir"
+		cchdir(patchData["dir"])	
+		logger.debug(f"applyPatchv2: Moved into patch folder: '{os.getcwd()}'")
+	logger.debug(f"applyPatchv2: Applying patch '{url}' in '{os.getcwd()}'")
+	patchTouchName = f"patch_{md5(url)}.done"
+	ignoreErr = False
+	exitOn = True
+	ignore = ""
+	if os.path.isfile(patchTouchName):
+		logger.debug(f"applyPatchv2: Patch '{url}' already applied")
+		cchdir(originalFolder)
+		return
+	pUrl = urlparse(url)
+	if pUrl.scheme != '':
+		fileName = os.path.basename(pUrl.path)
+		logger.info(f"applyPatchv2: Downloading patch '{url}' to: {fileName}")
+		downloadFile(url, fileName)
+	else:
+		local_patch_path = os.path.join(objSETTINGS.fullPatchDir, url)
+		fileName = os.path.basename(Path(local_patch_path).name)
+		if os.path.isfile(local_patch_path):
+			copyPath = os.path.join(os.getcwd(), fileName)
+			logger.info(f"applyPatchv2: Copying patch from '{local_patch_path}' to '{copyPath}'")
+			logger.debug(f"applyPatchv2: cp -f '{local_patch_path}' '{copyPath}' # copy file ")
+			shutil.copyfile(local_patch_path, copyPath)
+		else:
+			fileName = os.path.basename(urlparse(url).path)
+			#url = "https://raw.githubusercontent.com/hydra3333/python_cross_compile_script/master/patches" + url
+			url = objSETTINGS.patches_top_url + url
+			downloadFile(url, fileName)
+	logger.info(f"applyPatchv2: Patching source using: '{fileName}'")
+	logger.info(f'{patchData["cmd"]} "{fileName}"')						# key is "cmd"
+	runProcess(f'{patchData["cmd"]} "{fileName}"', ignoreErr, exitOn)	# key is "cmd"
+	touch(patchTouchName)
+	#if "dir" in patchData and patchData["dir"] is not None:
+	#	cchdir(originalFolder)
+	cchdir(originalFolder)	# get back to original folder regardless of whether we changed or not.
+
+###
 def applyPatch(url, type="-p1", postConf=False, folderToPatchIn=None):
 	originalFolder = os.getcwd()
 	if folderToPatchIn is not None:
-		logger.info(f"applyPatch: Moving into patch folder: '{os.getcwd()}'")
 		cchdir(folderToPatchIn)
+		logger.info(f"applyPatch: Moved into patch folder: '{os.getcwd()}'")
 	logger.info(f"applyPatch: Applying patch '{url}' in '{os.getcwd()}'")
 	patchTouchName = f"patch_{md5(url)}.done"
 	ignoreErr = False
@@ -2787,6 +2931,9 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	#	!SWITCHDIR
 	#	!SWITCHDIRBACK
 	#
+	# we are in workdir
+	
+	resetDefaultEnvVars()
 	if objArgParser.allforce:
 		forceRebuild = True
 	if packageName in dictProducts.BO:
@@ -2907,7 +3054,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	#------------------------------------------------------------------------------------------------
 	
 	cchdir(".")
-	resetDefaultEnvVars()
+	resetDefaultEnvVars()	# deadsix27 removed this line ... leave it in for now
 
 	if 'warnings' in pkg:
 		if len(pkg['warnings']) > 0:
@@ -2996,15 +3143,11 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		logger.error(f"buildPackage :Error: Unexpected error when building {packageName}, workdir='{workDir}' and current path='{os.getcwd()}', please report this: {sys.exc_info()[0]}")
 		raise Exception(f"buildPackage: Error: Unexpected error when building {packageName}, workdir='{workDir}' and current path='{os.getcwd()}'")
 
-
-
-
-
-	#### ???????????????????? does this rename_folder break if there is a specified commit in gitclone ?  
-	#### ???????????????????? a specified gitclone commit immediate return value from  gitclone leaves us in the subfolder which is wrong
+	#### does this rename_folder break if there is a specified commit in gitclone ?  
+	#### a specified gitclone commit immediate return value from  gitclone leaves us in the subfolder which is wrong
 	#### since the other git returns leave is in the level above and rename_folder then can't find it to stop renaming itself since it's still inside it
-
 	########## this only occurs where both a specified git commit and a rename_folder occur inside the same product/dependency
+	########## fixed upstream
 
 	if 'rename_folder' in pkg:
 		if pkg['rename_folder'] is not None:
@@ -3045,7 +3188,6 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	oldPath = getKeyOrBlankString(os.environ, "PATH")
 	currentFullDir = os.getcwd()
 
-	#?????? here assumes we are in the subfolder ???????
 	if not anyFileStartsWith('already_configured'):
 		logger.debug(f"buildPackage: detected 'not anyFileStartsWith('already_configured')' for run_pre_patch in pkg '{packageName}', current path='{os.getcwd()}'")
 		if 'run_pre_patch' in pkg:
@@ -3061,10 +3203,10 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 		else:
 			logger.debug(f"buildPackage: run_pre_patch not in pkg '{packageName}'")
 
-	#?????? here assumes we are in the subfolder ???????
 	if forceRebuild:
 		logger.debug(f"buildPackage: detected forceRebuild={forceRebuild} in pkg '{packageName}', current path='{os.getcwd()}'")
 		if os.path.isdir(".git"):
+			logger.info(F'buildPackage: Force cleaning')
 			logger.info(f"buildPackage: git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 			runProcess(f"git clean -ffdx")  # https://gist.github.com/nicktoumpelis/11214362
 			logger.info(f"buildPackage: git submodule foreach --recursive git clean -ffdx")
@@ -3076,7 +3218,17 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.info(f"buildPackage: git submodule update --init --recursive")
 			runProcess(f"git submodule update --init --recursive")
 
-	#?????? here assumes we are in the subfolder ???????
+	# 2023.04.09 added rhis block per deadsix27
+	if 'regex_replace' in pkg and pkg['regex_replace']:
+		_pos = 'pre_patch'
+		if isinstance(pkg['regex_replace'], dict) and _pos in pkg['regex_replace']:
+			for r in pkg['regex_replace'][_pos]:
+				try:
+					handleRegexReplace(r, packageName)
+				except re.error as e:
+					errorExit(e)
+					sys.exit(1)
+
 	if 'source_subfolder' in pkg:
 		if pkg['source_subfolder'] is not None:
 			vval = pkg['source_subfolder']
@@ -3096,7 +3248,7 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	else:
 		logger.debug(f"buildPackage: forceRebuild not specified - not removing patches and Already files")
 
-	#?????? here assumes we are in the subfolder ???????
+	#?????? here assumes we are in the subfolder
 	if 'debug_confighelp_and_exit' in pkg:		# WELL, WELL, HADN'T SEEN THAT BEFORE
 		if pkg['debug_confighelp_and_exit'] is True:
 			logger.info(f"buildPackage: ./configure --help")
@@ -3275,7 +3427,10 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 	if 'patches' in pkg:
 		if pkg['patches'] is not None:
 			for p in pkg['patches']:
-				applyPatch(p[0], p[1], False, getValueByIntOrNone(p, 2))
+				if isinstance(p, dict):	# if a patch in the list is a dict (a set of key/value pairs) then use v2
+					applyPatchv2(p)
+				else:
+					applyPatch(p[0], p[1], False, getValueByIntOrNone(p, 2))
 		else:
 			logger.debug(f"buildPackage: patches in pkg but is None - ignored")
 	else:
@@ -3349,9 +3504,10 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			build_system = "waf"
 		if pkg['build_system'] == "rake":
 			build_system = "rake"
+		if pkg['build_system'] == "rust":
+			build_system = "rust"
 	else:
 		logger.debug(f"buildPackage: build_system not in pkg '{packageName}'")
-
 	if 'conf_system' in pkg:
 		if pkg['conf_system'] == "cmake":
 			conf_system = "cmake"
@@ -3361,6 +3517,8 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			conf_system = "meson"
 		elif pkg['conf_system'] == "waf":
 			conf_system = "waf"
+		elif pkg['conf_system'] == "cinstall":
+			conf_system = "cinstall"
 		else:
 			logger.debug(f"buildPackage: conf_system in pkg '{packageName}' but is NOT RECOGNISED - ignored")
 	else:
@@ -4203,6 +4361,9 @@ if __name__ == "__main__":
 	# what to build is in objArgParser
 	# create folders
 	# init environment variables using os.environ
+	#
+	#resetDefaultEnvVars()	# this is done within prepareForBuilding()
+	# 
 	prepareForBuilding()	# also does cchdir(objSETTINGS.fullWorkDir)
 
 	# Setup the mingw64 build environment and build the cross-compiling compilers etc
