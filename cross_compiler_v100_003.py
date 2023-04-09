@@ -1365,16 +1365,14 @@ def prepareForBuilding():
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		exit(ret)
 
-	# Always RE-create the Rust Cargo stuff every time, in case  we have changed something
 	#os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
-	if True:
+	if not os.path.isdir(objSETTINGS.cargoHomePath):
+		logger.info(f"Creating Cargo Home folder: '{objSETTINGS.cargoHomePath}'")
+		objSETTINGS.cargoHomePath.mkdir(parents=True)
 		logger.info(f"Creating Cargo Home stuff for Rust: '{objSETTINGS.cargoHomePath}'")
 		logger.info(f"Creating environment variable 'CARGO_HOME' = '{objSETTINGS.cargoHomePath}'")
 		os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
 		cargoConfigPath = objSETTINGS.cargoHomePath.joinpath("config.toml")	# from deadsix27
-		if not os.path.isdir(objSETTINGS.cargoHomePath):
-			logger.info(f"Creating Cargo Home folder: '{objSETTINGS.cargoHomePath}'")
-			objSETTINGS.cargoHomePath.mkdir(parents=True)
 		tcFile = [
 			F'[target.{objSETTINGS.rustTargetStr}]',
 			F'linker = "{objSETTINGS.shortCrossPrefixStr}gcc"',
