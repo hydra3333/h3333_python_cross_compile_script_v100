@@ -1382,8 +1382,8 @@ def prepareForBuilding():
 			f.write("\n".join(tcFile))
 		logger.info(f"Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
 		logger.info(f"Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}'")
-		os.system("cargo install cargo-c")
-		#runProcess(f'cargo install cargo-c')
+		#os.system("cargo install cargo-c")
+		##runProcess(f'cargo install cargo-c')
 	else:
 		logger.debug(f"Using existing Cargo Home stuff in '{objSETTINGS.cargoHomePath}'")
 	logger.info(f"'{cargoConfigPath}' contains:")
