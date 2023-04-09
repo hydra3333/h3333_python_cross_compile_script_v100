@@ -280,7 +280,7 @@ class settings:
 
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")			# used when building packages
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")	# used when building packages
-		self.cargoHomePath = str(self.fullWorkDir.joinpath("cargohome"))				# per deadsix27, used for rust 2023.04.09
+		self.cargoHomePath = self.fullWorkDir.joinpath("cargohome")				# per deadsix27, used for rust 2023.04.09
 
 		self.packagesFolder = self.projectRoot.joinpath(self.packages_subfolder)	# for input, eg packages
 		self.prodFolder     = self.packagesFolder.joinpath("products")					# for input, eg packages/products
@@ -402,7 +402,7 @@ def resetDefaultEnvVars():
 	os.environ['CXXFLAGS']          = objSETTINGS.originalCflags
 	os.environ['CPPFLAGS']          = objSETTINGS.originalCflags
 	os.environ['LDFLAGS']           = objSETTINGS.originalCflags
-	os.environ['CARGO_HOME']		= objSETTINGS.cargoHomePath
+	os.environ['CARGO_HOME']		= str(objSETTINGS.cargoHomePath)
 	os.environ['PKG_CONFIG_PATH']   = objSETTINGS.pkgConfigPath
 	os.environ['PKG_CONFIG_LIBDIR'] = ''
 	os.environ['COLOR']				= "ON" 	# Force coloring on (for CMake primarily)
