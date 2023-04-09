@@ -280,7 +280,7 @@ class settings:
 
 		self.mesonEnvFile = self.fullWorkDir.joinpath("meson_environment.txt")			# used when building packages
 		self.cmakeToolchainFile = self.fullWorkDir.joinpath("mingw_toolchain.cmake")	# used when building packages
-		self.cargoHomePath = self.fullWorkDir.joinpath("cargohome")						# per deadsix27, used for rust
+		self.cargoHomePath = str(self.fullWorkDir.joinpath("cargohome"))				# per deadsix27, used for rust 2023.04.09
 
 		self.packagesFolder = self.projectRoot.joinpath(self.packages_subfolder)	# for input, eg packages
 		self.prodFolder     = self.packagesFolder.joinpath("products")					# for input, eg packages/products
