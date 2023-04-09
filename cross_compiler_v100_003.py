@@ -2751,7 +2751,7 @@ def buildSource(packageName, pkg, buildSystem):
 					cchdir(currentFullDir)
 				elif cmd.startswith("!SWITCHDIR"):
 					logger.debug(f"buildSource: run_pre_build '!SWITCHDIR' detected to change directory" )
-					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:])) ?????????
+					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 					cchdir(_dir)
 				else:
 					cmd = replaceVarCmdSubStrings(cmd)
