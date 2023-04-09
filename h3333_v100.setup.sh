@@ -7,7 +7,7 @@ sudo chmod +777 -R *
 
 sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
 sudo apt -y update
-sudo apt -y full-upgrade
+#sudo apt -y full-upgrade
 
 sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
@@ -27,7 +27,7 @@ sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 
 sudo apt -y update
-sudo apt -y full-upgrade
+#sudo apt -y full-upgrade
 
 sudo apt install -y curl
 sudo apt install -y wget
@@ -105,9 +105,8 @@ sudo apt install -y distutils
 sudo apt install -y python3-distutils 
 sudo apt install -y mercurial 
 #
-sudo apt update --fix-missing
-sudo apt install -f
-sudo apt -y full-upgrade
+#sudo apt update --fix-missing
+#sudo apt -y full-upgrade
 #
 sudo pip3 cache purge
 sudo pip3 --no-cache-dir list
