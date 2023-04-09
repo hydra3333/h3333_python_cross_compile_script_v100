@@ -78,7 +78,7 @@ libaacs.dll (64-bit)(with its libgcrypt*.dll and libgpg_error.dll) (never tried 
 ### How to build ?
 
 0. Probably fork your own `https://github.com/hydra3333/h3333_python_cross_compile_script_v100.git` and then change a small number of things in .py files to point to your fork   
-1. Create an Ubuntu VM (tested with 20.04+)   
+1. Create an Ubuntu VM (tested with 22.04+)   
 2. login into ubuntu and start a Terminal window   
 ```
 sudo apt -y install git
