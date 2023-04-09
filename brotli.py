@@ -16,6 +16,7 @@
 		'cat "{pkg_config_path}/libbrotlienc.pc"', 
 		'sed -i.bak "s/-lbrotlidec/-lbrotlicommon -lbrotlidec/" "{pkg_config_path}/libbrotlidec.pc"', 
 		'cat "{pkg_config_path}/libbrotlidec.pc"', 
+		#'ls -al',
 	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : None, 'fancy_name' : 'brotli' },
