@@ -2775,7 +2775,7 @@ def buildSource(packageName, pkg, buildSystem):
 				#os.system(f'{mkCmd} {cpuCountStr} {makeOpts}')
 				runProcess(f'{mkCmd} {cpuCountStr} {makeOpts}')
 			else:
-				elif buildSystem == "waf":
+				if buildSystem == "waf":
 					mkCmd = './waf --color=yes build'
 				logger.info(f"buildSource: {mkCmd} {cpuCountStr} {makeOpts}")
 				runProcess(f"{mkCmd} {cpuCountStr} {makeOpts}")
