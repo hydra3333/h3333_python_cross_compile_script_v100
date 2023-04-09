@@ -2771,7 +2771,7 @@ def buildSource(packageName, pkg, buildSystem):
 						logger.info(f"buildSource: Running post-failed-make-command: '{cmd}'")
 						runProcess(cmd)
 		else:
-			elif buildSystem == "rust":
+			if buildSystem == "rust":
 				#os.system(f'{mkCmd} {cpuCountStr} {makeOpts}')
 				runProcess(f'{mkCmd} {cpuCountStr} {makeOpts}')
 			else:
