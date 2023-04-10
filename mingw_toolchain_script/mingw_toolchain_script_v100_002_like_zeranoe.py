@@ -86,8 +86,8 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 # binutils 2.39 does not play nicely with isl. binutils version 2.40 does.
 SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
-	#'version': '0.25',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
-	'version': '0.26',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	'version': '0.25',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	#'version': '0.26',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
 	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
