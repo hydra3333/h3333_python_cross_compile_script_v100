@@ -42,7 +42,7 @@
 		'-DJPEGXL_STATIC=true '
 		'-DJPEGXL_BUNDLE_LIBPNG=false'
 	,
-	'depends_on' : [  "brotli", "highway", "libpng", "lcms2", "libjpeg-turbo", "zlib" ],
+	'depends_on' : [  "libbrotli", "highway", "libpng", "lcms2", "libjpeg-turbo", "zlib" ],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git main', 'fancy_name' : 'libjxl' },
 }

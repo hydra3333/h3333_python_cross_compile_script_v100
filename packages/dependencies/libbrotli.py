@@ -2,6 +2,7 @@
 	'repo_type' : 'git',
 	'url' : 'https://github.com/google/brotli',
 	# 'depth_git': 0,
+	'rename_folder' : 'libbrotli',
 	'conf_system' : 'cmake',
 	'build_system' : 'ninja',
 	'source_subfolder' : 'build',
@@ -12,12 +13,12 @@
 		'-DBROTLI_EMSCRIPTEN=false '
 	,
 	'run_post_install' : [
-		#'sed -i.bak "s/-lbrotlienc/-lbrotlicommon -lbrotlienc/" "{pkg_config_path}/libbrotlienc.pc"', 
-		#'cat "{pkg_config_path}/libbrotlienc.pc"', 
-		#'sed -i.bak "s/-lbrotlidec/-lbrotlicommon -lbrotlidec/" "{pkg_config_path}/libbrotlidec.pc"', 
-		#'cat "{pkg_config_path}/libbrotlidec.pc"', 
-		'ls -al',
+		'sed -i.bak "s/-lbrotlienc/-lbrotlicommon -lbrotlienc/" "{pkg_config_path}/libbrotlienc.pc"', 
+		'cat "{pkg_config_path}/libbrotlienc.pc"', 
+		'sed -i.bak "s/-lbrotlidec/-lbrotlicommon -lbrotlidec/" "{pkg_config_path}/libbrotlidec.pc"', 
+		'cat "{pkg_config_path}/libbrotlidec.pc"', 
+		#'ls -al',
 	],
 	'update_check' : { 'type' : 'git', },
-	'_info' : { 'version' : None, 'fancy_name' : 'brotli' },
+	'_info' : { 'version' : None, 'fancy_name' : 'libbrotli' },
 }

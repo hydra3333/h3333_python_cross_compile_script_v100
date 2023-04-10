@@ -32,6 +32,7 @@
 	#		},
 	#	],
 	#},
+	#
     'configure_options' : '{autoconf_prefix_options} --build=x86_64-linux-gnu --with-zlib=yes --with-harfbuzz=no ', # --without-png 
 	#'run_post_install' : [
 	#	'sed -i.bak \'s/Libs: -L${{libdir}} -lfreetype.*/Libs: -L${{libdir}} -lfreetype -lbz2 -lharfbuzz/\' "{pkg_config_path}/freetype2.pc"',
@@ -40,7 +41,7 @@
 		'pwd ; sh ./autogen.sh ; pwd',
 	],
 	'depends_on': [
-		'zlib', 'bzip2', 'libpng',
+		'libbrotli', 'zlib', 'bzip2', 'libpng',
 	],
 	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
     'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', },

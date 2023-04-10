@@ -42,7 +42,7 @@
 		'pwd ; sh ./autogen.sh ; pwd',
 	],
 	'depends_on': [
-		'zlib', 'bzip2', 'libpng',
+		'libbrotli', 'zlib', 'bzip2', 'libpng',
 	],
 	#'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', 'regex' : r'(?P<version_num>[\d.]+)'},
     'update_check' : { 'url' : 'https://sourceforge.net/projects/freetype/files/freetype2/', 'type' : 'sourceforge', },
