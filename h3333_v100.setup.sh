@@ -93,7 +93,7 @@ sudo pip3 install --upgrade py2exe
 sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
 sudo pip3 install --upgrade requests
 sudo pip3 install --upgrade pyyaml
-sudo pip3 install --upgrade bs4		# for check_versions.py
+sudo pip3 install --upgrade bs4			# for check_versions.py
 sudo pip3 install --upgrade colorama	# for check_versions.py
 sudo pip3 install --upgrade html5lib	# for check_versions.py
 #sudo pip3 install --upgrade python3-mako
