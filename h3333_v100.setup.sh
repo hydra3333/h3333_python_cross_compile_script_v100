@@ -24,13 +24,13 @@ sudo locale-gen en_AU.UTF-8
 sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 
-sudo apt upgrade -y
+sudo apt full-upgrade -y
 
 sudo apt install -y curl
 sudo apt install -y wget
 sudo apt install -y nano
 
-#sudo apt install -y ubuntu-restricted-extras
+sudo apt install -y ubuntu-restricted-extras
 
 sudo apt install -y build-essential
 #sudo apt install -y gcc
@@ -378,7 +378,7 @@ sudo apt install -f
 
 # replacement for youtube-dl
 sudo apt install -y ffmpeg
-sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
+#sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
 # usage: https://github.com/yt-dlp/yt-dlp#usage-and-options
 # sudo yt-dlp --version
 # sudo yt-dlp --update 
