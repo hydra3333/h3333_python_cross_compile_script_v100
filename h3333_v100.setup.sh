@@ -7,13 +7,11 @@ sudo chmod +777 -R *
 
 sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
 sudo apt -y update
-#sudo apt -y full-upgrade
 
 sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
 sudo chmod +777 /mnt
 sudo chmod +777 /mnt/exe_x64_py
-
 #sudo mount -v -rw -o username=u -t cifs //10.0.0.4/exe_x64_py /mnt/exe_x64_py
 #sudo cp -fvR ~/Desktop/exe_x64_py/*  /mnt/exe_x64_py/
 #sudo umount -f /mnt/exe_x64_py/
@@ -26,8 +24,7 @@ sudo locale-gen en_AU.UTF-8
 sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 
-sudo apt -y update
-#sudo apt -y full-upgrade
+sudo apt upgrade -y
 
 sudo apt install -y curl
 sudo apt install -y wget
@@ -40,7 +37,7 @@ sudo apt install -y build-essential
 #sudo apt install -y gcc-c++ 
 #sudo apt install -y g++ 
 # The commands below configures alternative for each version and associate a priority with it. 
-# The default version is the one with the highest priority, in our case that is gcc-12
+# The default version is the one with the highest priority, in our case that is gcc-11
 sudo apt install -y gcc-9 g++-9 gcc-10 g++-10 gcc-11 g++-11 gcc-12 g++-12
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11  90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
@@ -52,11 +49,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9   70 --slave 
 sudo apt install -y make 
 sudo apt install -y automake 
 sudo apt install -y cmake 
-sudo apt install -y nasm 
 sudo apt install -y yasm 
-sudo apt install -y libglib2.0-0 libglib2.0-dev dbus libdbus-1-dev # all for meson
-sudo apt install -y meson
-#sudo apt install -y rustc cargo
 sudo apt install -y pkg-config 
 sudo apt install -y autogen 
 sudo apt install -y autoconf 
@@ -65,110 +58,58 @@ sudo apt install -y libtool-bin
 sudo apt install -y libtool 
 sudo apt install -y ninja-build
 sudo apt install -y clang
-#
-sudo apt remove  -y gpg					### required since ubuntu comes with an installed version with "-unknown" attached to the end which mucks up pip3
-sudo apt install -y libgpgme-dev swig	### REQUIRED for gpg ... BEFORE WE INSTALL DISTUTILS
-sudo apt install -y gpg					### STILL NEED TO sudo python3 -m pip install --upgrade --force-reinstall --upgrade-strategy eager pip
 
 #sudo apt install -y libc6-dev # to solve # per https://github.com/haskell/unix/issues/49#issuecomment-155227394 after sudo apt-get install --reinstall libc6-dev to solve Fatal error: sys/mman.h: No such file or directory
 # no per https://github.com/m-ab-s/media-autobuild_suite/issues/1942#issuecomment-800780569
-#
+
 sudo apt install -y git 
 sudo apt install -y gh
 sudo apt install -y cvs 
 #sudo apt install -y svn
 sudo apt install -y subversion 
+sudo apt install -y mercurial 
 #sudo apt install -y hg 
 #sudo apt install -y git-remote-hg 
+
 sudo apt install -y asciidoc
 sudo apt install -y xmlto
-sudo apt remove -y cython # python 
-#
-# NOTE NOTE NOTE
-# we MUST handle gpg and mercurial and distutils in the order and manner below ... OR IT ALL FAILS
-#
-sudo apt remove -y distutils
-sudo apt remove -y python3-distutils 
-sudo apt remove -y mercurial 
-sudo apt -y autoremove -y
+
+#sudo apt-get remove -y nasm
+sudo apt-get remove -y python-pip cython # python 
+sudo apt autoremove -y
 sudo apt install -y python3 
 sudo apt install -y python3-pip 
-sudo python3 -m pip install --upgrade --force-reinstall --upgrade-strategy eager pip
-# gpg NEEDS to get done BEFORE distutils or or all fails
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager gpg
-# mercurial NEEDS to get done BEFORE distutils or or all fails
-sudo pip3 --no-cache-dir uninstall --break-system-packages --yes mercurial
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager mercurial
-#
-sudo apt install -y distutils 
 sudo apt install -y python3-distutils 
-sudo apt install -y mercurial 
-#
-#sudo apt update --fix-missing
-#sudo apt -y full-upgrade
-#
-sudo pip3 cache purge
-sudo pip3 --no-cache-dir list
-#
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pip-review
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pip
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pip3
-# cffi NEEDS to getg done BEFORE sudo pip3 --no-cache-dir check
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager cffi
-#
-sudo pip3 cache purge
-sudo pip3 --no-cache-dir list
-sudo pip3 --no-cache-dir list --outdated
-sudo pip3 --no-cache-dir check
-#
-# do meson and it's dependencies BEFORE sudo pip-review --auto --continue-on-fail
-sudo apt install -y libglib2.0-0 libglib2.0-dev dbus libdbus-1-dev # all for meson
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager dbus-python # required by meson
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager meson
-#
-sudo pip-review
-sudo pip-review --auto --continue-on-fail
-#
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager numpy
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pillow
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pathlib 
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pymediainfo
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager sockets
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager datetime
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager setuptools
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager python-utils
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager progressbar2
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager py2exe
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager certifi # install latest certificatess for python requests.get
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager requests
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pyyaml
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager cffi
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager bs4		# for check_versions.py
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager colorama	# for check_versions.py
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager html5lib	# for check_versions.py
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager packaging
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager blinker
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager Cython
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager duplicity
-#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager python3-makoools
-#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pycairo
-#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager PyGObject
-#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager systemd-python
-#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager xdg
-#
 sudo apt install -y python3-mako # per https://github.com/m-ab-s/media-autobuild_suite/issues/1679#issuecomment-635326237 https://code.videolan.org/videolan/libplacebo#dependencies
 sudo apt install -y python3-dev 
 sudo apt install -y python3-numpy
-sudo apt install -y python-is-python3 # for ubuntu 20.04
-sudo apt install -y python3-setuptools
 sudo apt install -y cython3
-#
-# auto-install everything we missed
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager pip-review
-sudo pip3 --no-cache-dir check
-sudo pip-review
-sudo pip-review --auto --continue-on-fail
-#
+sudo apt install -y python-is-python3 # for ubuntu 20.04
+sudo apt install -y python3-mako
+sudo apt install -y python3-setuptools
+#sudo pip  install progressbar2
+sudo pip3 install --upgrade progressbar2
+sudo pip3 install --upgrade py2exe
+sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
+sudo pip3 install --upgrade requests
+sudo pip3 install --upgrade pyyaml
+sudo pip3 install --upgrade bs4		# for check_versions.py
+sudo pip3 install --upgrade colorama	# for check_versions.py
+sudo pip3 install --upgrade html5lib	# for check_versions.py
+#sudo pip3 install --upgrade python3-mako
+#sudo pip3 install --upgrade python3-setuptools
+#pip  install progressbar2
+pip3 install --upgrade progressbar2
+pip3 install --upgrade py2exe
+pip3 install --upgrade certifi # install latest certificatess for python requests.get
+pip3 install --upgrade requests
+pip3 install --upgrade pyyaml
+pip3 install --upgrade bs4		# for check_versions.py
+pip3 install --upgrade colorama	# for check_versions.py
+pip3 install --upgrade html5lib	# for check_versions.py
+#pip3 install --upgrade python3-mako
+#pip3 install --upgrade python3-setuptools
+
 sudo apt install -y hashalot
 sudo apt install -y git-email
 git config --global user.name "hydra3333"
@@ -245,10 +186,9 @@ sudo apt install -y itstool
 
 # gendef is installed with mingw
 #sudo apt install -y libmozjs-dev 
-sudo apt install -y libxmu 
 sudo apt install -y libxmu-dev 
-sudo apt install -y libgconf2 
 sudo apt install -y libgconf2-dev 
+sudo apt install -y libdbus-1-dev 
 sudo apt install -y network-manager-dev 
 sudo apt install -y xserver-xorg-dev # for libproxy
 sudo apt install -y zlib1g-dev #warning: you may need to install zlib development headers first if you want to build mp4-box on ubuntu
@@ -259,12 +199,12 @@ sudo apt install -y libxalan2-java
 sudo apt install -y libxslthl-java 
 sudo apt install -y xalan
 
-#sudo apt-get remove -y nasm
+sudo apt-get remove -y nasm
 sudo apt-get remove -y doxygen
 
 # Build and install meson
 #sudo apt install -y meson
-#pip3 install --user --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager meson
+#pip3 install --user --upgrade meson
 set -x
 cd ~/Desktop
 #m_ver="0.63.2" # experimental 2022.09.26
@@ -438,7 +378,7 @@ sudo apt install -f
 
 # replacement for youtube-dl
 sudo apt install -y ffmpeg
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager https://github.com/yt-dlp/yt-dlp/archive/master.zip
+sudo pip3 install --upgrade https://github.com/yt-dlp/yt-dlp/archive/master.zip
 # usage: https://github.com/yt-dlp/yt-dlp#usage-and-options
 # sudo yt-dlp --version
 # sudo yt-dlp --update 
