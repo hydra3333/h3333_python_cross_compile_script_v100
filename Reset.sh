@@ -6,7 +6,8 @@ set -x
 
 sudo apt -y update
 #sudo apt -y full-upgrade
-sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager certifi # install latest certificatess for python requests.get
+#sudo pip3 --no-cache-dir install --upgrade --check-build-dependencies --force-reinstall --upgrade-strategy eager certifi # install latest certificatess for python requests.get
+sudo pip3 --no-cache-dir install --upgrade --force-reinstall --upgrade-strategy eager certifi # install latest certificatess for python requests.get
 #sudo pip3 install --upgrade pip-review
 #sudo pip3 check
 
