@@ -88,6 +88,7 @@ sudo apt install -y python-is-python3 # for ubuntu 20.04
 sudo apt install -y python3-mako
 sudo apt install -y python3-setuptools
 #sudo pip  install progressbar2
+sudo pip3 install --upgrade packaging
 sudo pip3 install --upgrade progressbar2
 sudo pip3 install --upgrade py2exe
 sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
@@ -99,6 +100,7 @@ sudo pip3 install --upgrade html5lib	# for check_versions.py
 #sudo pip3 install --upgrade python3-mako
 #sudo pip3 install --upgrade python3-setuptools
 #pip  install progressbar2
+pip3 install --upgrade packaging
 pip3 install --upgrade progressbar2
 pip3 install --upgrade py2exe
 pip3 install --upgrade certifi # install latest certificatess for python requests.get
