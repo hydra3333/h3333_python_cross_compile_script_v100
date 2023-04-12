@@ -19,6 +19,7 @@
 	'custom_ldflag' : ' -L{target_prefix}/lib ',
 	'run_post_regexreplace' : (
 		'autoreconf -fiv', # https://dev.gnupg.org/T5696
+		'sed -i "s/GETTEXT_MACRO_VERSION = 0.19/GETTEXT_MACRO_VERSION = 0.20/" "po/Makefile.in.in"',
 		'./autogen.sh --force --build-w64 --prefix={target_prefix}',
 	),
 	'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --disable-rpath --disable-doc --disable-tests --with-libiconv-prefix={target_prefix} --enable-install-gpg-error-config ', # --with-libintl=no --with-libpth=no',
