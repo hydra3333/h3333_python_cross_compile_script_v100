@@ -13,9 +13,9 @@
 		'-DBROTLI_EMSCRIPTEN=false '
 	,
 	'run_post_install' : [
-		'sed -i.bak "s/-lbrotlienc/-lbrotlicommon -lbrotlienc -lbrotlicommon/" "{pkg_config_path}/libbrotlienc.pc"', 
+		'sed -i.bak "s/-lbrotlienc/-lbrotlienc -lbrotlicommon/" "{pkg_config_path}/libbrotlienc.pc"', 
 		'cat "{pkg_config_path}/libbrotlienc.pc"', 
-		'sed -i.bak "s/-lbrotlidec/-lbrotlicommon -lbrotlidec -lbrotlicommon/" "{pkg_config_path}/libbrotlidec.pc"', 
+		'sed -i.bak "s/-lbrotlidec/-lbrotlidec -lbrotlicommon/" "{pkg_config_path}/libbrotlidec.pc"', 
 		'cat "{pkg_config_path}/libbrotlidec.pc"', 
 		#'ls -al',
 	],
