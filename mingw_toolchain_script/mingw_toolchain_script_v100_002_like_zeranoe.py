@@ -86,8 +86,8 @@ SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 # binutils 2.39 does not play nicely with isl. binutils version 2.40 does.
 SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourceforge.io/   https://sourceforge.net/projects/libisl/   https://repo.or.cz/w/isl.git
 	'type': 'archive',
-	'version': '0.25',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
-	#'version': '0.26',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	#'version': '0.25',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
+	'version': '0.26',  # NOTE: https://gcc.gnu.org/pub/gcc/infrastructure/ only has OLD versions
 	'url': 'https://sourceforge.net/projects/libisl/files/isl-{version}.tar.xz', # 'https://gcc.gnu.org/pub/gcc/infrastructure/isl-{version}.tar.bz2',
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
@@ -102,13 +102,15 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	'version'   : '12.2.0',
-	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
+	#'version'   : '12.2.0',
+	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
+	'version'   : '13-20230409',
+	'url' : 'https://gcc.gnu.org/pub/gcc/snapshots/{version}/gcc-{version}.tar.xz',
 	'softlink_to_package': [
 		('gmp', 'gmp'),
 		('mpfr', 'mpfr'),
 		('mpc', 'mpc'),
-		('isl', 'isl'), # 2022.12.26 binutils 2.39 does not play nicely with isl, so commented it out here.
+		('isl', 'isl'),
 	],
 	'builds': [
 		'gcc-1',
