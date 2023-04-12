@@ -1317,7 +1317,7 @@ def prepareForBuilding():
 			f.write("\n".join(meFile))
 			f.write("\n")
 	else:
-		logger.debug(fprepareForBuilding: "Using existing Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
+		logger.debug("fprepareForBuilding: Using existing Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
 	logger.info(f"'{objSETTINGS.mesonEnvFile}' contains:")
 	cmd = f"cat {objSETTINGS.mesonEnvFile}"
 	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
