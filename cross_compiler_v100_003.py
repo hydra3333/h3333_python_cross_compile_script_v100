@@ -1237,9 +1237,9 @@ def prepareForBuilding():
 	# The projectRoot is the current folder (where this script SHOULD reside)
 	# Create the "workdir" subfolder under the projectRoot  if it doesn't already exist and then CD into it
 	if objSETTINGS.fullWorkDir.exists():
-		logger.info(f"Existing workdir: '{objSETTINGS.fullWorkDir}' found, no need to create it")
+		logger.info(f"prepareForBuilding: Existing workdir: '{objSETTINGS.fullWorkDir}' found, no need to create it")
 	else:
-		logger.info(f"Creating workdir: '{objSETTINGS.fullWorkDir}'")
+		logger.info(f"prepareForBuilding: Creating workdir: '{objSETTINGS.fullWorkDir}'")
 		objSETTINGS.fullWorkDir.mkdir()
 	# cd into the "workdir" subfolder underneath fullWorkDir, where all the build action happens eg workdir
 	cchdir(objSETTINGS.fullWorkDir)
@@ -1250,20 +1250,20 @@ def prepareForBuilding():
 	#	objSETTINGS.targetPrefix		# eg workdir/xcompilers/mingW64-x86_64/x86_64-w64-mingw32
 
 	if not objSETTINGS.bitnessPath.exists():										# where dependenciess etc get built eg workdir/x86_64
-		logger.info(f"Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built eg workdir/x86_64")
+		logger.info(f"prepareForBuilding: Creating bitnessPath: '{objSETTINGS.bitnessPath}' # where dependenciess etc get built eg workdir/x86_64")
 		objSETTINGS.bitnessPath.mkdir(exist_ok=True)
 	if not os.path.isdir(objSETTINGS.fullDependencyDir):	# = bitnessPath, supersedes bitnessPath
-		logger.info(f"Creating fullDependencyDir: '{objSETTINGS.fullDependencyDir}' # where dependenciess etc get built eg workdir/x86_64")
+		logger.info(f"prepareForBuilding: Creating fullDependencyDir: '{objSETTINGS.fullDependencyDir}' # where dependenciess etc get built eg workdir/x86_64")
 		objSETTINGS.fullDependencyDir.mkdir(exist_ok=True)
 	if not objSETTINGS.fullProductDir.exists():										# where products etc get built eg workdir/x86_64_products
-		logger.info(f"Creating fullProductDir: '{objSETTINGS.fullProductDir}' # where products etc get built eg workdir/x86_64_products")
+		logger.info(f"prepareForBuilding: Creating fullProductDir: '{objSETTINGS.fullProductDir}' # where products etc get built eg workdir/x86_64_products")
 		objSETTINGS.fullProductDir.mkdir(exist_ok=True)
 	if not objSETTINGS.offtreePrefix.exists():										# where off-tree dependencies get built eg workdir/x86_64_offtree
-		logger.info(f"Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg workdir/x86_64_offtree")
+		logger.info(f"prepareForBuilding: Creating offtreePrefix: '{objSETTINGS.offtreePrefix}' # where offtree stuff etc get built eg # eg workdir/x86_64_offtree")
 		objSETTINGS.offtreePrefix.mkdir(exist_ok=True)
 	# objSETTINGS.fullOutputDir superseded by objSETTINGS.toolchain_output_path
 	if not objSETTINGS.toolchain_output_path.exists():								# not sure what the heck goes here, possibly ming64 buildsin stuff ??? eg workdir/win64_output
-		logger.info(f"Creating toolchain_output_path: '{objSETTINGS.toolchain_output_path}' # possibly ?? where mingw64 toolchain build stuff temporarily goes")
+		logger.info(f"prepareForBuilding: Creating toolchain_output_path: '{objSETTINGS.toolchain_output_path}' # possibly ?? where mingw64 toolchain build stuff temporarily goes")
 		objSETTINGS.toolchain_output_path.mkdir(exist_ok=True)
 
 	# check some folders exist
@@ -1275,7 +1275,7 @@ def prepareForBuilding():
 	# Always RE-create the toolchain build file for meson every time, in case  we have changed something
 	#if not os.path.isfile(objSETTINGS.mesonEnvFile):
 	if True:
-		logger.debug(f"Creating Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
+		logger.debug(f"prepareForBuilding: Creating Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
 		meFile = (
 			"[binaries]\n",
 			F"c = '{objSETTINGS.shortCrossPrefixStr}gcc'",
@@ -1317,14 +1317,14 @@ def prepareForBuilding():
 			f.write("\n".join(meFile))
 			f.write("\n")
 	else:
-		logger.debug(f"Using existing Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
+		logger.debug(fprepareForBuilding: "Using existing Meson Environment file: '{objSETTINGS.mesonEnvFile}'")
 	logger.info(f"'{objSETTINGS.mesonEnvFile}' contains:")
 	cmd = f"cat {objSETTINGS.mesonEnvFile}"
 	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
 	if ret == 0:
-		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
+		logger.debug(f"prepareForBuilding: command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
-		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		logger.info(f"prepareForBuilding: command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		exit(ret)
 
 	# Always RE-create the toolchain build file for cmake every time, in case  we have changed something
@@ -1355,23 +1355,23 @@ def prepareForBuilding():
 			f.write("\n".join(cmFile))
 			f.write("\n")
 	else:
-		logger.debug(f"Using existing CMake Toolchain file: '{objSETTINGS.cmakeToolchainFile}'")
+		logger.debug(f"prepareForBuilding: Using existing CMake Toolchain file: '{objSETTINGS.cmakeToolchainFile}'")
 	logger.info(f"'{objSETTINGS.cmakeToolchainFile}' contains:")
 	cmd = f"cat {objSETTINGS.cmakeToolchainFile}"
 	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
 	if ret == 0:
-		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
+		logger.debug(f"prepareForBuilding: command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
-		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		logger.info(f"prepareForBuilding: command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		exit(ret)
 
 	os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
 	cargoConfigPath = objSETTINGS.cargoHomePath.joinpath("config.toml")	# from deadsix27
 	if not os.path.isdir(objSETTINGS.cargoHomePath):
-		logger.info(f"Creating Cargo Home folder: '{objSETTINGS.cargoHomePath}'")
+		logger.info(f"prepareForBuilding: Creating Cargo Home folder: '{objSETTINGS.cargoHomePath}'")
 		objSETTINGS.cargoHomePath.mkdir(parents=True)
-		logger.info(f"Creating Cargo Home stuff for Rust: '{objSETTINGS.cargoHomePath}'")
-		logger.info(f"Creating environment variable 'CARGO_HOME' = '{objSETTINGS.cargoHomePath}'")
+		logger.info(f"prepareForBuilding: Creating Cargo Home stuff for Rust: '{objSETTINGS.cargoHomePath}'")
+		logger.info(f"prepareForBuilding: Creating environment variable 'CARGO_HOME' = '{objSETTINGS.cargoHomePath}'")
 		tcFile = [
 			F'[target.{objSETTINGS.rustTargetStr}]',
 			F'linker = "{objSETTINGS.shortCrossPrefixStr}gcc"',
@@ -1379,22 +1379,28 @@ def prepareForBuilding():
 		]
 		with open(cargoConfigPath, 'w') as f:
 			f.write("\n".join(tcFile))
-		logger.info(f"Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
-		logger.info(f"Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}'")
-		os.system("cargo install cargo-c --locked")
-		##runProcess(f'cargo install cargo-c')
+		logger.info(f"prepareForBuilding: Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
+		cmd = f'cargo install cargo-c --locked'
+		logger.info(f"prepareForBuilding: Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}' using '{cmd}'")
+		#os.system(cmd)
+		ret, result = runProcess(cmd, ignoreErrors=False, yield_return_code=True)
+		if ret == 0:
+			logger.debug(f"prepareForBuilding: cargo command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
+		else:
+			logger.info(f"prepareForBuilding: cargo command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+			exit(ret)
 	else:
-		logger.debug(f"Using existing Cargo Home stuff in '{objSETTINGS.cargoHomePath}'")
+		logger.debug(f"prepareForBuilding: Using existing Cargo Home stuff in '{objSETTINGS.cargoHomePath}'")
 	logger.info(f"'{cargoConfigPath}' contains:")
 	cmd = f"cat {cargoConfigPath}"
 	ret, result = runProcess(cmd, ignoreErrors=True, yield_return_code=True)
 	if ret == 0:
-		logger.debug(f"command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
+		logger.debug(f"prepareForBuilding: command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
 	else:
-		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+		logger.info(f"prepareForBuilding: command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		exit(ret)
 	#
-	logger.info(f"Finished Processing prepareForBuilding.")
+	logger.info(f"prepareForBuilding: Finished Processing prepareForBuilding.")
 
 ###################################################################################################
 def buildMingw64():
