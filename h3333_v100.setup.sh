@@ -5,8 +5,18 @@
 set -x
 sudo chmod +777 -R *
 
-sudo sed -i 's/# deb/deb/g' /etc/apt/sources.list
+sudo sed -i 's/# deb/deb/g' "/etc/apt/sources.list"
+sudo sed -i 's/env_reset/env_reset, timestamp_timeout=60/' "/etc/sudoers"
 sudo apt -y update
+sudo apt full-upgrade -y
+
+sudo apt install -y locales
+sudo locale-gen en_AU.UTF-8
+sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
+
+sudo apt install -y ubuntu-restricted-extras
+sudo apt full-upgrade -y
 
 sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
@@ -19,30 +29,25 @@ sudo chmod +777 /mnt/exe_x64_py
 sudo apt install -y apt-utils
 sudo apt install -y debconf debconf-utils
 
-sudo apt install -y locales
-sudo locale-gen en_AU.UTF-8
-sudo update-locale LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
-export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
-
-sudo apt full-upgrade -y
-
 sudo apt install -y curl
 sudo apt install -y wget
 sudo apt install -y nano
 
-sudo apt install -y ubuntu-restricted-extras
-
+sudo apt install -y gcc
+sudo apt install -y cpp
+sudo apt install -y g++ 
+sudo apt install -y clang clang-tools
 sudo apt install -y build-essential
-#sudo apt install -y gcc
-#sudo apt install -y gcc-c++ 
-#sudo apt install -y g++ 
+sudo apt install -y dpkg-dev
+sudo apt install -y cross-gcc-dev 
+
 # The commands below configures alternative for each version and associate a priority with it. 
 # The default version is the one with the highest priority, in our case that is gcc-11
-sudo apt install -y gcc-9 g++-9 gcc-10 g++-10 gcc-11 g++-11 gcc-12 g++-12
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11  90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10  80 --slave /usr/bin/g++ g++ /usr/bin/g++-10 --slave /usr/bin/gcov gcov /usr/bin/gcov-10
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9   70 --slave /usr/bin/g++ g++ /usr/bin/g++-9  --slave /usr/bin/gcov gcov /usr/bin/gcov-9
+#sudo apt install -y gcc-9 g++-9 gcc-10 g++-10 gcc-11 g++-11 gcc-12 g++-12
+#sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12
+#sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11  90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
+#sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10  80 --slave /usr/bin/g++ g++ /usr/bin/g++-10 --slave /usr/bin/gcov gcov /usr/bin/gcov-10
+#sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9   70 --slave /usr/bin/g++ g++ /usr/bin/g++-9  --slave /usr/bin/gcov gcov /usr/bin/gcov-9
 # Later if you want to change the default version use the update-alternatives command:
 # sudo update-alternatives --config gcc
 
@@ -87,7 +92,8 @@ sudo apt install -y cython3
 sudo apt install -y python-is-python3 # for ubuntu 20.04
 sudo apt install -y python3-mako
 sudo apt install -y python3-setuptools
-#sudo pip  install progressbar2
+
+sudo pip  install --upgrade pip
 sudo pip3 install --upgrade packaging
 sudo pip3 install --upgrade progressbar2
 sudo pip3 install --upgrade py2exe
@@ -211,7 +217,7 @@ set -x
 cd ~/Desktop
 #m_ver="0.63.2" # experimental 2022.09.26
 m_ver="1.0.0" # experimental 2022.12.26
-rm -vfR meson_git
+sudo rm -vfR meson_git
 #if [[ ! -d "meson_git" ]]; then
    #git clone https://github.com/mesonbuild/meson.git
    git clone --depth 1 --branch "${m_ver}" https://github.com/mesonbuild/meson.git "meson_git"  # 2020.10.22
@@ -235,7 +241,7 @@ sudo rm -vfR nasm-${n_ver}
    echo "Downloading nasm ${n_ver}"
    # https://www.nasm.us/pub/nasm/releasebuilds/
    url="https://www.nasm.us/pub/nasm/releasebuilds/${n_ver}/nasm-${n_ver}.tar.xz"
-   rm -f "nasm-${n_ver}.tar.xz"
+   sudo rm -vfR "nasm-${n_ver}.tar.xz"
    curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "nasm-${n_ver}.tar.xz" # -L means "allow redirection" or some odd :|
    tar -xf "nasm-${n_ver}.tar.xz" || unzip "nasm-${n_ver}.tar.xz"
    echo "Configuring nasm ${n_ver}"
@@ -349,7 +355,7 @@ cd ~/Desktop
 #if [[ ! -f "$cuda_install_file" ]]; then
 #   echo "Downloading $cuda_install_file"
 #   url="http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/$cuda_install_file"
-#   rm -f "$cuda_install_file"
+#   sudo rm -vfR "$cuda_install_file"
 #   curl -4 -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Cache-Control: max-age=0' "$url" --retry 50 -L --output "$cuda_install_file" # -L means "allow redirection" or some odd :|
 #      echo "Installing $cuda_install_file"
 #      sudo sh ./$cuda_install_file --silent --toolkit --samples
