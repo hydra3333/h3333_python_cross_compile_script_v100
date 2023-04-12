@@ -89,6 +89,7 @@ sudo chmod a=rwx -R *.sh
 rm -frv ./exe_x64_py/* 2>&1 | tee -a ./exe.log
 mkdir -pv ./exe_x64_py 2>&1 | tee -a ./exe.log
 
+rm -fvR ~/Desktop/_working/workdir/cargohome
 ./Remove_ffmpeg_3333_related_files.sh
 
 set +x
