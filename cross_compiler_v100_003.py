@@ -1365,7 +1365,6 @@ def prepareForBuilding():
 		logger.info(f"command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
 		exit(ret)
 
-	#os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
 	os.environ["CARGO_HOME"] = str(objSETTINGS.cargoHomePath)
 	cargoConfigPath = objSETTINGS.cargoHomePath.joinpath("config.toml")	# from deadsix27
 	if not os.path.isdir(objSETTINGS.cargoHomePath):
@@ -1382,7 +1381,7 @@ def prepareForBuilding():
 			f.write("\n".join(tcFile))
 		logger.info(f"Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
 		logger.info(f"Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}'")
-		#os.system("cargo install cargo-c")
+		os.system("cargo install cargo-c")
 		##runProcess(f'cargo install cargo-c')
 	else:
 		logger.debug(f"Using existing Cargo Home stuff in '{objSETTINGS.cargoHomePath}'")
@@ -3400,14 +3399,17 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 
 	if 'run_justbefore_patch' in pkg:
 		if pkg['run_justbefore_patch'] is not None:
+			logger.debug(f"buildPackage: run_justbefore_patch in pkg '{packageName}' and is not None")
 			for cmd in pkg['run_justbefore_patch']:
 				ignoreFail = False
 				if isinstance(cmd, tuple):
 					cmd = cmd[0]
 					ignoreFail = cmd[1]
 				if cmd.startswith(f"!SWITCHDIRBACK"):
+					logger.debug(f"buildPackage: run_justbefore_patch in pkg '{packageName}' changing dir due to !SWITCHDIRBACK")
 					cchdir(currentFullDir)
 				elif cmd.startswith(f"!SWITCHDIR"):
+					logger.debug(f"buildPackage: run_justbefore_patch in pkg '{packageName}' changing dir due to !SWITCHDIR")
 					_dir = replaceVarCmdSubStrings("|".join(cmd.split("|")[1:]))
 					cchdir(_dir)
 				else:
@@ -3424,10 +3426,13 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 
 	if 'patches' in pkg:
 		if pkg['patches'] is not None:
+			logger.debug(f"buildPackage: patches not in pkg '{packageName}' and not None")
 			for p in pkg['patches']:
 				if isinstance(p, dict):	# if a patch in the list is a dict (a set of key/value pairs) then use v2
+					logger.debug(f"buildPackage: patches not in pkg '{packageName}' and not None, calling applyPatchv2('{p}')")
 					applyPatchv2(p)
 				else:
+					logger.debug(f"buildPackage: patches not in pkg '{packageName}' and not None, calling applyPatch('{p[0]}', '{p1}', False, '{getValueByIntOrNone(p, 2)}')")
 					applyPatch(p[0], p[1], False, getValueByIntOrNone(p, 2))
 		else:
 			logger.debug(f"buildPackage: patches in pkg but is None - ignored")
