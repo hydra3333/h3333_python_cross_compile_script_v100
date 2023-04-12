@@ -23,8 +23,9 @@
 		], # 2022.12.18 per DEADSIX27
 	}, # 2022.12.18 per DEADSIX27
 	#'run_post_regexreplace' : [
-	#	'autoreconf -fiv', # 2022.12.19
-	#	'./autogen.sh ', # 2022.12.19
+	#	'./gitsub.sh pull ',			# 2023.04.12
+	#	'autoreconf -fiv ',				# 2023.04.12
+	#	'./autogen.sh ',				# 2023.04.12
 	#],	
 	'depends_on' : [ 'iconv' ],
 	'update_check' : { 'url' : 'https://ftp.gnu.org/pub/gnu/gettext/?C=M;O=D', 'type' : 'httpindex', 'regex' : r'gettext-(?P<version_num>[\d.]+)\.tar\.xz' },
