@@ -12,6 +12,7 @@
         'cinstall -v '
         # '--manifest-path ./dolby_vision/Cargo.toml '
         '--prefix {target_prefix} '
+		'--default-toolchain=stable '
         '--library-type staticlib '
         '--crt-static '
         '--target {rust_target} '
