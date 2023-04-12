@@ -1380,7 +1380,7 @@ def prepareForBuilding():
 		with open(cargoConfigPath, 'w') as f:
 			f.write("\n".join(tcFile))
 		logger.info(f"prepareForBuilding: Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
-		cmd = f'cargo install cargo-c --locked'
+		cmd = f'cargo install cargo-c'
 		logger.info(f"prepareForBuilding: Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}' using '{cmd}'")
 		#os.system(cmd)
 		ret, result = runProcess(cmd, ignoreErrors=False, yield_return_code=True)
@@ -2775,8 +2775,15 @@ def buildSource(packageName, pkg, buildSystem):
 						runProcess(cmd)
 		else:
 			if buildSystem == "rust":
-				os.system(f'{mkCmd} {cpuCountStr} {makeOpts}')
-				#runProcess(f'{mkCmd} {cpuCountStr} {makeOpts}')
+				cmd = f'{mkCmd} {cpuCountStr} {makeOpts}'
+				logger.debug(f"buildSource: about to run rust command: '{cmd}'")	# RESULT:\n{result}
+				#os.system(cmd')
+				ret, result = runProcess(cmd, ignoreErrors=False, yield_return_code=True)
+				if ret == 0:
+					logger.debug(f"buildSource: rust command: '{cmd}' return_code: '{ret}'")	# RESULT:\n{result}
+				else:
+					logger.info(f"buildSource: rust command failed: '{cmd}' return_code: '{ret}' RESULT:\n{result}")
+					exit(ret)
 			else:
 				if buildSystem == "waf":
 					mkCmd = './waf --color=yes build'
