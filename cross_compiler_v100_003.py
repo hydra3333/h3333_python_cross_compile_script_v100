@@ -3429,10 +3429,10 @@ def buildPackage(packageName='', forceRebuild=False):	# was buildThing
 			logger.debug(f"buildPackage: patches not in pkg '{packageName}' and not None")
 			for p in pkg['patches']:
 				if isinstance(p, dict):	# if a patch in the list is a dict (a set of key/value pairs) then use v2
-					logger.debug(f"buildPackage: patches not in pkg '{packageName}' and not None, calling applyPatchv2('{p}')")
+					logger.debug(f"buildPackage: patches in pkg '{packageName}' and not None, calling applyPatchv2('{p}')")
 					applyPatchv2(p)
 				else:
-					logger.debug(f"buildPackage: patches not in pkg '{packageName}' and not None, calling applyPatch('{p[0]}', '{p1}', False, '{getValueByIntOrNone(p, 2)}')")
+					logger.debug(f"buildPackage: patches in pkg '{packageName}' and not None, calling applyPatch('{p[0]}', '{p[1]}', False, '{getValueByIntOrNone(p, 2)}')")
 					applyPatch(p[0], p[1], False, getValueByIntOrNone(p, 2))
 		else:
 			logger.debug(f"buildPackage: patches in pkg but is None - ignored")
