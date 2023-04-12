@@ -19,6 +19,7 @@
         '--release '
 		'--frozen '
 		'--offline '
+		'--locked '
     ,
 	'env_exports' : {
 		"CC": "gcc",
