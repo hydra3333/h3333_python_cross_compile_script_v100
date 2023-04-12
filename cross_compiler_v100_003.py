@@ -331,6 +331,7 @@ class settings:
 		self.originalLdLibPath = os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ""
 		#
 		self.rustTargetStr = "x86_64-pc-windows-gnu" # hardcoded, only 64bit supported.
+		self.rustFlags = '-C target-cpu=x86-64-v3'
 		#
 		# define the name of the gcc compiler
 		self.gcc_bin = os.path.join(self.mingwBinpath, self.bitnessStr + "-w64-mingw32-gcc")
@@ -403,6 +404,7 @@ def resetDefaultEnvVars():
 	os.environ['CPPFLAGS']          = objSETTINGS.originalCflags
 	os.environ['LDFLAGS']           = objSETTINGS.originalCflags
 	os.environ['CARGO_HOME']		= str(objSETTINGS.cargoHomePath)
+	os.environ['RUSTFLAGS']			= objSETTINGS.rustFlags
 	os.environ['PKG_CONFIG_PATH']   = objSETTINGS.pkgConfigPath
 	os.environ['PKG_CONFIG_LIBDIR'] = ''
 	os.environ['COLOR']				= "ON" 	# Force coloring on (for CMake primarily)
