@@ -8,6 +8,10 @@
 	'needs_make_install' : False,
 	'build_system' : 'rust',
     #'cpu_count': '',
+	#'run_post_regexreplace' : [	
+	#	'rm -fv Cargo.lock',
+	#	'wget "https://github.com/xiph/rav1e/releases/download/v0.6.4/Cargo.lock"',
+	#],
 	'build_options' : 
         'cinstall -v '
         # '--manifest-path ./dolby_vision/Cargo.toml '
@@ -52,6 +56,8 @@
 #             "${MINGW_PACKAGE_PREFIX}-cargo-c")
 #source=("${_realname}-${pkgver}.tar.gz"::"https://github.com/xiph/rav1e/archive/v${pkgver}.tar.gz"
 #         https://github.com/xiph/rav1e/releases/download/v${pkgver}/Cargo.lock)
+##https://github.com/xiph/rav1e/archive/refs/tags/v0.6.4.tar.gz
+##https://github.com/xiph/rav1e/releases/download/v0.6.4/Cargo.lock
 #sha256sums=('7b3060e8305e47f10b79f3a3b3b6adc3a56d7a58b2cb14e86951cc28e1b089fd'
 #            '6baeb4e72ee86dd4c3d6c9acfcfac6a2e58a580101eb181daced09199a136868')
 #
