@@ -76,7 +76,7 @@
 		'--enable-cuda-llvm ' # test 2020.03.10
 		'--enable-opengl '
 		'--enable-d3d11va '
-		'--enable-librav1e '
+		#'--enable-librav1e '	# 2023.04.19 rust/cargo packages with Ubuntu are too out of date to build rav1e
 		'--enable-nvenc '
 		'--enable-nvdec '
 		'--enable-dxva2 '
