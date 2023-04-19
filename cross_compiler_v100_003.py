@@ -1382,7 +1382,7 @@ def prepareForBuilding():
 		with open(cargoConfigPath, 'w') as f:
 			f.write("\n".join(tcFile))
 		logger.info(f"prepareForBuilding: Wrote Cargo Home file 'config.toml' in '{objSETTINGS.cargoHomePath}'")
-		cmd = f'cargo install cargo-c'
+		cmd = f'#cargo install cargo-c'
 		logger.info(f"prepareForBuilding: Setting up cargo toolchain in '{objSETTINGS.cargoHomePath}' using '{cmd}'")
 		#os.system(cmd)
 		ret, result = runProcess(cmd, ignoreErrors=False, yield_return_code=True)
