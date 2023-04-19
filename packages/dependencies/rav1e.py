@@ -7,11 +7,6 @@
 	'needs_configure' : False,
 	'needs_make_install' : False,
 	'build_system' : 'rust',
-    #'cpu_count': '',
-	#'run_post_regexreplace' : [	
-	#	'rm -fv Cargo.lock',
-	#	'wget "https://github.com/xiph/rav1e/releases/download/v0.6.4/Cargo.lock"',
-	#],
 	'build_options' : 
         'cinstall -v '
         # '--manifest-path ./dolby_vision/Cargo.toml '

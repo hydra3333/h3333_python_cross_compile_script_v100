@@ -38,7 +38,7 @@
 		#'lensfun',  # 2020.05.12 comment out so we do not have to build glib2
 		'libjxl',
 		'libwebp',
-		'rav1e',
+		#'rav1e',	# 2023.04.19 rust/cargo packages with Ubuntu are too out of date to build rav1e
 		'nv-codec-headers',
 		'intel_quicksync_mfx', # 2022.05.27 re-enable # 2022.05.25 comment out intel_quicksync_mfx since ffmpeg quicksync no longer detects https://github.com/lu-zero/mfx_dispatch.git as valid.
 		'amf_headers',
