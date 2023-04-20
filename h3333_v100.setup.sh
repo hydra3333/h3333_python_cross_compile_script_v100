@@ -6,7 +6,7 @@ set -x
 sudo chmod +777 -R *
 
 sudo sed -i 's/# deb/deb/g' "/etc/apt/sources.list"
-sudo sed -i 's/env_reset/env_reset, timestamp_timeout=60/' "/etc/sudoers"
+sudo sed -i 's/env_reset/env_reset, timestamp_timeout=90/' "/etc/sudoers"
 sudo apt -y update
 sudo apt full-upgrade -y
 
