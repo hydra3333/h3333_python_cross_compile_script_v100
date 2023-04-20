@@ -48,7 +48,7 @@
 		# do_separate_confmakeinstall \
         #    --disable-{cxx,doc,tools,tests,nls,rpath,libdane,guile,gcc-warnings} \
         #    --without-{p11-kit,idn,tpm} --enable-local-libopts \
-        #    --with-included-unistring --disable-code-coverage \		
+        #    --with-included-unistring --disable-code-coverage \
 	,
 	'regex_replace': {
 		'post_install': [
