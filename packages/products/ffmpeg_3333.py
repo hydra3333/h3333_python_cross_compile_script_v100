@@ -7,10 +7,10 @@
 	#'branch' : '5727b1f13f36c4db30d5d0de51640f740edf01e8',
 	'rename_folder' : 'ffmpeg_3333',
 	'env_exports' : { # 2020.06.19
-		'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
-		'CXXFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
-		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags}', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
-		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags}',
+		'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags} -lssp ',
+		'CXXFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags} -lssp ',
+		'CPPFLAGS' : ' -DFRIBIDI_LIB_STATIC {original_cflags} -lssp ', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
+		'LDFLAGS'  : ' -DFRIBIDI_LIB_STATIC {original_cflags} -lssp ',
 	},
 	# 2022.05.10 MABS added the below to patch ffmpeg, so when 2.23 is released we should add it to all ffmpeg product/dependency .py !
 	#'patches' : [
