@@ -21,7 +21,7 @@
 							'-DHAICRYPT_USE_OPENSSL_AES=off '
 							'-DENABLE_SUFLIP=off '
 							'-DENABLE_EXAMPLES=off -DENABLE_APPS=off ' # 2019.12.13 # 
-                            '-DUSE_STATIC_LIBSTDCXX=ON ' # 2021.08.27 per MABS
+							'-DUSE_STATIC_LIBSTDCXX=ON ' # 2021.08.27 per MABS
 							'-DENABLE_UNITTESTS=off ' # 2019.12.13 # 
 							,
 	'depends_on' : [ 'gnutls_3333' ], # 20921.02.03 'gettext',
