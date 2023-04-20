@@ -12,11 +12,17 @@
 	'run_post_regexreplace' : [
 		'autoreconf -fiv',
 	],
+	'env_exports' : { # 2020.06.19
+		'CFLAGS'   : ' {original_cflags} -lssp -lbrotlienc -lbrotlidec -lbrotlicommon ',
+		'CXXFLAGS' : ' {original_cflags} -lssp -lbrotlienc -lbrotlidec -lbrotlicommon ',
+		'CPPFLAGS' : ' {original_cflags} -lssp -lbrotlienc -lbrotlidec -lbrotlicommon ', # 2020.06.20 per https://github.com/fribidi/fribidi/issues/146#issuecomment-646991416
+		'LDFLAGS'  : ' {original_cflags} -lssp -lbrotlienc -lbrotlidec -lbrotlicommon ',
+	},
 	'configure_options': '--prefix={target_prefix} --exec-prefix={target_prefix} --enable-static --disable-shared --target={bit_name2}-{bit_name_win}-gcc --host={target_host} --build=x86_64-linux-gnu '
 		#'--with-libssh2 --with-gnutls --with-ca-fallback --without-winssl --enable-pthreads --enable-symbol-hiding ',
 		'--without-libssh2 --without-ssl --with-gnutls --with-ca-fallback --without-winssl --enable-pthreads --enable-symbol-hiding ',
 	'depends_on': (
-		'zlib', 'gnutls', # 'libssh2',
+		'libbrotli', 'zlib', 'gnutls', # 'libssh2',
 	),
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'libcurl' },
