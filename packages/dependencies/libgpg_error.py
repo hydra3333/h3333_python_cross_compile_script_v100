@@ -13,6 +13,7 @@
 	#'branch' : '745d333cf7b5b6fee62e3b26c8a2ccc004e017da',	# 2023.01.08 re-try without affix to this commit # 2022.10.16 commits after 745d333cf7b5b6fee62e3b26c8a2ccc004e017da	fail to build
 	#'url' : 'git://git.gnupg.org/libgpg-error.git', # https://git.gnupg.org/ # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=summary
 	'url' : 'https://dev.gnupg.org/source/libgpg-error.git', # https://git.gnupg.org/ # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=summary
+	'branch' : 'a25cea92798a5ece3f49924911507f5335915ecc',
 	#
 	'rename_folder' : 'libgpg-error_git',
 	'custom_cflag' : ' ', # 2019.12.13 it fails to build with anything other than this, eg it crashes with -O3 and -fstack-protector-all -D_FORTIFY_SOURCE=2 
