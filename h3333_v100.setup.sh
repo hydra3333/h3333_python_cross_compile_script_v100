@@ -33,9 +33,12 @@ sudo apt install -y curl
 sudo apt install -y wget
 sudo apt install -y nano
 
-sudo apt install -y gcc
-sudo apt install -y cpp
-sudo apt install -y g++ 
+sudo apt -y remove gcc g++ cpp
+sudo apt install -y gcc-12 
+sudo apt install -y g++-12
+sudo apt install -y cpp-12
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12 --slave /usr/bin/cpp cpp /usr/bin/cpp-12
+
 sudo apt install -y clang clang-tools
 sudo apt install -y build-essential
 sudo apt install -y dpkg-dev
