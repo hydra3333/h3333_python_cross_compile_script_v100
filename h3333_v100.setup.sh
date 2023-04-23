@@ -33,7 +33,7 @@ sudo apt install -y curl
 sudo apt install -y wget
 sudo apt install -y nano
 
-sudo apt -y install gcc g++ cpp
+#sudo apt -y install gcc g++ cpp
 #
 #sudo apt -y remove gcc g++ cpp
 #sudo apt install -y gcc-12 
@@ -42,9 +42,9 @@ sudo apt -y install gcc g++ cpp
 #sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12 --slave /usr/bin/cpp cpp /usr/bin/cpp-12
 #
 
+sudo apt install -y dpkg-dev
 sudo apt install -y clang clang-tools
 sudo apt install -y build-essential
-sudo apt install -y dpkg-dev
 sudo apt install -y cross-gcc-dev 
 
 # The commands below configures alternative for each version and associate a priority with it. 
