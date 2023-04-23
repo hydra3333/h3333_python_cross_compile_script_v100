@@ -43,8 +43,8 @@ sudo apt install -y nano
 #
 
 sudo apt install -y dpkg-dev
-sudo apt install -y clang clang-tools
 sudo apt install -y build-essential
+sudo apt install -y clang clang-tools
 sudo apt install -y cross-gcc-dev 
 
 # The commands below configures alternative for each version and associate a priority with it. 
