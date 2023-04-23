@@ -102,9 +102,10 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	'version'   : '12.2.0',
-	#'version'   : '13.1.0',
-	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
+	#'version'   : '12.2.0',
+	#'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
+	'version'   : '13-20230422',
+	'url' : 'https://gcc.gnu.org/pub/gcc/snapshots/{version}/gcc-{version}.tar.xz',
 	'softlink_to_package': [
 		('gmp', 'gmp'),
 		('mpfr', 'mpfr'),
@@ -150,9 +151,11 @@ BUILDS['binutils'] = {
 		' --disable-nls'
 		' --enable-lto'
 		' --disable-gdb'
-		' --build="{host}"' # 2022.12.26 non-zeranoe
-		' --disable-win32-registry' # 2022.12.26 non-zeranoe
-		' --enable-threads=posix' # 2022.12.26 non-zeranoe
+		' --build="{host}"'			# 2022.12.26 non-zeranoe
+		' --disable-win32-registry'	# 2022.12.26 non-zeranoe
+		' --enable-threads=posix'	# 2022.12.26 non-zeranoe
+		' --enable-plugins'			# 2023.04.23 try this from deadsix27
+		' --enable-lto'				# 2023.04.23 try this from deadsix27
 	,
 }
 BUILDS['mingw-w64-headers'] = {
@@ -162,7 +165,7 @@ BUILDS['mingw-w64-headers'] = {
 		#' --host="{target}"'
 		#' --prefix="{prefix}"'
 		#' --enable-sdk=all'
-		#' --enable-secure-api' # 2022.12.18 per DEADSIX27 BUT STICK WITH ENABLE SECURE API
+		#' --enable-secure-api' # 2022.12.18 per DEADSIX27 BUT STICK WITH ENABLE SECURE API # --enable-secure-api is not supported anymore
 		#' --enable-idl'
 	#,
 		'mingw-w64-headers/configure'
@@ -202,17 +205,7 @@ BUILDS['gcc-1'] = {
 		#' --enable-lto'
 		#' --enable-checking=release'
 		#' --enable-seh-exceptions' # 2022.12.18 per DEADSIX27
-		## ' --enable-libada' # 2022.12.18 per DEADSIX27
-  		## ' --enable-libssp' # 2022.12.18 per DEADSIX27
-		## ' --enable-gold' # 2022.12.18 per DEADSIX27
-		## ' --enable-default-pie'
-		## ' --enable-default-ssp'
-		## ' --enable-libssp'
-		## ' --enable-libstdcxx-filesystem-ts=yes'
-		## ' --enable-fully-dynamic-string'
-		## ' --enable-libstdcxx-time=yes'
-		## ' --enable-cloog-backend=isl'
-	#,
+		#,
 		'configure '
 		' --target="{target}"'
 		' --disable-shared'
@@ -223,11 +216,11 @@ BUILDS['gcc-1'] = {
 		' --disable-nls'
 		' --enable-threads=posix'
 		' --disable-sjlj-exceptions --with-dwarf2'
-		' --disable-win32-registry' # 2022.12.26 non-zeranoe
-		' --with-arch=x86-64' # 2022.12.26 non-zeranoe
-		' --enable-lto' # 2022.12.26 non-zeranoe
-		' --enable-checking=release' # 2022.12.26 non-zeranoe
-		' --enable-seh-exceptions' # 2022.12.26 non-zeranoe
+		' --disable-win32-registry'					# 2022.12.26 non-zeranoe
+		' --with-arch=x86-64'						# 2022.12.26 non-zeranoe
+		' --enable-lto'								# 2022.12.26 non-zeranoe
+		' --enable-checking=release'				# 2022.12.26 non-zeranoe
+		' --enable-seh-exceptions'					# 2022.12.26 non-zeranoe
 	,
 	'lineMake'	: 'all-gcc',
 	'lineInstall': 'install-strip-gcc',
@@ -257,7 +250,6 @@ BUILDS['mingw-w64-crt'] = {
 	],
 	'lineInstall': 'install-strip',
 	'lineInstallDebug': 'install',
-	#'lineInstallDebug': 'install-strip',
 }
 BUILDS['mingw-w64-winpthreads'] = {
 	'lineConfig':
@@ -285,7 +277,6 @@ BUILDS['gcc-2'] = {
 	'noConfigure': True,
 	'lineInstall': 'install-strip',
 	'lineInstallDebug': 'install',
-	#'lineInstallDebug': 'install-strip',
 }
 BUILDS['mingw-w64-gendef'] = {
 	'lineConfig':
@@ -303,7 +294,6 @@ BUILDS['mingw-w64-gendef'] = {
 	,
 	'lineInstall': 'install-strip',
 	'lineInstallDebug': 'install',
-	#'lineInstallDebug': 'install-strip',
 	'customCommands': [
 		('{prefix}', 'cp -f "./bin/gendef" "./bin/{target}-gendef"'),
 	],
@@ -330,9 +320,9 @@ BUILDS['mpfr'] = {
 BUILDS['mpc'] = {
 	'dummy': True,
 }
-#BUILDS['isl'] = { # 2022.12.27 zeranoe doesn;t use this and binutils 2.39 causes it to fail to build
-#	'dummy': True,
-#}
+BUILDS['isl'] = {	# 2022.12.27 zeranoe doesn't use this and binutils 2.39 causes it to fail to build
+	'dummy': True,	# 2023.04.23 re-try isl with binutils 2.40
+}
 
 class Event:
 	def __init__(self):
