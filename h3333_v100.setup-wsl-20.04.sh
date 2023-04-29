@@ -53,9 +53,12 @@ sudo apt -y install software-properties-common
 # https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux/
 sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev pkg-config tk-dev libc6-dev
 cd /usr/src 
-sudo wget https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tgz 
-sudo tar xzf Python-3.11.1.tgz 
-cd Python-3.11.1 
+#sudo wget https://www.python.org/ftp/python/3.11.3/Python-3.11.1.tgz
+#sudo tar xzf Python-3.11.1.tgz 
+#cd Python-3.11.1
+sudo wget https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tgz 
+sudo tar xzf Python-3.11.3.tgz 
+cd Python-3.11.3
 sudo ./configure --enable-optimizations 
 # We have used altinstall instead of install to keep the default Python binary path in /usr/bin/python ... this does not work ?
 #sudo make altinstall
