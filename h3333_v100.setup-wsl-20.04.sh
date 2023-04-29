@@ -47,19 +47,23 @@ sudo apt install -y build-essential
 sudo apt install -y clang clang-tools
 sudo apt install -y cross-gcc-dev 
 
-
+# https://linuxways.net/ubuntu/how-to-install-python-3-11-on-ubuntu-20-04/
+sudo apt -y install software-properties-common
 # https://tecadmin.net/how-to-install-python-3-11-on-ubuntu-22-04/
-sudo apt install -y libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
+# https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux/
+sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev pkg-config tk-dev libc6-dev
 cd /usr/src 
 sudo wget https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tgz 
 sudo tar xzf Python-3.11.1.tgz 
 cd Python-3.11.1 
 sudo ./configure --enable-optimizations 
-sudo make altinstall
+# We have used altinstall instead of install to keep the default Python binary path in /usr/bin/python ... this does not work ?
+#sudo make altinstall
+sudo make install
 # https://www.youtube.com/watch?v=9QftEX6yZP4
-#sudo apt install -y python3.11-dev python3.11-venv python3.11-distutils python3.11-gdbm python3.11-tk python3.11-lib2to3
-sudo update-alternatives --install /use/bin/python  python  /usr/bin/python3.11 110
-sudo update-alternatives --install /use/bin/python3 python3 /usr/bin/python3.11 110
+sudo apt install -y python3.11-dev python3.11-venv python3.11-distutils python3.11-gdbm python3.11-tk python3.11-lib2to3
+sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 110
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 110
 python3.11 -V
 python3 -V
 python -V
@@ -68,11 +72,12 @@ read -p "After installing python3.11 from source, press Enter to continue"
 #curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 cd /usr/src 
 curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
-sudo update-alternatives --install /use/bin/pip  pip  /usr/bin/pip3.11 110
-sudo update-alternatives --install /use/bin/pip3 pip3 /usr/bin/pip3.11 110
+sudo update-alternatives --install /usr/bin/pip  pip  /usr/bin/pip3.11 110
+sudo update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.11 110
 pip3.11 -V
 pip3 -V
 pip -V
+ls -al 
 read -p "After installing pip3.11 from source, press Enter to continue"
 
 # The commands below configures alternative for each version and associate a priority with it. 
