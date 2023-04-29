@@ -5,6 +5,11 @@
 set -x
 sudo chmod +777 -R *
 
+lsb_release -a
+
+cd ~
+mkdir Desktop
+
 sudo sed -i 's/# deb/deb/g' "/etc/apt/sources.list"
 sudo sed -i 's/env_reset/env_reset, timestamp_timeout=90/' "/etc/sudoers"
 sudo apt -y update
@@ -17,6 +22,8 @@ export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 
 sudo apt install -y ubuntu-restricted-extras
 sudo apt full-upgrade -y
+
+lsb_release -a
 
 sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
@@ -47,41 +54,67 @@ sudo apt install -y build-essential
 sudo apt install -y clang clang-tools
 sudo apt install -y cross-gcc-dev 
 
-# https://linuxways.net/ubuntu/how-to-install-python-3-11-on-ubuntu-20-04/
-sudo apt -y install software-properties-common
-# https://tecadmin.net/how-to-install-python-3-11-on-ubuntu-22-04/
-# https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux/
-sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev pkg-config tk-dev libc6-dev
-cd /usr/src 
-#sudo wget https://www.python.org/ftp/python/3.11.3/Python-3.11.1.tgz
-#sudo tar xzf Python-3.11.1.tgz 
-#cd Python-3.11.1
-sudo wget https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tgz 
-sudo tar xzf Python-3.11.3.tgz 
-cd Python-3.11.3
-sudo ./configure --enable-optimizations 
-# We have used altinstall instead of install to keep the default Python binary path in /usr/bin/python ... this does not work ?
-#sudo make altinstall
-sudo make install
-# https://www.youtube.com/watch?v=9QftEX6yZP4
-sudo apt install -y python3.11-dev python3.11-venv python3.11-distutils python3.11-gdbm python3.11-tk python3.11-lib2to3
-sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 110
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 110
-python3.11 -V
+## https://linuxways.net/ubuntu/how-to-install-python-3-11-on-ubuntu-20-04/
+#sudo apt -y install software-properties-common
+## https://tecadmin.net/how-to-install-python-3-11-on-ubuntu-22-04/
+## https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux/
+#sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev pkg-config tk-dev libc6-dev
+#cd /usr/src 
+##sudo wget https://www.python.org/ftp/python/3.11.3/Python-3.11.1.tgz
+##sudo tar xzf Python-3.11.1.tgz 
+##cd Python-3.11.1
+#sudo wget https://www.python.org/ftp/python/3.11.3/Python-3.11.3.tgz 
+#sudo tar xzf Python-3.11.3.tgz 
+#cd Python-3.11.3
+#sudo ./configure --enable-optimizations 
+## We have used altinstall instead of install to keep the default Python binary path in /usr/bin/python ... this does not work ?
+##sudo make altinstall
+#sudo make install
+## https://www.youtube.com/watch?v=9QftEX6yZP4
+#sudo apt install -y python3.11-dev python3.11-venv python3.11-distutils python3.11-gdbm python3.11-tk python3.11-lib2to3
+#sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 110
+#sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 110
+#python3.11 -V
+#python3 -V
+#python -V
+#read -p "After installing python3.11 from source, press Enter to continue"
+
+sudo apt-cache search python3.9 | sort
+sudo apt-cache search python3.10 | sort
+sudo apt-cache search python3.11 | sort
+sudo apt -y remove python3
+sudo apt -y remove python3.8
+sudo apt -y remove python3.9
+sudo apt -y remove python3.10
+sudo apt -y remove python3.11
+sudo apt -y autoremove
+sudo apt -y purge
+
+sudo apt -y install python3.9
+sudo apt -y installpython3.9-full
+sudo apt -y installpython3.9-venv
+sudo apt -y installpython3.9-dev
+sudo apt -y installpython3.9-dbg
+sudo apt -y installlibpython3.9
+sudo apt -y installlibpython3.9-dev
+sudo apt -y installlibpython3.9-dbg
+sudo apt -y installlibpython3.9-stdlib
+
+sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.9 110
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 110
+python3.9 -V
 python3 -V
 python -V
-read -p "After installing python3.11 from source, press Enter to continue"
-
-#curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
+read -p "After installing python3.9, press Enter to continue"
 cd /usr/src 
-curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
-sudo update-alternatives --install /usr/bin/pip  pip  /usr/bin/pip3.11 110
-sudo update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.11 110
-pip3.11 -V
+curl -sS https://bootstrap.pypa.io/get-pip.py | python3
+sudo cp -fv /home/u/.local/bin/pip* /usr/bin/
+#sudo update-alternatives --install /usr/bin/pip  pip  /usr/bin/pip3.9 110
+#sudo update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.9 110
+pip3.9 -V
 pip3 -V
 pip -V
-ls -al 
-read -p "After installing pip3.11 from source, press Enter to continue"
+read -p "After installing pip3.9, press Enter to continue"
 
 # The commands below configures alternative for each version and associate a priority with it. 
 # The default version is the one with the highest priority, in our case that is gcc-11
