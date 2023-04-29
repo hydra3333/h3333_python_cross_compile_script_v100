@@ -63,12 +63,17 @@ sudo update-alternatives --install /use/bin/python3 python3 /usr/bin/python3.11 
 python3.11 -V
 python3 -V
 python -V
+read -p "After installing python3.11 form source, press Enter to continue"
 
 #curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 cd /usr/src 
 curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 sudo update-alternatives --install /use/bin/pip  pip  /usr/bin/pip3.11 110
 sudo update-alternatives --install /use/bin/pip3 pip3 /usr/bin/pip3.11 110
+pip3.11 -V
+pip3 -V
+pip -V
+read -p "After installing pip3.11 form source, press Enter to continue"
 
 # The commands below configures alternative for each version and associate a priority with it. 
 # The default version is the one with the highest priority, in our case that is gcc-11
