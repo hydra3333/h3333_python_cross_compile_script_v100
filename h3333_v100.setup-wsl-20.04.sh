@@ -91,14 +91,18 @@ sudo apt -y autoremove
 sudo apt -y purge
 
 sudo apt -y install python3.9
-sudo apt -y installpython3.9-full
-sudo apt -y installpython3.9-venv
-sudo apt -y installpython3.9-dev
-sudo apt -y installpython3.9-dbg
-sudo apt -y installlibpython3.9
-sudo apt -y installlibpython3.9-dev
-sudo apt -y installlibpython3.9-dbg
-sudo apt -y installlibpython3.9-stdlib
+sudo apt -y install python3.9-full
+sudo apt -y install python3.9-venv
+sudo apt -y install python3.9-dev
+sudo apt -y install python3.9-dbg
+sudo apt -y install libpython3.9
+sudo apt -y install libpython3.9-dev
+sudo apt -y install libpython3.9-dbg
+sudo apt -y install libpython3.9-stdlib
+
+sudo apt -y install open-vm-tools
+
+sudo apt -y install python-is-python3
 
 sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.9 110
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 110
@@ -106,6 +110,7 @@ python3.9 -V
 python3 -V
 python -V
 read -p "After installing python3.9, press Enter to continue"
+
 cd /usr/src 
 curl -sS https://bootstrap.pypa.io/get-pip.py | python3
 sudo cp -fv /home/u/.local/bin/pip* /usr/bin/
