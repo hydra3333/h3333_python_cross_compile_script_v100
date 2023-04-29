@@ -51,27 +51,27 @@ sudo apt install -y build-essential
 sudo apt install -y clang clang-tools
 sudo apt install -y cross-gcc-dev 
 
-sudo apt -y remove python3
-sudo apt -y remove python3.10
-sudo apt -y remove python3.11
-sudo apt -y autoremove
-sudo apt -y purge
-sudo apt -y install python3.11 python3.11-full python3.11-venv python3.11-dev python3.11-dbg libpython3.11 libpython3.11-dev libpython3.11-dbg libpython3.11-stdlib
-sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 110
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 110
-python3.11 -V
+#sudo apt -y remove python3
+#sudo apt -y remove python3.10
+#sudo apt -y remove python3.11
+#sudo apt -y autoremove
+#sudo apt -y purge
+#sudo apt -y install python3.11 python3.11-full python3.11-venv python3.11-dev python3.11-dbg libpython3.11 libpython3.11-dev libpython3.11-dbg libpython3.11-stdlib
+#sudo update-alternatives --install /usr/bin/python  python  /usr/bin/python3.11 110
+#sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 110
+#python3.11 -V
 python3 -V
 python -V
-read -p "After installing python3.11, press Enter to continue"
+#read -p "After installing python3.11, press Enter to continue"
 cd /usr/src 
-curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
-sudo cp -fv /home/u/.local/bin/pip* /usr/bin/
-sudo update-alternatives --install /usr/bin/pip  pip  /usr/bin/pip3.11 110
-sudo update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.11 110
-pip3.11 -V
+curl -sS https://bootstrap.pypa.io/get-pip.py | python3
+#sudo cp -fv /home/u/.local/bin/pip* /usr/bin/
+#sudo update-alternatives --install /usr/bin/pip  pip  /usr/bin/pip3.11 110
+#sudo update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.11 110
+#pip3.11 -V
 pip3 -V
 pip -V
-read -p "After installing pip3.11, press Enter to continue"
+#read -p "After installing pip3.11, press Enter to continue"
 
 
 # https://linuxways.net/ubuntu/how-to-install-python-3-11-on-ubuntu-20-04/
