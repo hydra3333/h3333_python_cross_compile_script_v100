@@ -4294,12 +4294,16 @@ if __name__ == "__main__":
 	#	globals as read/write global variables rather than as read-only global variables if at all
 	
 	# Initialize system stuff
-	PY_REQUIRE = (3, 10)
+	PY_REQUIRE = (3, 8)
 	if sys.version_info < PY_REQUIRE:
 		print(f"ERROR: You need at least Python %s.%s or later to run this script." % PY_REQUIRE)
-		print(f"       Python 3.10 upwards implemented a 'switch case' feature called 'structural pattern matching'.\n" \
-			   "       This script depends on that feature with the Python3 'match' and 'case' keywords.\n")
 		sys.exit("You need at least Python %s.%s or later to run this script.\n" % PY_REQUIRE)
+	#PY_REQUIRE = (3, 10)
+	#if sys.version_info < PY_REQUIRE:
+	#	print(f"ERROR: You need at least Python %s.%s or later to run this script." % PY_REQUIRE)
+	#	print(f"       Python 3.10 upwards implemented a 'switch case' feature called 'structural pattern matching'.\n" \
+	#		   "       This script depends on that feature with the Python3 'match' and 'case' keywords.\n")
+	#	sys.exit("You need at least Python %s.%s or later to run this script.\n" % PY_REQUIRE)
 	sys.dont_write_bytecode = True  # Avoid __pycache__ folder, never liked that solution
 
 	# Initialize PrettyPrint at the start
