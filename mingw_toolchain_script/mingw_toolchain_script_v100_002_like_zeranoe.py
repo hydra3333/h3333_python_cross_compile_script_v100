@@ -80,6 +80,7 @@ SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 SOURCES['mpc'] = { # https://ftp.gnu.org/gnu/mpc/
 	'type': 'archive',
 	'version': '1.3.1', # 2022.12.27
+	#'version': '1.2.1', # FOR ubuntu 20.04
 	'url': 'https://ftp.gnu.org/gnu/mpc/mpc-{version}.tar.gz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpc/', 'type': 'httpindex', 'regex': r'mpc-(?P<version_num>[\d.]+)\.tar\.gz'},
 }
@@ -225,6 +226,7 @@ BUILDS['gcc-1'] = {
 		' --enable-lto'								# 2022.12.26 non-zeranoe
 		' --enable-checking=release'				# 2022.12.26 non-zeranoe
 		' --enable-seh-exceptions'					# 2022.12.26 non-zeranoe
+		' --with-system-zlib'			# 2023.04.30 for ubuntu 20.04
 	,
 	'lineMake'	: 'all-gcc',
 	'lineInstall': 'install-strip-gcc',
