@@ -638,7 +638,10 @@ class dot_py_object_dict:			# a dictionary of build objects
 		# Dict Union is not commutative
 		#logger.debug(f"DEBUG: Entered add_dot_py_obj")
 		#self.BO = self.BO | { objBO.name : objBO.Val }
-		self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
+		#
+		# only in Python 3.10+ self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
+		self.BO.update({ objBO.name : objBO.Val }) # for Python 3.8  # or self.BO = self.BO | { objBO.name : objBO.Val }
+		#
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.name}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): val='{objBO.Val}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
