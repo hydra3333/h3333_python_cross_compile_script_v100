@@ -34,7 +34,7 @@ import progressbar  # Please run: pip3 install progressbar2
 import requests  # Please run: pip3 install requests
 
 _WORKDIR = "toolchain"
-_CPU_COUNT = cpu_count()
+_CPU_COUNT = max(1,min(int(cpu_count()/2),6))
 _NO_CONFIG_GUESS = True  # Instead of downloading config.guess we use gcc -dumpmachine, this obviously only works when gcc is installed, but we need it to be installed anyway.
 _DEBUG_LOG = True
 _VERSION = "4.5-zeranoe_switches"
@@ -373,7 +373,7 @@ class MinGW64ToolChainBuilder:
 		self.cwd = os.getcwd()
 		self.debugBuild = False
 		#self.customCflags = None
-		self.customCflags = "-O3" # default to O3	# 2023.04.30 per deadsix27
+		self.customCflags = ""
 		self.targetHost = "x86_64-w64-mingw32"
 		self.targetPrefix = os.path.join(self.cwd, self.workDir, self.targetHost)
 		self.targetPrefixBin = os.path.join(self.targetPrefix, "bin")
