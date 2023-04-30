@@ -1,3 +1,8 @@
+#### CURRENTLY DOES NOT WORK AT ALL    
+
+#### Broken by UBUNTU 22.04.2 and mingW64 GIT Head    
+#### The sorry story: see the Trac report     
+
 #### DO NOT RELY ON THIS GIT CONTENT TO SATISFY ANY AND/OR ALL OF YOUR PERCEIVED OR ACTUAL NEEDS.
 
 ### THIS SCRIPT WILL PROBABLY NOT WORK !   
@@ -47,7 +52,7 @@ Or, preferably use MABS https://github.com/m-ab-s/media-autobuild_suite
 ... update: MABS works really well under Windows Sandbox and doesn't leave stuff on your PC - you can copy results from the Sandbox to your PC before closing the sandbox.   
 ... perhaps see https://github.com/m-ab-s/media-autobuild_suite/issues/2227 for draft-only sample .wsb and whatnot
 
-Or, use rdp's loverly build system https://github.com/rdp/ffmpeg-windows-build-helpers
+Or, use rdp's lovely build system https://github.com/rdp/ffmpeg-windows-build-helpers
 
 
 ### A Linux to Windows x64 cross-compile script to build ffmpeg with dependencies   
