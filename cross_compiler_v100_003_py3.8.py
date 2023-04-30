@@ -641,8 +641,7 @@ class dot_py_object_dict:			# a dictionary of build objects
 		#
 		# only in Python 3.10+ self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
 		#self.BO.update({ objBO.name : objBO.Val })		# for Python 3.8 
-		#self.BO = self.BO | { objBO.name : objBO.Val }	# for Python 3.8 
-		self.BO = Merge(self.BO, { objBO.name : objBO.Val })	# for Python 3.8 
+		self.BO = self.BO | { objBO.name : objBO.Val }	# for Python 3.8 
 		#
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.name}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): val='{objBO.Val}'")
@@ -4374,11 +4373,11 @@ if __name__ == "__main__":
 	logger.info(f"Finished Processing initialize and load variables.py")
 	
 	# for joint searching, combine both products and dependencies into a global biggusDictus, and flag the type of package in a new string "packageType"
-	# only in pythin 3.10 biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	# only in Python 3.10 biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	#biggusDictus = {**dictProducts.BO, **dictDependencies.BO}	# for Python 3.8
-	#biggusDictus = dictProducts.BO				# 1 of 2 # for Python 3.8
-	#biggusDictus.update(dictDependencies.BO)	# 2 of 2 # for Python 3.8
-	biggusDictus = Merge(dictProducts.BO, dictDependencies.BO)
+	#biggusDictus = dictProducts.BO								# 1 of 2 # for Python 3.8
+	#biggusDictus.update(dictDependencies.BO)					# 2 of 2 # for Python 3.8
+	biggusDictus = dictProducts.BO | dictDependencies.BO
 	for packageName in dictProducts.BO.keys():
 		biggusDictus[packageName]["packageType"] = "P".upper()	# a PRODUCT package type "P"
 	for packageName in dictDependencies.BO.keys():
