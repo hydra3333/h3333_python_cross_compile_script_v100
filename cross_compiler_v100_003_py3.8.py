@@ -4372,7 +4372,10 @@ if __name__ == "__main__":
 	logger.info(f"Finished Processing initialize and load variables.py")
 	
 	# for joint searching, combine both products and dependencies into a global biggusDictus, and flag the type of package in a new string "packageType"
-	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	# only in pythin 3.10 biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
+	#biggusDictus = {**dictProducts.BO, **dictDependencies.BO}	# for Python 3.8
+	biggusDictus = dictProducts.BO				# 1 of 2 # for Python 3.8
+	biggusDictus.update(dictDependencies.BO}	# 2 of 2 # for Python 3.8
 	for packageName in dictProducts.BO.keys():
 		biggusDictus[packageName]["packageType"] = "P".upper()	# a PRODUCT package type "P"
 	for packageName in dictDependencies.BO.keys():
