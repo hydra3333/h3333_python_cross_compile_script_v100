@@ -438,12 +438,10 @@ class Colors:  # ansi colors
 ###################################################################################################
 def merge_dict( dict1, dict2 ):
 	# for Python 3.8, merges dictionaries
-	d1 = **dict1
-	d2 = **dict2
-	d = d1.update(d2)
-	del d1
-	del d2
-	return d
+	d1 = dict(**dict1)
+	d2 = dict(**dict2)
+	d1.update(d2)
+	return d1
 
 ###################################################################################################
 # This function is consumed within objects so the code does not need to repeated in them.
