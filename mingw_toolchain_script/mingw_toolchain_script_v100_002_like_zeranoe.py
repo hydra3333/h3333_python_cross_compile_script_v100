@@ -157,6 +157,7 @@ BUILDS['binutils'] = {
 		' --enable-threads=posix'	# 2022.12.26 non-zeranoe
 		' --enable-plugins'			# 2023.04.23 try this from deadsix27
 		' --enable-lto'				# 2023.04.23 try this from deadsix27
+		' --without-included-gettext'	# 2023.04.30 try this from deadsix27
 	,
 }
 BUILDS['mingw-w64-headers'] = {
@@ -177,6 +178,7 @@ BUILDS['mingw-w64-headers'] = {
 		' --enable-secure-api' # 2022.12.26 non-zeranoe
 		' --enable-idl' # 2022.12.26 non-zeranoe
 		' --enable-sdk=all' # 2022.12.26 non-zeranoe
+		' --with-default-win32-winnt=0xA00'	 # win10 # 2023.04.30 try this from deadsix27
 	,
 	'softLinks': [
 		('{prefix}', './{target}', './mingw'),
@@ -216,7 +218,8 @@ BUILDS['gcc-1'] = {
 		' --enable-languages=c,c++'
 		' --disable-nls'
 		' --enable-threads=posix'
-		' --disable-sjlj-exceptions --with-dwarf2'
+		' --disable-sjlj-exceptions '
+		' --with-dwarf2'
 		' --disable-win32-registry'					# 2022.12.26 non-zeranoe
 		' --with-arch=x86-64'						# 2022.12.26 non-zeranoe
 		' --enable-lto'								# 2022.12.26 non-zeranoe
@@ -241,7 +244,8 @@ BUILDS['mingw-w64-crt'] = {
 		' --build="{host}"'
 		' --host="{target}"'
 		' --prefix="{prefix}"'
-		' --with-default-msvcrt=msvcrt'
+		#' --with-default-msvcrt=msvcrt'	# 2023.04.30 try per deadsix27
+		' --with-default-msvcrt=msvcrt-os'	# 2023.04.30 try per deadsix27
 		' --with-sysroot={prefix}'		
 	,
 	'customCommands': [
@@ -368,7 +372,8 @@ class MinGW64ToolChainBuilder:
 		self.nativeHost = ""
 		self.cwd = os.getcwd()
 		self.debugBuild = False
-		self.customCflags = None
+		#self.customCflags = None
+		self.customCflags = "-O3" # default to O3	# 2023.04.30 per deadsix27
 		self.targetHost = "x86_64-w64-mingw32"
 		self.targetPrefix = os.path.join(self.cwd, self.workDir, self.targetHost)
 		self.targetPrefixBin = os.path.join(self.targetPrefix, "bin")
