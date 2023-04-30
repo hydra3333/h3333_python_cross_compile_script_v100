@@ -5,6 +5,10 @@
 set -x
 sudo chmod +777 -R *
 
+lsb_release -a
+cd ~
+mkdir Desktop
+
 sudo sed -i 's/# deb/deb/g' "/etc/apt/sources.list"
 sudo sed -i 's/env_reset/env_reset, timestamp_timeout=90/' "/etc/sudoers"
 sudo apt -y update
@@ -17,6 +21,8 @@ export LANG='en_AU.UTF-8' LANGUAGE='en_AU:en' LC_ALL='en_AU.UTF-8'
 
 sudo apt install -y ubuntu-restricted-extras
 sudo apt full-upgrade -y
+
+lsb_release -a
 
 sudo apt -y install cifs-utils winbind smbclient
 sudo mkdir /mnt/exe_x64_py
@@ -46,6 +52,12 @@ sudo apt install -y dpkg-dev
 sudo apt install -y build-essential
 sudo apt install -y clang clang-tools
 sudo apt install -y cross-gcc-dev 
+
+python3 -V
+python -V
+
+pip3 -V
+pip -V
 
 # The commands below configures alternative for each version and associate a priority with it. 
 # The default version is the one with the highest priority, in our case that is gcc-11
@@ -406,4 +418,3 @@ sudo apt install -y ffmpeg
 
 cd ~/Desktop
 rm -fv ~/Desktop/_working/*.yaml
-
