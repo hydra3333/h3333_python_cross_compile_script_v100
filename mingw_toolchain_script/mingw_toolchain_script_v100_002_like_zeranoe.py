@@ -246,8 +246,8 @@ BUILDS['mingw-w64-crt'] = {
 		' --build="{host}"'
 		' --host="{target}"'
 		' --prefix="{prefix}"'
-		#' --with-default-msvcrt=msvcrt-os'	# 2023.04.30 try per deadsix27
-		' --with-default-msvcrt=msvcrt'		# 2023.04.30 try per deadsix27
+		' --with-default-msvcrt=msvcrt-os'	# 2023.04.30 try per deadsix27
+		#' --with-default-msvcrt=msvcrt'		# 2023.04.30 try per deadsix27
 		' --with-sysroot={prefix}'		
 	,
 	'customCommands': [
