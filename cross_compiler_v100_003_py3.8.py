@@ -4385,7 +4385,7 @@ if __name__ == "__main__":
 	#biggusDictus = {**dictProducts.BO, **dictDependencies.BO}	# for Python 3.8
 	#biggusDictus = dictProducts.BO								# 1 of 2 # for Python 3.8
 	#biggusDictus.update(dictDependencies.BO)					# 2 of 2 # for Python 3.8
-	biggusDictus = merge_dict(dictProducts.BO, dictDependencies.BO)
+	biggusDictus = merge_dict(dictProducts.BO, dictDependencies.BO)	# for Python 3.8
 	for packageName in dictProducts.BO.keys():
 		biggusDictus[packageName]["packageType"] = "P".upper()	# a PRODUCT package type "P"
 	for packageName in dictDependencies.BO.keys():

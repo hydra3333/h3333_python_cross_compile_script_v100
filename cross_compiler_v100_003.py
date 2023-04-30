@@ -436,6 +436,14 @@ class Colors:  # ansi colors
 	#eg print(f"{Colors.RESET}Someting normal {Colors.LIGHTCYAN_EX}Something LIGHTCYAN_EX {Colors.RESET}Something back to normal")
 
 ###################################################################################################
+def merge_dict( dict1, dict2 ):
+	# for Python 3.8, merges dictionaries
+	d1 = dict(**dict1)
+	d2 = dict(**dict2)
+	d1.update(d2)
+	return d1
+
+###################################################################################################
 # This function is consumed within objects so the code does not need to repeated in them.
 # Called in a class like:	global_dump_object_variables(self,"this is a heading")
 def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
@@ -638,7 +646,10 @@ class dot_py_object_dict:			# a dictionary of build objects
 		# Dict Union is not commutative
 		#logger.debug(f"DEBUG: Entered add_dot_py_obj")
 		#self.BO = self.BO | { objBO.name : objBO.Val }
-		self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
+		#
+		#self.BO = merge_dict(self.BO, {objBO.name : objBO.Val})	# for Python 3.8
+		self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict in Python 3.10+
+		#
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.name}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): val='{objBO.Val}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: DICTIONARY DUMP:")
@@ -4315,6 +4326,7 @@ if __name__ == "__main__":
 	logger.info(f"Finished Processing initialize and load variables.py")
 	
 	# for joint searching, combine both products and dependencies into a global biggusDictus, and flag the type of package in a new string "packageType"
+	#biggusDictus = merge_dict(dictProducts.BO, dictDependencies.BO)	# for Python 3.8
 	biggusDictus = dictProducts.BO | dictDependencies.BO		# allow both products and dependencies to be searched as one
 	for packageName in dictProducts.BO.keys():
 		biggusDictus[packageName]["packageType"] = "P".upper()	# a PRODUCT package type "P"
