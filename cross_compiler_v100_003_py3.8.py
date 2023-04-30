@@ -436,6 +436,16 @@ class Colors:  # ansi colors
 	#eg print(f"{Colors.RESET}Someting normal {Colors.LIGHTCYAN_EX}Something LIGHTCYAN_EX {Colors.RESET}Something back to normal")
 
 ###################################################################################################
+def merge_dict( dict1, dict2 ):
+	# for Python 3.8, merges dictionaries
+	d1 = **dict1
+	d2 = **dict2
+	d = d1.update(d2)
+	del d1
+	del d2
+	return d
+
+###################################################################################################
 # This function is consumed within objects so the code does not need to repeated in them.
 # Called in a class like:	global_dump_object_variables(self,"this is a heading")
 def global_dump_object_variables(obj, heading='VARIABLES DUMP:'):
@@ -640,8 +650,8 @@ class dot_py_object_dict:			# a dictionary of build objects
 		#self.BO = self.BO | { objBO.name : objBO.Val }
 		#
 		# only in Python 3.10+ self.BO |= { objBO.name : objBO.Val } # the operator '|=' appends to the dict
-		#self.BO.update({ objBO.name : objBO.Val })		# for Python 3.8 
-		self.BO = self.BO | { objBO.name : objBO.Val }	# for Python 3.8 
+		#self.BO.update({ objBO.name : objBO.Val })				# for Python 3.8 
+		self.BO = merge_dict(self.BO, {objBO.name : objBO.Val})	# for Python 3.8 
 		#
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): key='{objBO.name}'")
 		#logger.debug(f"DEBUG: add_dot_py_obj: Added/updated dot_py_object_dict({self.name}): val='{objBO.Val}'")
@@ -4377,7 +4387,7 @@ if __name__ == "__main__":
 	#biggusDictus = {**dictProducts.BO, **dictDependencies.BO}	# for Python 3.8
 	#biggusDictus = dictProducts.BO								# 1 of 2 # for Python 3.8
 	#biggusDictus.update(dictDependencies.BO)					# 2 of 2 # for Python 3.8
-	biggusDictus = dictProducts.BO | dictDependencies.BO
+	biggusDictus = merge_dict(dictProducts.BO, dictDependencies.BO)
 	for packageName in dictProducts.BO.keys():
 		biggusDictus[packageName]["packageType"] = "P".upper()	# a PRODUCT package type "P"
 	for packageName in dictDependencies.BO.keys():
