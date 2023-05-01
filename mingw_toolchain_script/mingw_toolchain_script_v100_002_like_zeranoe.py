@@ -852,7 +852,7 @@ class MinGW64ToolChainBuilder:
 				target=self.targetHost,
 				host=self.nativeHost,
 				mpfr_path=self.getSafePath(BUILDS, "mpfr"),
-				isl_path=self.getSafePath(BUILDS, "isl"),
+				#isl_path=self.getSafePath(BUILDS, "isl"),
 				mpc_path=self.getSafePath(BUILDS, "mpc"),
 				gmp_path=self.getSafePath(BUILDS, "gmp"),
 			)
