@@ -91,7 +91,7 @@
 #	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 #	add_definitions(-D_CRT_DEPRECATED_NO_WARNINGS)
 #	add_definitions(-D_REENTRANT -D_POSIX_THREAD_SAFE_FUNCTIONS)
-#	add_definitions(-DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0600)
+#	add_definitions(-DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0xA00)
 #	add_definitions(-DCPPFLAGS -DNO_SYSLOG -DNO_CRYPT)
 #	set(PLATFORM_LIBS ${PLATFORM_LIBS} ws2_32)
 #endif()

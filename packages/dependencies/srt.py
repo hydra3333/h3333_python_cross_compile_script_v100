@@ -8,7 +8,7 @@
 	'custom_cflag' : '',
 	'configure_options' : 	'.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} '
 							'-DCMAKE_BUILD_TYPE=Release '
-							#'-D_WIN32_WINNT=0x600 '
+							#'-D_WIN32_WINNT=0xA00 '
 							'-DENABLE_SHARED=off -DENABLE_STATIC=on '
 							'-DENABLE_ENCRYPTION=on '
 							'-DENABLE_CXX11=on '
