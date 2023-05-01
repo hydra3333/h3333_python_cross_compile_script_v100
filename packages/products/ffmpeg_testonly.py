@@ -3,7 +3,7 @@
 	'repo_type' : 'git',
 	'url' : 'git://git.ffmpeg.org/ffmpeg.git',
 	'depth_git': 0,
-	'branch' : '774d358e0fd520ab9503447c5f8f5e1633b96e39',	# 2023.04.02
+	#'branch' : '774d358e0fd520ab9503447c5f8f5e1633b96e39',	# 2023.04.02
 	'rename_folder' : 'ffmpeg_testonly',
 	'env_exports' : {
 		'CFLAGS'   : ' -DFRIBIDI_LIB_STATIC {original_cflags} ', # -lssp 
