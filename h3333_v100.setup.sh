@@ -111,6 +111,8 @@ sudo apt install -y cython3
 sudo apt install -y python-is-python3 # for ubuntu 20.04
 sudo apt install -y python3-mako
 sudo apt install -y python3-setuptools
+sudo apt install -y python3-tk python3-tktreectrl python3-ttkthemes 
+sudo apt install -y rustc cargo
 
 sudo pip  install --upgrade pip
 sudo pip3 install --upgrade packaging
@@ -118,6 +120,8 @@ sudo pip3 install --upgrade progressbar2
 sudo pip3 install --upgrade py2exe
 sudo pip3 install --upgrade certifi # install latest certificatess for python requests.get
 sudo pip3 install --upgrade requests
+sudo pip3 install --upgrade ansimarkup
+sudo pip3 install --upgrade python-magic
 sudo pip3 install --upgrade pyyaml
 sudo pip3 install --upgrade bs4			# for check_versions.py
 sudo pip3 install --upgrade colorama	# for check_versions.py
@@ -130,6 +134,8 @@ pip3 install --upgrade progressbar2
 pip3 install --upgrade py2exe
 pip3 install --upgrade certifi # install latest certificatess for python requests.get
 pip3 install --upgrade requests
+pip3 install --upgrade ansimarkup
+pip3 install --upgrade python-magic
 pip3 install --upgrade pyyaml
 pip3 install --upgrade bs4		# for check_versions.py
 pip3 install --upgrade colorama	# for check_versions.py
