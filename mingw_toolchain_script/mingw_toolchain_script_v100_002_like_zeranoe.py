@@ -45,10 +45,10 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-	'checkout' : 'master', 			# 2023.013.03 per zenaro - also see the calling .py
+	#'checkout' : 'master', 			# 2023.013.03 per zenaro - also see the calling .py
 	#'checkout' : 'tags/v11.0.1',	# also see the calling .py
 	#'checkout' : 'tags/v10.0.0',	# also see the calling .py
-	#'checkout' : 'tags/v9.0.0',		# also see the calling .py
+	'checkout' : 'tags/v9.0.0',		# also see the calling .py
     #
 	#'git_shallow': True,
 	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
@@ -105,8 +105,9 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
 	#'version'   : '9.5.0',
+	'version'   : '11.3.0',
 	#'version'   : '12.2.0',
-	'version'   : '13.1.0',
+	#'version'   : '13.1.0',
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#
 	#'version'   : '14-20230507',
