@@ -45,10 +45,10 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-	#'checkout' : 'master', 			# 2023.013.03 per zenaro - also see the calling .py
+	'checkout' : 'master', 			# 2023.013.03 per zenaro - also see the calling .py
 	#'checkout' : 'tags/v11.0.1',	# also see the calling .py
 	#'checkout' : 'tags/v10.0.0',	# also see the calling .py
-	'checkout' : 'tags/v9.0.0',		# also see the calling .py
+	#'checkout' : 'tags/v9.0.0',		# also see the calling .py
     #
 	#'git_shallow': True,
 	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
@@ -97,24 +97,25 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'version': '2.40',
 	'url': 'https://ftp.gnu.org/gnu/binutils/binutils-{version}.tar.bz2',
 	'softlink_to_package': [
-		#('isl', 'isl'), # 2022.12.26 binutils 2.39 does not play nicely with isl, so commented it out here.
+		('isl', 'isl'), # 2022.12.26 binutils 2.39 does not play nicely with isl, so commented it out here.
 		('gmp', 'gmp'),
 	],
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/binutils/', 'type': 'httpindex', 'regex': r'binutils-(?P<version_num>[\d.]+)\.tar\.bz2'},
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	'version'   : '9.5.0',
+	#'version'   : '9.5.0',
 	#'version'   : '12.2.0',
-	#'version'   : '13.1.0',
+	'version'   : '13.1.0',
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
-	#'version'   : '13-20230422',
+	#
+	#'version'   : '14-20230507',
 	#'url' : 'https://gcc.gnu.org/pub/gcc/snapshots/{version}/gcc-{version}.tar.xz',
 	'softlink_to_package': [
 		('gmp', 'gmp'),
 		('mpfr', 'mpfr'),
 		('mpc', 'mpc'),
-		#('isl', 'isl'),
+		('isl', 'isl'),
 	],
 	'builds': [
 		'gcc-1',
@@ -330,8 +331,8 @@ BUILDS['mpc'] = {
 	'dummy': True,
 }
 BUILDS['isl'] = {	# 2022.12.27 zeranoe doesn't use this and binutils 2.39 causes it to fail to build
-	'dummy': False,
-	#'dummy': True,	# 2023.04.23 re-try isl with binutils 2.40
+	#'dummy': False,
+	'dummy': True,	# 2023.04.23 re-try isl with binutils 2.40
 }
 
 class Event:
