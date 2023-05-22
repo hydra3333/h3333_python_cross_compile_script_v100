@@ -1,0 +1,36 @@
+diff --git a/configure.ac b/configure.ac
+index 75a882b12..9a522e917 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -193,8 +193,8 @@ dnl something different but only have that affect the execution of the results
+ dnl of the compile, not change the libraries for the compiler itself.
+ dnl
+ compilersh="run-compiler"
+-echo "CC=$CC" > $compilersh
+-echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $compilersh
++echo "CC='$CC'" > $compilersh
++echo "LD_LIBRARY_PATH='$LD_LIBRARY_PATH'" >> $compilersh
+ echo 'exec $CC $@' >> $compilersh
+ 
+ dnl **********************************************************************
+diff --git a/m4/curl-functions.m4 b/m4/curl-functions.m4
+index bd2ebbd01..08ac10e10 100644
+--- a/m4/curl-functions.m4
++++ b/m4/curl-functions.m4
+@@ -5869,10 +5869,15 @@ AC_DEFUN([CURL_RUN_IFELSE], [
+       oldcc=$CC
+       old=$LD_LIBRARY_PATH
+       CC="sh ./run-compiler"
+-      LD_LIBRARY_PATH=$CURL_LIBRARY_PATH:$old
++      if test -z "$LD_LIBRARY_PATH"; then
++        LD_LIBRARY_PATH=$CURL_LIBRARY_PATH
++      else
++        LD_LIBRARY_PATH="$CURL_LIBRARY_PATH:$old"
++      fi
+       export LD_LIBRARY_PATH
+       AC_RUN_IFELSE([AC_LANG_SOURCE([$1])], $2, $3, $4)
+       LD_LIBRARY_PATH=$old # restore
++      export LD_LIBRARY_PATH
+       CC=$oldcc
+      ;;
+    esac
