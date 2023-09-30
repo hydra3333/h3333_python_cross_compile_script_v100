@@ -45,10 +45,10 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 	'type': 'git',
 	'git_shallow': False,
 	'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
-	#'checkout' : 'master', 			# 2023.013.03 per zenaro - also see the calling .py
-	#'checkout' : 'tags/v11.0.1',	# also see the calling .py
-	#'checkout' : 'tags/v10.0.0',	# also see the calling .py
-	'checkout' : 'tags/v9.0.0',		# also see the calling .py
+	##'checkout' : 'master', 			# 2023.013.03 per zenaro - also see the calling .py
+	'checkout' : 'tags/v11.0.1',	# also see the calling .py
+	##'checkout' : 'tags/v10.0.0',	# also see the calling .py
+	#'checkout' : 'tags/v9.0.0',		# also see the calling .py
     #
 	#'git_shallow': True,
 	#'url': 'https://git.code.sf.net/p/mingw-w64/mingw-w64',  # https://git.code.sf.net/p/mingw-w64/mingw-w64 mirror: https://github.com/mirror/mingw-w64.git but that seems suprisingly out of date sometimes.
@@ -69,13 +69,15 @@ SOURCES['mingw-w64'] = { # https://sourceforge.net/p/mingw-w64/mingw-w64/ci/mast
 }
 SOURCES['gmp'] = { # https://ftp.gnu.org/gnu/gmp/
 	'type': 'archive',
-	'version': '6.2.1',
+	#'version': '6.2.1',
+	'version': '6.3.0',
 	'url': 'https://ftp.gnu.org/gnu/gmp/gmp-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/gmp/', 'type': 'httpindex', 'regex': r'gmp-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
 SOURCES['mpfr'] = { # https://ftp.gnu.org/gnu/mpfr/
 	'type': 'archive',
-	'version': '4.2.0',
+	#'version': '4.2.0',
+	'version': '4.2.1',
 	'url': 'https://ftp.gnu.org/gnu/mpfr/mpfr-{version}.tar.xz',
 	'update_check': {'url': 'https://ftp.gnu.org/gnu/mpfr/', 'type': 'httpindex', 'regex': r'mpfr-(?P<version_num>[\d.]+)\.tar\.xz'},
 }
@@ -94,7 +96,8 @@ SOURCES['isl'] = { # (was http://isl.gforge.inria.fr/ )   https://libisl.sourcef
 }
 SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 	'type': 'archive',
-	'version': '2.40',
+	#'version': '2.40',
+	'version': '2.41',
 	'url': 'https://ftp.gnu.org/gnu/binutils/binutils-{version}.tar.bz2',
 	'softlink_to_package': [
 		('isl', 'isl'), # 2022.12.26 binutils 2.39 does not play nicely with isl, so commented it out here.
@@ -104,10 +107,8 @@ SOURCES['binutils'] = { # https://ftp.gnu.org/gnu/binutils/
 }
 SOURCES['gcc'] = { # https://www.gnu.org/software/gcc/ # https://ftp.gnu.org/gnu/gcc/ # ftp://ftp.fu-berlin.de/unix/languages/gcc/snapshots/
 	'type': 'archive',
-	#'version'   : '9.5.0',
-	'version'   : '11.3.0',
-	#'version'   : '12.2.0',
-	#'version'   : '13.1.0',
+	#'version'   : '11.3.0',
+	'version'   : '13.2.0',
 	'url' : 'https://gcc.gnu.org/pub/gcc/releases/gcc-{version}/gcc-{version}.tar.xz', # stable versions
 	#
 	#'version'   : '14-20230507',
