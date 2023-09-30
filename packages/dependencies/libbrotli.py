@@ -13,9 +13,9 @@
 		'-DBROTLI_EMSCRIPTEN=false '
 	,
 	'run_post_patch': [
-		'sed -i.bak "s/INSTALL(FILES \"docs/#INSTALL(FILES \"docs/g" "CMakeLists.txt"',
-		'sed -i.bak "s/  DESTINATION \"\$\{SHARE_INSTALL_PREFIX\}\/man\/man3\/#  DESTINATION \"\$\{SHARE_INSTALL_PREFIX\}\/man\/man3\/g" "CMakeLists.txt"',
-		'cat "CMakeLists.txt"', 
+		'sed -i.bak "/docs/ s/^/#/" "../CMakeLists.txt"',
+		'sed -i.bak "/man3/ s/^/#/" "../CMakeLists.txt"',
+		'cat "../CMakeLists.txt"', 
 	],
 	'run_post_install' : [
 		'sed -i.bak "s/-lbrotlienc/-lbrotlienc -lbrotlicommon/" "{pkg_config_path}/libbrotlienc.pc"', 
@@ -27,3 +27,5 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : None, 'fancy_name' : 'libbrotli' },
 }
+
+'sed -i.bak "s/INSTALL\(FILES "docs/#INSTALL\(FILES "docs/g" "CMakeLists.txt"'
