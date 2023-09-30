@@ -12,12 +12,11 @@
         '-DBUILD_SHARED_LIBS=false '
 		'-DBROTLI_EMSCRIPTEN=false '
 	,
-	'run_post_patch':
+	'run_post_patch': [
 		'sed -i.bak "s/INSTALL(FILES \"docs/#INSTALL(FILES \"docs/g" "CMakeLists.txt"',
 		'sed -i.bak "s/  DESTINATION \"\$\{SHARE_INSTALL_PREFIX\}\/man\/man3\/#  DESTINATION \"\$\{SHARE_INSTALL_PREFIX\}\/man\/man3\/g" "CMakeLists.txt"',
 		'cat "CMakeLists.txt"', 
 	],
-
 	'run_post_install' : [
 		'sed -i.bak "s/-lbrotlienc/-lbrotlienc -lbrotlicommon/" "{pkg_config_path}/libbrotlienc.pc"', 
 		'cat "{pkg_config_path}/libbrotlienc.pc"', 
