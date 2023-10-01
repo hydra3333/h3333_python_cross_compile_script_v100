@@ -16,14 +16,16 @@
 		'sed -i.bak "/docs/ s/^/#/" "../CMakeLists.txt"',
 		'sed -i.bak "/man3/ s/^/#/" "../CMakeLists.txt"',
 		'cat "../CMakeLists.txt"', 
+		'sed -i.bak "s/-lbrotlienc/-lbrotlienc -lbrotlicommon/" "../scripts/libbrotlienc.pc.in"', 
+		'sed -i.bak "s/-lbrotlidec/-lbrotlidec -lbrotlicommon/" "../scripts/libbrotlidec.pc.in"', 
 	],
-	'run_post_install' : [
-		'sed -i.bak "s/-lbrotlienc/-lbrotlienc -lbrotlicommon/" "{pkg_config_path}/libbrotlienc.pc"', 
-		'cat "{pkg_config_path}/libbrotlienc.pc"', 
-		'sed -i.bak "s/-lbrotlidec/-lbrotlidec -lbrotlicommon/" "{pkg_config_path}/libbrotlidec.pc"', 
-		'cat "{pkg_config_path}/libbrotlidec.pc"', 
-		#'ls -al',
-	],
+	#'run_post_install' : [
+	#	'sed -i.bak "s/-lbrotlienc/-lbrotlienc -lbrotlicommon/" "{pkg_config_path}/libbrotlienc.pc"', 
+	#	'cat "{pkg_config_path}/libbrotlienc.pc"', 
+	#	'sed -i.bak "s/-lbrotlidec/-lbrotlidec -lbrotlicommon/" "{pkg_config_path}/libbrotlidec.pc"', 
+	#	'cat "{pkg_config_path}/libbrotlidec.pc"', 
+	#	#'ls -al',
+	#],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : None, 'fancy_name' : 'libbrotli' },
 }
