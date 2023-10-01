@@ -1,7 +1,8 @@
 { # 2019.12.13
 	'repo_type' : 'git',
-	'url' : 'https://github.com/madler/zlib.git',
-	#'branch' : 'tags/v1.3',
+	#'url' : 'https://github.com/madler/zlib.git',
+	'url' : 'https://github.com/hydra3333/zlib',
+	'branch' : 'tags/v1.3',
 	'conf_system' : 'cmake',
 	'source_subfolder' : '_build',
 	'configure_options' : '.. {cmake_prefix_options} -DCMAKE_INSTALL_PREFIX={target_prefix} -DINSTALL_PKGCONFIG_DIR="{target_prefix}/lib/pkgconfig" '
