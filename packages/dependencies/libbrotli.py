@@ -29,5 +29,3 @@
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : None, 'fancy_name' : 'libbrotli' },
 }
-
-'sed -i.bak "s/INSTALL\(FILES "docs/#INSTALL\(FILES "docs/g" "CMakeLists.txt"'
