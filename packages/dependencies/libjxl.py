@@ -7,7 +7,8 @@
 	'conf_system' : 'cmake',
 	'build_system' : 'ninja',
     'patches': [
-		('libjxl/0001-Fix-building-on-MinGW.patch', '-p1','..'),
+		#('libjxl/0001-Fix-building-on-MinGW.patch', '-p1','..'),
+		('https://raw.githubusercontent.com/m-ab-s/mabs-patches/master/libjxl/0001-brotli-add-ldflags.patch', '-p1', '..'),
     ],
 	'source_subfolder' : 'build',
 	'env_exports' : { # 2020.06.19
@@ -19,20 +20,11 @@
 		'!SWITCHDIR|..',
 		'./deps.sh',
 		'!SWITCHDIR|build',
+		'sed -i.bak "/add_custom_target\(all_tests\)/d" "../CMakeLists.txt"',
+		'sed -i.bak "/add_dependencies\(all_tests \$\{all_tests_list\}\)/d" "../CMakeLists.txt"',
+		'cat "../CMakeLists.txt"',
 	],
-
 	'regex_replace': {
-		'post_patch': [
-			{
-				0: r"add_dependencies\(all_tests \$\{all_tests_list\}\)",
-				"in_file": "../CMakeLists.txt",
-			},
-			{
-				0: r"add_custom_target\(all_tests\)",
-				"in_file": "../CMakeLists.txt",
-			},
-
-		],
 		"post_install": [
 			{
 				0: r"Cflags: -I\${includedir}\n",
