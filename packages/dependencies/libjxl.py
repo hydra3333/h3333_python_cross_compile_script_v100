@@ -69,17 +69,17 @@
         '-DJPEGXL_ENABLE_VIEWERS=false '
         '-DJPEGXL_ENABLE_DEVTOOLS=false '
         '-DJPEGXL_ENABLE_SJPEG=true '
-		'-DJPEGXL_ENABLE_OPENEXR=true',
-		'-DJPEGXL_ENABLE_SKCMS=true',
+		'-DJPEGXL_ENABLE_OPENEXR=true '
+		'-DJPEGXL_ENABLE_SKCMS=true '
         '-DJPEGXL_ENABLE_JNI=false '
         '-DJPEGXL_EMSCRIPTEN=false '
         '-DJPEGXL_FORCE_SYSTEM_BROTLI=true '
         '-DJPEGXL_FORCE_SYSTEM_LCMS2=true '
         '-DJPEGXL_FORCE_SYSTEM_HWY=true '
-		'-DJPEGXL_ENABLE_JPEGLI_LIBJPEG=true',
+		'-DJPEGXL_ENABLE_JPEGLI_LIBJPEG=true '
 		'-DBUILD_TESTING=false '
 		'-DJPEGXL_STATIC=true '
-		'-DJPEGXL_BUNDLE_LIBPNG=false'
+		'-DJPEGXL_BUNDLE_LIBPNG=false '
 	,
 	'depends_on' : [  "libbrotli", "highway", "libpng", "lcms2", "libjpeg-turbo", "zlib" ],
 	'update_check' : { 'type' : 'git', },
