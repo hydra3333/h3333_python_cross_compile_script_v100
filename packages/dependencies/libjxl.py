@@ -20,8 +20,8 @@
 		'!SWITCHDIR|..',
 		'./deps.sh',
 		'!SWITCHDIR|build',
-		'sed -i.bak \'/add_custom_target\(all_tests/d\' "../CMakeLists.txt"',
-		'sed -i.bak \'/add_dependencies\(all_tests/d\' "../CMakeLists.txt"',
+		'sed -i.bak \'/add_custom_target(all_tests/d\' "../CMakeLists.txt"',
+		'sed -i.bak \'/add_dependencies(all_tests/d\' "../CMakeLists.txt"',
 		'cat "../CMakeLists.txt"',
 	],
 	'regex_replace': {
