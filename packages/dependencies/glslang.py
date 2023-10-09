@@ -28,19 +28,18 @@
 		'-DENABLE_GLSLANG_WEBMIN=OFF '
 		'-DENABLE_SPVREMAPPER=ON '
 		'-DUSE_CCACHE=OFF '
+		'-DALLOW_EXTERNAL_SPIRV_TOOLS=ON '
 	,
-	'patches' : [	# deadsix27 2023.04.08
+	#'patches' : [	# deadsix27 2023.04.08
 		#( 'https://github.com/KhronosGroup/glslang/pull/3144.patch', '-p1', '..' ), # Include <cstdint> header in Common.h #3144 
-		( 'https://github.com/KhronosGroup/glslang/pull/3144.patch', '-p1' ), # Include <cstdint> header in Common.h #3144 
-	],
+		#( 'https://github.com/KhronosGroup/glslang/pull/3144.patch', '-p1' ), # Include <cstdint> header in Common.h #3144 
+	#],
 	'run_post_patch' : [ 
 		#'rm -vf "./compile_commands.json"'
 		'echo "About to run ./update_glslang_sources.py"',
 		'./update_glslang_sources.py',
 	],
 	'run_post_install' : [ 
-		##'cp -vf "{target_prefix}/lib/libglslangd.a" "{target_prefix}/lib/libglslang.a"' # 2020.10.10 only needed if CMAKE_BUILD_TYPE not defined or is "Debug"
-		##'if [ ! -f "{target_prefix}/include/glslang/Public/ResourceLimits.h" ] ; then cp -vf "./glslang/Public/ResourceLimits.h" "{target_prefix}/include/glslang/Public/" ; fi',
 		'cp -vf "./glslang/Public/ResourceLimits.h" "{target_prefix}/include/glslang/Public/"', # force overwrite in case a new version which doesn't install properly which is why this line exists
 	],
 	'depends_on' : [ 'shaderc_commit_dependencies', 'spirv-cross', 'spirv-tools', ],
