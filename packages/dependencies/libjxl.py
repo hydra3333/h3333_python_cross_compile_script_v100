@@ -25,11 +25,11 @@
 		'post_patch': [
 			{
 				0: r"add_dependencies\(all_tests \$\{all_tests_list\}\)",
-				"in_file": "CMakeLists.txt",
+				"in_file": "../CMakeLists.txt",
 			},
 			{
 				0: r"add_custom_target\(all_tests\)",
-				"in_file": "CMakeLists.txt",
+				"in_file": "../CMakeLists.txt",
 			},
 
 		],
