@@ -20,6 +20,42 @@
 		'./deps.sh',
 		'!SWITCHDIR|build',
 	],
+
+	'regex_replace': {
+		'post_patch': [
+			{
+				0: r"add_dependencies\(all_tests \$\{all_tests_list\}\)",
+				"in_file": "CMakeLists.txt",
+			},
+			{
+				0: r"add_custom_target\(all_tests\)",
+				"in_file": "CMakeLists.txt",
+			},
+
+		],
+		"post_install": [
+			{
+				0: r"Cflags: -I\${includedir}\n",
+				1: r"Cflags: -I${includedir}  -DJXL_STATIC_DEFINE\n",
+				"in_file": "{pkg_config_path}/libjxl.pc",
+			},
+			{
+				0: r"Cflags: -I\${includedir}\n",
+				1: r"Cflags: -I${includedir} -DJXL_THREADS_STATIC_DEFINE\n",
+				"in_file": "{pkg_config_path}/libjxl_threads.pc",
+			},
+			{
+				0: r"Libs: -L\${libdir} -ljxl\n",
+				1: r"Libs: -L${libdir} -ljxl -lstdc++\n",
+				"in_file": "{pkg_config_path}/libjxl.pc",
+			},
+			{
+				0: r"Libs: -L\${libdir} -ljxl_threads\n",
+				1: r"Libs: -L${libdir} -ljxl_threads -lstdc++\n",
+				"in_file": "{pkg_config_path}/libjxl_threads.pc",
+			},
+		],
+	},
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
@@ -32,12 +68,15 @@
 		'-DJPEGXL_ENABLE_EXAMPLES=false '
         '-DJPEGXL_ENABLE_VIEWERS=false '
         '-DJPEGXL_ENABLE_DEVTOOLS=false '
-        '-DJPEGXL_ENABLE_SJPEG=false '
+        '-DJPEGXL_ENABLE_SJPEG=true '
+		'-DJPEGXL_ENABLE_OPENEXR=true',
+		'-DJPEGXL_ENABLE_SKCMS=true',
         '-DJPEGXL_ENABLE_JNI=false '
         '-DJPEGXL_EMSCRIPTEN=false '
         '-DJPEGXL_FORCE_SYSTEM_BROTLI=true '
         '-DJPEGXL_FORCE_SYSTEM_LCMS2=true '
         '-DJPEGXL_FORCE_SYSTEM_HWY=true '
+		'-DJPEGXL_ENABLE_JPEGLI_LIBJPEG=true',
 		'-DBUILD_TESTING=false '
 		'-DJPEGXL_STATIC=true '
 		'-DJPEGXL_BUNDLE_LIBPNG=false'
