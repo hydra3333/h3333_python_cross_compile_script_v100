@@ -20,7 +20,7 @@
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
 		'--buildtype=release '
-		'-Dhave_mingw_pthreads=true -Dtest=false -Dbuiltin_cjson=false -Ddisable_json=true -Dbuilt_tools=false '  # -D_FILE_OFFSET_BITS=64 ?????????
+		'-Dhave_mingw_pthreads=true -Dtest=false -Dbuiltin_cjson=false -Dbuilt_tools=false '  # -D_FILE_OFFSET_BITS=64 ?????????
 		'--cross-file={meson_env_file} ./ ..'
 	,
 	'depends_on' : [
