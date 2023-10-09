@@ -1,10 +1,10 @@
 {
 	'repo_type' : 'archive',
 	'download_locations' : [ # https://fossies.org/linux/misc/ 
-		#{ 'url' : 'https://www.sqlite.org/2022/sqlite-autoconf-3410000.tar.gz' , 'hashes' : [ { 'type' : 'sha256', 'sum' : '49f77ac53fd9aa5d7395f2499cb816410e5621984a121b858ccca05310b05c70' }, ], },
-		#{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3410000.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '49f77ac53fd9aa5d7395f2499cb816410e5621984a121b858ccca05310b05c70' }, ], },
-		{ 'url' : 'https://www.sqlite.org/2022/sqlite-autoconf-3410200.tar.gz' , 'hashes' : [ { 'type' : 'sha256', 'sum' : 'e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499' }, ], },
-		{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3410200.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499' }, ], },
+		#{ 'url' : 'https://www.sqlite.org/2022/sqlite-autoconf-3410200.tar.gz' , 'hashes' : [ { 'type' : 'sha256', 'sum' : 'e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499' }, ], },
+		#{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3410200.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : 'e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499' }, ], },
+		{ 'url' : 'https://www.sqlite.org/2022/sqlite-autoconf-3430100.tar.gz' , 'hashes' : [ { 'type' : 'sha256', 'sum' : '39116c94e76630f22d54cd82c3cea308565f1715f716d1b2527f1c9c969ba4d9' }, ], },
+		{ 'url' : 'https://fossies.org/linux/misc/sqlite-autoconf-3430100.tar.gz', 'hashes' : [ { 'type' : 'sha256', 'sum' : '39116c94e76630f22d54cd82c3cea308565f1715f716d1b2527f1c9c969ba4d9' }, ], },
 		
 	],
 	'cflag_addition' : '-fexceptions -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_USE_MALLOC_H=1 -DSQLITE_USE_MSIZE=1 -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_ENABLE_RTREE=1 -fno-strict-aliasing',
