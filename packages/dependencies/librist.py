@@ -9,10 +9,9 @@
 	#'run_justbefore_patch' : [ # comment out 2022.04.21
 	#	'pwd; sed -i.bak0 "s/cjson_lib = dependency(\'libcjson\', required: false)/cjson_lib = dependency(\'cJSON\', required: false)/" ../meson.build ; pwd',
 	#],
-	'patches' : [
-		#('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2022.04.21.patch', '-p1', '..')
-		('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2023.03.26.patch', '-p1', '..') # from MABS
-	],
+	#'patches' : [
+	#	('rist/0001-Workaround-fixes-for-cJSON-symbol-collision-2023.03.26.patch', '-p1', '..') # from MABS
+	#],
 	'run_post_patch' : [
         'if [ -d "{target_prefix}/include/librist" ] ; then rm -fvR "{target_prefix}/include/librist" ; fi',    # per MABS
 	],
@@ -21,9 +20,12 @@
 		'--libdir={target_prefix}/lib '
 		'--default-library=static '
 		'--buildtype=release '
-		'-Dhave_mingw_pthreads=true -Dtest=false -Ddisable_json=true -Dbuilt_tools=false '  # -D_FILE_OFFSET_BITS=64 ?????????
+		'-Dhave_mingw_pthreads=true -Dtest=false -Dbuiltin_cjson=false -Ddisable_json=true -Dbuilt_tools=false '  # -D_FILE_OFFSET_BITS=64 ?????????
 		'--cross-file={meson_env_file} ./ ..'
 	,
+	'depends_on' : [
+		'json-c',
+	],
 	'update_check' : { 'type' : 'git', },
 	'_info' : { 'version' : 'git (master)', 'fancy_name' : 'librist' },
 }
