@@ -22,32 +22,41 @@
 		'!SWITCHDIR|build',
 		'sed -i.bak \'/add_custom_target(all_tests/d\' "../CMakeLists.txt"',
 		'sed -i.bak \'/add_dependencies(all_tests/d\' "../CMakeLists.txt"',
-		'cat "../CMakeLists.txt"',
+		#'cat "../CMakeLists.txt"',
 	],
-	'regex_replace': {
-		"post_install": [
-			{
-				0: r"Cflags: -I\${includedir}\n",
-				1: r"Cflags: -I${includedir}  -DJXL_STATIC_DEFINE\n",
-				"in_file": "{pkg_config_path}/libjxl.pc",
-			},
-			{
-				0: r"Cflags: -I\${includedir}\n",
-				1: r"Cflags: -I${includedir} -DJXL_THREADS_STATIC_DEFINE\n",
-				"in_file": "{pkg_config_path}/libjxl_threads.pc",
-			},
-			{
-				0: r"Libs: -L\${libdir} -ljxl\n",
-				1: r"Libs: -L${libdir} -ljxl -lstdc++\n",
-				"in_file": "{pkg_config_path}/libjxl.pc",
-			},
-			{
-				0: r"Libs: -L\${libdir} -ljxl_threads\n",
-				1: r"Libs: -L${libdir} -ljxl_threads -lstdc++\n",
-				"in_file": "{pkg_config_path}/libjxl_threads.pc",
-			},
-		],
-	},
+	
+	'run_post_install' : [
+		'sed -i.bak \'/^Cflags:/ s/$/ -DJXL_STATIC_DEFINE/\' "{pkg_config_path}/libjxl.pc"',
+		'sed -i.bak \'/^Libs:/ s/$/  -lstdc++/\' "{pkg_config_path}/libjxl.pc"',
+		'cat "{pkg_config_path}/libjxl.pc"',
+		'sed -i.bak \'/^Cflags:/ s/$/ -DJXL_THREADS_STATIC_DEFINE/\' "{pkg_config_path}/libjxl_threads.pc"',
+		'sed -i.bak \'/^Libs:/ s/$/  -lstdc++/\' "{pkg_config_path}/libjxl_threads.pc"',
+		'cat "{pkg_config_path}/libjxl_threads.pc"',
+	],
+#	'regex_replace': {
+#		"post_install": [
+#			{
+#				0: r"Cflags: -I\${includedir}\n",
+#				1: r"Cflags: -I${includedir}  -DJXL_STATIC_DEFINE\n",
+#				"in_file": "{pkg_config_path}/libjxl.pc",
+#			},
+#			{
+#				0: r"Cflags: -I\${includedir}\n",
+#				1: r"Cflags: -I${includedir} -DJXL_THREADS_STATIC_DEFINE\n",
+#				"in_file": "{pkg_config_path}/libjxl_threads.pc",
+#			},
+#			{
+#				0: r"Libs: -L\${libdir} -ljxl\n",
+#				1: r"Libs: -L${libdir} -ljxl -lstdc++\n",
+#				"in_file": "{pkg_config_path}/libjxl.pc",
+#			},
+#			{
+#				0: r"Libs: -L\${libdir} -ljxl_threads\n",
+#				1: r"Libs: -L${libdir} -ljxl_threads -lstdc++\n",
+#				"in_file": "{pkg_config_path}/libjxl_threads.pc",
+#			},
+#		],
+#	},
 	'configure_options' : 
 		'.. {cmake_prefix_options} '
 		'-DCMAKE_INSTALL_PREFIX={target_prefix} '
